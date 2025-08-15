@@ -202,7 +202,17 @@ window.Quarto = {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Índice</h2>
+   
+  <ul>
+  <li><a href="#geração-de-sequências-u01" id="toc-geração-de-sequências-u01" class="nav-link active" data-scroll-target="#geração-de-sequências-u01"><span class="header-section-number">3.1</span> Geração de sequências <span class="math inline">\(U(0,1)\)</span></a></li>
+  <li><a href="#geradores-congruenciais-lineares" id="toc-geradores-congruenciais-lineares" class="nav-link" data-scroll-target="#geradores-congruenciais-lineares"><span class="header-section-number">3.2</span> Geradores Congruenciais Lineares</a>
+  <ul class="collapse">
+  <li><a href="#exemplo" id="toc-exemplo" class="nav-link" data-scroll-target="#exemplo"><span class="header-section-number">3.2.1</span> Exemplo</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -227,8 +237,42 @@ window.Quarto = {
 
 
 <p>As simulações, de modo geral, requerem uma base inicial formada por números aleatórios. Diz-se que uma sequência <span class="math inline">\(R_1, R_2, \ldots\)</span> é composta por números aleatórios quando cada termo segue a distribuição uniforme <span class="math inline">\(U(0,1)\)</span> e <span class="math inline">\(R_i\)</span> é independente de <span class="math inline">\(R_j\)</span> para todo <span class="math inline">\(i \neq j\)</span>. Embora alguns autores utilizem o termo “números aleatórios” para se referir a variáveis amostradas de qualquer distribuição, aqui ele será usado exclusivamente para variáveis com distribuição <span class="math inline">\(U(0,1)\)</span>.</p>
+<section id="geração-de-sequências-u01" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="geração-de-sequências-u01"><span class="header-section-number">3.1</span> Geração de sequências <span class="math inline">\(U(0,1)\)</span></h2>
+<p>Uma abordagem é utilizar dispositivos físicos aleatorizadores, como máquinas que sorteiam números de loteria, roletas ou circuitos eletrônicos que produzem “ruído aleatório”. Contudo, tais dispositivos apresentam desvantagens:</p>
+<ol type="1">
+<li><strong>Baixa velocidade</strong> e dificuldade de integração direta com computadores.</li>
+<li><strong>Necessidade de reprodutibilidade</strong> da sequência. Por exemplo, para verificação de código ou comparação de políticas em um modelo de simulação, usando a mesma sequência para reduzir a variância da diferença entre resultados.</li>
+</ol>
+<p>Uma forma simples de obter reprodutibilidade é armazenar a sequência em um dispositivo de memória (HD, CD-ROM, livro). De fato, a RAND Corporation publicou <em>A Million Random Digits with 100 000 Random Normal Deviates</em> (1955). Entretanto, acessar armazenamento externo milhares ou milhões de vezes torna a simulação lenta.</p>
+<p>Assim, a abordagem preferida é <strong>gerar números pseudoaleatórios em tempo de execução</strong>, via recorrências determinísticas sobre inteiros. Isso permite:</p>
+<ul>
+<li>Geração rápida;</li>
+<li>Eliminação do problema de armazenamento;</li>
+<li>Reprodutibilidade controlada.</li>
+</ul>
+<p>Entretanto, a escolha inadequada da recorrência pode gerar sequências com baixa qualidade estatística.</p>
+</section>
+<section id="geradores-congruenciais-lineares" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="geradores-congruenciais-lineares"><span class="header-section-number">3.2</span> Geradores Congruenciais Lineares</h2>
+<p>Um <strong>Gerador Congruencial Linear (LGC)</strong> produz uma sequência de inteiros não negativos <span class="math inline">\(X_i\)</span>, <span class="math inline">\(i = 1, 2, \ldots\)</span>, por meio da relação de recorrência:</p>
+<p><span class="math display">\[X_i = (a X_{i-1} + c) \bmod m, \quad i = 1, 2, \ldots,\]</span> em que <span class="math inline">\(a &gt; 0\)</span> é o multiplicador, <span class="math inline">\(X_0 \ge 0\)</span> é a <em>semente</em> (<em>seed</em>), <span class="math inline">\(c \ge 0\)</span> é o incremento e <span class="math inline">\(m &gt; 0\)</span> é o módulo.</p>
+<p>Os valores <span class="math inline">\(a, c, X_0\)</span> estão no intervalo <span class="math inline">\([0, m-1]\)</span>. O número pseudoaleatório <span class="math inline">\(R_i\)</span> é obtido por:</p>
+<p><span class="math display">\[R_i = \frac{X_i}{m}, \quad R_i \in (0,1).\]</span></p>
+<p>Se <span class="math inline">\(m\)</span> for suficientemente grande, os valores discretos $ 0/m, 1/m, , (m-1)/m$ são tão próximos que <span class="math inline">\(R_i\)</span> pode ser tratado como variável contínua.</p>
+<section id="exemplo" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="exemplo"><span class="header-section-number">3.2.1</span> Exemplo</h3>
+<p>Seja o gerador:</p>
+<p><span class="math display">\[X_i = (9 X_{i-1} + 3) \bmod 24, \quad i \geq 1.\]</span></p>
+<p>Escolhendo <span class="math inline">\(X_0 = 3\)</span>:</p>
+<p><span class="math display">\[X_1 = (9 \times 3 + 3) \bmod 24 = 14\]</span></p>
+<p><span class="math display">\[X_2 = (9 \times 14 + 3) \bmod 24 = 1\]</span></p>
+<p>e assim por diante.</p>
+<p>A sequência <span class="math inline">\(R_i = X_i / 16\)</span> gerada terá período <span class="math inline">\(\ell = 16\)</span>.</p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

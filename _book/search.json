@@ -94,7 +94,27 @@
     "href": "summary.html",
     "title": "3  Números Pseudoaleatórios",
     "section": "",
-    "text": "As simulações, de modo geral, requerem uma base inicial formada por números aleatórios. Diz-se que uma sequência \\(R_1, R_2, \\ldots\\) é composta por números aleatórios quando cada termo segue a distribuição uniforme \\(U(0,1)\\) e \\(R_i\\) é independente de \\(R_j\\) para todo \\(i \\neq j\\). Embora alguns autores utilizem o termo “números aleatórios” para se referir a variáveis amostradas de qualquer distribuição, aqui ele será usado exclusivamente para variáveis com distribuição \\(U(0,1)\\).",
+    "text": "3.1 Geração de sequências \\(U(0,1)\\)\nUma abordagem é utilizar dispositivos físicos aleatorizadores, como máquinas que sorteiam números de loteria, roletas ou circuitos eletrônicos que produzem “ruído aleatório”. Contudo, tais dispositivos apresentam desvantagens:\nUma forma simples de obter reprodutibilidade é armazenar a sequência em um dispositivo de memória (HD, CD-ROM, livro). De fato, a RAND Corporation publicou A Million Random Digits with 100 000 Random Normal Deviates (1955). Entretanto, acessar armazenamento externo milhares ou milhões de vezes torna a simulação lenta.\nAssim, a abordagem preferida é gerar números pseudoaleatórios em tempo de execução, via recorrências determinísticas sobre inteiros. Isso permite:\nEntretanto, a escolha inadequada da recorrência pode gerar sequências com baixa qualidade estatística.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Números Pseudoaleatórios</span>"
+    ]
+  },
+  {
+    "objectID": "summary.html#geração-de-sequências-u01",
+    "href": "summary.html#geração-de-sequências-u01",
+    "title": "3  Números Pseudoaleatórios",
+    "section": "",
+    "text": "Baixa velocidade e dificuldade de integração direta com computadores.\nNecessidade de reprodutibilidade da sequência. Por exemplo, para verificação de código ou comparação de políticas em um modelo de simulação, usando a mesma sequência para reduzir a variância da diferença entre resultados.\n\n\n\n\nGeração rápida;\nEliminação do problema de armazenamento;\nReprodutibilidade controlada.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Números Pseudoaleatórios</span>"
+    ]
+  },
+  {
+    "objectID": "summary.html#geradores-congruenciais-lineares",
+    "href": "summary.html#geradores-congruenciais-lineares",
+    "title": "3  Números Pseudoaleatórios",
+    "section": "3.2 Geradores Congruenciais Lineares",
+    "text": "3.2 Geradores Congruenciais Lineares\nUm Gerador Congruencial Linear (LGC) produz uma sequência de inteiros não negativos \\(X_i\\), \\(i = 1, 2, \\ldots\\), por meio da relação de recorrência:\n\\[X_i = (a X_{i-1} + c) \\bmod m, \\quad i = 1, 2, \\ldots,\\] em que \\(a &gt; 0\\) é o multiplicador, \\(X_0 \\ge 0\\) é a semente (seed), \\(c \\ge 0\\) é o incremento e \\(m &gt; 0\\) é o módulo.\nOs valores \\(a, c, X_0\\) estão no intervalo \\([0, m-1]\\). O número pseudoaleatório \\(R_i\\) é obtido por:\n\\[R_i = \\frac{X_i}{m}, \\quad R_i \\in (0,1).\\]\nSe \\(m\\) for suficientemente grande, os valores discretos $ 0/m, 1/m, , (m-1)/m$ são tão próximos que \\(R_i\\) pode ser tratado como variável contínua.\n\n3.2.1 Exemplo\nSeja o gerador:\n\\[X_i = (9 X_{i-1} + 3) \\bmod 24, \\quad i \\geq 1.\\]\nEscolhendo \\(X_0 = 3\\):\n\\[X_1 = (9 \\times 3 + 3) \\bmod 24 = 14\\]\n\\[X_2 = (9 \\times 14 + 3) \\bmod 24 = 1\\]\ne assim por diante.\nA sequência \\(R_i = X_i / 16\\) gerada terá período \\(\\ell = 16\\).",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Números Pseudoaleatórios</span>"
     ]
