@@ -20,7 +20,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -178,6 +198,10 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#atividade-problema-do-aniversário-22-jogadores" id="toc-atividade-problema-do-aniversário-22-jogadores" class="nav-link active" data-scroll-target="#atividade-problema-do-aniversário-22-jogadores"><span class="header-section-number">2.1</span> Atividade: Problema do Aniversário (22 jogadores)</a></li>
+  <li><a href="#solução-analítica" id="toc-solução-analítica" class="nav-link" data-scroll-target="#solução-analítica"><span class="header-section-number">2.2</span> Solução Analítica</a></li>
+  <li><a href="#solução-aproximada" id="toc-solução-aproximada" class="nav-link" data-scroll-target="#solução-aproximada"><span class="header-section-number">2.3</span> Solução Aproximada</a></li>
+  <li><a href="#comparação-entre-as-soluções-exata-e-aproximada" id="toc-comparação-entre-as-soluções-exata-e-aproximada" class="nav-link" data-scroll-target="#comparação-entre-as-soluções-exata-e-aproximada"><span class="header-section-number">2.4</span> Comparação entre as soluções exata e aproximada</a></li>
+  <li><a href="#possíveis-dúvidas" id="toc-possíveis-dúvidas" class="nav-link" data-scroll-target="#possíveis-dúvidas"><span class="header-section-number">2.5</span> Possíveis dúvidas</a></li>
   </ul>
 </nav>
     </div>
@@ -203,8 +227,7 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Os estudantes adoram jogos e a descoberta prática, e a simulação facilita o engajamento nessas atividades, ao mesmo tempo que ilustra resultados que podem ser não intuitivos, bem como teoria geral, como a Lei dos Grandes Números.</p>
-<p>A simulação tem um papel preponderante na estatística moderna, e suas vantagens no ensino de estatística são conhecidas há muito tempo. Em um de seus primeiros números, este periódico publicou artigos que aludem precisamente a isso. Thomas e Moore (1980) afirmaram que “a introdução do computador na sala de aula escolar trouxe uma nova técnica para o ensino, a técnica da simulação”. Zieffler e Garfield (2007) e Tintle et al.&nbsp;(2015) discutem o papel e a importância da aprendizagem baseada em simulação no currículo de graduação em estatística. No entanto, outros autores (por exemplo, Hodgson e Burke, 2000) discutem alguns problemas que podem surgir ao ensinar uma disciplina por meio de simulação, a saber, o desenvolvimento de certos equívocos na mente dos estudantes. A atividade aqui discutida é o conhecido e amplamente divulgado problema do aniversário (ver, por exemplo, Falk, 2014). Aqui, seguimos o exemplo de Matthews e Stones (1998), considerando duas equipes de futebol e, portanto, coincidências de aniversário entre 22 jogadores. Um resultado positivo importante dessa atividade é a discussão que surgirá naturalmente entre os estudantes, com o professor atuando como mediador.</p>
+<p>Nesta motivação consideramos um exemplo discutido em <span class="citation" data-cites="martins_learning_2018">Martins (<a href="references.html#ref-martins_learning_2018" role="doc-biblioref">2018</a>)</span> que é o conhecido e amplamente divulgado problema do aniversário <span class="citation" data-cites="falk_closer_2014">(ver, por exemplo, <a href="references.html#ref-falk_closer_2014" role="doc-biblioref">Falk 2014</a>)</span>. <span class="citation" data-cites="martins_learning_2018">Martins (<a href="references.html#ref-martins_learning_2018" role="doc-biblioref">2018</a>)</span> segue o exemplo de <span class="citation" data-cites="matthews_coincidences_1998">Matthews e Stones (<a href="references.html#ref-matthews_coincidences_1998" role="doc-biblioref">1998</a>)</span>, considerando duas equipes de futebol e, portanto, coincidências de aniversário entre 22 jogadores. <span class="citation" data-cites="martins_learning_2018">Martins (<a href="references.html#ref-martins_learning_2018" role="doc-biblioref">2018</a>)</span> afirma que um resultado positivo importante dessa atividade é a discussão que surgirá naturalmente entre os estudantes, com o professor atuando como mediador. Além disso, os estudantes adoram jogos e a descoberta prática, e a simulação facilita o engajamento nessas atividades, ao mesmo tempo que ilustra resultados que podem ser não intuitivos, bem como teoria geral, como a <strong>Lei dos Grandes Números</strong>.</p>
 <p>Para iniciar a discussão, propõe-se o seguinte problema:</p>
 <p><strong>O problema:</strong> Em uma partida de futebol, qual é a probabilidade de que pelo menos dois dos 22 jogadores façam aniversário no mesmo dia?</p>
 <p>Em um pais chamado de país do futebol, o contexto é proposital: o futebol é popular e as probabilidades resultantes são contraintuitivas. Antes de qualquer cálculo, considere as hipóteses: (i) todos os 365 dias do ano são igualmente prováveis para qualquer aniversário; (ii) as datas de aniversário dos jogadores são independentes entre si.</p>
@@ -212,13 +235,40 @@ ul.task-list li input[type="checkbox"] {
 <h2 data-number="2.1" class="anchored" data-anchor-id="atividade-problema-do-aniversário-22-jogadores"><span class="header-section-number">2.1</span> Atividade: Problema do Aniversário (22 jogadores)</h2>
 <p><strong>Objetivos</strong><br>
 - Estimar, via simulação, a probabilidade de coincidência de aniversários.<br>
-- Relacionar frequência relativa, LGN e variação amostral.</p>
+- Relacionar frequência relativa, Lei dos Grandes Números e variação amostral.</p>
 <p><strong>Hipóteses</strong><br>
-- 365 dias equiprováveis; datas independentes; ignorar bissexto/gêmeos.</p>
+- 365 dias equiprováveis, datas independentes, ignorar bissexto/gêmeos.</p>
 <p><strong>Materiais</strong><br>
 - R (ou Posit Cloud), roteiro com comandos <code>sample()</code>, <code>table()</code>, <code>mean()</code>.</p>
+</section>
+<section id="solução-analítica" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="solução-analítica"><span class="header-section-number">2.2</span> Solução Analítica</h2>
+</section>
+<section id="solução-aproximada" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="solução-aproximada"><span class="header-section-number">2.3</span> Solução Aproximada</h2>
+</section>
+<section id="comparação-entre-as-soluções-exata-e-aproximada" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="comparação-entre-as-soluções-exata-e-aproximada"><span class="header-section-number">2.4</span> Comparação entre as soluções exata e aproximada</h2>
+</section>
+<section id="possíveis-dúvidas" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="possíveis-dúvidas"><span class="header-section-number">2.5</span> Possíveis dúvidas</h2>
+<p>Algumas dúvidas podem surgir, entre elas:</p>
+<ul>
+<li></li>
+</ul>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-falk_closer_2014" class="csl-entry" role="listitem">
+Falk, Ruma. 2014. <span>“A Closer Look at the Notorious Birthday Coincidences”</span>. <em>Teaching Statistics</em> 36 (2): 41–46. <a href="https://doi.org/10.1111/test.12014">https://doi.org/10.1111/test.12014</a>.
+</div>
+<div id="ref-martins_learning_2018" class="csl-entry" role="listitem">
+Martins, Rui Manuel Da Costa. 2018. <span>“Learning the Principles of Simulation Using the Birthday Problem”</span>. <em>Teaching Statistics</em> 40 (3): 108–11. <a href="https://doi.org/10.1111/test.12164">https://doi.org/10.1111/test.12164</a>.
+</div>
+<div id="ref-matthews_coincidences_1998" class="csl-entry" role="listitem">
+Matthews, Robert, e Fiona Stones. 1998. <span>“Coincidences: the truth is out there”</span>. <em>Teaching Statistics</em> 20 (1): 17–19. https://doi.org/<a href="https://doi.org/10.1111/j.1467-9639.1998.tb00752.x">https://doi.org/10.1111/j.1467-9639.1998.tb00752.x</a>.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->

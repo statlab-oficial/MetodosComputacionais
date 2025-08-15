@@ -1,22 +1,72 @@
 [
   {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Métodos Computacionais",
+    "section": "",
+    "text": "Prefácio\nEste livro resulta de anos de experiência em sala de aula dos professores Ronald Targino, Rafael Braz, Juvêncio Nobre e Manoel Santos-Neto. Destina-se a apoiar os alunos da graduação em Estatística e do Programa de Pós-Graduação em Modelagem e Métodos Quantitativos (PPGMMQ) do Departamento de Estatística e Matemática Aplicada (DEMA) da Universidade Federal do Ceará (UFC).\nAo longo dos capítulos, abordamos a geração de números aleatórios (discretos e contínuos); métodos de suavização; simulação estocástica por inversão, rejeição e composição, bem como métodos de reamostragem; métodos de aproximação e integração; quadratura Gaussiana, integração de Monte Carlo e quadratura adaptativa; métodos de Monte Carlo em sentido amplo; amostradores MCMC, com ênfase em Gibbs e Metropolis–Hastings; otimização numérica via Newton–Raphson, Fisher scoring e quase-Newton, além do algoritmo EM; Bootstrap e Jackknife; diagnóstico de convergência; e aspectos computacionais em problemas práticos, com foco em implementação eficiente, estabilidade numérica e reprodutibilidade dos resultados.\nEsperamos que este material sirva não apenas como texto-base para as disciplinas Estatística Computacional (graduação em Estatística) e Métodos Computacionais em Estatística (Mestrado-PPGMMQ), mas também como suporte para aqueles que desejam programar com qualidade nas áreas de Estatística e Ciência de Dados.",
+    "crumbs": [
+      "Prefácio"
+    ]
+  },
+  {
     "objectID": "intro.html",
     "href": "intro.html",
     "title": "2  Motivação",
     "section": "",
-    "text": "2.1 Atividade: Problema do Aniversário (22 jogadores)\nObjetivos\n- Estimar, via simulação, a probabilidade de coincidência de aniversários.\n- Relacionar frequência relativa, LGN e variação amostral.\nHipóteses\n- 365 dias equiprováveis; datas independentes; ignorar bissexto/gêmeos.\nMateriais\n- R (ou Posit Cloud), roteiro com comandos sample(), table(), mean().",
+    "text": "2.1 Atividade: Problema do Aniversário (22 jogadores)\nObjetivos\n- Estimar, via simulação, a probabilidade de coincidência de aniversários.\n- Relacionar frequência relativa, Lei dos Grandes Números e variação amostral.\nHipóteses\n- 365 dias equiprováveis, datas independentes, ignorar bissexto/gêmeos.\nMateriais\n- R (ou Posit Cloud), roteiro com comandos sample(), table(), mean().",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Motivação</span>"
     ]
   },
   {
-    "objectID": "summary.html",
-    "href": "summary.html",
-    "title": "2  Geração de Números Uniformes",
-    "section": "",
-    "text": "In summary, this book has no content whatsoever.\n\n1 + 1\n\n[1] 2",
+    "objectID": "intro.html#solução-analítica",
+    "href": "intro.html#solução-analítica",
+    "title": "2  Motivação",
+    "section": "2.2 Solução Analítica",
+    "text": "2.2 Solução Analítica",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Geração de Números Uniformes</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Motivação</span>"
+    ]
+  },
+  {
+    "objectID": "intro.html#solução-aproximada",
+    "href": "intro.html#solução-aproximada",
+    "title": "2  Motivação",
+    "section": "2.3 Solução Aproximada",
+    "text": "2.3 Solução Aproximada",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Motivação</span>"
+    ]
+  },
+  {
+    "objectID": "intro.html#comparação-entre-a-solução-exata-e-aproximada",
+    "href": "intro.html#comparação-entre-a-solução-exata-e-aproximada",
+    "title": "2  Motivação",
+    "section": "2.4 Comparação entre a solução exata e aproximada",
+    "text": "2.4 Comparação entre a solução exata e aproximada",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Motivação</span>"
+    ]
+  },
+  {
+    "objectID": "intro.html#comparação-entre-as-soluções-exata-e-aproximada",
+    "href": "intro.html#comparação-entre-as-soluções-exata-e-aproximada",
+    "title": "2  Motivação",
+    "section": "2.4 Comparação entre as soluções exata e aproximada",
+    "text": "2.4 Comparação entre as soluções exata e aproximada",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Motivação</span>"
+    ]
+  },
+  {
+    "objectID": "intro.html#possíveis-dúvidas",
+    "href": "intro.html#possíveis-dúvidas",
+    "title": "2  Motivação",
+    "section": "2.5 Possíveis dúvidas",
+    "text": "2.5 Possíveis dúvidas\nAlgumas dúvidas podem surgir, entre elas:\n\n\n\n\n\n\n\nFalk, Ruma. 2014. “A Closer Look at the Notorious Birthday Coincidences”. Teaching Statistics 36 (2): 41–46. https://doi.org/10.1111/test.12014.\n\n\nMartins, Rui Manuel Da Costa. 2018. “Learning the Principles of Simulation Using the Birthday Problem”. Teaching Statistics 40 (3): 108–11. https://doi.org/10.1111/test.12164.\n\n\nMatthews, Robert, e Fiona Stones. 1998. “Coincidences: the truth is out there”. Teaching Statistics 20 (1): 17–19. https://doi.org/https://doi.org/10.1111/j.1467-9639.1998.tb00752.x.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Motivação</span>"
     ]
   },
   {
@@ -24,19 +74,19 @@
     "href": "references.html",
     "title": "References",
     "section": "",
-    "text": "Knuth, Donald E. 1984. “Literate Programming.” Comput.\nJ. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
+    "text": "Falk, Ruma. 2014. “A Closer Look at the Notorious Birthday\nCoincidences.” Teaching Statistics 36 (2): 41–46. https://doi.org/10.1111/test.12014.\n\n\nHodgson, Ted, and Maurice Burke. 2000. “On Simulation and the\nTeaching of Statistics.” Teaching Statistics 22 (3):\n91–96. https://doi.org/10.1111/1467-9639.00033.\n\n\nMartins, Rui Manuel Da Costa. 2018. “Learning the Principles of\nSimulation Using the Birthday Problem.” Teaching\nStatistics 40 (3): 108–11. https://doi.org/10.1111/test.12164.\n\n\nMatthews, Robert, and Fiona Stones. 1998. “Coincidences: The Truth\nIs Out There.” Teaching Statistics 20 (1): 17–19.\nhttps://doi.org/https://doi.org/10.1111/j.1467-9639.1998.tb00752.x.\n\n\nThomas, F. H., and J. L. Moore. 1980. “CUSUM:\nComputer Simulation for Statistics Teaching.” Teaching\nStatistics 2 (1): 23–28. https://doi.org/10.1111/j.1467-9639.1980.tb00374.x.\n\n\nTintle, Nathan, Beth Chance, George Cobb, Soma Roy, Todd Swanson, and\nJill VanderStoep. 2015. “Combating Anti-Statistical Thinking Using\nSimulation-Based Methods Throughout the Undergraduate\nCurriculum.” The American Statistician 69 (4): 362–70.\nhttps://doi.org/10.1080/00031305.2015.1081619.",
     "crumbs": [
       "References"
     ]
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Métodos Computacionais",
+    "objectID": "introducao.html",
+    "href": "introducao.html",
+    "title": "1  Introdução",
     "section": "",
-    "text": "Prefácio\nEste livro resulta de anos de experiência em sala de aula dos professores Juvêncio Nobre, Ronald Targino, Rafael Braz e Manoel Santos-Neto. Destina-se a apoiar os alunos da graduação em Estatística e do Programa de Pós-Graduação em Modelagem e Métodos Quantitativos (PPGMMQ) do Departamento de Estatística e Matemática Aplicada (DEMA) da Universidade Federal do Ceará (UFC).\nAo longo dos capítulos, abordamos a geração de números aleatórios (discretos e contínuos); métodos de suavização; simulação estocástica por inversão, rejeição e composição, bem como métodos de reamostragem; métodos de aproximação e integração; quadratura Gaussiana, integração de Monte Carlo e quadratura adaptativa; métodos de Monte Carlo em sentido amplo; amostradores MCMC, com ênfase em Gibbs e Metropolis–Hastings; otimização numérica via Newton–Raphson, Fisher scoring e quase-Newton, além do algoritmo EM; Bootstrap e Jackknife; diagnóstico de convergência; e aspectos computacionais em problemas práticos, com foco em implementação eficiente, estabilidade numérica e reprodutibilidade dos resultados.\nEsperamos que este material sirva não apenas como texto-base para as disciplinas Estatística Computacional (graduação em Estatística) e Métodos Computacionais em Estatística (Mestrado-PPGMMQ), mas também como suporte para aqueles que desejam programar com qualidade nas áreas de Estatística e Ciência de Dados.",
+    "text": "A simulação tem um papel preponderante na estatística moderna, e suas vantagens no ensino de Estatística são conhecidas há muito tempo. Em um de seus primeiros números, o periódico Teaching Statistics publicou artigos que aludem precisamente a isso. Thomas e Moore (1980) afirmaram que “a introdução do computador na sala de aula escolar trouxe uma nova técnica para o ensino, a técnica da simulação”. Zieffler e Garfield (2007) e Tintle et al. (2015) discutem o papel e a importância da aprendizagem baseada em simulação no currículo de graduação em Estatística. No entanto, outros autores (por exemplo, Hodgson e Burke 2000) discutem alguns problemas que podem surgir ao ensinar uma disciplina por meio de simulação, a saber, o desenvolvimento de certos equívocos na mente dos estudantes (Martins 2018).\n\n\n\n\nHodgson, Ted, e Maurice Burke. 2000. “On Simulation and the Teaching of Statistics”. Teaching Statistics 22 (3): 91–96. https://doi.org/10.1111/1467-9639.00033.\n\n\nMartins, Rui Manuel Da Costa. 2018. “Learning the Principles of Simulation Using the Birthday Problem”. Teaching Statistics 40 (3): 108–11. https://doi.org/10.1111/test.12164.\n\n\nThomas, F. H., e J. L. Moore. 1980. “CUSUM: Computer Simulation for Statistics Teaching”. Teaching Statistics 2 (1): 23–28. https://doi.org/10.1111/j.1467-9639.1980.tb00374.x.\n\n\nTintle, Nathan, Beth Chance, George Cobb, Soma Roy, Todd Swanson, e Jill VanderStoep. 2015. “Combating Anti-Statistical Thinking Using Simulation-Based Methods Throughout the Undergraduate Curriculum”. The American Statistician 69 (4): 362–70. https://doi.org/10.1080/00031305.2015.1081619.",
     "crumbs": [
-      "Prefácio"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introdução</span>"
     ]
   }
 ]

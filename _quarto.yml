@@ -7,8 +7,8 @@ lang: pt-BR
 book:
   title: "Métodos Computacionais"
   subtitle: "Departamento de Estatística e Matemática Aplicada"
-  author: "Manoel Santos-Neto, Juvêncio Nobre, Rafael Braz e Ronald Targino"
-  date: "14/08/2025"
+  author: "Ronald Targino, Rafael Braz, Juvêncio Nobre e Manoel Santos-Neto"
+  date: "15/08/2025"
   chapters:
     - index.qmd
     - introducao.qmd
@@ -21,7 +21,7 @@ book:
     - metodosadicionais.qmd
     - references.qmd
 
-bibliography: references.bib
+bibliography: BOOK.bib
 
 format:
   html:
@@ -30,7 +30,7 @@ format:
   pdf:
     documentclass: scrreprt
     pdf-engine: lualatex
-    include-in-header: |
+    include-in-header: 
       \usepackage{ragged2e}
       \justifying
 
