@@ -1,2 +1,6 @@
 # Números Pseudoaleatórios
 
+
+As simulações, em geral, dependem de um “material bruto” constituído por números aleatórios.  
+Uma sequência \(R_1, R_2, \ldots\) é dita ser de números aleatórios se \( R_i \sim U(0,1) \) para todo \( i \) e \( R_i \) é independente de \( R_j \) para \( i \neq j \).  
+Embora alguns autores utilizem o termo “números aleatórios” para variáveis amostradas de qualquer distribuição especificada, aqui seu uso será restrito a variáveis \( U(0,1) \).

@@ -88,5 +88,15 @@
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introdução</span>"
     ]
+  },
+  {
+    "objectID": "summary.html",
+    "href": "summary.html",
+    "title": "3  Números Pseudoaleatórios",
+    "section": "",
+    "text": "As simulações, em geral, dependem de um “material bruto” constituído por números aleatórios.\nUma sequência (R_1, R_2, ) é dita ser de números aleatórios se ( R_i U(0,1) ) para todo ( i ) e ( R_i ) é independente de ( R_j ) para ( i j ).\nEmbora alguns autores utilizem o termo “números aleatórios” para variáveis amostradas de qualquer distribuição especificada, aqui seu uso será restrito a variáveis ( U(0,1) ).",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Números Pseudoaleatórios</span>"
+    ]
   }
 ]
