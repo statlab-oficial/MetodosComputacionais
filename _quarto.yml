@@ -1,0 +1,38 @@
+project:
+  type: book
+  
+lang: pt-BR
+
+
+book:
+  title: "Métodos Computacionais"
+  subtitle: "Departamento de Estatística e Matemática Aplicada"
+  author: "Manoel Santos-Neto, Juvêncio Nobre, Rafael Braz e Ronald Targino"
+  date: "14/08/2025"
+  chapters:
+    - index.qmd
+    - introducao.qmd
+    - intro.qmd
+    - summary.qmd
+    - otimizaca.qmd
+    - boot.qmd
+    - mc.qmd
+    - em.qmd
+    - metodosadicionais.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: flatly
+    css: styles.css
+  pdf:
+    documentclass: scrreprt
+    pdf-engine: lualatex
+    include-in-header: |
+      \usepackage{ragged2e}
+      \justifying
+
+editor: visual
+

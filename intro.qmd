@@ -1,0 +1,27 @@
+# Motivação
+
+Os estudantes adoram jogos e a descoberta prática, e a simulação facilita o engajamento nessas atividades, ao mesmo tempo que ilustra resultados que podem ser não intuitivos, bem como teoria geral, como a Lei dos Grandes Números.
+
+A simulação tem um papel preponderante na estatística moderna, e suas vantagens no ensino de estatística são conhecidas há muito tempo. Em um de seus primeiros números, este periódico publicou artigos que aludem precisamente a isso. Thomas e Moore (1980) afirmaram que “a introdução do computador na sala de aula escolar trouxe uma nova técnica para o ensino, a técnica da simulação”. Zieffler e Garfield (2007) e Tintle et al. (2015) discutem o papel e a importância da aprendizagem baseada em simulação no currículo de graduação em estatística. No entanto, outros autores (por exemplo, Hodgson e Burke, 2000) discutem alguns problemas que podem surgir ao ensinar uma disciplina por meio de simulação, a saber, o desenvolvimento de certos equívocos na mente dos estudantes.
+A atividade aqui discutida é o conhecido e amplamente divulgado problema do aniversário (ver, por exemplo, Falk, 2014). Aqui, seguimos o exemplo de Matthews e Stones (1998), considerando duas equipes de futebol e, portanto, coincidências de aniversário entre 22 jogadores. Um resultado positivo importante dessa atividade é a discussão que surgirá naturalmente entre os estudantes, com o professor atuando como mediador.
+
+Para iniciar a discussão, propõe-se o seguinte problema:
+
+**O problema:** Em uma partida de futebol, qual é a probabilidade de que pelo menos dois dos 22 jogadores façam aniversário no mesmo dia?
+
+Em um pais chamado de país do futebol, o contexto é proposital: o futebol é popular e as probabilidades resultantes são contraintuitivas. Antes de qualquer cálculo, considere as hipóteses: (i) todos os 365 dias do ano são igualmente prováveis para qualquer aniversário; (ii) as datas de aniversário dos jogadores são independentes entre si.
+
+## Atividade: Problema do Aniversário (22 jogadores)
+
+
+
+**Objetivos**  
+- Estimar, via simulação, a probabilidade de coincidência de aniversários.  
+- Relacionar frequência relativa, LGN e variação amostral.
+
+**Hipóteses**  
+- 365 dias equiprováveis; datas independentes; ignorar bissexto/gêmeos.
+
+**Materiais**  
+- R (ou Posit Cloud), roteiro com comandos `sample()`, `table()`, `mean()`.
+
