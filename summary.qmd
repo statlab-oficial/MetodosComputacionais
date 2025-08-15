@@ -33,7 +33,7 @@ Os valores  $a, c, X_0$ estão no intervalo $[0, m-1]$. O número pseudoaleatór
 
 $$R_i = \frac{X_i}{m}, \quad R_i \in (0,1).$$
 
-Se $m$ for suficientemente grande, os valores discretos $ 0/m, 1/m, \ldots, (m-1)/m$ são tão próximos que $R_i$ pode ser tratado como variável contínua.
+Se $m$ for suficientemente grande, os valores discretos $0/m, 1/m, \ldots, (m-1)/m$ são tão próximos que $R_i$ pode ser tratado como variável contínua.
 
 
 ### Exemplo
@@ -52,3 +52,81 @@ $$X_2 = (9 \times 14 + 3) \bmod 24 = 1$$
 e assim por diante.
 
 A sequência $R_i = X_i / 16$ gerada terá período $\ell = 16$.
+
+### Implementação em R
+
+```{r}
+# Função LCG genérica
+lcg <- function(a, c, m, seed, n) {
+  x <- numeric(n)
+  x[1] <- seed
+  for (i in 2:n) {
+    x[i] <- (a * x[i-1] + c) %% m
+  }
+  r <- x / m
+  return(list(X = x, R = r))
+}
+
+# Exemplo com a = 9, c = 3, m = 24, seed = 3
+resultado <- lcg(a = 9, c = 3, m = 24, seed = 3, n = 20)
+resultado$X
+resultado$R
+```
+
+## Geradores Congruenciais Lineares Mistos
+
+Nos LCGs **mistos** temos $c>0$. Uma escolha prática é $m = 2^b$, onde $b$ é o número de bits utilizável para inteiros positivos na arquitetura/linguagem. Em muitos ambientes, inteiros usam 32 bits (um para o sinal), implicando $b=31$ e intervalo $[-2^{31}, 2^{31}-1]$.
+
+Quando $m=2^b$, obtemos **período completo** ($\ell=m$) se:
+
+1) $c$ é **ímpar** (garante $\gcd(c,m)=1$);  
+2) $a-1$ é múltiplo de todos os fatores primos de $m$ e também de 4 (como $m$ é potência de 2).
+
+Essa é a razão de geradores simples com $m=2^b$, $c$ ímpar e $a \equiv 1 \pmod 4$ atingirem $\ell=m$.
+
+### Questão de estouro e aritmética modular
+
+Em linguagens com inteiros limitados, calcular $aX_{i-1}+c$ pode **transbordar**. Soluções comuns:
+- usar precisão estendida (64 bits) ou bibliotecas de inteiros grandes;
+- empregar **truques de aritmética modular** (como o método de Schrage) para evitar overflow;
+- trabalhar com módulo $m=2^b$ e aproveitar o “wrap” de bits.
+
+A seguir, implementamos LCG misto com $m=2^{31}$, $a=906185749$, $c=1$. Parâmetros com boas propriedades estatísticas relatadas na literatura.
+
+### Implementação em R (com segurança de overflow)
+
+Para garantir a correção do módulo com inteiros grandes, usaremos `bit64` (inteiros de 64 bits) e normalizaremos para $(0,1)$.
+
+```{r}
+#| label: lcg-misto
+#| message: false
+#| warning: false
+if (!requireNamespace("bit64", quietly = TRUE)) {
+  install.packages("bit64")
+}
+library(bit64)
+
+lcg_misto <- function(n, seed = 3456L,
+                      a = 906185749L,
+                      c = 1L,
+                      m = bit64::as.integer64(2)^31) {
+  # Trabalha em integer64 para evitar perda de precisão
+  x <- bit64::as.integer64(seed)
+  outX <- bit64::integer64(n)
+  outR <- numeric(n)
+  outX[1] <- x
+  outR[1] <- as.double(x) / as.double(m)
+  for (i in 2:n) {
+    x <- (bit64::as.integer64(a) * x + bit64::as.integer64(c)) %% m
+    outX[i] <- x
+    outR[i] <- as.double(x) / as.double(m)
+  }
+  list(X = outX, R = outR)
+}
+
+# Exemplo: primeiros 5 números com seed = 3456
+set.seed(NULL)
+g1 <- lcg_misto(n = 5, seed = 3456L)
+g1$X
+g1$R
+```
