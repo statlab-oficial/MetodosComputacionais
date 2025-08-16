@@ -132,3 +132,63 @@ g1 <- lcg_misto(n = 5, seed = 3456L)
 g1$X
 g1$R
 ```
+
+## Geradores Congruenciais Lineares Multiplicativos
+
+No caso **multiplicativo**, temos $c = 0$, e a recorrência fica:
+
+$$
+X_i = (a X_{i-1}) \bmod m
+$$
+
+### Características e restrições
+
+- Se $X_i = 0$ em algum passo, toda a sequência futura será zero — portanto $X_0 \neq 0$.
+- Se $a = 1$, a sequência é constante — também deve ser evitado.
+- O **período máximo** possível é $m - 1$, e ele só é atingido quando:
+  1. $m$ é primo;
+  2. $a$ é uma **raiz primitiva** módulo $m$.
+
+### Definição de raiz primitiva
+
+Um número $a$ é raiz primitiva módulo $m$ se seus poderes geram todos os inteiros não nulos módulo $m$.  
+Matematicamente, $a$ satisfaz:
+
+$$
+m \nmid a^{(m-1)/q} - 1, \quad \forall q \text{ primo que divide } m-1
+$$
+
+Esse tipo de gerador é chamado **Gerador de Módulo Primo e Período Máximo**.
+
+---
+
+### Exemplo de implementação em R
+
+A seguir, implementamos um gerador multiplicativo com módulo primo $m = 2^{31} - 1$ (primo de Mersenne) e multiplicador $a = 630360016$, conhecido por apresentar boas propriedades estatísticas.
+
+```{r}
+#| label: lcg-multiplicativo-gmp
+#| message: false
+#| warning: false
+if (!requireNamespace("gmp", quietly = TRUE)) {
+  install.packages("gmp")
+}
+library(gmp)
+
+lcg_mult_primo <- function(n, seed, a = 630360016, m = 2147483647) {
+  A <- as.bigz(a); M <- as.bigz(m)
+  x <- as.bigz(seed)
+  X <- integer(n); R <- numeric(n)
+  for (i in seq_len(n)) {
+    X[i] <- as.integer(x)    
+    R[i] <- as.numeric(x) / m    
+    x <- (A * x) %% M            
+  }
+  list(X = X, R = R)
+}
+
+# Exemplo: gerar 10 valores
+g2 <- lcg_mult_primo(n = 10, seed = 12345L)
+g2$X
+g2$R
+```

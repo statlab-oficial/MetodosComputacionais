@@ -128,5 +128,15 @@
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Números Pseudoaleatórios</span>"
     ]
+  },
+  {
+    "objectID": "summary.html#geradores-congruenciais-lineares-multiplicativos",
+    "href": "summary.html#geradores-congruenciais-lineares-multiplicativos",
+    "title": "3  Números Pseudoaleatórios",
+    "section": "3.4 Geradores Congruenciais Lineares Multiplicativos",
+    "text": "3.4 Geradores Congruenciais Lineares Multiplicativos\nNo caso multiplicativo, temos \\(c = 0\\), e a recorrência fica:\n\\[\nX_i = (a X_{i-1}) \\bmod m\n\\]\n\n3.4.1 Características e restrições\n\nSe \\(X_i = 0\\) em algum passo, toda a sequência futura será zero — portanto \\(X_0 \\neq 0\\).\nSe \\(a = 1\\), a sequência é constante — também deve ser evitado.\nO período máximo possível é \\(m - 1\\), e ele só é atingido quando:\n\n\\(m\\) é primo;\n\\(a\\) é uma raiz primitiva módulo \\(m\\).\n\n\n\n\n3.4.2 Definição de raiz primitiva\nUm número \\(a\\) é raiz primitiva módulo \\(m\\) se seus poderes geram todos os inteiros não nulos módulo \\(m\\).\nMatematicamente, \\(a\\) satisfaz:\n\\[\nm \\nmid a^{(m-1)/q} - 1, \\quad \\forall q \\text{ primo que divide } m-1\n\\]\nEsse tipo de gerador é chamado Gerador de Módulo Primo e Período Máximo.\n\n\n\n3.4.3 Exemplo de implementação em R\nA seguir, implementamos um gerador multiplicativo com módulo primo \\(m = 2^{31} - 1\\) (primo de Mersenne) e multiplicador \\(a = 630360016\\), conhecido por apresentar boas propriedades estatísticas.\n\nif (!requireNamespace(\"gmp\", quietly = TRUE)) {\n  install.packages(\"gmp\")\n}\nlibrary(gmp)\n\nlcg_mult_primo &lt;- function(n, seed, a = 630360016, m = 2147483647) {\n  A &lt;- as.bigz(a); M &lt;- as.bigz(m)\n  x &lt;- as.bigz(seed)\n  X &lt;- integer(n); R &lt;- numeric(n)\n  for (i in seq_len(n)) {\n    X[i] &lt;- as.integer(x)    \n    R[i] &lt;- as.numeric(x) / m    \n    x &lt;- (A * x) %% M            \n  }\n  list(X = X, R = R)\n}\n\n# Exemplo: gerar 10 valores\ng2 &lt;- lcg_mult_primo(n = 10, seed = 12345L)\ng2$X\n\n [1]      12345 1461144439 1646755962  423395703 2041926374  720397004\n [7]  140279311  597861375  629442282  759842328\n\ng2$R\n\n [1] 5.748589e-06 6.803984e-01 7.668305e-01 1.971590e-01 9.508461e-01\n [6] 3.354610e-01 6.532264e-02 2.784009e-01 2.931069e-01 3.538292e-01",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Números Pseudoaleatórios</span>"
+    ]
   }
 ]
