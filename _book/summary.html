@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -210,6 +244,18 @@ window.Quarto = {
   <li><a href="#geradores-congruenciais-lineares" id="toc-geradores-congruenciais-lineares" class="nav-link" data-scroll-target="#geradores-congruenciais-lineares"><span class="header-section-number">3.2</span> Geradores Congruenciais Lineares</a>
   <ul class="collapse">
   <li><a href="#exemplo" id="toc-exemplo" class="nav-link" data-scroll-target="#exemplo"><span class="header-section-number">3.2.1</span> Exemplo</a></li>
+  <li><a href="#implementação-em-r" id="toc-implementação-em-r" class="nav-link" data-scroll-target="#implementação-em-r"><span class="header-section-number">3.2.2</span> Implementação em R</a></li>
+  </ul></li>
+  <li><a href="#geradores-congruenciais-lineares-mistos" id="toc-geradores-congruenciais-lineares-mistos" class="nav-link" data-scroll-target="#geradores-congruenciais-lineares-mistos"><span class="header-section-number">3.3</span> Geradores Congruenciais Lineares Mistos</a>
+  <ul class="collapse">
+  <li><a href="#questão-de-estouro-e-aritmética-modular" id="toc-questão-de-estouro-e-aritmética-modular" class="nav-link" data-scroll-target="#questão-de-estouro-e-aritmética-modular"><span class="header-section-number">3.3.1</span> Questão de estouro e aritmética modular</a></li>
+  <li><a href="#implementação-em-r-com-segurança-de-overflow" id="toc-implementação-em-r-com-segurança-de-overflow" class="nav-link" data-scroll-target="#implementação-em-r-com-segurança-de-overflow"><span class="header-section-number">3.3.2</span> Implementação em R (com segurança de overflow)</a></li>
+  </ul></li>
+  <li><a href="#geradores-congruenciais-lineares-multiplicativos" id="toc-geradores-congruenciais-lineares-multiplicativos" class="nav-link" data-scroll-target="#geradores-congruenciais-lineares-multiplicativos"><span class="header-section-number">3.4</span> Geradores Congruenciais Lineares Multiplicativos</a>
+  <ul class="collapse">
+  <li><a href="#características-e-restrições" id="toc-características-e-restrições" class="nav-link" data-scroll-target="#características-e-restrições"><span class="header-section-number">3.4.1</span> Características e restrições</a></li>
+  <li><a href="#definição-de-raiz-primitiva" id="toc-definição-de-raiz-primitiva" class="nav-link" data-scroll-target="#definição-de-raiz-primitiva"><span class="header-section-number">3.4.2</span> Definição de raiz primitiva</a></li>
+  <li><a href="#exemplo-de-implementação-em-r" id="toc-exemplo-de-implementação-em-r" class="nav-link" data-scroll-target="#exemplo-de-implementação-em-r"><span class="header-section-number">3.4.3</span> Exemplo de implementação em R</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -269,6 +315,137 @@ window.Quarto = {
 <p><span class="math display">\[X_2 = (9 \times 14 + 3) \bmod 24 = 1\]</span></p>
 <p>e assim por diante.</p>
 <p>A sequência <span class="math inline">\(R_i = X_i / 16\)</span> gerada terá período <span class="math inline">\(\ell = 16\)</span>.</p>
+</section>
+<section id="implementação-em-r" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="implementação-em-r"><span class="header-section-number">3.2.2</span> Implementação em R</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Função LCG genérica</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>lcg <span class="ot">&lt;-</span> <span class="cf">function</span>(a, c, m, seed, n) {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  x[<span class="dv">1</span>] <span class="ot">&lt;-</span> seed</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>n) {</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    x[i] <span class="ot">&lt;-</span> (a <span class="sc">*</span> x[i<span class="dv">-1</span>] <span class="sc">+</span> c) <span class="sc">%%</span> m</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  r <span class="ot">&lt;-</span> x <span class="sc">/</span> m</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">X =</span> x, <span class="at">R =</span> r))</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemplo com a = 9, c = 3, m = 24, seed = 3</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>resultado <span class="ot">&lt;-</span> <span class="fu">lcg</span>(<span class="at">a =</span> <span class="dv">9</span>, <span class="at">c =</span> <span class="dv">3</span>, <span class="at">m =</span> <span class="dv">24</span>, <span class="at">seed =</span> <span class="dv">3</span>, <span class="at">n =</span> <span class="dv">20</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>resultado<span class="sc">$</span>X</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>resultado<span class="sc">$</span>R</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="geradores-congruenciais-lineares-mistos" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="geradores-congruenciais-lineares-mistos"><span class="header-section-number">3.3</span> Geradores Congruenciais Lineares Mistos</h2>
+<p>Nos LCGs <strong>mistos</strong> temos <span class="math inline">\(c&gt;0\)</span>. Uma escolha prática é <span class="math inline">\(m = 2^b\)</span>, onde <span class="math inline">\(b\)</span> é o número de bits utilizável para inteiros positivos na arquitetura/linguagem. Em muitos ambientes, inteiros usam 32 bits (um para o sinal), implicando <span class="math inline">\(b=31\)</span> e intervalo <span class="math inline">\([-2^{31}, 2^{31}-1]\)</span>.</p>
+<p>Quando <span class="math inline">\(m=2^b\)</span>, obtemos <strong>período completo</strong> (<span class="math inline">\(\ell=m\)</span>) se:</p>
+<ol type="1">
+<li><span class="math inline">\(c\)</span> é <strong>ímpar</strong> (garante <span class="math inline">\(\gcd(c,m)=1\)</span>);<br>
+</li>
+<li><span class="math inline">\(a-1\)</span> é múltiplo de todos os fatores primos de <span class="math inline">\(m\)</span> e também de 4 (como <span class="math inline">\(m\)</span> é potência de 2).</li>
+</ol>
+<p>Essa é a razão de geradores simples com <span class="math inline">\(m=2^b\)</span>, <span class="math inline">\(c\)</span> ímpar e <span class="math inline">\(a \equiv 1 \pmod 4\)</span> atingirem <span class="math inline">\(\ell=m\)</span>.</p>
+<section id="questão-de-estouro-e-aritmética-modular" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="questão-de-estouro-e-aritmética-modular"><span class="header-section-number">3.3.1</span> Questão de estouro e aritmética modular</h3>
+<p>Em linguagens com inteiros limitados, calcular <span class="math inline">\(aX_{i-1}+c\)</span> pode <strong>transbordar</strong>. Soluções comuns:</p>
+<ul>
+<li>usar precisão estendida (64 bits) ou bibliotecas de inteiros grandes;</li>
+<li>empregar <strong>truques de aritmética modular</strong> (como o método de Schrage) para evitar overflow;</li>
+<li>trabalhar com módulo <span class="math inline">\(m=2^b\)</span> e aproveitar o “wrap” de bits.</li>
+</ul>
+<p>A seguir, implementamos LCG misto com <span class="math inline">\(m=2^{31}\)</span>, <span class="math inline">\(a=906185749\)</span>, <span class="math inline">\(c=1\)</span>. Parâmetros com boas propriedades estatísticas relatadas na literatura.</p>
+</section>
+<section id="implementação-em-r-com-segurança-de-overflow" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="implementação-em-r-com-segurança-de-overflow"><span class="header-section-number">3.3.2</span> Implementação em R (com segurança de overflow)</h3>
+<p>Para garantir a correção do módulo com inteiros grandes, usaremos <code>bit64</code> (inteiros de 64 bits) e normalizaremos para <span class="math inline">\((0,1)\)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#if (!requireNamespace("bit64", quietly = TRUE)) {</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  install.packages("bit64")</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#}</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bit64)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>lcg_misto <span class="ot">&lt;-</span> <span class="cf">function</span>(n, <span class="at">seed =</span> <span class="dv">3456</span>L,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">a =</span> <span class="dv">906185749</span>L,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>                      <span class="at">c =</span> <span class="dv">1</span>L,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>                      <span class="at">m =</span> bit64<span class="sc">::</span><span class="fu">as.integer64</span>(<span class="dv">2</span>)<span class="sc">^</span><span class="dv">31</span>) {</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Trabalha em integer64 para evitar perda de precisão</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> bit64<span class="sc">::</span><span class="fu">as.integer64</span>(seed)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  outX <span class="ot">&lt;-</span> bit64<span class="sc">::</span><span class="fu">integer64</span>(n)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  outR <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  outX[<span class="dv">1</span>] <span class="ot">&lt;-</span> x</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  outR[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">as.double</span>(x) <span class="sc">/</span> <span class="fu">as.double</span>(m)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>n) {</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> (bit64<span class="sc">::</span><span class="fu">as.integer64</span>(a) <span class="sc">*</span> x <span class="sc">+</span> bit64<span class="sc">::</span><span class="fu">as.integer64</span>(c)) <span class="sc">%%</span> m</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    outX[i] <span class="ot">&lt;-</span> x</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    outR[i] <span class="ot">&lt;-</span> <span class="fu">as.double</span>(x) <span class="sc">/</span> <span class="fu">as.double</span>(m)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">X =</span> outX, <span class="at">R =</span> outR)</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemplo: primeiros 5 números com seed = 3456</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="cn">NULL</span>)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>g1 <span class="ot">&lt;-</span> <span class="fu">lcg_misto</span>(<span class="at">n =</span> <span class="dv">5</span>, <span class="at">seed =</span> <span class="dv">3456</span>L)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>g1<span class="sc">$</span>X</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>g1<span class="sc">$</span>R</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="geradores-congruenciais-lineares-multiplicativos" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="geradores-congruenciais-lineares-multiplicativos"><span class="header-section-number">3.4</span> Geradores Congruenciais Lineares Multiplicativos</h2>
+<p>No caso <strong>multiplicativo</strong>, temos <span class="math inline">\(c = 0\)</span>, e a recorrência fica:</p>
+<p><span class="math display">\[
+X_i = (a X_{i-1}) \bmod m
+\]</span></p>
+<section id="características-e-restrições" class="level3" data-number="3.4.1">
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="características-e-restrições"><span class="header-section-number">3.4.1</span> Características e restrições</h3>
+<ul>
+<li>Se <span class="math inline">\(X_i = 0\)</span> em algum passo, toda a sequência futura será zero — portanto <span class="math inline">\(X_0 \neq 0\)</span>.</li>
+<li>Se <span class="math inline">\(a = 1\)</span>, a sequência é constante — também deve ser evitado.</li>
+<li>O <strong>período máximo</strong> possível é <span class="math inline">\(m - 1\)</span>, e ele só é atingido quando:
+<ol type="1">
+<li><span class="math inline">\(m\)</span> é primo;</li>
+<li><span class="math inline">\(a\)</span> é uma <strong>raiz primitiva</strong> módulo <span class="math inline">\(m\)</span>.</li>
+</ol></li>
+</ul>
+</section>
+<section id="definição-de-raiz-primitiva" class="level3" data-number="3.4.2">
+<h3 data-number="3.4.2" class="anchored" data-anchor-id="definição-de-raiz-primitiva"><span class="header-section-number">3.4.2</span> Definição de raiz primitiva</h3>
+<p>Um número <span class="math inline">\(a\)</span> é raiz primitiva módulo <span class="math inline">\(m\)</span> se seus poderes geram todos os inteiros não nulos módulo <span class="math inline">\(m\)</span>.<br>
+Matematicamente, <span class="math inline">\(a\)</span> satisfaz:</p>
+<p><span class="math display">\[
+m \nmid a^{(m-1)/q} - 1, \quad \forall q \text{ primo que divide } m-1
+\]</span></p>
+<p>Esse tipo de gerador é chamado <strong>Gerador de Módulo Primo e Período Máximo</strong>.</p>
+<hr>
+</section>
+<section id="exemplo-de-implementação-em-r" class="level3" data-number="3.4.3">
+<h3 data-number="3.4.3" class="anchored" data-anchor-id="exemplo-de-implementação-em-r"><span class="header-section-number">3.4.3</span> Exemplo de implementação em R</h3>
+<p>A seguir, implementamos um gerador multiplicativo com módulo primo <span class="math inline">\(m = 2^{31} - 1\)</span> (primo de Mersenne) e multiplicador <span class="math inline">\(a = 630360016\)</span>, conhecido por apresentar boas propriedades estatísticas.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#if (!requireNamespace("gmp", quietly = TRUE)) {</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  install.packages("gmp")</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#}</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gmp)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>lcg_mult_primo <span class="ot">&lt;-</span> <span class="cf">function</span>(n, seed, <span class="at">a =</span> <span class="dv">630360016</span>, <span class="at">m =</span> <span class="dv">2147483647</span>) {</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  A <span class="ot">&lt;-</span> <span class="fu">as.bigz</span>(a); M <span class="ot">&lt;-</span> <span class="fu">as.bigz</span>(m)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">as.bigz</span>(seed)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> <span class="fu">integer</span>(n); R <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_len</span>(n)) {</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    X[i] <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(x)    </span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    R[i] <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(x) <span class="sc">/</span> m    </span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> (A <span class="sc">*</span> x) <span class="sc">%%</span> M            </span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">X =</span> X, <span class="at">R =</span> R)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemplo: gerar 10 valores</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">&lt;-</span> <span class="fu">lcg_mult_primo</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">seed =</span> <span class="dv">12345</span>L)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>g2<span class="sc">$</span>X</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>g2<span class="sc">$</span>R</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
 </section>
