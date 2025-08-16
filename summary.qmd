@@ -1,5 +1,4 @@
-# Números Pseudoaleatórios
-
+# Números Uniformes
 
 As simulações, de modo geral, requerem uma base inicial formada por números aleatórios. Diz-se que uma sequência $R_1, R_2, \ldots$ é composta por números aleatórios quando cada termo segue a distribuição uniforme $U(0,1)$ e $R_i$ é independente de $R_j$ para todo $i \neq j$. Embora alguns autores utilizem o termo “números aleatórios” para se referir a variáveis amostradas de qualquer distribuição, aqui ele será usado exclusivamente para variáveis com distribuição $U(0,1)$.
 
