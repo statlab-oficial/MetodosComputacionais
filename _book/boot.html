@@ -173,7 +173,33 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Índice</h2>
+   
+  <ul>
+  <li><a href="#bootstrap" id="toc-bootstrap" class="nav-link active" data-scroll-target="#bootstrap"><span class="header-section-number">5.1</span> Bootstrap</a>
+  <ul class="collapse">
+  <li><a href="#introdução" id="toc-introdução" class="nav-link" data-scroll-target="#introdução"><span class="header-section-number">5.1.1</span> Introdução</a></li>
+  <li><a href="#acurária-da-média-amostral" id="toc-acurária-da-média-amostral" class="nav-link" data-scroll-target="#acurária-da-média-amostral"><span class="header-section-number">5.1.2</span> Acurária da média amostral</a></li>
+  <li><a href="#estimativa-bootstrap-do-erro-padrão" id="toc-estimativa-bootstrap-do-erro-padrão" class="nav-link" data-scroll-target="#estimativa-bootstrap-do-erro-padrão"><span class="header-section-number">5.1.3</span> Estimativa bootstrap do erro padrão</a></li>
+  <li><a href="#bootstrap-paramétrico" id="toc-bootstrap-paramétrico" class="nav-link" data-scroll-target="#bootstrap-paramétrico"><span class="header-section-number">5.1.4</span> Bootstrap Paramétrico</a></li>
+  <li><a href="#bootstrap-não-paramétrico" id="toc-bootstrap-não-paramétrico" class="nav-link" data-scroll-target="#bootstrap-não-paramétrico"><span class="header-section-number">5.1.5</span> Bootstrap Não Paramétrico</a></li>
+  </ul></li>
+  <li><a href="#jackknife" id="toc-jackknife" class="nav-link" data-scroll-target="#jackknife"><span class="header-section-number">5.2</span> Jackknife</a>
+  <ul class="collapse">
+  <li><a href="#introdução-1" id="toc-introdução-1" class="nav-link" data-scroll-target="#introdução-1"><span class="header-section-number">5.2.1</span> Introdução</a></li>
+  <li><a href="#estimador-do-víes" id="toc-estimador-do-víes" class="nav-link" data-scroll-target="#estimador-do-víes"><span class="header-section-number">5.2.2</span> Estimador do víes</a></li>
+  <li><a href="#estimado-do-erro-padrão" id="toc-estimado-do-erro-padrão" class="nav-link" data-scroll-target="#estimado-do-erro-padrão"><span class="header-section-number">5.2.3</span> Estimado do erro padrão</a></li>
+  </ul></li>
+  <li><a href="#intervalos-de-confiança" id="toc-intervalos-de-confiança" class="nav-link" data-scroll-target="#intervalos-de-confiança"><span class="header-section-number">5.3</span> Intervalos de Confiança</a>
+  <ul class="collapse">
+  <li><a href="#intervalo-de-confiança-normal-e-t-student" id="toc-intervalo-de-confiança-normal-e-t-student" class="nav-link" data-scroll-target="#intervalo-de-confiança-normal-e-t-student"><span class="header-section-number">5.3.1</span> Intervalo de Confiança Normal e t-Student</a></li>
+  <li><a href="#intervalo-de-confiança-bootstrap-t" id="toc-intervalo-de-confiança-bootstrap-t" class="nav-link" data-scroll-target="#intervalo-de-confiança-bootstrap-t"><span class="header-section-number">5.3.2</span> Intervalo de Confiança bootstrap-t</a></li>
+  <li><a href="#intervalos-de-confiança-bootstrap-percentil" id="toc-intervalos-de-confiança-bootstrap-percentil" class="nav-link" data-scroll-target="#intervalos-de-confiança-bootstrap-percentil"><span class="header-section-number">5.3.3</span> Intervalos de Confiança bootstrap percentil</a></li>
+  <li><a href="#intervalos-de-confiança-bootstrap---versões-aprimoradas" id="toc-intervalos-de-confiança-bootstrap---versões-aprimoradas" class="nav-link" data-scroll-target="#intervalos-de-confiança-bootstrap---versões-aprimoradas"><span class="header-section-number">5.3.4</span> Intervalos de Confiança bootstrap - versões aprimoradas</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -197,8 +223,53 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="bootstrap" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="bootstrap"><span class="header-section-number">5.1</span> Bootstrap</h2>
+<section id="introdução" class="level3" data-number="5.1.1">
+<h3 data-number="5.1.1" class="anchored" data-anchor-id="introdução"><span class="header-section-number">5.1.1</span> Introdução</h3>
+</section>
+<section id="acurária-da-média-amostral" class="level3" data-number="5.1.2">
+<h3 data-number="5.1.2" class="anchored" data-anchor-id="acurária-da-média-amostral"><span class="header-section-number">5.1.2</span> Acurária da média amostral</h3>
+</section>
+<section id="estimativa-bootstrap-do-erro-padrão" class="level3" data-number="5.1.3">
+<h3 data-number="5.1.3" class="anchored" data-anchor-id="estimativa-bootstrap-do-erro-padrão"><span class="header-section-number">5.1.3</span> Estimativa bootstrap do erro padrão</h3>
+</section>
+<section id="bootstrap-paramétrico" class="level3" data-number="5.1.4">
+<h3 data-number="5.1.4" class="anchored" data-anchor-id="bootstrap-paramétrico"><span class="header-section-number">5.1.4</span> Bootstrap Paramétrico</h3>
+</section>
+<section id="bootstrap-não-paramétrico" class="level3" data-number="5.1.5">
+<h3 data-number="5.1.5" class="anchored" data-anchor-id="bootstrap-não-paramétrico"><span class="header-section-number">5.1.5</span> Bootstrap Não Paramétrico</h3>
+</section>
+</section>
+<section id="jackknife" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="jackknife"><span class="header-section-number">5.2</span> Jackknife</h2>
+<section id="introdução-1" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="introdução-1"><span class="header-section-number">5.2.1</span> Introdução</h3>
+</section>
+<section id="estimador-do-víes" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="estimador-do-víes"><span class="header-section-number">5.2.2</span> Estimador do víes</h3>
+</section>
+<section id="estimado-do-erro-padrão" class="level3" data-number="5.2.3">
+<h3 data-number="5.2.3" class="anchored" data-anchor-id="estimado-do-erro-padrão"><span class="header-section-number">5.2.3</span> Estimado do erro padrão</h3>
+</section>
+</section>
+<section id="intervalos-de-confiança" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="intervalos-de-confiança"><span class="header-section-number">5.3</span> Intervalos de Confiança</h2>
+<section id="intervalo-de-confiança-normal-e-t-student" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="intervalo-de-confiança-normal-e-t-student"><span class="header-section-number">5.3.1</span> Intervalo de Confiança Normal e t-Student</h3>
+</section>
+<section id="intervalo-de-confiança-bootstrap-t" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="intervalo-de-confiança-bootstrap-t"><span class="header-section-number">5.3.2</span> Intervalo de Confiança bootstrap-t</h3>
+</section>
+<section id="intervalos-de-confiança-bootstrap-percentil" class="level3" data-number="5.3.3">
+<h3 data-number="5.3.3" class="anchored" data-anchor-id="intervalos-de-confiança-bootstrap-percentil"><span class="header-section-number">5.3.3</span> Intervalos de Confiança bootstrap percentil</h3>
+</section>
+<section id="intervalos-de-confiança-bootstrap---versões-aprimoradas" class="level3" data-number="5.3.4">
+<h3 data-number="5.3.4" class="anchored" data-anchor-id="intervalos-de-confiança-bootstrap---versões-aprimoradas"><span class="header-section-number">5.3.4</span> Intervalos de Confiança bootstrap - versões aprimoradas</h3>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

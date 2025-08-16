@@ -1,1 +1,40 @@
 # Métodos de Reamostragem
+
+## Bootstrap
+
+### Introdução
+
+
+### Acurária da média amostral
+
+
+### Estimativa bootstrap do erro padrão
+
+
+### Bootstrap Paramétrico
+
+
+### Bootstrap Não Paramétrico
+
+
+## Jackknife
+
+### Introdução
+
+### Estimador do víes
+
+### Estimado do erro padrão
+
+
+## Intervalos de Confiança
+
+
+### Intervalo de Confiança Normal e t-Student
+
+### Intervalo de Confiança bootstrap-t
+
+### Intervalos de Confiança bootstrap percentil
+
+### Intervalos de Confiança bootstrap - versões aprimoradas
+
+

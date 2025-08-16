@@ -120,6 +120,46 @@
     ]
   },
   {
+    "objectID": "boot.html",
+    "href": "boot.html",
+    "title": "5  Métodos de Reamostragem",
+    "section": "",
+    "text": "5.1 Bootstrap",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Métodos de Reamostragem</span>"
+    ]
+  },
+  {
+    "objectID": "boot.html#bootstrap",
+    "href": "boot.html#bootstrap",
+    "title": "5  Métodos de Reamostragem",
+    "section": "",
+    "text": "5.1.1 Introdução\n\n\n5.1.2 Acurária da média amostral\n\n\n5.1.3 Estimativa bootstrap do erro padrão\n\n\n5.1.4 Bootstrap Paramétrico\n\n\n5.1.5 Bootstrap Não Paramétrico",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Métodos de Reamostragem</span>"
+    ]
+  },
+  {
+    "objectID": "boot.html#jackknife",
+    "href": "boot.html#jackknife",
+    "title": "5  Métodos de Reamostragem",
+    "section": "5.2 Jackknife",
+    "text": "5.2 Jackknife\n\n5.2.1 Introdução\n\n\n5.2.2 Estimador do víes\n\n\n5.2.3 Estimado do erro padrão",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Métodos de Reamostragem</span>"
+    ]
+  },
+  {
+    "objectID": "boot.html#intervalos-de-confiança",
+    "href": "boot.html#intervalos-de-confiança",
+    "title": "5  Métodos de Reamostragem",
+    "section": "5.3 Intervalos de Confiança",
+    "text": "5.3 Intervalos de Confiança\n\n5.3.1 Intervalo de Confiança Normal e t-Student\n\n\n5.3.2 Intervalo de Confiança bootstrap-t\n\n\n5.3.3 Intervalos de Confiança bootstrap percentil\n\n\n5.3.4 Intervalos de Confiança bootstrap - versões aprimoradas",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Métodos de Reamostragem</span>"
+    ]
+  },
+  {
     "objectID": "references.html",
     "href": "references.html",
     "title": "References",
