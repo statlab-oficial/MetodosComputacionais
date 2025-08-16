@@ -54,7 +54,7 @@ A sequência $R_i = X_i / 16$ gerada terá período $\ell = 16$.
 
 ### Implementação em R
 
-```{r}
+```{r eval=FALSE}
 # Função LCG genérica
 lcg <- function(a, c, m, seed, n) {
   x <- numeric(n)
