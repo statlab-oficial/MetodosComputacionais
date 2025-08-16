@@ -97,7 +97,7 @@ A seguir, implementamos LCG misto com $m=2^{31}$, $a=906185749$, $c=1$. Parâmet
 
 Para garantir a correção do módulo com inteiros grandes, usaremos `bit64` (inteiros de 64 bits) e normalizaremos para $(0,1)$.
 
-```{r}
+```{r eval=FALSE}
 #| label: lcg-misto
 #| message: false
 #| warning: false
@@ -164,7 +164,7 @@ Esse tipo de gerador é chamado **Gerador de Módulo Primo e Período Máximo**.
 
 A seguir, implementamos um gerador multiplicativo com módulo primo $m = 2^{31} - 1$ (primo de Mersenne) e multiplicador $a = 630360016$, conhecido por apresentar boas propriedades estatísticas.
 
-```{r}
+```{r eval=FALSE}
 #| label: lcg-multiplicativo-gmp
 #| message: false
 #| warning: false
