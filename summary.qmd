@@ -97,39 +97,7 @@ A seguir, implementamos LCG misto com $m=2^{31}$, $a=906185749$, $c=1$. Parâmet
 
 Para garantir a correção do módulo com inteiros grandes, usaremos `bit64` (inteiros de 64 bits) e normalizaremos para $(0,1)$.
 
-```{r eval=FALSE}
-#| label: lcg-misto
-#| message: false
-#| warning: false
-#if (!requireNamespace("bit64", quietly = TRUE)) {
-#  install.packages("bit64")
-#}
-library(bit64)
 
-lcg_misto <- function(n, seed = 3456L,
-                      a = 906185749L,
-                      c = 1L,
-                      m = bit64::as.integer64(2)^31) {
-  # Trabalha em integer64 para evitar perda de precisão
-  x <- bit64::as.integer64(seed)
-  outX <- bit64::integer64(n)
-  outR <- numeric(n)
-  outX[1] <- x
-  outR[1] <- as.double(x) / as.double(m)
-  for (i in 2:n) {
-    x <- (bit64::as.integer64(a) * x + bit64::as.integer64(c)) %% m
-    outX[i] <- x
-    outR[i] <- as.double(x) / as.double(m)
-  }
-  list(X = outX, R = outR)
-}
-
-# Exemplo: primeiros 5 números com seed = 3456
-set.seed(NULL)
-g1 <- lcg_misto(n = 5, seed = 3456L)
-g1$X
-g1$R
-```
 
 ## Geradores Congruenciais Lineares Multiplicativos
 
