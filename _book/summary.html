@@ -368,34 +368,33 @@ window.Quarto = {
 <h3 data-number="3.3.2" class="anchored" data-anchor-id="implementação-em-r-com-segurança-de-overflow"><span class="header-section-number">3.3.2</span> Implementação em R (com segurança de overflow)</h3>
 <p>Para garantir a correção do módulo com inteiros grandes, usaremos <code>bit64</code> (inteiros de 64 bits) e normalizaremos para <span class="math inline">\((0,1)\)</span>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"bit64"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="st">"bit64"</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bit64)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>lcg_misto <span class="ot">&lt;-</span> <span class="cf">function</span>(n, <span class="at">seed =</span> <span class="dv">3456</span>L,</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                      <span class="at">a =</span> <span class="dv">906185749</span>L,</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                      <span class="at">c =</span> <span class="dv">1</span>L,</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>                      <span class="at">m =</span> bit64<span class="sc">::</span><span class="fu">as.integer64</span>(<span class="dv">2</span>)<span class="sc">^</span><span class="dv">31</span>) {</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Trabalha em integer64 para evitar perda de precisão</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> bit64<span class="sc">::</span><span class="fu">as.integer64</span>(seed)</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  outX <span class="ot">&lt;-</span> bit64<span class="sc">::</span><span class="fu">integer64</span>(n)</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  outR <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n)</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  outX[<span class="dv">1</span>] <span class="ot">&lt;-</span> x</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  outR[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">as.double</span>(x) <span class="sc">/</span> <span class="fu">as.double</span>(m)</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>n) {</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> (bit64<span class="sc">::</span><span class="fu">as.integer64</span>(a) <span class="sc">*</span> x <span class="sc">+</span> bit64<span class="sc">::</span><span class="fu">as.integer64</span>(c)) <span class="sc">%%</span> m</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    outX[i] <span class="ot">&lt;-</span> x</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    outR[i] <span class="ot">&lt;-</span> <span class="fu">as.double</span>(x) <span class="sc">/</span> <span class="fu">as.double</span>(m)</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">X =</span> outX, <span class="at">R =</span> outR)</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemplo: primeiros 5 números com seed = 3456</span></span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="cn">NULL</span>)</span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>g1 <span class="ot">&lt;-</span> <span class="fu">lcg_misto</span>(<span class="at">n =</span> <span class="dv">5</span>, <span class="at">seed =</span> <span class="dv">3456</span>L)</span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>g1<span class="sc">$</span>X</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#if (!requireNamespace("bit64", quietly = TRUE)) {</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  install.packages("bit64")</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#}</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bit64)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>lcg_misto <span class="ot">&lt;-</span> <span class="cf">function</span>(n, <span class="at">seed =</span> <span class="dv">3456</span>L,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">a =</span> <span class="dv">906185749</span>L,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                      <span class="at">c =</span> <span class="dv">1</span>L,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                      <span class="at">m =</span> bit64<span class="sc">::</span><span class="fu">as.integer64</span>(<span class="dv">2</span>)<span class="sc">^</span><span class="dv">31</span>) {</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Trabalha em integer64 para evitar perda de precisão</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> bit64<span class="sc">::</span><span class="fu">as.integer64</span>(seed)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  outX <span class="ot">&lt;-</span> bit64<span class="sc">::</span><span class="fu">integer64</span>(n)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  outR <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  outX[<span class="dv">1</span>] <span class="ot">&lt;-</span> x</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  outR[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">as.double</span>(x) <span class="sc">/</span> <span class="fu">as.double</span>(m)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>n) {</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> (bit64<span class="sc">::</span><span class="fu">as.integer64</span>(a) <span class="sc">*</span> x <span class="sc">+</span> bit64<span class="sc">::</span><span class="fu">as.integer64</span>(c)) <span class="sc">%%</span> m</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    outX[i] <span class="ot">&lt;-</span> x</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    outR[i] <span class="ot">&lt;-</span> <span class="fu">as.double</span>(x) <span class="sc">/</span> <span class="fu">as.double</span>(m)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">X =</span> outX, <span class="at">R =</span> outR)</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemplo: primeiros 5 números com seed = 3456</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="cn">NULL</span>)</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>g1 <span class="ot">&lt;-</span> <span class="fu">lcg_misto</span>(<span class="at">n =</span> <span class="dv">5</span>, <span class="at">seed =</span> <span class="dv">3456</span>L)</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>g1<span class="sc">$</span>X</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>integer64
 [1] 3456       746789761  460230038  1591485775 1024426876</code></pre>
@@ -439,9 +438,9 @@ m \nmid a^{(m-1)/q} - 1, \quad \forall q \text{ primo que divide } m-1
 <h3 data-number="3.4.3" class="anchored" data-anchor-id="exemplo-de-implementação-em-r"><span class="header-section-number">3.4.3</span> Exemplo de implementação em R</h3>
 <p>A seguir, implementamos um gerador multiplicativo com módulo primo <span class="math inline">\(m = 2^{31} - 1\)</span> (primo de Mersenne) e multiplicador <span class="math inline">\(a = 630360016\)</span>, conhecido por apresentar boas propriedades estatísticas.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"gmp"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="st">"gmp"</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#if (!requireNamespace("gmp", quietly = TRUE)) {</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  install.packages("gmp")</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#}</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gmp)</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>lcg_mult_primo <span class="ot">&lt;-</span> <span class="cf">function</span>(n, seed, <span class="at">a =</span> <span class="dv">630360016</span>, <span class="at">m =</span> <span class="dv">2147483647</span>) {</span>
