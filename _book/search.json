@@ -120,43 +120,163 @@
     ]
   },
   {
+    "objectID": "pseudo.html",
+    "href": "pseudo.html",
+    "title": "4  Número Pseudoaleatórios",
+    "section": "",
+    "text": "4.1 Introdução",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Número Pseudoaleatórios</span>"
+    ]
+  },
+  {
+    "objectID": "pseudo.html#métodos-para-geração-de-variáveil-aleatórias-discretas",
+    "href": "pseudo.html#métodos-para-geração-de-variáveil-aleatórias-discretas",
+    "title": "4  Número Pseudoaleatórios",
+    "section": "4.2 Métodos para Geração de Variáveil Aleatórias Discretas",
+    "text": "4.2 Métodos para Geração de Variáveil Aleatórias Discretas\n\n4.2.1 Método da transformação inversa\n\n\n4.2.2 Método da Aceitação-Rejeição\n\n\n4.2.3 Método da Composição",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Número Pseudoaleatórios</span>"
+    ]
+  },
+  {
+    "objectID": "pseudo.html#métodos-para-geração-de-variáveil-aleatórias-contínuas",
+    "href": "pseudo.html#métodos-para-geração-de-variáveil-aleatórias-contínuas",
+    "title": "4  Número Pseudoaleatórios",
+    "section": "4.3 Métodos para Geração de Variáveil Aleatórias Contínuas",
+    "text": "4.3 Métodos para Geração de Variáveil Aleatórias Contínuas\n\n4.3.1 Método da transformação inversa\n\n\n4.3.2 Método da Aceitação-Rejeição",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Número Pseudoaleatórios</span>"
+    ]
+  },
+  {
+    "objectID": "otimizaca.html",
+    "href": "otimizaca.html",
+    "title": "5  Otimização Numérica",
+    "section": "",
+    "text": "5.1 Método de Newton",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Otimização Numérica</span>"
+    ]
+  },
+  {
+    "objectID": "otimizaca.html#método-de-newton-raphson",
+    "href": "otimizaca.html#método-de-newton-raphson",
+    "title": "5  Otimização Numérica",
+    "section": "5.2 Método de Newton-Raphson",
+    "text": "5.2 Método de Newton-Raphson",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Otimização Numérica</span>"
+    ]
+  },
+  {
+    "objectID": "otimizaca.html#método-escore-de-fisher",
+    "href": "otimizaca.html#método-escore-de-fisher",
+    "title": "5  Otimização Numérica",
+    "section": "5.3 Método Escore de Fisher",
+    "text": "5.3 Método Escore de Fisher",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Otimização Numérica</span>"
+    ]
+  },
+  {
+    "objectID": "otimizaca.html#método-bfgs",
+    "href": "otimizaca.html#método-bfgs",
+    "title": "5  Otimização Numérica",
+    "section": "5.4 Método BFGS",
+    "text": "5.4 Método BFGS",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Otimização Numérica</span>"
+    ]
+  },
+  {
     "objectID": "boot.html",
     "href": "boot.html",
-    "title": "5  Métodos de Reamostragem",
+    "title": "6  Métodos de Reamostragem",
     "section": "",
-    "text": "5.1 Bootstrap",
+    "text": "6.1 Bootstrap",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Métodos de Reamostragem</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Métodos de Reamostragem</span>"
     ]
   },
   {
     "objectID": "boot.html#bootstrap",
     "href": "boot.html#bootstrap",
-    "title": "5  Métodos de Reamostragem",
+    "title": "6  Métodos de Reamostragem",
     "section": "",
-    "text": "5.1.1 Introdução\n\n\n5.1.2 Acurária da média amostral\n\n\n5.1.3 Estimativa bootstrap do erro padrão\n\n\n5.1.4 Bootstrap Paramétrico\n\n\n5.1.5 Bootstrap Não Paramétrico",
+    "text": "6.1.1 Introdução\n\n\n6.1.2 Acurária da média amostral\n\n\n6.1.3 Estimativa bootstrap do erro padrão\n\n\n6.1.4 Bootstrap Paramétrico\n\n\n6.1.5 Bootstrap Não Paramétrico",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Métodos de Reamostragem</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Métodos de Reamostragem</span>"
     ]
   },
   {
     "objectID": "boot.html#jackknife",
     "href": "boot.html#jackknife",
-    "title": "5  Métodos de Reamostragem",
-    "section": "5.2 Jackknife",
-    "text": "5.2 Jackknife\n\n5.2.1 Introdução\n\n\n5.2.2 Estimador do víes\n\n\n5.2.3 Estimado do erro padrão",
+    "title": "6  Métodos de Reamostragem",
+    "section": "6.2 Jackknife",
+    "text": "6.2 Jackknife\n\n6.2.1 Introdução\n\n\n6.2.2 Estimador do víes\n\n\n6.2.3 Estimado do erro padrão",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Métodos de Reamostragem</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Métodos de Reamostragem</span>"
     ]
   },
   {
     "objectID": "boot.html#intervalos-de-confiança",
     "href": "boot.html#intervalos-de-confiança",
-    "title": "5  Métodos de Reamostragem",
-    "section": "5.3 Intervalos de Confiança",
-    "text": "5.3 Intervalos de Confiança\n\n5.3.1 Intervalo de Confiança Normal e t-Student\n\n\n5.3.2 Intervalo de Confiança bootstrap-t\n\n\n5.3.3 Intervalos de Confiança bootstrap percentil\n\n\n5.3.4 Intervalos de Confiança bootstrap - versões aprimoradas",
+    "title": "6  Métodos de Reamostragem",
+    "section": "6.3 Intervalos de Confiança",
+    "text": "6.3 Intervalos de Confiança\n\n6.3.1 Intervalo de Confiança Normal e t-Student\n\n\n6.3.2 Intervalo de Confiança bootstrap-t\n\n\n6.3.3 Intervalos de Confiança bootstrap percentil\n\n\n6.3.4 Intervalos de Confiança bootstrap - versões aprimoradas",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Métodos de Reamostragem</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Métodos de Reamostragem</span>"
+    ]
+  },
+  {
+    "objectID": "mc.html",
+    "href": "mc.html",
+    "title": "7  Métodos de Monte Carlo",
+    "section": "",
+    "text": "7.1 Introdução",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Métodos de Monte Carlo</span>"
+    ]
+  },
+  {
+    "objectID": "mc.html#integração-de-monte-carlo",
+    "href": "mc.html#integração-de-monte-carlo",
+    "title": "7  Métodos de Monte Carlo",
+    "section": "7.2 Integração de Monte Carlo",
+    "text": "7.2 Integração de Monte Carlo",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Métodos de Monte Carlo</span>"
+    ]
+  },
+  {
+    "objectID": "mc.html#erro-de-monte-carlo",
+    "href": "mc.html#erro-de-monte-carlo",
+    "title": "7  Métodos de Monte Carlo",
+    "section": "7.3 Erro de Monte Carlo",
+    "text": "7.3 Erro de Monte Carlo",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Métodos de Monte Carlo</span>"
+    ]
+  },
+  {
+    "objectID": "mc.html#monte-carlo-via-função-de-importância",
+    "href": "mc.html#monte-carlo-via-função-de-importância",
+    "title": "7  Métodos de Monte Carlo",
+    "section": "7.4 Monte Carlo via Função de Importância",
+    "text": "7.4 Monte Carlo via Função de Importância",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Métodos de Monte Carlo</span>"
+    ]
+  },
+  {
+    "objectID": "mc.html#método-de-máxima-verossimilhança",
+    "href": "mc.html#método-de-máxima-verossimilhança",
+    "title": "7  Métodos de Monte Carlo",
+    "section": "7.5 Método de Máxima Verossimilhança",
+    "text": "7.5 Método de Máxima Verossimilhança",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Métodos de Monte Carlo</span>"
     ]
   },
   {

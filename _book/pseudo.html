@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Métodos Computacionais - 6&nbsp; Métodos de Reamostragem</title>
+<title>Métodos Computacionais - 4&nbsp; Número Pseudoaleatórios</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./mc.html" rel="next">
-<link href="./otimizaca.html" rel="prev">
+<link href="./otimizaca.html" rel="next">
+<link href="./summary.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -82,7 +82,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./boot.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Métodos de Reamostragem</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./pseudo.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Número Pseudoaleatórios</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -133,7 +133,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./pseudo.html" class="sidebar-item-text sidebar-link">
+  <a href="./pseudo.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Número Pseudoaleatórios</span></span></a>
   </div>
 </li>
@@ -145,7 +145,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./boot.html" class="sidebar-item-text sidebar-link active">
+  <a href="./boot.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Métodos de Reamostragem</span></span></a>
   </div>
 </li>
@@ -183,26 +183,17 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Índice</h2>
    
   <ul>
-  <li><a href="#bootstrap" id="toc-bootstrap" class="nav-link active" data-scroll-target="#bootstrap"><span class="header-section-number">6.1</span> Bootstrap</a>
+  <li><a href="#introdução" id="toc-introdução" class="nav-link active" data-scroll-target="#introdução"><span class="header-section-number">4.1</span> Introdução</a></li>
+  <li><a href="#métodos-para-geração-de-variáveil-aleatórias-discretas" id="toc-métodos-para-geração-de-variáveil-aleatórias-discretas" class="nav-link" data-scroll-target="#métodos-para-geração-de-variáveil-aleatórias-discretas"><span class="header-section-number">4.2</span> Métodos para Geração de Variáveil Aleatórias Discretas</a>
   <ul class="collapse">
-  <li><a href="#introdução" id="toc-introdução" class="nav-link" data-scroll-target="#introdução"><span class="header-section-number">6.1.1</span> Introdução</a></li>
-  <li><a href="#acurária-da-média-amostral" id="toc-acurária-da-média-amostral" class="nav-link" data-scroll-target="#acurária-da-média-amostral"><span class="header-section-number">6.1.2</span> Acurária da média amostral</a></li>
-  <li><a href="#estimativa-bootstrap-do-erro-padrão" id="toc-estimativa-bootstrap-do-erro-padrão" class="nav-link" data-scroll-target="#estimativa-bootstrap-do-erro-padrão"><span class="header-section-number">6.1.3</span> Estimativa bootstrap do erro padrão</a></li>
-  <li><a href="#bootstrap-paramétrico" id="toc-bootstrap-paramétrico" class="nav-link" data-scroll-target="#bootstrap-paramétrico"><span class="header-section-number">6.1.4</span> Bootstrap Paramétrico</a></li>
-  <li><a href="#bootstrap-não-paramétrico" id="toc-bootstrap-não-paramétrico" class="nav-link" data-scroll-target="#bootstrap-não-paramétrico"><span class="header-section-number">6.1.5</span> Bootstrap Não Paramétrico</a></li>
+  <li><a href="#método-da-transformação-inversa" id="toc-método-da-transformação-inversa" class="nav-link" data-scroll-target="#método-da-transformação-inversa"><span class="header-section-number">4.2.1</span> Método da transformação inversa</a></li>
+  <li><a href="#método-da-aceitação-rejeição" id="toc-método-da-aceitação-rejeição" class="nav-link" data-scroll-target="#método-da-aceitação-rejeição"><span class="header-section-number">4.2.2</span> Método da Aceitação-Rejeição</a></li>
+  <li><a href="#método-da-composição" id="toc-método-da-composição" class="nav-link" data-scroll-target="#método-da-composição"><span class="header-section-number">4.2.3</span> Método da Composição</a></li>
   </ul></li>
-  <li><a href="#jackknife" id="toc-jackknife" class="nav-link" data-scroll-target="#jackknife"><span class="header-section-number">6.2</span> Jackknife</a>
+  <li><a href="#métodos-para-geração-de-variáveil-aleatórias-contínuas" id="toc-métodos-para-geração-de-variáveil-aleatórias-contínuas" class="nav-link" data-scroll-target="#métodos-para-geração-de-variáveil-aleatórias-contínuas"><span class="header-section-number">4.3</span> Métodos para Geração de Variáveil Aleatórias Contínuas</a>
   <ul class="collapse">
-  <li><a href="#introdução-1" id="toc-introdução-1" class="nav-link" data-scroll-target="#introdução-1"><span class="header-section-number">6.2.1</span> Introdução</a></li>
-  <li><a href="#estimador-do-víes" id="toc-estimador-do-víes" class="nav-link" data-scroll-target="#estimador-do-víes"><span class="header-section-number">6.2.2</span> Estimador do víes</a></li>
-  <li><a href="#estimado-do-erro-padrão" id="toc-estimado-do-erro-padrão" class="nav-link" data-scroll-target="#estimado-do-erro-padrão"><span class="header-section-number">6.2.3</span> Estimado do erro padrão</a></li>
-  </ul></li>
-  <li><a href="#intervalos-de-confiança" id="toc-intervalos-de-confiança" class="nav-link" data-scroll-target="#intervalos-de-confiança"><span class="header-section-number">6.3</span> Intervalos de Confiança</a>
-  <ul class="collapse">
-  <li><a href="#intervalo-de-confiança-normal-e-t-student" id="toc-intervalo-de-confiança-normal-e-t-student" class="nav-link" data-scroll-target="#intervalo-de-confiança-normal-e-t-student"><span class="header-section-number">6.3.1</span> Intervalo de Confiança Normal e t-Student</a></li>
-  <li><a href="#intervalo-de-confiança-bootstrap-t" id="toc-intervalo-de-confiança-bootstrap-t" class="nav-link" data-scroll-target="#intervalo-de-confiança-bootstrap-t"><span class="header-section-number">6.3.2</span> Intervalo de Confiança bootstrap-t</a></li>
-  <li><a href="#intervalos-de-confiança-bootstrap-percentil" id="toc-intervalos-de-confiança-bootstrap-percentil" class="nav-link" data-scroll-target="#intervalos-de-confiança-bootstrap-percentil"><span class="header-section-number">6.3.3</span> Intervalos de Confiança bootstrap percentil</a></li>
-  <li><a href="#intervalos-de-confiança-bootstrap---versões-aprimoradas" id="toc-intervalos-de-confiança-bootstrap---versões-aprimoradas" class="nav-link" data-scroll-target="#intervalos-de-confiança-bootstrap---versões-aprimoradas"><span class="header-section-number">6.3.4</span> Intervalos de Confiança bootstrap - versões aprimoradas</a></li>
+  <li><a href="#método-da-transformação-inversa-1" id="toc-método-da-transformação-inversa-1" class="nav-link" data-scroll-target="#método-da-transformação-inversa-1"><span class="header-section-number">4.3.1</span> Método da transformação inversa</a></li>
+  <li><a href="#método-da-aceitação-rejeição-1" id="toc-método-da-aceitação-rejeição-1" class="nav-link" data-scroll-target="#método-da-aceitação-rejeição-1"><span class="header-section-number">4.3.2</span> Método da Aceitação-Rejeição</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -212,7 +203,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Métodos de Reamostragem</span></h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Número Pseudoaleatórios</span></h1>
 </div>
 
 
@@ -229,49 +220,28 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="bootstrap" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="bootstrap"><span class="header-section-number">6.1</span> Bootstrap</h2>
-<section id="introdução" class="level3" data-number="6.1.1">
-<h3 data-number="6.1.1" class="anchored" data-anchor-id="introdução"><span class="header-section-number">6.1.1</span> Introdução</h3>
+<section id="introdução" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="introdução"><span class="header-section-number">4.1</span> Introdução</h2>
 </section>
-<section id="acurária-da-média-amostral" class="level3" data-number="6.1.2">
-<h3 data-number="6.1.2" class="anchored" data-anchor-id="acurária-da-média-amostral"><span class="header-section-number">6.1.2</span> Acurária da média amostral</h3>
+<section id="métodos-para-geração-de-variáveil-aleatórias-discretas" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="métodos-para-geração-de-variáveil-aleatórias-discretas"><span class="header-section-number">4.2</span> Métodos para Geração de Variáveil Aleatórias Discretas</h2>
+<section id="método-da-transformação-inversa" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="método-da-transformação-inversa"><span class="header-section-number">4.2.1</span> Método da transformação inversa</h3>
 </section>
-<section id="estimativa-bootstrap-do-erro-padrão" class="level3" data-number="6.1.3">
-<h3 data-number="6.1.3" class="anchored" data-anchor-id="estimativa-bootstrap-do-erro-padrão"><span class="header-section-number">6.1.3</span> Estimativa bootstrap do erro padrão</h3>
+<section id="método-da-aceitação-rejeição" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="método-da-aceitação-rejeição"><span class="header-section-number">4.2.2</span> Método da Aceitação-Rejeição</h3>
 </section>
-<section id="bootstrap-paramétrico" class="level3" data-number="6.1.4">
-<h3 data-number="6.1.4" class="anchored" data-anchor-id="bootstrap-paramétrico"><span class="header-section-number">6.1.4</span> Bootstrap Paramétrico</h3>
-</section>
-<section id="bootstrap-não-paramétrico" class="level3" data-number="6.1.5">
-<h3 data-number="6.1.5" class="anchored" data-anchor-id="bootstrap-não-paramétrico"><span class="header-section-number">6.1.5</span> Bootstrap Não Paramétrico</h3>
+<section id="método-da-composição" class="level3" data-number="4.2.3">
+<h3 data-number="4.2.3" class="anchored" data-anchor-id="método-da-composição"><span class="header-section-number">4.2.3</span> Método da Composição</h3>
 </section>
 </section>
-<section id="jackknife" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="jackknife"><span class="header-section-number">6.2</span> Jackknife</h2>
-<section id="introdução-1" class="level3" data-number="6.2.1">
-<h3 data-number="6.2.1" class="anchored" data-anchor-id="introdução-1"><span class="header-section-number">6.2.1</span> Introdução</h3>
+<section id="métodos-para-geração-de-variáveil-aleatórias-contínuas" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="métodos-para-geração-de-variáveil-aleatórias-contínuas"><span class="header-section-number">4.3</span> Métodos para Geração de Variáveil Aleatórias Contínuas</h2>
+<section id="método-da-transformação-inversa-1" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="método-da-transformação-inversa-1"><span class="header-section-number">4.3.1</span> Método da transformação inversa</h3>
 </section>
-<section id="estimador-do-víes" class="level3" data-number="6.2.2">
-<h3 data-number="6.2.2" class="anchored" data-anchor-id="estimador-do-víes"><span class="header-section-number">6.2.2</span> Estimador do víes</h3>
-</section>
-<section id="estimado-do-erro-padrão" class="level3" data-number="6.2.3">
-<h3 data-number="6.2.3" class="anchored" data-anchor-id="estimado-do-erro-padrão"><span class="header-section-number">6.2.3</span> Estimado do erro padrão</h3>
-</section>
-</section>
-<section id="intervalos-de-confiança" class="level2" data-number="6.3">
-<h2 data-number="6.3" class="anchored" data-anchor-id="intervalos-de-confiança"><span class="header-section-number">6.3</span> Intervalos de Confiança</h2>
-<section id="intervalo-de-confiança-normal-e-t-student" class="level3" data-number="6.3.1">
-<h3 data-number="6.3.1" class="anchored" data-anchor-id="intervalo-de-confiança-normal-e-t-student"><span class="header-section-number">6.3.1</span> Intervalo de Confiança Normal e t-Student</h3>
-</section>
-<section id="intervalo-de-confiança-bootstrap-t" class="level3" data-number="6.3.2">
-<h3 data-number="6.3.2" class="anchored" data-anchor-id="intervalo-de-confiança-bootstrap-t"><span class="header-section-number">6.3.2</span> Intervalo de Confiança bootstrap-t</h3>
-</section>
-<section id="intervalos-de-confiança-bootstrap-percentil" class="level3" data-number="6.3.3">
-<h3 data-number="6.3.3" class="anchored" data-anchor-id="intervalos-de-confiança-bootstrap-percentil"><span class="header-section-number">6.3.3</span> Intervalos de Confiança bootstrap percentil</h3>
-</section>
-<section id="intervalos-de-confiança-bootstrap---versões-aprimoradas" class="level3" data-number="6.3.4">
-<h3 data-number="6.3.4" class="anchored" data-anchor-id="intervalos-de-confiança-bootstrap---versões-aprimoradas"><span class="header-section-number">6.3.4</span> Intervalos de Confiança bootstrap - versões aprimoradas</h3>
+<section id="método-da-aceitação-rejeição-1" class="level3" data-number="4.3.2">
+<h3 data-number="4.3.2" class="anchored" data-anchor-id="método-da-aceitação-rejeição-1"><span class="header-section-number">4.3.2</span> Método da Aceitação-Rejeição</h3>
 
 
 </section>
@@ -689,13 +659,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./otimizaca.html" class="pagination-link" aria-label="Otimização Numérica">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Otimização Numérica</span></span>
+      <a href="./summary.html" class="pagination-link" aria-label="Números Uniformes">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Números Uniformes</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./mc.html" class="pagination-link" aria-label="Métodos de Monte Carlo">
-        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Métodos de Monte Carlo</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./otimizaca.html" class="pagination-link" aria-label="Otimização Numérica">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Otimização Numérica</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

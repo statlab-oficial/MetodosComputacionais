@@ -1,0 +1,17 @@
+# Número Pseudoaleatórios
+
+## Introdução
+
+## Métodos para Geração de Variáveil Aleatórias Discretas
+
+### Método da transformação inversa
+
+### Método da Aceitação-Rejeição
+
+### Método da Composição
+
+## Métodos para Geração de Variáveil Aleatórias Contínuas
+
+### Método da transformação inversa
+
+### Método da Aceitação-Rejeição

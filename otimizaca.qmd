@@ -1,1 +1,10 @@
 # Otimização Numérica
+
+## Método de Newton
+
+## Método de Newton-Raphson
+
+## Método Escore de Fisher
+
+## Método BFGS
+
