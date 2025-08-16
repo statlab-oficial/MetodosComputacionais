@@ -30,9 +30,6 @@ format:
   pdf:
     documentclass: scrreprt
     pdf-engine: lualatex
-    include-in-header: 
-      \usepackage{ragged2e}
-      \justifying
 
 editor: visual
 

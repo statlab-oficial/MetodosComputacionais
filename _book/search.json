@@ -10,6 +10,16 @@
     ]
   },
   {
+    "objectID": "introducao.html",
+    "href": "introducao.html",
+    "title": "1  Introdução",
+    "section": "",
+    "text": "A simulação tem um papel preponderante na estatística moderna, e suas vantagens no ensino de Estatística são conhecidas há muito tempo. Em um de seus primeiros números, o periódico Teaching Statistics publicou artigos que aludem precisamente a isso. Thomas e Moore (1980) afirmaram que “a introdução do computador na sala de aula escolar trouxe uma nova técnica para o ensino, a técnica da simulação”. Zieffler e Garfield (2007) e Tintle et al. (2015) discutem o papel e a importância da aprendizagem baseada em simulação no currículo de graduação em Estatística. No entanto, outros autores (por exemplo, Hodgson e Burke 2000) discutem alguns problemas que podem surgir ao ensinar uma disciplina por meio de simulação, a saber, o desenvolvimento de certos equívocos na mente dos estudantes (Martins 2018).\n\n\n\n\nHodgson, Ted, e Maurice Burke. 2000. “On Simulation and the Teaching of Statistics”. Teaching Statistics 22 (3): 91–96. https://doi.org/10.1111/1467-9639.00033.\n\n\nMartins, Rui Manuel Da Costa. 2018. “Learning the Principles of Simulation Using the Birthday Problem”. Teaching Statistics 40 (3): 108–11. https://doi.org/10.1111/test.12164.\n\n\nThomas, F. H., e J. L. Moore. 1980. “CUSUM: Computer Simulation for Statistics Teaching”. Teaching Statistics 2 (1): 23–28. https://doi.org/10.1111/j.1467-9639.1980.tb00374.x.\n\n\nTintle, Nathan, Beth Chance, George Cobb, Soma Roy, Todd Swanson, e Jill VanderStoep. 2015. “Combating Anti-Statistical Thinking Using Simulation-Based Methods Throughout the Undergraduate Curriculum”. The American Statistician 69 (4): 362–70. https://doi.org/10.1080/00031305.2015.1081619.\n\n\nZieffler, Andrew, e Joan B. Garfield. 2007. “Studying the Role of Simulation in Developing Students’ Statistical Reasoning”. Em Proceedings of the 56th Session of the International Statistical Institute (ISI). International Statistical Institute.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introdução</span>"
+    ]
+  },
+  {
     "objectID": "intro.html",
     "href": "intro.html",
     "title": "2  Motivação",
@@ -40,16 +50,6 @@
     ]
   },
   {
-    "objectID": "intro.html#comparação-entre-a-solução-exata-e-aproximada",
-    "href": "intro.html#comparação-entre-a-solução-exata-e-aproximada",
-    "title": "2  Motivação",
-    "section": "2.4 Comparação entre a solução exata e aproximada",
-    "text": "2.4 Comparação entre a solução exata e aproximada",
-    "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Motivação</span>"
-    ]
-  },
-  {
     "objectID": "intro.html#comparação-entre-as-soluções-exata-e-aproximada",
     "href": "intro.html#comparação-entre-as-soluções-exata-e-aproximada",
     "title": "2  Motivação",
@@ -67,26 +67,6 @@
     "text": "2.5 Possíveis dúvidas\nAlgumas dúvidas podem surgir, entre elas:\n\n\n\n\n\n\n\nFalk, Ruma. 2014. “A Closer Look at the Notorious Birthday Coincidences”. Teaching Statistics 36 (2): 41–46. https://doi.org/10.1111/test.12014.\n\n\nMartins, Rui Manuel Da Costa. 2018. “Learning the Principles of Simulation Using the Birthday Problem”. Teaching Statistics 40 (3): 108–11. https://doi.org/10.1111/test.12164.\n\n\nMatthews, Robert, e Fiona Stones. 1998. “Coincidences: the truth is out there”. Teaching Statistics 20 (1): 17–19. https://doi.org/https://doi.org/10.1111/j.1467-9639.1998.tb00752.x.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Motivação</span>"
-    ]
-  },
-  {
-    "objectID": "references.html",
-    "href": "references.html",
-    "title": "References",
-    "section": "",
-    "text": "Falk, Ruma. 2014. “A Closer Look at the Notorious Birthday\nCoincidences.” Teaching Statistics 36 (2): 41–46. https://doi.org/10.1111/test.12014.\n\n\nHodgson, Ted, and Maurice Burke. 2000. “On Simulation and the\nTeaching of Statistics.” Teaching Statistics 22 (3):\n91–96. https://doi.org/10.1111/1467-9639.00033.\n\n\nMartins, Rui Manuel Da Costa. 2018. “Learning the Principles of\nSimulation Using the Birthday Problem.” Teaching\nStatistics 40 (3): 108–11. https://doi.org/10.1111/test.12164.\n\n\nMatthews, Robert, and Fiona Stones. 1998. “Coincidences: The Truth\nIs Out There.” Teaching Statistics 20 (1): 17–19.\nhttps://doi.org/https://doi.org/10.1111/j.1467-9639.1998.tb00752.x.\n\n\nThomas, F. H., and J. L. Moore. 1980. “CUSUM:\nComputer Simulation for Statistics Teaching.” Teaching\nStatistics 2 (1): 23–28. https://doi.org/10.1111/j.1467-9639.1980.tb00374.x.\n\n\nTintle, Nathan, Beth Chance, George Cobb, Soma Roy, Todd Swanson, and\nJill VanderStoep. 2015. “Combating Anti-Statistical Thinking Using\nSimulation-Based Methods Throughout the Undergraduate\nCurriculum.” The American Statistician 69 (4): 362–70.\nhttps://doi.org/10.1080/00031305.2015.1081619.",
-    "crumbs": [
-      "References"
-    ]
-  },
-  {
-    "objectID": "introducao.html",
-    "href": "introducao.html",
-    "title": "1  Introdução",
-    "section": "",
-    "text": "A simulação tem um papel preponderante na estatística moderna, e suas vantagens no ensino de Estatística são conhecidas há muito tempo. Em um de seus primeiros números, o periódico Teaching Statistics publicou artigos que aludem precisamente a isso. Thomas e Moore (1980) afirmaram que “a introdução do computador na sala de aula escolar trouxe uma nova técnica para o ensino, a técnica da simulação”. Zieffler e Garfield (2007) e Tintle et al. (2015) discutem o papel e a importância da aprendizagem baseada em simulação no currículo de graduação em Estatística. No entanto, outros autores (por exemplo, Hodgson e Burke 2000) discutem alguns problemas que podem surgir ao ensinar uma disciplina por meio de simulação, a saber, o desenvolvimento de certos equívocos na mente dos estudantes (Martins 2018).\n\n\n\n\nHodgson, Ted, e Maurice Burke. 2000. “On Simulation and the Teaching of Statistics”. Teaching Statistics 22 (3): 91–96. https://doi.org/10.1111/1467-9639.00033.\n\n\nMartins, Rui Manuel Da Costa. 2018. “Learning the Principles of Simulation Using the Birthday Problem”. Teaching Statistics 40 (3): 108–11. https://doi.org/10.1111/test.12164.\n\n\nThomas, F. H., e J. L. Moore. 1980. “CUSUM: Computer Simulation for Statistics Teaching”. Teaching Statistics 2 (1): 23–28. https://doi.org/10.1111/j.1467-9639.1980.tb00374.x.\n\n\nTintle, Nathan, Beth Chance, George Cobb, Soma Roy, Todd Swanson, e Jill VanderStoep. 2015. “Combating Anti-Statistical Thinking Using Simulation-Based Methods Throughout the Undergraduate Curriculum”. The American Statistician 69 (4): 362–70. https://doi.org/10.1080/00031305.2015.1081619.\n\n\nZieffler, Andrew, e Joan B. Garfield. 2007. “Studying the Role of Simulation in Developing Students’ Statistical Reasoning”. Em Proceedings of the 56th Session of the International Statistical Institute (ISI). International Statistical Institute.",
-    "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introdução</span>"
     ]
   },
   {
@@ -137,6 +117,16 @@
     "text": "3.4 Geradores Congruenciais Lineares Multiplicativos\nNo caso multiplicativo, temos \\(c = 0\\), e a recorrência fica:\n\\[\nX_i = (a X_{i-1}) \\bmod m\n\\]\n\n3.4.1 Características e restrições\n\nSe \\(X_i = 0\\) em algum passo, toda a sequência futura será zero — portanto \\(X_0 \\neq 0\\).\nSe \\(a = 1\\), a sequência é constante — também deve ser evitado.\nO período máximo possível é \\(m - 1\\), e ele só é atingido quando:\n\n\\(m\\) é primo;\n\\(a\\) é uma raiz primitiva módulo \\(m\\).\n\n\n\n\n3.4.2 Definição de raiz primitiva\nUm número \\(a\\) é raiz primitiva módulo \\(m\\) se seus poderes geram todos os inteiros não nulos módulo \\(m\\).\nMatematicamente, \\(a\\) satisfaz:\n\\[\nm \\nmid a^{(m-1)/q} - 1, \\quad \\forall q \\text{ primo que divide } m-1\n\\]\nEsse tipo de gerador é chamado Gerador de Módulo Primo e Período Máximo.\n\n\n\n3.4.3 Exemplo de implementação em R\nA seguir, implementamos um gerador multiplicativo com módulo primo \\(m = 2^{31} - 1\\) (primo de Mersenne) e multiplicador \\(a = 630360016\\), conhecido por apresentar boas propriedades estatísticas.\n\n#if (!requireNamespace(\"gmp\", quietly = TRUE)) {\n#  install.packages(\"gmp\")\n#}\nlibrary(gmp)\n\nlcg_mult_primo &lt;- function(n, seed, a = 630360016, m = 2147483647) {\n  A &lt;- as.bigz(a); M &lt;- as.bigz(m)\n  x &lt;- as.bigz(seed)\n  X &lt;- integer(n); R &lt;- numeric(n)\n  for (i in seq_len(n)) {\n    X[i] &lt;- as.integer(x)    \n    R[i] &lt;- as.numeric(x) / m    \n    x &lt;- (A * x) %% M            \n  }\n  list(X = X, R = R)\n}\n\n# Exemplo: gerar 10 valores\ng2 &lt;- lcg_mult_primo(n = 10, seed = 12345L)\ng2$X\ng2$R",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Números Uniformes</span>"
+    ]
+  },
+  {
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "References",
+    "section": "",
+    "text": "Falk, Ruma. 2014. “A Closer Look at the Notorious Birthday\nCoincidences.” Teaching Statistics 36 (2): 41–46. https://doi.org/10.1111/test.12014.\n\n\nHodgson, Ted, and Maurice Burke. 2000. “On Simulation and the\nTeaching of Statistics.” Teaching Statistics 22 (3):\n91–96. https://doi.org/10.1111/1467-9639.00033.\n\n\nMartins, Rui Manuel Da Costa. 2018. “Learning the Principles of\nSimulation Using the Birthday Problem.” Teaching\nStatistics 40 (3): 108–11. https://doi.org/10.1111/test.12164.\n\n\nMatthews, Robert, and Fiona Stones. 1998. “Coincidences: The Truth\nIs Out There.” Teaching Statistics 20 (1): 17–19.\nhttps://doi.org/https://doi.org/10.1111/j.1467-9639.1998.tb00752.x.\n\n\nThomas, F. H., and J. L. Moore. 1980. “CUSUM:\nComputer Simulation for Statistics Teaching.” Teaching\nStatistics 2 (1): 23–28. https://doi.org/10.1111/j.1467-9639.1980.tb00374.x.\n\n\nTintle, Nathan, Beth Chance, George Cobb, Soma Roy, Todd Swanson, and\nJill VanderStoep. 2015. “Combating Anti-Statistical Thinking Using\nSimulation-Based Methods Throughout the Undergraduate\nCurriculum.” The American Statistician 69 (4): 362–70.\nhttps://doi.org/10.1080/00031305.2015.1081619.\n\n\nZieffler, Andrew, and Joan B. Garfield. 2007. “Studying the Role\nof Simulation in Developing Students’ Statistical Reasoning.” In\nProceedings of the 56th Session of the International Statistical\nInstitute (ISI). International Statistical Institute.",
+    "crumbs": [
+      "References"
     ]
   }
 ]
