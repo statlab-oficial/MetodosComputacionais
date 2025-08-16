@@ -87,6 +87,7 @@ Essa é a razão de geradores simples com $m=2^b$, $c$ ímpar e $a \equiv 1 \pmo
 ### Questão de estouro e aritmética modular
 
 Em linguagens com inteiros limitados, calcular $aX_{i-1}+c$ pode **transbordar**. Soluções comuns:
+
 - usar precisão estendida (64 bits) ou bibliotecas de inteiros grandes;
 - empregar **truques de aritmética modular** (como o método de Schrage) para evitar overflow;
 - trabalhar com módulo $m=2^b$ e aproveitar o “wrap” de bits.
@@ -104,6 +105,7 @@ Para garantir a correção do módulo com inteiros grandes, usaremos `bit64` (in
 if (!requireNamespace("bit64", quietly = TRUE)) {
   install.packages("bit64")
 }
+
 library(bit64)
 
 lcg_misto <- function(n, seed = 3456L,
