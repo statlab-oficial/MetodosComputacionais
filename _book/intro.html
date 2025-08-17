@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -90,6 +124,35 @@ div.csl-indent {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -204,11 +267,9 @@ div.csl-indent {
     <h2 id="toc-title">Índice</h2>
    
   <ul>
-  <li><a href="#atividade-problema-do-aniversário-22-jogadores" id="toc-atividade-problema-do-aniversário-22-jogadores" class="nav-link active" data-scroll-target="#atividade-problema-do-aniversário-22-jogadores"><span class="header-section-number">2.1</span> Atividade: Problema do Aniversário (22 jogadores)</a></li>
-  <li><a href="#solução-analítica" id="toc-solução-analítica" class="nav-link" data-scroll-target="#solução-analítica"><span class="header-section-number">2.2</span> Solução Analítica</a></li>
-  <li><a href="#solução-aproximada" id="toc-solução-aproximada" class="nav-link" data-scroll-target="#solução-aproximada"><span class="header-section-number">2.3</span> Solução Aproximada</a></li>
-  <li><a href="#comparação-entre-as-soluções-exata-e-aproximada" id="toc-comparação-entre-as-soluções-exata-e-aproximada" class="nav-link" data-scroll-target="#comparação-entre-as-soluções-exata-e-aproximada"><span class="header-section-number">2.4</span> Comparação entre as soluções exata e aproximada</a></li>
-  <li><a href="#possíveis-dúvidas" id="toc-possíveis-dúvidas" class="nav-link" data-scroll-target="#possíveis-dúvidas"><span class="header-section-number">2.5</span> Possíveis dúvidas</a></li>
+  <li><a href="#da-teoria-à-simulação" id="toc-da-teoria-à-simulação" class="nav-link active" data-scroll-target="#da-teoria-à-simulação"><span class="header-section-number">2.1</span> Da teoria à simulação</a></li>
+  <li><a href="#o-papel-da-simulação" id="toc-o-papel-da-simulação" class="nav-link" data-scroll-target="#o-papel-da-simulação"><span class="header-section-number">2.2</span> O papel da simulação</a></li>
+  <li><a href="#atividade-problema-do-aniversário-22-jogadores" id="toc-atividade-problema-do-aniversário-22-jogadores" class="nav-link" data-scroll-target="#atividade-problema-do-aniversário-22-jogadores"><span class="header-section-number">2.3</span> Atividade: Problema do Aniversário (22 jogadores)</a></li>
   </ul>
 </nav>
     </div>
@@ -234,12 +295,43 @@ div.csl-indent {
 </header>
 
 
+<p>A Estatística, além de lidar com modelos matemáticos rigorosos, também é permeada por situações em que a .red[intuição humana falha] de maneira sistemática. Um exemplo clássico é o <strong>problema do aniversário</strong>, que há décadas desperta curiosidade entre estudantes e pesquisadores.</p>
+<p>O enunciado é simples: <em>em uma sala com <span class="math inline">\(k\)</span> pessoas, qual a probabilidade de que pelo menos duas delas compartilhem o mesmo aniversário?</em></p>
+<p>À primeira vista, a maioria das pessoas acredita que esse número deva ser próximo da metade de 365, isto é, cerca de 183 pessoas. A intuição ingênua parte de uma lógica equivocada: se existem 365 dias no ano, apenas quando o número de candidatos for próximo da metade dessas datas é que começariam a surgir coincidências significativas. Esse raciocínio é frequentemente reforçado pelo chamado <strong>princípio das gavetas de Dirichlet (ou princípio da casa dos pombos)</strong>, que garante coincidências apenas quando o número de indivíduos ultrapassa o número de dias disponíveis.</p>
+<p>No entanto, a análise probabilística mostra um resultado surpreendente: com apenas <strong>23 pessoas</strong> em uma sala, a probabilidade de que haja pelo menos uma coincidência de aniversários já é <strong>superior a 50%</strong>. Esse resultado contraintuitivo se deve ao crescimento rápido do número de possíveis pares: em um grupo de 23 pessoas existem</p>
+<p><span class="math display">\[\binom{23}{2} = 253,\]</span></p>
+<p>pares distintos, e cada par representa uma oportunidade de coincidência. A percepção equivocada da maioria dos alunos decorre de <strong>subestimar o crescimento combinatório</strong> envolvido no problema.</p>
+<p>Esse fenômeno é tão interessante que se tornou uma porta de entrada natural para discutir a diferença entre <strong>probabilidade teórica</strong> e <strong>evidência empírica obtida por simulação</strong>.</p>
+<hr>
+<section id="da-teoria-à-simulação" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="da-teoria-à-simulação"><span class="header-section-number">2.1</span> Da teoria à simulação</h2>
+<p>Do ponto de vista teórico, a probabilidade de que todos os aniversários sejam distintos entre <span class="math inline">\(k\)</span> pessoas é</p>
+<p><span class="math display">\[P(\text{todos distintos}) = \frac{364}{365} \times \frac{363}{365} \times \cdots \times \frac{365-k+1}{365}.\]</span></p>
+<p>Logo, a probabilidade de pelo menos uma coincidência é</p>
+<p><span class="math display">\[P(\text{coincidência}) = 1 - P(\text{todos distintos}).\]</span></p>
+<p>Esse cálculo, embora elegante, envolve produtos sucessivos que rapidamente se tornam difíceis de manipular mentalmente. Por isso, é um exemplo ideal para ilustrar o <strong>poder da simulação computacional</strong>.</p>
+<hr>
+</section>
+<section id="o-papel-da-simulação" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="o-papel-da-simulação"><span class="header-section-number">2.2</span> O papel da simulação</h2>
+<p>A simulação estatística permite reproduzir o experimento de forma empírica: sorteamos aleatoriamente dias de aniversário para os indivíduos e verificamos se há repetições. Repetindo o processo milhares de vezes, obtemos uma estimativa para a probabilidade de coincidência.</p>
+<p>Por exemplo, em <strong>R</strong>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">23</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>birthdays <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">365</span>, k, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">any</span>(<span class="fu">duplicated</span>(birthdays))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+</div>
+<p>Ao repetir esse procedimento muitas vezes (por exemplo, 10.000 simulações), podemos estimar a proporção de conjuntos com coincidência. Pela Lei dos Grandes Números, essa estimativa converge para o valor teórico de aproximadamente 0,507 quando <span class="math inline">\(k=23\)</span>.</p>
+</section>
+<section id="atividade-problema-do-aniversário-22-jogadores" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="atividade-problema-do-aniversário-22-jogadores"><span class="header-section-number">2.3</span> Atividade: Problema do Aniversário (22 jogadores)</h2>
 <p>Nesta motivação consideramos um exemplo discutido em <span class="citation" data-cites="martins_learning_2018">Martins (<a href="references.html#ref-martins_learning_2018" role="doc-biblioref">2018</a>)</span> que é o conhecido e amplamente divulgado problema do aniversário <span class="citation" data-cites="falk_closer_2014">(ver, por exemplo, <a href="references.html#ref-falk_closer_2014" role="doc-biblioref">Falk 2014</a>)</span>. <span class="citation" data-cites="martins_learning_2018">Martins (<a href="references.html#ref-martins_learning_2018" role="doc-biblioref">2018</a>)</span> segue o exemplo de <span class="citation" data-cites="matthews_coincidences_1998">Matthews e Stones (<a href="references.html#ref-matthews_coincidences_1998" role="doc-biblioref">1998</a>)</span>, considerando duas equipes de futebol e, portanto, coincidências de aniversário entre 22 jogadores. <span class="citation" data-cites="martins_learning_2018">Martins (<a href="references.html#ref-martins_learning_2018" role="doc-biblioref">2018</a>)</span> afirma que um resultado positivo importante dessa atividade é a discussão que surgirá naturalmente entre os estudantes, com o professor atuando como mediador. Além disso, os estudantes adoram jogos e a descoberta prática, e a simulação facilita o engajamento nessas atividades, ao mesmo tempo que ilustra resultados que podem ser não intuitivos, bem como teoria geral, como a <strong>Lei dos Grandes Números</strong>.</p>
-<p>Para iniciar a discussão, propõe-se o seguinte problema:</p>
+<p>Agora iremos considerar o seguinte problema:</p>
 <p><strong>O problema:</strong> Em uma partida de futebol, qual é a probabilidade de que pelo menos dois dos 22 jogadores façam aniversário no mesmo dia?</p>
 <p>Em um pais chamado de país do futebol, o contexto é proposital: o futebol é popular e as probabilidades resultantes são contraintuitivas. Antes de qualquer cálculo, considere as hipóteses: (i) todos os 365 dias do ano são igualmente prováveis para qualquer aniversário; (ii) as datas de aniversário dos jogadores são independentes entre si.</p>
-<section id="atividade-problema-do-aniversário-22-jogadores" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="atividade-problema-do-aniversário-22-jogadores"><span class="header-section-number">2.1</span> Atividade: Problema do Aniversário (22 jogadores)</h2>
 <p><strong>Objetivos</strong><br>
 - Estimar, via simulação, a probabilidade de coincidência de aniversários.<br>
 - Relacionar frequência relativa, Lei dos Grandes Números e variação amostral.</p>
@@ -247,22 +339,6 @@ div.csl-indent {
 - 365 dias equiprováveis, datas independentes, ignorar bissexto/gêmeos.</p>
 <p><strong>Materiais</strong><br>
 - R (ou Posit Cloud), roteiro com comandos <code>sample()</code>, <code>table()</code>, <code>mean()</code>.</p>
-</section>
-<section id="solução-analítica" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="solução-analítica"><span class="header-section-number">2.2</span> Solução Analítica</h2>
-</section>
-<section id="solução-aproximada" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="solução-aproximada"><span class="header-section-number">2.3</span> Solução Aproximada</h2>
-</section>
-<section id="comparação-entre-as-soluções-exata-e-aproximada" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="comparação-entre-as-soluções-exata-e-aproximada"><span class="header-section-number">2.4</span> Comparação entre as soluções exata e aproximada</h2>
-</section>
-<section id="possíveis-dúvidas" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="possíveis-dúvidas"><span class="header-section-number">2.5</span> Possíveis dúvidas</h2>
-<p>Algumas dúvidas podem surgir, entre elas:</p>
-<ul>
-<li></li>
-</ul>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">

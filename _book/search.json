@@ -24,47 +24,27 @@
     "href": "intro.html",
     "title": "2  Motivação",
     "section": "",
-    "text": "2.1 Atividade: Problema do Aniversário (22 jogadores)\nObjetivos\n- Estimar, via simulação, a probabilidade de coincidência de aniversários.\n- Relacionar frequência relativa, Lei dos Grandes Números e variação amostral.\nHipóteses\n- 365 dias equiprováveis, datas independentes, ignorar bissexto/gêmeos.\nMateriais\n- R (ou Posit Cloud), roteiro com comandos sample(), table(), mean().",
+    "text": "2.1 Da teoria à simulação\nDo ponto de vista teórico, a probabilidade de que todos os aniversários sejam distintos entre \\(k\\) pessoas é\n\\[P(\\text{todos distintos}) = \\frac{364}{365} \\times \\frac{363}{365} \\times \\cdots \\times \\frac{365-k+1}{365}.\\]\nLogo, a probabilidade de pelo menos uma coincidência é\n\\[P(\\text{coincidência}) = 1 - P(\\text{todos distintos}).\\]\nEsse cálculo, embora elegante, envolve produtos sucessivos que rapidamente se tornam difíceis de manipular mentalmente. Por isso, é um exemplo ideal para ilustrar o poder da simulação computacional.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Motivação</span>"
     ]
   },
   {
-    "objectID": "intro.html#solução-analítica",
-    "href": "intro.html#solução-analítica",
+    "objectID": "intro.html#o-papel-da-simulação",
+    "href": "intro.html#o-papel-da-simulação",
     "title": "2  Motivação",
-    "section": "2.2 Solução Analítica",
-    "text": "2.2 Solução Analítica",
+    "section": "2.2 O papel da simulação",
+    "text": "2.2 O papel da simulação\nA simulação estatística permite reproduzir o experimento de forma empírica: sorteamos aleatoriamente dias de aniversário para os indivíduos e verificamos se há repetições. Repetindo o processo milhares de vezes, obtemos uma estimativa para a probabilidade de coincidência.\nPor exemplo, em R:\n\nk &lt;- 23\nbirthdays &lt;- sample(1:365, k, replace = TRUE)\nany(duplicated(birthdays))\n\n[1] FALSE\n\n\nAo repetir esse procedimento muitas vezes (por exemplo, 10.000 simulações), podemos estimar a proporção de conjuntos com coincidência. Pela Lei dos Grandes Números, essa estimativa converge para o valor teórico de aproximadamente 0,507 quando \\(k=23\\).",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Motivação</span>"
     ]
   },
   {
-    "objectID": "intro.html#solução-aproximada",
-    "href": "intro.html#solução-aproximada",
+    "objectID": "intro.html#atividade-problema-do-aniversário-22-jogadores",
+    "href": "intro.html#atividade-problema-do-aniversário-22-jogadores",
     "title": "2  Motivação",
-    "section": "2.3 Solução Aproximada",
-    "text": "2.3 Solução Aproximada",
-    "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Motivação</span>"
-    ]
-  },
-  {
-    "objectID": "intro.html#comparação-entre-as-soluções-exata-e-aproximada",
-    "href": "intro.html#comparação-entre-as-soluções-exata-e-aproximada",
-    "title": "2  Motivação",
-    "section": "2.4 Comparação entre as soluções exata e aproximada",
-    "text": "2.4 Comparação entre as soluções exata e aproximada",
-    "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Motivação</span>"
-    ]
-  },
-  {
-    "objectID": "intro.html#possíveis-dúvidas",
-    "href": "intro.html#possíveis-dúvidas",
-    "title": "2  Motivação",
-    "section": "2.5 Possíveis dúvidas",
-    "text": "2.5 Possíveis dúvidas\nAlgumas dúvidas podem surgir, entre elas:\n\n\n\n\n\n\n\nFalk, Ruma. 2014. “A Closer Look at the Notorious Birthday Coincidences”. Teaching Statistics 36 (2): 41–46. https://doi.org/10.1111/test.12014.\n\n\nMartins, Rui Manuel Da Costa. 2018. “Learning the Principles of Simulation Using the Birthday Problem”. Teaching Statistics 40 (3): 108–11. https://doi.org/10.1111/test.12164.\n\n\nMatthews, Robert, e Fiona Stones. 1998. “Coincidences: the truth is out there”. Teaching Statistics 20 (1): 17–19. https://doi.org/https://doi.org/10.1111/j.1467-9639.1998.tb00752.x.",
+    "section": "2.3 Atividade: Problema do Aniversário (22 jogadores)",
+    "text": "2.3 Atividade: Problema do Aniversário (22 jogadores)\nNesta motivação consideramos um exemplo discutido em Martins (2018) que é o conhecido e amplamente divulgado problema do aniversário (ver, por exemplo, Falk 2014). Martins (2018) segue o exemplo de Matthews e Stones (1998), considerando duas equipes de futebol e, portanto, coincidências de aniversário entre 22 jogadores. Martins (2018) afirma que um resultado positivo importante dessa atividade é a discussão que surgirá naturalmente entre os estudantes, com o professor atuando como mediador. Além disso, os estudantes adoram jogos e a descoberta prática, e a simulação facilita o engajamento nessas atividades, ao mesmo tempo que ilustra resultados que podem ser não intuitivos, bem como teoria geral, como a Lei dos Grandes Números.\nAgora iremos considerar o seguinte problema:\nO problema: Em uma partida de futebol, qual é a probabilidade de que pelo menos dois dos 22 jogadores façam aniversário no mesmo dia?\nEm um pais chamado de país do futebol, o contexto é proposital: o futebol é popular e as probabilidades resultantes são contraintuitivas. Antes de qualquer cálculo, considere as hipóteses: (i) todos os 365 dias do ano são igualmente prováveis para qualquer aniversário; (ii) as datas de aniversário dos jogadores são independentes entre si.\nObjetivos\n- Estimar, via simulação, a probabilidade de coincidência de aniversários.\n- Relacionar frequência relativa, Lei dos Grandes Números e variação amostral.\nHipóteses\n- 365 dias equiprováveis, datas independentes, ignorar bissexto/gêmeos.\nMateriais\n- R (ou Posit Cloud), roteiro com comandos sample(), table(), mean().\n\n\n\n\nFalk, Ruma. 2014. “A Closer Look at the Notorious Birthday Coincidences”. Teaching Statistics 36 (2): 41–46. https://doi.org/10.1111/test.12014.\n\n\nMartins, Rui Manuel Da Costa. 2018. “Learning the Principles of Simulation Using the Birthday Problem”. Teaching Statistics 40 (3): 108–11. https://doi.org/10.1111/test.12164.\n\n\nMatthews, Robert, e Fiona Stones. 1998. “Coincidences: the truth is out there”. Teaching Statistics 20 (1): 17–19. https://doi.org/https://doi.org/10.1111/j.1467-9639.1998.tb00752.x.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Motivação</span>"
     ]
