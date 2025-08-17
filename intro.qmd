@@ -4,15 +4,8 @@ A Estatística, além de lidar com modelos matemáticos rigorosos, também é pe
 
 O enunciado é simples: *em uma sala com $r$ pessoas, qual a probabilidade de que pelo menos duas delas compartilhem o mesmo aniversário?*  
 
-À primeira vista, a maioria das pessoas acredita que esse número deva ser próximo da metade de 365, isto é, cerca de 183 pessoas. A intuição ingênua parte de uma lógica equivocada: se existem 365 dias no ano, apenas quando o número de candidatos for próximo da metade dessas datas é que começariam a surgir coincidências significativas. Esse raciocínio é frequentemente reforçado pelo chamado **princípio das gavetas de Dirichlet (ou princípio da casa dos pombos)**, que garante coincidências apenas quando o número de indivíduos ultrapassa o número de dias disponíveis.  
 
-No entanto, a análise probabilística mostra um resultado surpreendente: com apenas **23 pessoas** em uma sala, a probabilidade de que haja pelo menos uma coincidência de aniversários já é **superior a 50%**. Esse resultado contraintuitivo se deve ao crescimento rápido do número de possíveis pares: em um grupo de 23 pessoas existem  
-
-$$\binom{23}{2} = 253,$$  
-
-pares distintos, e cada par representa uma oportunidade de coincidência. A percepção equivocada da maioria dos alunos decorre de **subestimar o crescimento combinatório** envolvido no problema.  
-
-Esse fenômeno é tão interessante que se tornou uma porta de entrada natural para discutir a diferença entre **probabilidade teórica** e **evidência empírica obtida por simulação**.  
+No entanto, a análise probabilística mostra um resultado surpreendente: com apenas **23 pessoas** em uma sala, a probabilidade de que haja pelo menos uma coincidência de aniversários já é **superior a 50%**.  Esse resultado é tão interessante que pode ser uma porta de entrada natural para discutir a diferença entre **probabilidade teórica** e **evidência empírica obtida por simulação**.  
 
 
 ## Da teoria à simulação
