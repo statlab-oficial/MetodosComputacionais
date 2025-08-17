@@ -105,7 +105,8 @@ Em um pais chamado de país do futebol, o contexto é proposital: o futebol é p
 **Objetivos**
 
 - Estimar, via simulação, a probabilidade de coincidência de aniversários.\
-- Relacionar frequência relativa, Lei dos Grandes Números e variação amostral.
+- Relacionar frequência relativa, Lei dos Grandes Números e variação amostral.\
+- Comparar o resultado exato e aproximado.\
 
 **Hipóteses**
 
