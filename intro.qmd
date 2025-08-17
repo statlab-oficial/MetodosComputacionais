@@ -14,7 +14,6 @@ pares distintos, e cada par representa uma oportunidade de coincidência. A perc
 
 Esse fenômeno é tão interessante que se tornou uma porta de entrada natural para discutir a diferença entre **probabilidade teórica** e **evidência empírica obtida por simulação**.  
 
----
 
 ## Da teoria à simulação
 
