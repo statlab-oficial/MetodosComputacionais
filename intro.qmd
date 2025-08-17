@@ -62,7 +62,7 @@ Essa fórmula tem três virtudes didáticas:
 
 3) **Boas aproximações** já para $r$ na casa de dezenas.
 
-**Exemplos rápidos.**
+**Exemplo rápido:**
 
 - Para **23 pessoas**:  
 
@@ -89,6 +89,27 @@ any(duplicated(birthdays))
 ```
 
 Ao repetir esse procedimento muitas vezes (por exemplo, 10.000 simulações), podemos estimar a proporção de conjuntos com coincidência. Pela Lei dos Grandes Números, essa estimativa converge para o valor teórico de aproximadamente 0,507 quando $k=23$.
+
+```{r}
+set.seed(123) #reprodutibilidade
+
+k <- 23
+B <- 10000
+
+acertos <- 0L
+i <- 0L
+
+repeat {
+  i <- i + 1L
+  bdays <- sample(1:365, k, replace = TRUE)
+  acertos <- acertos + as.integer(any(duplicated(bdays)))
+  if (i >= B) break
+}
+
+p_hat <- acertos / B
+p_hat
+```
+
 
 ## Atividade: Problema do Aniversário (22 jogadores)
 
