@@ -5,7 +5,7 @@ A Estatística, além de lidar com modelos matemáticos rigorosos, também é pe
 O enunciado é simples: *em uma sala com $r$ pessoas, qual a probabilidade de que pelo menos duas delas compartilhem o mesmo aniversário?*  
 
 
-No entanto, a análise probabilística mostra um resultado surpreendente: com apenas **23 pessoas** em uma sala, a probabilidade de que haja pelo menos uma coincidência de aniversários já é **superior a 50%**.  Esse resultado é tão interessante que pode ser uma porta de entrada natural para discutir a diferença entre **probabilidade teórica** e **evidência empírica obtida por simulação**.  
+Um resultado surpreendente é: com apenas **23 pessoas** em uma sala, a probabilidade de que haja pelo menos uma coincidência de aniversários já é **superior a 50%**.  Esse resultado é tão interessante que pode ser uma porta de entrada natural para discutir a diferença entre **probabilidade teórica** e **evidência empírica obtida por simulação**.  
 
 
 ## Da teoria à simulação
