@@ -268,8 +268,9 @@ window.Quarto = {
    
   <ul>
   <li><a href="#da-teoria-à-simulação" id="toc-da-teoria-à-simulação" class="nav-link active" data-scroll-target="#da-teoria-à-simulação"><span class="header-section-number">2.1</span> Da teoria à simulação</a></li>
-  <li><a href="#o-papel-da-simulação" id="toc-o-papel-da-simulação" class="nav-link" data-scroll-target="#o-papel-da-simulação"><span class="header-section-number">2.2</span> O papel da simulação</a></li>
-  <li><a href="#atividade-problema-do-aniversário-22-jogadores" id="toc-atividade-problema-do-aniversário-22-jogadores" class="nav-link" data-scroll-target="#atividade-problema-do-aniversário-22-jogadores"><span class="header-section-number">2.3</span> Atividade: Problema do Aniversário (22 jogadores)</a></li>
+  <li><a href="#um-atalho-analítico-útil" id="toc-um-atalho-analítico-útil" class="nav-link" data-scroll-target="#um-atalho-analítico-útil"><span class="header-section-number">2.2</span> Um atalho analítico útil</a></li>
+  <li><a href="#o-papel-da-simulação" id="toc-o-papel-da-simulação" class="nav-link" data-scroll-target="#o-papel-da-simulação"><span class="header-section-number">2.3</span> O papel da simulação</a></li>
+  <li><a href="#atividade-problema-do-aniversário-22-jogadores" id="toc-atividade-problema-do-aniversário-22-jogadores" class="nav-link" data-scroll-target="#atividade-problema-do-aniversário-22-jogadores"><span class="header-section-number">2.4</span> Atividade: Problema do Aniversário (22 jogadores)</a></li>
   </ul>
 </nav>
     </div>
@@ -295,8 +296,8 @@ window.Quarto = {
 </header>
 
 
-<p>A Estatística, além de lidar com modelos matemáticos rigorosos, também é permeada por situações em que a .red[intuição humana falha] de maneira sistemática. Um exemplo clássico é o <strong>problema do aniversário</strong>, que há décadas desperta curiosidade entre estudantes e pesquisadores.</p>
-<p>O enunciado é simples: <em>em uma sala com <span class="math inline">\(k\)</span> pessoas, qual a probabilidade de que pelo menos duas delas compartilhem o mesmo aniversário?</em></p>
+<p>A Estatística, além de lidar com modelos matemáticos rigorosos, também é permeada por situações em que a intuição humana falha de maneira sistemática. Um exemplo clássico é o <strong>problema do aniversário</strong>, que há décadas desperta curiosidade entre estudantes e pesquisadores.</p>
+<p>O enunciado é simples: <em>em uma sala com <span class="math inline">\(r\)</span> pessoas, qual a probabilidade de que pelo menos duas delas compartilhem o mesmo aniversário?</em></p>
 <p>À primeira vista, a maioria das pessoas acredita que esse número deva ser próximo da metade de 365, isto é, cerca de 183 pessoas. A intuição ingênua parte de uma lógica equivocada: se existem 365 dias no ano, apenas quando o número de candidatos for próximo da metade dessas datas é que começariam a surgir coincidências significativas. Esse raciocínio é frequentemente reforçado pelo chamado <strong>princípio das gavetas de Dirichlet (ou princípio da casa dos pombos)</strong>, que garante coincidências apenas quando o número de indivíduos ultrapassa o número de dias disponíveis.</p>
 <p>No entanto, a análise probabilística mostra um resultado surpreendente: com apenas <strong>23 pessoas</strong> em uma sala, a probabilidade de que haja pelo menos uma coincidência de aniversários já é <strong>superior a 50%</strong>. Esse resultado contraintuitivo se deve ao crescimento rápido do número de possíveis pares: em um grupo de 23 pessoas existem</p>
 <p><span class="math display">\[\binom{23}{2} = 253,\]</span></p>
@@ -305,15 +306,52 @@ window.Quarto = {
 <hr>
 <section id="da-teoria-à-simulação" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="da-teoria-à-simulação"><span class="header-section-number">2.1</span> Da teoria à simulação</h2>
-<p>Do ponto de vista teórico, a probabilidade de que todos os aniversários sejam distintos entre <span class="math inline">\(k\)</span> pessoas é</p>
-<p><span class="math display">\[P(\text{todos distintos}) = \frac{364}{365} \times \frac{363}{365} \times \cdots \times \frac{365-k+1}{365}.\]</span></p>
+<p>Do ponto de vista teórico, a probabilidade de que todos os aniversários sejam distintos entre <span class="math inline">\(r\)</span> pessoas é</p>
+<p><span class="math display">\[\Pr(\text{todos distintos}) \;=\; \prod_{i=0}^{r-1} \frac{365-i}{365}
+\;=\; \left(1 - \frac{1}{365}\right)\!\left(1 - \frac{2}{365}\right)\!\cdots\!\left(1 - \frac{r-1}{365}\right).\]</span></p>
 <p>Logo, a probabilidade de pelo menos uma coincidência é</p>
-<p><span class="math display">\[P(\text{coincidência}) = 1 - P(\text{todos distintos}).\]</span></p>
-<p>Esse cálculo, embora elegante, envolve produtos sucessivos que rapidamente se tornam difíceis de manipular mentalmente. Por isso, é um exemplo ideal para ilustrar o <strong>poder da simulação computacional</strong>.</p>
-<hr>
+<p><span class="math display">\[p_r = 1 - \Pr(\text{todos distintos}).\]</span></p>
+<p>Esse produto é conceitualmente claro, mas fica pouco manejável mentalmente para <span class="math inline">\(k\)</span> moderados. É aqui que a <strong>simulação computacional</strong> pode entrar como aliada didática e científica.</p>
 </section>
-<section id="o-papel-da-simulação" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="o-papel-da-simulação"><span class="header-section-number">2.2</span> O papel da simulação</h2>
+<section id="um-atalho-analítico-útil" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="um-atalho-analítico-útil"><span class="header-section-number">2.2</span> Um atalho analítico útil</h2>
+<p>O produto acima admite uma <strong>aproximação exponencial simples e acurada</strong>, obtida tomando logaritmo e usando a expansão para argumentos pequenos:</p>
+<p><span class="math display">\[\ln(1 - x) = -x + o(x), \quad (x \to 0). \]</span> Aplicando ao produto,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\ln\!\big(1 - p_r\big)
+\;&amp;=\;
+\sum_{i=1}^{r-1} \ln\!\left(1 - \frac{i}{365}\right)\\
+\;&amp;\approx\;
+-\,\sum_{i=1}^{r-1} \frac{i}{365}
+\;=\;
+-\,\frac{1 + 2 + \cdots + (r-1)}{365}
+\;=\;
+-\,\frac{r(r-1)}{2 \cdot 365}.\end{aligned}\]</span></p>
+<p>Exponentiando e isolando <span class="math inline">\(p_r\)</span>, obtemos a aproximação</p>
+<p><span class="math display">\[
+p_r \;\approx\; 1 - \exp\!\left\{-\,\frac{r(r-1)}{730}\right\}.
+\]</span></p>
+<p>Essa fórmula tem três virtudes didáticas:</p>
+<ol type="1">
+<li><p><strong>Clareza</strong>: exibe explicitamente o papel do número de pares <span class="math inline">\(\binom{r}{2}\)</span>.</p></li>
+<li><p><strong>Rapidez</strong>: permite cálculos mentais aproximados para valores de <span class="math inline">\(r\)</span> de interesse.</p></li>
+<li><p><strong>Boas aproximações</strong> já para <span class="math inline">\(r\)</span> na casa de dezenas.</p></li>
+</ol>
+<p><strong>Exemplos rápidos.</strong></p>
+<ul>
+<li>Para <strong>23 pessoas</strong>:</li>
+</ul>
+<p><span class="math display">\[p_{23}^{(\text{aprox})}
+  \;=\;
+  1 - \exp\!\left\{-\frac{23\cdot22}{730}\right\}
+  \;=\;
+  1 - \exp\!\{-0.69315\}
+  \;\approx\; 0.500,\]</span></p>
+<p>alinhando-se ao resultado clássico de que <strong>23</strong> pessoas já superam 50% de chance de coincidência.</p>
+</section>
+<section id="o-papel-da-simulação" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="o-papel-da-simulação"><span class="header-section-number">2.3</span> O papel da simulação</h2>
 <p>A simulação estatística permite reproduzir o experimento de forma empírica: sorteamos aleatoriamente dias de aniversário para os indivíduos e verificamos se há repetições. Repetindo o processo milhares de vezes, obtemos uma estimativa para a probabilidade de coincidência.</p>
 <p>Por exemplo, em <strong>R</strong>:</p>
 <div class="cell">
@@ -326,19 +364,26 @@ window.Quarto = {
 </div>
 <p>Ao repetir esse procedimento muitas vezes (por exemplo, 10.000 simulações), podemos estimar a proporção de conjuntos com coincidência. Pela Lei dos Grandes Números, essa estimativa converge para o valor teórico de aproximadamente 0,507 quando <span class="math inline">\(k=23\)</span>.</p>
 </section>
-<section id="atividade-problema-do-aniversário-22-jogadores" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="atividade-problema-do-aniversário-22-jogadores"><span class="header-section-number">2.3</span> Atividade: Problema do Aniversário (22 jogadores)</h2>
+<section id="atividade-problema-do-aniversário-22-jogadores" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="atividade-problema-do-aniversário-22-jogadores"><span class="header-section-number">2.4</span> Atividade: Problema do Aniversário (22 jogadores)</h2>
 <p>Nesta motivação consideramos um exemplo discutido em <span class="citation" data-cites="martins_learning_2018">Martins (<a href="references.html#ref-martins_learning_2018" role="doc-biblioref">2018</a>)</span> que é o conhecido e amplamente divulgado problema do aniversário <span class="citation" data-cites="falk_closer_2014">(ver, por exemplo, <a href="references.html#ref-falk_closer_2014" role="doc-biblioref">Falk 2014</a>)</span>. <span class="citation" data-cites="martins_learning_2018">Martins (<a href="references.html#ref-martins_learning_2018" role="doc-biblioref">2018</a>)</span> segue o exemplo de <span class="citation" data-cites="matthews_coincidences_1998">Matthews e Stones (<a href="references.html#ref-matthews_coincidences_1998" role="doc-biblioref">1998</a>)</span>, considerando duas equipes de futebol e, portanto, coincidências de aniversário entre 22 jogadores. <span class="citation" data-cites="martins_learning_2018">Martins (<a href="references.html#ref-martins_learning_2018" role="doc-biblioref">2018</a>)</span> afirma que um resultado positivo importante dessa atividade é a discussão que surgirá naturalmente entre os estudantes, com o professor atuando como mediador. Além disso, os estudantes adoram jogos e a descoberta prática, e a simulação facilita o engajamento nessas atividades, ao mesmo tempo que ilustra resultados que podem ser não intuitivos, bem como teoria geral, como a <strong>Lei dos Grandes Números</strong>.</p>
 <p>Agora iremos considerar o seguinte problema:</p>
 <p><strong>O problema:</strong> Em uma partida de futebol, qual é a probabilidade de que pelo menos dois dos 22 jogadores façam aniversário no mesmo dia?</p>
 <p>Em um pais chamado de país do futebol, o contexto é proposital: o futebol é popular e as probabilidades resultantes são contraintuitivas. Antes de qualquer cálculo, considere as hipóteses: (i) todos os 365 dias do ano são igualmente prováveis para qualquer aniversário; (ii) as datas de aniversário dos jogadores são independentes entre si.</p>
-<p><strong>Objetivos</strong><br>
-- Estimar, via simulação, a probabilidade de coincidência de aniversários.<br>
-- Relacionar frequência relativa, Lei dos Grandes Números e variação amostral.</p>
-<p><strong>Hipóteses</strong><br>
-- 365 dias equiprováveis, datas independentes, ignorar bissexto/gêmeos.</p>
-<p><strong>Materiais</strong><br>
-- R (ou Posit Cloud), roteiro com comandos <code>sample()</code>, <code>table()</code>, <code>mean()</code>.</p>
+<p><strong>Objetivos</strong></p>
+<ul>
+<li>Estimar, via simulação, a probabilidade de coincidência de aniversários.<br>
+</li>
+<li>Relacionar frequência relativa, Lei dos Grandes Números e variação amostral.</li>
+</ul>
+<p><strong>Hipóteses</strong></p>
+<ul>
+<li>365 dias equiprováveis, datas independentes, ignorar bissexto/gêmeos.</li>
+</ul>
+<p><strong>Materiais</strong></p>
+<ul>
+<li>R (ou Posit Cloud), roteiro com comandos <code>sample()</code>, <code>table()</code>, <code>mean()</code>.</li>
+</ul>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">

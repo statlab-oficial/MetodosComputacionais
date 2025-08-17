@@ -1,8 +1,8 @@
 # Motivação
 
-A Estatística, além de lidar com modelos matemáticos rigorosos, também é permeada por situações em que a .red[intuição humana falha] de maneira sistemática. Um exemplo clássico é o **problema do aniversário**, que há décadas desperta curiosidade entre estudantes e pesquisadores.  
+A Estatística, além de lidar com modelos matemáticos rigorosos, também é permeada por situações em que a intuição humana falha de maneira sistemática. Um exemplo clássico é o **problema do aniversário**, que há décadas desperta curiosidade entre estudantes e pesquisadores.  
 
-O enunciado é simples: *em uma sala com $k$ pessoas, qual a probabilidade de que pelo menos duas delas compartilhem o mesmo aniversário?*  
+O enunciado é simples: *em uma sala com $r$ pessoas, qual a probabilidade de que pelo menos duas delas compartilhem o mesmo aniversário?*  
 
 À primeira vista, a maioria das pessoas acredita que esse número deva ser próximo da metade de 365, isto é, cerca de 183 pessoas. A intuição ingênua parte de uma lógica equivocada: se existem 365 dias no ano, apenas quando o número de candidatos for próximo da metade dessas datas é que começariam a surgir coincidências significativas. Esse raciocínio é frequentemente reforçado pelo chamado **princípio das gavetas de Dirichlet (ou princípio da casa dos pombos)**, que garante coincidências apenas quando o número de indivíduos ultrapassa o número de dias disponíveis.  
 
@@ -18,17 +18,64 @@ Esse fenômeno é tão interessante que se tornou uma porta de entrada natural p
 
 ## Da teoria à simulação
 
-Do ponto de vista teórico, a probabilidade de que todos os aniversários sejam distintos entre $k$ pessoas é  
+Do ponto de vista teórico, a probabilidade de que todos os aniversários sejam distintos entre $r$ pessoas é  
 
-$$P(\text{todos distintos}) = \frac{364}{365} \times \frac{363}{365} \times \cdots \times \frac{365-k+1}{365}.$$  
+$$\Pr(\text{todos distintos}) \;=\; \prod_{i=0}^{r-1} \frac{365-i}{365}
+\;=\; \left(1 - \frac{1}{365}\right)\!\left(1 - \frac{2}{365}\right)\!\cdots\!\left(1 - \frac{r-1}{365}\right).$$  
 
 Logo, a probabilidade de pelo menos uma coincidência é  
 
-$$P(\text{coincidência}) = 1 - P(\text{todos distintos}).$$  
+$$p_r = 1 - \Pr(\text{todos distintos}).$$  
 
-Esse cálculo, embora elegante, envolve produtos sucessivos que rapidamente se tornam difíceis de manipular mentalmente. Por isso, é um exemplo ideal para ilustrar o **poder da simulação computacional**.  
+Esse produto é conceitualmente claro, mas fica pouco manejável mentalmente para $k$ moderados. É aqui que a **simulação computacional** pode entrar como aliada didática e científica.
 
----
+
+## Um atalho analítico útil
+
+O produto acima admite uma **aproximação exponencial simples e acurada**, obtida tomando logaritmo e usando a expansão para argumentos pequenos:
+
+$$\ln(1 - x) = -x + o(x), \quad (x \to 0). $$
+Aplicando ao produto,
+
+$$
+\begin{aligned}
+\ln\!\big(1 - p_r\big)
+\;&=\;
+\sum_{i=1}^{r-1} \ln\!\left(1 - \frac{i}{365}\right)\\
+\;&\approx\;
+-\,\sum_{i=1}^{r-1} \frac{i}{365}
+\;=\;
+-\,\frac{1 + 2 + \cdots + (r-1)}{365}
+\;=\;
+-\,\frac{r(r-1)}{2 \cdot 365}.\end{aligned}$$
+
+Exponentiando e isolando $p_r$, obtemos a aproximação
+
+$$
+p_r \;\approx\; 1 - \exp\!\left\{-\,\frac{r(r-1)}{730}\right\}.
+$$
+
+Essa fórmula tem três virtudes didáticas:
+
+1) **Clareza**: exibe explicitamente o papel do número de pares $\binom{r}{2}$.
+
+2) **Rapidez**: permite cálculos mentais aproximados para valores de $r$ de interesse.
+
+3) **Boas aproximações** já para $r$ na casa de dezenas.
+
+**Exemplos rápidos.**
+
+- Para **23 pessoas**:  
+
+$$p_{23}^{(\text{aprox})}
+  \;=\;
+  1 - \exp\!\left\{-\frac{23\cdot22}{730}\right\}
+  \;=\;
+  1 - \exp\!\{-0.69315\}
+  \;\approx\; 0.500,$$
+  
+alinhando-se ao resultado clássico de que **23** pessoas já superam 50% de chance de coincidência.
+
 
 ## O papel da simulação
 
@@ -56,14 +103,17 @@ Agora iremos considerar o seguinte problema:
 Em um pais chamado de país do futebol, o contexto é proposital: o futebol é popular e as probabilidades resultantes são contraintuitivas. Antes de qualquer cálculo, considere as hipóteses: (i) todos os 365 dias do ano são igualmente prováveis para qualquer aniversário; (ii) as datas de aniversário dos jogadores são independentes entre si.
 
 
-**Objetivos**\
+**Objetivos**
+
 - Estimar, via simulação, a probabilidade de coincidência de aniversários.\
 - Relacionar frequência relativa, Lei dos Grandes Números e variação amostral.
 
-**Hipóteses**\
+**Hipóteses**
+
 - 365 dias equiprováveis, datas independentes, ignorar bissexto/gêmeos.
 
-**Materiais**\
+**Materiais**
+
 - R (ou Posit Cloud), roteiro com comandos `sample()`, `table()`, `mean()`.
 
 
