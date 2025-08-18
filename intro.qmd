@@ -131,3 +131,8 @@ Em um pais chamado de país do futebol, o contexto é proposital: o futebol é p
 - R (ou Posit Cloud), roteiro com comandos `sample()`, `table()`, `mean()`.
 
 
+## Exercícios
+
+1) Determinar o menor número de pessoas que deve estar em uma sala para que se possa apostar, com mais de 50% de chance de ganhar, que entre elas existam pelo menos duas com o mesmo aniversário.
+
+2) Determinar o menor número de outras pessoas que deve estar em uma sala com você para que se possa apostar, com mais de 50% de chance de ganhar, que pelo menos uma delas tenha o mesmo aniversário que o seu.
