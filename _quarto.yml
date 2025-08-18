@@ -9,7 +9,7 @@ book:
   subtitle: "Departamento de Estatística e Matemática Aplicada"
   description: "Laboratório de Inovação em Estatística - StatLab"
   author: "Ronald Targino, Rafael Braz, Juvêncio Nobre e Manoel Santos-Neto"
-  date: "15/08/2025"
+  date: today
   chapters:
     - index.qmd
     - introducao.qmd
