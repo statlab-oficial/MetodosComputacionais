@@ -4,18 +4,22 @@
 
 ### Introdução
 
+Bootstrap é um método (computacional) de reamostragem baseado em subamostras de
+uma amostra observada, sendo introduzido por Efron (1979). Pode ser utilizado com o
+propósito de estimar erros padrão, viés de estimadores, construir intervalos de 
+confiança, testes de hipóteses, entre outros. Pode ser utilizando sob duas abordagens:
+**paramétrica** e **não paramétrica**. A abordagem paramétrica exige um modelo estatística, enquanto que na abordagem não paramétrica não há suposição de modelo estatístico; toma-se por base uma distribuição empírica que atribui probabilidade $1/n$ para cada um dos $n$ elementos da amostra. Algumas referências importantes neste tema são: 
+
+
+
 
 ### Acurária da média amostral
 
-
 ### Estimativa bootstrap do erro padrão
-
 
 ### Bootstrap Paramétrico
 
-
 ### Bootstrap Não Paramétrico
-
 
 ## Jackknife
 
@@ -25,9 +29,7 @@
 
 ### Estimado do erro padrão
 
-
 ## Intervalos de Confiança
-
 
 ### Intervalo de Confiança Normal e t-Student
 
@@ -36,5 +38,3 @@
 ### Intervalos de Confiança bootstrap percentil
 
 ### Intervalos de Confiança bootstrap - versões aprimoradas
-
-

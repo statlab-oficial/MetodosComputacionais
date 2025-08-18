@@ -24,7 +24,7 @@
     "href": "intro.html",
     "title": "2  Motivação",
     "section": "",
-    "text": "2.1 Da teoria à simulação\nDo ponto de vista teórico, a probabilidade de que todos os aniversários sejam distintos entre \\(r\\) pessoas é\n\\[\\Pr(\\text{todos distintos}) \\;=\\; \\prod_{i=0}^{r-1} \\frac{365-i}{365}\n\\;=\\; \\left(1 - \\frac{1}{365}\\right)\\!\\left(1 - \\frac{2}{365}\\right)\\!\\cdots\\!\\left(1 - \\frac{r-1}{365}\\right).\\]\nLogo, a probabilidade de pelo menos uma coincidência é\n\\[p_r = 1 - \\Pr(\\text{todos distintos}).\\]\nEsse produto é conceitualmente claro, mas fica pouco manejável mentalmente para \\(k\\) moderados. É aqui que a simulação computacional pode entrar como aliada didática e científica.",
+    "text": "2.1 Da teoria à simulação\nDo ponto de vista teórico, a probabilidade de que todos os aniversários sejam distintos entre \\(r\\) pessoas é\n\\[\\Pr(\\text{todos distintos}) \\;=\\; \\prod_{i=1}^{r-1} \\frac{365-i}{365}\n\\;=\\; \\left(1 - \\frac{1}{365}\\right)\\!\\left(1 - \\frac{2}{365}\\right)\\!\\cdots\\!\\left(1 - \\frac{r-1}{365}\\right).\\]\nLogo, a probabilidade de pelo menos uma coincidência é\n\\[p_r = 1 - \\Pr(\\text{todos distintos}).\\]\nEsse produto é conceitualmente claro, mas fica pouco manejável mentalmente para \\(k\\) moderados. É aqui que a simulação computacional pode entrar como aliada didática e científica.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Motivação</span>"
     ]
@@ -204,7 +204,7 @@
     "href": "boot.html#bootstrap",
     "title": "6  Métodos de Reamostragem",
     "section": "",
-    "text": "6.1.1 Introdução\n\n\n6.1.2 Acurária da média amostral\n\n\n6.1.3 Estimativa bootstrap do erro padrão\n\n\n6.1.4 Bootstrap Paramétrico\n\n\n6.1.5 Bootstrap Não Paramétrico",
+    "text": "6.1.1 Introdução\nBootstrap é um método (computacional) de reamostragem baseado em subamostras de uma amostra observada, sendo introduzido por Efron (1979). Pode ser utilizado com o propósito de estimar erros padrão, viés de estimadores, construir intervalos de confiança, testes de hipóteses, entre outros. Pode ser utilizando sob duas abordagens: paramétrica e não paramétrica. A abordagem paramétrica exige um modelo estatística, enquanto que na abordagem não paramétrica não há suposição de modelo estatístico; toma-se por base uma distribuição empírica que atribui probabilidade \\(1/n\\) para cada um dos \\(n\\) elementos da amostra. Algumas referências importantes neste tema são:\n\n\n6.1.2 Acurária da média amostral\n\n\n6.1.3 Estimativa bootstrap do erro padrão\n\n\n6.1.4 Bootstrap Paramétrico\n\n\n6.1.5 Bootstrap Não Paramétrico",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Métodos de Reamostragem</span>"
     ]

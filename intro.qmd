@@ -12,7 +12,7 @@ Um resultado surpreendente é: com apenas **23 pessoas** em uma sala, a probabil
 
 Do ponto de vista teórico, a probabilidade de que todos os aniversários sejam distintos entre $r$ pessoas é  
 
-$$\Pr(\text{todos distintos}) \;=\; \prod_{i=0}^{r-1} \frac{365-i}{365}
+$$\Pr(\text{todos distintos}) \;=\; \prod_{i=1}^{r-1} \frac{365-i}{365}
 \;=\; \left(1 - \frac{1}{365}\right)\!\left(1 - \frac{2}{365}\right)\!\cdots\!\left(1 - \frac{r-1}{365}\right).$$  
 
 Logo, a probabilidade de pelo menos uma coincidência é  
