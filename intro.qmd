@@ -2,8 +2,9 @@
 
 A Estatística, além de lidar com modelos matemáticos rigorosos, também é permeada por situações em que a intuição humana falha de maneira sistemática. Um exemplo clássico é o **problema do aniversário**, que há décadas desperta curiosidade entre estudantes e pesquisadores.  
 
-O enunciado é simples: *em uma sala com $r$ pessoas, qual a probabilidade de que pelo menos duas delas compartilhem o mesmo aniversário?*  
-
+::: {.callout-tip title="Enuciado"}
+*Em uma sala com $r$ pessoas, qual a probabilidade de que pelo menos duas delas compartilhem o mesmo aniversário?*  
+:::
 
 Um resultado surpreendente é: com apenas **23 pessoas** em uma sala, a probabilidade de que haja pelo menos uma coincidência de aniversários já é **superior a 50%**.  Esse resultado é tão interessante que pode ser uma porta de entrada natural para discutir a diferença entre **probabilidade teórica** e **evidência empírica obtida por simulação**.  
 
@@ -51,11 +52,11 @@ Essa fórmula tem três virtudes didáticas:
 
 1) **Clareza**: exibe explicitamente o papel do número de pares $\binom{r}{2}$.
 
-2) **Rapidez**: permite cálculos mentais aproximados para valores de $r$ de interesse.
+2) **Rapidez**: permite cálculos aproximados para valores de $r$ de interesse.
 
 3) **Boas aproximações** já para $r$ na casa de dezenas.
 
-**Exemplo rápido:**
+::: {.callout-warning title="Exemplo Rápido"}
 
 - Para **23 pessoas**:  
 
@@ -65,9 +66,9 @@ $$p_{23}^{(\text{aprox})}
   \;=\;
   1 - \exp\!\{-0.69315\}
   \;\approx\; 0.500,$$
-  
-alinhando-se ao resultado clássico de que **23** pessoas já superam 50% de chance de coincidência.
 
+alinhando-se ao resultado clássico de que **23** pessoas já superam 50% de chance de coincidência.
+::: 
 
 ## O papel da simulação
 

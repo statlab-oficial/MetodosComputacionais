@@ -298,7 +298,19 @@ window.Quarto = {
 
 
 <p>A Estatística, além de lidar com modelos matemáticos rigorosos, também é permeada por situações em que a intuição humana falha de maneira sistemática. Um exemplo clássico é o <strong>problema do aniversário</strong>, que há décadas desperta curiosidade entre estudantes e pesquisadores.</p>
-<p>O enunciado é simples: <em>em uma sala com <span class="math inline">\(r\)</span> pessoas, qual a probabilidade de que pelo menos duas delas compartilhem o mesmo aniversário?</em></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Enuciado">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Enuciado
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>Em uma sala com <span class="math inline">\(r\)</span> pessoas, qual a probabilidade de que pelo menos duas delas compartilhem o mesmo aniversário?</em></p>
+</div>
+</div>
 <p>Um resultado surpreendente é: com apenas <strong>23 pessoas</strong> em uma sala, a probabilidade de que haja pelo menos uma coincidência de aniversários já é <strong>superior a 50%</strong>. Esse resultado é tão interessante que pode ser uma porta de entrada natural para discutir a diferença entre <strong>probabilidade teórica</strong> e <strong>evidência empírica obtida por simulação</strong>.</p>
 <section id="da-teoria-à-simulação" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="da-teoria-à-simulação"><span class="header-section-number">2.1</span> Da teoria à simulação</h2>
@@ -331,10 +343,19 @@ p_r \;\approx\; 1 - \exp\!\left\{-\,\frac{r(r-1)}{730}\right\}.
 <p>Essa fórmula tem três virtudes didáticas:</p>
 <ol type="1">
 <li><p><strong>Clareza</strong>: exibe explicitamente o papel do número de pares <span class="math inline">\(\binom{r}{2}\)</span>.</p></li>
-<li><p><strong>Rapidez</strong>: permite cálculos mentais aproximados para valores de <span class="math inline">\(r\)</span> de interesse.</p></li>
+<li><p><strong>Rapidez</strong>: permite cálculos aproximados para valores de <span class="math inline">\(r\)</span> de interesse.</p></li>
 <li><p><strong>Boas aproximações</strong> já para <span class="math inline">\(r\)</span> na casa de dezenas.</p></li>
 </ol>
-<p><strong>Exemplo rápido:</strong></p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Exemplo Rápido">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exemplo Rápido
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ul>
 <li>Para <strong>23 pessoas</strong>:</li>
 </ul>
@@ -345,6 +366,8 @@ p_r \;\approx\; 1 - \exp\!\left\{-\,\frac{r(r-1)}{730}\right\}.
   1 - \exp\!\{-0.69315\}
   \;\approx\; 0.500,\]</span></p>
 <p>alinhando-se ao resultado clássico de que <strong>23</strong> pessoas já superam 50% de chance de coincidência.</p>
+</div>
+</div>
 </section>
 <section id="o-papel-da-simulação" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="o-papel-da-simulação"><span class="header-section-number">2.3</span> O papel da simulação</h2>
