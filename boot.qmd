@@ -62,20 +62,20 @@ O erro padrão para o estimador média amostral apresenta fórmula conhecida, ma
 
 Considerações:
 
-- $\vect{x}=$(\vam): vetor de dados observado (amostra original de tamanho $n$)
+- $\underset{\sim}{x} = (x_1,\,x_2\,\ldots,\,x_n)$: vetor de dados observado (amostra original de tamanho $n$)
 
-- $s(\vect{x})$: estatística de interesse (por exemplo, média amostral)
+- $s(\underset{\sim}{x})$: estatística de interesse (por exemplo, média amostral)
 
-- Uma amostra bootstrap $\vect{x}^*=(x_1^*, x_2^*, \ldots, x_n^*)$ é obtida pela amostragem aleatória de tamanho $n$, com reposição, de $\vect{x}$. Por exemplo, com $n=7$, poderíamos obter $\vect{x}^*=(x_1^*, x_2^*, \ldots, x_n^*)=(x_5, x_7, x_5, x_4, x_7, x_3, x_1)$.
+- Uma amostra bootstrap $\underset{\sim}{x}^*=(x_1^*, x_2^*, \ldots, x_n^*)$ é obtida pela amostragem aleatória de tamanho $n$, com reposição, de $\underset{\sim}{x}$. Por exemplo, com $n=7$, poderíamos obter $\underset{\sim}{x}^*=(x_1^*, x_2^*, \ldots, x_n^*)=(x_5, x_7, x_5, x_4, x_7, x_3, x_1)$.
 
 
 **O algoritmo bootstrap**
 
-- gerar $B$ amostras bootstrap independentes: $\vect{x}^{*^{1}}, \vect{x}^{*^{2}}, \ldots, \vect{x}^{*^{B}},$ cada uma de tamanho $n$ e $50 \leq B \leq 200$. 
+- gerar $B$ amostras bootstrap independentes: $\underset{\sim}{x}^{*^{1}}, \underset{\sim}{x}^{*^{2}}, \ldots, \underset{\sim}{x}^{*^{B}},$ cada uma de tamanho $n$ e $50 \leq B \leq 200$. 
 
-- calcular $s(\vect{x}^{*^{b}})$, $b=1, 2, \ldots, B$. $s(\vect{x}^{*^{b}})$ é denominada réplica bootstrap de $s(\vect{x})$
+- calcular $s(\underset{\sim}{x}^{*^{b}})$, $b=1, 2, \ldots, B$. $s(\underset{\sim}{x}^{*^{b}})$ é denominada réplica bootstrap de $s(\underset{\sim}{x})$
 
-- calcular $\hat{ep}_{boot}=\hat{ep}_{B}=\sqrt{ \dfrac{\sum_{b=1}^{B}[s(\vect{x}^{*^{b}})-s(.)]^2}{B-1}},$em que $s(.)=\frac{\sum_{b=1}^{B}s(\vect{x}^{*^{b}})}{B}$
+- calcular $\hat{ep}_{boot}=\hat{ep}_{B}=\sqrt{ \dfrac{\sum_{b=1}^{B}[s(\underset{\sim}{x}^{*^{b}})-s(.)]^2}{B-1}},$em que $s(.)=\frac{\sum_{b=1}^{B}s(\underset{\sim}{x}^{*^{b}})}{B}$
 
 
 Sintaxe do `R` para calcular a estimativa bootstrap do erro padrão da média do tempo de sobrevida dos ratos do grupo tratamento. 
@@ -109,20 +109,20 @@ A mediana é menos acurada (erros padrões maiores) que a média para esse conju
 
 Formalização:
 
-- $\vect{X}=$(\va): amostra aleatória de uma f.d.a. $F$
-- $\vect{x}=$(\vam): amostra aleatória observada de $F$
+- $\underset{\sim}{X} = X_1, X_2,\dots, X_n$: amostra aleatória de uma f.d.a. $F$
+- $\underset{\sim}{x} = (x_1, x_2,\ldots, x_n)$: amostra aleatória observada de $F$
 - $\Theta=t(F)$: parâmetro ($\Theta$ uma função de $F$)
-- $\hat{\Theta}=s(\vect{X})$: estimador para $\Theta$
-- $\hat{\theta}=s(\vect{x})$: estimativa para $\Theta$
+- $\hat{\Theta}=s(\underset{\sim}{X})$: estimador para $\Theta$
+- $\hat{\theta}=s(\underset{\sim}{x})$: estimativa para $\Theta$
 - Quão acurado é o estimador $\hat{\Theta}$?
-- Seja $\hat{F}$ a distribuição empírica que atribui a probabilidade $1/n$ para cada valor observado $x_i$, $i=1,2,\ldots, n$. A amostra bootstrap $\vect{x}^*$ é definida como a amostra aleatória com reposição de tamanho $n$ extraída de $\hat{F}$.
-$$\vect{x}^*=(x_1^*,\,x_2^*\,\ldots,\,x_n^*)$$
+- Seja $\hat{F}$ a distribuição empírica que atribui a probabilidade $1/n$ para cada valor observado $x_i$, $i=1,2,\ldots, n$. A amostra bootstrap $\underset{\sim}{x}^*$ é definida como a amostra aleatória com reposição de tamanho $n$ extraída de $\hat{F}$.
+$$\underset{\sim}{x}^*=(x_1^*,\,x_2^*\,\ldots,\,x_n^*)$$
 $$\hat{F}\longrightarrow (x_1^*,\,x_2^*\,\ldots,\,x_n^*)$$
 **Nota:**
 
 
-- $\vect{x}^*$: o símbolo $*$ indica que a amostra não é a original $\vect{x}$, mas uma versão aleatorizada(reamostrada) de  $\vect{x}$
-- a cada amostra bootstrap corresponde uma réplica bootstrap de $\hat\theta$,  $\hat\theta^* =s(\vect{x}^*)$
+- $\underset{\sim}{x}^*$: o símbolo $*$ indica que a amostra não é a original $\underset{\sim}{x}$, mas uma versão aleatorizada(reamostrada) de  $\underset{\sim}{x}$
+- a cada amostra bootstrap corresponde uma réplica bootstrap de $\hat\theta$,  $\hat\theta^* =s(\underset{\sim}{x}^*)$
 - $ep_F(\hat\Theta)$ é estimado por $ep_{\hat{F}}(\hat\Theta^*)$, chamado \textbf{estimador bootstrap ideal} para o erro padrão $\hat\Theta$
 - Raramente faz-se necessário $B\geq 200$ para estimar erro padrão; valores (muito) maiores são necessários, por exemplo, para IC bootstrap.
 
@@ -189,9 +189,9 @@ O estimador bootstrap paramétrico do erro padrão da correlação $\hat{\Theta}
 
 **O algoritmo bootstrap:**
 
-- extrair $B$ amostras de tamanho $n$ de $\hat{F}_{par}$: $\vect{x}^{*^{1}}, \vect{x}^{*^{2}}, \ldots, \vect{x}^{*^{B}}$
-- calcular $s(\vect{x}^{*^{b}})$, $b=1, 2, \ldots, B$. $s(\vect{x}^{*^{b}})$ é a réplica bootstrap de $s(\vect{x})$
-- calcular $\hat{ep}_{boot}=\hat{ep}_{B}=\sqrt{ \dfrac{\sum_{b=1}^{B}[s(\vect{x}^{*^{b}})-s(.)]^2}{B-1}},$em que $s(.)=\frac{\sum_{b=1}^{B}s(\vect{x}^{*^{b}})}{B}$
+- extrair $B$ amostras de tamanho $n$ de $\hat{F}_{par}$: $\underset{\sim}{x}^{*^{1}}, \underset{\sim}{x}^{*^{2}}, \ldots, \underset{\sim}{x}^{*^{B}}$
+- calcular $s(\underset{\sim}{x}^{*^{b}})$, $b=1, 2, \ldots, B$. $s(\underset{\sim}{x}^{*^{b}})$ é a réplica bootstrap de $s(\underset{\sim}{x})$
+- calcular $\hat{ep}_{boot}=\hat{ep}_{B}=\sqrt{ \dfrac{\sum_{b=1}^{B}[s(\underset{\sim}{x}^{*^{b}})-s(.)]^2}{B-1}},$em que $s(.)=\frac{\sum_{b=1}^{B}s(\underset{\sim}{x}^{*^{b}})}{B}$
 
 No exemplo das faculdades, assumindo o modelo normal bivariado, extraímos $B$ amostras de tamanho $n=15$ de $\hat{F}_{normal}$, calculamos o coeficiente de correlação para cada amostra e, por fim, calculamos o desvio padrão desses coeficientes de correlação. Usando $B=3200$ encontramos $\hat{ep}_{B}=0.124$, que é próximo ao valor 0.131 obtido com o bootstrap não-paramétrico.
 
@@ -219,22 +219,22 @@ Jackknife é uma técnica para estimar viés e erro padrão de estimadores. É u
 
 **Formalização:**
 
-- $\vect{X}=$(\va): amostra aleatória de uma f.d.a. $F$
+- $\underset{\sim}{X} = (X_1, X_2, \dots, X_n)$: amostra aleatória de uma f.d.a. $F$
 
-- $\vect{x}=$(\vam): amostra aleatória observada de $F$
+- $\underset{\sim}{x} = (x_1, x_2, \dots, x_n)$: amostra aleatória observada de $F$
 
 - $\Theta=t(F)$: parâmetro ($\Theta$ uma função de $F$)
 
-- $\hat{\Theta}=s(\vect{X})$: estimador para $\Theta$
+- $\hat{\Theta}=s(\underset{\sim}{X})$: estimador para $\Theta$
 
-- $\hat{\theta}=s(\vect{x})$: estimativa para $\Theta$
+- $\hat{\theta}=s(\underset{\sim}{x})$: estimativa para $\Theta$
 
 O jackknife toma como base $n$ amostras de tamanho $n-1$ selecionadas da amostra aleatória observada. A $i$-ésima  amostra jackknife consiste da amostra observada com a $i$-ésima observação removida,  $i=1,2, \ldots, n$: 
-$$\vect{x}_{(i)}=(x_1,x_2,\ldots, x_{i-1},x_{i+1}, \ldots, x_n)$$
+$${\underset{\sim}{x}}_{(i)}=(x_1,x_2,\ldots, x_{i-1},x_{i+1}, \ldots, x_n).$$
 
 ### Estimador do víes
 
-Para cada amostra $i$ jackknife, é obtida a réplica jackknife $\hat{\theta}_{(i)}=s(\vect{x}_{(i)})$. O estimador jackknife do viés de $\hat{\Theta}$ é dado por
+Para cada amostra $i$ jackknife, é obtida a réplica jackknife $\hat{\theta}_{(i)}=s({\underset{\sim}{x}}_{(i)})$. O estimador jackknife do viés de $\hat{\Theta}$ é dado por
 $$\widehat{\mbox{viés}}_{jack} =(n-1)( \hat{\Theta}_{(\cdot)} - \hat{\Theta} ),$$
 em que $\hat{\Theta}_{(\cdot)}=\sum_{i=1}^n\dfrac{\hat{\Theta}_{(i)}}{n}$.
 
@@ -257,18 +257,18 @@ Algumas considerações importantes:
 
 - A acurácia do estimador jackknife do erro padrão depende de quão próximo o estimador é da linearidade. Para funções fortemente não lineares, o jackknife pode ser ineficiente.
 
-- Estimador linear: $\hat{\Theta}=s(\vect{X})=\mu +\frac{1}{n}\sum_{i=1}^n\alpha(X_i)$
+- Estimador linear: $\hat{\Theta}=s(\underset{\sim}{X})=\mu +\frac{1}{n}\sum_{i=1}^n\alpha(X_i)$
 
 
 #### Exemplo
 
-Considere a amostra observada: $\mathbf{x}=(10,26,30,40,48)$ e estimador: mediana($\hat{\Theta}$). As amostras e réplicas jackknife são das por:
+Considere a amostra observada: $\underset{\sim}{x}=(10,26,30,40,48)$ e estimador: mediana($\hat{\Theta}$). As amostras e réplicas jackknife são das por:
 
-1. $\vect{x}_{(1)}=(26,30,40,48)$; $\hat{\theta}_{(1)}=35$
-2. $\vect{x}_{(2)}=(10,30,40,48)$; $\hat{\theta}_{(2)}=35$
-3. $\vect{x}_{(3)}=(10,26,40,48)$; $\hat{\theta}_{(3)}=33$
-4. $\vect{x}_{(4)}=(10,26,30,48)$; $\hat{\theta}_{(4)}=28$
-5. $\vect{x}_{(5)}=(10,26,30,40)$; $\hat{\theta}_{(5)}=28$
+1. ${\underset{\sim}{x}}_{(1)}=(26,30,40,48)$; $\hat{\theta}_{(1)}=35$
+2. ${\underset{\sim}{x}}_{(2)}=(10,30,40,48)$; $\hat{\theta}_{(2)}=35$
+3. ${\underset{\sim}{x}}_{(3)}=(10,26,40,48)$; $\hat{\theta}_{(3)}=33$
+4. ${\underset{\sim}{x}}_{(4)}=(10,26,30,48)$; $\hat{\theta}_{(4)}=28$
+5. ${\underset{\sim}{x}}_{(5)}=(10,26,30,40)$; $\hat{\theta}_{(5)}=28$
 
 Desta forma, a estimativa jackknife do erro padrão de $\hat{\Theta}$:
  $$\widehat{ep}_{jack} =\left[ \dfrac{4}{5}\sum_{i=1}^5 (\hat{\theta}_{(i)} - \hat{\theta}_{(\cdot)})^2\right]^{\frac{1}{2}}\approx 6.38,$$

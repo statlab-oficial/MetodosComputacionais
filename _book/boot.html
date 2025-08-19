@@ -410,15 +410,15 @@ window.Quarto = {
 <h3 data-number="6.1.3" class="anchored" data-anchor-id="estimativa-bootstrap-do-erro-padrão"><span class="header-section-number">6.1.3</span> Estimativa bootstrap do erro padrão</h3>
 <p>Considerações:</p>
 <ul>
-<li><p><span class="math inline">\(\vect{x}=\)</span>(): vetor de dados observado (amostra original de tamanho <span class="math inline">\(n\)</span>)</p></li>
-<li><p><span class="math inline">\(s(\vect{x})\)</span>: estatística de interesse (por exemplo, média amostral)</p></li>
-<li><p>Uma amostra bootstrap <span class="math inline">\(\vect{x}^*=(x_1^*, x_2^*, \ldots, x_n^*)\)</span> é obtida pela amostragem aleatória de tamanho <span class="math inline">\(n\)</span>, com reposição, de <span class="math inline">\(\vect{x}\)</span>. Por exemplo, com <span class="math inline">\(n=7\)</span>, poderíamos obter <span class="math inline">\(\vect{x}^*=(x_1^*, x_2^*, \ldots, x_n^*)=(x_5, x_7, x_5, x_4, x_7, x_3, x_1)\)</span>.</p></li>
+<li><p><span class="math inline">\(\underset{\sim}{x} = (x_1,\,x_2\,\ldots,\,x_n)\)</span>: vetor de dados observado (amostra original de tamanho <span class="math inline">\(n\)</span>)</p></li>
+<li><p><span class="math inline">\(s(\underset{\sim}{x})\)</span>: estatística de interesse (por exemplo, média amostral)</p></li>
+<li><p>Uma amostra bootstrap <span class="math inline">\(\underset{\sim}{x}^*=(x_1^*, x_2^*, \ldots, x_n^*)\)</span> é obtida pela amostragem aleatória de tamanho <span class="math inline">\(n\)</span>, com reposição, de <span class="math inline">\(\underset{\sim}{x}\)</span>. Por exemplo, com <span class="math inline">\(n=7\)</span>, poderíamos obter <span class="math inline">\(\underset{\sim}{x}^*=(x_1^*, x_2^*, \ldots, x_n^*)=(x_5, x_7, x_5, x_4, x_7, x_3, x_1)\)</span>.</p></li>
 </ul>
 <p><strong>O algoritmo bootstrap</strong></p>
 <ul>
-<li><p>gerar <span class="math inline">\(B\)</span> amostras bootstrap independentes: <span class="math inline">\(\vect{x}^{*^{1}}, \vect{x}^{*^{2}}, \ldots, \vect{x}^{*^{B}},\)</span> cada uma de tamanho <span class="math inline">\(n\)</span> e <span class="math inline">\(50 \leq B \leq 200\)</span>.</p></li>
-<li><p>calcular <span class="math inline">\(s(\vect{x}^{*^{b}})\)</span>, <span class="math inline">\(b=1, 2, \ldots, B\)</span>. <span class="math inline">\(s(\vect{x}^{*^{b}})\)</span> é denominada réplica bootstrap de <span class="math inline">\(s(\vect{x})\)</span></p></li>
-<li><p>calcular <span class="math inline">\(\hat{ep}_{boot}=\hat{ep}_{B}=\sqrt{ \dfrac{\sum_{b=1}^{B}[s(\vect{x}^{*^{b}})-s(.)]^2}{B-1}},\)</span>em que <span class="math inline">\(s(.)=\frac{\sum_{b=1}^{B}s(\vect{x}^{*^{b}})}{B}\)</span></p></li>
+<li><p>gerar <span class="math inline">\(B\)</span> amostras bootstrap independentes: <span class="math inline">\(\underset{\sim}{x}^{*^{1}}, \underset{\sim}{x}^{*^{2}}, \ldots, \underset{\sim}{x}^{*^{B}},\)</span> cada uma de tamanho <span class="math inline">\(n\)</span> e <span class="math inline">\(50 \leq B \leq 200\)</span>.</p></li>
+<li><p>calcular <span class="math inline">\(s(\underset{\sim}{x}^{*^{b}})\)</span>, <span class="math inline">\(b=1, 2, \ldots, B\)</span>. <span class="math inline">\(s(\underset{\sim}{x}^{*^{b}})\)</span> é denominada réplica bootstrap de <span class="math inline">\(s(\underset{\sim}{x})\)</span></p></li>
+<li><p>calcular <span class="math inline">\(\hat{ep}_{boot}=\hat{ep}_{B}=\sqrt{ \dfrac{\sum_{b=1}^{B}[s(\underset{\sim}{x}^{*^{b}})-s(.)]^2}{B-1}},\)</span>em que <span class="math inline">\(s(.)=\frac{\sum_{b=1}^{B}s(\underset{\sim}{x}^{*^{b}})}{B}\)</span></p></li>
 </ul>
 <p>Sintaxe do <code>R</code> para calcular a estimativa bootstrap do erro padrão da média do tempo de sobrevida dos ratos do grupo tratamento.</p>
 <div class="cell">
@@ -475,15 +475,15 @@ window.Quarto = {
 </table>
 <p>Formalização:</p>
 <ul>
-<li><p><span class="math inline">\(\vect{X}=\)</span>(): amostra aleatória de uma f.d.a. <span class="math inline">\(F\)</span></p></li>
-<li><p><span class="math inline">\(\vect{x}=\)</span>(): amostra aleatória observada de <span class="math inline">\(F\)</span></p></li>
+<li><p><span class="math inline">\(\underset{\sim}{X} = X_1, X_2,\dots, X_n\)</span>: amostra aleatória de uma f.d.a. <span class="math inline">\(F\)</span></p></li>
+<li><p><span class="math inline">\(\underset{\sim}{x} = (x_1, x_2,\ldots, x_n)\)</span>: amostra aleatória observada de <span class="math inline">\(F\)</span></p></li>
 <li><p><span class="math inline">\(\Theta=t(F)\)</span>: parâmetro (<span class="math inline">\(\Theta\)</span> uma função de <span class="math inline">\(F\)</span>)</p></li>
-<li><p><span class="math inline">\(\hat{\Theta}=s(\vect{X})\)</span>: estimador para <span class="math inline">\(\Theta\)</span></p></li>
-<li><p><span class="math inline">\(\hat{\theta}=s(\vect{x})\)</span>: estimativa para <span class="math inline">\(\Theta\)</span></p></li>
+<li><p><span class="math inline">\(\hat{\Theta}=s(\underset{\sim}{X})\)</span>: estimador para <span class="math inline">\(\Theta\)</span></p></li>
+<li><p><span class="math inline">\(\hat{\theta}=s(\underset{\sim}{x})\)</span>: estimativa para <span class="math inline">\(\Theta\)</span></p></li>
 <li><p>Quão acurado é o estimador <span class="math inline">\(\hat{\Theta}\)</span>?</p></li>
-<li><p>Seja <span class="math inline">\(\hat{F}\)</span> a distribuição empírica que atribui a probabilidade <span class="math inline">\(1/n\)</span> para cada valor observado <span class="math inline">\(x_i\)</span>, <span class="math inline">\(i=1,2,\ldots, n\)</span>. A amostra bootstrap <span class="math inline">\(\vect{x}^*\)</span> é definida como a amostra aleatória com reposição de tamanho <span class="math inline">\(n\)</span> extraída de <span class="math inline">\(\hat{F}\)</span>. <span class="math display">\[\vect{x}^*=(x_1^*,\,x_2^*\,\ldots,\,x_n^*)\]</span> <span class="math display">\[\hat{F}\longrightarrow (x_1^*,\,x_2^*\,\ldots,\,x_n^*)\]</span> <strong>Nota:</strong></p></li>
-<li><p><span class="math inline">\(\vect{x}^*\)</span>: o símbolo <span class="math inline">\(*\)</span> indica que a amostra não é a original <span class="math inline">\(\vect{x}\)</span>, mas uma versão aleatorizada(reamostrada) de <span class="math inline">\(\vect{x}\)</span></p></li>
-<li><p>a cada amostra bootstrap corresponde uma réplica bootstrap de <span class="math inline">\(\hat\theta\)</span>, <span class="math inline">\(\hat\theta^* =s(\vect{x}^*)\)</span></p></li>
+<li><p>Seja <span class="math inline">\(\hat{F}\)</span> a distribuição empírica que atribui a probabilidade <span class="math inline">\(1/n\)</span> para cada valor observado <span class="math inline">\(x_i\)</span>, <span class="math inline">\(i=1,2,\ldots, n\)</span>. A amostra bootstrap <span class="math inline">\(\underset{\sim}{x}^*\)</span> é definida como a amostra aleatória com reposição de tamanho <span class="math inline">\(n\)</span> extraída de <span class="math inline">\(\hat{F}\)</span>. <span class="math display">\[\underset{\sim}{x}^*=(x_1^*,\,x_2^*\,\ldots,\,x_n^*)\]</span> <span class="math display">\[\hat{F}\longrightarrow (x_1^*,\,x_2^*\,\ldots,\,x_n^*)\]</span> <strong>Nota:</strong></p></li>
+<li><p><span class="math inline">\(\underset{\sim}{x}^*\)</span>: o símbolo <span class="math inline">\(*\)</span> indica que a amostra não é a original <span class="math inline">\(\underset{\sim}{x}\)</span>, mas uma versão aleatorizada(reamostrada) de <span class="math inline">\(\underset{\sim}{x}\)</span></p></li>
+<li><p>a cada amostra bootstrap corresponde uma réplica bootstrap de <span class="math inline">\(\hat\theta\)</span>, <span class="math inline">\(\hat\theta^* =s(\underset{\sim}{x}^*)\)</span></p></li>
 <li><p><span class="math inline">\(ep_F(\hat\Theta)\)</span> é estimado por <span class="math inline">\(ep_{\hat{F}}(\hat\Theta^*)\)</span>, chamado para o erro padrão <span class="math inline">\(\hat\Theta\)</span></p></li>
 <li><p>Raramente faz-se necessário <span class="math inline">\(B\geq 200\)</span> para estimar erro padrão; valores (muito) maiores são necessários, por exemplo, para IC bootstrap.</p></li>
 <li><p><span class="math inline">\(\displaystyle\lim_{B \to \infty} \hat{ep}_B=ep_{\hat{F}}=ep_{\hat{F}}(\hat\Theta^*)\)</span></p></li>
@@ -643,9 +643,9 @@ window.Quarto = {
 <p>O estimador bootstrap paramétrico do erro padrão da correlação <span class="math inline">\(\hat{\Theta}\)</span> será dado por <span class="math inline">\(ep_{\hat{F}_{normal}}(\hat\Theta^*)\)</span>. Esse estimador bootstrap ideal será aproximado por <span class="math inline">\(\hat{ep}_{B}\)</span> (conforme algoritmo a seguir).</p>
 <p><strong>O algoritmo bootstrap:</strong></p>
 <ul>
-<li>extrair <span class="math inline">\(B\)</span> amostras de tamanho <span class="math inline">\(n\)</span> de <span class="math inline">\(\hat{F}_{par}\)</span>: <span class="math inline">\(\vect{x}^{*^{1}}, \vect{x}^{*^{2}}, \ldots, \vect{x}^{*^{B}}\)</span></li>
-<li>calcular <span class="math inline">\(s(\vect{x}^{*^{b}})\)</span>, <span class="math inline">\(b=1, 2, \ldots, B\)</span>. <span class="math inline">\(s(\vect{x}^{*^{b}})\)</span> é a réplica bootstrap de <span class="math inline">\(s(\vect{x})\)</span></li>
-<li>calcular <span class="math inline">\(\hat{ep}_{boot}=\hat{ep}_{B}=\sqrt{ \dfrac{\sum_{b=1}^{B}[s(\vect{x}^{*^{b}})-s(.)]^2}{B-1}},\)</span>em que <span class="math inline">\(s(.)=\frac{\sum_{b=1}^{B}s(\vect{x}^{*^{b}})}{B}\)</span></li>
+<li>extrair <span class="math inline">\(B\)</span> amostras de tamanho <span class="math inline">\(n\)</span> de <span class="math inline">\(\hat{F}_{par}\)</span>: <span class="math inline">\(\underset{\sim}{x}^{*^{1}}, \underset{\sim}{x}^{*^{2}}, \ldots, \underset{\sim}{x}^{*^{B}}\)</span></li>
+<li>calcular <span class="math inline">\(s(\underset{\sim}{x}^{*^{b}})\)</span>, <span class="math inline">\(b=1, 2, \ldots, B\)</span>. <span class="math inline">\(s(\underset{\sim}{x}^{*^{b}})\)</span> é a réplica bootstrap de <span class="math inline">\(s(\underset{\sim}{x})\)</span></li>
+<li>calcular <span class="math inline">\(\hat{ep}_{boot}=\hat{ep}_{B}=\sqrt{ \dfrac{\sum_{b=1}^{B}[s(\underset{\sim}{x}^{*^{b}})-s(.)]^2}{B-1}},\)</span>em que <span class="math inline">\(s(.)=\frac{\sum_{b=1}^{B}s(\underset{\sim}{x}^{*^{b}})}{B}\)</span></li>
 </ul>
 <p>No exemplo das faculdades, assumindo o modelo normal bivariado, extraímos <span class="math inline">\(B\)</span> amostras de tamanho <span class="math inline">\(n=15\)</span> de <span class="math inline">\(\hat{F}_{normal}\)</span>, calculamos o coeficiente de correlação para cada amostra e, por fim, calculamos o desvio padrão desses coeficientes de correlação. Usando <span class="math inline">\(B=3200\)</span> encontramos <span class="math inline">\(\hat{ep}_{B}=0.124\)</span>, que é próximo ao valor 0.131 obtido com o bootstrap não-paramétrico.</p>
 <p>A fórmula teórica para o erro padrão do coeficiente de correlação é <span class="math inline">\(\dfrac{1-\hat{\Theta}^2}{\sqrt{n-3}}\)</span>, com <span class="math inline">\(\hat{\Theta}=corr(Y,Z)\)</span>. Vimos que <span class="math inline">\(\hat{\theta}=0.776\)</span>, o que resulta a estimativa 0.115 para o erro padrão do coeficiente de correlação entre as variáveis <span class="math inline">\(Y\)</span>=LSAT e <span class="math inline">\(Z\)</span>=GPA.</p>
@@ -666,17 +666,17 @@ window.Quarto = {
 <p>Jackknife é uma técnica para estimar viés e erro padrão de estimadores. É uma técnica que antecede o bootstrap e foi proposta no trabalho pioneiro Quenouille (1949) para reduzir viés do estimador da correlação serial.</p>
 <p><strong>Formalização:</strong></p>
 <ul>
-<li><p><span class="math inline">\(\vect{X}=\)</span>(): amostra aleatória de uma f.d.a. <span class="math inline">\(F\)</span></p></li>
-<li><p><span class="math inline">\(\vect{x}=\)</span>(): amostra aleatória observada de <span class="math inline">\(F\)</span></p></li>
+<li><p><span class="math inline">\(\underset{\sim}{X} = (X_1, X_2, \dots, X_n)\)</span>: amostra aleatória de uma f.d.a. <span class="math inline">\(F\)</span></p></li>
+<li><p><span class="math inline">\(\underset{\sim}{x} = (x_1, x_2, \dots, x_n)\)</span>: amostra aleatória observada de <span class="math inline">\(F\)</span></p></li>
 <li><p><span class="math inline">\(\Theta=t(F)\)</span>: parâmetro (<span class="math inline">\(\Theta\)</span> uma função de <span class="math inline">\(F\)</span>)</p></li>
-<li><p><span class="math inline">\(\hat{\Theta}=s(\vect{X})\)</span>: estimador para <span class="math inline">\(\Theta\)</span></p></li>
-<li><p><span class="math inline">\(\hat{\theta}=s(\vect{x})\)</span>: estimativa para <span class="math inline">\(\Theta\)</span></p></li>
+<li><p><span class="math inline">\(\hat{\Theta}=s(\underset{\sim}{X})\)</span>: estimador para <span class="math inline">\(\Theta\)</span></p></li>
+<li><p><span class="math inline">\(\hat{\theta}=s(\underset{\sim}{x})\)</span>: estimativa para <span class="math inline">\(\Theta\)</span></p></li>
 </ul>
-<p>O jackknife toma como base <span class="math inline">\(n\)</span> amostras de tamanho <span class="math inline">\(n-1\)</span> selecionadas da amostra aleatória observada. A <span class="math inline">\(i\)</span>-ésima amostra jackknife consiste da amostra observada com a <span class="math inline">\(i\)</span>-ésima observação removida, <span class="math inline">\(i=1,2, \ldots, n\)</span>: <span class="math display">\[\vect{x}_{(i)}=(x_1,x_2,\ldots, x_{i-1},x_{i+1}, \ldots, x_n)\]</span></p>
+<p>O jackknife toma como base <span class="math inline">\(n\)</span> amostras de tamanho <span class="math inline">\(n-1\)</span> selecionadas da amostra aleatória observada. A <span class="math inline">\(i\)</span>-ésima amostra jackknife consiste da amostra observada com a <span class="math inline">\(i\)</span>-ésima observação removida, <span class="math inline">\(i=1,2, \ldots, n\)</span>: <span class="math display">\[{\underset{\sim}{x}}_{(i)}=(x_1,x_2,\ldots, x_{i-1},x_{i+1}, \ldots, x_n).\]</span></p>
 </section>
 <section id="estimador-do-víes" class="level3" data-number="6.2.2">
 <h3 data-number="6.2.2" class="anchored" data-anchor-id="estimador-do-víes"><span class="header-section-number">6.2.2</span> Estimador do víes</h3>
-<p>Para cada amostra <span class="math inline">\(i\)</span> jackknife, é obtida a réplica jackknife <span class="math inline">\(\hat{\theta}_{(i)}=s(\vect{x}_{(i)})\)</span>. O estimador jackknife do viés de <span class="math inline">\(\hat{\Theta}\)</span> é dado por <span class="math display">\[\widehat{\mbox{viés}}_{jack} =(n-1)( \hat{\Theta}_{(\cdot)} - \hat{\Theta} ),\]</span> em que <span class="math inline">\(\hat{\Theta}_{(\cdot)}=\sum_{i=1}^n\dfrac{\hat{\Theta}_{(i)}}{n}\)</span>.</p>
+<p>Para cada amostra <span class="math inline">\(i\)</span> jackknife, é obtida a réplica jackknife <span class="math inline">\(\hat{\theta}_{(i)}=s({\underset{\sim}{x}}_{(i)})\)</span>. O estimador jackknife do viés de <span class="math inline">\(\hat{\Theta}\)</span> é dado por <span class="math display">\[\widehat{\mbox{viés}}_{jack} =(n-1)( \hat{\Theta}_{(\cdot)} - \hat{\Theta} ),\]</span> em que <span class="math inline">\(\hat{\Theta}_{(\cdot)}=\sum_{i=1}^n\dfrac{\hat{\Theta}_{(i)}}{n}\)</span>.</p>
 </section>
 <section id="estimado-do-erro-padrão" class="level3" data-number="6.2.3">
 <h3 data-number="6.2.3" class="anchored" data-anchor-id="estimado-do-erro-padrão"><span class="header-section-number">6.2.3</span> Estimado do erro padrão</h3>
@@ -687,17 +687,17 @@ window.Quarto = {
 <li><p>Jackknife: amostras fixas</p></li>
 <li><p>Jackknife requer o cálculo do estimador apenas para <span class="math inline">\(n\)</span> amostras</p></li>
 <li><p>A acurácia do estimador jackknife do erro padrão depende de quão próximo o estimador é da linearidade. Para funções fortemente não lineares, o jackknife pode ser ineficiente.</p></li>
-<li><p>Estimador linear: <span class="math inline">\(\hat{\Theta}=s(\vect{X})=\mu +\frac{1}{n}\sum_{i=1}^n\alpha(X_i)\)</span></p></li>
+<li><p>Estimador linear: <span class="math inline">\(\hat{\Theta}=s(\underset{\sim}{X})=\mu +\frac{1}{n}\sum_{i=1}^n\alpha(X_i)\)</span></p></li>
 </ul>
 <section id="exemplo-1" class="level4" data-number="6.2.3.1">
 <h4 data-number="6.2.3.1" class="anchored" data-anchor-id="exemplo-1"><span class="header-section-number">6.2.3.1</span> Exemplo</h4>
-<p>Considere a amostra observada: <span class="math inline">\(\mathbf{x}=(10,26,30,40,48)\)</span> e estimador: mediana(<span class="math inline">\(\hat{\Theta}\)</span>). As amostras e réplicas jackknife são das por:</p>
+<p>Considere a amostra observada: <span class="math inline">\(\underset{\sim}{x}=(10,26,30,40,48)\)</span> e estimador: mediana(<span class="math inline">\(\hat{\Theta}\)</span>). As amostras e réplicas jackknife são das por:</p>
 <ol type="1">
-<li><span class="math inline">\(\vect{x}_{(1)}=(26,30,40,48)\)</span>; <span class="math inline">\(\hat{\theta}_{(1)}=35\)</span></li>
-<li><span class="math inline">\(\vect{x}_{(2)}=(10,30,40,48)\)</span>; <span class="math inline">\(\hat{\theta}_{(2)}=35\)</span></li>
-<li><span class="math inline">\(\vect{x}_{(3)}=(10,26,40,48)\)</span>; <span class="math inline">\(\hat{\theta}_{(3)}=33\)</span></li>
-<li><span class="math inline">\(\vect{x}_{(4)}=(10,26,30,48)\)</span>; <span class="math inline">\(\hat{\theta}_{(4)}=28\)</span></li>
-<li><span class="math inline">\(\vect{x}_{(5)}=(10,26,30,40)\)</span>; <span class="math inline">\(\hat{\theta}_{(5)}=28\)</span></li>
+<li><span class="math inline">\({\underset{\sim}{x}}_{(1)}=(26,30,40,48)\)</span>; <span class="math inline">\(\hat{\theta}_{(1)}=35\)</span></li>
+<li><span class="math inline">\({\underset{\sim}{x}}_{(2)}=(10,30,40,48)\)</span>; <span class="math inline">\(\hat{\theta}_{(2)}=35\)</span></li>
+<li><span class="math inline">\({\underset{\sim}{x}}_{(3)}=(10,26,40,48)\)</span>; <span class="math inline">\(\hat{\theta}_{(3)}=33\)</span></li>
+<li><span class="math inline">\({\underset{\sim}{x}}_{(4)}=(10,26,30,48)\)</span>; <span class="math inline">\(\hat{\theta}_{(4)}=28\)</span></li>
+<li><span class="math inline">\({\underset{\sim}{x}}_{(5)}=(10,26,30,40)\)</span>; <span class="math inline">\(\hat{\theta}_{(5)}=28\)</span></li>
 </ol>
 <p>Desta forma, a estimativa jackknife do erro padrão de <span class="math inline">\(\hat{\Theta}\)</span>: <span class="math display">\[\widehat{ep}_{jack} =\left[ \dfrac{4}{5}\sum_{i=1}^5 (\hat{\theta}_{(i)} - \hat{\theta}_{(\cdot)})^2\right]^{\frac{1}{2}}\approx 6.38,\]</span> com <span class="math inline">\(\hat{\theta}_{(\cdot)}=\sum_{i=1}^5\dfrac{\hat{\theta}_{(i)}}{5}=31.8\)</span></p>
 <p>A Sintaxe do <code>R</code> para calcular a estimativa jackknife do erro padrão para a mediana.</p>
