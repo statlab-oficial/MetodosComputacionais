@@ -1,0 +1,28 @@
+% pacotes úteis
+\usepackage{amsmath}
+\usepackage{array}      % para o \begin{array} usado pelo \stackunder
+% \usepackage{stackengine} % (opcional) se quiser usar a versão do pacote \stackunder
+
+% suas macros
+\newcommand{\tn}{\mbox{\boldmath $\theta$} }
+\newcommand{\sn}{\mbox{\boldmath $\sigma$} }
+\newcommand{\On}{\mbox{\boldmath $\Omega$} }
+\newcommand{\Dn}{\mbox{\boldmath $\Delta$} }
+\newcommand{\In}{\mbox{\textbf{I}} }
+\newcommand{\yn}{\mbox{\textbf{y}} }
+\newcommand{\Vn}{\mbox{\textbf{V}} }
+\newcommand{\mn}{\mbox{\boldmath $\mu$} }
+\newcommand{\Fn}{\mbox{\boldmath $\Phi$} }
+\newcommand{\Pn}{\mbox{\boldmath $\Pi$} }
+
+\newenvironment{Dproof}[1][DProof]{\textbf{#1.} }{\ \rule{0.2cm}{0.2cm}} 
+\newcommand{\stackunder}[2]{ \renewcommand{\arraystretch}{0.2} 
+\displaystyle \begin{array}[t]{c}  {#1}\\_{#2}\end{array} 
+\renewcommand{\arraystretch}{1}} 
+\newcommand{\vect}[1]{\!\!\!\stackunder{#1}{\sim}\!\!\!}
+\renewcommand{\Re}{I \! \! R}
+\newcommand{\real}{\mbox{$I\!\!R$}}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+\newcommand{\va}{$X_1,\,X_2,\,\dots,\,X_n$}
+\newcommand{\vam}{$x_1,\,x_2\,\ldots,\,x_n$}

@@ -8,26 +8,289 @@ Bootstrap é um método (computacional) de reamostragem baseado em subamostras d
 uma amostra observada, sendo introduzido por Efron (1979). Pode ser utilizado com o
 propósito de estimar erros padrão, viés de estimadores, construir intervalos de 
 confiança, testes de hipóteses, entre outros. Pode ser utilizando sob duas abordagens:
-**paramétrica** e **não paramétrica**. A abordagem paramétrica exige um modelo estatística, enquanto que na abordagem não paramétrica não há suposição de modelo estatístico; toma-se por base uma distribuição empírica que atribui probabilidade $1/n$ para cada um dos $n$ elementos da amostra. Algumas referências importantes neste tema são: 
-
-
+**paramétrica** e **não paramétrica**. A abordagem paramétrica exige um modelo estatística, enquanto que na abordagem não paramétrica não há suposição de modelo estatístico; toma-se por base uma distribuição empírica que atribui probabilidade $1/n$ para cada um dos $n$ elementos da amostra. Algumas referências importantes neste tema são: Efron (1979),  Wu (1986), Fisher $\&$ Hall (1989),  Fredman (1986), Efron $\&$ Tibshirani (1993), Horowitz (1997), Davison $\&$ Hinkley (1997).
 
 
 ### Acurária da média amostral
 
+Experimento com 16 ratos, divididos em dois grupos: um grupo recebeu o tratamento e um outro grupo não recebeu o tratamento (controle). O tempo de sobrevivência (dias) é apresentado para cada um dos ratos. O tratamento prolonga a vida?
+
+
+| grupo          | tempo 1 | tempo 2 | tempo 3 | n  | média  | $\widehat{ep}$(média) |
+|----------------|---------|---------|---------|----|--------|------------------------|
+| tratamento (X) | 94      | 197     | 16      | 7  | 86,86  | 25,24                 |
+|                | 38      | 99      | 141     |    |        |                        |
+|                | 23      |         |         |    |        |                        |
+| controle (Y)   | 52      | 104     | 146     | 9  | 56,22  | 14,14                 |
+|                | 10      | 51      | 30      |    |        |                        |
+|                | 40      | 27      | 46      |    |        |                        |
+| diferença      |         |         |         |    | 30,63  | 28,93                 |
+
+Alguns pontos importantes são:
+
+- A resposta à pergunta dependerá de quão acurado(s) é(são) o(s) estimador(es).
+
+- O erro padrão é uma medida (muito usual) de acurácia de estimador.
+
+- erro padrão estimado para a média amostral $\bar{X}$ $$\widehat{ep}(\bar{X})=\sqrt{\dfrac{s^2}{n}},$$ em que 
+$s^2=\sum_{i=1}^n(x_i-\bar{x})^2/(n-1)$.
+
+- erro padrão de qualquer estimador é definido pela raiz quadrada de sua variância
+
+Além disso, temos que:
+
+- erro padrão pequeno $\longrightarrow$ acurácia alta
+
+- erro padrão grande  $\longrightarrow$ acurácia baixa
+
+- acurácia alta (baixa) indica que o estimador apresenta valores próximos (distantes) ao seu valor esperado
+
+
+- espera-se que 68$\%$ dos valores do estimador estejam  a menos de um erro padrão do seu valor esperado, e 95$\%$, a menos de dois erros padrões 
+
+
+- erro padrão da diferença $(\bar{X}-\bar{Y})$:
+$$28.93=\sqrt{25.24^2+14.14^2}.$$
+
+
+**Resposta à pergunta:** a diferença observada 30.63 é somente 30.63/28.93=1.05 erros padrões (estimados) maior que zero, indicando um resultado não significativo, ou seja, o tratamento não aumenta o tempo médio de vida (considerando a teoria dos testes de hipóteses).
+
+O erro padrão para o estimador média amostral apresenta fórmula conhecida, mas há casos em que não dispomos de fórmulas. Suponha que haja interesse em comparar os dois grupos de ratos em relação aos tempos medianos. Temos: md(X)=94 e md(Y)=46. A diferença é 48, maior que a diferença para as médias. Com base na mediana, o tratamento prolonga a vida?
+
+
 ### Estimativa bootstrap do erro padrão
+
+Considerações:
+
+- $\vect{x}=$(\vam): vetor de dados observado (amostra original de tamanho $n$)
+
+- $s(\vect{x})$: estatística de interesse (por exemplo, média amostral)
+
+- Uma amostra bootstrap $\vect{x}^*=(x_1^*, x_2^*, \ldots, x_n^*)$ é obtida pela amostragem aleatória de tamanho $n$, com reposição, de $\vect{x}$. Por exemplo, com $n=7$, poderíamos obter $\vect{x}^*=(x_1^*, x_2^*, \ldots, x_n^*)=(x_5, x_7, x_5, x_4, x_7, x_3, x_1)$.
+
+
+**O algoritmo bootstrap**
+
+- gerar $B$ amostras bootstrap independentes: $\vect{x}^{*^{1}}, \vect{x}^{*^{2}}, \ldots, \vect{x}^{*^{B}},$ cada uma de tamanho $n$ e $50 \leq B \leq 200$. 
+
+- calcular $s(\vect{x}^{*^{b}})$, $b=1, 2, \ldots, B$. $s(\vect{x}^{*^{b}})$ é denominada réplica bootstrap de $s(\vect{x})$
+
+- calcular $\hat{ep}_{boot}=\hat{ep}_{B}=\sqrt{ \dfrac{\sum_{b=1}^{B}[s(\vect{x}^{*^{b}})-s(.)]^2}{B-1}},$em que $s(.)=\frac{\sum_{b=1}^{B}s(\vect{x}^{*^{b}})}{B}$
+
+
+Sintaxe do `R` para calcular a estimativa bootstrap do erro padrão da média do tempo de sobrevida dos ratos do grupo tratamento. 
+
+```{r}
+set.seed(1234)
+# grupo tratamento (amostra original)
+x <- c(94, 197, 16, 38, 99, 141, 23) 
+n <- length(x)
+s <- 0  # estatística de interesse
+B <- 50 # no. de amostras bootstrap 
+
+for(i in 1:B){
+   # réplica bootstrap para o estimador média
+   s[i] <- mean(sample(x,n,replace=TRUE)) 
+ }
+# estimativa bootstrap para o erro padrão da média
+ep <-  sd(s); ep
+```
+
+
+Estimativas bootstrap do erro padrão da média e da mediana do tempo de sobrevivência dos ratos do grupo tratamento.
+A mediana é menos acurada (erros padrões maiores) que a média para esse conjunto de dados.
+
+
+| $B$     | 50    | 100   | 250   | 500   | 1000  | $\infty$ |
+|---------|-------|-------|-------|-------|-------|----------|
+| média   | 19.72 | 23.63 | 22.32 | 23.79 | 23.02 | 23.36    |
+| mediana | 32.21 | 36.35 | 34.46 | 36.72 | 36.48 | 37.83    |
+
+
+Formalização:
+
+- $\vect{X}=$(\va): amostra aleatória de uma f.d.a. $F$
+- $\vect{x}=$(\vam): amostra aleatória observada de $F$
+- $\Theta=t(F)$: parâmetro ($\Theta$ uma função de $F$)
+- $\hat{\Theta}=s(\vect{X})$: estimador para $\Theta$
+- $\hat{\theta}=s(\vect{x})$: estimativa para $\Theta$
+- Quão acurado é o estimador $\hat{\Theta}$?
+- Seja $\hat{F}$ a distribuição empírica que atribui a probabilidade $1/n$ para cada valor observado $x_i$, $i=1,2,\ldots, n$. A amostra bootstrap $\vect{x}^*$ é definida como a amostra aleatória com reposição de tamanho $n$ extraída de $\hat{F}$.
+$$\vect{x}^*=(x_1^*,\,x_2^*\,\ldots,\,x_n^*)$$
+$$\hat{F}\longrightarrow (x_1^*,\,x_2^*\,\ldots,\,x_n^*)$$
+**Nota:**
+
+
+- $\vect{x}^*$: o símbolo $*$ indica que a amostra não é a original $\vect{x}$, mas uma versão aleatorizada(reamostrada) de  $\vect{x}$
+- a cada amostra bootstrap corresponde uma réplica bootstrap de $\hat\theta$,  $\hat\theta^* =s(\vect{x}^*)$
+- $ep_F(\hat\Theta)$ é estimado por $ep_{\hat{F}}(\hat\Theta^*)$, chamado \textbf{estimador bootstrap ideal} para o erro padrão $\hat\Theta$
+- Raramente faz-se necessário $B\geq 200$ para estimar erro padrão; valores (muito) maiores são necessários, por exemplo, para IC bootstrap.
+
+- $\displaystyle\lim_{B \to \infty} \hat{ep}_B=ep_{\hat{F}}=ep_{\hat{F}}(\hat\Theta^*)$ 
+- O estimador bootstrap ideal  $ep_{\hat{F}}(\hat\Theta^*)$ e sua aproximação $\hat{ep}_B$ são chamados **estimadores bootstrap não-paramétricos**, pois baseiam-se em $\hat{F}$, o estimador não-paramétrico de $F$.
+- total de amostras bootstrap distintas (combinação com repetição): 
+$$\binom{2n -1}{n}.$$
+- No `R`: ver as funções `factorial()`, `choose()`, `combn()`, `combinations()`.
+
+#### Exemplo
+
+Dados de faculdades americanas de direito. População: $N=82$ faculdades. Amostra aleatória: $n=15$ faculdades. Variáveis analisadas: LSAT (escore médio em um teste), GPA (pontuação média na faculdade).
+
+| escola | LSAT | GPA  | escola | LSAT | GPA  |
+|--------|------|------|--------|------|------|
+| 1      | 576  | 3,39 | 9      | 651  | 3,36 |
+| 2      | 635  | 3,30 | 10     | 605  | 3,13 |
+| 3      | 558  | 2,81 | 11     | 653  | 3,12 |
+| 4      | 578  | 3,03 | 12     | 575  | 2,74 |
+| 5      | 666  | 3,44 | 13     | 545  | 2,76 |
+| 6      | 580  | 3,07 | 14     | 572  | 2,88 |
+| 7      | 555  | 3,00 | 15     | 594  | 2,96 |
+| 8      | 661  | 3,43 |        |      |      |
+
+- Façamos $Y$=LSAT e $Z$=GPA. A estatística (estimador) de interesse é o coeficiente de correlação amostral entre as variáveis $Y$ e $Z$: 
+$$\hat{\Theta}=corr(Y,Z)=\dfrac{Cov(Y,Z)}{DP(Y).DP(Z)}=\dfrac{\sum_{i=1}^n(Y_i-\bar{Y})(Z_i-\bar{Z})/n}{DP(Y).DP(Z)}$$
+
+- Para os dados observados, a estimativa do coeficiente de correlação amostral é  0.776. Quão acurado é o estimador?
+
+: **Estimativas bootstrap do erro padrão para $\hat{\Theta} = corr(Y,Z)$**
+
+| $B$          | 25    | 50    | 100   | 200   | 400   | 800   | 1600  | 3200  |
+|--------------|-------|-------|-------|-------|-------|-------|-------|-------|
+| $\hat{ep}_B$ | 0,140 | 0,142 | 0,151 | 0,143 | 0,141 | 0,137 | 0,133 | 0,132 |
+
+
+#### Exercícios: 
+
+(1) Considere B=3200. Para cada uma das 3200 amostras bootstrap, obtenha a réplica bootstrap $\hat{\theta}^*=corr(y^*,z^*)$. Faça o histograma das réplicas. 
+
+(2) A Tabela 3.2, p. 21 do livro texto, apresenta os dados populacionais das 82 faculdades. Selecione 3200 amostras aleatórias de tamanho n=15. Para cada uma dessas amostra calcule o coeficiente de correlação e faça o histograma.   
+
+
+> No caso de valores extremos inflacionarem fortemente $\hat{ep}_B$, uma medida mais robusta para o estimador bootstrap do erro padrão é desejável. (ver Efron $\&$ Tibshirani (1993)).
+
+> Inferências baseadas na distribuição normal são ``questionáveis" quando o histograma das réplicas bootstrap indica forte assimetria. 
+
 
 ### Bootstrap Paramétrico
 
-### Bootstrap Não Paramétrico
+O estimador bootstrap paramétrico do erro padrão é definido por $$ep_{\hat{F}_{par}}(\hat\Theta^*),$$
+em que $\hat{F}_{par}$ é um estimador de $F$ derivado do modelo paramétrico para os dados.
+
+
+Para os dados das faculdades: Vamos supor que a população (LSAT, GPA) possa ser descrita por um modelo paramétrico normal bivariado $F$. Estimamos $F$ por $\hat{F}_{normal}$, que denota a f.d.a. de uma normal bivariada com vetor de médias e matriz de covariâncias  $(\bar{y},\bar{z})$ e 
+$\dfrac{1}{14}\left(
+\begin{array}{ll}
+\sum(y_i-\bar{y})^2            &  \sum(y_i-\bar{y})(z_i-\bar{z}) \\
+\sum(y_i-\bar{y})(z_i-\bar{z}) &  \sum(z_i-\bar{z})^2  \\
+\end{array}
+\right)$.
+
+O estimador bootstrap paramétrico do erro padrão da correlação $\hat{\Theta}$ será dado por $ep_{\hat{F}_{normal}}(\hat\Theta^*)$. Esse estimador bootstrap ideal será aproximado por $\hat{ep}_{B}$ (conforme algoritmo a seguir).
+
+**O algoritmo bootstrap:**
+
+- extrair $B$ amostras de tamanho $n$ de $\hat{F}_{par}$: $\vect{x}^{*^{1}}, \vect{x}^{*^{2}}, \ldots, \vect{x}^{*^{B}}$
+- calcular $s(\vect{x}^{*^{b}})$, $b=1, 2, \ldots, B$. $s(\vect{x}^{*^{b}})$ é a réplica bootstrap de $s(\vect{x})$
+- calcular $\hat{ep}_{boot}=\hat{ep}_{B}=\sqrt{ \dfrac{\sum_{b=1}^{B}[s(\vect{x}^{*^{b}})-s(.)]^2}{B-1}},$em que $s(.)=\frac{\sum_{b=1}^{B}s(\vect{x}^{*^{b}})}{B}$
+
+No exemplo das faculdades, assumindo o modelo normal bivariado, extraímos $B$ amostras de tamanho $n=15$ de $\hat{F}_{normal}$, calculamos o coeficiente de correlação para cada amostra e, por fim, calculamos o desvio padrão desses coeficientes de correlação. Usando $B=3200$ encontramos $\hat{ep}_{B}=0.124$, que é próximo ao valor 0.131 obtido com o bootstrap não-paramétrico.
+
+A fórmula teórica para o erro padrão do coeficiente de correlação é $\dfrac{1-\hat{\Theta}^2}{\sqrt{n-3}}$, com $\hat{\Theta}=corr(Y,Z)$. Vimos que $\hat{\theta}=0.776$, o que resulta a estimativa 0.115 para o erro padrão do coeficiente de correlação entre as variáveis $Y$=LSAT e $Z$=GPA.
+
+
+Transformação de Fisher para o coeficiente de correlação $\hat{\Theta}$: $\hat{\zeta}=0.5\log\left(\dfrac{1+\hat{\Theta}}{1-\hat{\Theta}}\right)$. Assim, $\hat{\zeta}$  tem distribuição aproximadamente normal com média $0.5\log\left(\dfrac{1+\Theta}{1-\Theta}\right)$ e variância $\dfrac{1}{n-3}$. O erro padrão para $\hat{\zeta}$ é $\sqrt{\dfrac{1}{n-3}}$. Para o exemplo das faculdades, o valor é $\dfrac{1}{\sqrt{12}}=0.289$.
+
+A título de comparação com o procedimento bootstrap, a estatística (estimador) $\hat{\zeta}$ foi estimado em cada uma das $B=3200$ amostras bootstrap. O desvio padrão das réplicas bootstrap resultou 0.290 (muito próximo ao valor teórico 0.289). Histogramas para as correlações $\hat{\theta}^*$e para os $\hat{\zeta}^*$.
+
+Muitas fórmulas para os erros padrões são aproximações baseadas na teoria normal e isso ``explica" os resultados próximos obtidos com o uso do bootstrap paramétrico que extrai amostras a partir da distribuição normal. 
+
+Vantagens do bootstrap sobre os métodos tradicionais:
+
+- **bootstrap não-paramétrico:** não é necessário fazer suposições de modelos paramétricos para a população;
+- **bootstrap paramétrico:** possibilita estimar erros padrões em problemas para os quais não há fórmulas para os erros padrões.
+
 
 ## Jackknife
 
 ### Introdução
 
+Jackknife é uma técnica para estimar viés e erro padrão de estimadores. É uma técnica que antecede o bootstrap e foi proposta no trabalho pioneiro Quenouille (1949) para reduzir viés do estimador da correlação serial.
+
+
+**Formalização:**
+
+- $\vect{X}=$(\va): amostra aleatória de uma f.d.a. $F$
+
+- $\vect{x}=$(\vam): amostra aleatória observada de $F$
+
+- $\Theta=t(F)$: parâmetro ($\Theta$ uma função de $F$)
+
+- $\hat{\Theta}=s(\vect{X})$: estimador para $\Theta$
+
+- $\hat{\theta}=s(\vect{x})$: estimativa para $\Theta$
+
+O jackknife toma como base $n$ amostras de tamanho $n-1$ selecionadas da amostra aleatória observada. A $i$-ésima  amostra jackknife consiste da amostra observada com a $i$-ésima observação removida,  $i=1,2, \ldots, n$: 
+$$\vect{x}_{(i)}=(x_1,x_2,\ldots, x_{i-1},x_{i+1}, \ldots, x_n)$$
+
 ### Estimador do víes
 
+Para cada amostra $i$ jackknife, é obtida a réplica jackknife $\hat{\theta}_{(i)}=s(\vect{x}_{(i)})$. O estimador jackknife do viés de $\hat{\Theta}$ é dado por
+$$\widehat{\mbox{viés}}_{jack} =(n-1)( \hat{\Theta}_{(\cdot)} - \hat{\Theta} ),$$
+em que $\hat{\Theta}_{(\cdot)}=\sum_{i=1}^n\dfrac{\hat{\Theta}_{(i)}}{n}$.
+
+
+
 ### Estimado do erro padrão
+
+O estimador jackknife do erro padrão de $\hat{\Theta}$ é dado por
+$$\widehat{ep}_{jack} =\left[ \dfrac{n-1}{n}\sum_{i=1}^n (\hat{\Theta}_{(i)} - \hat{\Theta}_{(\cdot)})^2\right]^{\frac{1}{2}},$$
+em que $\hat{\Theta}_{(\cdot)}=\sum_{i=1}^n\dfrac{\hat{\Theta}_{(i)}}{n}$.
+
+
+Algumas considerações importantes:
+
+- Bootstrap: amostragem aleatória com reposição
+
+- Jackknife: amostras fixas
+
+- Jackknife requer o cálculo do estimador apenas para $n$ amostras 
+
+- A acurácia do estimador jackknife do erro padrão depende de quão próximo o estimador é da linearidade. Para funções fortemente não lineares, o jackknife pode ser ineficiente.
+
+- Estimador linear: $\hat{\Theta}=s(\vect{X})=\mu +\frac{1}{n}\sum_{i=1}^n\alpha(X_i)$
+
+
+#### Exemplo
+
+Considere a amostra observada: $\mathbf{x}=(10,26,30,40,48)$ e estimador: mediana($\hat{\Theta}$). As amostras e réplicas jackknife são das por:
+
+1. $\vect{x}_{(1)}=(26,30,40,48)$; $\hat{\theta}_{(1)}=35$
+2. $\vect{x}_{(2)}=(10,30,40,48)$; $\hat{\theta}_{(2)}=35$
+3. $\vect{x}_{(3)}=(10,26,40,48)$; $\hat{\theta}_{(3)}=33$
+4. $\vect{x}_{(4)}=(10,26,30,48)$; $\hat{\theta}_{(4)}=28$
+5. $\vect{x}_{(5)}=(10,26,30,40)$; $\hat{\theta}_{(5)}=28$
+
+Desta forma, a estimativa jackknife do erro padrão de $\hat{\Theta}$:
+ $$\widehat{ep}_{jack} =\left[ \dfrac{4}{5}\sum_{i=1}^5 (\hat{\theta}_{(i)} - \hat{\theta}_{(\cdot)})^2\right]^{\frac{1}{2}}\approx 6.38,$$
+ com $\hat{\theta}_{(\cdot)}=\sum_{i=1}^5\dfrac{\hat{\theta}_{(i)}}{5}=31.8$
+
+A Sintaxe do `R` para calcular a estimativa jackknife do erro padrão para a mediana.
+
+```{r}
+x <- c(10,26,30,40,48)
+n <- length(x)
+
+est.jack <- 0
+
+for(i in 1:n){ 
+  est.jack[i]=median(x[-i])
+}
+
+ep.jack <- sqrt(((n-1)^2/n)*var(est.jack))
+ep.jack
+```
+
+
 
 ## Intervalos de Confiança
 

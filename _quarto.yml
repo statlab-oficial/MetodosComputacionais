@@ -32,6 +32,8 @@ format:
   pdf:
     documentclass: scrreprt
     pdf-engine: lualatex
-
+    include-in-header: macros.tex
+    
 editor: visual
+
 

@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -219,7 +253,6 @@ window.Quarto = {
   <li><a href="#acurária-da-média-amostral" id="toc-acurária-da-média-amostral" class="nav-link" data-scroll-target="#acurária-da-média-amostral"><span class="header-section-number">6.1.2</span> Acurária da média amostral</a></li>
   <li><a href="#estimativa-bootstrap-do-erro-padrão" id="toc-estimativa-bootstrap-do-erro-padrão" class="nav-link" data-scroll-target="#estimativa-bootstrap-do-erro-padrão"><span class="header-section-number">6.1.3</span> Estimativa bootstrap do erro padrão</a></li>
   <li><a href="#bootstrap-paramétrico" id="toc-bootstrap-paramétrico" class="nav-link" data-scroll-target="#bootstrap-paramétrico"><span class="header-section-number">6.1.4</span> Bootstrap Paramétrico</a></li>
-  <li><a href="#bootstrap-não-paramétrico" id="toc-bootstrap-não-paramétrico" class="nav-link" data-scroll-target="#bootstrap-não-paramétrico"><span class="header-section-number">6.1.5</span> Bootstrap Não Paramétrico</a></li>
   </ul></li>
   <li><a href="#jackknife" id="toc-jackknife" class="nav-link" data-scroll-target="#jackknife"><span class="header-section-number">6.2</span> Jackknife</a>
   <ul class="collapse">
@@ -263,31 +296,428 @@ window.Quarto = {
 <h2 data-number="6.1" class="anchored" data-anchor-id="bootstrap"><span class="header-section-number">6.1</span> Bootstrap</h2>
 <section id="introdução" class="level3" data-number="6.1.1">
 <h3 data-number="6.1.1" class="anchored" data-anchor-id="introdução"><span class="header-section-number">6.1.1</span> Introdução</h3>
-<p>Bootstrap é um método (computacional) de reamostragem baseado em subamostras de uma amostra observada, sendo introduzido por Efron (1979). Pode ser utilizado com o propósito de estimar erros padrão, viés de estimadores, construir intervalos de confiança, testes de hipóteses, entre outros. Pode ser utilizando sob duas abordagens: <strong>paramétrica</strong> e <strong>não paramétrica</strong>. A abordagem paramétrica exige um modelo estatística, enquanto que na abordagem não paramétrica não há suposição de modelo estatístico; toma-se por base uma distribuição empírica que atribui probabilidade <span class="math inline">\(1/n\)</span> para cada um dos <span class="math inline">\(n\)</span> elementos da amostra. Algumas referências importantes neste tema são:</p>
+<p>Bootstrap é um método (computacional) de reamostragem baseado em subamostras de uma amostra observada, sendo introduzido por Efron (1979). Pode ser utilizado com o propósito de estimar erros padrão, viés de estimadores, construir intervalos de confiança, testes de hipóteses, entre outros. Pode ser utilizando sob duas abordagens: <strong>paramétrica</strong> e <strong>não paramétrica</strong>. A abordagem paramétrica exige um modelo estatística, enquanto que na abordagem não paramétrica não há suposição de modelo estatístico; toma-se por base uma distribuição empírica que atribui probabilidade <span class="math inline">\(1/n\)</span> para cada um dos <span class="math inline">\(n\)</span> elementos da amostra. Algumas referências importantes neste tema são: Efron (1979), Wu (1986), Fisher <span class="math inline">\(\&amp;\)</span> Hall (1989), Fredman (1986), Efron <span class="math inline">\(\&amp;\)</span> Tibshirani (1993), Horowitz (1997), Davison <span class="math inline">\(\&amp;\)</span> Hinkley (1997).</p>
 </section>
 <section id="acurária-da-média-amostral" class="level3" data-number="6.1.2">
 <h3 data-number="6.1.2" class="anchored" data-anchor-id="acurária-da-média-amostral"><span class="header-section-number">6.1.2</span> Acurária da média amostral</h3>
+<p>Experimento com 16 ratos, divididos em dois grupos: um grupo recebeu o tratamento e um outro grupo não recebeu o tratamento (controle). O tempo de sobrevivência (dias) é apresentado para cada um dos ratos. O tratamento prolonga a vida?</p>
+<table class="table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 5%">
+<col style="width: 10%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>grupo</th>
+<th>tempo 1</th>
+<th>tempo 2</th>
+<th>tempo 3</th>
+<th>n</th>
+<th>média</th>
+<th><span class="math inline">\(\widehat{ep}\)</span>(média)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>tratamento (X)</td>
+<td>94</td>
+<td>197</td>
+<td>16</td>
+<td>7</td>
+<td>86,86</td>
+<td>25,24</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>38</td>
+<td>99</td>
+<td>141</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>23</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>controle (Y)</td>
+<td>52</td>
+<td>104</td>
+<td>146</td>
+<td>9</td>
+<td>56,22</td>
+<td>14,14</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>10</td>
+<td>51</td>
+<td>30</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>40</td>
+<td>27</td>
+<td>46</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>diferença</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>30,63</td>
+<td>28,93</td>
+</tr>
+</tbody>
+</table>
+<p>Alguns pontos importantes são:</p>
+<ul>
+<li><p>A resposta à pergunta dependerá de quão acurado(s) é(são) o(s) estimador(es).</p></li>
+<li><p>O erro padrão é uma medida (muito usual) de acurácia de estimador.</p></li>
+<li><p>erro padrão estimado para a média amostral <span class="math inline">\(\bar{X}\)</span> <span class="math display">\[\widehat{ep}(\bar{X})=\sqrt{\dfrac{s^2}{n}},\]</span> em que <span class="math inline">\(s^2=\sum_{i=1}^n(x_i-\bar{x})^2/(n-1)\)</span>.</p></li>
+<li><p>erro padrão de qualquer estimador é definido pela raiz quadrada de sua variância</p></li>
+</ul>
+<p>Além disso, temos que:</p>
+<ul>
+<li><p>erro padrão pequeno <span class="math inline">\(\longrightarrow\)</span> acurácia alta</p></li>
+<li><p>erro padrão grande <span class="math inline">\(\longrightarrow\)</span> acurácia baixa</p></li>
+<li><p>acurácia alta (baixa) indica que o estimador apresenta valores próximos (distantes) ao seu valor esperado</p></li>
+<li><p>espera-se que 68<span class="math inline">\(\%\)</span> dos valores do estimador estejam a menos de um erro padrão do seu valor esperado, e 95<span class="math inline">\(\%\)</span>, a menos de dois erros padrões</p></li>
+<li><p>erro padrão da diferença <span class="math inline">\((\bar{X}-\bar{Y})\)</span>: <span class="math display">\[28.93=\sqrt{25.24^2+14.14^2}.\]</span></p></li>
+</ul>
+<p><strong>Resposta à pergunta:</strong> a diferença observada 30.63 é somente 30.63/28.93=1.05 erros padrões (estimados) maior que zero, indicando um resultado não significativo, ou seja, o tratamento não aumenta o tempo médio de vida (considerando a teoria dos testes de hipóteses).</p>
+<p>O erro padrão para o estimador média amostral apresenta fórmula conhecida, mas há casos em que não dispomos de fórmulas. Suponha que haja interesse em comparar os dois grupos de ratos em relação aos tempos medianos. Temos: md(X)=94 e md(Y)=46. A diferença é 48, maior que a diferença para as médias. Com base na mediana, o tratamento prolonga a vida?</p>
 </section>
 <section id="estimativa-bootstrap-do-erro-padrão" class="level3" data-number="6.1.3">
 <h3 data-number="6.1.3" class="anchored" data-anchor-id="estimativa-bootstrap-do-erro-padrão"><span class="header-section-number">6.1.3</span> Estimativa bootstrap do erro padrão</h3>
+<p>Considerações:</p>
+<ul>
+<li><p><span class="math inline">\(\vect{x}=\)</span>(): vetor de dados observado (amostra original de tamanho <span class="math inline">\(n\)</span>)</p></li>
+<li><p><span class="math inline">\(s(\vect{x})\)</span>: estatística de interesse (por exemplo, média amostral)</p></li>
+<li><p>Uma amostra bootstrap <span class="math inline">\(\vect{x}^*=(x_1^*, x_2^*, \ldots, x_n^*)\)</span> é obtida pela amostragem aleatória de tamanho <span class="math inline">\(n\)</span>, com reposição, de <span class="math inline">\(\vect{x}\)</span>. Por exemplo, com <span class="math inline">\(n=7\)</span>, poderíamos obter <span class="math inline">\(\vect{x}^*=(x_1^*, x_2^*, \ldots, x_n^*)=(x_5, x_7, x_5, x_4, x_7, x_3, x_1)\)</span>.</p></li>
+</ul>
+<p><strong>O algoritmo bootstrap</strong></p>
+<ul>
+<li><p>gerar <span class="math inline">\(B\)</span> amostras bootstrap independentes: <span class="math inline">\(\vect{x}^{*^{1}}, \vect{x}^{*^{2}}, \ldots, \vect{x}^{*^{B}},\)</span> cada uma de tamanho <span class="math inline">\(n\)</span> e <span class="math inline">\(50 \leq B \leq 200\)</span>.</p></li>
+<li><p>calcular <span class="math inline">\(s(\vect{x}^{*^{b}})\)</span>, <span class="math inline">\(b=1, 2, \ldots, B\)</span>. <span class="math inline">\(s(\vect{x}^{*^{b}})\)</span> é denominada réplica bootstrap de <span class="math inline">\(s(\vect{x})\)</span></p></li>
+<li><p>calcular <span class="math inline">\(\hat{ep}_{boot}=\hat{ep}_{B}=\sqrt{ \dfrac{\sum_{b=1}^{B}[s(\vect{x}^{*^{b}})-s(.)]^2}{B-1}},\)</span>em que <span class="math inline">\(s(.)=\frac{\sum_{b=1}^{B}s(\vect{x}^{*^{b}})}{B}\)</span></p></li>
+</ul>
+<p>Sintaxe do <code>R</code> para calcular a estimativa bootstrap do erro padrão da média do tempo de sobrevida dos ratos do grupo tratamento.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># grupo tratamento (amostra original)</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">94</span>, <span class="dv">197</span>, <span class="dv">16</span>, <span class="dv">38</span>, <span class="dv">99</span>, <span class="dv">141</span>, <span class="dv">23</span>) </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="dv">0</span>  <span class="co"># estatística de interesse</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="dv">50</span> <span class="co"># no. de amostras bootstrap </span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>B){</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>   <span class="co"># réplica bootstrap para o estimador média</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>   s[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">sample</span>(x,n,<span class="at">replace=</span><span class="cn">TRUE</span>)) </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a> }</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># estimativa bootstrap para o erro padrão da média</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>ep <span class="ot">&lt;-</span>  <span class="fu">sd</span>(s); ep</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 27.41873</code></pre>
+</div>
+</div>
+<p>Estimativas bootstrap do erro padrão da média e da mediana do tempo de sobrevivência dos ratos do grupo tratamento. A mediana é menos acurada (erros padrões maiores) que a média para esse conjunto de dados.</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(B\)</span></th>
+<th>50</th>
+<th>100</th>
+<th>250</th>
+<th>500</th>
+<th>1000</th>
+<th><span class="math inline">\(\infty\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>média</td>
+<td>19.72</td>
+<td>23.63</td>
+<td>22.32</td>
+<td>23.79</td>
+<td>23.02</td>
+<td>23.36</td>
+</tr>
+<tr class="even">
+<td>mediana</td>
+<td>32.21</td>
+<td>36.35</td>
+<td>34.46</td>
+<td>36.72</td>
+<td>36.48</td>
+<td>37.83</td>
+</tr>
+</tbody>
+</table>
+<p>Formalização:</p>
+<ul>
+<li><p><span class="math inline">\(\vect{X}=\)</span>(): amostra aleatória de uma f.d.a. <span class="math inline">\(F\)</span></p></li>
+<li><p><span class="math inline">\(\vect{x}=\)</span>(): amostra aleatória observada de <span class="math inline">\(F\)</span></p></li>
+<li><p><span class="math inline">\(\Theta=t(F)\)</span>: parâmetro (<span class="math inline">\(\Theta\)</span> uma função de <span class="math inline">\(F\)</span>)</p></li>
+<li><p><span class="math inline">\(\hat{\Theta}=s(\vect{X})\)</span>: estimador para <span class="math inline">\(\Theta\)</span></p></li>
+<li><p><span class="math inline">\(\hat{\theta}=s(\vect{x})\)</span>: estimativa para <span class="math inline">\(\Theta\)</span></p></li>
+<li><p>Quão acurado é o estimador <span class="math inline">\(\hat{\Theta}\)</span>?</p></li>
+<li><p>Seja <span class="math inline">\(\hat{F}\)</span> a distribuição empírica que atribui a probabilidade <span class="math inline">\(1/n\)</span> para cada valor observado <span class="math inline">\(x_i\)</span>, <span class="math inline">\(i=1,2,\ldots, n\)</span>. A amostra bootstrap <span class="math inline">\(\vect{x}^*\)</span> é definida como a amostra aleatória com reposição de tamanho <span class="math inline">\(n\)</span> extraída de <span class="math inline">\(\hat{F}\)</span>. <span class="math display">\[\vect{x}^*=(x_1^*,\,x_2^*\,\ldots,\,x_n^*)\]</span> <span class="math display">\[\hat{F}\longrightarrow (x_1^*,\,x_2^*\,\ldots,\,x_n^*)\]</span> <strong>Nota:</strong></p></li>
+<li><p><span class="math inline">\(\vect{x}^*\)</span>: o símbolo <span class="math inline">\(*\)</span> indica que a amostra não é a original <span class="math inline">\(\vect{x}\)</span>, mas uma versão aleatorizada(reamostrada) de <span class="math inline">\(\vect{x}\)</span></p></li>
+<li><p>a cada amostra bootstrap corresponde uma réplica bootstrap de <span class="math inline">\(\hat\theta\)</span>, <span class="math inline">\(\hat\theta^* =s(\vect{x}^*)\)</span></p></li>
+<li><p><span class="math inline">\(ep_F(\hat\Theta)\)</span> é estimado por <span class="math inline">\(ep_{\hat{F}}(\hat\Theta^*)\)</span>, chamado para o erro padrão <span class="math inline">\(\hat\Theta\)</span></p></li>
+<li><p>Raramente faz-se necessário <span class="math inline">\(B\geq 200\)</span> para estimar erro padrão; valores (muito) maiores são necessários, por exemplo, para IC bootstrap.</p></li>
+<li><p><span class="math inline">\(\displaystyle\lim_{B \to \infty} \hat{ep}_B=ep_{\hat{F}}=ep_{\hat{F}}(\hat\Theta^*)\)</span></p></li>
+<li><p>O estimador bootstrap ideal <span class="math inline">\(ep_{\hat{F}}(\hat\Theta^*)\)</span> e sua aproximação <span class="math inline">\(\hat{ep}_B\)</span> são chamados <strong>estimadores bootstrap não-paramétricos</strong>, pois baseiam-se em <span class="math inline">\(\hat{F}\)</span>, o estimador não-paramétrico de <span class="math inline">\(F\)</span>.</p></li>
+<li><p>total de amostras bootstrap distintas (combinação com repetição): <span class="math display">\[\binom{2n -1}{n}.\]</span></p></li>
+<li><p>No <code>R</code>: ver as funções <code>factorial()</code>, <code>choose()</code>, <code>combn()</code>, <code>combinations()</code>.</p></li>
+</ul>
+<section id="exemplo" class="level4" data-number="6.1.3.1">
+<h4 data-number="6.1.3.1" class="anchored" data-anchor-id="exemplo"><span class="header-section-number">6.1.3.1</span> Exemplo</h4>
+<p>Dados de faculdades americanas de direito. População: <span class="math inline">\(N=82\)</span> faculdades. Amostra aleatória: <span class="math inline">\(n=15\)</span> faculdades. Variáveis analisadas: LSAT (escore médio em um teste), GPA (pontuação média na faculdade).</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>escola</th>
+<th>LSAT</th>
+<th>GPA</th>
+<th>escola</th>
+<th>LSAT</th>
+<th>GPA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>576</td>
+<td>3,39</td>
+<td>9</td>
+<td>651</td>
+<td>3,36</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>635</td>
+<td>3,30</td>
+<td>10</td>
+<td>605</td>
+<td>3,13</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>558</td>
+<td>2,81</td>
+<td>11</td>
+<td>653</td>
+<td>3,12</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>578</td>
+<td>3,03</td>
+<td>12</td>
+<td>575</td>
+<td>2,74</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>666</td>
+<td>3,44</td>
+<td>13</td>
+<td>545</td>
+<td>2,76</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>580</td>
+<td>3,07</td>
+<td>14</td>
+<td>572</td>
+<td>2,88</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>555</td>
+<td>3,00</td>
+<td>15</td>
+<td>594</td>
+<td>2,96</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>661</td>
+<td>3,43</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>Façamos <span class="math inline">\(Y\)</span>=LSAT e <span class="math inline">\(Z\)</span>=GPA. A estatística (estimador) de interesse é o coeficiente de correlação amostral entre as variáveis <span class="math inline">\(Y\)</span> e <span class="math inline">\(Z\)</span>: <span class="math display">\[\hat{\Theta}=corr(Y,Z)=\dfrac{Cov(Y,Z)}{DP(Y).DP(Z)}=\dfrac{\sum_{i=1}^n(Y_i-\bar{Y})(Z_i-\bar{Z})/n}{DP(Y).DP(Z)}\]</span></p></li>
+<li><p>Para os dados observados, a estimativa do coeficiente de correlação amostral é 0.776. Quão acurado é o estimador?</p></li>
+</ul>
+<table class="table">
+<caption><strong>Estimativas bootstrap do erro padrão para <span class="math inline">\(\hat{\Theta} = corr(Y,Z)\)</span></strong></caption>
+<colgroup>
+<col style="width: 20%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="math inline">\(B\)</span></th>
+<th>25</th>
+<th>50</th>
+<th>100</th>
+<th>200</th>
+<th>400</th>
+<th>800</th>
+<th>1600</th>
+<th>3200</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\hat{ep}_B\)</span></td>
+<td>0,140</td>
+<td>0,142</td>
+<td>0,151</td>
+<td>0,143</td>
+<td>0,141</td>
+<td>0,137</td>
+<td>0,133</td>
+<td>0,132</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="exercícios" class="level4" data-number="6.1.3.2">
+<h4 data-number="6.1.3.2" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">6.1.3.2</span> Exercícios:</h4>
+<ol type="1">
+<li><p>Considere B=3200. Para cada uma das 3200 amostras bootstrap, obtenha a réplica bootstrap <span class="math inline">\(\hat{\theta}^*=corr(y^*,z^*)\)</span>. Faça o histograma das réplicas.</p></li>
+<li><p>A Tabela 3.2, p.&nbsp;21 do livro texto, apresenta os dados populacionais das 82 faculdades. Selecione 3200 amostras aleatórias de tamanho n=15. Para cada uma dessas amostra calcule o coeficiente de correlação e faça o histograma.</p></li>
+</ol>
+<blockquote class="blockquote">
+<p>No caso de valores extremos inflacionarem fortemente <span class="math inline">\(\hat{ep}_B\)</span>, uma medida mais robusta para o estimador bootstrap do erro padrão é desejável. (ver Efron <span class="math inline">\(\&amp;\)</span> Tibshirani (1993)).</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Inferências baseadas na distribuição normal são ``questionáveis” quando o histograma das réplicas bootstrap indica forte assimetria.</p>
+</blockquote>
+</section>
 </section>
 <section id="bootstrap-paramétrico" class="level3" data-number="6.1.4">
 <h3 data-number="6.1.4" class="anchored" data-anchor-id="bootstrap-paramétrico"><span class="header-section-number">6.1.4</span> Bootstrap Paramétrico</h3>
-</section>
-<section id="bootstrap-não-paramétrico" class="level3" data-number="6.1.5">
-<h3 data-number="6.1.5" class="anchored" data-anchor-id="bootstrap-não-paramétrico"><span class="header-section-number">6.1.5</span> Bootstrap Não Paramétrico</h3>
+<p>O estimador bootstrap paramétrico do erro padrão é definido por <span class="math display">\[ep_{\hat{F}_{par}}(\hat\Theta^*),\]</span> em que <span class="math inline">\(\hat{F}_{par}\)</span> é um estimador de <span class="math inline">\(F\)</span> derivado do modelo paramétrico para os dados.</p>
+<p>Para os dados das faculdades: Vamos supor que a população (LSAT, GPA) possa ser descrita por um modelo paramétrico normal bivariado <span class="math inline">\(F\)</span>. Estimamos <span class="math inline">\(F\)</span> por <span class="math inline">\(\hat{F}_{normal}\)</span>, que denota a f.d.a. de uma normal bivariada com vetor de médias e matriz de covariâncias <span class="math inline">\((\bar{y},\bar{z})\)</span> e <span class="math inline">\(\dfrac{1}{14}\left(
+\begin{array}{ll}
+\sum(y_i-\bar{y})^2            &amp;  \sum(y_i-\bar{y})(z_i-\bar{z}) \\
+\sum(y_i-\bar{y})(z_i-\bar{z}) &amp;  \sum(z_i-\bar{z})^2  \\
+\end{array}
+\right)\)</span>.</p>
+<p>O estimador bootstrap paramétrico do erro padrão da correlação <span class="math inline">\(\hat{\Theta}\)</span> será dado por <span class="math inline">\(ep_{\hat{F}_{normal}}(\hat\Theta^*)\)</span>. Esse estimador bootstrap ideal será aproximado por <span class="math inline">\(\hat{ep}_{B}\)</span> (conforme algoritmo a seguir).</p>
+<p><strong>O algoritmo bootstrap:</strong></p>
+<ul>
+<li>extrair <span class="math inline">\(B\)</span> amostras de tamanho <span class="math inline">\(n\)</span> de <span class="math inline">\(\hat{F}_{par}\)</span>: <span class="math inline">\(\vect{x}^{*^{1}}, \vect{x}^{*^{2}}, \ldots, \vect{x}^{*^{B}}\)</span></li>
+<li>calcular <span class="math inline">\(s(\vect{x}^{*^{b}})\)</span>, <span class="math inline">\(b=1, 2, \ldots, B\)</span>. <span class="math inline">\(s(\vect{x}^{*^{b}})\)</span> é a réplica bootstrap de <span class="math inline">\(s(\vect{x})\)</span></li>
+<li>calcular <span class="math inline">\(\hat{ep}_{boot}=\hat{ep}_{B}=\sqrt{ \dfrac{\sum_{b=1}^{B}[s(\vect{x}^{*^{b}})-s(.)]^2}{B-1}},\)</span>em que <span class="math inline">\(s(.)=\frac{\sum_{b=1}^{B}s(\vect{x}^{*^{b}})}{B}\)</span></li>
+</ul>
+<p>No exemplo das faculdades, assumindo o modelo normal bivariado, extraímos <span class="math inline">\(B\)</span> amostras de tamanho <span class="math inline">\(n=15\)</span> de <span class="math inline">\(\hat{F}_{normal}\)</span>, calculamos o coeficiente de correlação para cada amostra e, por fim, calculamos o desvio padrão desses coeficientes de correlação. Usando <span class="math inline">\(B=3200\)</span> encontramos <span class="math inline">\(\hat{ep}_{B}=0.124\)</span>, que é próximo ao valor 0.131 obtido com o bootstrap não-paramétrico.</p>
+<p>A fórmula teórica para o erro padrão do coeficiente de correlação é <span class="math inline">\(\dfrac{1-\hat{\Theta}^2}{\sqrt{n-3}}\)</span>, com <span class="math inline">\(\hat{\Theta}=corr(Y,Z)\)</span>. Vimos que <span class="math inline">\(\hat{\theta}=0.776\)</span>, o que resulta a estimativa 0.115 para o erro padrão do coeficiente de correlação entre as variáveis <span class="math inline">\(Y\)</span>=LSAT e <span class="math inline">\(Z\)</span>=GPA.</p>
+<p>Transformação de Fisher para o coeficiente de correlação <span class="math inline">\(\hat{\Theta}\)</span>: <span class="math inline">\(\hat{\zeta}=0.5\log\left(\dfrac{1+\hat{\Theta}}{1-\hat{\Theta}}\right)\)</span>. Assim, <span class="math inline">\(\hat{\zeta}\)</span> tem distribuição aproximadamente normal com média <span class="math inline">\(0.5\log\left(\dfrac{1+\Theta}{1-\Theta}\right)\)</span> e variância <span class="math inline">\(\dfrac{1}{n-3}\)</span>. O erro padrão para <span class="math inline">\(\hat{\zeta}\)</span> é <span class="math inline">\(\sqrt{\dfrac{1}{n-3}}\)</span>. Para o exemplo das faculdades, o valor é <span class="math inline">\(\dfrac{1}{\sqrt{12}}=0.289\)</span>.</p>
+<p>A título de comparação com o procedimento bootstrap, a estatística (estimador) <span class="math inline">\(\hat{\zeta}\)</span> foi estimado em cada uma das <span class="math inline">\(B=3200\)</span> amostras bootstrap. O desvio padrão das réplicas bootstrap resultou 0.290 (muito próximo ao valor teórico 0.289). Histogramas para as correlações <span class="math inline">\(\hat{\theta}^*\)</span>e para os <span class="math inline">\(\hat{\zeta}^*\)</span>.</p>
+<p>Muitas fórmulas para os erros padrões são aproximações baseadas na teoria normal e isso ``explica” os resultados próximos obtidos com o uso do bootstrap paramétrico que extrai amostras a partir da distribuição normal.</p>
+<p>Vantagens do bootstrap sobre os métodos tradicionais:</p>
+<ul>
+<li><strong>bootstrap não-paramétrico:</strong> não é necessário fazer suposições de modelos paramétricos para a população;</li>
+<li><strong>bootstrap paramétrico:</strong> possibilita estimar erros padrões em problemas para os quais não há fórmulas para os erros padrões.</li>
+</ul>
 </section>
 </section>
 <section id="jackknife" class="level2" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="jackknife"><span class="header-section-number">6.2</span> Jackknife</h2>
 <section id="introdução-1" class="level3" data-number="6.2.1">
 <h3 data-number="6.2.1" class="anchored" data-anchor-id="introdução-1"><span class="header-section-number">6.2.1</span> Introdução</h3>
+<p>Jackknife é uma técnica para estimar viés e erro padrão de estimadores. É uma técnica que antecede o bootstrap e foi proposta no trabalho pioneiro Quenouille (1949) para reduzir viés do estimador da correlação serial.</p>
+<p><strong>Formalização:</strong></p>
+<ul>
+<li><p><span class="math inline">\(\vect{X}=\)</span>(): amostra aleatória de uma f.d.a. <span class="math inline">\(F\)</span></p></li>
+<li><p><span class="math inline">\(\vect{x}=\)</span>(): amostra aleatória observada de <span class="math inline">\(F\)</span></p></li>
+<li><p><span class="math inline">\(\Theta=t(F)\)</span>: parâmetro (<span class="math inline">\(\Theta\)</span> uma função de <span class="math inline">\(F\)</span>)</p></li>
+<li><p><span class="math inline">\(\hat{\Theta}=s(\vect{X})\)</span>: estimador para <span class="math inline">\(\Theta\)</span></p></li>
+<li><p><span class="math inline">\(\hat{\theta}=s(\vect{x})\)</span>: estimativa para <span class="math inline">\(\Theta\)</span></p></li>
+</ul>
+<p>O jackknife toma como base <span class="math inline">\(n\)</span> amostras de tamanho <span class="math inline">\(n-1\)</span> selecionadas da amostra aleatória observada. A <span class="math inline">\(i\)</span>-ésima amostra jackknife consiste da amostra observada com a <span class="math inline">\(i\)</span>-ésima observação removida, <span class="math inline">\(i=1,2, \ldots, n\)</span>: <span class="math display">\[\vect{x}_{(i)}=(x_1,x_2,\ldots, x_{i-1},x_{i+1}, \ldots, x_n)\]</span></p>
 </section>
 <section id="estimador-do-víes" class="level3" data-number="6.2.2">
 <h3 data-number="6.2.2" class="anchored" data-anchor-id="estimador-do-víes"><span class="header-section-number">6.2.2</span> Estimador do víes</h3>
+<p>Para cada amostra <span class="math inline">\(i\)</span> jackknife, é obtida a réplica jackknife <span class="math inline">\(\hat{\theta}_{(i)}=s(\vect{x}_{(i)})\)</span>. O estimador jackknife do viés de <span class="math inline">\(\hat{\Theta}\)</span> é dado por <span class="math display">\[\widehat{\mbox{viés}}_{jack} =(n-1)( \hat{\Theta}_{(\cdot)} - \hat{\Theta} ),\]</span> em que <span class="math inline">\(\hat{\Theta}_{(\cdot)}=\sum_{i=1}^n\dfrac{\hat{\Theta}_{(i)}}{n}\)</span>.</p>
 </section>
 <section id="estimado-do-erro-padrão" class="level3" data-number="6.2.3">
 <h3 data-number="6.2.3" class="anchored" data-anchor-id="estimado-do-erro-padrão"><span class="header-section-number">6.2.3</span> Estimado do erro padrão</h3>
+<p>O estimador jackknife do erro padrão de <span class="math inline">\(\hat{\Theta}\)</span> é dado por <span class="math display">\[\widehat{ep}_{jack} =\left[ \dfrac{n-1}{n}\sum_{i=1}^n (\hat{\Theta}_{(i)} - \hat{\Theta}_{(\cdot)})^2\right]^{\frac{1}{2}},\]</span> em que <span class="math inline">\(\hat{\Theta}_{(\cdot)}=\sum_{i=1}^n\dfrac{\hat{\Theta}_{(i)}}{n}\)</span>.</p>
+<p>Algumas considerações importantes:</p>
+<ul>
+<li><p>Bootstrap: amostragem aleatória com reposição</p></li>
+<li><p>Jackknife: amostras fixas</p></li>
+<li><p>Jackknife requer o cálculo do estimador apenas para <span class="math inline">\(n\)</span> amostras</p></li>
+<li><p>A acurácia do estimador jackknife do erro padrão depende de quão próximo o estimador é da linearidade. Para funções fortemente não lineares, o jackknife pode ser ineficiente.</p></li>
+<li><p>Estimador linear: <span class="math inline">\(\hat{\Theta}=s(\vect{X})=\mu +\frac{1}{n}\sum_{i=1}^n\alpha(X_i)\)</span></p></li>
+</ul>
+<section id="exemplo-1" class="level4" data-number="6.2.3.1">
+<h4 data-number="6.2.3.1" class="anchored" data-anchor-id="exemplo-1"><span class="header-section-number">6.2.3.1</span> Exemplo</h4>
+<p>Considere a amostra observada: <span class="math inline">\(\mathbf{x}=(10,26,30,40,48)\)</span> e estimador: mediana(<span class="math inline">\(\hat{\Theta}\)</span>). As amostras e réplicas jackknife são das por:</p>
+<ol type="1">
+<li><span class="math inline">\(\vect{x}_{(1)}=(26,30,40,48)\)</span>; <span class="math inline">\(\hat{\theta}_{(1)}=35\)</span></li>
+<li><span class="math inline">\(\vect{x}_{(2)}=(10,30,40,48)\)</span>; <span class="math inline">\(\hat{\theta}_{(2)}=35\)</span></li>
+<li><span class="math inline">\(\vect{x}_{(3)}=(10,26,40,48)\)</span>; <span class="math inline">\(\hat{\theta}_{(3)}=33\)</span></li>
+<li><span class="math inline">\(\vect{x}_{(4)}=(10,26,30,48)\)</span>; <span class="math inline">\(\hat{\theta}_{(4)}=28\)</span></li>
+<li><span class="math inline">\(\vect{x}_{(5)}=(10,26,30,40)\)</span>; <span class="math inline">\(\hat{\theta}_{(5)}=28\)</span></li>
+</ol>
+<p>Desta forma, a estimativa jackknife do erro padrão de <span class="math inline">\(\hat{\Theta}\)</span>: <span class="math display">\[\widehat{ep}_{jack} =\left[ \dfrac{4}{5}\sum_{i=1}^5 (\hat{\theta}_{(i)} - \hat{\theta}_{(\cdot)})^2\right]^{\frac{1}{2}}\approx 6.38,\]</span> com <span class="math inline">\(\hat{\theta}_{(\cdot)}=\sum_{i=1}^5\dfrac{\hat{\theta}_{(i)}}{5}=31.8\)</span></p>
+<p>A Sintaxe do <code>R</code> para calcular a estimativa jackknife do erro padrão para a mediana.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">26</span>,<span class="dv">30</span>,<span class="dv">40</span>,<span class="dv">48</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>est.jack <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n){ </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  est.jack[i]<span class="ot">=</span><span class="fu">median</span>(x[<span class="sc">-</span>i])</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>ep.jack <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(((n<span class="dv">-1</span>)<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>n)<span class="sc">*</span><span class="fu">var</span>(est.jack))</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>ep.jack</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6.374951</code></pre>
+</div>
+</div>
+</section>
 </section>
 </section>
 <section id="intervalos-de-confiança" class="level2" data-number="6.3">
