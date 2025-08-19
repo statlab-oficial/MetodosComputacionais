@@ -260,12 +260,13 @@ window.Quarto = {
   <li><a href="#estimador-do-viés" id="toc-estimador-do-viés" class="nav-link" data-scroll-target="#estimador-do-viés"><span class="header-section-number">6.2.2</span> Estimador do viés</a></li>
   <li><a href="#estimado-do-erro-padrão" id="toc-estimado-do-erro-padrão" class="nav-link" data-scroll-target="#estimado-do-erro-padrão"><span class="header-section-number">6.2.3</span> Estimado do erro padrão</a></li>
   </ul></li>
-  <li><a href="#intervalos-de-confiança" id="toc-intervalos-de-confiança" class="nav-link" data-scroll-target="#intervalos-de-confiança"><span class="header-section-number">6.3</span> Intervalos de Confiança</a>
+  <li><a href="#intervalos-de-confiança" id="toc-intervalos-de-confiança" class="nav-link" data-scroll-target="#intervalos-de-confiança"><span class="header-section-number">6.3</span> Intervalos de Confiança</a></li>
+  <li><a href="#intervalos-de-confiança-normal-padrão" id="toc-intervalos-de-confiança-normal-padrão" class="nav-link" data-scroll-target="#intervalos-de-confiança-normal-padrão"><span class="header-section-number">6.4</span> Intervalos de Confiança Normal Padrão</a></li>
+  <li><a href="#intervalo-de-confiança-t-student" id="toc-intervalo-de-confiança-t-student" class="nav-link" data-scroll-target="#intervalo-de-confiança-t-student"><span class="header-section-number">6.5</span> Intervalo de Confiança t-Student</a></li>
+  <li><a href="#ic-bootstrap-t" id="toc-ic-bootstrap-t" class="nav-link" data-scroll-target="#ic-bootstrap-t"><span class="header-section-number">6.6</span> IC bootstrap-<span class="math inline">\(t\)</span></a>
   <ul class="collapse">
-  <li><a href="#intervalo-de-confiança-normal-e-t-student" id="toc-intervalo-de-confiança-normal-e-t-student" class="nav-link" data-scroll-target="#intervalo-de-confiança-normal-e-t-student"><span class="header-section-number">6.3.1</span> Intervalo de Confiança Normal e t-Student</a></li>
-  <li><a href="#intervalo-de-confiança-bootstrap-t" id="toc-intervalo-de-confiança-bootstrap-t" class="nav-link" data-scroll-target="#intervalo-de-confiança-bootstrap-t"><span class="header-section-number">6.3.2</span> Intervalo de Confiança bootstrap-t</a></li>
-  <li><a href="#intervalos-de-confiança-bootstrap-percentil" id="toc-intervalos-de-confiança-bootstrap-percentil" class="nav-link" data-scroll-target="#intervalos-de-confiança-bootstrap-percentil"><span class="header-section-number">6.3.3</span> Intervalos de Confiança bootstrap percentil</a></li>
-  <li><a href="#intervalos-de-confiança-bootstrap---versões-aprimoradas" id="toc-intervalos-de-confiança-bootstrap---versões-aprimoradas" class="nav-link" data-scroll-target="#intervalos-de-confiança-bootstrap---versões-aprimoradas"><span class="header-section-number">6.3.4</span> Intervalos de Confiança bootstrap - versões aprimoradas</a></li>
+  <li><a href="#intervalos-de-confiança-bootstrap-percentil" id="toc-intervalos-de-confiança-bootstrap-percentil" class="nav-link" data-scroll-target="#intervalos-de-confiança-bootstrap-percentil"><span class="header-section-number">6.6.1</span> Intervalos de Confiança bootstrap percentil</a></li>
+  <li><a href="#intervalos-de-confiança-bootstrap---versões-aprimoradas" id="toc-intervalos-de-confiança-bootstrap---versões-aprimoradas" class="nav-link" data-scroll-target="#intervalos-de-confiança-bootstrap---versões-aprimoradas"><span class="header-section-number">6.6.2</span> Intervalos de Confiança bootstrap - versões aprimoradas</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -754,17 +755,283 @@ Importante
 </section>
 <section id="intervalos-de-confiança" class="level2" data-number="6.3">
 <h2 data-number="6.3" class="anchored" data-anchor-id="intervalos-de-confiança"><span class="header-section-number">6.3</span> Intervalos de Confiança</h2>
-<section id="intervalo-de-confiança-normal-e-t-student" class="level3" data-number="6.3.1">
-<h3 data-number="6.3.1" class="anchored" data-anchor-id="intervalo-de-confiança-normal-e-t-student"><span class="header-section-number">6.3.1</span> Intervalo de Confiança Normal e t-Student</h3>
+<div class="callout callout-style-default callout-warning callout-titled" title="Notação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Notação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p><span class="math inline">\(\underset{\sim}{X} = (X_1, x_2, \dots, X_n)\)</span>: amostra aleatória de uma f.d.a. <span class="math inline">\(F\)</span></p></li>
+<li><p><span class="math inline">\(\underset{\sim}{x} = (x_1, x_2, \dots, x_n)\)</span>: amostra aleatória observada de <span class="math inline">\(F\)</span></p></li>
+<li><p><span class="math inline">\(\Theta=t(F)\)</span>: parâmetro (<span class="math inline">\(\Theta\)</span> uma função de <span class="math inline">\(F\)</span>)</p></li>
+<li><p><span class="math inline">\(\hat{\Theta}=s(\underset{\sim}{X})\)</span>: estimador para <span class="math inline">\(\Theta\)</span></p></li>
+<li><p><span class="math inline">\(\hat{\theta}=s(\underset{\sim}{x})\)</span>: estimativa para <span class="math inline">\(\Theta\)</span></p></li>
+</ul>
+</div>
+</div>
 </section>
-<section id="intervalo-de-confiança-bootstrap-t" class="level3" data-number="6.3.2">
-<h3 data-number="6.3.2" class="anchored" data-anchor-id="intervalo-de-confiança-bootstrap-t"><span class="header-section-number">6.3.2</span> Intervalo de Confiança bootstrap-t</h3>
+<section id="intervalos-de-confiança-normal-padrão" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="intervalos-de-confiança-normal-padrão"><span class="header-section-number">6.4</span> Intervalos de Confiança Normal Padrão</h2>
+<p>Suponha que <span class="math inline">\(\hat{\Theta}\sim N(\Theta, ep(\hat{\Theta})^2)\)</span>. Portanto, se <span class="math inline">\(ep(\hat{\Theta})\)</span> é conhecido temos que:</p>
+<p><span class="math display">\[Z=\dfrac{\hat{\Theta} - \Theta}{ep(\hat\Theta)} \sim N(0,1),\]</span> e <span class="math display">\[IC_z\left(100(1-\alpha)\%,\Theta\right)=\hat{\Theta} \pm z_{\frac{\alpha}{2}}ep(\hat{\Theta}).\]</span></p>
 </section>
-<section id="intervalos-de-confiança-bootstrap-percentil" class="level3" data-number="6.3.3">
-<h3 data-number="6.3.3" class="anchored" data-anchor-id="intervalos-de-confiança-bootstrap-percentil"><span class="header-section-number">6.3.3</span> Intervalos de Confiança bootstrap percentil</h3>
+<section id="intervalo-de-confiança-t-student" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="intervalo-de-confiança-t-student"><span class="header-section-number">6.5</span> Intervalo de Confiança t-Student</h2>
+<p>Suponha que <span class="math inline">\(\hat{\Theta}\sim N(\Theta, ep(\hat{\Theta})^2)\)</span> e se <span class="math inline">\(ep(\hat{\Theta})\)</span> é desconhecido, portanto</p>
+<p><span class="math display">\[Z=\dfrac{\hat{\Theta} - \Theta}{\hat{ep}(\hat\Theta)} \sim \mbox{t-Student}(n-1),\]</span></p>
+<p>e</p>
+<p><span class="math display">\[IC_t\left(100(1-\alpha)\%,\Theta\right)=\hat{\Theta} \pm t_{(n-1,\frac{\alpha}{2})}\hat{ep}(\hat{\Theta}).\]</span></p>
 </section>
-<section id="intervalos-de-confiança-bootstrap---versões-aprimoradas" class="level3" data-number="6.3.4">
-<h3 data-number="6.3.4" class="anchored" data-anchor-id="intervalos-de-confiança-bootstrap---versões-aprimoradas"><span class="header-section-number">6.3.4</span> Intervalos de Confiança bootstrap - versões aprimoradas</h3>
+<section id="ic-bootstrap-t" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="ic-bootstrap-t"><span class="header-section-number">6.6</span> IC bootstrap-<span class="math inline">\(t\)</span></h2>
+<p>Agora vamos definir</p>
+<p><span class="math display">\[Z^{*^b}=\dfrac{ \hat{\Theta}^{*^b} - \hat{\Theta} }{\hat{ep}^{*^b}},\]</span> em que <span class="math inline">\(\hat{\Theta}^{*^b}=s(\underset{\sim}{X}^{*^b})\)</span> e <span class="math inline">\(\hat{ep}^{*^b}\)</span> são obtidos para cada amostra bootstrap <span class="math inline">\(\underset{\sim}{x}^*\)</span>. O percentil <span class="math inline">\(100 \cdot \alpha\)</span> de <span class="math inline">\(Z^{*^b}\)</span> é estimado pelo valor <span class="math inline">\(\hat{t}^{(\alpha)}\)</span>, tal que <span class="math display">\[ \#\{Z^{*^b}\leq \hat{t}^{(\alpha)} \}/B=\alpha.\]</span></p>
+<p>Por exemplo, se <span class="math inline">\(B=100\)</span> e a confiança para o intervalo é de 90<span class="math inline">\(\%\)</span>, a estimativa <span class="math inline">\(\hat{t}^{(0.05)}\)</span> será o quinto maior valor de <span class="math inline">\(Z^{*^b}\)</span> e a estimativa <span class="math inline">\(\hat{t}^{(0.95)}\)</span> será o nonagésimo quinto maior valor de <span class="math inline">\(Z^{*^b}\)</span>.</p>
+<p>Este procedimento estima a distribuição de <span class="math inline">\(Z\)</span> (quantidade pivotal) diretamente dos dados. Não é necessário a suposição teórica de normalidade e sua distribuição é a mesma para qualquer . O intervalo (bilateral) bootstrap-t de confiança <span class="math inline">\(100\times(1-2\alpha)\%\)</span> para o parâmetro <span class="math inline">\(\Theta\)</span>, denotado por <span class="math inline">\(IC_t^*\left(100(1-2\alpha)\%,\Theta\right)\)</span>, é definido por:</p>
+<p><span class="math display">\[ \left[\hat{\Theta} - \hat{t}^{(1-\alpha)}\hat{ep}(\hat{\Theta}), \hat{\Theta} - \hat{t}^{(\alpha)}\hat{ep}(\hat{\Theta})\right].\]</span> Emprega-se estimativas para <span class="math inline">\(\hat{\Theta}\)</span> e <span class="math inline">\(\hat{ep}(\hat{\Theta})\)</span>; não sendo possível, o erro padrão é estimado usando bootstrap ou jackknife.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Se <span class="math inline">\(B\cdot\alpha\)</span> não resultar um número inteiro?</p>
+<ol type="1">
+<li><p>Efron <span class="math inline">\(\&amp;\)</span> Tibshirani (1993): supondo <span class="math inline">\(\alpha \leq 0.5\)</span>, faça <span class="math inline">\(k=\mbox{Int}[(B+1)\cdot\alpha]\)</span> (o maior inteiro <span class="math inline">\(\leq (B+1)\cdot\alpha\)</span> ) e defina os percentis empíricos de ordem <span class="math inline">\(100\cdot\alpha\)</span> e <span class="math inline">\(100\cdot(1-\alpha)\)</span>, respectivamente, pelo <span class="math inline">\(k\)</span>-ésimo e <span class="math inline">\((B+1-k)\)</span>-ésimo maiores valores de <span class="math inline">\(Z^{*^b}\)</span>.</p></li>
+<li><p>Davidson <span class="math inline">\(\&amp;\)</span> Hinkley (1997): interpolação dos percentis.</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Considerações">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Considerações
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>Este intervalo pode ser fortemente influenciado por poucos valores discrepantes.</p></li>
+<li><p>Em geral, é necessário um valor de <span class="math inline">\(B\)</span> muito superior a 200.</p></li>
+<li><p>Para grandes amostras, o IC bootstrap-t pode estar mais próximo do nível de cobertura desejado do que os IC Normal ou t-Student.</p></li>
+<li><p>Abaixo, percentis da distribuição <span class="math inline">\(t\)</span>-Student com 8 gl, normal padrão e distribuição bootstrap de <span class="math inline">\(Z^{*^b}\)</span> (para o grupo controle no experimento com os ratos; <span class="math inline">\(B=1000\)</span>).</p></li>
+</ul>
+</div>
+</div>
+<table class="table">
+<caption>Comparação dos percentis de diferentes distribuições.</caption>
+<thead>
+<tr class="header">
+<th>percentil</th>
+<th>5</th>
+<th>10</th>
+<th>90</th>
+<th>95</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(t_8\)</span></td>
+<td>-1.86</td>
+<td>-1.40</td>
+<td>1.40</td>
+<td>1.86</td>
+</tr>
+<tr class="even">
+<td>Normal</td>
+<td>-1.65</td>
+<td>-1.28</td>
+<td>1.28</td>
+<td>1.65</td>
+</tr>
+<tr class="odd">
+<td>bootstrap-t</td>
+<td>-4.53</td>
+<td>-2.01</td>
+<td>1.19</td>
+<td>1.53</td>
+</tr>
+</tbody>
+</table>
+<p>O IC bootstrap-<span class="math inline">\(t\)</span> para <span class="math inline">\(\Theta\)</span> (média do tempo de sobrevivência de ratos não submetidos ao tratamento (grupo controle)):</p>
+<p><span class="math display">\[\left[ 56.22-1.53 \times 13.33, \ 56.22+4.53  \times 13.33\right]=\left[35.82, \ 116.74\right],\]</span> usado a estimativa para o erro padrão da média.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Considerações Finais">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Considerações Finais
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>os valores dos percentis bootstrap-<span class="math inline">\(t\)</span> podem não ser simétricos em relação ao zero.</p></li>
+<li><p>aplicável para estatísticas de localização (média, mediana etc).</p></li>
+<li><p>Cautela no uso envolvendo pequenas amostras (limites do intervalo fora do espaço paramétrico).</p></li>
+<li><p>o <span class="math inline">\(IC^*_t\)</span> não é <em>transformation-respecting</em> (ver próxima seção)</p></li>
+</ul>
+</div>
+</div>
+<section id="intervalos-de-confiança-bootstrap-percentil" class="level3" data-number="6.6.1">
+<h3 data-number="6.6.1" class="anchored" data-anchor-id="intervalos-de-confiança-bootstrap-percentil"><span class="header-section-number">6.6.1</span> Intervalos de Confiança bootstrap percentil</h3>
+<p>O intervalo bootstrap percentil de confiança <span class="math inline">\(100(1-2\alpha)\%\)</span>, denotado por <span class="math inline">\(IC_p^*\left(100(1-2\alpha)\%,\Theta \right)\)</span>, é definido por</p>
+<p><span class="math display">\[\left[ \hat\Theta^{*(\alpha)}, \ \hat\Theta^{*(1-\alpha)}\right],\]</span> em que <span class="math inline">\(\hat\Theta^{*(\alpha)}\)</span> é o percentil de ordem 100<span class="math inline">\(\alpha\)</span> da distribuição bootstrap de <span class="math inline">\(\hat\Theta^*\)</span>. Esta definição refere-se a um número infinito de réplicas.</p>
+<p>Em situações práticas, o intervalo é aproximado com base nos resultados de <span class="math inline">\(B\)</span> réplicas bootstrap:</p>
+<p><span class="math display">\[\left[ \hat\Theta_B^{*(\alpha)}, \ \hat\Theta_B^{*(1-\alpha)}\right],\]</span> em que <span class="math inline">\(\hat\Theta_B^{*(\alpha)}\)</span> é dado pelo percentil de ordem 100<span class="math inline">\(\alpha\)</span> dos valores de <span class="math inline">\(\hat\theta_B^{*(b)}\)</span>, isto é, o <span class="math inline">\((B\cdot\alpha)\)</span>-ésimo valor ordenado da lista das <span class="math inline">\(B\)</span> réplicas de <span class="math inline">\(\hat\theta_B^{*(b)}\)</span>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Se a distribuição de <span class="math inline">\(\hat\Theta^{*}\)</span> é aproximadamente normal, os intervalos percentil e normal padrão são próximos.</p>
+</div>
+</div>
+<section id="exemplo-2" class="level4" data-number="6.6.1.1">
+<h4 data-number="6.6.1.1" class="anchored" data-anchor-id="exemplo-2"><span class="header-section-number">6.6.1.1</span> Exemplo</h4>
+<p>Para uma amostra: , <span class="math inline">\(n=10\)</span>, de uma distribuição (população) normal padrão, considere o parâmetro de interesse <span class="math inline">\(\Theta\)</span>. <span class="math inline">\(\Theta=\exp(\mu)\)</span>, sendo <span class="math inline">\(\mu=0\)</span>. Sendo a estimativa para <span class="math inline">\(\Theta\)</span>: <span class="math inline">\(\hat{\theta}=\exp(\bar{x})\)</span>. Além disso, use o bootstrap não paramétrico: <span class="math inline">\(B=1000\)</span> réplicas <span class="math inline">\(\hat{\theta}^*\)</span> usando a amostra observada: (1.669, -0.411, -0.322, 0.746, -0.868, -0.874, 1.011, -0.173, 0.021, 1.482). Resultando na estimativa para <span class="math inline">\(\Theta\)</span>: <span class="math inline">\(\hat{\theta}=\exp(\bar{x})=1.256\)</span>.</p>
+<table class="table">
+<caption>Percentis de <span class="math inline">\(\hat\theta^*\)</span> com base em 1000 réplicas bootstrap.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;">2.5%</th>
+<th style="text-align: center;">5%</th>
+<th style="text-align: center;">10%</th>
+<th style="text-align: center;">16%</th>
+<th style="text-align: center;">50%</th>
+<th style="text-align: center;">84%</th>
+<th style="text-align: center;">90%</th>
+<th style="text-align: center;">95%</th>
+<th style="text-align: center;">97.5%</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">0.74</td>
+<td style="text-align: center;">0.81</td>
+<td style="text-align: center;">0.89</td>
+<td style="text-align: center;">0.95</td>
+<td style="text-align: center;">1.25</td>
+<td style="text-align: center;">1.65</td>
+<td style="text-align: center;">1.77</td>
+<td style="text-align: center;">2.00</td>
+<td style="text-align: center;">2.13</td>
+</tr>
+</tbody>
+</table>
+<p>Desta maneira, temos que</p>
+<p><span class="math display">\[IC_p^*\left(95\%,\Theta\right)=\left[0.74, 2.13\right],\]</span></p>
+<p>e</p>
+<p><span class="math display">\[IC_p^*\left(90\%,\Theta\right)=\left[0.81, 2.00\right].\]</span><br>
+Abaixo um código <code>R</code> para o exemplo.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n) <span class="co"># amostra observada</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="dv">1000</span>     <span class="co"># no. de réplicas bootstrap</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>alfa <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.025</span>,<span class="fl">0.05</span>,<span class="fl">0.10</span>,<span class="fl">0.16</span>,<span class="fl">0.50</span>,<span class="fl">0.84</span>,<span class="fl">0.90</span>,<span class="fl">0.95</span>,<span class="fl">0.975</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>B){</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  a <span class="ot">&lt;-</span> <span class="fu">sample</span>(x,n,<span class="at">replace=</span><span class="cn">TRUE</span>)  <span class="co"># amostra bootstrap</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  theta[i] <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">mean</span>(a))       <span class="co"># réplica bootstrap </span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">mean</span>(x)) <span class="co"># estimativa</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6817056</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>sz <span class="ot">&lt;-</span> <span class="fu">sort</span>(theta)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="dv">100</span><span class="sc">*</span>alfa, <span class="fu">round</span>(sz[<span class="fu">c</span>(B<span class="sc">*</span>alfa)],<span class="dv">2</span>)) </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2]  [,3]  [,4]  [,5]  [,6] [,7] [,8] [,9]
+[1,] 2.50 5.00 10.00 16.00 50.00 84.00   90 95.0 97.5
+[2,] 0.37 0.42  0.48  0.52  0.71  0.93    1  1.1  1.2</code></pre>
+</div>
+</div>
+<p>Agora iremos considerar outra abordagem. Seja <span class="math inline">\(\Phi=\log(\Theta)\)</span> e <span class="math inline">\(\hat\Phi=\log(\hat\Theta)=\bar{X}\)</span>. Usando <span class="math inline">\(IC_z\left(95\%,\Phi \right)= \hat{\Phi} \pm z_{\frac{\alpha}{2}}\hat{ep}(\hat{\Phi})\)</span>, resulta <span class="math inline">\(\left[ 0.228 \pm 1.96 \times 0.28 \right]=\left[-0.32, 0.78\right]\)</span>, em que <span class="math inline">\(\hat{ep}(\hat{\Phi})\)</span> é o estimador para o erro padrão de <span class="math inline">\(\hat\Phi\)</span>. Fazendo a transformação inversa, o intervalo para <span class="math inline">\(\Theta\)</span> é <span class="math inline">\(\left[0.73, 2.18\right]\)</span>. Note que o intervalo percentil para <span class="math inline">\(\Theta\)</span> assemelha-se ao intervalo normal padrão construído para uma transformação apropriada de <span class="math inline">\(\Theta\)</span> e transformado para a escala de <span class="math inline">\(\Theta\)</span>.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Vantagem do método percentil:</strong> Não é necessário conhecer a transformação (normalizadora). O método percentil incorpora automaticamente a transformação adequada.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Lema">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Lema
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Suponha a transformação <span class="math inline">\(\hat\Phi=m(\hat\Theta)\)</span> e, consequentemente, <span class="math inline">\(\hat\Phi\sim N(\Phi,c^2)\)</span>, para algum erro padrão <span class="math inline">\(c\)</span>. Então, o intervalo percentil para <span class="math inline">\(\Theta\)</span> será dado por <span class="math display">\[\left[ m^{-1}(\hat\Phi -z_{\frac{\alpha}{2}}.c), m^{-1}(\hat\Phi +z_{\frac{\alpha}{2}}.c)\right].\]</span></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>Em situações nas quais o uso de IC padrão é adequado<span class="math inline">\(^*\)</span>, o IC percentil produz resultados próximos ao do IC padrão.</p></li>
+<li><p>Em situações nas quais o uso do IC padrão é adequado apenas após uma transformação no parâmetro, a aplicaçao do método percentil automaticamente contempla essa transformação.</p></li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Considerações Finais">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Considerações Finais
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>Propriedade : o intervalo percentil para qualquer transformação (monotônica) <span class="math inline">\(\Phi=m(\Theta)\)</span> do parâmetro <span class="math inline">\(\Theta\)</span> é dado por <span class="math display">\[\left[ m(\hat\Theta^{*(\alpha)}), \ m(\hat\Theta^{*(1-\alpha)}\right].\]</span></p></li>
+<li><p>A propriedade também é válida para o intervalo aproximado com base nos resultados de <span class="math inline">\(B\)</span> réplicas bootstrap: <span class="math display">\[\left[ m(\hat\Theta_B^{*(\alpha)}), \ m(\hat\Theta_B^{*(1-\alpha)})\right].\]</span></p></li>
+<li><p>Propriedade <em>range-preserving</em>: produz intervalos com limites dentro do espaço paramétrico.</p></li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="intervalos-de-confiança-bootstrap---versões-aprimoradas" class="level3" data-number="6.6.2">
+<h3 data-number="6.6.2" class="anchored" data-anchor-id="intervalos-de-confiança-bootstrap---versões-aprimoradas"><span class="header-section-number">6.6.2</span> Intervalos de Confiança bootstrap - versões aprimoradas</h3>
+<p>O intervalo bootstrap-<span class="math inline">\(t\)</span> apresenta boa probabilidade de cobertura teórica, mas tende a ser irregular na prática. Já o intervalo bootstrap percentil é menos irregular, mas apresenta probabilidade de cobertura menos satisfatória.</p>
+<p><strong>Proposta:</strong> intervalo bootstrap <span class="math inline">\(BC_a\)</span> (<em>bias-corrected and accelerated</em>) e <span class="math inline">\(ABC\)</span> (<em>approximate bootstrap confidence</em>).</p>
+<p>substancial melhoria na prática e na teoria. correção de viés do estimador. o <span class="math inline">\(ABC\)</span> exige menos esforço computacional do que o <span class="math inline">\(BC_a\)</span></p>
 
 
 </section>

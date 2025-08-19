@@ -304,10 +304,202 @@ ep.jack
 
 ## Intervalos de Confiança
 
-### Intervalo de Confiança Normal e t-Student
+::: {.callout-warning title="Notação"}
+- $\underset{\sim}{X} = (X_1, x_2, \dots, X_n)$: amostra aleatória de uma f.d.a. $F$
 
-### Intervalo de Confiança bootstrap-t
+- $\underset{\sim}{x} = (x_1, x_2, \dots, x_n)$: amostra aleatória observada de $F$
+
+- $\Theta=t(F)$: parâmetro ($\Theta$ uma função de $F$)
+
+- $\hat{\Theta}=s(\underset{\sim}{X})$: estimador para $\Theta$
+
+- $\hat{\theta}=s(\underset{\sim}{x})$: estimativa para $\Theta$
+
+:::
+
+
+## Intervalos de Confiança Normal Padrão
+
+Suponha que $\hat{\Theta}\sim N(\Theta, ep(\hat{\Theta})^2)$. Portanto, se $ep(\hat{\Theta})$ é conhecido temos que:
+
+$$Z=\dfrac{\hat{\Theta} - \Theta}{ep(\hat\Theta)} \sim N(0,1),$$
+e
+$$IC_z\left(100(1-\alpha)\%,\Theta\right)=\hat{\Theta} \pm z_{\frac{\alpha}{2}}ep(\hat{\Theta}).$$
+
+
+## Intervalo de Confiança t-Student
+
+Suponha que $\hat{\Theta}\sim N(\Theta, ep(\hat{\Theta})^2)$ e se $ep(\hat{\Theta})$ é desconhecido, portanto
+
+$$Z=\dfrac{\hat{\Theta} - \Theta}{\hat{ep}(\hat\Theta)} \sim \mbox{t-Student}(n-1),$$
+
+e
+
+$$IC_t\left(100(1-\alpha)\%,\Theta\right)=\hat{\Theta} \pm t_{(n-1,\frac{\alpha}{2})}\hat{ep}(\hat{\Theta}).$$
+
+
+## IC bootstrap-$t$
+
+Agora vamos definir 
+
+$$Z^{*^b}=\dfrac{ \hat{\Theta}^{*^b} - \hat{\Theta} }{\hat{ep}^{*^b}},$$
+em que $\hat{\Theta}^{*^b}=s(\underset{\sim}{X}^{*^b})$ e $\hat{ep}^{*^b}$ são obtidos para cada amostra bootstrap $\underset{\sim}{x}^*$. O percentil $100 \cdot \alpha$ de $Z^{*^b}$ é estimado pelo valor $\hat{t}^{(\alpha)}$, tal que 
+$$ \#\{Z^{*^b}\leq \hat{t}^{(\alpha)} \}/B=\alpha.$$ 
+
+Por exemplo, se $B=100$ e a confiança para o intervalo é de 90$\%$, a estimativa $\hat{t}^{(0.05)}$ será o quinto maior valor de $Z^{*^b}$ e a estimativa $\hat{t}^{(0.95)}$ será o nonagésimo quinto maior valor de $Z^{*^b}$.
+
+
+Este procedimento estima a distribuição de $Z$ (quantidade pivotal) diretamente dos dados. Não é necessário a suposição teórica de normalidade e sua distribuição é a mesma para qualquer \theta.  O intervalo (bilateral) bootstrap-t de confiança $100\times(1-2\alpha)\%$ para o parâmetro $\Theta$, denotado por 
+$IC_t^*\left(100(1-2\alpha)\%,\Theta\right)$, é definido por: 
+
+$$ \left[\hat{\Theta} - \hat{t}^{(1-\alpha)}\hat{ep}(\hat{\Theta}), \hat{\Theta} - \hat{t}^{(\alpha)}\hat{ep}(\hat{\Theta})\right].$$ Emprega-se estimativas \textit{plug-in} para $\hat{\Theta}$ e $\hat{ep}(\hat{\Theta})$; não sendo possível, o erro padrão é estimado usando bootstrap ou jackknife.
+
+
+::: {.callout-important}
+Se $B\cdot\alpha$ não resultar um número inteiro?
+
+1. Efron $\&$ Tibshirani (1993): supondo $\alpha \leq 0.5$, faça $k=\mbox{Int}[(B+1)\cdot\alpha]$ (o maior inteiro $\leq (B+1)\cdot\alpha$ ) e defina os percentis empíricos de ordem $100\cdot\alpha$ e $100\cdot(1-\alpha)$, respectivamente, pelo $k$-ésimo e $(B+1-k)$-ésimo maiores valores de $Z^{*^b}$.
+
+2.  Davidson $\&$  Hinkley (1997): interpolação dos percentis.
+:::
+
+
+
+::: {.callout-note title="Considerações"}
+- Este intervalo pode ser fortemente influenciado por poucos valores discrepantes.
+
+- Em geral, é necessário um valor de $B$ muito superior a 200.
+
+- Para grandes amostras, o IC bootstrap-t pode estar mais próximo do nível de cobertura desejado do que os IC Normal ou t-Student.
+
+- Abaixo, percentis da distribuição $t$-Student com 8 gl, normal padrão e distribuição bootstrap de $Z^{*^b}$ (para o grupo controle no experimento com os ratos; $B=1000$).
+:::
+
+
+: Comparação dos percentis de diferentes distribuições.
+
+| percentil   | 5    | 10   | 90   | 95   |
+|-------------|------|------|------|------|
+| $t_8$       | -1.86 | -1.40 | 1.40 | 1.86 |
+| Normal      | -1.65 | -1.28 | 1.28 | 1.65 |
+| bootstrap-t | -4.53 | -2.01 | 1.19 | 1.53 |
+
+
+
+O IC bootstrap-$t$ para $\Theta$ (média do tempo de sobrevivência de ratos não submetidos ao tratamento (grupo controle)):
+
+$$\left[ 56.22-1.53 \times 13.33, \ 56.22+4.53  \times 13.33\right]=\left[35.82, \ 116.74\right],$$
+usado a estimativa \textit{plug-in} para o erro padrão da média.
+
+
+::: {.callout-tip title="Considerações Finais"}
+
+- os valores dos percentis bootstrap-$t$ podem  não ser simétricos em relação ao zero.
+
+- aplicável para estatísticas de localização (média, mediana etc).
+
+- Cautela no uso envolvendo pequenas amostras (limites do intervalo fora do espaço paramétrico).
+
+- o $IC^*_t$ não é *transformation-respecting* (ver próxima seção)
+
+:::
+
 
 ### Intervalos de Confiança bootstrap percentil
 
+O intervalo bootstrap percentil de confiança $100(1-2\alpha)\%$, denotado por 
+$IC_p^*\left(100(1-2\alpha)\%,\Theta \right)$,  é definido por 
+
+$$\left[ \hat\Theta^{*(\alpha)}, \ \hat\Theta^{*(1-\alpha)}\right],$$
+em que  $\hat\Theta^{*(\alpha)}$ é o percentil de ordem 100$\alpha$ da distribuição bootstrap de $\hat\Theta^*$. Esta definição refere-se a um número infinito de réplicas. 
+
+
+Em situações práticas, o intervalo é aproximado com base nos resultados de $B$ réplicas bootstrap:
+
+$$\left[ \hat\Theta_B^{*(\alpha)}, \ \hat\Theta_B^{*(1-\alpha)}\right],$$
+em que $\hat\Theta_B^{*(\alpha)}$ é dado pelo percentil de ordem 100$\alpha$ dos valores de $\hat\theta_B^{*(b)}$, isto é, o $(B\cdot\alpha)$-ésimo valor ordenado da lista das $B$ réplicas de  $\hat\theta_B^{*(b)}$.
+
+
+::: {.callout-note}
+Se a distribuição de $\hat\Theta^{*}$ é aproximadamente normal, os intervalos percentil e normal padrão são próximos.
+:::
+
+
+#### Exemplo
+
+Para uma amostra: \va , $n=10$, de uma distribuição (população) normal padrão, considere o parâmetro de interesse $\Theta$. $\Theta=\exp(\mu)$, sendo $\mu=0$. Sendo a estimativa para $\Theta$: $\hat{\theta}=\exp(\bar{x})$. Além disso, use o bootstrap não paramétrico: $B=1000$ réplicas $\hat{\theta}^*$ usando a amostra observada: (1.669, -0.411, -0.322,  0.746, -0.868, -0.874,  1.011, -0.173,  0.021,  1.482). Resultando na estimativa para $\Theta$: $\hat{\theta}=\exp(\bar{x})=1.256$.
+
+:Percentis de $\hat\theta^*$ com base em 1000 réplicas bootstrap.
+
+| 2.5% | 5%  | 10% | 16% | 50% | 84% | 90% | 95% | 97.5% |
+|:----:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:-----:|
+| 0.74 | 0.81 | 0.89 | 0.95 | 1.25 | 1.65 | 1.77 | 2.00 | 2.13 |
+
+
+Desta maneira, temos que 
+
+$$IC_p^*\left(95\%,\Theta\right)=\left[0.74, 2.13\right],$$
+
+e
+
+$$IC_p^*\left(90\%,\Theta\right)=\left[0.81, 2.00\right].$$                                                                                                       
+Abaixo um código `R` para o exemplo.
+
+```{r}
+set.seed(1234)
+n <- 10
+x <- rnorm(n) # amostra observada
+B <- 1000     # no. de réplicas bootstrap
+theta <- 0
+alfa <- c(0.025,0.05,0.10,0.16,0.50,0.84,0.90,0.95,0.975)
+
+for(i in 1:B){
+  a <- sample(x,n,replace=TRUE)  # amostra bootstrap
+  theta[i] <- exp(mean(a))       # réplica bootstrap 
+}
+
+exp(mean(x)) # estimativa
+sz <- sort(theta)
+rbind(100*alfa, round(sz[c(B*alfa)],2)) 
+```
+
+Agora iremos considerar outra abordagem. Seja $\Phi=\log(\Theta)$ e  $\hat\Phi=\log(\hat\Theta)=\bar{X}$. Usando $IC_z\left(95\%,\Phi \right)= \hat{\Phi} \pm z_{\frac{\alpha}{2}}\hat{ep}(\hat{\Phi})$, resulta $\left[ 0.228 \pm 1.96 \times 0.28 \right]=\left[-0.32, 0.78\right]$, em que $\hat{ep}(\hat{\Phi})$ é o estimador \textit{plug-in} para o erro padrão de $\hat\Phi$. Fazendo a transformação inversa, o intervalo para $\Theta$ é $\left[0.73, 2.18\right]$. Note que o intervalo percentil para $\Theta$ assemelha-se ao intervalo normal padrão construído para uma transformação  apropriada de $\Theta$ e transformado para a escala de $\Theta$.
+
+::: {.callout-important}
+**Vantagem do método percentil:** Não é necessário conhecer a transformação (normalizadora). O método percentil incorpora automaticamente a transformação adequada.
+:::
+
+::: {.callout-caution title="Lema"}
+Suponha a transformação $\hat\Phi=m(\hat\Theta)$ e, consequentemente, $\hat\Phi\sim N(\Phi,c^2)$, para algum erro padrão $c$. Então, o intervalo percentil para $\Theta$ será dado por $$\left[ m^{-1}(\hat\Phi -z_{\frac{\alpha}{2}}.c), m^{-1}(\hat\Phi +z_{\frac{\alpha}{2}}.c)\right].$$
+:::
+
+
+::: {.callout-note}
+
+- Em situações nas quais o uso de IC padrão é adequado$^*$, o IC percentil produz resultados próximos ao do IC padrão.
+
+- Em situações nas quais o uso do IC padrão é adequado apenas após uma transformação no parâmetro, a aplicaçao do método percentil automaticamente contempla essa transformação.
+
+:::
+
+
+::: {.callout-tip title="Considerações Finais"}
+
+- Propriedade \textit{transformation-respecting}: o intervalo percentil para qualquer transformação (monotônica) $\Phi=m(\Theta)$ do parâmetro $\Theta$ é dado por 
+$$\left[ m(\hat\Theta^{*(\alpha)}), \ m(\hat\Theta^{*(1-\alpha)}\right].$$
+
+- A propriedade também é válida para o intervalo aproximado com base nos resultados de $B$ réplicas bootstrap:
+$$\left[ m(\hat\Theta_B^{*(\alpha)}), \ m(\hat\Theta_B^{*(1-\alpha)})\right].$$
+
+- Propriedade *range-preserving*: produz intervalos com limites dentro do espaço paramétrico.
+:::
+
+
 ### Intervalos de Confiança bootstrap - versões aprimoradas
+
+
+O intervalo bootstrap-$t$ apresenta boa probabilidade de cobertura teórica, mas tende a ser irregular na prática. Já o intervalo bootstrap percentil é menos irregular, mas apresenta probabilidade de cobertura menos satisfatória. 
+
+**Proposta:** intervalo bootstrap $BC_a$ (*bias-corrected and accelerated*) e $ABC$ (*approximate bootstrap confidence*). 
+
+substancial melhoria na prática e na teoria. correção de viés do estimador. o $ABC$ exige menos esforço computacional do que o $BC_a$ 
