@@ -314,7 +314,6 @@ ep.jack
 - $\hat{\Theta}=s(\underset{\sim}{X})$: estimador para $\Theta$
 
 - $\hat{\theta}=s(\underset{\sim}{x})$: estimativa para $\Theta$
-
 :::
 
 

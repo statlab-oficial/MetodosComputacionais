@@ -54,7 +54,7 @@ Essa fórmula tem três virtudes didáticas:
 
 2) **Rapidez**: permite cálculos aproximados para valores de $r$ de interesse.
 
-3) **Boas aproximações** já para $r$ na casa de dezenas.
+3) **Boas aproximações** já para $r$ na casa das dezenas.
 
 ::: {.callout-warning title="Exemplo Rápido"}
 

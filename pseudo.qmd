@@ -1,17 +1,508 @@
-# Número Pseudoaleatórios
+# Números Pseudoaleatórios
 
-## Introdução
+## Introdução 
 
-## Métodos para Geração de Variáveil Aleatórias Discretas
 
-### Método da transformação inversa
+## Método da Transformação Inversa
 
-### Método da Aceitação-Rejeição
+Suponha que desejamos gerar o valor de uma variável aleatória discreta $X$ com função de massa de probabilidade (f.m.p):
 
-### Método da Composição
+$$\Pr(X = x_j) = p_j, \quad j = 0, 1, \dots, \quad \sum\limits_j p_j = 1.$$
 
-## Métodos para Geração de Variáveil Aleatórias Contínuas
+::: {.callout-important icon="false" appearance="simple"}
+## **Interesse:** Gerar valores da variável aleatória $X$ com distribuição:
 
-### Método da transformação inversa
+| $X$      | $P(X=x_j)$ |
+|----------|------------|
+| $x_0$    | $p_0$      |
+| $x_1$    | $p_1$      |
+| $x_2$    | $p_2$      |
+| $\vdots$ | $\vdots$   |
+| $x_j$    | $p_j$      |
+| $\vdots$ | $\vdots$   |
+:::
 
-### Método da Aceitação-Rejeição
+Para realizar isso, gere um valor $u$ de $U\sim(0,1)$ e atribua o valor $x_j$, $j=0,1,\ldots$, a $X$ conforme as condições abaixo:
+
+$$X = \begin{cases}
+x_0, & \text{se } u < p_0, \\
+x_1, & \text{se } p_0 \leq u < p_0+p_1, \\
+x_2, & \text{se } p_0+p_1 \leq u < p_0+p_1+p_2, \\
+x_3, & \text{se } p_0+p_1+p_2 \leq u < p_0+p_1+p_2+p_3, \\
+\vdots & \\
+x_j, & \text{se } \displaystyle \sum_{i=0}^{j-1} p_i \leq u < \sum_{i=0}^{j} p_i, \\
+\vdots &
+\end{cases}$$
+
+Como, para $0 < a < b < 1, \Pr(a \leq U < b) = b-a$, temos que:
+
+$$\Pr(X = x_j) = \Pr\left(\sum\limits_{i=0}^{j-1}p_i \leq U < \sum\limits_{i=0}^{j}p_i\right) = p_j,$$ e, portanto, $X$ possui a distribuição desejada.
+
+::: {.callout-important icon="false" appearance="simple"}
+## Observações:
+
+1.  Algoritmo - O procedimento anterior pode ser escrito como:
+
+Passo 1. Gerar um valor $u \sim U(0,1)$.
+
+Passo 2. Se $u < p_0$, então $X = x_0$; caso contrário:
+
+-   se $u < p_0 + p_1$, então $X = x_1$; caso contrário:\
+-   se $u < p_0 + p_1 + p_2$, então $X = x_2$; caso contrário:\
+    $\vdots$
+
+Passo 3. Repetir os passos 1 e 2 $n$ vezes, onde $n$ é o tamanho da amostra.
+
+2.  Se os valores, $x_i, i \geq 0$, são ordenados de modo que $x_0 < x_1 < \dots,$ e de denotamos $F$ como função de distribuição de $X$, então $F(x_j) = \sum\limits_{i=1}^{j}p_i$. Assim,
+
+$$X\; \text{será igual a}\; x_j\; \text{se}\; F(x_{j-1}) < U < F(x_j).$$
+:::
+
+Em outras palavras, após gerar um número aleatório $U$, determinamos o valor de $X$ encontrando o intervalo $[F(x_{j-1}), F(x_j))$ no qual $U$ se encontra (ou, de forma equivalente, encontrando o inverso de $F(U)$). É por essa razão que o procedimento acima é denominado *método da transformada inversa discreta* para gerar $X$.
+
+::: callout-note
+O tempo necessário para gerar uma variável aleatória discreta por esse método é proporcional ao número de intervalos que devem ser pesquisados. Por essa razão, às vezes é vantajoso considerar os possíveis valores $x_j$ de $X$ em ordem decrescente das probabilidades $p_j$.
+:::
+
+### Exemplo 1 {.unnumbered}
+
+Simular $n$ valores de $X$ tal que $p_1 = 0.20$, $p_2 = 0.15$, $p_3 = 0.25$, $p_4 = 0.40$, em que $p_j = P(X=j)$.
+
+::: {.callout-warning icon="false" appearance="simple"}
+## Algoritmo 1
+
+Passo 1. Gerar $n$ valores $u \sim U(0,1)$.
+
+Passo 2. Para cada $u$:
+
+-   Se $u < 0.20$, então $X = 1$.
+
+-   Caso contrário, se $u < 0.35$, então $X = 2$.
+
+-   Caso contrário, se $u < 0.60$, então $X = 3$.
+
+-   Caso contrário ($u \geq 0.60$), então $X = 4$.
+
+Passo 3. Repetir $n$ vezes os passos 1 e 2.
+:::
+
+A seguir, são apresentados dos códigos escritos na linguagem `R`:
+
+```{r}
+# Proposta 1
+n <- 10000
+x <- 1:4 
+p <- c(0.20, 0.15, 0.25, 0.40)
+pa <- cumsum(p) # probabilidades acumuladas
+a  <- c() # vetor para a amostra gerada de X
+
+for(i in 1:n){
+  u <- runif(1)
+  if (u < pa[1]) {
+    a[i] <- x[1]
+  } else { 
+      if (u < pa[2]) {
+        a[i] <- x[2]
+      } else { if (u < pa[3]) {
+        a[i] <- x[3]
+      } else { 
+          a[i] <- x[4]
+          }
+      }
+    }
+}
+table(a)/n # tabela de proporções
+
+```
+
+```{r}
+# Proposta 2
+n <- 10000; 
+x <- 1:4; 
+p <- c(0.20, 0.15, 0.25, 0.40)
+pa <- cumsum(p) # probabilidades acumuladas
+a  <- c() # vetor para a amostra gerada de X
+		
+for(i in 1:n){
+  u = runif(1)
+  ifelse(u < pa[1], a[i] <- x[1], 
+    ifelse(u < pa[2], a[i] <- x[2],
+      ifelse(u < pa[3], a[i] <- x[3], a[i] <- x[4])))
+}
+table(a)/n # tabela de proporções
+```
+
+::: {.callout-warning icon="false" appearance="simple"}
+## Algoritmo 2
+
+Passo 1. Gerar um valor $u \sim U(0,1)$.
+
+Passo 2. Para cada $u$:
+
+-   Se $u < 0.40$, então $X = 4$;
+
+-   Caso contrário, se $u < 0.65$, então $X = 3$;
+
+-   Caso contrário, se $u < 0.85$, então $X = 1$;
+
+-   Caso contrário $u \geq 0.85$, então $X = 2$.
+
+Passo 3. Repetir $n$ vezes os passos 1 e 2.
+:::
+
+::: {.callout-important icon="false"}
+## 🔎 **Observação**:
+
+A proposta 2 usa a **ordem decrescente** dos $p_j$ para otimizar a busca.
+:::
+
+::: {.callout-warning icon="false" appearance="simple"}
+## Algoritmo 3 (mudando as desigualdades)
+
+Passo 1. Gerar $u \sim U(0,1)$.
+
+Passo 2. Se $u \leq 0.40$, então $X = 4$;
+
+-   senão, se $u \leq 0.65$, então $X = 3$;
+
+-   senão, se $u \leq 0.85$, então $X = 1$;
+
+-   senão ($u > 0.85$), então $X = 2$.
+
+Passo 3. Repetir $n$ vezes os passos 1–2.
+:::
+
+::: {.callout-important icon="false"}
+## 🔎 **Observação**:
+
+Com $u \sim U(0,1)$ é contínua, usar $<$ ou $\leq$ é equivalente em termos de distribuição (a probabilidade de $u$ cair exatamente no ponto de corte é zero). Em implementação numérica, essa escolha apenas define para onde vão raríssimos empates nos pontos cortes.
+:::
+
+### Inversa Generalizada {.unnumbered}
+
+Seja $F$ uma função de distribuição qualquer. A inversa generalizada, denotada por $F^{-1}$, é definida da seguinte forma: $$ F^{-1}(u) = \mbox{inf}\{x \in \mathbb{R}: F(x)\geq u \}$$
+
+-   Tanto a inversa de $F$ como a inversa generalizada estão sendo denotadas por $F^{-1}$.
+-   Se a inversa de $F$ existe no sentido usual, ela coincide com a inversa generalizada.\
+    Note que, se $F$ for estritamente crescente e contínua, então $\forall x \in \mathbb{R}$ existirá apenas um $u$ tal que $F(x) = u$.
+-   A proposição seguinte dá base para as simulações de v.a. discretas.
+
+Seja $F$ uma função de distribuição qualquer e $F^{-1}$ sua inversa generalizada. Temos: $$F^{-1}(u) \leq x \mbox{ se, e somente se, } u \leq F(x)$$
+
+Se você deseja simular valores de \Xn  \textbf{com distribuição uniforme discreta}:
+
+$$P(X=j)=1/k, \, \,\, j=1,2,3,\ldots, k.$$
+
+Basta utilizar a Proposições 1 ou a Proposição 2.
+
+::: {.callout-note .prop-blue icon="false"}
+## Proposição 1:
+
+Gere $U\sim U(0,1)$. Defina $X=j$ se
+
+$$\frac{j-1}{k}\leq U < \frac{j}{k},$$ ou, equivalentemente,
+
+$$(j-1)\leq kU < j.$$
+:::
+
+::: {.callout-note .prop-blue icon="false"}
+## Proposição 2:
+
+Gere $U\sim U(0,1)$. Defina $X=\mbox{Int}(kU)+1$, em que $\textrm{Int}(x)$ é a parte inteira de $x$.
+:::
+
+### Exemplo 2 {.unnumbered}
+
+Para simular valores de $X$ com $P(X=j)=1/10, \, \,\, j=1,2,3,\ldots, 10$, você pode serguir o procedimento a seguir:
+
+| $j-1$ | $j$ | $U$ | $kU$ | [$X=j$]{style="color:blue"} | [$X=\mathrm{Int}(kU)+1$]{style="color:red"} |
+|----------|----------|----------|----------|-------------|----------------------|
+| 0 | 1 | 0,01 | 0,1 | 1 | 1 |
+| 1 | 2 | 0,31 | 3,1 | 4 | 4 |
+| 2 | 3 | 0,53 | 5,3 | 6 | 6 |
+| 3 | 4 | 0,92 | 9,2 | 10 | 10 |
+| 4 | 5 | 0,45 | 4,5 | 5 | 5 |
+| $\vdots$ | $\vdots$ | $\vdots$ | $\vdots$ | $\vdots$ | $\vdots$ |
+| 9 | 10 | 0,74 | 7,4 | 8 | 8 |
+
+#### Exercícios {.unnumbered}
+
+1.  Gerar uma permutação dos números $1,2,3, \ldots, n$, considerando todas as $n!$ possíveis permutações igualmente prováveis (exemplo 4b).
+
+2.  Gerar valores de $X\sim \mbox{Geométrica}(p)$ (exemplo 4d).
+
+3.  Implementar o algoritmo para gerar valores de $X\sim \mbox{Poisson}(\lambda)$ (seção 4.2).
+
+4.  Implementar o algoritmo para gerar valores de $X\sim \mbox{Binomial}(n,p)$ (seção 4.2).
+
+### Exemplo 3 {.unnumbered}
+
+Nosso objetivo agora é gerar valores de $X\sim \mbox{Poisson}(\lambda)$ com:
+
+$$p_i=P(X=i)=\dfrac{e^{-\lambda}\lambda^i}{i!}, \quad i=0,1,2,\ldots. $$ ::: {.callout-important} \## 🔎 **Identidade importante:**
+
+$$p_{i+1} = \dfrac{\lambda}{i+1}p_i, \quad i\geq 0.$$ :::
+
+Uma forma bastante utilizada para gerar valores de uma variável aleatória $X\sim \mbox{Poisson}(\lambda)$ é por meio de algoritmos de simulação baseados na identidade acima.
+
+::: {.callout-warning icon="false" appearance="simple"}
+## Algoritmo 4
+
+Passo 1. Gerar um número aleatório $u \sim U(0,1)$.
+
+Passo 2. Inicializar $i = 0$, $p = e^{-\lambda}$, $F = p$.
+
+Passo 3. Se $u < F$, então definir $X = i$ e parar.
+
+Passo 4. Caso contrário:
+
+-   atualizar $i \leftarrow i+1$,
+
+-   atualizar $p \leftarrow \frac{\lambda}{i}\,p$,
+
+-   atualizar $F \leftarrow F + p$,
+
+-   voltar ao passo 3.
+:::
+
+#### Exercício {.unnumbered}
+
+Complete o código `R` abaixo:
+
+```{r eval=FALSE}
+N = 10^5 # tamanho da amostra
+L = 3  # lambda
+x = c()
+for (j in 1:N){
+  u = runif(1)
+  i = 0; p = exp(-L); F = p
+  aceito = "não"
+  while (aceito != "sim"){
+    if(u < F) {
+  	   ...
+  	 } else {
+        ...
+      }
+  }
+}
+```
+
+### Exemplo 4 {.unnumbered}
+
+Por fim, iremos gerar valores da variável aleatório $X$, $X\sim \mbox{Binomial}(n,p)$, com f.m.p dada por:
+
+$$P(X=i)=\dfrac{n!}{i!(n-i)!}p^i(1-p)^{n-i}, \quad i=0,1,2,\ldots,n.$$
+
+::: {.callout-important icon="false"}
+## 🔎 **Identidade importante:**:
+
+$$P(X=i+1) = \dfrac{n-i}{i+1}\dfrac{p}{1-p}P(X=i).$$
+:::
+
+A partir do resultado acima e do método da transformação inversa podemos escrever o seguinte algoritmo:
+
+::: {.callout-warning appearance="simple" icon="false"}
+## Algoritmo 5
+
+Passo 1. Gerar um número aleatório $u \sim U(0,1)$.
+
+Passo 2. Calcular $k = \dfrac{p}{1-p}$, inicializar $i = 0$, $p_r = (1-p)^n$, $F = p_r$.
+
+Passo 3. Se $u < F$, definir $X = i$ e parar.
+
+Passo 4. Caso contrário:
+
+-   atualizar $p_r \leftarrow \dfrac{n-i}{i+1}\,k\,p_r$,
+
+-   atualizar $F \leftarrow F + p_r$,
+
+-   atualizar $i \leftarrow i+1$,
+
+-   voltar ao passo 3.
+:::
+
+### Exercício 5 {.unnumbered}
+
+Escreve um código na linguagem `R` baseado no Algoritmo 5. Utilize alguma ferramenta gráfica para verificar a coerência dos resultados.
+
+## Método da Aceitação-Rejeição
+
+Suponha que haja interesse em simular valores de uma v.a. $X$ e que não seja possível inverter a sua função de distribuição ou não dispomos de um método para gerar dessa variável aleatória. Entretanto, sabemos como simular de uma outra v.a. $Y$ e que é possível estabelecer uma relação entre as probabilidades associadas às duas variáveis aleatórias ($X$ e $Y$) de tal modo que valores de $Y$ possam ser admitidos como valores de $X$.
+
+| $x$   | 1    | 2    | 3    | 4    | 5    | 6    | 7    | 8    | 9    | 10   |
+|-------|------|------|------|------|------|------|------|------|------|------|
+| $p_x$ | 0,11 | 0,12 | 0,09 | 0,08 | 0,12 | 0,10 | 0,09 | 0,09 | 0,10 | 0,10 |
+
+| $y$   | 1    | 2    | 3    | 4    | 5    | 6    | 7    | 8    | 9    | 10   |
+|-------|------|------|------|------|------|------|------|------|------|------|
+| $q_y$ | 0,10 | 0,10 | 0,10 | 0,10 | 0,10 | 0,10 | 0,10 | 0,10 | 0,10 | 0,10 |
+
+Contexto:
+
+-   **Podemos**: simular valores de $Y$ com f.p. $q_j=P(Y=j), j\geq 0$.
+-   **Queremos**: simular valores de $X$ com f.p. \small  $p_j=P(X=j), j\geq 0$.
+-   **Proposta**: simular valor $y$ de $Y$ e aceitar esse valor para $X$ com probabilidade proporcional a $\dfrac{p_y}{q_y}$.
+
+::: {.callout-warning appearance="simple" icon="false"}
+## Algoritmo
+
+Passo 1. Simular $y$ de $Y$ com f.m.p. $q_y$.
+
+Passo 2. Gerar $u \sim U(0,1)$.
+
+Passo 3. Se $u < \dfrac{p_y}{c \, q_y}$, então aceite $X = y$. Caso contrário, rejeite e não atribua valor a $X$.
+
+Passo 4. Repetir os passos 1–3 até obter o tamanho de amostra desejado.
+:::
+
+O algoritmo aceitação-rejeição gera uma v.a. $X$ tal que $P(X=j)=p_j$, $j=0,1,2,\ldots$. Além disso, o número de iterações que o algoritmo necessita para obter $X$ é uma v.a. geométrica com média $c$.
+
+::: {.callout-note icon="false" appearance="simple"}
+## Prova do Teorema
+
+1.  Em uma iteração, determinar a probabilidade de gerar e ser aceito o valor $j$: $$P(Y=j,aceitar)= P(Y=y).P(aceitar/Y=j)= q_j.\dfrac{pj}{cq_j} = \dfrac{p_j}{c}$$
+2.  Calcular a probabilidade de aceitar um valor $j$ gerado: $$P(aceitar)= \sum_j P(Y=j,aceitar)=\sum_j \dfrac{pj}{c} = \dfrac{1}{c}$$
+3.  Como cada iteração independentemente resulta um valor aceitável com probabilidade $\frac{1}{c}$, o número de iterações necessárias segue uma geométrica de média $c$. Portanto, $$P(X=j)=\! \sum_n P(\mbox{\textit{j aceito na iteração n}}) = \sum_n \left(\!1\!-\!\dfrac{1}{c}\!\right)^{\!\!n-1}\!\!.\dfrac{p_j}{c}=p_j$$.
+:::
+
+::: {.callout-important icon="false"}
+## Observações
+
+-   A constante $c$ está relacionada com o número de interações necessárias até a aceitação de um valor de $Y$ para $X$.
+
+-   O valor $c$ deve ser o menor possível.
+
+-   O valor de $c$ será o $\mbox{max}\left\{\dfrac{p_y}{q_y}\right\}$.
+:::
+
+::: callout-note
+$$u<\dfrac{p_y}{c.q_y} \ \ \ \ \mbox{e}  \ \ \ \  P(U<\dfrac{p_y}{c.q_y})= \dfrac{p_y}{c.q_y} $$ $$\Downarrow$$ $$\dfrac{p_y}{c.q_y}\leq 1 \ \ \ \ \mbox{para todo} \ \ y \ \ \mbox{tal que} \ \ p_y>0$$ $$\Downarrow$$ $$c=\mbox{max}\left\{\dfrac{p_y}{q_y}\right\}$$
+:::
+
+#### Exemplo 1 {.unnumbered}
+
+Gerar um valor da variável aleatória $X$ com f.m.p.:
+
+| $j$   | 1    | 2    | 3    | 4    | 5    | 6    | 7    | 8    | 9    | 10   |
+|-------|------|------|------|------|------|------|------|------|------|------|
+| $p_j$ | 0,11 | 0,12 | 0,09 | 0,08 | 0,12 | 0,10 | 0,09 | 0,09 | 0,10 | 0,10 |
+
+Considerando que sabemos gerar de uma v.a. uniforme discreta, assumiremos $Y$ com distribuição
+
+$$P(Y=j)=q_j=\dfrac{1}{10}; \quad j=1,2, \ldots, 10.$$
+
+A constante $c$ será determinada por $c=\mbox{max}\left\{\dfrac{p_j}{q_j}\right\} =\dfrac{0,\!12}{0,\!10}=1,\!2.$
+
+::: {.callout-warning appearance="simple" icon="false"}
+## Algoritmo
+
+1.  Simular $y$ de $Y$: gere $u_1 \sim U(0,1)$ e faça $y = \mathrm{Int}(10u_1)+1$.
+2.  Gerar um segundo número aleatório $u_2$.
+3.  Se $u_2 < \dfrac{p_y}{0.12}$, faça $X=y$ e pare. Caso contrário, retorne ao passo 1.
+:::
+
+::: callout-note
+Suponha $y=1$. Então, se $u_2<\dfrac{p_1}{0,\!12}=\dfrac{0,\!11}{0,\!12}=0,\!9167$, faremos $X=1$. Isto é, assumiremos que o valor 1 gerado é plausível de ser da distribuição de $X$. O gráfico a seguir ilustra esse processo.
+:::
+
+```{r}
+#set.seed(20252)
+pseudo_x <- NULL
+for(i in seq_len(1000)){
+  
+pj <- c(0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10)
+
+u1 <- runif(1)
+y <- floor(10*u1) + 1
+
+
+repeat{
+u2 <- runif(1)
+x <- y
+
+if(u2 < pj[y]/0.12) break
+}
+
+pseudo_x[i] <- x
+}
+
+round(prop.table(table(pseudo_x)),2)
+```
+
+Existe algum problema com os resultados acima? Se sim, faça a correção do código e verifique graficamente a coerência dos resultados.
+
+::: {.callout-important icon="false"}
+## Observações
+
+-   $91,\!67\%$ de todos os valores 1 gerados de $Y$ serão aceitos
+
+-   $100\%$ dos valores 2 gerados de $Y$ serão aceitos
+
+-   $75\%$ dos valores 3 gerados de $Y$ serão aceitos
+
+-   Qualquer valor da constante $c$ inferior a $1,\!2$ impossibilita gerar a distribuição de $X$
+
+-   Qualquer valor da constante $c$ superior a $1,\!2$ tornaria o processo mais lento para a obteção da amostra
+:::
+
+#### Exercícios {.unnumbered}
+
+1.  Gere números pseudoaleatórios de $X$ considerando $c = 2,4$.
+
+2.  Compare com os resultados obtidos no Exemplo.
+
+## Método da Composição
+
+Suponha que tenhamos um método eficiente para simular o valor de uma variável aleatória com f.m.p. ${p_j, ; j \geq 0}$ ou ${q_j, ; j \geq 0}$, e que desejamos simular a variável aleatória $X$ com f.m.p.:
+
+$$\Pr(X = j) = \alpha p_j + (1 - \alpha)q_j, \quad j \geq 0, 0 < a < 1.$$ Se $X_1 \sim {p_j}$ e $X_2 \sim {q_j}$, então podemos definir
+
+$$X =
+\begin{cases}
+X_1, & \text{com probabilidade } a, \\
+X_2, & \text{com probabilidade } 1-a ,
+\end{cases}.$$
+
+Assim, $X$ terá exatamente a função de probabilidade acima.
+
+#### Exemplo {.unnumbered}
+
+Suponha que desejamos gerar o valor de uma variável aleatória $X$ tal que
+
+$$p_j = \Pr(X = j) =  \begin{cases}
+0.05, & \text{para}\quad j = 1, 2, 3, 4, 5, \\
+0.15, & \text{para}\quad  j = 6, 7, 8, 9, 10,
+\end{cases}$$
+
+Note que $p_j = 0.5 \times p_j^{(1)} + 0.5 \times p_j^{(2)},$ em que
+
+$$p_j^{(1)} = 0.1, \quad j = 1, \dots, 10 \quad \text{e} \quad p_j^{(2)} = \begin{cases}
+0, & \text{para}\quad j = 1, 2, 3, 4, 5, \\
+0.2, & \text{para}\quad  j = 6, 7, 8, 9, 10,
+\end{cases}$$
+
+podemos realizar essa simulação gerando primeiro um número aleatório $U \sim U(0,1)$ e então:
+
+-   Se $U < 0.5$, gerar $X$ de uma uniforme discreta sobre $\{1,2,\dots,10\}$.
+-   Caso contrário ($U \geq 0.5$), gerar $X$ de uma uniforme discreta sobre $\{6,7,8,9,10\}$.
+
+::: {.callout-warning appearance="simple" icon="false"}
+## Algoritmo
+
+Passo 1. Gerar $U_1 \sim U(0,1)$.
+
+Passo 2. Gerar $U_2 \sim U(0,1)$.
+
+Passo 3. Se $U_1 < 0.5$, definir $X = \mathrm{Int}(10U_1)+1$. Caso contrário, definir $X = \mathrm{Int}(5U_2)+6$.
+:::
+
+Se $F_i$, $i=1,\dots,n$ são funções de distribuição e $\alpha_i$, $i=1,\dots,n$ são números não negativos cuja soma é 1, então a função de distribuição:
+
+$$
+F(x) = \sum_{i=1}^n \alpha_i F_i(x),
+$$
+
+é uma **mistura**, ou uma **composição**, das funções de distribuição $F_i$, $i = 1, \dots, n$.
+
+Uma maneira de simular a partir de $F$ é primeiro simular uma variável aleatória $I$, igual a $i$ com probabilidade $\alpha_i$, $i=1,\dots,n$, e então simular a partir da distribuição $F_I$ (Isto é, se o valor simulado de $I$ for $I = j$, então a segunda simulação é feita a partir de $F_j$). Essa abordagem para simular de $F$ é frequentemente chamada de **método de composição**.
+

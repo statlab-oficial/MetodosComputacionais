@@ -26,3 +26,9 @@ p, li { text-align: justify; hyphens: auto; }  /* texto justificado */
   font-weight: bold;
 }
 /* styles.css */
+
+
+
+.prop-blue { border-left: 6px solid #1f77b4; }
+.prop-red  { border-left: 6px solid #d62728; }
+.callout > .callout-header h2 { margin: 0; }

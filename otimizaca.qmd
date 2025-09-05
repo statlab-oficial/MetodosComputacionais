@@ -7,4 +7,3 @@
 ## Método Escore de Fisher
 
 ## Método BFGS
-

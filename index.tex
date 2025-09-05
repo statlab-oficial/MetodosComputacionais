@@ -1,0 +1,2881 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  letterpaper,
+  DIV=11,
+  numbers=noendperiod]{scrreprt}
+
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else  
+    % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\setcounter{secnumdepth}{5}
+% Make \paragraph and \subparagraph free-standing
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{241,243,245}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.40,0.45,0.13}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\ExtensionTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.28,0.35,0.67}{#1}}
+\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.46,0.62}{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\NormalTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.07,0.07,0.07}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+% definitions for citeproc citations
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+\makeatletter
+ % allow citations to break across lines
+ \let\@cite@ofmt\@firstofone
+ % avoid brackets around text for \cite:
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+ {\begin{list}{}{%
+  \setlength{\itemindent}{0pt}
+  \setlength{\leftmargin}{0pt}
+  \setlength{\parsep}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+   \setlength{\leftmargin}{\cslhangindent}
+   \setlength{\itemindent}{-1\cslhangindent}
+  \fi
+  % set entry spacing
+  \setlength{\itemsep}{#2\baselineskip}}}
+ {\end{list}}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+% pacotes úteis
+\usepackage{amsmath}
+\usepackage{array}      % para o \begin{array} usado pelo \stackunder
+% \usepackage{stackengine} % (opcional) se quiser usar a versão do pacote \stackunder
+
+% suas macros
+\newcommand{\tn}{\mbox{\boldmath $\theta$} }
+\newcommand{\sn}{\mbox{\boldmath $\sigma$} }
+\newcommand{\On}{\mbox{\boldmath $\Omega$} }
+\newcommand{\Dn}{\mbox{\boldmath $\Delta$} }
+\newcommand{\In}{\mbox{\textbf{I}} }
+\newcommand{\yn}{\mbox{\textbf{y}} }
+\newcommand{\Vn}{\mbox{\textbf{V}} }
+\newcommand{\mn}{\mbox{\boldmath $\mu$} }
+\newcommand{\Fn}{\mbox{\boldmath $\Phi$} }
+\newcommand{\Pn}{\mbox{\boldmath $\Pi$} }
+
+\newenvironment{Dproof}[1][DProof]{\textbf{#1.} }{\ \rule{0.2cm}{0.2cm}} 
+\newcommand{\stackunder}[2]{ \renewcommand{\arraystretch}{0.2} 
+\displaystyle \begin{array}[t]{c}  {#1}\\_{#2}\end{array} 
+\renewcommand{\arraystretch}{1}} 
+\newcommand{\vect}[1]{\!\!\!\stackunder{#1}{\sim}\!\!\!}
+\renewcommand{\Re}{I \! \! R}
+\newcommand{\real}{\mbox{$I\!\!R$}}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+\newcommand{\va}{$X_1,\,X_2,\,\dots,\,X_n$}
+\newcommand{\vam}{$x_1,\,x_2\,\ldots,\,x_n$}
+\KOMAoption{captions}{tableheading}
+\makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
+\@ifpackageloaded{fontawesome5}{}{\usepackage{fontawesome5}}
+\definecolor{quarto-callout-color}{HTML}{909090}
+\definecolor{quarto-callout-note-color}{HTML}{0758E5}
+\definecolor{quarto-callout-important-color}{HTML}{CC1914}
+\definecolor{quarto-callout-warning-color}{HTML}{EB9113}
+\definecolor{quarto-callout-tip-color}{HTML}{00A047}
+\definecolor{quarto-callout-caution-color}{HTML}{FC5300}
+\definecolor{quarto-callout-color-frame}{HTML}{acacac}
+\definecolor{quarto-callout-note-color-frame}{HTML}{4582ec}
+\definecolor{quarto-callout-important-color-frame}{HTML}{d9534f}
+\definecolor{quarto-callout-warning-color-frame}{HTML}{f0ad4e}
+\definecolor{quarto-callout-tip-color-frame}{HTML}{02b875}
+\definecolor{quarto-callout-caution-color-frame}{HTML}{fd7e14}
+\makeatother
+\makeatletter
+\@ifpackageloaded{bookmark}{}{\usepackage{bookmark}}
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Índice}
+\else
+  \newcommand\contentsname{Índice}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{Lista de Figuras}
+\else
+  \newcommand\listfigurename{Lista de Figuras}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{Lista de Tabelas}
+\else
+  \newcommand\listtablename{Lista de Tabelas}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figura}
+\else
+  \newcommand\figurename{Figura}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Tabela}
+\else
+  \newcommand\tablename{Tabela}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listagem}
+\newcommand*\listoflistings{\listof{codelisting}{Lista de Listagens}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\ifLuaTeX
+\usepackage[bidi=basic]{babel}
+\else
+\usepackage[bidi=default]{babel}
+\fi
+\babelprovide[main,import]{brazilian}
+% get rid of language-specific shorthands (see #6817):
+\let\LanguageShortHands\languageshorthands
+\def\languageshorthands#1{}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Métodos Computacionais},
+  pdfauthor={Ronald Targino, Rafael Braz, Juvêncio Nobre e Manoel Santos-Neto},
+  pdflang={pt-BR},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Métodos Computacionais}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Departamento de Estatística e Matemática Aplicada}
+\author{Ronald Targino, Rafael Braz, Juvêncio Nobre e Manoel
+Santos-Neto}
+\date{2025-09-05}
+
+\begin{document}
+\maketitle
+
+\renewcommand*\contentsname{Índice}
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\bookmarksetup{startatroot}
+
+\chapter*{Prefácio}\label{prefuxe1cio}
+\addcontentsline{toc}{chapter}{Prefácio}
+
+\markboth{Prefácio}{Prefácio}
+
+Este livro resulta de anos de experiência em sala de aula dos
+professores Ronald Targino, Rafael Braz, Juvêncio Nobre e Manoel
+Santos-Neto. Destina-se a apoiar os alunos da graduação em Estatística e
+do Programa de Pós-Graduação em Modelagem e Métodos Quantitativos
+(PPGMMQ) do Departamento de Estatística e Matemática Aplicada (DEMA) da
+Universidade Federal do Ceará (UFC).
+
+Ao longo dos capítulos, abordamos a geração de números aleatórios
+(discretos e contínuos); métodos de suavização; simulação estocástica
+por inversão, rejeição e composição, bem como métodos de reamostragem;
+métodos de aproximação e integração; quadratura Gaussiana, integração de
+Monte Carlo e quadratura adaptativa; métodos de Monte Carlo em sentido
+amplo; amostradores MCMC, com ênfase em Gibbs e Metropolis--Hastings;
+otimização numérica via Newton--Raphson, Fisher scoring e quase-Newton,
+além do algoritmo EM; Bootstrap e Jackknife; diagnóstico de
+convergência; e aspectos computacionais em problemas práticos, com foco
+em implementação eficiente, estabilidade numérica e reprodutibilidade
+dos resultados.
+
+Esperamos que este material sirva não apenas como texto-base para as
+disciplinas Estatística Computacional (graduação em Estatística) e
+Métodos Computacionais em Estatística (Mestrado-PPGMMQ), mas também como
+suporte para aqueles que desejam programar com qualidade na área de
+Estatística.
+
+\bookmarksetup{startatroot}
+
+\chapter{Introdução}\label{introduuxe7uxe3o}
+
+A simulação tem um papel preponderante na estatística moderna, e suas
+vantagens no ensino de Estatística são conhecidas há muito tempo. Em um
+de seus primeiros números, o periódico \emph{Teaching Statistics}
+publicou artigos que aludem precisamente a isso. Thomas e Moore (1980)
+afirmaram que ``a introdução do computador na sala de aula escolar
+trouxe uma nova técnica para o ensino, a técnica da simulação''.
+Zieffler e Garfield (2007) e Tintle et al. (2015) discutem o papel e a
+importância da aprendizagem baseada em simulação no currículo de
+graduação em Estatística. No entanto, outros autores (por exemplo,
+Hodgson e Burke 2000) discutem alguns problemas que podem surgir ao
+ensinar uma disciplina por meio de simulação, a saber, o desenvolvimento
+de certos equívocos na mente dos estudantes (Martins 2018).
+
+\bookmarksetup{startatroot}
+
+\chapter{Motivação}\label{motivauxe7uxe3o}
+
+A Estatística, além de lidar com modelos matemáticos rigorosos, também é
+permeada por situações em que a intuição humana falha de maneira
+sistemática. Um exemplo clássico é o \textbf{problema do aniversário},
+que há décadas desperta curiosidade entre estudantes e pesquisadores.
+
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, toprule=.15mm, arc=.35mm, colframe=quarto-callout-tip-color-frame, breakable, opacityback=0, bottomrule=.15mm, rightrule=.15mm, titlerule=0mm, toptitle=1mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Enuciado}, leftrule=.75mm, opacitybacktitle=0.6, left=2mm, colback=white, colbacktitle=quarto-callout-tip-color!10!white]
+
+\emph{Em uma sala com \(r\) pessoas, qual a probabilidade de que pelo
+menos duas delas compartilhem o mesmo aniversário?}
+
+\end{tcolorbox}
+
+Um resultado surpreendente é: com apenas \textbf{23 pessoas} em uma
+sala, a probabilidade de que haja pelo menos uma coincidência de
+aniversários já é \textbf{superior a 50\%}. Esse resultado é tão
+interessante que pode ser uma porta de entrada natural para discutir a
+diferença entre \textbf{probabilidade teórica} e \textbf{evidência
+empírica obtida por simulação}.
+
+\section{Da teoria à simulação}\label{da-teoria-uxe0-simulauxe7uxe3o}
+
+Do ponto de vista teórico, a probabilidade de que todos os aniversários
+sejam distintos entre \(r\) pessoas é
+
+\[\Pr(\text{todos distintos}) \;=\; \prod_{i=1}^{r-1} \frac{365-i}{365}
+\;=\; \left(1 - \frac{1}{365}\right)\!\left(1 - \frac{2}{365}\right)\!\cdots\!\left(1 - \frac{r-1}{365}\right).\]
+
+Logo, a probabilidade de pelo menos uma coincidência é
+
+\[p_r = 1 - \Pr(\text{todos distintos}).\]
+
+Esse produto é conceitualmente claro, mas fica pouco manejável
+mentalmente para \(k\) moderados. É aqui que a \textbf{simulação
+computacional} pode entrar como aliada didática e científica.
+
+\section{Um atalho analítico útil}\label{um-atalho-analuxedtico-uxfatil}
+
+O produto acima admite uma \textbf{aproximação exponencial simples e
+acurada}, obtida tomando logaritmo e usando a expansão para argumentos
+pequenos:
+
+\[\ln(1 - x) = -x + o(x), \quad (x \to 0). \] Aplicando ao produto,
+
+\[
+\begin{aligned}
+\ln\!\big(1 - p_r\big)
+\;&=\;
+\sum_{i=1}^{r-1} \ln\!\left(1 - \frac{i}{365}\right)\\
+\;&\approx\;
+-\,\sum_{i=1}^{r-1} \frac{i}{365}
+\;=\;
+-\,\frac{1 + 2 + \cdots + (r-1)}{365}
+\;=\;
+-\,\frac{r(r-1)}{2 \cdot 365}.\end{aligned}\]
+
+Exponentiando e isolando \(p_r\), obtemos a aproximação
+
+\[
+p_r \;\approx\; 1 - \exp\!\left\{-\,\frac{r(r-1)}{730}\right\}.
+\]
+
+Essa fórmula tem três virtudes didáticas:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\item
+  \textbf{Clareza}: exibe explicitamente o papel do número de pares
+  \(\binom{r}{2}\).
+\item
+  \textbf{Rapidez}: permite cálculos aproximados para valores de \(r\)
+  de interesse.
+\item
+  \textbf{Boas aproximações} já para \(r\) na casa das dezenas.
+\end{enumerate}
+
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, toprule=.15mm, arc=.35mm, colframe=quarto-callout-warning-color-frame, breakable, opacityback=0, bottomrule=.15mm, rightrule=.15mm, titlerule=0mm, toptitle=1mm, title=\textcolor{quarto-callout-warning-color}{\faExclamationTriangle}\hspace{0.5em}{Exemplo Rápido}, leftrule=.75mm, opacitybacktitle=0.6, left=2mm, colback=white, colbacktitle=quarto-callout-warning-color!10!white]
+
+\begin{itemize}
+\tightlist
+\item
+  Para \textbf{23 pessoas}:
+\end{itemize}
+
+\[p_{23}^{(\text{aprox})}
+  \;=\;
+  1 - \exp\!\left\{-\frac{23\cdot22}{730}\right\}
+  \;=\;
+  1 - \exp\!\{-0.69315\}
+  \;\approx\; 0.500,\]
+
+alinhando-se ao resultado clássico de que \textbf{23} pessoas já superam
+50\% de chance de coincidência.
+
+\end{tcolorbox}
+
+\section{O papel da simulação}\label{o-papel-da-simulauxe7uxe3o}
+
+A simulação estatística permite reproduzir o experimento de forma
+empírica: sorteamos aleatoriamente dias de aniversário para os
+indivíduos e verificamos se há repetições. Repetindo o processo milhares
+de vezes, obtemos uma estimativa para a probabilidade de coincidência.
+
+Por exemplo, em \textbf{R}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{k }\OtherTok{\textless{}{-}} \DecValTok{23}
+\NormalTok{birthdays }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{365}\NormalTok{, k, }\AttributeTok{replace =} \ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{any}\NormalTok{(}\FunctionTok{duplicated}\NormalTok{(birthdays))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] TRUE
+\end{verbatim}
+
+Ao repetir esse procedimento muitas vezes (por exemplo, 10.000
+simulações), podemos estimar a proporção de conjuntos com coincidência.
+Pela Lei dos Grandes Números, essa estimativa converge para o valor
+teórico de aproximadamente 0,507 quando \(k=23\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{123}\NormalTok{) }\CommentTok{\#reprodutibilidade}
+
+\NormalTok{k }\OtherTok{\textless{}{-}} \DecValTok{23}
+\NormalTok{B }\OtherTok{\textless{}{-}} \DecValTok{10000}
+
+\NormalTok{acertos }\OtherTok{\textless{}{-}} \DecValTok{0}\NormalTok{L}
+\NormalTok{i }\OtherTok{\textless{}{-}} \DecValTok{0}\NormalTok{L}
+
+\ControlFlowTok{repeat}\NormalTok{ \{}
+\NormalTok{  i }\OtherTok{\textless{}{-}}\NormalTok{ i }\SpecialCharTok{+} \DecValTok{1}\NormalTok{L}
+\NormalTok{  bdays }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{365}\NormalTok{, k, }\AttributeTok{replace =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{  acertos }\OtherTok{\textless{}{-}}\NormalTok{ acertos }\SpecialCharTok{+} \FunctionTok{as.integer}\NormalTok{(}\FunctionTok{any}\NormalTok{(}\FunctionTok{duplicated}\NormalTok{(bdays)))}
+  \ControlFlowTok{if}\NormalTok{ (i }\SpecialCharTok{\textgreater{}=}\NormalTok{ B) }\ControlFlowTok{break}
+\NormalTok{\}}
+
+\NormalTok{p\_hat }\OtherTok{\textless{}{-}}\NormalTok{ acertos }\SpecialCharTok{/}\NormalTok{ B}
+\NormalTok{p\_hat}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 0.5073
+\end{verbatim}
+
+\section{Atividade: Problema do Aniversário (22
+jogadores)}\label{atividade-problema-do-aniversuxe1rio-22-jogadores}
+
+Nesta motivação consideramos um exemplo discutido em Martins (2018) que
+é o conhecido e amplamente divulgado problema do aniversário (ver, por
+exemplo, Falk 2014). Martins (2018) segue o exemplo de Matthews e Stones
+(1998), considerando duas equipes de futebol e, portanto, coincidências
+de aniversário entre 22 jogadores. Martins (2018) afirma que um
+resultado positivo importante dessa atividade é a discussão que surgirá
+naturalmente entre os estudantes, com o professor atuando como mediador.
+Além disso, os estudantes adoram jogos e a descoberta prática, e a
+simulação facilita o engajamento nessas atividades, ao mesmo tempo que
+ilustra resultados que podem ser não intuitivos, bem como teoria geral,
+como a \textbf{Lei dos Grandes Números}.
+
+Agora iremos considerar o seguinte problema:
+
+\textbf{O problema:} Em uma partida de futebol, qual é a probabilidade
+de que pelo menos dois dos 22 jogadores façam aniversário no mesmo dia?
+
+Em um pais chamado de país do futebol, o contexto é proposital: o
+futebol é popular e as probabilidades resultantes são contraintuitivas.
+Antes de qualquer cálculo, considere as hipóteses: (i) todos os 365 dias
+do ano são igualmente prováveis para qualquer aniversário; (ii) as datas
+de aniversário dos jogadores são independentes entre si.
+
+\textbf{Objetivos}
+
+\begin{itemize}
+\tightlist
+\item
+  Estimar, via simulação, a probabilidade de coincidência de
+  aniversários.\\
+\item
+  Relacionar frequência relativa, Lei dos Grandes Números e variação
+  amostral.\\
+\item
+  Comparar o resultado exato e aproximado.\\
+\end{itemize}
+
+\textbf{Hipóteses}
+
+\begin{itemize}
+\tightlist
+\item
+  365 dias equiprováveis, datas independentes, ignorar bissexto/gêmeos.
+\end{itemize}
+
+\textbf{Materiais}
+
+\begin{itemize}
+\tightlist
+\item
+  R (ou Posit Cloud), roteiro com comandos \texttt{sample()},
+  \texttt{table()}, \texttt{mean()}.
+\end{itemize}
+
+\section{Exercícios}\label{exercuxedcios}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\item
+  Determinar o menor número de pessoas que deve estar em uma sala para
+  que se possa apostar, com mais de 50\% de chance de ganhar, que entre
+  elas existam pelo menos duas com o mesmo aniversário.
+\item
+  Determinar o menor número de outras pessoas que deve estar em uma sala
+  com você para que se possa apostar, com mais de 50\% de chance de
+  ganhar, que pelo menos uma delas tenha o mesmo aniversário que o seu.
+\end{enumerate}
+
+\bookmarksetup{startatroot}
+
+\chapter{Números Uniformes}\label{nuxfameros-uniformes}
+
+As simulações, de modo geral, requerem uma base inicial formada por
+números aleatórios. Diz-se que uma sequência \(R_1, R_2, \ldots\) é
+composta por números aleatórios quando cada termo segue a distribuição
+uniforme \(U(0,1)\) e \(R_i\) é independente de \(R_j\) para todo
+\(i \neq j\). Embora alguns autores utilizem o termo ``números
+aleatórios'' para se referir a variáveis amostradas de qualquer
+distribuição, aqui ele será usado exclusivamente para variáveis com
+distribuição \(U(0,1)\).
+
+\section{\texorpdfstring{Geração de sequências
+\(U(0,1)\)}{Geração de sequências U(0,1)}}\label{gerauxe7uxe3o-de-sequuxeancias-u01}
+
+Uma abordagem é utilizar dispositivos físicos aleatorizadores, como
+máquinas que sorteiam números de loteria, roletas ou circuitos
+eletrônicos que produzem ``ruído aleatório''. Contudo, tais dispositivos
+apresentam desvantagens:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Baixa velocidade} e dificuldade de integração direta com
+  computadores.
+\item
+  \textbf{Necessidade de reprodutibilidade} da sequência. Por exemplo,
+  para verificação de código ou comparação de políticas em um modelo de
+  simulação, usando a mesma sequência para reduzir a variância da
+  diferença entre resultados.
+\end{enumerate}
+
+Uma forma simples de obter reprodutibilidade é armazenar a sequência em
+um dispositivo de memória (HD, CD-ROM, livro). De fato, a RAND
+Corporation publicou \emph{A Million Random Digits with 100 000 Random
+Normal Deviates} (1955). Entretanto, acessar armazenamento externo
+milhares ou milhões de vezes torna a simulação lenta.
+
+Assim, a abordagem preferida é \textbf{gerar números pseudoaleatórios em
+tempo de execução}, via recorrências determinísticas sobre inteiros.
+Isso permite:
+
+\begin{itemize}
+\tightlist
+\item
+  Geração rápida;
+\item
+  Eliminação do problema de armazenamento;
+\item
+  Reprodutibilidade controlada.
+\end{itemize}
+
+Entretanto, a escolha inadequada da recorrência pode gerar sequências
+com baixa qualidade estatística.
+
+\section{Geradores Congruenciais
+Lineares}\label{geradores-congruenciais-lineares}
+
+Um \textbf{Gerador Congruencial Linear (LGC)} produz uma sequência de
+inteiros não negativos \(X_i\), \(i = 1, 2, \ldots\), por meio da
+relação de recorrência:
+
+\[X_i = (a X_{i-1} + c) \bmod m, \quad i = 1, 2, \ldots,\] em que
+\(a > 0\) é o multiplicador, \(X_0 \ge 0\) é a \emph{semente}
+(\emph{seed}), \(c \ge 0\) é o incremento e \(m > 0\) é o módulo.
+
+Os valores \(a, c, X_0\) estão no intervalo \([0, m-1]\). O número
+pseudoaleatório \(R_i\) é obtido por:
+
+\[R_i = \frac{X_i}{m}, \quad R_i \in (0,1).\]
+
+Se \(m\) for suficientemente grande, os valores discretos
+\(0/m, 1/m, \ldots, (m-1)/m\) são tão próximos que \(R_i\) pode ser
+tratado como variável contínua.
+
+\subsection{Exemplo}\label{exemplo}
+
+Seja o gerador:
+
+\[X_i = (9 X_{i-1} + 3) \bmod 24, \quad i \geq 1.\]
+
+Escolhendo \(X_0 = 3\):
+
+\[X_1 = (9 \times 3 + 3) \bmod 24 = 14\]
+
+\[X_2 = (9 \times 14 + 3) \bmod 24 = 1\]
+
+e assim por diante.
+
+A sequência \(R_i = X_i / 24\) gerada terá período \(\ell = 24\).
+
+\subsection{Implementação em R}\label{implementauxe7uxe3o-em-r}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Função LCG genérica}
+\NormalTok{lcg }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(a, c, m, seed, n) \{}
+\NormalTok{  x }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(n)}
+\NormalTok{  x[}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ seed}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{2}\SpecialCharTok{:}\NormalTok{n) \{}
+\NormalTok{    x[i] }\OtherTok{\textless{}{-}}\NormalTok{ (a }\SpecialCharTok{*}\NormalTok{ x[i}\DecValTok{{-}1}\NormalTok{] }\SpecialCharTok{+}\NormalTok{ c) }\SpecialCharTok{\%\%}\NormalTok{ m}
+\NormalTok{  \}}
+\NormalTok{  r }\OtherTok{\textless{}{-}}\NormalTok{ x }\SpecialCharTok{/}\NormalTok{ m}
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{list}\NormalTok{(}\AttributeTok{X =}\NormalTok{ x, }\AttributeTok{R =}\NormalTok{ r))}
+\NormalTok{\}}
+
+\CommentTok{\# Exemplo com a = 9, c = 3, m = 24, seed = 3}
+\NormalTok{resultado }\OtherTok{\textless{}{-}} \FunctionTok{lcg}\NormalTok{(}\AttributeTok{a =} \DecValTok{9}\NormalTok{, }\AttributeTok{c =} \DecValTok{3}\NormalTok{, }\AttributeTok{m =} \DecValTok{24}\NormalTok{, }\AttributeTok{seed =} \DecValTok{3}\NormalTok{, }\AttributeTok{n =} \DecValTok{20}\NormalTok{)}
+\NormalTok{resultado}\SpecialCharTok{$}\NormalTok{X}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ [1]  3  6  9 12 15 18 21  0  3  6  9 12 15 18 21  0  3  6  9 12
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{resultado}\SpecialCharTok{$}\NormalTok{R}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ [1] 0.125 0.250 0.375 0.500 0.625 0.750 0.875 0.000 0.125 0.250 0.375 0.500
+[13] 0.625 0.750 0.875 0.000 0.125 0.250 0.375 0.500
+\end{verbatim}
+
+\section{Geradores Congruenciais Lineares
+Mistos}\label{geradores-congruenciais-lineares-mistos}
+
+Nos LCGs \textbf{mistos} temos \(c>0\). Uma escolha prática é
+\(m = 2^b\), onde \(b\) é o número de bits utilizável para inteiros
+positivos na arquitetura/linguagem. Em muitos ambientes, inteiros usam
+32 bits (um para o sinal), implicando \(b=31\) e intervalo
+\([-2^{31}, 2^{31}-1]\).
+
+Quando \(m=2^b\), obtemos \textbf{período completo} (\(\ell=m\)) se:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\tightlist
+\item
+  \(c\) é \textbf{ímpar} (garante \(\gcd(c,m)=1\));\\
+\item
+  \(a-1\) é múltiplo de todos os fatores primos de \(m\) e também de 4
+  (como \(m\) é potência de 2).
+\end{enumerate}
+
+Essa é a razão de geradores simples com \(m=2^b\), \(c\) ímpar e
+\(a \equiv 1 \pmod 4\) atingirem \(\ell=m\).
+
+\subsection{Questão de estouro e aritmética
+modular}\label{questuxe3o-de-estouro-e-aritmuxe9tica-modular}
+
+Em linguagens com inteiros limitados, calcular \(aX_{i-1}+c\) pode
+\textbf{transbordar}. Soluções comuns:
+
+\begin{itemize}
+\tightlist
+\item
+  usar precisão estendida (64 bits) ou bibliotecas de inteiros grandes;
+\item
+  empregar \textbf{truques de aritmética modular} (como o método de
+  Schrage) para evitar overflow;
+\item
+  trabalhar com módulo \(m=2^b\) e aproveitar o ``wrap'' de bits.
+\end{itemize}
+
+A seguir, implementamos LCG misto com \(m=2^{31}\), \(a=906185749\),
+\(c=1\). Parâmetros com boas propriedades estatísticas relatadas na
+literatura.
+
+\subsection{Implementação em R (com segurança de
+overflow)}\label{implementauxe7uxe3o-em-r-com-seguranuxe7a-de-overflow}
+
+Para garantir a correção do módulo com inteiros grandes, usaremos
+\texttt{bit64} (inteiros de 64 bits) e normalizaremos para \((0,1)\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#if (!requireNamespace("bit64", quietly = TRUE)) \{}
+\CommentTok{\#  install.packages("bit64")}
+\CommentTok{\#\}}
+
+\FunctionTok{library}\NormalTok{(bit64)}
+
+\NormalTok{lcg\_misto }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(n, }\AttributeTok{seed =} \DecValTok{3456}\NormalTok{L,}
+                      \AttributeTok{a =} \DecValTok{906185749}\NormalTok{L,}
+                      \AttributeTok{c =} \DecValTok{1}\NormalTok{L,}
+                      \AttributeTok{m =}\NormalTok{ bit64}\SpecialCharTok{::}\FunctionTok{as.integer64}\NormalTok{(}\DecValTok{2}\NormalTok{)}\SpecialCharTok{\^{}}\DecValTok{31}\NormalTok{) \{}
+  \CommentTok{\# Trabalha em integer64 para evitar perda de precisão}
+\NormalTok{  x }\OtherTok{\textless{}{-}}\NormalTok{ bit64}\SpecialCharTok{::}\FunctionTok{as.integer64}\NormalTok{(seed)}
+\NormalTok{  outX }\OtherTok{\textless{}{-}}\NormalTok{ bit64}\SpecialCharTok{::}\FunctionTok{integer64}\NormalTok{(n)}
+\NormalTok{  outR }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(n)}
+\NormalTok{  outX[}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ x}
+\NormalTok{  outR[}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}} \FunctionTok{as.double}\NormalTok{(x) }\SpecialCharTok{/} \FunctionTok{as.double}\NormalTok{(m)}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{2}\SpecialCharTok{:}\NormalTok{n) \{}
+\NormalTok{    x }\OtherTok{\textless{}{-}}\NormalTok{ (bit64}\SpecialCharTok{::}\FunctionTok{as.integer64}\NormalTok{(a) }\SpecialCharTok{*}\NormalTok{ x }\SpecialCharTok{+}\NormalTok{ bit64}\SpecialCharTok{::}\FunctionTok{as.integer64}\NormalTok{(c)) }\SpecialCharTok{\%\%}\NormalTok{ m}
+\NormalTok{    outX[i] }\OtherTok{\textless{}{-}}\NormalTok{ x}
+\NormalTok{    outR[i] }\OtherTok{\textless{}{-}} \FunctionTok{as.double}\NormalTok{(x) }\SpecialCharTok{/} \FunctionTok{as.double}\NormalTok{(m)}
+\NormalTok{  \}}
+  \FunctionTok{list}\NormalTok{(}\AttributeTok{X =}\NormalTok{ outX, }\AttributeTok{R =}\NormalTok{ outR)}
+\NormalTok{\}}
+
+\CommentTok{\# Exemplo: primeiros 5 números com seed = 3456}
+\FunctionTok{set.seed}\NormalTok{(}\ConstantTok{NULL}\NormalTok{)}
+\NormalTok{g1 }\OtherTok{\textless{}{-}} \FunctionTok{lcg\_misto}\NormalTok{(}\AttributeTok{n =} \DecValTok{5}\NormalTok{, }\AttributeTok{seed =} \DecValTok{3456}\NormalTok{L)}
+\NormalTok{g1}\SpecialCharTok{$}\NormalTok{X}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+integer64
+[1] 3456       746789761  460230038  1591485775 1024426876
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{g1}\SpecialCharTok{$}\NormalTok{R}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 1.609325e-06 3.477511e-01 2.143113e-01 7.410933e-01 4.770359e-01
+\end{verbatim}
+
+\section{Geradores Congruenciais Lineares
+Multiplicativos}\label{geradores-congruenciais-lineares-multiplicativos}
+
+No caso \textbf{multiplicativo}, temos \(c = 0\), e a recorrência fica:
+
+\[
+X_i = (a X_{i-1}) \bmod m
+\]
+
+\subsection{Características e
+restrições}\label{caracteruxedsticas-e-restriuxe7uxf5es}
+
+\begin{itemize}
+\tightlist
+\item
+  Se \(X_i = 0\) em algum passo, toda a sequência futura será zero ---
+  portanto \(X_0 \neq 0\).
+\item
+  Se \(a = 1\), a sequência é constante --- também deve ser evitado.
+\item
+  O \textbf{período máximo} possível é \(m - 1\), e ele só é atingido
+  quando:
+
+  \begin{enumerate}
+  \def\labelenumi{\arabic{enumi}.}
+  \tightlist
+  \item
+    \(m\) é primo;
+  \item
+    \(a\) é uma \textbf{raiz primitiva} módulo \(m\).
+  \end{enumerate}
+\end{itemize}
+
+\subsection{Definição de raiz
+primitiva}\label{definiuxe7uxe3o-de-raiz-primitiva}
+
+Um número \(a\) é raiz primitiva módulo \(m\) se seus poderes geram
+todos os inteiros não nulos módulo \(m\).\\
+Matematicamente, \(a\) satisfaz:
+
+\[
+m \nmid a^{(m-1)/q} - 1, \quad \forall q \text{ primo que divide } m-1
+\]
+
+Esse tipo de gerador é chamado \textbf{Gerador de Módulo Primo e Período
+Máximo}.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Exemplo de implementação em
+R}\label{exemplo-de-implementauxe7uxe3o-em-r}
+
+A seguir, implementamos um gerador multiplicativo com módulo primo
+\(m = 2^{31} - 1\) (primo de Mersenne) e multiplicador
+\(a = 630360016\), conhecido por apresentar boas propriedades
+estatísticas.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{requireNamespace}\NormalTok{(}\StringTok{"gmp"}\NormalTok{, }\AttributeTok{quietly =} \ConstantTok{TRUE}\NormalTok{)) \{}
+  \FunctionTok{install.packages}\NormalTok{(}\StringTok{"gmp"}\NormalTok{)}
+\NormalTok{\}}
+\FunctionTok{library}\NormalTok{(gmp)}
+
+\NormalTok{lcg\_mult\_primo }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(n, seed, }\AttributeTok{a =} \DecValTok{630360016}\NormalTok{, }\AttributeTok{m =} \DecValTok{2147483647}\NormalTok{) \{}
+\NormalTok{  A }\OtherTok{\textless{}{-}} \FunctionTok{as.bigz}\NormalTok{(a); M }\OtherTok{\textless{}{-}} \FunctionTok{as.bigz}\NormalTok{(m)}
+\NormalTok{  x }\OtherTok{\textless{}{-}} \FunctionTok{as.bigz}\NormalTok{(seed)}
+\NormalTok{  X }\OtherTok{\textless{}{-}} \FunctionTok{integer}\NormalTok{(n); R }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(n)}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \FunctionTok{seq\_len}\NormalTok{(n)) \{}
+\NormalTok{    X[i] }\OtherTok{\textless{}{-}} \FunctionTok{as.integer}\NormalTok{(x)    }
+\NormalTok{    R[i] }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(x) }\SpecialCharTok{/}\NormalTok{ m    }
+\NormalTok{    x }\OtherTok{\textless{}{-}}\NormalTok{ (A }\SpecialCharTok{*}\NormalTok{ x) }\SpecialCharTok{\%\%}\NormalTok{ M            }
+\NormalTok{  \}}
+  \FunctionTok{list}\NormalTok{(}\AttributeTok{X =}\NormalTok{ X, }\AttributeTok{R =}\NormalTok{ R)}
+\NormalTok{\}}
+
+\CommentTok{\# Exemplo: gerar 10 valores}
+\NormalTok{g2 }\OtherTok{\textless{}{-}} \FunctionTok{lcg\_mult\_primo}\NormalTok{(}\AttributeTok{n =} \DecValTok{10}\NormalTok{, }\AttributeTok{seed =} \DecValTok{12345}\NormalTok{L)}
+\NormalTok{g2}\SpecialCharTok{$}\NormalTok{X}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ [1]      12345 1461144439 1646755962  423395703 2041926374  720397004
+ [7]  140279311  597861375  629442282  759842328
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{g2}\SpecialCharTok{$}\NormalTok{R}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ [1] 5.748589e-06 6.803984e-01 7.668305e-01 1.971590e-01 9.508461e-01
+ [6] 3.354610e-01 6.532264e-02 2.784009e-01 2.931069e-01 3.538292e-01
+\end{verbatim}
+
+\section{Uso de Números Aleatórios na Avaliação de
+Integrais}\label{uso-de-nuxfameros-aleatuxf3rios-na-avaliauxe7uxe3o-de-integrais}
+
+Uma das primeiras aplicações do uso de números aleatórios foi na
+resolução de integrais. Considere uma função \(g(x)\) e suponha que
+desejamos calcular uma integral de interesse.
+
+\[\theta = \int\limits_{0}^{1}g(x) dx.\]
+
+Para calcular o valor da integral, observe que, se \(U\) é uma variável
+aleatória com distribuição uniforme no intervalo \((0, 1)\), , então
+podemos reescrever a integral da seguinte forma:
+
+\[\theta = E[g(U)].\] Se \(U_1, U_2, \dots,  U_n\) são variáveis
+aleatórias independentes e uniformes em \((0, 1)\), então as variáveis
+\(g(U_1), g(U_2), \dots,  g(U_n)\) são indepedentes e identicamente
+distribuídas, todas com esperança igual \(\theta\) (o valor da
+integral). Assim, pelo \textbf{Teorema da Lei Forte dos Grandes
+Números}, temos que, com probabilidade 1,
+
+\[\frac{1}{n}\sum\limits_{i=1}^{n}g(U_i) \to \theta \quad \text{quando} \quad n \to \infty.\]
+
+Assim, podemos aproximar o valor da integral gerando um grande número de
+pontos aleatórios \(u_i\) no intervalo \((0, 1)\) e tomando como
+estimativa a média dos valores \(g(u_i)\). Esse procedimento de
+aproximação de integrais é conhecido como método de \textbf{Monte
+Carlo}.
+
+Se quisermos calcular uma integral mais geral, podemos aplicar a mesma
+ideia: transformar o problema em uma esperança matemática e, em seguida,
+aproximá-la por meio de médias amostrais obtidas a partir de números
+aleatórios. Considere:
+
+\[\theta = \int\limits_{a}^{b}g(x) dx.\]
+
+Se quisermos calcular a integral em um intervalo genérico \((a, b)\),
+fazemos a substituição
+
+\[u = \frac{x - a}{b-a}, \quad du = \frac{dx}{b-a},\]
+
+o que nos permite reescrevê-la como
+
+\[\theta = \int\limits_{a}^{b}g(x) dx = (b-a)\int\limits_{0}^{1}g(a + (b-a)u) du.\]
+
+Definindo
+
+\[h(u) = (b-a)g(a + (b-a)u),\]
+
+temos
+
+\[\theta = \int\limits_{0}^{1}h(u) du.\]
+
+Assim, podemos aproximar \(\theta\) gerando números aleatórios
+\(u_1, u_2, \dots, u_n \sim U(0, 1)\) e tomando como estimativa a média
+
+\[\theta \approx \frac{1}{n}\sum\limits_{i=1}^{n}h(u_i).\] Agora, se
+nosso objetivo é calcular a integral:
+
+\[\theta = \int\limits_{0}^{\infty}g(x) dx.\]
+
+Fazendo a mudança de variável
+
+\[u = \frac{1}{x+1}, \quad du = \frac{-dx}{(x+1)^2} = -u^2 dx.\]
+
+Logo,
+
+\[dx = -\frac{du}{u^2},\]
+
+e a integral resultante é
+
+\[\theta = \int\limits_{0}^{1}h(u) du,\]
+
+com
+
+\[h(u) = \frac{g\left(\frac{1}{u} - 1\right)}{u^2}.\]
+
+A utilidade de empregar números aleatórios para aproximar integrais
+torna-se ainda mais evidente no caso de integrais multidimensionais.
+Suponha que \(g\) seja uma função com argumento \(n\)-dimensional e que
+estejamos interessados em calcular:
+
+\[\theta = \int\limits_{0}^{1}\int\limits_{0}^{1}\dots\int\limits_{0}^{1} g(x_1, x_2, \dots, x_n)dx_1 dx_2 \dots dx_n.\]
+
+Observe que \(\theta\) pode ser expresso como o seguinte valor esperado:
+
+\[\theta = E[g(U_1, U_2, \dots, U_n)],\]
+
+em que \(U_1, U_2, \dots, U_n\) são variáveis aleatória independentes
+uniformente distribuídas no intervalo \((0, 1)\). Assim, se gerarmos
+\(k\) conjuntos independentes, cada um formado por \(n\) variáveis
+aleatórias independentes com distribuição uniforme em \((0, 1)\), então
+as variáveis
+
+\[g(U_{i1}, U_{i2}, \dots, U_{in}), \quad i = 1, 2, \dots, k,\] serão
+independentes e identicamente distribuídas, todas com esperança igual a
+\(\theta\) (o valor da integral). Portanto, podemos aproximar \(\theta\)
+por meio da média amostral:
+
+\[\theta \approx \frac{1}{k}\sum\limits_{i=1}^{k}g(U_{i1}, U_{i2}, \dots, U_{in}).\]
+
+\bookmarksetup{startatroot}
+
+\chapter{Números Pseudoaleatórios}\label{nuxfameros-pseudoaleatuxf3rios}
+
+\section{Introdução}\label{introduuxe7uxe3o-1}
+
+\section{Método da Transformação
+Inversa}\label{muxe9todo-da-transformauxe7uxe3o-inversa}
+
+Suponha que desejamos gerar o valor de uma variável aleatória discreta
+\(X\) com função de massa de probabilidade (f.m.p):
+
+\[\Pr(X = x_j) = p_j, \quad j = 0, 1, \dots, \quad \sum\limits_j p_j = 1.\]
+
+\begin{tcolorbox}[enhanced jigsaw, toprule=.15mm, arc=.35mm, colframe=quarto-callout-important-color-frame, breakable, opacityback=0, rightrule=.15mm, bottomrule=.15mm, left=2mm, leftrule=.75mm, colback=white]
+
+\vspace{-3mm}\textbf{\textbf{Interesse:} Gerar valores da variável aleatória \(X\) com
+distribuição:}\vspace{3mm}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+\(X\) & \(P(X=x_j)\) \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\(x_0\) & \(p_0\) \\
+\(x_1\) & \(p_1\) \\
+\(x_2\) & \(p_2\) \\
+\(\vdots\) & \(\vdots\) \\
+\(x_j\) & \(p_j\) \\
+\(\vdots\) & \(\vdots\) \\
+\end{longtable}
+
+\end{tcolorbox}
+
+Para realizar isso, gere um valor \(u\) de \(U\sim(0,1)\) e atribua o
+valor \(x_j\), \(j=0,1,\ldots\), a \(X\) conforme as condições abaixo:
+
+\[X = \begin{cases}
+x_0, & \text{se } u < p_0, \\
+x_1, & \text{se } p_0 \leq u < p_0+p_1, \\
+x_2, & \text{se } p_0+p_1 \leq u < p_0+p_1+p_2, \\
+x_3, & \text{se } p_0+p_1+p_2 \leq u < p_0+p_1+p_2+p_3, \\
+\vdots & \\
+x_j, & \text{se } \displaystyle \sum_{i=0}^{j-1} p_i \leq u < \sum_{i=0}^{j} p_i, \\
+\vdots &
+\end{cases}\]
+
+Como, para \(0 < a < b < 1, \Pr(a \leq U < b) = b-a\), temos que:
+
+\[\Pr(X = x_j) = \Pr\left(\sum\limits_{i=0}^{j-1}p_i \leq U < \sum\limits_{i=0}^{j}p_i\right) = p_j,\]
+e, portanto, \(X\) possui a distribuição desejada.
+
+\begin{tcolorbox}[enhanced jigsaw, toprule=.15mm, arc=.35mm, colframe=quarto-callout-important-color-frame, breakable, opacityback=0, rightrule=.15mm, bottomrule=.15mm, left=2mm, leftrule=.75mm, colback=white]
+
+\vspace{-3mm}\textbf{Observações:}\vspace{3mm}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Algoritmo - O procedimento anterior pode ser escrito como:
+\end{enumerate}
+
+Passo 1. Gerar um valor \(u \sim U(0,1)\).
+
+Passo 2. Se \(u < p_0\), então \(X = x_0\); caso contrário:
+
+\begin{itemize}
+\tightlist
+\item
+  se \(u < p_0 + p_1\), então \(X = x_1\); caso contrário:\\
+\item
+  se \(u < p_0 + p_1 + p_2\), então \(X = x_2\); caso contrário:\\
+  \(\vdots\)
+\end{itemize}
+
+Passo 3. Repetir os passos 1 e 2 \(n\) vezes, onde \(n\) é o tamanho da
+amostra.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Se os valores, \(x_i, i \geq 0\), são ordenados de modo que
+  \(x_0 < x_1 < \dots,\) e de denotamos \(F\) como função de
+  distribuição de \(X\), então \(F(x_j) = \sum\limits_{i=1}^{j}p_i\).
+  Assim,
+\end{enumerate}
+
+\[X\; \text{será igual a}\; x_j\; \text{se}\; F(x_{j-1}) < U < F(x_j).\]
+
+\end{tcolorbox}
+
+Em outras palavras, após gerar um número aleatório \(U\), determinamos o
+valor de \(X\) encontrando o intervalo \([F(x_{j-1}), F(x_j))\) no qual
+\(U\) se encontra (ou, de forma equivalente, encontrando o inverso de
+\(F(U)\)). É por essa razão que o procedimento acima é denominado
+\emph{método da transformada inversa discreta} para gerar \(X\).
+
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, toprule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame, breakable, opacityback=0, bottomrule=.15mm, rightrule=.15mm, titlerule=0mm, toptitle=1mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, leftrule=.75mm, opacitybacktitle=0.6, left=2mm, colback=white, colbacktitle=quarto-callout-note-color!10!white]
+
+O tempo necessário para gerar uma variável aleatória discreta por esse
+método é proporcional ao número de intervalos que devem ser pesquisados.
+Por essa razão, às vezes é vantajoso considerar os possíveis valores
+\(x_j\) de \(X\) em ordem decrescente das probabilidades \(p_j\).
+
+\end{tcolorbox}
+
+\subsection*{Exemplo 1}\label{exemplo-1}
+\addcontentsline{toc}{subsection}{Exemplo 1}
+
+Simular \(n\) valores de \(X\) tal que \(p_1 = 0.20\), \(p_2 = 0.15\),
+\(p_3 = 0.25\), \(p_4 = 0.40\), em que \(p_j = P(X=j)\).
+
+\begin{tcolorbox}[enhanced jigsaw, toprule=.15mm, arc=.35mm, colframe=quarto-callout-warning-color-frame, breakable, opacityback=0, rightrule=.15mm, bottomrule=.15mm, left=2mm, leftrule=.75mm, colback=white]
+
+\vspace{-3mm}\textbf{Algoritmo 1}\vspace{3mm}
+
+Passo 1. Gerar \(n\) valores \(u \sim U(0,1)\).
+
+Passo 2. Para cada \(u\):
+
+\begin{itemize}
+\item
+  Se \(u < 0.20\), então \(X = 1\).
+\item
+  Caso contrário, se \(u < 0.35\), então \(X = 2\).
+\item
+  Caso contrário, se \(u < 0.60\), então \(X = 3\).
+\item
+  Caso contrário (\(u \geq 0.60\)), então \(X = 4\).
+\end{itemize}
+
+Passo 3. Repetir \(n\) vezes os passos 1 e 2.
+
+\end{tcolorbox}
+
+A seguir, são apresentados dos códigos escritos na linguagem \texttt{R}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Proposta 1}
+\NormalTok{n }\OtherTok{\textless{}{-}} \DecValTok{10000}
+\NormalTok{x }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{:}\DecValTok{4} 
+\NormalTok{p }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FloatTok{0.20}\NormalTok{, }\FloatTok{0.15}\NormalTok{, }\FloatTok{0.25}\NormalTok{, }\FloatTok{0.40}\NormalTok{)}
+\NormalTok{pa }\OtherTok{\textless{}{-}} \FunctionTok{cumsum}\NormalTok{(p) }\CommentTok{\# probabilidades acumuladas}
+\NormalTok{a  }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{() }\CommentTok{\# vetor para a amostra gerada de X}
+
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{n)\{}
+\NormalTok{  u }\OtherTok{\textless{}{-}} \FunctionTok{runif}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+  \ControlFlowTok{if}\NormalTok{ (u }\SpecialCharTok{\textless{}}\NormalTok{ pa[}\DecValTok{1}\NormalTok{]) \{}
+\NormalTok{    a[i] }\OtherTok{\textless{}{-}}\NormalTok{ x[}\DecValTok{1}\NormalTok{]}
+\NormalTok{  \} }\ControlFlowTok{else}\NormalTok{ \{ }
+      \ControlFlowTok{if}\NormalTok{ (u }\SpecialCharTok{\textless{}}\NormalTok{ pa[}\DecValTok{2}\NormalTok{]) \{}
+\NormalTok{        a[i] }\OtherTok{\textless{}{-}}\NormalTok{ x[}\DecValTok{2}\NormalTok{]}
+\NormalTok{      \} }\ControlFlowTok{else}\NormalTok{ \{ }\ControlFlowTok{if}\NormalTok{ (u }\SpecialCharTok{\textless{}}\NormalTok{ pa[}\DecValTok{3}\NormalTok{]) \{}
+\NormalTok{        a[i] }\OtherTok{\textless{}{-}}\NormalTok{ x[}\DecValTok{3}\NormalTok{]}
+\NormalTok{      \} }\ControlFlowTok{else}\NormalTok{ \{ }
+\NormalTok{          a[i] }\OtherTok{\textless{}{-}}\NormalTok{ x[}\DecValTok{4}\NormalTok{]}
+\NormalTok{          \}}
+\NormalTok{      \}}
+\NormalTok{    \}}
+\NormalTok{\}}
+\FunctionTok{table}\NormalTok{(a)}\SpecialCharTok{/}\NormalTok{n }\CommentTok{\# tabela de proporções}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+a
+     1      2      3      4 
+0.1992 0.1533 0.2465 0.4010 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Proposta 2}
+\NormalTok{n }\OtherTok{\textless{}{-}} \DecValTok{10000}\NormalTok{; }
+\NormalTok{x }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{; }
+\NormalTok{p }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FloatTok{0.20}\NormalTok{, }\FloatTok{0.15}\NormalTok{, }\FloatTok{0.25}\NormalTok{, }\FloatTok{0.40}\NormalTok{)}
+\NormalTok{pa }\OtherTok{\textless{}{-}} \FunctionTok{cumsum}\NormalTok{(p) }\CommentTok{\# probabilidades acumuladas}
+\NormalTok{a  }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{() }\CommentTok{\# vetor para a amostra gerada de X}
+        
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{n)\{}
+\NormalTok{  u }\OtherTok{=} \FunctionTok{runif}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+  \FunctionTok{ifelse}\NormalTok{(u }\SpecialCharTok{\textless{}}\NormalTok{ pa[}\DecValTok{1}\NormalTok{], a[i] }\OtherTok{\textless{}{-}}\NormalTok{ x[}\DecValTok{1}\NormalTok{], }
+    \FunctionTok{ifelse}\NormalTok{(u }\SpecialCharTok{\textless{}}\NormalTok{ pa[}\DecValTok{2}\NormalTok{], a[i] }\OtherTok{\textless{}{-}}\NormalTok{ x[}\DecValTok{2}\NormalTok{],}
+      \FunctionTok{ifelse}\NormalTok{(u }\SpecialCharTok{\textless{}}\NormalTok{ pa[}\DecValTok{3}\NormalTok{], a[i] }\OtherTok{\textless{}{-}}\NormalTok{ x[}\DecValTok{3}\NormalTok{], a[i] }\OtherTok{\textless{}{-}}\NormalTok{ x[}\DecValTok{4}\NormalTok{])))}
+\NormalTok{\}}
+\FunctionTok{table}\NormalTok{(a)}\SpecialCharTok{/}\NormalTok{n }\CommentTok{\# tabela de proporções}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+a
+     1      2      3      4 
+0.1937 0.1544 0.2537 0.3982 
+\end{verbatim}
+
+\begin{tcolorbox}[enhanced jigsaw, toprule=.15mm, arc=.35mm, colframe=quarto-callout-warning-color-frame, breakable, opacityback=0, rightrule=.15mm, bottomrule=.15mm, left=2mm, leftrule=.75mm, colback=white]
+
+\vspace{-3mm}\textbf{Algoritmo 2}\vspace{3mm}
+
+Passo 1. Gerar um valor \(u \sim U(0,1)\).
+
+Passo 2. Para cada \(u\):
+
+\begin{itemize}
+\item
+  Se \(u < 0.40\), então \(X = 4\);
+\item
+  Caso contrário, se \(u < 0.65\), então \(X = 3\);
+\item
+  Caso contrário, se \(u < 0.85\), então \(X = 1\);
+\item
+  Caso contrário \(u \geq 0.85\), então \(X = 2\).
+\end{itemize}
+
+Passo 3. Repetir \(n\) vezes os passos 1 e 2.
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, toprule=.15mm, arc=.35mm, colframe=quarto-callout-important-color-frame, breakable, opacityback=0, bottomrule=.15mm, rightrule=.15mm, titlerule=0mm, toptitle=1mm, title={🔎 \textbf{Observação}:}, leftrule=.75mm, opacitybacktitle=0.6, left=2mm, colback=white, colbacktitle=quarto-callout-important-color!10!white]
+
+A proposta 2 usa a \textbf{ordem decrescente} dos \(p_j\) para otimizar
+a busca.
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[enhanced jigsaw, toprule=.15mm, arc=.35mm, colframe=quarto-callout-warning-color-frame, breakable, opacityback=0, rightrule=.15mm, bottomrule=.15mm, left=2mm, leftrule=.75mm, colback=white]
+
+\vspace{-3mm}\textbf{Algoritmo 3 (mudando as desigualdades)}\vspace{3mm}
+
+Passo 1. Gerar \(u \sim U(0,1)\).
+
+Passo 2. Se \(u \leq 0.40\), então \(X = 4\);
+
+\begin{itemize}
+\item
+  senão, se \(u \leq 0.65\), então \(X = 3\);
+\item
+  senão, se \(u \leq 0.85\), então \(X = 1\);
+\item
+  senão (\(u > 0.85\)), então \(X = 2\).
+\end{itemize}
+
+Passo 3. Repetir \(n\) vezes os passos 1--2.
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, toprule=.15mm, arc=.35mm, colframe=quarto-callout-important-color-frame, breakable, opacityback=0, bottomrule=.15mm, rightrule=.15mm, titlerule=0mm, toptitle=1mm, title={🔎 \textbf{Observação}:}, leftrule=.75mm, opacitybacktitle=0.6, left=2mm, colback=white, colbacktitle=quarto-callout-important-color!10!white]
+
+Com \(u \sim U(0,1)\) é contínua, usar \(<\) ou \(\leq\) é equivalente
+em termos de distribuição (a probabilidade de \(u\) cair exatamente no
+ponto de corte é zero). Em implementação numérica, essa escolha apenas
+define para onde vão raríssimos empates nos pontos cortes.
+
+\end{tcolorbox}
+
+\subsection*{Inversa Generalizada}\label{inversa-generalizada}
+\addcontentsline{toc}{subsection}{Inversa Generalizada}
+
+Seja \(F\) uma função de distribuição qualquer. A inversa generalizada,
+denotada por \(F^{-1}\), é definida da seguinte forma:
+\[ F^{-1}(u) = \mbox{inf}\{x \in \mathbb{R}: F(x)\geq u \}\]
+
+\begin{itemize}
+\tightlist
+\item
+  Tanto a inversa de \(F\) como a inversa generalizada estão sendo
+  denotadas por \(F^{-1}\).
+\item
+  Se a inversa de \(F\) existe no sentido usual, ela coincide com a
+  inversa generalizada.\\
+  Note que, se \(F\) for estritamente crescente e contínua, então
+  \(\forall x \in \mathbb{R}\) existirá apenas um \(u\) tal que
+  \(F(x) = u\).
+\item
+  A proposição seguinte dá base para as simulações de v.a. discretas.
+\end{itemize}
+
+Seja \(F\) uma função de distribuição qualquer e \(F^{-1}\) sua inversa
+generalizada. Temos:
+\[F^{-1}(u) \leq x \mbox{ se, e somente se, } u \leq F(x)\]
+
+Se você deseja simular valores de
+\Xn  \textbf{com distribuição uniforme discreta}:
+
+\[P(X=j)=1/k, \, \,\, j=1,2,3,\ldots, k.\]
+
+Basta utilizar a Proposições 1 ou a Proposição 2.
+
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, toprule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame, breakable, opacityback=0, bottomrule=.15mm, rightrule=.15mm, titlerule=0mm, toptitle=1mm, title={Proposição 1:}, leftrule=.75mm, opacitybacktitle=0.6, left=2mm, colback=white, colbacktitle=quarto-callout-note-color!10!white]
+
+Gere \(U\sim U(0,1)\). Defina \(X=j\) se
+
+\[\frac{j-1}{k}\leq U < \frac{j}{k},\] ou, equivalentemente,
+
+\[(j-1)\leq kU < j.\]
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, toprule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame, breakable, opacityback=0, bottomrule=.15mm, rightrule=.15mm, titlerule=0mm, toptitle=1mm, title={Proposição 2:}, leftrule=.75mm, opacitybacktitle=0.6, left=2mm, colback=white, colbacktitle=quarto-callout-note-color!10!white]
+
+Gere \(U\sim U(0,1)\). Defina \(X=\mbox{Int}(kU)+1\), em que
+\(\textrm{Int}(x)\) é a parte inteira de \(x\).
+
+\end{tcolorbox}
+
+\subsection*{Exemplo 2}\label{exemplo-2}
+\addcontentsline{toc}{subsection}{Exemplo 2}
+
+Para simular valores de \(X\) com
+\(P(X=j)=1/10, \, \,\, j=1,2,3,\ldots, 10\), você pode serguir o
+procedimento a seguir:
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1733}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.2933}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\(j-1\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(j\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(U\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(kU\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+{\(X=j\)}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+{\(X=\mathrm{Int}(kU)+1\)}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0 & 1 & 0,01 & 0,1 & 1 & 1 \\
+1 & 2 & 0,31 & 3,1 & 4 & 4 \\
+2 & 3 & 0,53 & 5,3 & 6 & 6 \\
+3 & 4 & 0,92 & 9,2 & 10 & 10 \\
+4 & 5 & 0,45 & 4,5 & 5 & 5 \\
+\(\vdots\) & \(\vdots\) & \(\vdots\) & \(\vdots\) & \(\vdots\) &
+\(\vdots\) \\
+9 & 10 & 0,74 & 7,4 & 8 & 8 \\
+\end{longtable}
+
+\subsubsection*{Exercícios}\label{exercuxedcios-1}
+\addcontentsline{toc}{subsubsection}{Exercícios}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Gerar uma permutação dos números \(1,2,3, \ldots, n\), considerando
+  todas as \(n!\) possíveis permutações igualmente prováveis (exemplo
+  4b).
+\item
+  Gerar valores de \(X\sim \mbox{Geométrica}(p)\) (exemplo 4d).
+\item
+  Implementar o algoritmo para gerar valores de
+  \(X\sim \mbox{Poisson}(\lambda)\) (seção 4.2).
+\item
+  Implementar o algoritmo para gerar valores de
+  \(X\sim \mbox{Binomial}(n,p)\) (seção 4.2).
+\end{enumerate}
+
+\subsection*{Exemplo 3}\label{exemplo-3}
+\addcontentsline{toc}{subsection}{Exemplo 3}
+
+Nosso objetivo agora é gerar valores de
+\(X\sim \mbox{Poisson}(\lambda)\) com:
+
+\[p_i=P(X=i)=\dfrac{e^{-\lambda}\lambda^i}{i!}, \quad i=0,1,2,\ldots. \]
+::: \{.callout-important\} \#\# 🔎 \textbf{Identidade importante:}
+
+\[p_{i+1} = \dfrac{\lambda}{i+1}p_i, \quad i\geq 0.\] :::
+
+Uma forma bastante utilizada para gerar valores de uma variável
+aleatória \(X\sim \mbox{Poisson}(\lambda)\) é por meio de algoritmos de
+simulação baseados na identidade acima.
+
+\begin{tcolorbox}[enhanced jigsaw, toprule=.15mm, arc=.35mm, colframe=quarto-callout-warning-color-frame, breakable, opacityback=0, rightrule=.15mm, bottomrule=.15mm, left=2mm, leftrule=.75mm, colback=white]
+
+\vspace{-3mm}\textbf{Algoritmo 4}\vspace{3mm}
+
+Passo 1. Gerar um número aleatório \(u \sim U(0,1)\).
+
+Passo 2. Inicializar \(i = 0\), \(p = e^{-\lambda}\), \(F = p\).
+
+Passo 3. Se \(u < F\), então definir \(X = i\) e parar.
+
+Passo 4. Caso contrário:
+
+\begin{itemize}
+\item
+  atualizar \(i \leftarrow i+1\),
+\item
+  atualizar \(p \leftarrow \frac{\lambda}{i}\,p\),
+\item
+  atualizar \(F \leftarrow F + p\),
+\item
+  voltar ao passo 3.
+\end{itemize}
+
+\end{tcolorbox}
+
+\subsubsection*{Exercício}\label{exercuxedcio}
+\addcontentsline{toc}{subsubsection}{Exercício}
+
+Complete o código \texttt{R} abaixo:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{N }\OtherTok{=} \DecValTok{10}\SpecialCharTok{\^{}}\DecValTok{5} \CommentTok{\# tamanho da amostra}
+\NormalTok{L }\OtherTok{=} \DecValTok{3}  \CommentTok{\# lambda}
+\NormalTok{x }\OtherTok{=} \FunctionTok{c}\NormalTok{()}
+\ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{N)\{}
+\NormalTok{  u }\OtherTok{=} \FunctionTok{runif}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\NormalTok{  i }\OtherTok{=} \DecValTok{0}\NormalTok{; p }\OtherTok{=} \FunctionTok{exp}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{L); F }\OtherTok{=}\NormalTok{ p}
+\NormalTok{  aceito }\OtherTok{=} \StringTok{"não"}
+  \ControlFlowTok{while}\NormalTok{ (aceito }\SpecialCharTok{!=} \StringTok{"sim"}\NormalTok{)\{}
+    \ControlFlowTok{if}\NormalTok{(u }\SpecialCharTok{\textless{}}\NormalTok{ F) \{}
+\NormalTok{       ...}
+\NormalTok{     \} }\ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{        ...}
+\NormalTok{      \}}
+\NormalTok{  \}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection*{Exemplo 4}\label{exemplo-4}
+\addcontentsline{toc}{subsection}{Exemplo 4}
+
+Por fim, iremos gerar valores da variável aleatório \(X\),
+\(X\sim \mbox{Binomial}(n,p)\), com f.m.p dada por:
+
+\[P(X=i)=\dfrac{n!}{i!(n-i)!}p^i(1-p)^{n-i}, \quad i=0,1,2,\ldots,n.\]
+
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, toprule=.15mm, arc=.35mm, colframe=quarto-callout-important-color-frame, breakable, opacityback=0, bottomrule=.15mm, rightrule=.15mm, titlerule=0mm, toptitle=1mm, title={🔎 \textbf{Identidade importante:}:}, leftrule=.75mm, opacitybacktitle=0.6, left=2mm, colback=white, colbacktitle=quarto-callout-important-color!10!white]
+
+\[P(X=i+1) = \dfrac{n-i}{i+1}\dfrac{p}{1-p}P(X=i).\]
+
+\end{tcolorbox}
+
+A partir do resultado acima e do método da transformação inversa podemos
+escrever o seguinte algoritmo:
+
+\begin{tcolorbox}[enhanced jigsaw, toprule=.15mm, arc=.35mm, colframe=quarto-callout-warning-color-frame, breakable, opacityback=0, rightrule=.15mm, bottomrule=.15mm, left=2mm, leftrule=.75mm, colback=white]
+
+\vspace{-3mm}\textbf{Algoritmo 5}\vspace{3mm}
+
+Passo 1. Gerar um número aleatório \(u \sim U(0,1)\).
+
+Passo 2. Calcular \(k = \dfrac{p}{1-p}\), inicializar \(i = 0\),
+\(p_r = (1-p)^n\), \(F = p_r\).
+
+Passo 3. Se \(u < F\), definir \(X = i\) e parar.
+
+Passo 4. Caso contrário:
+
+\begin{itemize}
+\item
+  atualizar \(p_r \leftarrow \dfrac{n-i}{i+1}\,k\,p_r\),
+\item
+  atualizar \(F \leftarrow F + p_r\),
+\item
+  atualizar \(i \leftarrow i+1\),
+\item
+  voltar ao passo 3.
+\end{itemize}
+
+\end{tcolorbox}
+
+\subsection*{Exercício 5}\label{exercuxedcio-5}
+\addcontentsline{toc}{subsection}{Exercício 5}
+
+Escreve um código na linguagem \texttt{R} baseado no Algoritmo 5.
+Utilize alguma ferramenta gráfica para verificar a coerência dos
+resultados.
+
+\section{Método da
+Aceitação-Rejeição}\label{muxe9todo-da-aceitauxe7uxe3o-rejeiuxe7uxe3o}
+
+Suponha que haja interesse em simular valores de uma v.a. \(X\) e que
+não seja possível inverter a sua função de distribuição ou não dispomos
+de um método para gerar dessa variável aleatória. Entretanto, sabemos
+como simular de uma outra v.a. \(Y\) e que é possível estabelecer uma
+relação entre as probabilidades associadas às duas variáveis aleatórias
+(\(X\) e \(Y\)) de tal modo que valores de \(Y\) possam ser admitidos
+como valores de \(X\).
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.1045}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0896}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0896}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0896}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0896}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0896}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0896}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0896}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0896}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0896}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0896}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\(x\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+1
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+2
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+3
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+4
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+5
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+6
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+7
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+8
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+9
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+10
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\(p_x\) & 0,11 & 0,12 & 0,09 & 0,08 & 0,12 & 0,10 & 0,09 & 0,09 & 0,10 &
+0,10 \\
+\end{longtable}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.1045}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0896}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0896}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0896}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0896}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0896}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0896}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0896}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0896}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0896}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0896}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\(y\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+1
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+2
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+3
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+4
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+5
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+6
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+7
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+8
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+9
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+10
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\(q_y\) & 0,10 & 0,10 & 0,10 & 0,10 & 0,10 & 0,10 & 0,10 & 0,10 & 0,10 &
+0,10 \\
+\end{longtable}
+
+Contexto:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Podemos}: simular valores de \(Y\) com f.p.
+  \(q_j=P(Y=j), j\geq 0\).
+\item
+  \textbf{Queremos}: simular valores de \(X\) com f.p.
+  \small  \(p_j=P(X=j), j\geq 0\).
+\item
+  \textbf{Proposta}: simular valor \(y\) de \(Y\) e aceitar esse valor
+  para \(X\) com probabilidade proporcional a \(\dfrac{p_y}{q_y}\).
+\end{itemize}
+
+\begin{tcolorbox}[enhanced jigsaw, toprule=.15mm, arc=.35mm, colframe=quarto-callout-warning-color-frame, breakable, opacityback=0, rightrule=.15mm, bottomrule=.15mm, left=2mm, leftrule=.75mm, colback=white]
+
+\vspace{-3mm}\textbf{Algoritmo}\vspace{3mm}
+
+Passo 1. Simular \(y\) de \(Y\) com f.m.p. \(q_y\).
+
+Passo 2. Gerar \(u \sim U(0,1)\).
+
+Passo 3. Se \(u < \dfrac{p_y}{c \, q_y}\), então aceite \(X = y\). Caso
+contrário, rejeite e não atribua valor a \(X\).
+
+Passo 4. Repetir os passos 1--3 até obter o tamanho de amostra desejado.
+
+\end{tcolorbox}
+
+O algoritmo aceitação-rejeição gera uma v.a. \(X\) tal que
+\(P(X=j)=p_j\), \(j=0,1,2,\ldots\). Além disso, o número de iterações
+que o algoritmo necessita para obter \(X\) é uma v.a. geométrica com
+média \(c\).
+
+\begin{tcolorbox}[enhanced jigsaw, toprule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame, breakable, opacityback=0, rightrule=.15mm, bottomrule=.15mm, left=2mm, leftrule=.75mm, colback=white]
+
+\vspace{-3mm}\textbf{Prova do Teorema}\vspace{3mm}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Em uma iteração, determinar a probabilidade de gerar e ser aceito o
+  valor \(j\):
+  \[P(Y=j,aceitar)= P(Y=y).P(aceitar/Y=j)= q_j.\dfrac{pj}{cq_j} = \dfrac{p_j}{c}\]
+\item
+  Calcular a probabilidade de aceitar um valor \(j\) gerado:
+  \[P(aceitar)= \sum_j P(Y=j,aceitar)=\sum_j \dfrac{pj}{c} = \dfrac{1}{c}\]
+\item
+  Como cada iteração independentemente resulta um valor aceitável com
+  probabilidade \(\frac{1}{c}\), o número de iterações necessárias segue
+  uma geométrica de média \(c\). Portanto,
+  \[P(X=j)=\! \sum_n P(\mbox{\textit{j aceito na iteração n}}) = \sum_n \left(\!1\!-\!\dfrac{1}{c}\!\right)^{\!\!n-1}\!\!.\dfrac{p_j}{c}=p_j\].
+\end{enumerate}
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, toprule=.15mm, arc=.35mm, colframe=quarto-callout-important-color-frame, breakable, opacityback=0, bottomrule=.15mm, rightrule=.15mm, titlerule=0mm, toptitle=1mm, title={Observações}, leftrule=.75mm, opacitybacktitle=0.6, left=2mm, colback=white, colbacktitle=quarto-callout-important-color!10!white]
+
+\begin{itemize}
+\item
+  A constante \(c\) está relacionada com o número de interações
+  necessárias até a aceitação de um valor de \(Y\) para \(X\).
+\item
+  O valor \(c\) deve ser o menor possível.
+\item
+  O valor de \(c\) será o \(\mbox{max}\left\{\dfrac{p_y}{q_y}\right\}\).
+\end{itemize}
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, toprule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame, breakable, opacityback=0, bottomrule=.15mm, rightrule=.15mm, titlerule=0mm, toptitle=1mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, leftrule=.75mm, opacitybacktitle=0.6, left=2mm, colback=white, colbacktitle=quarto-callout-note-color!10!white]
+
+\[u<\dfrac{p_y}{c.q_y} \ \ \ \ \mbox{e}  \ \ \ \  P(U<\dfrac{p_y}{c.q_y})= \dfrac{p_y}{c.q_y} \]
+\[\Downarrow\]
+\[\dfrac{p_y}{c.q_y}\leq 1 \ \ \ \ \mbox{para todo} \ \ y \ \ \mbox{tal que} \ \ p_y>0\]
+\[\Downarrow\] \[c=\mbox{max}\left\{\dfrac{p_y}{q_y}\right\}\]
+
+\end{tcolorbox}
+
+\subsubsection*{Exemplo 1}\label{exemplo-1-1}
+\addcontentsline{toc}{subsubsection}{Exemplo 1}
+
+Gerar um valor da variável aleatória \(X\) com f.m.p.:
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.1045}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0896}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0896}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0896}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0896}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0896}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0896}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0896}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0896}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0896}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 20\tabcolsep) * \real{0.0896}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\(j\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+1
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+2
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+3
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+4
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+5
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+6
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+7
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+8
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+9
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+10
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\(p_j\) & 0,11 & 0,12 & 0,09 & 0,08 & 0,12 & 0,10 & 0,09 & 0,09 & 0,10 &
+0,10 \\
+\end{longtable}
+
+Considerando que sabemos gerar de uma v.a. uniforme discreta,
+assumiremos \(Y\) com distribuição
+
+\[P(Y=j)=q_j=\dfrac{1}{10}; \quad j=1,2, \ldots, 10.\]
+
+A constante \(c\) será determinada por
+\(c=\mbox{max}\left\{\dfrac{p_j}{q_j}\right\} =\dfrac{0,\!12}{0,\!10}=1,\!2.\)
+
+\begin{tcolorbox}[enhanced jigsaw, toprule=.15mm, arc=.35mm, colframe=quarto-callout-warning-color-frame, breakable, opacityback=0, rightrule=.15mm, bottomrule=.15mm, left=2mm, leftrule=.75mm, colback=white]
+
+\vspace{-3mm}\textbf{Algoritmo}\vspace{3mm}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Simular \(y\) de \(Y\): gere \(u_1 \sim U(0,1)\) e faça
+  \(y = \mathrm{Int}(10u_1)+1\).
+\item
+  Gerar um segundo número aleatório \(u_2\).
+\item
+  Se \(u_2 < \dfrac{p_y}{0.12}\), faça \(X=y\) e pare. Caso contrário,
+  retorne ao passo 1.
+\end{enumerate}
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, toprule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame, breakable, opacityback=0, bottomrule=.15mm, rightrule=.15mm, titlerule=0mm, toptitle=1mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, leftrule=.75mm, opacitybacktitle=0.6, left=2mm, colback=white, colbacktitle=quarto-callout-note-color!10!white]
+
+Suponha \(y=1\). Então, se
+\(u_2<\dfrac{p_1}{0,\!12}=\dfrac{0,\!11}{0,\!12}=0,\!9167\), faremos
+\(X=1\). Isto é, assumiremos que o valor 1 gerado é plausível de ser da
+distribuição de \(X\). O gráfico a seguir ilustra esse processo.
+
+\end{tcolorbox}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#set.seed(20252)}
+\NormalTok{pseudo\_x }\OtherTok{\textless{}{-}} \ConstantTok{NULL}
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \FunctionTok{seq\_len}\NormalTok{(}\DecValTok{1000}\NormalTok{))\{}
+  
+\NormalTok{pj }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FloatTok{0.11}\NormalTok{, }\FloatTok{0.12}\NormalTok{, }\FloatTok{0.09}\NormalTok{, }\FloatTok{0.08}\NormalTok{, }\FloatTok{0.12}\NormalTok{, }\FloatTok{0.10}\NormalTok{, }\FloatTok{0.09}\NormalTok{, }\FloatTok{0.09}\NormalTok{, }\FloatTok{0.10}\NormalTok{, }\FloatTok{0.10}\NormalTok{)}
+
+\NormalTok{u1 }\OtherTok{\textless{}{-}} \FunctionTok{runif}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\NormalTok{y }\OtherTok{\textless{}{-}} \FunctionTok{floor}\NormalTok{(}\DecValTok{10}\SpecialCharTok{*}\NormalTok{u1) }\SpecialCharTok{+} \DecValTok{1}
+
+
+\ControlFlowTok{repeat}\NormalTok{\{}
+\NormalTok{u2 }\OtherTok{\textless{}{-}} \FunctionTok{runif}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\NormalTok{x }\OtherTok{\textless{}{-}}\NormalTok{ y}
+
+\ControlFlowTok{if}\NormalTok{(u2 }\SpecialCharTok{\textless{}}\NormalTok{ pj[y]}\SpecialCharTok{/}\FloatTok{0.12}\NormalTok{) }\ControlFlowTok{break}
+\NormalTok{\}}
+
+\NormalTok{pseudo\_x[i] }\OtherTok{\textless{}{-}}\NormalTok{ x}
+\NormalTok{\}}
+
+\FunctionTok{round}\NormalTok{(}\FunctionTok{prop.table}\NormalTok{(}\FunctionTok{table}\NormalTok{(pseudo\_x)),}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+pseudo_x
+   1    2    3    4    5    6    7    8    9   10 
+0.12 0.10 0.09 0.09 0.10 0.09 0.09 0.11 0.11 0.10 
+\end{verbatim}
+
+Existe algum problema com os resultados acima? Se sim, faça a correção
+do código e verifique graficamente a coerência dos resultados.
+
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, toprule=.15mm, arc=.35mm, colframe=quarto-callout-important-color-frame, breakable, opacityback=0, bottomrule=.15mm, rightrule=.15mm, titlerule=0mm, toptitle=1mm, title={Observações}, leftrule=.75mm, opacitybacktitle=0.6, left=2mm, colback=white, colbacktitle=quarto-callout-important-color!10!white]
+
+\begin{itemize}
+\item
+  \(91,\!67\%\) de todos os valores 1 gerados de \(Y\) serão aceitos
+\item
+  \(100\%\) dos valores 2 gerados de \(Y\) serão aceitos
+\item
+  \(75\%\) dos valores 3 gerados de \(Y\) serão aceitos
+\item
+  Qualquer valor da constante \(c\) inferior a \(1,\!2\) impossibilita
+  gerar a distribuição de \(X\)
+\item
+  Qualquer valor da constante \(c\) superior a \(1,\!2\) tornaria o
+  processo mais lento para a obteção da amostra
+\end{itemize}
+
+\end{tcolorbox}
+
+\subsubsection*{Exercícios}\label{exercuxedcios-2}
+\addcontentsline{toc}{subsubsection}{Exercícios}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Gere números pseudoaleatórios de \(X\) considerando \(c = 2,4\).
+\item
+  Compare com os resultados obtidos no Exemplo.
+\end{enumerate}
+
+\section{Método da Composição}\label{muxe9todo-da-composiuxe7uxe3o}
+
+Suponha que tenhamos um método eficiente para simular o valor de uma
+variável aleatória com f.m.p. \({p_j, ; j \geq 0}\) ou
+\({q_j, ; j \geq 0}\), e que desejamos simular a variável aleatória
+\(X\) com f.m.p.:
+
+\[\Pr(X = j) = \alpha p_j + (1 - \alpha)q_j, \quad j \geq 0, 0 < a < 1.\]
+Se \(X_1 \sim {p_j}\) e \(X_2 \sim {q_j}\), então podemos definir
+
+\[X =
+\begin{cases}
+X_1, & \text{com probabilidade } a, \\
+X_2, & \text{com probabilidade } 1-a ,
+\end{cases}.\]
+
+Assim, \(X\) terá exatamente a função de probabilidade acima.
+
+\subsubsection*{Exemplo}\label{exemplo-5}
+\addcontentsline{toc}{subsubsection}{Exemplo}
+
+Suponha que desejamos gerar o valor de uma variável aleatória \(X\) tal
+que
+
+\[p_j = \Pr(X = j) =  \begin{cases}
+0.05, & \text{para}\quad j = 1, 2, 3, 4, 5, \\
+0.15, & \text{para}\quad  j = 6, 7, 8, 9, 10,
+\end{cases}\]
+
+Note que \(p_j = 0.5 \times p_j^{(1)} + 0.5 \times p_j^{(2)},\) em que
+
+\[p_j^{(1)} = 0.1, \quad j = 1, \dots, 10 \quad \text{e} \quad p_j^{(2)} = \begin{cases}
+0, & \text{para}\quad j = 1, 2, 3, 4, 5, \\
+0.2, & \text{para}\quad  j = 6, 7, 8, 9, 10,
+\end{cases}\]
+
+podemos realizar essa simulação gerando primeiro um número aleatório
+\(U \sim U(0,1)\) e então:
+
+\begin{itemize}
+\tightlist
+\item
+  Se \(U < 0.5\), gerar \(X\) de uma uniforme discreta sobre
+  \(\{1,2,\dots,10\}\).
+\item
+  Caso contrário (\(U \geq 0.5\)), gerar \(X\) de uma uniforme discreta
+  sobre \(\{6,7,8,9,10\}\).
+\end{itemize}
+
+\begin{tcolorbox}[enhanced jigsaw, toprule=.15mm, arc=.35mm, colframe=quarto-callout-warning-color-frame, breakable, opacityback=0, rightrule=.15mm, bottomrule=.15mm, left=2mm, leftrule=.75mm, colback=white]
+
+\vspace{-3mm}\textbf{Algoritmo}\vspace{3mm}
+
+Passo 1. Gerar \(U_1 \sim U(0,1)\).
+
+Passo 2. Gerar \(U_2 \sim U(0,1)\).
+
+Passo 3. Se \(U_1 < 0.5\), definir \(X = \mathrm{Int}(10U_1)+1\). Caso
+contrário, definir \(X = \mathrm{Int}(5U_2)+6\).
+
+\end{tcolorbox}
+
+Se \(F_i\), \(i=1,\dots,n\) são funções de distribuição e \(\alpha_i\),
+\(i=1,\dots,n\) são números não negativos cuja soma é 1, então a função
+de distribuição:
+
+\[
+F(x) = \sum_{i=1}^n \alpha_i F_i(x),
+\]
+
+é uma \textbf{mistura}, ou uma \textbf{composição}, das funções de
+distribuição \(F_i\), \(i = 1, \dots, n\).
+
+Uma maneira de simular a partir de \(F\) é primeiro simular uma variável
+aleatória \(I\), igual a \(i\) com probabilidade \(\alpha_i\),
+\(i=1,\dots,n\), e então simular a partir da distribuição \(F_I\) (Isto
+é, se o valor simulado de \(I\) for \(I = j\), então a segunda simulação
+é feita a partir de \(F_j\)). Essa abordagem para simular de \(F\) é
+frequentemente chamada de \textbf{método de composição}.
+
+\bookmarksetup{startatroot}
+
+\chapter{Otimização Numérica}\label{otimizauxe7uxe3o-numuxe9rica}
+
+\section{Método de Newton}\label{muxe9todo-de-newton}
+
+\section{Método de Newton-Raphson}\label{muxe9todo-de-newton-raphson}
+
+\section{Método Escore de Fisher}\label{muxe9todo-escore-de-fisher}
+
+\section{Método BFGS}\label{muxe9todo-bfgs}
+
+\bookmarksetup{startatroot}
+
+\chapter{Métodos de Reamostragem}\label{muxe9todos-de-reamostragem}
+
+\section{Bootstrap}\label{bootstrap}
+
+\subsection{Introdução}\label{introduuxe7uxe3o-2}
+
+Bootstrap é um método (computacional) de reamostragem baseado em
+subamostras de uma amostra observada, sendo introduzido por Efron
+(1979). Pode ser utilizado com o propósito de estimar erros padrão, viés
+de estimadores, construir intervalos de confiança, testes de hipóteses,
+entre outros. Pode ser utilizando sob duas abordagens:
+\textbf{paramétrica} e \textbf{não paramétrica}. A abordagem paramétrica
+exige um modelo estatística, enquanto que na abordagem não paramétrica
+não há suposição de modelo estatístico; toma-se por base uma
+distribuição empírica que atribui probabilidade \(1/n\) para cada um dos
+\(n\) elementos da amostra. Algumas referências importantes neste tema
+são: Efron (1979), Wu (1986), Fisher \(\&\) Hall (1989), Fredman (1986),
+Efron \(\&\) Tibshirani (1993), Horowitz (1997), Davison \(\&\) Hinkley
+(1997).
+
+\subsection{Acurária da média
+amostral}\label{acuruxe1ria-da-muxe9dia-amostral}
+
+Experimento com 16 ratos, divididos em dois grupos: um grupo recebeu o
+tratamento e um outro grupo não recebeu o tratamento (controle). O tempo
+de sobrevivência (dias) é apresentado para cada um dos ratos. O
+tratamento prolonga a vida?
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.2025}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1139}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1139}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1139}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.0506}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1013}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.3038}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+grupo
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+tempo 1
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+tempo 2
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+tempo 3
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+n
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+média
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(\widehat{ep}\)(média)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+tratamento (X) & 94 & 197 & 16 & 7 & 86,86 & 25,24 \\
+& 38 & 99 & 141 & & & \\
+& 23 & & & & & \\
+controle (Y) & 52 & 104 & 146 & 9 & 56,22 & 14,14 \\
+& 10 & 51 & 30 & & & \\
+& 40 & 27 & 46 & & & \\
+diferença & & & & & 30,63 & 28,93 \\
+\end{longtable}
+
+Alguns pontos importantes são:
+
+\begin{itemize}
+\item
+  A resposta à pergunta dependerá de quão acurado(s) é(são) o(s)
+  estimador(es).
+\item
+  O erro padrão é uma medida (muito usual) de acurácia de estimador.
+\item
+  erro padrão estimado para a média amostral \(\bar{X}\)
+  \[\widehat{ep}(\bar{X})=\sqrt{\dfrac{s^2}{n}},\] em que
+  \(s^2=\sum_{i=1}^n(x_i-\bar{x})^2/(n-1)\).
+\item
+  erro padrão de qualquer estimador é definido pela raiz quadrada de sua
+  variância
+\end{itemize}
+
+Além disso, temos que:
+
+\begin{itemize}
+\item
+  erro padrão pequeno \(\longrightarrow\) acurácia alta
+\item
+  erro padrão grande \(\longrightarrow\) acurácia baixa
+\item
+  acurácia alta (baixa) indica que o estimador apresenta valores
+  próximos (distantes) ao seu valor esperado
+\item
+  espera-se que 68\(\%\) dos valores do estimador estejam a menos de um
+  erro padrão do seu valor esperado, e 95\(\%\), a menos de dois erros
+  padrões
+\item
+  erro padrão da diferença \((\bar{X}-\bar{Y})\):
+  \[28.93=\sqrt{25.24^2+14.14^2}.\]
+\end{itemize}
+
+\textbf{Resposta à pergunta:} a diferença observada 30.63 é somente
+30.63/28.93=1.05 erros padrões (estimados) maior que zero, indicando um
+resultado não significativo, ou seja, o tratamento não aumenta o tempo
+médio de vida (considerando a teoria dos testes de hipóteses).
+
+O erro padrão para o estimador média amostral apresenta fórmula
+conhecida, mas há casos em que não dispomos de fórmulas. Suponha que
+haja interesse em comparar os dois grupos de ratos em relação aos tempos
+medianos. Temos: md(X)=94 e md(Y)=46. A diferença é 48, maior que a
+diferença para as médias. Com base na mediana, o tratamento prolonga a
+vida?
+
+\subsection{Estimativa bootstrap do erro
+padrão}\label{estimativa-bootstrap-do-erro-padruxe3o}
+
+Considerações:
+
+\begin{itemize}
+\item
+  \(\underset{\sim}{x} = (x_1,\,x_2\,\ldots,\,x_n)\): vetor de dados
+  observado (amostra original de tamanho \(n\))
+\item
+  \(s(\underset{\sim}{x})\): estatística de interesse (por exemplo,
+  média amostral)
+\item
+  Uma amostra bootstrap
+  \(\underset{\sim}{x}^*=(x_1^*, x_2^*, \ldots, x_n^*)\) é obtida pela
+  amostragem aleatória de tamanho \(n\), com reposição, de
+  \(\underset{\sim}{x}\). Por exemplo, com \(n=7\), poderíamos obter
+  \(\underset{\sim}{x}^*=(x_1^*, x_2^*, \ldots, x_n^*)=(x_5, x_7, x_5, x_4, x_7, x_3, x_1)\).
+\end{itemize}
+
+\textbf{O algoritmo bootstrap}
+
+\begin{itemize}
+\item
+  gerar \(B\) amostras bootstrap independentes:
+  \(\underset{\sim}{x}^{*^{1}}, \underset{\sim}{x}^{*^{2}}, \ldots, \underset{\sim}{x}^{*^{B}},\)
+  cada uma de tamanho \(n\) e \(50 \leq B \leq 200\).
+\item
+  calcular \(s(\underset{\sim}{x}^{*^{b}})\), \(b=1, 2, \ldots, B\).
+  \(s(\underset{\sim}{x}^{*^{b}})\) é denominada réplica bootstrap de
+  \(s(\underset{\sim}{x})\)
+\item
+  calcular
+  \(\hat{ep}_{boot}=\hat{ep}_{B}=\sqrt{ \dfrac{\sum_{b=1}^{B}[s(\underset{\sim}{x}^{*^{b}})-s(.)]^2}{B-1}},\)em
+  que \(s(.)=\frac{\sum_{b=1}^{B}s(\underset{\sim}{x}^{*^{b}})}{B}\)
+\end{itemize}
+
+Sintaxe do \texttt{R} para calcular a estimativa bootstrap do erro
+padrão da média do tempo de sobrevida dos ratos do grupo tratamento.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{1234}\NormalTok{)}
+\CommentTok{\# grupo tratamento (amostra original)}
+\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{94}\NormalTok{, }\DecValTok{197}\NormalTok{, }\DecValTok{16}\NormalTok{, }\DecValTok{38}\NormalTok{, }\DecValTok{99}\NormalTok{, }\DecValTok{141}\NormalTok{, }\DecValTok{23}\NormalTok{) }
+\NormalTok{n }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(x)}
+\NormalTok{s }\OtherTok{\textless{}{-}} \DecValTok{0}  \CommentTok{\# estatística de interesse}
+\NormalTok{B }\OtherTok{\textless{}{-}} \DecValTok{50} \CommentTok{\# no. de amostras bootstrap }
+
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{B)\{}
+   \CommentTok{\# réplica bootstrap para o estimador média}
+\NormalTok{   s[i] }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{sample}\NormalTok{(x,n,}\AttributeTok{replace=}\ConstantTok{TRUE}\NormalTok{)) }
+\NormalTok{ \}}
+\CommentTok{\# estimativa bootstrap para o erro padrão da média}
+\NormalTok{ep }\OtherTok{\textless{}{-}}  \FunctionTok{sd}\NormalTok{(s); ep}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 27.41873
+\end{verbatim}
+
+Estimativas bootstrap do erro padrão da média e da mediana do tempo de
+sobrevivência dos ratos do grupo tratamento. A mediana é menos acurada
+(erros padrões maiores) que a média para esse conjunto de dados.
+
+\begin{longtable}[]{@{}lllllll@{}}
+\toprule\noalign{}
+\(B\) & 50 & 100 & 250 & 500 & 1000 & \(\infty\) \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+média & 19.72 & 23.63 & 22.32 & 23.79 & 23.02 & 23.36 \\
+mediana & 32.21 & 36.35 & 34.46 & 36.72 & 36.48 & 37.83 \\
+\end{longtable}
+
+Formalização:
+
+\begin{itemize}
+\item
+  \(\underset{\sim}{X} = X_1, X_2,\dots, X_n\): amostra aleatória de uma
+  f.d.a. \(F\)
+\item
+  \(\underset{\sim}{x} = (x_1, x_2,\ldots, x_n)\): amostra aleatória
+  observada de \(F\)
+\item
+  \(\Theta=t(F)\): parâmetro (\(\Theta\) uma função de \(F\))
+\item
+  \(\hat{\Theta}=s(\underset{\sim}{X})\): estimador para \(\Theta\)
+\item
+  \(\hat{\theta}=s(\underset{\sim}{x})\): estimativa para \(\Theta\)
+\item
+  Quão acurado é o estimador \(\hat{\Theta}\)?
+\item
+  Seja \(\hat{F}\) a distribuição empírica que atribui a probabilidade
+  \(1/n\) para cada valor observado \(x_i\), \(i=1,2,\ldots, n\). A
+  amostra bootstrap \(\underset{\sim}{x}^*\) é definida como a amostra
+  aleatória com reposição de tamanho \(n\) extraída de \(\hat{F}\).
+  \[\underset{\sim}{x}^*=(x_1^*,\,x_2^*\,\ldots,\,x_n^*)\]
+  \[\hat{F}\longrightarrow (x_1^*,\,x_2^*\,\ldots,\,x_n^*)\]
+  \textbf{Nota:}
+\item
+  \(\underset{\sim}{x}^*\): o símbolo \(*\) indica que a amostra não é a
+  original \(\underset{\sim}{x}\), mas uma versão
+  aleatorizada(reamostrada) de \(\underset{\sim}{x}\)
+\item
+  a cada amostra bootstrap corresponde uma réplica bootstrap de
+  \(\hat\theta\), \(\hat\theta^* =s(\underset{\sim}{x}^*)\)
+\item
+  \(ep_F(\hat\Theta)\) é estimado por \(ep_{\hat{F}}(\hat\Theta^*)\),
+  chamado \textbf{estimador bootstrap ideal} para o erro padrão
+  \(\hat\Theta\)
+\item
+  Raramente faz-se necessário \(B\geq 200\) para estimar erro padrão;
+  valores (muito) maiores são necessários, por exemplo, para IC
+  bootstrap.
+\item
+  \(\displaystyle\lim_{B \to \infty} \hat{ep}_B=ep_{\hat{F}}=ep_{\hat{F}}(\hat\Theta^*)\)
+\item
+  O estimador bootstrap ideal \(ep_{\hat{F}}(\hat\Theta^*)\) e sua
+  aproximação \(\hat{ep}_B\) são chamados \textbf{estimadores bootstrap
+  não-paramétricos}, pois baseiam-se em \(\hat{F}\), o estimador
+  não-paramétrico de \(F\).
+\item
+  total de amostras bootstrap distintas (combinação com repetição):
+  \[\binom{2n -1}{n}.\]
+\item
+  No \texttt{R}: ver as funções \texttt{factorial()}, \texttt{choose()},
+  \texttt{combn()}, \texttt{combinations()}.
+\end{itemize}
+
+\subsubsection{Exemplo}\label{exemplo-6}
+
+Dados de faculdades americanas de direito. População: \(N=82\)
+faculdades. Amostra aleatória: \(n=15\) faculdades. Variáveis
+analisadas: LSAT (escore médio em um teste), GPA (pontuação média na
+faculdade).
+
+\begin{longtable}[]{@{}llllll@{}}
+\toprule\noalign{}
+escola & LSAT & GPA & escola & LSAT & GPA \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & 576 & 3,39 & 9 & 651 & 3,36 \\
+2 & 635 & 3,30 & 10 & 605 & 3,13 \\
+3 & 558 & 2,81 & 11 & 653 & 3,12 \\
+4 & 578 & 3,03 & 12 & 575 & 2,74 \\
+5 & 666 & 3,44 & 13 & 545 & 2,76 \\
+6 & 580 & 3,07 & 14 & 572 & 2,88 \\
+7 & 555 & 3,00 & 15 & 594 & 2,96 \\
+8 & 661 & 3,43 & & & \\
+\end{longtable}
+
+\begin{itemize}
+\item
+  Façamos \(Y\)=LSAT e \(Z\)=GPA. A estatística (estimador) de interesse
+  é o coeficiente de correlação amostral entre as variáveis \(Y\) e
+  \(Z\):
+  \[\hat{\Theta}=corr(Y,Z)=\dfrac{Cov(Y,Z)}{DP(Y).DP(Z)}=\dfrac{\sum_{i=1}^n(Y_i-\bar{Y})(Z_i-\bar{Z})/n}{DP(Y).DP(Z)}\]
+\item
+  Para os dados observados, a estimativa do coeficiente de correlação
+  amostral é 0.776. Quão acurado é o estimador?
+\end{itemize}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.1000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.1000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.1000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.1000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.1000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.1000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.1000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.1000}}@{}}
+\caption{\textbf{Estimativas bootstrap do erro padrão para
+\(\hat{\Theta} = corr(Y,Z)\)}}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\(B\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+25
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+50
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+100
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+200
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+400
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+800
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+1600
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+3200
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\(B\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+25
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+50
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+100
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+200
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+400
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+800
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+1600
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+3200
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\(\hat{ep}_B\) & 0,140 & 0,142 & 0,151 & 0,143 & 0,141 & 0,137 & 0,133 &
+0,132 \\
+\end{longtable}
+
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, toprule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame, breakable, opacityback=0, bottomrule=.15mm, rightrule=.15mm, titlerule=0mm, toptitle=1mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, leftrule=.75mm, opacitybacktitle=0.6, left=2mm, colback=white, colbacktitle=quarto-callout-note-color!10!white]
+
+No caso de valores extremos inflacionarem fortemente \(\hat{ep}_B\), uma
+medida mais robusta para o estimador bootstrap do erro padrão é
+desejável. (ver Efron \(\&\) Tibshirani (1993)).
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, toprule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame, breakable, opacityback=0, bottomrule=.15mm, rightrule=.15mm, titlerule=0mm, toptitle=1mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, leftrule=.75mm, opacitybacktitle=0.6, left=2mm, colback=white, colbacktitle=quarto-callout-note-color!10!white]
+
+Inferências baseadas na distribuição normal são ``questionáveis'' quando
+o histograma das réplicas bootstrap indica forte assimetria.
+
+\end{tcolorbox}
+
+\subsubsection{Exercícios:}\label{exercuxedcios-3}
+
+\begin{enumerate}
+\def\labelenumi{(\arabic{enumi})}
+\item
+  Considere \(B = 3200\). Para cada uma das 3200 amostras bootstrap,
+  obtenha a réplica bootstrap \(\hat{\theta}^*=corr(y^*,z^*)\). Faça o
+  histograma das réplicas.
+\item
+  A Tabela 3.2, p.~21 do livro texto, apresenta os dados populacionais
+  das 82 faculdades. Selecione 3200 amostras aleatórias de tamanho
+  \(n = 15\). Para cada uma dessas amostra calcule o coeficiente de
+  correlação e faça o histograma.
+\end{enumerate}
+
+\subsection{Bootstrap Paramétrico}\label{bootstrap-paramuxe9trico}
+
+O estimador bootstrap paramétrico do erro padrão é definido por
+\[ep_{\hat{F}_{par}}(\hat\Theta^*),\] em que \(\hat{F}_{par}\) é um
+estimador de \(F\) derivado do modelo paramétrico para os dados.
+
+Para os dados das faculdades: Vamos supor que a população (LSAT, GPA)
+possa ser descrita por um modelo paramétrico normal bivariado \(F\).
+Estimamos \(F\) por \(\hat{F}_{normal}\), que denota a f.d.a. de uma
+normal bivariada com vetor de médias e matriz de covariâncias
+\((\bar{y},\bar{z})\) e \(\dfrac{1}{14}\left(
+\begin{array}{ll}
+\sum(y_i-\bar{y})^2            &  \sum(y_i-\bar{y})(z_i-\bar{z}) \\
+\sum(y_i-\bar{y})(z_i-\bar{z}) &  \sum(z_i-\bar{z})^2  \\
+\end{array}
+\right)\).
+
+O estimador bootstrap paramétrico do erro padrão da correlação
+\(\hat{\Theta}\) será dado por \(ep_{\hat{F}_{normal}}(\hat\Theta^*)\).
+Esse estimador bootstrap ideal será aproximado por \(\hat{ep}_{B}\)
+(conforme algoritmo a seguir).
+
+\textbf{O algoritmo bootstrap:}
+
+\begin{itemize}
+\tightlist
+\item
+  extrair \(B\) amostras de tamanho \(n\) de \(\hat{F}_{par}\):
+  \(\underset{\sim}{x}^{*^{1}}, \underset{\sim}{x}^{*^{2}}, \ldots, \underset{\sim}{x}^{*^{B}}\)
+\item
+  calcular \(s(\underset{\sim}{x}^{*^{b}})\), \(b=1, 2, \ldots, B\).
+  \(s(\underset{\sim}{x}^{*^{b}})\) é a réplica bootstrap de
+  \(s(\underset{\sim}{x})\)
+\item
+  calcular
+  \(\hat{ep}_{boot}=\hat{ep}_{B}=\sqrt{ \dfrac{\sum_{b=1}^{B}[s(\underset{\sim}{x}^{*^{b}})-s(.)]^2}{B-1}},\)em
+  que \(s(.)=\frac{\sum_{b=1}^{B}s(\underset{\sim}{x}^{*^{b}})}{B}\)
+\end{itemize}
+
+No exemplo das faculdades, assumindo o modelo normal bivariado,
+extraímos \(B\) amostras de tamanho \(n=15\) de \(\hat{F}_{normal}\),
+calculamos o coeficiente de correlação para cada amostra e, por fim,
+calculamos o desvio padrão desses coeficientes de correlação. Usando
+\(B=3200\) encontramos \(\hat{ep}_{B}=0.124\), que é próximo ao valor
+0.131 obtido com o bootstrap não-paramétrico.
+
+A fórmula teórica para o erro padrão do coeficiente de correlação é
+\(\dfrac{1-\hat{\Theta}^2}{\sqrt{n-3}}\), com
+\(\hat{\Theta}=corr(Y,Z)\). Vimos que \(\hat{\theta}=0.776\), o que
+resulta a estimativa 0.115 para o erro padrão do coeficiente de
+correlação entre as variáveis \(Y\)=LSAT e \(Z\)=GPA.
+
+Transformação de Fisher para o coeficiente de correlação
+\(\hat{\Theta}\):
+\(\hat{\zeta}=0.5\log\left(\dfrac{1+\hat{\Theta}}{1-\hat{\Theta}}\right)\).
+Assim, \(\hat{\zeta}\) tem distribuição aproximadamente normal com média
+\(0.5\log\left(\dfrac{1+\Theta}{1-\Theta}\right)\) e variância
+\(\dfrac{1}{n-3}\). O erro padrão para \(\hat{\zeta}\) é
+\(\sqrt{\dfrac{1}{n-3}}\). Para o exemplo das faculdades, o valor é
+\(\dfrac{1}{\sqrt{12}}=0.289\).
+
+A título de comparação com o procedimento bootstrap, a estatística
+(estimador) \(\hat{\zeta}\) foi estimado em cada uma das \(B=3200\)
+amostras bootstrap. O desvio padrão das réplicas bootstrap resultou
+0.290 (muito próximo ao valor teórico 0.289). Histogramas para as
+correlações \(\hat{\theta}^*\)e para os \(\hat{\zeta}^*\).
+
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, toprule=.15mm, arc=.35mm, colframe=quarto-callout-important-color-frame, breakable, opacityback=0, bottomrule=.15mm, rightrule=.15mm, titlerule=0mm, toptitle=1mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Importante}, leftrule=.75mm, opacitybacktitle=0.6, left=2mm, colback=white, colbacktitle=quarto-callout-important-color!10!white]
+
+Muitas fórmulas para os erros padrões são aproximações baseadas na
+teoria normal e isso ``explica'' os resultados próximos obtidos com o
+uso do bootstrap paramétrico que extrai amostras a partir da
+distribuição normal.
+
+\end{tcolorbox}
+
+Vantagens do bootstrap sobre os métodos tradicionais:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{bootstrap não-paramétrico:} não é necessário fazer suposições
+  de modelos paramétricos para a população;
+\item
+  \textbf{bootstrap paramétrico:} possibilita estimar erros padrões em
+  problemas para os quais não há fórmulas para os erros padrões.
+\end{itemize}
+
+\section{Jackknife}\label{jackknife}
+
+\subsection{Introdução}\label{introduuxe7uxe3o-3}
+
+Jackknife é uma técnica para estimar viés e erro padrão de estimadores.
+É uma técnica que antecede o bootstrap e foi proposta no trabalho
+pioneiro Quenouille (1949) para reduzir viés do estimador da correlação
+serial.
+
+\textbf{Formalização:}
+
+\begin{itemize}
+\item
+  \(\underset{\sim}{X} = (X_1, X_2, \dots, X_n)\): amostra aleatória de
+  uma f.d.a. \(F\)
+\item
+  \(\underset{\sim}{x} = (x_1, x_2, \dots, x_n)\): amostra aleatória
+  observada de \(F\)
+\item
+  \(\Theta=t(F)\): parâmetro (\(\Theta\) uma função de \(F\))
+\item
+  \(\hat{\Theta}=s(\underset{\sim}{X})\): estimador para \(\Theta\)
+\item
+  \(\hat{\theta}=s(\underset{\sim}{x})\): estimativa para \(\Theta\)
+\end{itemize}
+
+O jackknife toma como base \(n\) amostras de tamanho \(n-1\)
+selecionadas da amostra aleatória observada. A \(i\)-ésima amostra
+jackknife consiste da amostra observada com a \(i\)-ésima observação
+removida, \(i=1,2, \ldots, n\):
+\[{\underset{\sim}{x}}_{(i)}=(x_1,x_2,\ldots, x_{i-1},x_{i+1}, \ldots, x_n).\]
+
+\subsection{Estimador do viés}\label{estimador-do-viuxe9s}
+
+Para cada amostra \(i\) jackknife, é obtida a réplica jackknife
+\(\hat{\theta}_{(i)}=s({\underset{\sim}{x}}_{(i)})\) e o estimador
+jackknife do viés de \(\hat{\Theta}\) é dado por:
+\[\widehat{\mbox{viés}}_{jack} =(n-1)( \hat{\Theta}_{(\cdot)} - \hat{\Theta} ),\]
+em que
+\(\hat{\Theta}_{(\cdot)}=\sum_{i=1}^n\dfrac{\hat{\Theta}_{(i)}}{n}\).
+
+\subsection{Estimado do erro padrão}\label{estimado-do-erro-padruxe3o}
+
+O estimador jackknife do erro padrão de \(\hat{\Theta}\) pode ser
+escrito da seguinte maneira:
+\[\widehat{ep}_{jack} =\left[ \dfrac{n-1}{n}\sum_{i=1}^n (\hat{\Theta}_{(i)} - \hat{\Theta}_{(\cdot)})^2\right]^{\frac{1}{2}},\]
+em que
+\(\hat{\Theta}_{(\cdot)}=\sum_{i=1}^n\dfrac{\hat{\Theta}_{(i)}}{n}\).
+
+Algumas considerações importantes:
+
+\begin{itemize}
+\item
+  Bootstrap: amostragem aleatória com reposição;
+\item
+  Jackknife: amostras fixas;
+\item
+  Jackknife requer o cálculo do estimador apenas para \(n\) amostras;
+\item
+  A acurácia do estimador jackknife do erro padrão depende de quão
+  próximo o estimador é da linearidade. Para funções fortemente não
+  lineares, o jackknife pode ser ineficiente;
+\item
+  Estimador linear:
+  \(\hat{\Theta}=s(\underset{\sim}{X})=\mu +\frac{1}{n}\sum_{i=1}^n\alpha(X_i).\)
+\end{itemize}
+
+\subsubsection{Exemplo}\label{exemplo-7}
+
+Considere a amostra observada: \(\underset{\sim}{x}=(10,26,30,40,48)\) e
+o estimador: mediana(\(\hat{\Theta}\)). As amostras e réplicas jackknife
+são dadas, respectivamente, por:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \({\underset{\sim}{x}}_{(1)}=(26,30,40,48)\) e
+  \(\hat{\theta}_{(1)}=35;\)
+\item
+  \({\underset{\sim}{x}}_{(2)}=(10,30,40,48)\) e
+  \(\hat{\theta}_{(2)}=35;\)
+\item
+  \({\underset{\sim}{x}}_{(3)}=(10,26,40,48)\) e
+  \(\hat{\theta}_{(3)}=33;\)
+\item
+  \({\underset{\sim}{x}}_{(4)}=(10,26,30,48)\) e
+  \(\hat{\theta}_{(4)}=28;\)
+\item
+  \({\underset{\sim}{x}}_{(5)}=(10,26,30,40)\) e
+  \(\hat{\theta}_{(5)}=28.\)
+\end{enumerate}
+
+Desta forma, a estimativa jackknife do erro padrão de \(\hat{\Theta}\):
+\[\widehat{ep}_{jack} =\left[ \dfrac{4}{5}\sum_{i=1}^5 (\hat{\theta}_{(i)} - \hat{\theta}_{(\cdot)})^2\right]^{\frac{1}{2}}\approx 6.38,\]
+com
+\(\hat{\theta}_{(\cdot)}=\sum_{i=1}^5\dfrac{\hat{\theta}_{(i)}}{5}=31.8.\)
+
+A seguir, a sintaxe do \texttt{R} para calcular a estimativa jackknife
+do erro padrão para a mediana.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{10}\NormalTok{,}\DecValTok{26}\NormalTok{,}\DecValTok{30}\NormalTok{,}\DecValTok{40}\NormalTok{,}\DecValTok{48}\NormalTok{)}
+\NormalTok{n }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(x)}
+
+\NormalTok{est.jack }\OtherTok{\textless{}{-}} \DecValTok{0}
+
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{n)\{ }
+\NormalTok{  est.jack[i] }\OtherTok{\textless{}{-}} \FunctionTok{median}\NormalTok{(x[}\SpecialCharTok{{-}}\NormalTok{i])}
+\NormalTok{\}}
+
+\NormalTok{ep.jack }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(((n}\DecValTok{{-}1}\NormalTok{)}\SpecialCharTok{\^{}}\DecValTok{2}\SpecialCharTok{/}\NormalTok{n)}\SpecialCharTok{*}\FunctionTok{var}\NormalTok{(est.jack))}
+\NormalTok{ep.jack}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 6.374951
+\end{verbatim}
+
+\section{Intervalos de Confiança}\label{intervalos-de-confianuxe7a}
+
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, toprule=.15mm, arc=.35mm, colframe=quarto-callout-warning-color-frame, breakable, opacityback=0, bottomrule=.15mm, rightrule=.15mm, titlerule=0mm, toptitle=1mm, title=\textcolor{quarto-callout-warning-color}{\faExclamationTriangle}\hspace{0.5em}{Notação}, leftrule=.75mm, opacitybacktitle=0.6, left=2mm, colback=white, colbacktitle=quarto-callout-warning-color!10!white]
+
+\begin{itemize}
+\item
+  \(\underset{\sim}{X} = (X_1, x_2, \dots, X_n)\): amostra aleatória de
+  uma f.d.a. \(F\)
+\item
+  \(\underset{\sim}{x} = (x_1, x_2, \dots, x_n)\): amostra aleatória
+  observada de \(F\)
+\item
+  \(\Theta=t(F)\): parâmetro (\(\Theta\) uma função de \(F\))
+\item
+  \(\hat{\Theta}=s(\underset{\sim}{X})\): estimador para \(\Theta\)
+\item
+  \(\hat{\theta}=s(\underset{\sim}{x})\): estimativa para \(\Theta\)
+\end{itemize}
+
+\end{tcolorbox}
+
+\section{Intervalos de Confiança Normal
+Padrão}\label{intervalos-de-confianuxe7a-normal-padruxe3o}
+
+Suponha que \(\hat{\Theta}\sim N(\Theta, ep(\hat{\Theta})^2)\).
+Portanto, se \(ep(\hat{\Theta})\) é conhecido temos que:
+
+\[Z=\dfrac{\hat{\Theta} - \Theta}{ep(\hat\Theta)} \sim N(0,1),\] e
+\[IC_z\left(100(1-\alpha)\%,\Theta\right)=\hat{\Theta} \pm z_{\frac{\alpha}{2}}ep(\hat{\Theta}).\]
+
+\section{Intervalo de Confiança
+t-Student}\label{intervalo-de-confianuxe7a-t-student}
+
+Suponha que \(\hat{\Theta}\sim N(\Theta, ep(\hat{\Theta})^2)\) e se
+\(ep(\hat{\Theta})\) é desconhecido, portanto
+
+\[Z=\dfrac{\hat{\Theta} - \Theta}{\hat{ep}(\hat\Theta)} \sim \mbox{t-Student}(n-1),\]
+
+e
+
+\[IC_t\left(100(1-\alpha)\%,\Theta\right)=\hat{\Theta} \pm t_{(n-1,\frac{\alpha}{2})}\hat{ep}(\hat{\Theta}).\]
+
+\section{\texorpdfstring{IC
+bootstrap-\(t\)}{IC bootstrap-t}}\label{ic-bootstrap-t}
+
+Agora vamos definir
+
+\[Z^{*^b}=\dfrac{ \hat{\Theta}^{*^b} - \hat{\Theta} }{\hat{ep}^{*^b}},\]
+em que \(\hat{\Theta}^{*^b}=s(\underset{\sim}{X}^{*^b})\) e
+\(\hat{ep}^{*^b}\) são obtidos para cada amostra bootstrap
+\(\underset{\sim}{x}^*\). O percentil \(100 \cdot \alpha\) de
+\(Z^{*^b}\) é estimado pelo valor \(\hat{t}^{(\alpha)}\), tal que
+\[ \#\{Z^{*^b}\leq \hat{t}^{(\alpha)} \}/B=\alpha.\]
+
+Por exemplo, se \(B=100\) e a confiança para o intervalo é de 90\(\%\),
+a estimativa \(\hat{t}^{(0.05)}\) será o quinto maior valor de
+\(Z^{*^b}\) e a estimativa \(\hat{t}^{(0.95)}\) será o nonagésimo quinto
+maior valor de \(Z^{*^b}\).
+
+Este procedimento estima a distribuição de \(Z\) (quantidade pivotal)
+diretamente dos dados. Não é necessário a suposição teórica de
+normalidade e sua distribuição é a mesma para qualquer \theta. O
+intervalo (bilateral) bootstrap-t de confiança
+\(100\times(1-2\alpha)\%\) para o parâmetro \(\Theta\), denotado por
+\(IC_t^*\left(100(1-2\alpha)\%,\Theta\right)\), é definido por:
+
+\[ \left[\hat{\Theta} - \hat{t}^{(1-\alpha)}\hat{ep}(\hat{\Theta}), \hat{\Theta} - \hat{t}^{(\alpha)}\hat{ep}(\hat{\Theta})\right].\]
+Emprega-se estimativas \textit{plug-in} para \(\hat{\Theta}\) e
+\(\hat{ep}(\hat{\Theta})\); não sendo possível, o erro padrão é estimado
+usando bootstrap ou jackknife.
+
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, toprule=.15mm, arc=.35mm, colframe=quarto-callout-important-color-frame, breakable, opacityback=0, bottomrule=.15mm, rightrule=.15mm, titlerule=0mm, toptitle=1mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Importante}, leftrule=.75mm, opacitybacktitle=0.6, left=2mm, colback=white, colbacktitle=quarto-callout-important-color!10!white]
+
+Se \(B\cdot\alpha\) não resultar um número inteiro?
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Efron \(\&\) Tibshirani (1993): supondo \(\alpha \leq 0.5\), faça
+  \(k=\mbox{Int}[(B+1)\cdot\alpha]\) (o maior inteiro
+  \(\leq (B+1)\cdot\alpha\) ) e defina os percentis empíricos de ordem
+  \(100\cdot\alpha\) e \(100\cdot(1-\alpha)\), respectivamente, pelo
+  \(k\)-ésimo e \((B+1-k)\)-ésimo maiores valores de \(Z^{*^b}\).
+\item
+  Davidson \(\&\) Hinkley (1997): interpolação dos percentis.
+\end{enumerate}
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, toprule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame, breakable, opacityback=0, bottomrule=.15mm, rightrule=.15mm, titlerule=0mm, toptitle=1mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Considerações}, leftrule=.75mm, opacitybacktitle=0.6, left=2mm, colback=white, colbacktitle=quarto-callout-note-color!10!white]
+
+\begin{itemize}
+\item
+  Este intervalo pode ser fortemente influenciado por poucos valores
+  discrepantes.
+\item
+  Em geral, é necessário um valor de \(B\) muito superior a 200.
+\item
+  Para grandes amostras, o IC bootstrap-t pode estar mais próximo do
+  nível de cobertura desejado do que os IC Normal ou t-Student.
+\item
+  Abaixo, percentis da distribuição \(t\)-Student com 8 gl, normal
+  padrão e distribuição bootstrap de \(Z^{*^b}\) (para o grupo controle
+  no experimento com os ratos; \(B=1000\)).
+\end{itemize}
+
+\end{tcolorbox}
+
+\begin{longtable}[]{@{}lllll@{}}
+\caption{Comparação dos percentis de diferentes
+distribuições.}\tabularnewline
+\toprule\noalign{}
+percentil & 5 & 10 & 90 & 95 \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+percentil & 5 & 10 & 90 & 95 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\(t_8\) & -1.86 & -1.40 & 1.40 & 1.86 \\
+Normal & -1.65 & -1.28 & 1.28 & 1.65 \\
+bootstrap-t & -4.53 & -2.01 & 1.19 & 1.53 \\
+\end{longtable}
+
+O IC bootstrap-\(t\) para \(\Theta\) (média do tempo de sobrevivência de
+ratos não submetidos ao tratamento (grupo controle)):
+
+\[\left[ 56.22-1.53 \times 13.33, \ 56.22+4.53  \times 13.33\right]=\left[35.82, \ 116.74\right],\]
+usado a estimativa \textit{plug-in} para o erro padrão da média.
+
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, toprule=.15mm, arc=.35mm, colframe=quarto-callout-tip-color-frame, breakable, opacityback=0, bottomrule=.15mm, rightrule=.15mm, titlerule=0mm, toptitle=1mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Considerações Finais}, leftrule=.75mm, opacitybacktitle=0.6, left=2mm, colback=white, colbacktitle=quarto-callout-tip-color!10!white]
+
+\begin{itemize}
+\item
+  os valores dos percentis bootstrap-\(t\) podem não ser simétricos em
+  relação ao zero.
+\item
+  aplicável para estatísticas de localização (média, mediana etc).
+\item
+  Cautela no uso envolvendo pequenas amostras (limites do intervalo fora
+  do espaço paramétrico).
+\item
+  o \(IC^*_t\) não é \emph{transformation-respecting} (ver próxima
+  seção)
+\end{itemize}
+
+\end{tcolorbox}
+
+\subsection{Intervalos de Confiança bootstrap
+percentil}\label{intervalos-de-confianuxe7a-bootstrap-percentil}
+
+O intervalo bootstrap percentil de confiança \(100(1-2\alpha)\%\),
+denotado por \(IC_p^*\left(100(1-2\alpha)\%,\Theta \right)\), é definido
+por
+
+\[\left[ \hat\Theta^{*(\alpha)}, \ \hat\Theta^{*(1-\alpha)}\right],\] em
+que \(\hat\Theta^{*(\alpha)}\) é o percentil de ordem 100\(\alpha\) da
+distribuição bootstrap de \(\hat\Theta^*\). Esta definição refere-se a
+um número infinito de réplicas.
+
+Em situações práticas, o intervalo é aproximado com base nos resultados
+de \(B\) réplicas bootstrap:
+
+\[\left[ \hat\Theta_B^{*(\alpha)}, \ \hat\Theta_B^{*(1-\alpha)}\right],\]
+em que \(\hat\Theta_B^{*(\alpha)}\) é dado pelo percentil de ordem
+100\(\alpha\) dos valores de \(\hat\theta_B^{*(b)}\), isto é, o
+\((B\cdot\alpha)\)-ésimo valor ordenado da lista das \(B\) réplicas de
+\(\hat\theta_B^{*(b)}\).
+
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, toprule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame, breakable, opacityback=0, bottomrule=.15mm, rightrule=.15mm, titlerule=0mm, toptitle=1mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, leftrule=.75mm, opacitybacktitle=0.6, left=2mm, colback=white, colbacktitle=quarto-callout-note-color!10!white]
+
+Se a distribuição de \(\hat\Theta^{*}\) é aproximadamente normal, os
+intervalos percentil e normal padrão são próximos.
+
+\end{tcolorbox}
+
+\subsubsection{Exemplo}\label{exemplo-8}
+
+Para uma amostra: \va , \(n=10\), de uma distribuição (população) normal
+padrão, considere o parâmetro de interesse \(\Theta\).
+\(\Theta=\exp(\mu)\), sendo \(\mu=0\). Sendo a estimativa para
+\(\Theta\): \(\hat{\theta}=\exp(\bar{x})\). Além disso, use o bootstrap
+não paramétrico: \(B=1000\) réplicas \(\hat{\theta}^*\) usando a amostra
+observada: (1.669, -0.411, -0.322, 0.746, -0.868, -0.874, 1.011, -0.173,
+0.021, 1.482). Resultando na estimativa para \(\Theta\):
+\(\hat{\theta}=\exp(\bar{x})=1.256\).
+
+\begin{longtable}[]{@{}ccccccccc@{}}
+\caption{Percentis de \(\hat\theta^*\) com base em 1000 réplicas
+bootstrap.}\tabularnewline
+\toprule\noalign{}
+2.5\% & 5\% & 10\% & 16\% & 50\% & 84\% & 90\% & 95\% & 97.5\% \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+2.5\% & 5\% & 10\% & 16\% & 50\% & 84\% & 90\% & 95\% & 97.5\% \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+0.74 & 0.81 & 0.89 & 0.95 & 1.25 & 1.65 & 1.77 & 2.00 & 2.13 \\
+\end{longtable}
+
+Desta maneira, temos que
+
+\[IC_p^*\left(95\%,\Theta\right)=\left[0.74, 2.13\right],\]
+
+e
+
+\[IC_p^*\left(90\%,\Theta\right)=\left[0.81, 2.00\right].\]\\
+Abaixo um código \texttt{R} para o exemplo.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{1234}\NormalTok{)}
+\NormalTok{n }\OtherTok{\textless{}{-}} \DecValTok{10}
+\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(n) }\CommentTok{\# amostra observada}
+\NormalTok{B }\OtherTok{\textless{}{-}} \DecValTok{1000}     \CommentTok{\# no. de réplicas bootstrap}
+\NormalTok{theta }\OtherTok{\textless{}{-}} \DecValTok{0}
+\NormalTok{alfa }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FloatTok{0.025}\NormalTok{,}\FloatTok{0.05}\NormalTok{,}\FloatTok{0.10}\NormalTok{,}\FloatTok{0.16}\NormalTok{,}\FloatTok{0.50}\NormalTok{,}\FloatTok{0.84}\NormalTok{,}\FloatTok{0.90}\NormalTok{,}\FloatTok{0.95}\NormalTok{,}\FloatTok{0.975}\NormalTok{)}
+
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{B)\{}
+\NormalTok{  a }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(x,n,}\AttributeTok{replace=}\ConstantTok{TRUE}\NormalTok{)  }\CommentTok{\# amostra bootstrap}
+\NormalTok{  theta[i] }\OtherTok{\textless{}{-}} \FunctionTok{exp}\NormalTok{(}\FunctionTok{mean}\NormalTok{(a))       }\CommentTok{\# réplica bootstrap }
+\NormalTok{\}}
+
+\FunctionTok{exp}\NormalTok{(}\FunctionTok{mean}\NormalTok{(x)) }\CommentTok{\# estimativa}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 0.6817056
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sz }\OtherTok{\textless{}{-}} \FunctionTok{sort}\NormalTok{(theta)}
+\FunctionTok{rbind}\NormalTok{(}\DecValTok{100}\SpecialCharTok{*}\NormalTok{alfa, }\FunctionTok{round}\NormalTok{(sz[}\FunctionTok{c}\NormalTok{(B}\SpecialCharTok{*}\NormalTok{alfa)],}\DecValTok{2}\NormalTok{)) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     [,1] [,2]  [,3]  [,4]  [,5]  [,6] [,7] [,8] [,9]
+[1,] 2.50 5.00 10.00 16.00 50.00 84.00   90 95.0 97.5
+[2,] 0.37 0.42  0.48  0.52  0.71  0.93    1  1.1  1.2
+\end{verbatim}
+
+Agora iremos considerar outra abordagem. Seja \(\Phi=\log(\Theta)\) e
+\(\hat\Phi=\log(\hat\Theta)=\bar{X}\). Usando
+\(IC_z\left(95\%,\Phi \right)= \hat{\Phi} \pm z_{\frac{\alpha}{2}}\hat{ep}(\hat{\Phi})\),
+resulta
+\(\left[ 0.228 \pm 1.96 \times 0.28 \right]=\left[-0.32, 0.78\right]\),
+em que \(\hat{ep}(\hat{\Phi})\) é o estimador \textit{plug-in} para o
+erro padrão de \(\hat\Phi\). Fazendo a transformação inversa, o
+intervalo para \(\Theta\) é \(\left[0.73, 2.18\right]\). Note que o
+intervalo percentil para \(\Theta\) assemelha-se ao intervalo normal
+padrão construído para uma transformação apropriada de \(\Theta\) e
+transformado para a escala de \(\Theta\).
+
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, toprule=.15mm, arc=.35mm, colframe=quarto-callout-important-color-frame, breakable, opacityback=0, bottomrule=.15mm, rightrule=.15mm, titlerule=0mm, toptitle=1mm, title=\textcolor{quarto-callout-important-color}{\faExclamation}\hspace{0.5em}{Importante}, leftrule=.75mm, opacitybacktitle=0.6, left=2mm, colback=white, colbacktitle=quarto-callout-important-color!10!white]
+
+\textbf{Vantagem do método percentil:} Não é necessário conhecer a
+transformação (normalizadora). O método percentil incorpora
+automaticamente a transformação adequada.
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, toprule=.15mm, arc=.35mm, colframe=quarto-callout-caution-color-frame, breakable, opacityback=0, bottomrule=.15mm, rightrule=.15mm, titlerule=0mm, toptitle=1mm, title=\textcolor{quarto-callout-caution-color}{\faFire}\hspace{0.5em}{Lema}, leftrule=.75mm, opacitybacktitle=0.6, left=2mm, colback=white, colbacktitle=quarto-callout-caution-color!10!white]
+
+Suponha a transformação \(\hat\Phi=m(\hat\Theta)\) e, consequentemente,
+\(\hat\Phi\sim N(\Phi,c^2)\), para algum erro padrão \(c\). Então, o
+intervalo percentil para \(\Theta\) será dado por
+\[\left[ m^{-1}(\hat\Phi -z_{\frac{\alpha}{2}}.c), m^{-1}(\hat\Phi +z_{\frac{\alpha}{2}}.c)\right].\]
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, toprule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame, breakable, opacityback=0, bottomrule=.15mm, rightrule=.15mm, titlerule=0mm, toptitle=1mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, leftrule=.75mm, opacitybacktitle=0.6, left=2mm, colback=white, colbacktitle=quarto-callout-note-color!10!white]
+
+\begin{itemize}
+\item
+  Em situações nas quais o uso de IC padrão é adequado\(^*\), o IC
+  percentil produz resultados próximos ao do IC padrão.
+\item
+  Em situações nas quais o uso do IC padrão é adequado apenas após uma
+  transformação no parâmetro, a aplicaçao do método percentil
+  automaticamente contempla essa transformação.
+\end{itemize}
+
+\end{tcolorbox}
+
+\begin{tcolorbox}[enhanced jigsaw, coltitle=black, bottomtitle=1mm, toprule=.15mm, arc=.35mm, colframe=quarto-callout-tip-color-frame, breakable, opacityback=0, bottomrule=.15mm, rightrule=.15mm, titlerule=0mm, toptitle=1mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Considerações Finais}, leftrule=.75mm, opacitybacktitle=0.6, left=2mm, colback=white, colbacktitle=quarto-callout-tip-color!10!white]
+
+\begin{itemize}
+\item
+  Propriedade \textit{transformation-respecting}: o intervalo percentil
+  para qualquer transformação (monotônica) \(\Phi=m(\Theta)\) do
+  parâmetro \(\Theta\) é dado por
+  \[\left[ m(\hat\Theta^{*(\alpha)}), \ m(\hat\Theta^{*(1-\alpha)}\right].\]
+\item
+  A propriedade também é válida para o intervalo aproximado com base nos
+  resultados de \(B\) réplicas bootstrap:
+  \[\left[ m(\hat\Theta_B^{*(\alpha)}), \ m(\hat\Theta_B^{*(1-\alpha)})\right].\]
+\item
+  Propriedade \emph{range-preserving}: produz intervalos com limites
+  dentro do espaço paramétrico.
+\end{itemize}
+
+\end{tcolorbox}
+
+\subsection{Intervalos de Confiança bootstrap - versões
+aprimoradas}\label{intervalos-de-confianuxe7a-bootstrap---versuxf5es-aprimoradas}
+
+O intervalo bootstrap-\(t\) apresenta boa probabilidade de cobertura
+teórica, mas tende a ser irregular na prática. Já o intervalo bootstrap
+percentil é menos irregular, mas apresenta probabilidade de cobertura
+menos satisfatória.
+
+\textbf{Proposta:} intervalo bootstrap \(BC_a\) (\emph{bias-corrected
+and accelerated}) e \(ABC\) (\emph{approximate bootstrap confidence}).
+
+substancial melhoria na prática e na teoria. correção de viés do
+estimador. o \(ABC\) exige menos esforço computacional do que o \(BC_a\)
+
+\bookmarksetup{startatroot}
+
+\chapter{Métodos de Monte Carlo}\label{muxe9todos-de-monte-carlo}
+
+\section{Introdução}\label{introduuxe7uxe3o-4}
+
+\section{Integração de Monte
+Carlo}\label{integrauxe7uxe3o-de-monte-carlo}
+
+\section{Erro de Monte Carlo}\label{erro-de-monte-carlo}
+
+\section{Monte Carlo via Função de
+Importância}\label{monte-carlo-via-funuxe7uxe3o-de-importuxe2ncia}
+
+\section{Método de Máxima
+Verossimilhança}\label{muxe9todo-de-muxe1xima-verossimilhanuxe7a}
+
+\bookmarksetup{startatroot}
+
+\chapter{Algoritmo EM}\label{algoritmo-em}
+
+\bookmarksetup{startatroot}
+
+\chapter{Métodos Adicionais}\label{muxe9todos-adicionais}
+
+\bookmarksetup{startatroot}
+
+\chapter*{References}\label{references}
+\addcontentsline{toc}{chapter}{References}
+
+\markboth{References}{References}
+
+\phantomsection\label{refs}
+\begin{CSLReferences}{1}{0}
+\bibitem[\citeproctext]{ref-falk_closer_2014}
+Falk, Ruma. 2014. {``A Closer Look at the Notorious Birthday
+Coincidences''}. \emph{Teaching Statistics} 36 (2): 41--46.
+\url{https://doi.org/10.1111/test.12014}.
+
+\bibitem[\citeproctext]{ref-hodgson_simulation_2000}
+Hodgson, Ted, e Maurice Burke. 2000. {``On Simulation and the Teaching
+of Statistics''}. \emph{Teaching Statistics} 22 (3): 91--96.
+\url{https://doi.org/10.1111/1467-9639.00033}.
+
+\bibitem[\citeproctext]{ref-martins_learning_2018}
+Martins, Rui Manuel Da Costa. 2018. {``Learning the Principles of
+Simulation Using the Birthday Problem''}. \emph{Teaching Statistics} 40
+(3): 108--11. \url{https://doi.org/10.1111/test.12164}.
+
+\bibitem[\citeproctext]{ref-matthews_coincidences_1998}
+Matthews, Robert, e Fiona Stones. 1998. {``Coincidences: the truth is
+out there''}. \emph{Teaching Statistics} 20 (1): 17--19.
+https://doi.org/\url{https://doi.org/10.1111/j.1467-9639.1998.tb00752.x}.
+
+\bibitem[\citeproctext]{ref-thomas_cusum_1980}
+Thomas, F. H., e J. L. Moore. 1980. {``{CUSUM}: Computer Simulation for
+Statistics Teaching''}. \emph{Teaching Statistics} 2 (1): 23--28.
+\url{https://doi.org/10.1111/j.1467-9639.1980.tb00374.x}.
+
+\bibitem[\citeproctext]{ref-tintle_combating_2015}
+Tintle, Nathan, Beth Chance, George Cobb, Soma Roy, Todd Swanson, e Jill
+VanderStoep. 2015. {``Combating Anti-Statistical Thinking Using
+Simulation-Based Methods Throughout the Undergraduate Curriculum''}.
+\emph{The American Statistician} 69 (4): 362--70.
+\url{https://doi.org/10.1080/00031305.2015.1081619}.
+
+\bibitem[\citeproctext]{ref-ZiefflerGarfield2007}
+Zieffler, Andrew, e Joan B. Garfield. 2007. {``Studying the Role of
+Simulation in Developing Students' Statistical Reasoning''}. Em
+\emph{Proceedings of the 56th Session of the International Statistical
+Institute (ISI)}. International Statistical Institute.
+
+\end{CSLReferences}
+
+
+
+\end{document}

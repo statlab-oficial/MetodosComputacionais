@@ -198,7 +198,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pseudo.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Número Pseudoaleatórios</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Números Pseudoaleatórios</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -264,6 +264,7 @@ window.Quarto = {
   <li><a href="#definição-de-raiz-primitiva" id="toc-definição-de-raiz-primitiva" class="nav-link" data-scroll-target="#definição-de-raiz-primitiva"><span class="header-section-number">3.4.2</span> Definição de raiz primitiva</a></li>
   <li><a href="#exemplo-de-implementação-em-r" id="toc-exemplo-de-implementação-em-r" class="nav-link" data-scroll-target="#exemplo-de-implementação-em-r"><span class="header-section-number">3.4.3</span> Exemplo de implementação em R</a></li>
   </ul></li>
+  <li><a href="#uso-de-números-aleatórios-na-avaliação-de-integrais" id="toc-uso-de-números-aleatórios-na-avaliação-de-integrais" class="nav-link" data-scroll-target="#uso-de-números-aleatórios-na-avaliação-de-integrais"><span class="header-section-number">3.5</span> Uso de Números Aleatórios na Avaliação de Integrais</a></li>
   </ul>
 </nav>
     </div>
@@ -321,7 +322,7 @@ window.Quarto = {
 <p><span class="math display">\[X_1 = (9 \times 3 + 3) \bmod 24 = 14\]</span></p>
 <p><span class="math display">\[X_2 = (9 \times 14 + 3) \bmod 24 = 1\]</span></p>
 <p>e assim por diante.</p>
-<p>A sequência <span class="math inline">\(R_i = X_i / 16\)</span> gerada terá período <span class="math inline">\(\ell = 16\)</span>.</p>
+<p>A sequência <span class="math inline">\(R_i = X_i / 24\)</span> gerada terá período <span class="math inline">\(\ell = 24\)</span>.</p>
 </section>
 <section id="implementação-em-r" class="level3" data-number="3.2.2">
 <h3 data-number="3.2.2" class="anchored" data-anchor-id="implementação-em-r"><span class="header-section-number">3.2.2</span> Implementação em R</h3>
@@ -476,9 +477,46 @@ m \nmid a^{(m-1)/q} - 1, \quad \forall q \text{ primo que divide } m-1
  [6] 3.354610e-01 6.532264e-02 2.784009e-01 2.931069e-01 3.538292e-01</code></pre>
 </div>
 </div>
-
-
 </section>
+</section>
+<section id="uso-de-números-aleatórios-na-avaliação-de-integrais" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="uso-de-números-aleatórios-na-avaliação-de-integrais"><span class="header-section-number">3.5</span> Uso de Números Aleatórios na Avaliação de Integrais</h2>
+<p>Uma das primeiras aplicações do uso de números aleatórios foi na resolução de integrais. Considere uma função <span class="math inline">\(g(x)\)</span> e suponha que desejamos calcular uma integral de interesse.</p>
+<p><span class="math display">\[\theta = \int\limits_{0}^{1}g(x) dx.\]</span></p>
+<p>Para calcular o valor da integral, observe que, se <span class="math inline">\(U\)</span> é uma variável aleatória com distribuição uniforme no intervalo <span class="math inline">\((0, 1)\)</span>, , então podemos reescrever a integral da seguinte forma:</p>
+<p><span class="math display">\[\theta = E[g(U)].\]</span> Se <span class="math inline">\(U_1, U_2, \dots,  U_n\)</span> são variáveis aleatórias independentes e uniformes em <span class="math inline">\((0, 1)\)</span>, então as variáveis <span class="math inline">\(g(U_1), g(U_2), \dots,  g(U_n)\)</span> são indepedentes e identicamente distribuídas, todas com esperança igual <span class="math inline">\(\theta\)</span> (o valor da integral). Assim, pelo <strong>Teorema da Lei Forte dos Grandes Números</strong>, temos que, com probabilidade 1,</p>
+<p><span class="math display">\[\frac{1}{n}\sum\limits_{i=1}^{n}g(U_i) \to \theta \quad \text{quando} \quad n \to \infty.\]</span></p>
+<p>Assim, podemos aproximar o valor da integral gerando um grande número de pontos aleatórios <span class="math inline">\(u_i\)</span> no intervalo <span class="math inline">\((0, 1)\)</span> e tomando como estimativa a média dos valores <span class="math inline">\(g(u_i)\)</span>. Esse procedimento de aproximação de integrais é conhecido como método de <strong>Monte Carlo</strong>.</p>
+<p>Se quisermos calcular uma integral mais geral, podemos aplicar a mesma ideia: transformar o problema em uma esperança matemática e, em seguida, aproximá-la por meio de médias amostrais obtidas a partir de números aleatórios. Considere:</p>
+<p><span class="math display">\[\theta = \int\limits_{a}^{b}g(x) dx.\]</span></p>
+<p>Se quisermos calcular a integral em um intervalo genérico <span class="math inline">\((a, b)\)</span>, fazemos a substituição</p>
+<p><span class="math display">\[u = \frac{x - a}{b-a}, \quad du = \frac{dx}{b-a},\]</span></p>
+<p>o que nos permite reescrevê-la como</p>
+<p><span class="math display">\[\theta = \int\limits_{a}^{b}g(x) dx = (b-a)\int\limits_{0}^{1}g(a + (b-a)u) du.\]</span></p>
+<p>Definindo</p>
+<p><span class="math display">\[h(u) = (b-a)g(a + (b-a)u),\]</span></p>
+<p>temos</p>
+<p><span class="math display">\[\theta = \int\limits_{0}^{1}h(u) du.\]</span></p>
+<p>Assim, podemos aproximar <span class="math inline">\(\theta\)</span> gerando números aleatórios <span class="math inline">\(u_1, u_2, \dots, u_n \sim U(0, 1)\)</span> e tomando como estimativa a média</p>
+<p><span class="math display">\[\theta \approx \frac{1}{n}\sum\limits_{i=1}^{n}h(u_i).\]</span> Agora, se nosso objetivo é calcular a integral:</p>
+<p><span class="math display">\[\theta = \int\limits_{0}^{\infty}g(x) dx.\]</span></p>
+<p>Fazendo a mudança de variável</p>
+<p><span class="math display">\[u = \frac{1}{x+1}, \quad du = \frac{-dx}{(x+1)^2} = -u^2 dx.\]</span></p>
+<p>Logo,</p>
+<p><span class="math display">\[dx = -\frac{du}{u^2},\]</span></p>
+<p>e a integral resultante é</p>
+<p><span class="math display">\[\theta = \int\limits_{0}^{1}h(u) du,\]</span></p>
+<p>com</p>
+<p><span class="math display">\[h(u) = \frac{g\left(\frac{1}{u} - 1\right)}{u^2}.\]</span></p>
+<p>A utilidade de empregar números aleatórios para aproximar integrais torna-se ainda mais evidente no caso de integrais multidimensionais. Suponha que <span class="math inline">\(g\)</span> seja uma função com argumento <span class="math inline">\(n\)</span>-dimensional e que estejamos interessados em calcular:</p>
+<p><span class="math display">\[\theta = \int\limits_{0}^{1}\int\limits_{0}^{1}\dots\int\limits_{0}^{1} g(x_1, x_2, \dots, x_n)dx_1 dx_2 \dots dx_n.\]</span></p>
+<p>Observe que <span class="math inline">\(\theta\)</span> pode ser expresso como o seguinte valor esperado:</p>
+<p><span class="math display">\[\theta = E[g(U_1, U_2, \dots, U_n)],\]</span></p>
+<p>em que <span class="math inline">\(U_1, U_2, \dots, U_n\)</span> são variáveis aleatória independentes uniformente distribuídas no intervalo <span class="math inline">\((0, 1)\)</span>. Assim, se gerarmos <span class="math inline">\(k\)</span> conjuntos independentes, cada um formado por <span class="math inline">\(n\)</span> variáveis aleatórias independentes com distribuição uniforme em <span class="math inline">\((0, 1)\)</span>, então as variáveis</p>
+<p><span class="math display">\[g(U_{i1}, U_{i2}, \dots, U_{in}), \quad i = 1, 2, \dots, k,\]</span> serão independentes e identicamente distribuídas, todas com esperança igual a <span class="math inline">\(\theta\)</span> (o valor da integral). Portanto, podemos aproximar <span class="math inline">\(\theta\)</span> por meio da média amostral:</p>
+<p><span class="math display">\[\theta \approx \frac{1}{k}\sum\limits_{i=1}^{k}g(U_{i1}, U_{i2}, \dots, U_{in}).\]</span></p>
+
+
 </section>
 
 </main> <!-- /main -->
@@ -898,8 +936,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./pseudo.html" class="pagination-link" aria-label="Número Pseudoaleatórios">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Número Pseudoaleatórios</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./pseudo.html" class="pagination-link" aria-label="Números Pseudoaleatórios">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Números Pseudoaleatórios</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
