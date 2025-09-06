@@ -72,10 +72,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -443,7 +443,7 @@ Algoritmo 1
 <div class="cell-output cell-output-stdout">
 <pre><code>a
      1      2      3      4 
-0.2017 0.1507 0.2478 0.3998 </code></pre>
+0.1947 0.1514 0.2483 0.4056 </code></pre>
 </div>
 </div>
 <div class="cell">
@@ -464,7 +464,7 @@ Algoritmo 1
 <div class="cell-output cell-output-stdout">
 <pre><code>a
      1      2      3      4 
-0.2038 0.1488 0.2525 0.3949 </code></pre>
+0.1962 0.1442 0.2479 0.4117 </code></pre>
 </div>
 </div>
 <div class="callout callout-style-simple callout-warning no-icon callout-titled">
@@ -544,8 +544,9 @@ Algoritmo 3 (mudando as desigualdades)
 Note que, se <span class="math inline">\(F\)</span> for estritamente crescente e contínua, então <span class="math inline">\(\forall x \in \mathbb{R}\)</span> existirá apenas um <span class="math inline">\(u\)</span> tal que <span class="math inline">\(F(x) = u\)</span>.</li>
 <li>A proposição seguinte dá base para as simulações de v.a. discretas.</li>
 </ul>
-<p>Seja <span class="math inline">\(F\)</span> uma função de distribuição qualquer e <span class="math inline">\(F^{-1}\)</span> sua inversa generalizada. Temos: <span class="math display">\[F^{-1}(u) \leq x \mbox{ se, e somente se, } u \leq F(x)\]</span></p>
-<p>Se você deseja simular valores de :</p>
+<p>Seja <span class="math inline">\(F\)</span> uma função de distribuição qualquer e <span class="math inline">\(F^{-1}\)</span> sua inversa generalizada. Temos:</p>
+<p><span class="math display">\[F^{-1}(u) \leq x \mbox{ se, e somente se, } u \leq F(x)\]</span></p>
+<p>Se você deseja simular valores de <span class="math inline">\(X\)</span> com distribuição uniforme discreta:</p>
 <p><span class="math display">\[P(X=j)=1/k, \, \,\, j=1,2,3,\ldots, k.\]</span></p>
 <p>Basta utilizar a Proposições 1 ou a Proposição 2.</p>
 <div class="prop-blue callout callout-style-default callout-note no-icon callout-titled">
@@ -1033,7 +1034,7 @@ Nota
 <div class="cell-output cell-output-stdout">
 <pre><code>pseudo_x
    1    2    3    4    5    6    7    8    9   10 
-0.11 0.11 0.10 0.10 0.12 0.07 0.10 0.11 0.08 0.10 </code></pre>
+0.10 0.11 0.09 0.10 0.10 0.10 0.10 0.11 0.09 0.11 </code></pre>
 </div>
 </div>
 <p>Existe algum problema com os resultados acima? Se sim, faça a correção do código e verifique graficamente a coerência dos resultados.</p>

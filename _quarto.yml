@@ -27,7 +27,7 @@ bibliography: BOOK.bib
 
 format:
   html:
-    theme: flatly
+    theme: vapor
     css: styles.css
   pdf:
     documentclass: scrreprt

@@ -187,9 +187,11 @@ Seja $F$ uma função de distribuição qualquer. A inversa generalizada, denota
     Note que, se $F$ for estritamente crescente e contínua, então $\forall x \in \mathbb{R}$ existirá apenas um $u$ tal que $F(x) = u$.
 -   A proposição seguinte dá base para as simulações de v.a. discretas.
 
-Seja $F$ uma função de distribuição qualquer e $F^{-1}$ sua inversa generalizada. Temos: $$F^{-1}(u) \leq x \mbox{ se, e somente se, } u \leq F(x)$$
+Seja $F$ uma função de distribuição qualquer e $F^{-1}$ sua inversa generalizada. Temos: 
 
-Se você deseja simular valores de \Xn  \textbf{com distribuição uniforme discreta}:
+$$F^{-1}(u) \leq x \mbox{ se, e somente se, } u \leq F(x)$$
+
+Se você deseja simular valores de $X$ com distribuição uniforme discreta:
 
 $$P(X=j)=1/k, \, \,\, j=1,2,3,\ldots, k.$$
 
