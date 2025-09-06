@@ -8,7 +8,7 @@ A Estatística, além de lidar com modelos matemáticos rigorosos, também é pe
 
 Um resultado surpreendente é: com apenas **23 pessoas** em uma sala, a probabilidade de que haja pelo menos uma coincidência de aniversários já é **superior a 50%**. Esse resultado é tão interessante que pode ser uma porta de entrada natural para discutir a diferença entre **probabilidade teórica** e **evidência empírica obtida por simulação**.
 
-## Da teoria à simulação
+## Da teoria à simulação {.unnumbered}
 
 Do ponto de vista teórico, a probabilidade de que todos os aniversários sejam distintos entre $r$ pessoas é
 
@@ -66,7 +66,7 @@ $$p_{23}^{(\text{aprox})}
 alinhando-se ao resultado clássico de que **23** pessoas já superam 50% de chance de coincidência.
 :::
 
-## O papel da simulação
+## O papel da simulação {.unnumbered}
 
 A simulação estatística permite reproduzir o experimento de forma empírica: sorteamos aleatoriamente dias de aniversário para os indivíduos e verificamos se há repetições. Repetindo o processo milhares de vezes, obtemos uma estimativa para a probabilidade de coincidência.
 
@@ -100,7 +100,7 @@ p_hat <- acertos / B
 p_hat
 ```
 
-## Atividade: Problema do Aniversário (22 jogadores)
+## Atividade: Problema do Aniversário (22 jogadores) {.unnumbered}
 
 Nesta motivação consideramos um exemplo discutido em @martins_learning_2018 que é o conhecido e amplamente divulgado problema do aniversário [ver, por exemplo, @falk_closer_2014]. @martins_learning_2018 segue o exemplo de @matthews_coincidences_1998, considerando duas equipes de futebol e, portanto, coincidências de aniversário entre 22 jogadores. @martins_learning_2018 afirma que um resultado positivo importante dessa atividade é a discussão que surgirá naturalmente entre os estudantes, com o professor atuando como mediador. Além disso, os estudantes adoram jogos e a descoberta prática, e a simulação facilita o engajamento nessas atividades, ao mesmo tempo que ilustra resultados que podem ser não intuitivos, bem como teoria geral, como a **Lei dos Grandes Números**.
 
@@ -126,11 +126,10 @@ Em um pais chamado de país do futebol, o contexto é proposital: o futebol é p
 
 -   R (ou Posit Cloud), roteiro com comandos `sample()`, `table()`, `mean()`.
 
-## Exercícios
+## Exercícios {.unnumbered}
 
 1)  Determinar o menor número de pessoas que deve estar em uma sala para que se possa apostar, com mais de 50% de chance de ganhar, que entre elas existam pelo menos duas com o mesmo aniversário.
 
 2)  Determinar o menor número de outras pessoas que deve estar em uma sala com você para que se possa apostar, com mais de 50% de chance de ganhar, que pelo menos uma delas tenha o mesmo aniversário que o seu.
 
 
-## Referências {.unnumbered}

@@ -267,12 +267,11 @@ window.Quarto = {
     <h2 id="toc-title">Índice</h2>
    
   <ul>
-  <li><a href="#da-teoria-à-simulação" id="toc-da-teoria-à-simulação" class="nav-link active" data-scroll-target="#da-teoria-à-simulação"><span class="header-section-number">2.1</span> Da teoria à simulação</a></li>
-  <li><a href="#um-atalho-analítico-útil" id="toc-um-atalho-analítico-útil" class="nav-link" data-scroll-target="#um-atalho-analítico-útil"><span class="header-section-number">2.2</span> Um atalho analítico útil</a></li>
-  <li><a href="#o-papel-da-simulação" id="toc-o-papel-da-simulação" class="nav-link" data-scroll-target="#o-papel-da-simulação"><span class="header-section-number">2.3</span> O papel da simulação</a></li>
-  <li><a href="#atividade-problema-do-aniversário-22-jogadores" id="toc-atividade-problema-do-aniversário-22-jogadores" class="nav-link" data-scroll-target="#atividade-problema-do-aniversário-22-jogadores"><span class="header-section-number">2.4</span> Atividade: Problema do Aniversário (22 jogadores)</a></li>
-  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">2.5</span> Exercícios</a></li>
-  <li><a href="#referências" id="toc-referências" class="nav-link" data-scroll-target="#referências">Referências</a></li>
+  <li><a href="#da-teoria-à-simulação" id="toc-da-teoria-à-simulação" class="nav-link active" data-scroll-target="#da-teoria-à-simulação">Da teoria à simulação</a></li>
+  <li><a href="#um-atalho-analítico-útil" id="toc-um-atalho-analítico-útil" class="nav-link" data-scroll-target="#um-atalho-analítico-útil"><span class="header-section-number">2.1</span> Um atalho analítico útil</a></li>
+  <li><a href="#o-papel-da-simulação" id="toc-o-papel-da-simulação" class="nav-link" data-scroll-target="#o-papel-da-simulação">O papel da simulação</a></li>
+  <li><a href="#atividade-problema-do-aniversário-22-jogadores" id="toc-atividade-problema-do-aniversário-22-jogadores" class="nav-link" data-scroll-target="#atividade-problema-do-aniversário-22-jogadores">Atividade: Problema do Aniversário (22 jogadores)</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
   </ul>
 </nav>
     </div>
@@ -313,8 +312,8 @@ Enuciado
 </div>
 </div>
 <p>Um resultado surpreendente é: com apenas <strong>23 pessoas</strong> em uma sala, a probabilidade de que haja pelo menos uma coincidência de aniversários já é <strong>superior a 50%</strong>. Esse resultado é tão interessante que pode ser uma porta de entrada natural para discutir a diferença entre <strong>probabilidade teórica</strong> e <strong>evidência empírica obtida por simulação</strong>.</p>
-<section id="da-teoria-à-simulação" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="da-teoria-à-simulação"><span class="header-section-number">2.1</span> Da teoria à simulação</h2>
+<section id="da-teoria-à-simulação" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="da-teoria-à-simulação">Da teoria à simulação</h2>
 <p>Do ponto de vista teórico, a probabilidade de que todos os aniversários sejam distintos entre <span class="math inline">\(r\)</span> pessoas é</p>
 <p><span class="math display">\[\Pr(\text{todos distintos}) \;=\; \prod_{i=1}^{r-1} \frac{365-i}{365}
 \;=\; \left(1 - \frac{1}{365}\right)\!\left(1 - \frac{2}{365}\right)\!\cdots\!\left(1 - \frac{r-1}{365}\right).\]</span></p>
@@ -322,8 +321,8 @@ Enuciado
 <p><span class="math display">\[p_r = 1 - \Pr(\text{todos distintos}).\]</span></p>
 <p>Esse produto é conceitualmente claro, mas fica pouco manejável mentalmente para <span class="math inline">\(k\)</span> moderados. É aqui que a <strong>simulação computacional</strong> pode entrar como aliada didática e científica.</p>
 </section>
-<section id="um-atalho-analítico-útil" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="um-atalho-analítico-útil"><span class="header-section-number">2.2</span> Um atalho analítico útil</h2>
+<section id="um-atalho-analítico-útil" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="um-atalho-analítico-útil"><span class="header-section-number">2.1</span> Um atalho analítico útil</h2>
 <p>O produto acima admite uma <strong>aproximação exponencial simples e acurada</strong>, obtida tomando logaritmo e usando a expansão para argumentos pequenos:</p>
 <p><span class="math display">\[\ln(1 - x) = -x + o(x), \quad (x \to 0). \]</span> Aplicando ao produto,</p>
 <p><span class="math display">\[
@@ -370,8 +369,8 @@ Exemplo Rápido
 </div>
 </div>
 </section>
-<section id="o-papel-da-simulação" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="o-papel-da-simulação"><span class="header-section-number">2.3</span> O papel da simulação</h2>
+<section id="o-papel-da-simulação" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="o-papel-da-simulação">O papel da simulação</h2>
 <p>A simulação estatística permite reproduzir o experimento de forma empírica: sorteamos aleatoriamente dias de aniversário para os indivíduos e verificamos se há repetições. Repetindo o processo milhares de vezes, obtemos uma estimativa para a probabilidade de coincidência.</p>
 <p>Por exemplo, em <strong>R</strong>:</p>
 <div class="cell">
@@ -379,7 +378,7 @@ Exemplo Rápido
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>birthdays <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">365</span>, k, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">any</span>(<span class="fu">duplicated</span>(birthdays))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] FALSE</code></pre>
+<pre><code>[1] TRUE</code></pre>
 </div>
 </div>
 <p>Ao repetir esse procedimento muitas vezes (por exemplo, 10.000 simulações), podemos estimar a proporção de conjuntos com coincidência. Pela Lei dos Grandes Números, essa estimativa converge para o valor teórico de aproximadamente 0,507 quando <span class="math inline">\(k=23\)</span>.</p>
@@ -406,8 +405,8 @@ Exemplo Rápido
 </div>
 </div>
 </section>
-<section id="atividade-problema-do-aniversário-22-jogadores" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="atividade-problema-do-aniversário-22-jogadores"><span class="header-section-number">2.4</span> Atividade: Problema do Aniversário (22 jogadores)</h2>
+<section id="atividade-problema-do-aniversário-22-jogadores" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="atividade-problema-do-aniversário-22-jogadores">Atividade: Problema do Aniversário (22 jogadores)</h2>
 <p>Nesta motivação consideramos um exemplo discutido em <span class="citation" data-cites="martins_learning_2018">Martins (<a href="references.html#ref-martins_learning_2018" role="doc-biblioref">2018</a>)</span> que é o conhecido e amplamente divulgado problema do aniversário <span class="citation" data-cites="falk_closer_2014">(ver, por exemplo, <a href="references.html#ref-falk_closer_2014" role="doc-biblioref">Falk 2014</a>)</span>. <span class="citation" data-cites="martins_learning_2018">Martins (<a href="references.html#ref-martins_learning_2018" role="doc-biblioref">2018</a>)</span> segue o exemplo de <span class="citation" data-cites="matthews_coincidences_1998">Matthews e Stones (<a href="references.html#ref-matthews_coincidences_1998" role="doc-biblioref">1998</a>)</span>, considerando duas equipes de futebol e, portanto, coincidências de aniversário entre 22 jogadores. <span class="citation" data-cites="martins_learning_2018">Martins (<a href="references.html#ref-martins_learning_2018" role="doc-biblioref">2018</a>)</span> afirma que um resultado positivo importante dessa atividade é a discussão que surgirá naturalmente entre os estudantes, com o professor atuando como mediador. Além disso, os estudantes adoram jogos e a descoberta prática, e a simulação facilita o engajamento nessas atividades, ao mesmo tempo que ilustra resultados que podem ser não intuitivos, bem como teoria geral, como a <strong>Lei dos Grandes Números</strong>.</p>
 <p>Agora iremos considerar o seguinte problema:</p>
 <p><strong>O problema:</strong> Em uma partida de futebol, qual é a probabilidade de que pelo menos dois dos 22 jogadores façam aniversário no mesmo dia?</p>
@@ -427,15 +426,12 @@ Exemplo Rápido
 <li>R (ou Posit Cloud), roteiro com comandos <code>sample()</code>, <code>table()</code>, <code>mean()</code>.</li>
 </ul>
 </section>
-<section id="exercícios" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">2.5</span> Exercícios</h2>
+<section id="exercícios" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="exercícios">Exercícios</h2>
 <ol type="1">
 <li><p>Determinar o menor número de pessoas que deve estar em uma sala para que se possa apostar, com mais de 50% de chance de ganhar, que entre elas existam pelo menos duas com o mesmo aniversário.</p></li>
 <li><p>Determinar o menor número de outras pessoas que deve estar em uma sala com você para que se possa apostar, com mais de 50% de chance de ganhar, que pelo menos uma delas tenha o mesmo aniversário que o seu.</p></li>
 </ol>
-</section>
-<section id="referências" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="referências">Referências</h2>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
