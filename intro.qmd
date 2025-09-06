@@ -21,7 +21,7 @@ $$p_r = 1 - \Pr(\text{todos distintos}).$$
 
 Esse produto é conceitualmente claro, mas fica pouco manejável mentalmente para $k$ moderados. É aqui que a **simulação computacional** pode entrar como aliada didática e científica.
 
-## Um atalho analítico útil
+## Um atalho analítico útil {.unnumbered}
 
 O produto acima admite uma **aproximação exponencial simples e acurada**, obtida tomando logaritmo e usando a expansão para argumentos pequenos:
 
