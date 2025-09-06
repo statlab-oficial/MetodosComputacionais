@@ -106,7 +106,9 @@ Nesta motivação consideramos um exemplo discutido em @martins_learning_2018 qu
 
 Agora iremos considerar o seguinte problema:
 
-**O problema:** Em uma partida de futebol, qual é a probabilidade de que pelo menos dois dos 22 jogadores façam aniversário no mesmo dia?
+::: {.callout-tip title="Problema"}
+Em uma partida de futebol, qual é a probabilidade de que pelo menos dois dos 22 jogadores façam aniversário no mesmo dia?
+:::
 
 Em um pais chamado de país do futebol, o contexto é proposital: o futebol é popular e as probabilidades resultantes são contraintuitivas. Antes de qualquer cálculo, considere as hipóteses: (i) todos os 365 dias do ano são igualmente prováveis para qualquer aniversário; (ii) as datas de aniversário dos jogadores são independentes entre si.
 
