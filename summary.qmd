@@ -23,40 +23,35 @@ Entretanto, a escolha inadequada da recorrência pode gerar sequências com baix
 
 O GCL produz uma sequência de inteiros $x_0, x_1, x_2, \dots$ segundo a regra:
 
-
 $$x_n = (a \, x_{n-1} + c) \;\; \text{mod} \;\; m$$
 
-em que, $m > 0$ é o **módulo**, $a$ é o **multiplicador**, $c$ é o **incremento** e  
-$x_0$ é a **semente** (*seed*), escolhida pelo usuário.  
+em que, $m > 0$ é o **módulo**, $a$ é o **multiplicador**, $c$ é o **incremento** e\
+$x_0$ é a **semente** (*seed*), escolhida pelo usuário.
 
 O resultado final é obtido normalizando os valores:
 
-
 $$u_n = \frac{x_n}{m}, \quad \text{com } u_n \in (0, 1).$$
-
 
 ::: callout-note
 ## Tipos
 
-- **Multiplicativo:** $c = 0$.  
-- **Misto:** $c \neq 0$. 
+-   **Multiplicativo:** $c = 0$.\
+-   **Misto:** $c \neq 0$.
 :::
 
 ### Por que o CGL funciona? {.unnumbered}
 
-1. **Simplicidade:** apenas uma multiplicação, uma soma e uma operação de módulo.  
-2. **Velocidade:** pode ser implementado de forma extremamente eficiente.  
-3. **Controle:** dependendo da escolha de $a, c, m$, é possível obter um período longo, ou seja, muitos números gerados antes de a sequência se repetir.  
-
+1.  **Simplicidade:** apenas uma multiplicação, uma soma e uma operação de módulo.\
+2.  **Velocidade:** pode ser implementado de forma extremamente eficiente.\
+3.  **Controle:** dependendo da escolha de $a, c, m$, é possível obter um período longo, ou seja, muitos números gerados antes de a sequência se repetir.
 
 ### Critérios para bons parâmetros {.unnumbered}
 
-- O módulo $m$ deve ser **grande**, de preferência próximo da capacidade da máquina.  
-- Para GCL multiplicativo, se $m$ for primo, existe a possibilidade de alcançar período máximo $m-1$.  
-- Valores históricos:  
-  - **Park–Miller (1988):** $m = 2^{31} - 1$, $a = 16807$, $c = 0$.  
-  - **Numerical Recipes (1992):** $m = 2^{32}$, $a = 1664525$, $c = 1013904223$.  
-
+-   O módulo $m$ deve ser **grande**, de preferência próximo da capacidade da máquina.\
+-   Para GCL multiplicativo, se $m$ for primo, existe a possibilidade de alcançar período máximo $m-1$.\
+-   Valores históricos:
+    -   **Park–Miller (1988):** $m = 2^{31} - 1$, $a = 16807$, $c = 0$.\
+    -   **Numerical Recipes (1992):** $m = 2^{32}$, $a = 1664525$, $c = 1013904223$.
 
 #### Exemplos {.unnumbered}
 
@@ -83,7 +78,6 @@ seed = 12345
 lcg(seed, a, c, m, n=10)
 ```
 
-
 ```{R}
 #| label: lcg-r
 #| echo: true
@@ -109,80 +103,81 @@ lcg(seed, a, c, m, n=10)
 
 ```
 
-
 ### Visualização {.unnumbered}
 
 Uma forma simples de verificar se um gerador se comporta bem é observar os valores em um gráfico de dispersão $(u_{n}, u_{n+1}).$
 
-- Um bom gerador mostra pontos espalhados de forma quase aleatória.
+-   Um bom gerador mostra pontos espalhados de forma quase aleatória.
 
-- Um gerador ruim forma padrões visíveis (linhas ou grades).
+-   Um gerador ruim forma padrões visíveis (linhas ou grades).
 
 ### Limitações {.unnumbered}
 
 Apesar de sua importância histórica, os LCGs apresentam limitações:
 
-- O período, mesmo que longo, é finito.
+-   O período, mesmo que longo, é finito.
 
-- Podem apresentar correlações indesejadas em dimensões mais altas.
+-   Podem apresentar correlações indesejadas em dimensões mais altas.
 
-- Não são recomendados para aplicações de alta segurança (como criptografia).
+-   Não são recomendados para aplicações de alta segurança (como criptografia).
 
 Hoje, geradores como o Mersenne Twister substituíram o LCG em muitas linguagens (por exemplo, é o padrão no `R` e no `NumPy`). Ainda assim, o LCG é fundamental para entender os princípios da geração de números pseudoaleatórios.
 
-
 #### Exercícios {.unnumbered}
 
-1. Implemente um LCG (multiplicativo ou misto) em `Python` ou `R`.
+1.  Implemente um LCG (multiplicativo ou misto) em `Python` ou `R`.
 
-2. Gere 1000 números pseudoaleatórios e faça:
+2.  Gere 1000 números pseudoaleatórios e faça:
 
-- Um histograma para verificar se a distribuição se parece com a uniforme $(0, 1)$.
+-   Um histograma para verificar se a distribuição se parece com a uniforme $(0, 1)$.
 
-- Um gráfico de dispersão de pares consecutivos $(u_{n}, u_{n+1})$.
+-   Um gráfico de dispersão de pares consecutivos $(u_{n}, u_{n+1})$.
 
-3. Compare o comportamento quando:
+3.  Compare o comportamento quando:
 
-- Usa os parâmetros clássicos de Park–Miller $(m = 2^{31} - 1, a = 16807, c = 0)$.
+-   Usa os parâmetros clássicos de Park–Miller $(m = 2^{31} - 1, a = 16807, c = 0)$.
 
-- Usa parâmetros pequenos, por exemplo $m = 17, a = 5, c = 1$.
+-   Usa parâmetros pequenos, por exemplo $m = 17, a = 5, c = 1$.
 
 Pergunta para reflexão: O que acontece com a qualidade dos números gerados quando usamos parâmetros pequenos?
-
 
 ::: callout-note
 ## Park–Miller hoje: ainda vale a pena?
 
 O gerador congruencial linear clássico de **Park–Miller** foi proposto em 1988, com parâmetros:
 
-
 $$m = 2^{31} - 1 \approx 2,147,483,647, \quad a = 16807, \quad c = 0.$$
-
 
 Na época, esses valores eram ideais para computadores de **32 bits**, embora a implementação precisasse de alguns cuidados para evitar **overflow**.
 
-Nos computadores modernos de **64 bits**, esse problema desaparece: o produto \(a \times x\) cabe confortavelmente nos registradores, e a implementação é direta e eficiente.
+Nos computadores modernos de **64 bits**, esse problema desaparece: o produto $a \times x$ cabe confortavelmente nos registradores, e a implementação é direta e eficiente.
 
 **Vantagens atuais:**
 
-- Simples e rápido.  
+-   Simples e rápido.
 
-- Fácil de implementar em qualquer linguagem.  
+-   Fácil de implementar em qualquer linguagem.
 
-- Período máximo de mais de **2 bilhões** de números.  
+-   Período máximo de mais de **2 bilhões** de números.
 
 **Limitações:**
 
-- Hoje, esse período pode ser considerado curto para simulações muito extensas.  
+-   Hoje, esse período pode ser considerado curto para simulações muito extensas.
 
-- Geradores modernos, como o **Mersenne Twister** (período $2^{19937}-1$) ou a família **PCG (Gerador Congruencial Permutado)**, oferecem propriedades estatísticas superiores.
-
+-   Geradores modernos, como o **Mersenne Twister** (período $2^{19937}-1$) ou a família **PCG (Gerador Congruencial Permutado)**, oferecem propriedades estatísticas superiores.
 
 📌 **Em resumo:** O Park–Miller ainda é excelente para fins didáticos e pequenas simulações, mas para aplicações científicas de grande escala recomenda-se usar geradores mais robustos.
 :::
 
+Existem no `R` vários algoritmos para geradores de números pseudoaleatórios. Para ver quais são, basta:
 
-## Uso de Números Aleatórios na Avaliação de Integrais 
+```{r eval=FALSE}
+help(Random)
+```
+
+![Imagem da documentação.](Captura de tela de 2025-09-07 15-34-20.png){fig-align="center"}
+
+## Uso de Números Aleatórios na Avaliação de Integrais
 
 Uma das primeiras aplicações do uso de números aleatórios foi na resolução de integrais. Considere uma função $g(x)$ e suponha que desejamos calcular uma integral de interesse.
 
@@ -252,27 +247,54 @@ $$g(U_{i1}, U_{i2}, \dots, U_{in}), \quad i = 1, 2, \dots, k,$$ serão independe
 
 $$\theta \approx \frac{1}{k}\sum\limits_{i=1}^{k}g(U_{i1}, U_{i2}, \dots, U_{in}).$$
 
+#### Exemplo {.unnumbered}
+
+Nosso objetivo é encontrar o valor aproximado da integral: $\int_{0}^{1} x^3 dx = 0.25.$
+
+```{python}
+
+```
+
+
+```{R}
+set.seed(2025) #fixando a semente
+n <- 100000 #quantidade de valores uniformes gerados
+u <- runif(n) #numeros uniformes (0,1)
+mean(u^3)
+```
+
+
+```{python}
+import numpy as np
+np.random.seed(2025)
+n = 100000
+u = np.random.uniform(0, 1, n)
+resultado = np.mean(u**3)
+
+print(resultado)
+```
+
 
 #### Exercícios {.unnumbered}
 
-1. Se $x_0$ e $x_n = 3x_{n-1}\, \text{mod}\, 150$, encontre $x_1, x_2, \dots, x_{30}$.
+1.  Se $x_0$ e $x_n = 3x_{n-1}\, \text{mod}\, 150$, encontre $x_1, x_2, \dots, x_{30}$.
 
-2. Se $x_3$ e $x_n = (5x_{n-1} + 7)\, \text{mod}\, 200$, encontre $x_1, x_2, \dots, x_{10}$.
+2.  Se $x_3$ e $x_n = (5x_{n-1} + 7)\, \text{mod}\, 200$, encontre $x_1, x_2, \dots, x_{10}$.
 
-3. Compare sua estimatia com o valor exato:
+3.  Compare sua estimativa com o valor exato:
 
-  - $\int_{0}^{1} \exp\{{e^x}\} dx$.
-  
-  - $\int_{0}^{1} (1 - x^2)^{3/2} dx$.
-  
-  - $\int_{-2}^{2} \exp\{x + x^2\} dx$.
-  
-  - $\int_{0}^{\infty} x(1 + x^2)^{-2} dx$.
-  
-  - $\int_{-\infty}^{\infty} \exp\{-x^2\} dx$.
-  
-  - $\int_{0}^{1}\int_{0}^{1} \exp\{(x+y)^2\} dy dx$.
-  
-  - $\int_{0}^{\infty}\int_{0}^{x} \exp\{x+y\} dydx$.
-  
-4. Use simulação para encontrar o valor aproximado de $Cov(U, e^U)$, em que $U$ é uniforme em $(0,1)$. Compare seu resultado com o valor exato.
+-   $\int_{0}^{1} \exp\{{e^x}\} dx$.
+
+-   $\int_{0}^{1} (1 - x^2)^{3/2} dx$.
+
+-   $\int_{-2}^{2} \exp\{x + x^2\} dx$.
+
+-   $\int_{0}^{\infty} x(1 + x^2)^{-2} dx$.
+
+-   $\int_{-\infty}^{\infty} \exp\{-x^2\} dx$.
+
+-   $\int_{0}^{1}\int_{0}^{1} \exp\{(x+y)^2\} dy dx$.
+
+-   $\int_{0}^{\infty}\int_{0}^{x} \exp\{x+y\} dydx$.
+
+4.  Use simulação para encontrar o valor aproximado de $Cov(U, e^U)$, em que $U$ é uniforme em $(0,1)$. Compare seu resultado com o valor exato.

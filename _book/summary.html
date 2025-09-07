@@ -447,7 +447,7 @@ Park–Miller hoje: ainda vale a pena?
 <p>O gerador congruencial linear clássico de <strong>Park–Miller</strong> foi proposto em 1988, com parâmetros:</p>
 <p><span class="math display">\[m = 2^{31} - 1 \approx 2,147,483,647, \quad a = 16807, \quad c = 0.\]</span></p>
 <p>Na época, esses valores eram ideais para computadores de <strong>32 bits</strong>, embora a implementação precisasse de alguns cuidados para evitar <strong>overflow</strong>.</p>
-<p>Nos computadores modernos de <strong>64 bits</strong>, esse problema desaparece: o produto (a x) cabe confortavelmente nos registradores, e a implementação é direta e eficiente.</p>
+<p>Nos computadores modernos de <strong>64 bits</strong>, esse problema desaparece: o produto <span class="math inline">\(a \times x\)</span> cabe confortavelmente nos registradores, e a implementação é direta e eficiente.</p>
 <p><strong>Vantagens atuais:</strong></p>
 <ul>
 <li><p>Simples e rápido.</p></li>
@@ -461,6 +461,16 @@ Park–Miller hoje: ainda vale a pena?
 </ul>
 <p>📌 <strong>Em resumo:</strong> O Park–Miller ainda é excelente para fins didáticos e pequenas simulações, mas para aplicações científicas de grande escala recomenda-se usar geradores mais robustos.</p>
 </div>
+</div>
+<p>Existem no <code>R</code> vários algoritmos para geradores de números pseudoaleatórios. Para ver quais são, basta:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(Random)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Captura de tela de 2025-09-07 15-34-20.png" class="img-fluid figure-img"></p>
+<figcaption>Imagem da documentação.</figcaption>
+</figure>
 </div>
 </section>
 </section>
@@ -501,12 +511,37 @@ Park–Miller hoje: ainda vale a pena?
 <p>em que <span class="math inline">\(U_1, U_2, \dots, U_n\)</span> são variáveis aleatória independentes uniformente distribuídas no intervalo <span class="math inline">\((0, 1)\)</span>. Assim, se gerarmos <span class="math inline">\(k\)</span> conjuntos independentes, cada um formado por <span class="math inline">\(n\)</span> variáveis aleatórias independentes com distribuição uniforme em <span class="math inline">\((0, 1)\)</span>, então as variáveis</p>
 <p><span class="math display">\[g(U_{i1}, U_{i2}, \dots, U_{in}), \quad i = 1, 2, \dots, k,\]</span> serão independentes e identicamente distribuídas, todas com esperança igual a <span class="math inline">\(\theta\)</span> (o valor da integral). Portanto, podemos aproximar <span class="math inline">\(\theta\)</span> por meio da média amostral:</p>
 <p><span class="math display">\[\theta \approx \frac{1}{k}\sum\limits_{i=1}^{k}g(U_{i1}, U_{i2}, \dots, U_{in}).\]</span></p>
+<section id="exemplo" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="exemplo">Exemplo</h4>
+<p>Nosso objetivo é encontrar o valor aproximado da integral: <span class="math inline">\(\int_{0}^{1} x^3 dx = 0.25.\)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2025</span>) <span class="co">#fixando a semente</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100000</span> <span class="co">#quantidade de valores uniformes gerados</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">runif</span>(n) <span class="co">#numeros uniformes (0,1)</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(u<span class="sc">^</span><span class="dv">3</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2503221</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">2025</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">100000</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> np.random.uniform(<span class="dv">0</span>, <span class="dv">1</span>, n)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>resultado <span class="op">=</span> np.mean(u<span class="op">**</span><span class="dv">3</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(resultado)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0.2508972398766188</code></pre>
+</div>
+</div>
+</section>
 <section id="exercícios-1" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="exercícios-1">Exercícios</h4>
 <ol type="1">
 <li><p>Se <span class="math inline">\(x_0\)</span> e <span class="math inline">\(x_n = 3x_{n-1}\, \text{mod}\, 150\)</span>, encontre <span class="math inline">\(x_1, x_2, \dots, x_{30}\)</span>.</p></li>
 <li><p>Se <span class="math inline">\(x_3\)</span> e <span class="math inline">\(x_n = (5x_{n-1} + 7)\, \text{mod}\, 200\)</span>, encontre <span class="math inline">\(x_1, x_2, \dots, x_{10}\)</span>.</p></li>
-<li><p>Compare sua estimatia com o valor exato:</p></li>
+<li><p>Compare sua estimativa com o valor exato:</p></li>
 </ol>
 <ul>
 <li><p><span class="math inline">\(\int_{0}^{1} \exp\{{e^x}\} dx\)</span>.</p></li>
