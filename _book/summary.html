@@ -250,14 +250,12 @@ window.Quarto = {
   <li><a href="#geração-de-sequências-u01" id="toc-geração-de-sequências-u01" class="nav-link active" data-scroll-target="#geração-de-sequências-u01"><span class="header-section-number">3.1</span> Geração de sequências <span class="math inline">\(U(0,1)\)</span></a>
   <ul class="collapse">
   <li><a href="#gerador-congruencial-linear" id="toc-gerador-congruencial-linear" class="nav-link" data-scroll-target="#gerador-congruencial-linear">Gerador Congruencial Linear</a></li>
+  <li><a href="#por-que-o-lcg-funciona" id="toc-por-que-o-lcg-funciona" class="nav-link" data-scroll-target="#por-que-o-lcg-funciona">Por que o LCG funciona?</a></li>
+  <li><a href="#critérios-para-bons-parâmetros" id="toc-critérios-para-bons-parâmetros" class="nav-link" data-scroll-target="#critérios-para-bons-parâmetros">Critérios para bons parâmetros</a></li>
+  <li><a href="#visualização" id="toc-visualização" class="nav-link" data-scroll-target="#visualização">Visualização</a></li>
+  <li><a href="#limitações" id="toc-limitações" class="nav-link" data-scroll-target="#limitações">Limitações</a></li>
   </ul></li>
-  <li><a href="#por-que-o-lcg-funciona" id="toc-por-que-o-lcg-funciona" class="nav-link" data-scroll-target="#por-que-o-lcg-funciona"><span class="header-section-number">3.2</span> Por que o LCG funciona?</a></li>
-  <li><a href="#critérios-para-bons-parâmetros" id="toc-critérios-para-bons-parâmetros" class="nav-link" data-scroll-target="#critérios-para-bons-parâmetros"><span class="header-section-number">3.3</span> Critérios para bons parâmetros</a>
-  <ul class="collapse">
-  <li><a href="#visualização" id="toc-visualização" class="nav-link" data-scroll-target="#visualização"><span class="header-section-number">3.3.1</span> Visualização</a></li>
-  <li><a href="#limitações" id="toc-limitações" class="nav-link" data-scroll-target="#limitações"><span class="header-section-number">3.3.2</span> Limitações</a></li>
-  </ul></li>
-  <li><a href="#uso-de-números-aleatórios-na-avaliação-de-integrais" id="toc-uso-de-números-aleatórios-na-avaliação-de-integrais" class="nav-link" data-scroll-target="#uso-de-números-aleatórios-na-avaliação-de-integrais"><span class="header-section-number">3.4</span> Uso de Números Aleatórios na Avaliação de Integrais</a></li>
+  <li><a href="#uso-de-números-aleatórios-na-avaliação-de-integrais" id="toc-uso-de-números-aleatórios-na-avaliação-de-integrais" class="nav-link" data-scroll-target="#uso-de-números-aleatórios-na-avaliação-de-integrais"><span class="header-section-number">3.2</span> Uso de Números Aleatórios na Avaliação de Integrais</a></li>
   </ul>
 </nav>
     </div>
@@ -298,38 +296,35 @@ window.Quarto = {
 <li>Eliminação do problema de armazenamento;</li>
 <li>Reprodutibilidade controlada.</li>
 </ul>
-<p>Entretanto, a escolha inadequada da recorrência pode gerar sequências com baixa qualidade estatística.</p>
-<p>Antes da popularização dos computadores, gerar números aleatórios era tarefa manual ou mecânica: dados eram lançados, cartas eram embaralhadas, rodas giratórias eram utilizadas. Hoje, no entanto, confiamos no computador para criar sequências de números que <strong>imitam o acaso</strong>.</p>
-<p>Esses números são chamados de <strong>pseudoaleatórios</strong>: eles não são realmente aleatórios, pois são produzidos por regras determinísticas. Porém, se os parâmetros forem escolhidos corretamente, o resultado <strong>“se parece”</strong> muito com uma sequência de variáveis independentes e uniformes no intervalo <span class="math inline">\((0, 1)\)</span>.</p>
-<p>Um dos métodos mais antigos e influentes para isso é o <strong>Gerador Congruencial Linear</strong>, ou simplesmente <strong>LCG (Linear Congruential Generator)</strong>.</p>
+<p>Entretanto, a escolha inadequada da recorrência pode gerar sequências com baixa qualidade estatística. Um dos métodos mais antigos e influentes para isso é o <strong>Gerador Congruencial Linear (GCL)</strong>.</p>
 <section id="gerador-congruencial-linear" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="gerador-congruencial-linear">Gerador Congruencial Linear</h3>
-<p>O LCG produz uma sequência de inteiros <span class="math inline">\(x_0, x_1, x_2, \dots\)</span> segundo a regra:</p>
+<p>O GCL produz uma sequência de inteiros <span class="math inline">\(x_0, x_1, x_2, \dots\)</span> segundo a regra:</p>
 <p><span class="math display">\[x_n = (a \, x_{n-1} + c) \;\; \text{mod} \;\; m\]</span></p>
-<p>onde:</p>
-<ul>
-<li><span class="math inline">\(m &gt; 0\)</span> é o <strong>módulo</strong>;<br>
-</li>
-<li><span class="math inline">\(a\)</span> é o <strong>multiplicador</strong>;<br>
-</li>
-<li><span class="math inline">\(c\)</span> é o <strong>incremento</strong>;<br>
-</li>
-<li><span class="math inline">\(x_0\)</span> é a <strong>semente</strong> (<em>seed</em>), escolhida pelo usuário.</li>
-</ul>
+<p>em que, <span class="math inline">\(m &gt; 0\)</span> é o <strong>módulo</strong>, <span class="math inline">\(a\)</span> é o <strong>multiplicador</strong>, <span class="math inline">\(c\)</span> é o <strong>incremento</strong> e<br>
+<span class="math inline">\(x_0\)</span> é a <strong>semente</strong> (<em>seed</em>), escolhida pelo usuário.</p>
 <p>O resultado final é obtido normalizando os valores:</p>
 <p><span class="math display">\[u_n = \frac{x_n}{m}, \quad \text{com } u_n \in (0, 1).\]</span></p>
-<section id="tipos" class="level4 unnumbered">
-<h4 class="unnumbered anchored" data-anchor-id="tipos">Tipos</h4>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tipos
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ul>
 <li><strong>Multiplicativo:</strong> <span class="math inline">\(c = 0\)</span>.<br>
 </li>
 <li><strong>Misto:</strong> <span class="math inline">\(c \neq 0\)</span>.</li>
 </ul>
+</div>
+</div>
 </section>
-</section>
-</section>
-<section id="por-que-o-lcg-funciona" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="por-que-o-lcg-funciona"><span class="header-section-number">3.2</span> Por que o LCG funciona?</h2>
+<section id="por-que-o-lcg-funciona" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="por-que-o-lcg-funciona">Por que o LCG funciona?</h3>
 <ol type="1">
 <li><strong>Simplicidade:</strong> apenas uma multiplicação, uma soma e uma operação de módulo.<br>
 </li>
@@ -338,8 +333,8 @@ window.Quarto = {
 <li><strong>Controle:</strong> dependendo da escolha de <span class="math inline">\(a, c, m\)</span>, é possível obter um período longo, ou seja, muitos números gerados antes de a sequência se repetir.</li>
 </ol>
 </section>
-<section id="critérios-para-bons-parâmetros" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="critérios-para-bons-parâmetros"><span class="header-section-number">3.3</span> Critérios para bons parâmetros</h2>
+<section id="critérios-para-bons-parâmetros" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="critérios-para-bons-parâmetros">Critérios para bons parâmetros</h3>
 <ul>
 <li>O módulo <span class="math inline">\(m\)</span> deve ser <strong>grande</strong>, de preferência próximo da capacidade da máquina.<br>
 </li>
@@ -403,16 +398,17 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="visualização" class="level3" data-number="3.3.1">
-<h3 data-number="3.3.1" class="anchored" data-anchor-id="visualização"><span class="header-section-number">3.3.1</span> Visualização</h3>
+</section>
+<section id="visualização" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="visualização">Visualização</h3>
 <p>Uma forma simples de verificar se um gerador se comporta bem é observar os valores em um gráfico de dispersão <span class="math inline">\((u_{n}, u_{n+1}).\)</span></p>
 <ul>
 <li><p>Um bom gerador mostra pontos espalhados de forma quase aleatória.</p></li>
 <li><p>Um gerador ruim forma padrões visíveis (linhas ou grades).</p></li>
 </ul>
 </section>
-<section id="limitações" class="level3" data-number="3.3.2">
-<h3 data-number="3.3.2" class="anchored" data-anchor-id="limitações"><span class="header-section-number">3.3.2</span> Limitações</h3>
+<section id="limitações" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="limitações">Limitações</h3>
 <p>Apesar de sua importância histórica, os LCGs apresentam limitações:</p>
 <ul>
 <li><p>O período, mesmo que longo, é finito.</p></li>
@@ -420,8 +416,8 @@ window.Quarto = {
 <li><p>Não são recomendados para aplicações de alta segurança (como criptografia).</p></li>
 </ul>
 <p>Hoje, geradores como o Mersenne Twister substituíram o LCG em muitas linguagens (por exemplo, é o padrão no <code>R</code> e no <code>NumPy</code>). Ainda assim, o LCG é fundamental para entender os princípios da geração de números pseudoaleatórios.</p>
-<section id="exercícios" class="level4" data-number="3.3.2.1">
-<h4 data-number="3.3.2.1" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">3.3.2.1</span> Exercícios</h4>
+<section id="exercícios" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="exercícios">Exercícios</h4>
 <ol type="1">
 <li><p>Implemente um LCG (multiplicativo ou misto) em <code>Python</code> ou <code>R</code>.</p></li>
 <li><p>Gere 1000 números pseudoaleatórios e faça:</p></li>
@@ -452,19 +448,25 @@ Park–Miller hoje: ainda vale a pena?
 <p><span class="math display">\[m = 2^{31} - 1 \approx 2,147,483,647, \quad a = 16807, \quad c = 0.\]</span></p>
 <p>Na época, esses valores eram ideais para computadores de <strong>32 bits</strong>, embora a implementação precisasse de alguns cuidados para evitar <strong>overflow</strong>.</p>
 <p>Nos computadores modernos de <strong>64 bits</strong>, esse problema desaparece: o produto (a x) cabe confortavelmente nos registradores, e a implementação é direta e eficiente.</p>
-<p><strong>Vantagens atuais:</strong> - Simples e rápido.<br>
-- Fácil de implementar em qualquer linguagem.<br>
-- Período máximo de mais de <strong>2 bilhões</strong> de números.</p>
-<p><strong>Limitações:</strong> - Hoje, esse período pode ser considerado curto para simulações muito extensas.<br>
-- Geradores modernos, como o <strong>Mersenne Twister</strong> (período (2^{19937}-1)) ou a família <strong>PCG</strong>, oferecem propriedades estatísticas superiores.</p>
+<p><strong>Vantagens atuais:</strong></p>
+<ul>
+<li><p>Simples e rápido.</p></li>
+<li><p>Fácil de implementar em qualquer linguagem.</p></li>
+<li><p>Período máximo de mais de <strong>2 bilhões</strong> de números.</p></li>
+</ul>
+<p><strong>Limitações:</strong></p>
+<ul>
+<li><p>Hoje, esse período pode ser considerado curto para simulações muito extensas.</p></li>
+<li><p>Geradores modernos, como o <strong>Mersenne Twister</strong> (período <span class="math inline">\(2^{19937}-1\)</span>) ou a família <strong>PCG (Gerador Congruencial Permutado)</strong>, oferecem propriedades estatísticas superiores.</p></li>
+</ul>
 <p>📌 <strong>Em resumo:</strong> O Park–Miller ainda é excelente para fins didáticos e pequenas simulações, mas para aplicações científicas de grande escala recomenda-se usar geradores mais robustos.</p>
 </div>
 </div>
 </section>
 </section>
 </section>
-<section id="uso-de-números-aleatórios-na-avaliação-de-integrais" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="uso-de-números-aleatórios-na-avaliação-de-integrais"><span class="header-section-number">3.4</span> Uso de Números Aleatórios na Avaliação de Integrais</h2>
+<section id="uso-de-números-aleatórios-na-avaliação-de-integrais" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="uso-de-números-aleatórios-na-avaliação-de-integrais"><span class="header-section-number">3.2</span> Uso de Números Aleatórios na Avaliação de Integrais</h2>
 <p>Uma das primeiras aplicações do uso de números aleatórios foi na resolução de integrais. Considere uma função <span class="math inline">\(g(x)\)</span> e suponha que desejamos calcular uma integral de interesse.</p>
 <p><span class="math display">\[\theta = \int\limits_{0}^{1}g(x) dx.\]</span></p>
 <p>Para calcular o valor da integral, observe que, se <span class="math inline">\(U\)</span> é uma variável aleatória com distribuição uniforme no intervalo <span class="math inline">\((0, 1)\)</span>, , então podemos reescrever a integral da seguinte forma:</p>

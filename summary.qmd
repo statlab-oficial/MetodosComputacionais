@@ -17,29 +17,17 @@ Assim, a abordagem preferida é **gerar números pseudoaleatórios em tempo de e
 -   Eliminação do problema de armazenamento;
 -   Reprodutibilidade controlada.
 
-Entretanto, a escolha inadequada da recorrência pode gerar sequências com baixa qualidade estatística.
-
-
-Antes da popularização dos computadores, gerar números aleatórios era tarefa manual ou mecânica: dados eram lançados, cartas eram embaralhadas, rodas giratórias eram utilizadas. Hoje, no entanto, confiamos no computador para criar sequências de números que **imitam o acaso**.  
-
-Esses números são chamados de **pseudoaleatórios**: eles não são realmente aleatórios, pois são produzidos por regras determinísticas. Porém, se os parâmetros forem escolhidos corretamente, o resultado **“se parece”** muito com uma sequência de variáveis independentes e uniformes no intervalo $(0, 1)$.  
-
-Um dos métodos mais antigos e influentes para isso é o **Gerador Congruencial Linear**, ou simplesmente **LCG (Linear Congruential Generator)**.  
-
+Entretanto, a escolha inadequada da recorrência pode gerar sequências com baixa qualidade estatística. Um dos métodos mais antigos e influentes para isso é o **Gerador Congruencial Linear (GCL)**.
 
 ### Gerador Congruencial Linear {.unnumbered}
 
-O LCG produz uma sequência de inteiros $x_0, x_1, x_2, \dots$ segundo a regra:
+O GCL produz uma sequência de inteiros $x_0, x_1, x_2, \dots$ segundo a regra:
 
 
 $$x_n = (a \, x_{n-1} + c) \;\; \text{mod} \;\; m$$
 
-onde:  
-
-- $m > 0$ é o **módulo**;  
-- $a$ é o **multiplicador**;  
-- $c$ é o **incremento**;  
-- $x_0$ é a **semente** (*seed*), escolhida pelo usuário.  
+em que, $m > 0$ é o **módulo**, $a$ é o **multiplicador**, $c$ é o **incremento** e  
+$x_0$ é a **semente** (*seed*), escolhida pelo usuário.  
 
 O resultado final é obtido normalizando os valores:
 
@@ -47,19 +35,21 @@ O resultado final é obtido normalizando os valores:
 $$u_n = \frac{x_n}{m}, \quad \text{com } u_n \in (0, 1).$$
 
 
-#### Tipos {.unnumbered}
+::: callout-note
+## Tipos
+
 - **Multiplicativo:** $c = 0$.  
 - **Misto:** $c \neq 0$. 
+:::
 
-
-## Por que o LCG funciona?
+### Por que o LCG funciona? {.unnumbered}
 
 1. **Simplicidade:** apenas uma multiplicação, uma soma e uma operação de módulo.  
 2. **Velocidade:** pode ser implementado de forma extremamente eficiente.  
 3. **Controle:** dependendo da escolha de $a, c, m$, é possível obter um período longo, ou seja, muitos números gerados antes de a sequência se repetir.  
 
 
-## Critérios para bons parâmetros
+### Critérios para bons parâmetros {.unnumbered}
 
 - O módulo $m$ deve ser **grande**, de preferência próximo da capacidade da máquina.  
 - Para LCG multiplicativo, se $m$ for primo, existe a possibilidade de alcançar período máximo $m-1$.  
@@ -120,7 +110,7 @@ lcg(seed, a, c, m, n=10)
 ```
 
 
-### Visualização
+### Visualização {.unnumbered}
 
 Uma forma simples de verificar se um gerador se comporta bem é observar os valores em um gráfico de dispersão $(u_{n}, u_{n+1}).$
 
@@ -128,7 +118,7 @@ Uma forma simples de verificar se um gerador se comporta bem é observar os valo
 
 - Um gerador ruim forma padrões visíveis (linhas ou grades).
 
-### Limitações
+### Limitações {.unnumbered}
 
 Apesar de sua importância histórica, os LCGs apresentam limitações:
 
@@ -141,7 +131,7 @@ Apesar de sua importância histórica, os LCGs apresentam limitações:
 Hoje, geradores como o Mersenne Twister substituíram o LCG em muitas linguagens (por exemplo, é o padrão no `R` e no `NumPy`). Ainda assim, o LCG é fundamental para entender os princípios da geração de números pseudoaleatórios.
 
 
-#### Exercícios
+#### Exercícios {.unnumbered}
 
 1. Implemente um LCG (multiplicativo ou misto) em `Python` ou `R`.
 
@@ -174,13 +164,19 @@ Na época, esses valores eram ideais para computadores de **32 bits**, embora a 
 Nos computadores modernos de **64 bits**, esse problema desaparece: o produto \(a \times x\) cabe confortavelmente nos registradores, e a implementação é direta e eficiente.
 
 **Vantagens atuais:**
+
 - Simples e rápido.  
+
 - Fácil de implementar em qualquer linguagem.  
+
 - Período máximo de mais de **2 bilhões** de números.  
 
 **Limitações:**
+
 - Hoje, esse período pode ser considerado curto para simulações muito extensas.  
-- Geradores modernos, como o **Mersenne Twister** (período \(2^{19937}-1\)) ou a família **PCG**, oferecem propriedades estatísticas superiores.
+
+- Geradores modernos, como o **Mersenne Twister** (período $2^{19937}-1$) ou a família **PCG (Gerador Congruencial Permutado)**, oferecem propriedades estatísticas superiores.
+
 
 📌 **Em resumo:** O Park–Miller ainda é excelente para fins didáticos e pequenas simulações, mas para aplicações científicas de grande escala recomenda-se usar geradores mais robustos.
 :::
