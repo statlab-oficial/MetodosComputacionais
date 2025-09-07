@@ -129,7 +129,7 @@ g1$X
 g1$R
 ```
 
-## Geradores Congruenciais Lineares Multiplicativos {.unnumbered}
+### Geradores Congruenciais Lineares Multiplicativos {.unnumbered}
 
 No caso **multiplicativo**, temos $c = 0$, e a recorrência fica:
 
