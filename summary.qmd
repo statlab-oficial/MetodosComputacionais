@@ -19,7 +19,7 @@ Assim, a abordagem preferida é **gerar números pseudoaleatórios em tempo de e
 
 Entretanto, a escolha inadequada da recorrência pode gerar sequências com baixa qualidade estatística.
 
-## Geradores Congruenciais Lineares
+## Geradores Congruenciais Lineares {.unnumbered}
 
 Um **Gerador Congruencial Linear (LGC)** produz uma sequência de inteiros não negativos $X_i$, $i = 1, 2, \ldots$, por meio da relação de recorrência:
 
@@ -31,7 +31,7 @@ $$R_i = \frac{X_i}{m}, \quad R_i \in (0,1).$$
 
 Se $m$ for suficientemente grande, os valores discretos $0/m, 1/m, \ldots, (m-1)/m$ são tão próximos que $R_i$ pode ser tratado como variável contínua.
 
-### Exemplo
+### Exemplo {.unnumbered}
 
 Seja o gerador:
 
@@ -67,7 +67,7 @@ resultado$X
 resultado$R
 ```
 
-## Geradores Congruenciais Lineares Mistos
+## Geradores Congruenciais Lineares Mistos {.unnumbered}
 
 Nos LCGs **mistos** temos $c>0$. Uma escolha prática é $m = 2^b$, onde $b$ é o número de bits utilizável para inteiros positivos na arquitetura/linguagem. Em muitos ambientes, inteiros usam 32 bits (um para o sinal), implicando $b=31$ e intervalo $[-2^{31}, 2^{31}-1]$.
 
@@ -78,7 +78,7 @@ Quando $m=2^b$, obtemos **período completo** ($\ell=m$) se:
 
 Essa é a razão de geradores simples com $m=2^b$, $c$ ímpar e $a \equiv 1 \pmod 4$ atingirem $\ell=m$.
 
-### Questão de estouro e aritmética modular
+### Questão de estouro e aritmética modular {.unnumbered}
 
 Em linguagens com inteiros limitados, calcular $aX_{i-1}+c$ pode **transbordar**. Soluções comuns:
 
@@ -88,7 +88,7 @@ Em linguagens com inteiros limitados, calcular $aX_{i-1}+c$ pode **transbordar**
 
 A seguir, implementamos LCG misto com $m=2^{31}$, $a=906185749$, $c=1$. Parâmetros com boas propriedades estatísticas relatadas na literatura.
 
-### Implementação em R (com segurança de overflow)
+### Implementação em R (com segurança de overflow) {.unnumbered}
 
 Para garantir a correção do módulo com inteiros grandes, usaremos `bit64` (inteiros de 64 bits) e normalizaremos para $(0,1)$.
 
@@ -127,7 +127,7 @@ g1$X
 g1$R
 ```
 
-## Geradores Congruenciais Lineares Multiplicativos
+## Geradores Congruenciais Lineares Multiplicativos {.unnumbered}
 
 No caso **multiplicativo**, temos $c = 0$, e a recorrência fica:
 
@@ -135,7 +135,7 @@ $$
 X_i = (a X_{i-1}) \bmod m
 $$
 
-### Características e restrições
+### Características e restrições {.unnumbered}
 
 -   Se $X_i = 0$ em algum passo, toda a sequência futura será zero — portanto $X_0 \neq 0$.
 -   Se $a = 1$, a sequência é constante — também deve ser evitado.
@@ -143,7 +143,7 @@ $$
     1.  $m$ é primo;
     2.  $a$ é uma **raiz primitiva** módulo $m$.
 
-### Definição de raiz primitiva
+### Definição de raiz primitiva {.unnumbered}
 
 Um número $a$ é raiz primitiva módulo $m$ se seus poderes geram todos os inteiros não nulos módulo $m$.\
 Matematicamente, $a$ satisfaz:
@@ -156,7 +156,7 @@ Esse tipo de gerador é chamado **Gerador de Módulo Primo e Período Máximo**.
 
 ------------------------------------------------------------------------
 
-### Exemplo de implementação em R
+### Exemplo de implementação em R {.unnumbered}
 
 A seguir, implementamos um gerador multiplicativo com módulo primo $m = 2^{31} - 1$ (primo de Mersenne) e multiplicador $a = 630360016$, conhecido por apresentar boas propriedades estatísticas.
 
@@ -187,29 +187,25 @@ g2$X
 g2$R
 ```
 
+## Uso de Números Aleatórios na Avaliação de Integrais {.unnumbered}
 
-## Uso de Números Aleatórios na Avaliação de Integrais
-
-
-Uma das primeiras aplicações do uso de números aleatórios foi na resolução de integrais. Considere uma função $g(x)$ e suponha que desejamos calcular uma integral de interesse. 
+Uma das primeiras aplicações do uso de números aleatórios foi na resolução de integrais. Considere uma função $g(x)$ e suponha que desejamos calcular uma integral de interesse.
 
 $$\theta = \int\limits_{0}^{1}g(x) dx.$$
 
 Para calcular o valor da integral, observe que, se $U$ é uma variável aleatória com distribuição uniforme no intervalo $(0, 1)$, , então podemos reescrever a integral da seguinte forma:
 
-$$\theta = E[g(U)].$$
-Se $U_1, U_2, \dots,  U_n$ são variáveis aleatórias independentes e uniformes em $(0, 1)$, então as variáveis $g(U_1), g(U_2), \dots,  g(U_n)$ são indepedentes e identicamente distribuídas, todas com esperança igual $\theta$ (o valor da integral). Assim, pelo **Teorema da Lei Forte dos Grandes Números**, temos que, com probabilidade 1,
+$$\theta = E[g(U)].$$ Se $U_1, U_2, \dots,  U_n$ são variáveis aleatórias independentes e uniformes em $(0, 1)$, então as variáveis $g(U_1), g(U_2), \dots,  g(U_n)$ são indepedentes e identicamente distribuídas, todas com esperança igual $\theta$ (o valor da integral). Assim, pelo **Teorema da Lei Forte dos Grandes Números**, temos que, com probabilidade 1,
 
 $$\frac{1}{n}\sum\limits_{i=1}^{n}g(U_i) \to \theta \quad \text{quando} \quad n \to \infty.$$
 
 Assim, podemos aproximar o valor da integral gerando um grande número de pontos aleatórios $u_i$ no intervalo $(0, 1)$ e tomando como estimativa a média dos valores $g(u_i)$. Esse procedimento de aproximação de integrais é conhecido como método de **Monte Carlo**.
 
-
 Se quisermos calcular uma integral mais geral, podemos aplicar a mesma ideia: transformar o problema em uma esperança matemática e, em seguida, aproximá-la por meio de médias amostrais obtidas a partir de números aleatórios. Considere:
 
 $$\theta = \int\limits_{a}^{b}g(x) dx.$$
 
-Se quisermos calcular a integral em um intervalo genérico $(a, b)$, fazemos a substituição 
+Se quisermos calcular a integral em um intervalo genérico $(a, b)$, fazemos a substituição
 
 $$u = \frac{x - a}{b-a}, \quad du = \frac{dx}{b-a},$$
 
@@ -221,19 +217,17 @@ Definindo
 
 $$h(u) = (b-a)g(a + (b-a)u),$$
 
-temos 
+temos
 
 $$\theta = \int\limits_{0}^{1}h(u) du.$$
 
 Assim, podemos aproximar $\theta$ gerando números aleatórios $u_1, u_2, \dots, u_n \sim U(0, 1)$ e tomando como estimativa a média
 
-$$\theta \approx \frac{1}{n}\sum\limits_{i=1}^{n}h(u_i).$$
-Agora, se nosso objetivo é calcular a integral:
+$$\theta \approx \frac{1}{n}\sum\limits_{i=1}^{n}h(u_i).$$ Agora, se nosso objetivo é calcular a integral:
 
 $$\theta = \int\limits_{0}^{\infty}g(x) dx.$$
 
-
-Fazendo a mudança de variável 
+Fazendo a mudança de variável
 
 $$u = \frac{1}{x+1}, \quad du = \frac{-dx}{(x+1)^2} = -u^2 dx.$$
 
@@ -245,10 +239,9 @@ e a integral resultante é
 
 $$\theta = \int\limits_{0}^{1}h(u) du,$$
 
-com 
+com
 
 $$h(u) = \frac{g\left(\frac{1}{u} - 1\right)}{u^2}.$$
-
 
 A utilidade de empregar números aleatórios para aproximar integrais torna-se ainda mais evidente no caso de integrais multidimensionais. Suponha que $g$ seja uma função com argumento $n$-dimensional e que estejamos interessados em calcular:
 
@@ -260,7 +253,6 @@ $$\theta = E[g(U_1, U_2, \dots, U_n)],$$
 
 em que $U_1, U_2, \dots, U_n$ são variáveis aleatória independentes uniformente distribuídas no intervalo $(0, 1)$. Assim, se gerarmos $k$ conjuntos independentes, cada um formado por $n$ variáveis aleatórias independentes com distribuição uniforme em $(0, 1)$, então as variáveis
 
-$$g(U_{i1}, U_{i2}, \dots, U_{in}), \quad i = 1, 2, \dots, k,$$
-serão independentes e identicamente distribuídas, todas com esperança igual a $\theta$ (o valor da integral). Portanto, podemos aproximar $\theta$ por meio da média amostral:
+$$g(U_{i1}, U_{i2}, \dots, U_{in}), \quad i = 1, 2, \dots, k,$$ serão independentes e identicamente distribuídas, todas com esperança igual a $\theta$ (o valor da integral). Portanto, podemos aproximar $\theta$ por meio da média amostral:
 
 $$\theta \approx \frac{1}{k}\sum\limits_{i=1}^{k}g(U_{i1}, U_{i2}, \dots, U_{in}).$$

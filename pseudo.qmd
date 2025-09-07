@@ -1,7 +1,6 @@
 # Números Pseudoaleatórios
 
-## Introdução 
-
+## Introdução
 
 ## Método da Transformação Inversa
 
@@ -187,7 +186,7 @@ Seja $F$ uma função de distribuição qualquer. A inversa generalizada, denota
     Note que, se $F$ for estritamente crescente e contínua, então $\forall x \in \mathbb{R}$ existirá apenas um $u$ tal que $F(x) = u$.
 -   A proposição seguinte dá base para as simulações de v.a. discretas.
 
-Seja $F$ uma função de distribuição qualquer e $F^{-1}$ sua inversa generalizada. Temos: 
+Seja $F$ uma função de distribuição qualquer e $F^{-1}$ sua inversa generalizada. Temos:
 
 $$F^{-1}(u) \leq x \mbox{ se, e somente se, } u \leq F(x)$$
 
@@ -218,7 +217,7 @@ Gere $U\sim U(0,1)$. Defina $X=\mbox{Int}(kU)+1$, em que $\textrm{Int}(x)$ é a 
 Para simular valores de $X$ com $P(X=j)=1/10, \, \,\, j=1,2,3,\ldots, 10$, você pode serguir o procedimento a seguir:
 
 | $j-1$ | $j$ | $U$ | $kU$ | [$X=j$]{style="color:blue"} | [$X=\mathrm{Int}(kU)+1$]{style="color:red"} |
-|----------|----------|----------|----------|-------------|----------------------|
+|------------|------------|------------|------------|------------|---------------|
 | 0 | 1 | 0,01 | 0,1 | 1 | 1 |
 | 1 | 2 | 0,31 | 3,1 | 4 | 4 |
 | 2 | 3 | 0,53 | 5,3 | 6 | 6 |
@@ -507,4 +506,3 @@ $$
 é uma **mistura**, ou uma **composição**, das funções de distribuição $F_i$, $i = 1, \dots, n$.
 
 Uma maneira de simular a partir de $F$ é primeiro simular uma variável aleatória $I$, igual a $i$ com probabilidade $\alpha_i$, $i=1,\dots,n$, e então simular a partir da distribuição $F_I$ (Isto é, se o valor simulado de $I$ for $I = j$, então a segunda simulação é feita a partir de $F_j$). Essa abordagem para simular de $F$ é frequentemente chamada de **método de composição**.
-
