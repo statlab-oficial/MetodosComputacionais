@@ -20,174 +20,171 @@ Assim, a abordagem preferida é **gerar números pseudoaleatórios em tempo de e
 Entretanto, a escolha inadequada da recorrência pode gerar sequências com baixa qualidade estatística.
 
 
+Antes da popularização dos computadores, gerar números aleatórios era tarefa manual ou mecânica: dados eram lançados, cartas eram embaralhadas, rodas giratórias eram utilizadas. Hoje, no entanto, confiamos no computador para criar sequências de números que **imitam o acaso**.  
 
-### Geradores Congruenciais Lineares {.unnumbered}
+Esses números são chamados de **pseudoaleatórios**: eles não são realmente aleatórios, pois são produzidos por regras determinísticas. Porém, se os parâmetros forem escolhidos corretamente, o resultado **“se parece”** muito com uma sequência de variáveis independentes e uniformes no intervalo $(0, 1)$.  
 
-Um **Gerador Congruencial Linear (LGC)** produz uma sequência de inteiros não negativos $X_i$, $i = 1, 2, \ldots$, por meio da relação de recorrência:
+Um dos métodos mais antigos e influentes para isso é o **Gerador Congruencial Linear**, ou simplesmente **LCG (Linear Congruential Generator)**.  
 
-$$X_i = (a X_{i-1} + c) \bmod m, \quad i = 1, 2, \ldots,$$ em que $a > 0$ é o multiplicador, $X_0 \ge 0$ é a *semente* (*seed*), $c \ge 0$ é o incremento e $m > 0$ é o módulo.
 
-Os valores $a, c, X_0$ estão no intervalo $[0, m-1]$. O número pseudoaleatório $R_i$ é obtido por:
+### Gerador Congruencial Linear {.unnumbered}
 
-$$R_i = \frac{X_i}{m}, \quad R_i \in (0,1).$$
+O LCG produz uma sequência de inteiros $x_0, x_1, x_2, \dots$ segundo a regra:
 
-Se $m$ for suficientemente grande, os valores discretos $0/m, 1/m, \ldots, (m-1)/m$ são tão próximos que $R_i$ pode ser tratado como variável contínua.
 
-#### Exemplo {.unnumbered}
+$$x_n = (a \, x_{n-1} + c) \;\; \text{mod} \;\; m$$
 
-Seja o gerador:
+onde:  
 
-$$X_i = (9 X_{i-1} + 3) \bmod 24, \quad i \geq 1.$$
+- $m > 0$ é o **módulo**;  
+- $a$ é o **multiplicador**;  
+- $c$ é o **incremento**;  
+- $x_0$ é a **semente** (*seed*), escolhida pelo usuário.  
 
-Escolhendo $X_0 = 3$:
+O resultado final é obtido normalizando os valores:
 
-$$X_1 = (9 \times 3 + 3) \bmod 24 = 14$$
 
-$$X_2 = (9 \times 14 + 3) \bmod 24 = 1$$
+$$u_n = \frac{x_n}{m}, \quad \text{com } u_n \in (0, 1).$$
 
-e assim por diante.
 
-A sequência $R_i = X_i / 24$ gerada terá período $\ell = 24$.
+#### Tipos {.unnumbered}
+- **Multiplicativo:** $c = 0$.  
+- **Misto:** $c \neq 0$. 
 
-#### Implementação em R {.unnumbered}
 
-```{r}
-# Função LCG genérica
-lcg <- function(a, c, m, seed, n) {
-  x <- numeric(n)
-  x[1] <- seed
-  for (i in 2:n) {
-    x[i] <- (a * x[i-1] + c) %% m
-  }
-  r <- x / m
-  return(list(X = x, R = r))
-}
+## Por que o LCG funciona?
 
-# Exemplo com a = 9, c = 3, m = 24, seed = 3
-resultado <- lcg(a = 9, c = 3, m = 24, seed = 3, n = 20)
-resultado$X
-resultado$R
+1. **Simplicidade:** apenas uma multiplicação, uma soma e uma operação de módulo.  
+2. **Velocidade:** pode ser implementado de forma extremamente eficiente.  
+3. **Controle:** dependendo da escolha de $a, c, m$, é possível obter um período longo, ou seja, muitos números gerados antes de a sequência se repetir.  
+
+
+## Critérios para bons parâmetros
+
+- O módulo $m$ deve ser **grande**, de preferência próximo da capacidade da máquina.  
+- Para LCG multiplicativo, se $m$ for primo, existe a possibilidade de alcançar período máximo $m-1$.  
+- Valores históricos:  
+  - **Park–Miller (1988):** $m = 2^{31} - 1$, $a = 16807$, $c = 0$.  
+  - **Numerical Recipes (1992):** $m = 2^{32}$, $a = 1664525$, $c = 1013904223$.  
+
+
+#### Exemplos {.unnumbered}
+
+```{python}
+#| label: lcg-python
+#| echo: true
+# Gerador Congruencial Linear em Python
+
+def lcg(seed, a, c, m, n=10):
+    """Gera n números pseudoaleatórios normalizados em (0,1)."""
+    x = seed
+    seq = []
+    for _ in range(n):
+        x = (a * x + c) % m
+        seq.append(x / m)
+    return seq
+
+# Exemplo: Park–Miller (multiplicativo)
+m = 2**31 - 1
+a = 16807
+c = 0
+seed = 12345
+
+lcg(seed, a, c, m, n=10)
 ```
 
-### Geradores Congruenciais Lineares Mistos {.unnumbered}
 
-Nos LCGs **mistos** temos $c>0$. Uma escolha prática é $m = 2^b$, onde $b$ é o número de bits utilizável para inteiros positivos na arquitetura/linguagem. Em muitos ambientes, inteiros usam 32 bits (um para o sinal), implicando $b=31$ e intervalo $[-2^{31}, 2^{31}-1]$.
+```{R}
+#| label: lcg-r
+#| echo: true
+# Gerador Congruencial Linear em R
 
-Quando $m=2^b$, obtemos **período completo** ($\ell=m$) se:
-
-1)  $c$ é **ímpar** (garante $\gcd(c,m)=1$);\
-2)  $a-1$ é múltiplo de todos os fatores primos de $m$ e também de 4 (como $m$ é potência de 2).
-
-Essa é a razão de geradores simples com $m=2^b$, $c$ ímpar e $a \equiv 1 \pmod 4$ atingirem $\ell=m$.
-
-### Questão de estouro e aritmética modular {.unnumbered}
-
-Em linguagens com inteiros limitados, calcular $aX_{i-1}+c$ pode **transbordar**. Soluções comuns:
-
--   usar precisão estendida (64 bits) ou bibliotecas de inteiros grandes;
--   empregar **truques de aritmética modular** (como o método de Schrage) para evitar overflow;
--   trabalhar com módulo $m=2^b$ e aproveitar o “wrap” de bits.
-
-A seguir, implementamos LCG misto com $m=2^{31}$, $a=906185749$, $c=1$. Parâmetros com boas propriedades estatísticas relatadas na literatura.
-
-#### Implementação em R (com segurança de overflow) {.unnumbered}
-
-Para garantir a correção do módulo com inteiros grandes, usaremos `bit64` (inteiros de 64 bits) e normalizaremos para $(0,1)$.
-
-```{r}
-#| label: lcg-misto
-#| message: false
-#| warning: false
-#if (!requireNamespace("bit64", quietly = TRUE)) {
-#  install.packages("bit64")
-#}
-
-library(bit64)
-
-lcg_misto <- function(n, seed = 3456L,
-                      a = 906185749L,
-                      c = 1L,
-                      m = bit64::as.integer64(2)^31) {
-  # Trabalha em integer64 para evitar perda de precisão
-  x <- bit64::as.integer64(seed)
-  outX <- bit64::integer64(n)
-  outR <- numeric(n)
-  outX[1] <- x
-  outR[1] <- as.double(x) / as.double(m)
-  for (i in 2:n) {
-    x <- (bit64::as.integer64(a) * x + bit64::as.integer64(c)) %% m
-    outX[i] <- x
-    outR[i] <- as.double(x) / as.double(m)
+lcg <- function(seed, a, c, m, n=10) {
+  x <- seed
+  seq <- numeric(n)
+  for (i in 1:n) {
+    x <- (a * x + c) %% m
+    seq[i] <- x / m
   }
-  list(X = outX, R = outR)
+  seq
 }
 
-# Exemplo: primeiros 5 números com seed = 3456
-set.seed(NULL)
-g1 <- lcg_misto(n = 5, seed = 3456L)
-g1$X
-g1$R
+# Exemplo: Park–Miller
+m <- 2^31 - 1
+a <- 16807
+c <- 0
+seed <- 12345
+
+lcg(seed, a, c, m, n=10)
+
 ```
 
-### Geradores Congruenciais Lineares Multiplicativos {.unnumbered}
 
-No caso **multiplicativo**, temos $c = 0$, e a recorrência fica:
+### Visualização
 
-$$
-X_i = (a X_{i-1}) \bmod m
-$$
+Uma forma simples de verificar se um gerador se comporta bem é observar os valores em um gráfico de dispersão $(u_{n}, u_{n+1}).$
 
-### Características e restrições {.unnumbered}
+- Um bom gerador mostra pontos espalhados de forma quase aleatória.
 
--   Se $X_i = 0$ em algum passo, toda a sequência futura será zero — portanto $X_0 \neq 0$.
--   Se $a = 1$, a sequência é constante — também deve ser evitado.
--   O **período máximo** possível é $m - 1$, e ele só é atingido quando:
-    1.  $m$ é primo;
-    2.  $a$ é uma **raiz primitiva** módulo $m$.
+- Um gerador ruim forma padrões visíveis (linhas ou grades).
 
-### Definição de raiz primitiva {.unnumbered}
+### Limitações
 
-Um número $a$ é raiz primitiva módulo $m$ se seus poderes geram todos os inteiros não nulos módulo $m$.\
-Matematicamente, $a$ satisfaz:
+Apesar de sua importância histórica, os LCGs apresentam limitações:
 
-$$
-m \nmid a^{(m-1)/q} - 1, \quad \forall q \text{ primo que divide } m-1
-$$
+- O período, mesmo que longo, é finito.
 
-Esse tipo de gerador é chamado **Gerador de Módulo Primo e Período Máximo**.
+- Podem apresentar correlações indesejadas em dimensões mais altas.
 
-------------------------------------------------------------------------
+- Não são recomendados para aplicações de alta segurança (como criptografia).
 
-#### Exemplo de implementação em R {.unnumbered}
+Hoje, geradores como o Mersenne Twister substituíram o LCG em muitas linguagens (por exemplo, é o padrão no `R` e no `NumPy`). Ainda assim, o LCG é fundamental para entender os princípios da geração de números pseudoaleatórios.
 
-A seguir, implementamos um gerador multiplicativo com módulo primo $m = 2^{31} - 1$ (primo de Mersenne) e multiplicador $a = 630360016$, conhecido por apresentar boas propriedades estatísticas.
 
-```{r}
-#| label: lcg-multiplicativo-gmp
-#| message: false
-#| warning: false
-if (!requireNamespace("gmp", quietly = TRUE)) {
-  install.packages("gmp")
-}
-library(gmp)
+#### Exercícios
 
-lcg_mult_primo <- function(n, seed, a = 630360016, m = 2147483647) {
-  A <- as.bigz(a); M <- as.bigz(m)
-  x <- as.bigz(seed)
-  X <- integer(n); R <- numeric(n)
-  for (i in seq_len(n)) {
-    X[i] <- as.integer(x)    
-    R[i] <- as.numeric(x) / m    
-    x <- (A * x) %% M            
-  }
-  list(X = X, R = R)
-}
+1. Implemente um LCG (multiplicativo ou misto) em `Python` ou `R`.
 
-# Exemplo: gerar 10 valores
-g2 <- lcg_mult_primo(n = 10, seed = 12345L)
-g2$X
-g2$R
-```
+2. Gere 1000 números pseudoaleatórios e faça:
+
+- Um histograma para verificar se a distribuição se parece com a uniforme $(0, 1)$.
+
+- Um gráfico de dispersão de pares consecutivos $(u_{n}, u_{n+1})$.
+
+3. Compare o comportamento quando:
+
+- Usa os parâmetros clássicos de Park–Miller $(m = 2^{31} - 1, a = 16807, c = 0)$.
+
+- Usa parâmetros pequenos, por exemplo $m = 17, a = 5, c = 1$.
+
+Pergunta para reflexão: O que acontece com a qualidade dos números gerados quando usamos parâmetros pequenos?
+
+
+::: callout-note
+## Park–Miller hoje: ainda vale a pena?
+
+O gerador congruencial linear clássico de **Park–Miller** foi proposto em 1988, com parâmetros:
+
+
+$$m = 2^{31} - 1 \approx 2,147,483,647, \quad a = 16807, \quad c = 0.$$
+
+
+Na época, esses valores eram ideais para computadores de **32 bits**, embora a implementação precisasse de alguns cuidados para evitar **overflow**.
+
+Nos computadores modernos de **64 bits**, esse problema desaparece: o produto \(a \times x\) cabe confortavelmente nos registradores, e a implementação é direta e eficiente.
+
+**Vantagens atuais:**
+- Simples e rápido.  
+- Fácil de implementar em qualquer linguagem.  
+- Período máximo de mais de **2 bilhões** de números.  
+
+**Limitações:**
+- Hoje, esse período pode ser considerado curto para simulações muito extensas.  
+- Geradores modernos, como o **Mersenne Twister** (período \(2^{19937}-1\)) ou a família **PCG**, oferecem propriedades estatísticas superiores.
+
+📌 **Em resumo:** O Park–Miller ainda é excelente para fins didáticos e pequenas simulações, mas para aplicações científicas de grande escala recomenda-se usar geradores mais robustos.
+:::
+
 
 ## Uso de Números Aleatórios na Avaliação de Integrais 
 
