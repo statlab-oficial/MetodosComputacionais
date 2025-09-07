@@ -47,7 +47,7 @@ e assim por diante.
 
 A sequência $R_i = X_i / 24$ gerada terá período $\ell = 24$.
 
-### Implementação em R
+### Implementação em R {.unnumbered}
 
 ```{r}
 # Função LCG genérica
@@ -187,7 +187,7 @@ g2$X
 g2$R
 ```
 
-## Uso de Números Aleatórios na Avaliação de Integrais {.unnumbered}
+## Uso de Números Aleatórios na Avaliação de Integrais 
 
 Uma das primeiras aplicações do uso de números aleatórios foi na resolução de integrais. Considere uma função $g(x)$ e suponha que desejamos calcular uma integral de interesse.
 

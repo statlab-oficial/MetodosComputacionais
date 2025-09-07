@@ -251,7 +251,7 @@ window.Quarto = {
   <li><a href="#geradores-congruenciais-lineares" id="toc-geradores-congruenciais-lineares" class="nav-link" data-scroll-target="#geradores-congruenciais-lineares">Geradores Congruenciais Lineares</a>
   <ul class="collapse">
   <li><a href="#exemplo" id="toc-exemplo" class="nav-link" data-scroll-target="#exemplo">Exemplo</a></li>
-  <li><a href="#implementação-em-r" id="toc-implementação-em-r" class="nav-link" data-scroll-target="#implementação-em-r"><span class="header-section-number">3.1.1</span> Implementação em R</a></li>
+  <li><a href="#implementação-em-r" id="toc-implementação-em-r" class="nav-link" data-scroll-target="#implementação-em-r">Implementação em R</a></li>
   </ul></li>
   <li><a href="#geradores-congruenciais-lineares-mistos" id="toc-geradores-congruenciais-lineares-mistos" class="nav-link" data-scroll-target="#geradores-congruenciais-lineares-mistos">Geradores Congruenciais Lineares Mistos</a>
   <ul class="collapse">
@@ -264,7 +264,7 @@ window.Quarto = {
   <li><a href="#definição-de-raiz-primitiva" id="toc-definição-de-raiz-primitiva" class="nav-link" data-scroll-target="#definição-de-raiz-primitiva">Definição de raiz primitiva</a></li>
   <li><a href="#exemplo-de-implementação-em-r" id="toc-exemplo-de-implementação-em-r" class="nav-link" data-scroll-target="#exemplo-de-implementação-em-r">Exemplo de implementação em R</a></li>
   </ul></li>
-  <li><a href="#uso-de-números-aleatórios-na-avaliação-de-integrais" id="toc-uso-de-números-aleatórios-na-avaliação-de-integrais" class="nav-link" data-scroll-target="#uso-de-números-aleatórios-na-avaliação-de-integrais">Uso de Números Aleatórios na Avaliação de Integrais</a></li>
+  <li><a href="#uso-de-números-aleatórios-na-avaliação-de-integrais" id="toc-uso-de-números-aleatórios-na-avaliação-de-integrais" class="nav-link" data-scroll-target="#uso-de-números-aleatórios-na-avaliação-de-integrais"><span class="header-section-number">3.2</span> Uso de Números Aleatórios na Avaliação de Integrais</a></li>
   </ul>
 </nav>
     </div>
@@ -324,8 +324,8 @@ window.Quarto = {
 <p>e assim por diante.</p>
 <p>A sequência <span class="math inline">\(R_i = X_i / 24\)</span> gerada terá período <span class="math inline">\(\ell = 24\)</span>.</p>
 </section>
-<section id="implementação-em-r" class="level3" data-number="3.1.1">
-<h3 data-number="3.1.1" class="anchored" data-anchor-id="implementação-em-r"><span class="header-section-number">3.1.1</span> Implementação em R</h3>
+<section id="implementação-em-r" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="implementação-em-r">Implementação em R</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Função LCG genérica</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>lcg <span class="ot">&lt;-</span> <span class="cf">function</span>(a, c, m, seed, n) {</span>
@@ -479,8 +479,8 @@ m \nmid a^{(m-1)/q} - 1, \quad \forall q \text{ primo que divide } m-1
 </div>
 </section>
 </section>
-<section id="uso-de-números-aleatórios-na-avaliação-de-integrais" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="uso-de-números-aleatórios-na-avaliação-de-integrais">Uso de Números Aleatórios na Avaliação de Integrais</h2>
+<section id="uso-de-números-aleatórios-na-avaliação-de-integrais" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="uso-de-números-aleatórios-na-avaliação-de-integrais"><span class="header-section-number">3.2</span> Uso de Números Aleatórios na Avaliação de Integrais</h2>
 <p>Uma das primeiras aplicações do uso de números aleatórios foi na resolução de integrais. Considere uma função <span class="math inline">\(g(x)\)</span> e suponha que desejamos calcular uma integral de interesse.</p>
 <p><span class="math display">\[\theta = \int\limits_{0}^{1}g(x) dx.\]</span></p>
 <p>Para calcular o valor da integral, observe que, se <span class="math inline">\(U\)</span> é uma variável aleatória com distribuição uniforme no intervalo <span class="math inline">\((0, 1)\)</span>, , então podemos reescrever a integral da seguinte forma:</p>
