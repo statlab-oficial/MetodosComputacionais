@@ -247,16 +247,11 @@ window.Quarto = {
     <h2 id="toc-title">Índice</h2>
    
   <ul>
-  <li><a href="#geração-de-sequências-u01" id="toc-geração-de-sequências-u01" class="nav-link active" data-scroll-target="#geração-de-sequências-u01"><span class="header-section-number">3.1</span> Geração de sequências <span class="math inline">\(U(0,1)\)</span></a></li>
-  <li><a href="#geradores-congruenciais-lineares" id="toc-geradores-congruenciais-lineares" class="nav-link" data-scroll-target="#geradores-congruenciais-lineares">Geradores Congruenciais Lineares</a>
+  <li><a href="#geração-de-sequências-u01" id="toc-geração-de-sequências-u01" class="nav-link active" data-scroll-target="#geração-de-sequências-u01"><span class="header-section-number">3.1</span> Geração de sequências <span class="math inline">\(U(0,1)\)</span></a>
   <ul class="collapse">
-  <li><a href="#exemplo" id="toc-exemplo" class="nav-link" data-scroll-target="#exemplo">Exemplo</a></li>
-  <li><a href="#implementação-em-r" id="toc-implementação-em-r" class="nav-link" data-scroll-target="#implementação-em-r">Implementação em R</a></li>
-  </ul></li>
-  <li><a href="#geradores-congruenciais-lineares-mistos" id="toc-geradores-congruenciais-lineares-mistos" class="nav-link" data-scroll-target="#geradores-congruenciais-lineares-mistos">Geradores Congruenciais Lineares Mistos</a>
-  <ul class="collapse">
+  <li><a href="#geradores-congruenciais-lineares" id="toc-geradores-congruenciais-lineares" class="nav-link" data-scroll-target="#geradores-congruenciais-lineares">Geradores Congruenciais Lineares</a></li>
+  <li><a href="#geradores-congruenciais-lineares-mistos" id="toc-geradores-congruenciais-lineares-mistos" class="nav-link" data-scroll-target="#geradores-congruenciais-lineares-mistos">Geradores Congruenciais Lineares Mistos</a></li>
   <li><a href="#questão-de-estouro-e-aritmética-modular" id="toc-questão-de-estouro-e-aritmética-modular" class="nav-link" data-scroll-target="#questão-de-estouro-e-aritmética-modular">Questão de estouro e aritmética modular</a></li>
-  <li><a href="#implementação-em-r-com-segurança-de-overflow" id="toc-implementação-em-r-com-segurança-de-overflow" class="nav-link" data-scroll-target="#implementação-em-r-com-segurança-de-overflow">Implementação em R (com segurança de overflow)</a></li>
   </ul></li>
   <li><a href="#geradores-congruenciais-lineares-multiplicativos" id="toc-geradores-congruenciais-lineares-multiplicativos" class="nav-link" data-scroll-target="#geradores-congruenciais-lineares-multiplicativos">Geradores Congruenciais Lineares Multiplicativos</a>
   <ul class="collapse">
@@ -306,16 +301,15 @@ window.Quarto = {
 <li>Reprodutibilidade controlada.</li>
 </ul>
 <p>Entretanto, a escolha inadequada da recorrência pode gerar sequências com baixa qualidade estatística.</p>
-</section>
-<section id="geradores-congruenciais-lineares" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="geradores-congruenciais-lineares">Geradores Congruenciais Lineares</h2>
+<section id="geradores-congruenciais-lineares" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="geradores-congruenciais-lineares">Geradores Congruenciais Lineares</h3>
 <p>Um <strong>Gerador Congruencial Linear (LGC)</strong> produz uma sequência de inteiros não negativos <span class="math inline">\(X_i\)</span>, <span class="math inline">\(i = 1, 2, \ldots\)</span>, por meio da relação de recorrência:</p>
 <p><span class="math display">\[X_i = (a X_{i-1} + c) \bmod m, \quad i = 1, 2, \ldots,\]</span> em que <span class="math inline">\(a &gt; 0\)</span> é o multiplicador, <span class="math inline">\(X_0 \ge 0\)</span> é a <em>semente</em> (<em>seed</em>), <span class="math inline">\(c \ge 0\)</span> é o incremento e <span class="math inline">\(m &gt; 0\)</span> é o módulo.</p>
 <p>Os valores <span class="math inline">\(a, c, X_0\)</span> estão no intervalo <span class="math inline">\([0, m-1]\)</span>. O número pseudoaleatório <span class="math inline">\(R_i\)</span> é obtido por:</p>
 <p><span class="math display">\[R_i = \frac{X_i}{m}, \quad R_i \in (0,1).\]</span></p>
 <p>Se <span class="math inline">\(m\)</span> for suficientemente grande, os valores discretos <span class="math inline">\(0/m, 1/m, \ldots, (m-1)/m\)</span> são tão próximos que <span class="math inline">\(R_i\)</span> pode ser tratado como variável contínua.</p>
-<section id="exemplo" class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="exemplo">Exemplo</h3>
+<section id="exemplo" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="exemplo">Exemplo</h4>
 <p>Seja o gerador:</p>
 <p><span class="math display">\[X_i = (9 X_{i-1} + 3) \bmod 24, \quad i \geq 1.\]</span></p>
 <p>Escolhendo <span class="math inline">\(X_0 = 3\)</span>:</p>
@@ -324,8 +318,8 @@ window.Quarto = {
 <p>e assim por diante.</p>
 <p>A sequência <span class="math inline">\(R_i = X_i / 24\)</span> gerada terá período <span class="math inline">\(\ell = 24\)</span>.</p>
 </section>
-<section id="implementação-em-r" class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="implementação-em-r">Implementação em R</h3>
+<section id="implementação-em-r" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="implementação-em-r">Implementação em R</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Função LCG genérica</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>lcg <span class="ot">&lt;-</span> <span class="cf">function</span>(a, c, m, seed, n) {</span>
@@ -352,8 +346,8 @@ window.Quarto = {
 </div>
 </section>
 </section>
-<section id="geradores-congruenciais-lineares-mistos" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="geradores-congruenciais-lineares-mistos">Geradores Congruenciais Lineares Mistos</h2>
+<section id="geradores-congruenciais-lineares-mistos" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="geradores-congruenciais-lineares-mistos">Geradores Congruenciais Lineares Mistos</h3>
 <p>Nos LCGs <strong>mistos</strong> temos <span class="math inline">\(c&gt;0\)</span>. Uma escolha prática é <span class="math inline">\(m = 2^b\)</span>, onde <span class="math inline">\(b\)</span> é o número de bits utilizável para inteiros positivos na arquitetura/linguagem. Em muitos ambientes, inteiros usam 32 bits (um para o sinal), implicando <span class="math inline">\(b=31\)</span> e intervalo <span class="math inline">\([-2^{31}, 2^{31}-1]\)</span>.</p>
 <p>Quando <span class="math inline">\(m=2^b\)</span>, obtemos <strong>período completo</strong> (<span class="math inline">\(\ell=m\)</span>) se:</p>
 <ol type="1">
@@ -362,6 +356,7 @@ window.Quarto = {
 <li><span class="math inline">\(a-1\)</span> é múltiplo de todos os fatores primos de <span class="math inline">\(m\)</span> e também de 4 (como <span class="math inline">\(m\)</span> é potência de 2).</li>
 </ol>
 <p>Essa é a razão de geradores simples com <span class="math inline">\(m=2^b\)</span>, <span class="math inline">\(c\)</span> ímpar e <span class="math inline">\(a \equiv 1 \pmod 4\)</span> atingirem <span class="math inline">\(\ell=m\)</span>.</p>
+</section>
 <section id="questão-de-estouro-e-aritmética-modular" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="questão-de-estouro-e-aritmética-modular">Questão de estouro e aritmética modular</h3>
 <p>Em linguagens com inteiros limitados, calcular <span class="math inline">\(aX_{i-1}+c\)</span> pode <strong>transbordar</strong>. Soluções comuns:</p>
@@ -371,9 +366,8 @@ window.Quarto = {
 <li>trabalhar com módulo <span class="math inline">\(m=2^b\)</span> e aproveitar o “wrap” de bits.</li>
 </ul>
 <p>A seguir, implementamos LCG misto com <span class="math inline">\(m=2^{31}\)</span>, <span class="math inline">\(a=906185749\)</span>, <span class="math inline">\(c=1\)</span>. Parâmetros com boas propriedades estatísticas relatadas na literatura.</p>
-</section>
-<section id="implementação-em-r-com-segurança-de-overflow" class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="implementação-em-r-com-segurança-de-overflow">Implementação em R (com segurança de overflow)</h3>
+<section id="implementação-em-r-com-segurança-de-overflow" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="implementação-em-r-com-segurança-de-overflow">Implementação em R (com segurança de overflow)</h4>
 <p>Para garantir a correção do módulo com inteiros grandes, usaremos <code>bit64</code> (inteiros de 64 bits) e normalizaremos para <span class="math inline">\((0,1)\)</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#if (!requireNamespace("bit64", quietly = TRUE)) {</span></span>
@@ -413,6 +407,7 @@ window.Quarto = {
 <pre><code>[1] 1.609325e-06 3.477511e-01 2.143113e-01 7.410933e-01 4.770359e-01</code></pre>
 </div>
 </div>
+</section>
 </section>
 </section>
 <section id="geradores-congruenciais-lineares-multiplicativos" class="level2 unnumbered">

@@ -19,7 +19,9 @@ Assim, a abordagem preferida é **gerar números pseudoaleatórios em tempo de e
 
 Entretanto, a escolha inadequada da recorrência pode gerar sequências com baixa qualidade estatística.
 
-## Geradores Congruenciais Lineares {.unnumbered}
+
+
+### Geradores Congruenciais Lineares {.unnumbered}
 
 Um **Gerador Congruencial Linear (LGC)** produz uma sequência de inteiros não negativos $X_i$, $i = 1, 2, \ldots$, por meio da relação de recorrência:
 
@@ -31,7 +33,7 @@ $$R_i = \frac{X_i}{m}, \quad R_i \in (0,1).$$
 
 Se $m$ for suficientemente grande, os valores discretos $0/m, 1/m, \ldots, (m-1)/m$ são tão próximos que $R_i$ pode ser tratado como variável contínua.
 
-### Exemplo {.unnumbered}
+#### Exemplo {.unnumbered}
 
 Seja o gerador:
 
@@ -47,7 +49,7 @@ e assim por diante.
 
 A sequência $R_i = X_i / 24$ gerada terá período $\ell = 24$.
 
-### Implementação em R {.unnumbered}
+#### Implementação em R {.unnumbered}
 
 ```{r}
 # Função LCG genérica
@@ -67,7 +69,7 @@ resultado$X
 resultado$R
 ```
 
-## Geradores Congruenciais Lineares Mistos {.unnumbered}
+### Geradores Congruenciais Lineares Mistos {.unnumbered}
 
 Nos LCGs **mistos** temos $c>0$. Uma escolha prática é $m = 2^b$, onde $b$ é o número de bits utilizável para inteiros positivos na arquitetura/linguagem. Em muitos ambientes, inteiros usam 32 bits (um para o sinal), implicando $b=31$ e intervalo $[-2^{31}, 2^{31}-1]$.
 
@@ -88,7 +90,7 @@ Em linguagens com inteiros limitados, calcular $aX_{i-1}+c$ pode **transbordar**
 
 A seguir, implementamos LCG misto com $m=2^{31}$, $a=906185749$, $c=1$. Parâmetros com boas propriedades estatísticas relatadas na literatura.
 
-### Implementação em R (com segurança de overflow) {.unnumbered}
+#### Implementação em R (com segurança de overflow) {.unnumbered}
 
 Para garantir a correção do módulo com inteiros grandes, usaremos `bit64` (inteiros de 64 bits) e normalizaremos para $(0,1)$.
 
