@@ -42,7 +42,7 @@ $$u_n = \frac{x_n}{m}, \quad \text{com } u_n \in (0, 1).$$
 - **Misto:** $c \neq 0$. 
 :::
 
-### Por que o LCG funciona? {.unnumbered}
+### Por que o CGL funciona? {.unnumbered}
 
 1. **Simplicidade:** apenas uma multiplicação, uma soma e uma operação de módulo.  
 2. **Velocidade:** pode ser implementado de forma extremamente eficiente.  
@@ -52,7 +52,7 @@ $$u_n = \frac{x_n}{m}, \quad \text{com } u_n \in (0, 1).$$
 ### Critérios para bons parâmetros {.unnumbered}
 
 - O módulo $m$ deve ser **grande**, de preferência próximo da capacidade da máquina.  
-- Para LCG multiplicativo, se $m$ for primo, existe a possibilidade de alcançar período máximo $m-1$.  
+- Para GCL multiplicativo, se $m$ for primo, existe a possibilidade de alcançar período máximo $m-1$.  
 - Valores históricos:  
   - **Park–Miller (1988):** $m = 2^{31} - 1$, $a = 16807$, $c = 0$.  
   - **Numerical Recipes (1992):** $m = 2^{32}$, $a = 1664525$, $c = 1013904223$.  
@@ -66,7 +66,7 @@ $$u_n = \frac{x_n}{m}, \quad \text{com } u_n \in (0, 1).$$
 # Gerador Congruencial Linear em Python
 
 def lcg(seed, a, c, m, n=10):
-    """Gera n números pseudoaleatórios normalizados em (0,1)."""
+    "Gera n números pseudoaleatórios normalizados em (0,1)."
     x = seed
     seq = []
     for _ in range(n):
@@ -251,3 +251,28 @@ em que $U_1, U_2, \dots, U_n$ são variáveis aleatória independentes uniformen
 $$g(U_{i1}, U_{i2}, \dots, U_{in}), \quad i = 1, 2, \dots, k,$$ serão independentes e identicamente distribuídas, todas com esperança igual a $\theta$ (o valor da integral). Portanto, podemos aproximar $\theta$ por meio da média amostral:
 
 $$\theta \approx \frac{1}{k}\sum\limits_{i=1}^{k}g(U_{i1}, U_{i2}, \dots, U_{in}).$$
+
+
+#### Exercícios {.unnumbered}
+
+1. Se $x_0$ e $x_n = 3x_{n-1}\, \text{mod}\, 150$, encontre $x_1, x_2, \dots, x_{30}$.
+
+2. Se $x_3$ e $x_n = (5x_{n-1} + 7)\, \text{mod}\, 200$, encontre $x_1, x_2, \dots, x_{10}$.
+
+3. Compare sua estimatia com o valor exato:
+
+  - $\int_{0}^{1} \exp\{{e^x}\} dx$.
+  
+  - $\int_{0}^{1} (1 - x^2)^{3/2} dx$.
+  
+  - $\int_{-2}^{2} \exp\{x + x^2\} dx$.
+  
+  - $\int_{0}^{\infty} x(1 + x^2)^{-2} dx$.
+  
+  - $\int_{-\infty}^{\infty} \exp\{-x^2\} dx$.
+  
+  - $\int_{0}^{1}\int_{0}^{1} \exp\{(x+y)^2\} dy dx$.
+  
+  - $\int_{0}^{\infty}\int_{0}^{x} \exp\{x+y\} dydx$.
+  
+4. Use simulação para encontrar o valor aproximado de $Cov(U, e^U)$, em que $U$ é uniforme em $(0,1)$. Compare seu resultado com o valor exato.

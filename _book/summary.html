@@ -250,7 +250,7 @@ window.Quarto = {
   <li><a href="#geração-de-sequências-u01" id="toc-geração-de-sequências-u01" class="nav-link active" data-scroll-target="#geração-de-sequências-u01"><span class="header-section-number">3.1</span> Geração de sequências <span class="math inline">\(U(0,1)\)</span></a>
   <ul class="collapse">
   <li><a href="#gerador-congruencial-linear" id="toc-gerador-congruencial-linear" class="nav-link" data-scroll-target="#gerador-congruencial-linear">Gerador Congruencial Linear</a></li>
-  <li><a href="#por-que-o-lcg-funciona" id="toc-por-que-o-lcg-funciona" class="nav-link" data-scroll-target="#por-que-o-lcg-funciona">Por que o LCG funciona?</a></li>
+  <li><a href="#por-que-o-cgl-funciona" id="toc-por-que-o-cgl-funciona" class="nav-link" data-scroll-target="#por-que-o-cgl-funciona">Por que o CGL funciona?</a></li>
   <li><a href="#critérios-para-bons-parâmetros" id="toc-critérios-para-bons-parâmetros" class="nav-link" data-scroll-target="#critérios-para-bons-parâmetros">Critérios para bons parâmetros</a></li>
   <li><a href="#visualização" id="toc-visualização" class="nav-link" data-scroll-target="#visualização">Visualização</a></li>
   <li><a href="#limitações" id="toc-limitações" class="nav-link" data-scroll-target="#limitações">Limitações</a></li>
@@ -323,8 +323,8 @@ Tipos
 </div>
 </div>
 </section>
-<section id="por-que-o-lcg-funciona" class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="por-que-o-lcg-funciona">Por que o LCG funciona?</h3>
+<section id="por-que-o-cgl-funciona" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="por-que-o-cgl-funciona">Por que o CGL funciona?</h3>
 <ol type="1">
 <li><strong>Simplicidade:</strong> apenas uma multiplicação, uma soma e uma operação de módulo.<br>
 </li>
@@ -338,7 +338,7 @@ Tipos
 <ul>
 <li>O módulo <span class="math inline">\(m\)</span> deve ser <strong>grande</strong>, de preferência próximo da capacidade da máquina.<br>
 </li>
-<li>Para LCG multiplicativo, se <span class="math inline">\(m\)</span> for primo, existe a possibilidade de alcançar período máximo <span class="math inline">\(m-1\)</span>.<br>
+<li>Para GCL multiplicativo, se <span class="math inline">\(m\)</span> for primo, existe a possibilidade de alcançar período máximo <span class="math inline">\(m-1\)</span>.<br>
 </li>
 <li>Valores históricos:
 <ul>
@@ -353,7 +353,7 @@ Tipos
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gerador Congruencial Linear em Python</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> lcg(seed, a, c, m, n<span class="op">=</span><span class="dv">10</span>):</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Gera n números pseudoaleatórios normalizados em (0,1)."""</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"Gera n números pseudoaleatórios normalizados em (0,1)."</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> seed</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    seq <span class="op">=</span> []</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n):</span>
@@ -501,8 +501,28 @@ Park–Miller hoje: ainda vale a pena?
 <p>em que <span class="math inline">\(U_1, U_2, \dots, U_n\)</span> são variáveis aleatória independentes uniformente distribuídas no intervalo <span class="math inline">\((0, 1)\)</span>. Assim, se gerarmos <span class="math inline">\(k\)</span> conjuntos independentes, cada um formado por <span class="math inline">\(n\)</span> variáveis aleatórias independentes com distribuição uniforme em <span class="math inline">\((0, 1)\)</span>, então as variáveis</p>
 <p><span class="math display">\[g(U_{i1}, U_{i2}, \dots, U_{in}), \quad i = 1, 2, \dots, k,\]</span> serão independentes e identicamente distribuídas, todas com esperança igual a <span class="math inline">\(\theta\)</span> (o valor da integral). Portanto, podemos aproximar <span class="math inline">\(\theta\)</span> por meio da média amostral:</p>
 <p><span class="math display">\[\theta \approx \frac{1}{k}\sum\limits_{i=1}^{k}g(U_{i1}, U_{i2}, \dots, U_{in}).\]</span></p>
+<section id="exercícios-1" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="exercícios-1">Exercícios</h4>
+<ol type="1">
+<li><p>Se <span class="math inline">\(x_0\)</span> e <span class="math inline">\(x_n = 3x_{n-1}\, \text{mod}\, 150\)</span>, encontre <span class="math inline">\(x_1, x_2, \dots, x_{30}\)</span>.</p></li>
+<li><p>Se <span class="math inline">\(x_3\)</span> e <span class="math inline">\(x_n = (5x_{n-1} + 7)\, \text{mod}\, 200\)</span>, encontre <span class="math inline">\(x_1, x_2, \dots, x_{10}\)</span>.</p></li>
+<li><p>Compare sua estimatia com o valor exato:</p></li>
+</ol>
+<ul>
+<li><p><span class="math inline">\(\int_{0}^{1} \exp\{{e^x}\} dx\)</span>.</p></li>
+<li><p><span class="math inline">\(\int_{0}^{1} (1 - x^2)^{3/2} dx\)</span>.</p></li>
+<li><p><span class="math inline">\(\int_{-2}^{2} \exp\{x + x^2\} dx\)</span>.</p></li>
+<li><p><span class="math inline">\(\int_{0}^{\infty} x(1 + x^2)^{-2} dx\)</span>.</p></li>
+<li><p><span class="math inline">\(\int_{-\infty}^{\infty} \exp\{-x^2\} dx\)</span>.</p></li>
+<li><p><span class="math inline">\(\int_{0}^{1}\int_{0}^{1} \exp\{(x+y)^2\} dy dx\)</span>.</p></li>
+<li><p><span class="math inline">\(\int_{0}^{\infty}\int_{0}^{x} \exp\{x+y\} dydx\)</span>.</p></li>
+</ul>
+<ol start="4" type="1">
+<li>Use simulação para encontrar o valor aproximado de <span class="math inline">\(Cov(U, e^U)\)</span>, em que <span class="math inline">\(U\)</span> é uniforme em <span class="math inline">\((0,1)\)</span>. Compare seu resultado com o valor exato.</li>
+</ol>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
