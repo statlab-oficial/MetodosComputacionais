@@ -255,7 +255,6 @@ window.Quarto = {
   <li><a href="#geradores-congruenciais-lineares-multiplicativos" id="toc-geradores-congruenciais-lineares-multiplicativos" class="nav-link" data-scroll-target="#geradores-congruenciais-lineares-multiplicativos">Geradores Congruenciais Lineares Multiplicativos</a></li>
   <li><a href="#características-e-restrições" id="toc-características-e-restrições" class="nav-link" data-scroll-target="#características-e-restrições">Características e restrições</a></li>
   <li><a href="#definição-de-raiz-primitiva" id="toc-definição-de-raiz-primitiva" class="nav-link" data-scroll-target="#definição-de-raiz-primitiva">Definição de raiz primitiva</a></li>
-  <li><a href="#exemplo-de-implementação-em-r" id="toc-exemplo-de-implementação-em-r" class="nav-link" data-scroll-target="#exemplo-de-implementação-em-r">Exemplo de implementação em R</a></li>
   </ul></li>
   <li><a href="#uso-de-números-aleatórios-na-avaliação-de-integrais" id="toc-uso-de-números-aleatórios-na-avaliação-de-integrais" class="nav-link" data-scroll-target="#uso-de-números-aleatórios-na-avaliação-de-integrais"><span class="header-section-number">3.2</span> Uso de Números Aleatórios na Avaliação de Integrais</a></li>
   </ul>
@@ -435,9 +434,8 @@ m \nmid a^{(m-1)/q} - 1, \quad \forall q \text{ primo que divide } m-1
 \]</span></p>
 <p>Esse tipo de gerador é chamado <strong>Gerador de Módulo Primo e Período Máximo</strong>.</p>
 <hr>
-</section>
-<section id="exemplo-de-implementação-em-r" class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="exemplo-de-implementação-em-r">Exemplo de implementação em R</h3>
+<section id="exemplo-de-implementação-em-r" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="exemplo-de-implementação-em-r">Exemplo de implementação em R</h4>
 <p>A seguir, implementamos um gerador multiplicativo com módulo primo <span class="math inline">\(m = 2^{31} - 1\)</span> (primo de Mersenne) e multiplicador <span class="math inline">\(a = 630360016\)</span>, conhecido por apresentar boas propriedades estatísticas.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"gmp"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
@@ -470,6 +468,7 @@ m \nmid a^{(m-1)/q} - 1, \quad \forall q \text{ primo que divide } m-1
  [6] 3.354610e-01 6.532264e-02 2.784009e-01 2.931069e-01 3.538292e-01</code></pre>
 </div>
 </div>
+</section>
 </section>
 </section>
 <section id="uso-de-números-aleatórios-na-avaliação-de-integrais" class="level2" data-number="3.2">
