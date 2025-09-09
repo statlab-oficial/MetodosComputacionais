@@ -19,7 +19,7 @@ Logo, a probabilidade de pelo menos uma coincidência é
 
 $$p_r = 1 - \Pr(\text{todos distintos}).$$
 
-Esse produto é conceitualmente claro, mas fica pouco manejável mentalmente para $k$ moderados. É aqui que a **simulação computacional** pode entrar como aliada didática e científica.
+Esse produto é conceitualmente claro, mas fica pouco manejável mentalmente para $r$ moderados. É aqui que a **simulação computacional** pode entrar como aliada didática e científica.
 
 ## Um atalho analítico útil {.unnumbered}
 
@@ -73,25 +73,25 @@ A simulação estatística permite reproduzir o experimento de forma empírica: 
 Por exemplo, em **R**:
 
 ```{r}
-k <- 23
-birthdays <- sample(1:365, k, replace = TRUE)
+r <- 23
+birthdays <- sample(1:365, r, replace = TRUE)
 any(duplicated(birthdays))
 ```
 
-Ao repetir esse procedimento muitas vezes (por exemplo, 10.000 simulações), podemos estimar a proporção de conjuntos com coincidência. Pela Lei dos Grandes Números, essa estimativa converge para o valor teórico de aproximadamente 0,507 quando $k=23$.
+Ao repetir esse procedimento muitas vezes (por exemplo, 10.000 simulações), podemos estimar a proporção de conjuntos com coincidência. Pela Lei dos Grandes Números, essa estimativa converge para o valor teórico de aproximadamente 0,507 quando $r=23$.
 
 ```{r}
 set.seed(123) #reprodutibilidade
 
-k <- 23
+r <- 23
 B <- 10000
 
-acertos <- 0L
-i <- 0L
+acertos <- 0
+i <- 0
 
 repeat {
-  i <- i + 1L
-  bdays <- sample(1:365, k, replace = TRUE)
+  i <- i + 1
+  bdays <- sample(1:365, r, replace = TRUE)
   acertos <- acertos + as.integer(any(duplicated(bdays)))
   if (i >= B) break
 }
