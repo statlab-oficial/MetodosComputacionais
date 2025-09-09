@@ -14,13 +14,13 @@ book:
     - index.qmd
     - introducao.qmd
     - intro.qmd
-    - summary.qmd
-    - pseudo.qmd
-    - otimizaca.qmd
-    - boot.qmd
-    - mc.qmd
-    - em.qmd
-    - metodosadicionais.qmd
+    #- summary.qmd
+    #- pseudo.qmd
+    #- otimizaca.qmd
+    #- boot.qmd
+    #- mc.qmd
+    #- em.qmd
+    #- metodosadicionais.qmd
     - references.qmd
 
 bibliography: BOOK.bib
