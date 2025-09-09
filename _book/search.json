@@ -44,7 +44,7 @@
     "href": "intro.html#o-papel-da-simulação",
     "title": "2  Motivação",
     "section": "O papel da simulação",
-    "text": "O papel da simulação\nA simulação estatística permite reproduzir o experimento de forma empírica: sorteamos aleatoriamente dias de aniversário para os indivíduos e verificamos se há repetições. Repetindo o processo milhares de vezes, obtemos uma estimativa para a probabilidade de coincidência.\nPor exemplo, em R:\n\nk &lt;- 23\nbirthdays &lt;- sample(1:365, k, replace = TRUE)\nany(duplicated(birthdays))\n\n[1] TRUE\n\n\nAo repetir esse procedimento muitas vezes (por exemplo, 10.000 simulações), podemos estimar a proporção de conjuntos com coincidência. Pela Lei dos Grandes Números, essa estimativa converge para o valor teórico de aproximadamente 0,507 quando \\(k=23\\).\n\nset.seed(123) #reprodutibilidade\n\nk &lt;- 23\nB &lt;- 10000\n\nacertos &lt;- 0L\ni &lt;- 0L\n\nrepeat {\n  i &lt;- i + 1L\n  bdays &lt;- sample(1:365, k, replace = TRUE)\n  acertos &lt;- acertos + as.integer(any(duplicated(bdays)))\n  if (i &gt;= B) break\n}\n\np_hat &lt;- acertos / B\np_hat\n\n[1] 0.5073",
+    "text": "O papel da simulação\nA simulação estatística permite reproduzir o experimento de forma empírica: sorteamos aleatoriamente dias de aniversário para os indivíduos e verificamos se há repetições. Repetindo o processo milhares de vezes, obtemos uma estimativa para a probabilidade de coincidência.\nPor exemplo, em R:\n\nk &lt;- 23\nbirthdays &lt;- sample(1:365, k, replace = TRUE)\nany(duplicated(birthdays))\n\n[1] FALSE\n\n\nAo repetir esse procedimento muitas vezes (por exemplo, 10.000 simulações), podemos estimar a proporção de conjuntos com coincidência. Pela Lei dos Grandes Números, essa estimativa converge para o valor teórico de aproximadamente 0,507 quando \\(k=23\\).\n\nset.seed(123) #reprodutibilidade\n\nk &lt;- 23\nB &lt;- 10000\n\nacertos &lt;- 0L\ni &lt;- 0L\n\nrepeat {\n  i &lt;- i + 1L\n  bdays &lt;- sample(1:365, k, replace = TRUE)\n  acertos &lt;- acertos + as.integer(any(duplicated(bdays)))\n  if (i &gt;= B) break\n}\n\np_hat &lt;- acertos / B\np_hat\n\n[1] 0.5073",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Motivação</span>"
     ]
@@ -72,11 +72,11 @@
   {
     "objectID": "references.html",
     "href": "references.html",
-    "title": "References",
+    "title": "Referências",
     "section": "",
     "text": "Falk, Ruma. 2014. “A Closer Look at the Notorious Birthday\nCoincidences.” Teaching Statistics 36 (2): 41–46. https://doi.org/10.1111/test.12014.\n\n\nHodgson, Ted, and Maurice Burke. 2000. “On Simulation and the\nTeaching of Statistics.” Teaching Statistics 22 (3):\n91–96. https://doi.org/10.1111/1467-9639.00033.\n\n\nMartins, Rui Manuel Da Costa. 2018. “Learning the Principles of\nSimulation Using the Birthday Problem.” Teaching\nStatistics 40 (3): 108–11. https://doi.org/10.1111/test.12164.\n\n\nMatthews, Robert, and Fiona Stones. 1998. “Coincidences: The Truth\nIs Out There.” Teaching Statistics 20 (1): 17–19.\nhttps://doi.org/https://doi.org/10.1111/j.1467-9639.1998.tb00752.x.\n\n\nThomas, F. H., and J. L. Moore. 1980. “CUSUM:\nComputer Simulation for Statistics Teaching.” Teaching\nStatistics 2 (1): 23–28. https://doi.org/10.1111/j.1467-9639.1980.tb00374.x.\n\n\nTintle, Nathan, Beth Chance, George Cobb, Soma Roy, Todd Swanson, and\nJill VanderStoep. 2015. “Combating Anti-Statistical Thinking Using\nSimulation-Based Methods Throughout the Undergraduate\nCurriculum.” The American Statistician 69 (4): 362–70.\nhttps://doi.org/10.1080/00031305.2015.1081619.\n\n\nZieffler, Andrew, and Joan B. Garfield. 2007. “Studying the Role\nof Simulation in Developing Students’ Statistical Reasoning.” In\nProceedings of the 56th Session of the International Statistical\nInstitute (ISI). International Statistical Institute.",
     "crumbs": [
-      "References"
+      "Referências"
     ]
   }
 ]
