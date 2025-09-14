@@ -1,0 +1,52 @@
+# Uma pequena introdução ao R
+
+
+## Introdução {.unnumbered}
+
+O `R` é peça-chave em inúmeros trabalhos de pesquisa e análise de dados porque reúne, de forma prática, um conjunto amplo de técnicas estatísticas atuais, das mais básicas às mais sofisticadas, e facilita seu uso no dia a dia. Quem começa no `R`, porém, muitas vezes também está dando os primeiros passos em programação. Assim, além de aprender as ferramentas do `R` para seus objetivos, é preciso desenvolver a “cabeça” de programador. Essa fase inicial ajuda a explicar a fama de que o `R` é “difícil”. Mesmo assim, com prática e uma boa orientação, ele se revela bem mais acessível do que parece.
+
+## Instalação {.unnumbered}
+
+Este guia mostra como **baixar e instalar o `R` a partir do CRAN** (Comprehensive R Archive Network), com orientações específicas para **Windows**, **macOS** e **Linux**. Ao final, você testará a instalação e configurará um **espelho (mirror) brasileiro** para baixar pacotes mais rápido.
+
+::: callout-note
+**O que é o CRAN?**  
+É a rede oficial de servidores que distribui o `R` e seus pacotes. Você pode usar o endereço inteligente [https://cloud.r-project.org](https://cloud.r-project.org) ou definir um espelho no Brasil (ex.: C3SL/UFPR).
+:::
+
+
+Você pode simplesmente usar:
+
+- **Cloud CRAN (recomendado):** [https://cloud.r-project.org](https://cloud.r-project.org) (redireciona para um espelho próximo).
+
+- **Brasil (ex.: UFPR/C3SL):** [https://cran-r.c3sl.ufpr.br](https://cran-r.c3sl.ufpr.br)
+
+Mais adiante, mostraremos como fixar o mirror no `R` permanentemente.
+
+### Windows {.unnumbered}
+
+1. Acesse a página **Download `R` for Windows** → **base** e baixe o instalador.
+
+2. Execute o instalador e avance com as opções padrão (recomendado para iniciantes).
+
+3. (Opcional) Se pretende **compilar pacotes a partir do código-fonte**, instale o **Rtools** compatível com a sua versão do `R`.
+
+::: callout-tip
+**Rtools:** após instalar, reinicie o R/RStudio. Em geral, o Rtools adiciona as ferramentas ao *PATH* automaticamente.
+:::
+
+## Instalando Pacotes {.unnumbered}
+
+## Objetos {.unnumbered}
+
+## Estrutura Lógicas {.unnumbered}
+
+## Estruturas de Controle {.unnumbered}
+
+## Funções {.unnumbered}
+
+## Distribuições de Probabilidade {.unnumbered}
+
+
+
+

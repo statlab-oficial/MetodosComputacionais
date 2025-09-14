@@ -8,7 +8,7 @@
 
 <meta name="description" content="Laboratório de Inovação em Estatística - StatLab">
 
-<title>Métodos Computacionais - Referências</title>
+<title>Métodos Computacionais - 2&nbsp; Uma pequena introdução ao R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,26 +21,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -50,7 +31,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./intro.html" rel="prev">
+<link href="./intro.html" rel="next">
+<link href="./introducao.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -101,7 +83,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./references.html">Referências</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./revisaoR.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Uma pequena introdução ao R</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -140,7 +122,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./revisaoR.html" class="sidebar-item-text sidebar-link">
+  <a href="./revisaoR.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Uma pequena introdução ao R</span></span></a>
   </div>
 </li>
@@ -152,7 +134,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link active">
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Referências</span></a>
   </div>
 </li>
@@ -162,14 +144,30 @@ div.csl-indent {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Índice</h2>
+   
+  <ul>
+  <li><a href="#introdução" id="toc-introdução" class="nav-link active" data-scroll-target="#introdução">Introdução</a></li>
+  <li><a href="#instalação" id="toc-instalação" class="nav-link" data-scroll-target="#instalação">Instalação</a>
+  <ul class="collapse">
+  <li><a href="#windows" id="toc-windows" class="nav-link" data-scroll-target="#windows">Windows</a></li>
+  </ul></li>
+  <li><a href="#instalando-pacotes" id="toc-instalando-pacotes" class="nav-link" data-scroll-target="#instalando-pacotes">Instalando Pacotes</a></li>
+  <li><a href="#objetos" id="toc-objetos" class="nav-link" data-scroll-target="#objetos">Objetos</a></li>
+  <li><a href="#estrutura-lógicas" id="toc-estrutura-lógicas" class="nav-link" data-scroll-target="#estrutura-lógicas">Estrutura Lógicas</a></li>
+  <li><a href="#estruturas-de-controle" id="toc-estruturas-de-controle" class="nav-link" data-scroll-target="#estruturas-de-controle">Estruturas de Controle</a></li>
+  <li><a href="#funções" id="toc-funções" class="nav-link" data-scroll-target="#funções">Funções</a></li>
+  <li><a href="#distribuições-de-probabilidade" id="toc-distribuições-de-probabilidade" class="nav-link" data-scroll-target="#distribuições-de-probabilidade">Distribuições de Probabilidade</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Referências</h1>
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Uma pequena introdução ao R</span></h1>
 </div>
 
 
@@ -186,47 +184,75 @@ div.csl-indent {
 </header>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
-<div id="ref-falk_closer_2014" class="csl-entry" role="listitem">
-Falk, Ruma. 2014. <span>“A Closer Look at the Notorious Birthday
-Coincidences.”</span> <em>Teaching Statistics</em> 36 (2): 41–46. <a href="https://doi.org/10.1111/test.12014">https://doi.org/10.1111/test.12014</a>.
+<section id="introdução" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="introdução">Introdução</h2>
+<p>O <code>R</code> é peça-chave em inúmeros trabalhos de pesquisa e análise de dados porque reúne, de forma prática, um conjunto amplo de técnicas estatísticas atuais, das mais básicas às mais sofisticadas, e facilita seu uso no dia a dia. Quem começa no <code>R</code>, porém, muitas vezes também está dando os primeiros passos em programação. Assim, além de aprender as ferramentas do <code>R</code> para seus objetivos, é preciso desenvolver a “cabeça” de programador. Essa fase inicial ajuda a explicar a fama de que o <code>R</code> é “difícil”. Mesmo assim, com prática e uma boa orientação, ele se revela bem mais acessível do que parece.</p>
+</section>
+<section id="instalação" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="instalação">Instalação</h2>
+<p>Este guia mostra como <strong>baixar e instalar o <code>R</code> a partir do CRAN</strong> (Comprehensive R Archive Network), com orientações específicas para <strong>Windows</strong>, <strong>macOS</strong> e <strong>Linux</strong>. Ao final, você testará a instalação e configurará um <strong>espelho (mirror) brasileiro</strong> para baixar pacotes mais rápido.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<div id="ref-hodgson_simulation_2000" class="csl-entry" role="listitem">
-Hodgson, Ted, and Maurice Burke. 2000. <span>“On Simulation and the
-Teaching of Statistics.”</span> <em>Teaching Statistics</em> 22 (3):
-91–96. <a href="https://doi.org/10.1111/1467-9639.00033">https://doi.org/10.1111/1467-9639.00033</a>.
-</div>
-<div id="ref-martins_learning_2018" class="csl-entry" role="listitem">
-Martins, Rui Manuel Da Costa. 2018. <span>“Learning the Principles of
-Simulation Using the Birthday Problem.”</span> <em>Teaching
-Statistics</em> 40 (3): 108–11. <a href="https://doi.org/10.1111/test.12164">https://doi.org/10.1111/test.12164</a>.
-</div>
-<div id="ref-matthews_coincidences_1998" class="csl-entry" role="listitem">
-Matthews, Robert, and Fiona Stones. 1998. <span>“Coincidences: The Truth
-Is Out There.”</span> <em>Teaching Statistics</em> 20 (1): 17–19.
-https://doi.org/<a href="https://doi.org/10.1111/j.1467-9639.1998.tb00752.x">https://doi.org/10.1111/j.1467-9639.1998.tb00752.x</a>.
-</div>
-<div id="ref-thomas_cusum_1980" class="csl-entry" role="listitem">
-Thomas, F. H., and J. L. Moore. 1980. <span>“<span>CUSUM</span>:
-Computer Simulation for Statistics Teaching.”</span> <em>Teaching
-Statistics</em> 2 (1): 23–28. <a href="https://doi.org/10.1111/j.1467-9639.1980.tb00374.x">https://doi.org/10.1111/j.1467-9639.1980.tb00374.x</a>.
-</div>
-<div id="ref-tintle_combating_2015" class="csl-entry" role="listitem">
-Tintle, Nathan, Beth Chance, George Cobb, Soma Roy, Todd Swanson, and
-Jill VanderStoep. 2015. <span>“Combating Anti-Statistical Thinking Using
-Simulation-Based Methods Throughout the Undergraduate
-Curriculum.”</span> <em>The American Statistician</em> 69 (4): 362–70.
-<a href="https://doi.org/10.1080/00031305.2015.1081619">https://doi.org/10.1080/00031305.2015.1081619</a>.
-</div>
-<div id="ref-ZiefflerGarfield2007" class="csl-entry" role="listitem">
-Zieffler, Andrew, and Joan B. Garfield. 2007. <span>“Studying the Role
-of Simulation in Developing Students’ Statistical Reasoning.”</span> In
-<em>Proceedings of the 56th Session of the International Statistical
-Institute (ISI)</em>. International Statistical Institute.
+<div class="callout-title-container flex-fill">
+Nota
 </div>
 </div>
+<div class="callout-body-container callout-body">
+<p><strong>O que é o CRAN?</strong><br>
+É a rede oficial de servidores que distribui o <code>R</code> e seus pacotes. Você pode usar o endereço inteligente <a href="https://cloud.r-project.org">https://cloud.r-project.org</a> ou definir um espelho no Brasil (ex.: C3SL/UFPR).</p>
+</div>
+</div>
+<p>Você pode simplesmente usar:</p>
+<ul>
+<li><p><strong>Cloud CRAN (recomendado):</strong> <a href="https://cloud.r-project.org">https://cloud.r-project.org</a> (redireciona para um espelho próximo).</p></li>
+<li><p><strong>Brasil (ex.: UFPR/C3SL):</strong> <a href="https://cran-r.c3sl.ufpr.br">https://cran-r.c3sl.ufpr.br</a></p></li>
+</ul>
+<p>Mais adiante, mostraremos como fixar o mirror no <code>R</code> permanentemente.</p>
+<section id="windows" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="windows">Windows</h3>
+<ol type="1">
+<li><p>Acesse a página <strong>Download <code>R</code> for Windows</strong> → <strong>base</strong> e baixe o instalador.</p></li>
+<li><p>Execute o instalador e avance com as opções padrão (recomendado para iniciantes).</p></li>
+<li><p>(Opcional) Se pretende <strong>compilar pacotes a partir do código-fonte</strong>, instale o <strong>Rtools</strong> compatível com a sua versão do <code>R</code>.</p></li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Dica
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Rtools:</strong> após instalar, reinicie o R/RStudio. Em geral, o Rtools adiciona as ferramentas ao <em>PATH</em> automaticamente.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="instalando-pacotes" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="instalando-pacotes">Instalando Pacotes</h2>
+</section>
+<section id="objetos" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="objetos">Objetos</h2>
+</section>
+<section id="estrutura-lógicas" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="estrutura-lógicas">Estrutura Lógicas</h2>
+</section>
+<section id="estruturas-de-controle" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="estruturas-de-controle">Estruturas de Controle</h2>
+</section>
+<section id="funções" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="funções">Funções</h2>
+</section>
+<section id="distribuições-de-probabilidade" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="distribuições-de-probabilidade">Distribuições de Probabilidade</h2>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -640,11 +666,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./intro.html" class="pagination-link" aria-label="Motivação">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Motivação</span></span>
+      <a href="./introducao.html" class="pagination-link" aria-label="Introdução">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./intro.html" class="pagination-link" aria-label="Motivação">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Motivação</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

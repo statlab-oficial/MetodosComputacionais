@@ -20,53 +20,133 @@
     ]
   },
   {
+    "objectID": "revisaoR.html",
+    "href": "revisaoR.html",
+    "title": "2  Uma pequena introdução ao R",
+    "section": "",
+    "text": "Introdução\nO R é peça-chave em inúmeros trabalhos de pesquisa e análise de dados porque reúne, de forma prática, um conjunto amplo de técnicas estatísticas atuais, das mais básicas às mais sofisticadas, e facilita seu uso no dia a dia. Quem começa no R, porém, muitas vezes também está dando os primeiros passos em programação. Assim, além de aprender as ferramentas do R para seus objetivos, é preciso desenvolver a “cabeça” de programador. Essa fase inicial ajuda a explicar a fama de que o R é “difícil”. Mesmo assim, com prática e uma boa orientação, ele se revela bem mais acessível do que parece.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Uma pequena introdução ao R</span>"
+    ]
+  },
+  {
+    "objectID": "revisaoR.html#instalação",
+    "href": "revisaoR.html#instalação",
+    "title": "2  Uma pequena introdução ao R",
+    "section": "Instalação",
+    "text": "Instalação\nEste guia mostra como baixar e instalar o R a partir do CRAN (Comprehensive R Archive Network), com orientações específicas para Windows, macOS e Linux. Ao final, você testará a instalação e configurará um espelho (mirror) brasileiro para baixar pacotes mais rápido.\n\n\n\n\n\n\nNota\n\n\n\nO que é o CRAN?\nÉ a rede oficial de servidores que distribui o R e seus pacotes. Você pode usar o endereço inteligente https://cloud.r-project.org ou definir um espelho no Brasil (ex.: C3SL/UFPR).\n\n\nVocê pode simplesmente usar:\n\nCloud CRAN (recomendado): https://cloud.r-project.org (redireciona para um espelho próximo).\nBrasil (ex.: UFPR/C3SL): https://cran-r.c3sl.ufpr.br\n\nMais adiante, mostraremos como fixar o mirror no R permanentemente.\n\nWindows\n\nAcesse a página Download R for Windows → base e baixe o instalador.\nExecute o instalador e avance com as opções padrão (recomendado para iniciantes).\n(Opcional) Se pretende compilar pacotes a partir do código-fonte, instale o Rtools compatível com a sua versão do R.\n\n\n\n\n\n\n\nDica\n\n\n\nRtools: após instalar, reinicie o R/RStudio. Em geral, o Rtools adiciona as ferramentas ao PATH automaticamente.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Uma pequena introdução ao R</span>"
+    ]
+  },
+  {
+    "objectID": "revisaoR.html#instalando-pacotes",
+    "href": "revisaoR.html#instalando-pacotes",
+    "title": "2  Uma pequena introdução ao R",
+    "section": "Instalando Pacotes",
+    "text": "Instalando Pacotes",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Uma pequena introdução ao R</span>"
+    ]
+  },
+  {
+    "objectID": "revisaoR.html#objetos",
+    "href": "revisaoR.html#objetos",
+    "title": "2  Uma pequena introdução ao R",
+    "section": "Objetos",
+    "text": "Objetos",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Uma pequena introdução ao R</span>"
+    ]
+  },
+  {
+    "objectID": "revisaoR.html#estrutura-lógicas",
+    "href": "revisaoR.html#estrutura-lógicas",
+    "title": "2  Uma pequena introdução ao R",
+    "section": "Estrutura Lógicas",
+    "text": "Estrutura Lógicas",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Uma pequena introdução ao R</span>"
+    ]
+  },
+  {
+    "objectID": "revisaoR.html#estruturas-de-controle",
+    "href": "revisaoR.html#estruturas-de-controle",
+    "title": "2  Uma pequena introdução ao R",
+    "section": "Estruturas de Controle",
+    "text": "Estruturas de Controle",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Uma pequena introdução ao R</span>"
+    ]
+  },
+  {
+    "objectID": "revisaoR.html#funções",
+    "href": "revisaoR.html#funções",
+    "title": "2  Uma pequena introdução ao R",
+    "section": "Funções",
+    "text": "Funções",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Uma pequena introdução ao R</span>"
+    ]
+  },
+  {
+    "objectID": "revisaoR.html#distribuições-de-probabilidade",
+    "href": "revisaoR.html#distribuições-de-probabilidade",
+    "title": "2  Uma pequena introdução ao R",
+    "section": "Distribuições de Probabilidade",
+    "text": "Distribuições de Probabilidade",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Uma pequena introdução ao R</span>"
+    ]
+  },
+  {
     "objectID": "intro.html",
     "href": "intro.html",
-    "title": "2  Motivação",
+    "title": "3  Motivação",
     "section": "",
     "text": "Da teoria à simulação\nDo ponto de vista teórico, a probabilidade de que todos os aniversários sejam distintos entre \\(r\\) pessoas é\n\\[\\Pr(\\text{todos distintos}) \\;=\\; \\prod_{i=1}^{r-1} \\frac{365-i}{365}\n\\;=\\; \\left(1 - \\frac{1}{365}\\right)\\!\\left(1 - \\frac{2}{365}\\right)\\!\\cdots\\!\\left(1 - \\frac{r-1}{365}\\right).\\]\nLogo, a probabilidade de pelo menos uma coincidência é\n\\[p_r = 1 - \\Pr(\\text{todos distintos}).\\]\nEsse produto é conceitualmente claro, mas fica pouco manejável mentalmente para \\(r\\) moderados. É aqui que a simulação computacional pode entrar como aliada didática e científica.",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Motivação</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Motivação</span>"
     ]
   },
   {
     "objectID": "intro.html#um-atalho-analítico-útil",
     "href": "intro.html#um-atalho-analítico-útil",
-    "title": "2  Motivação",
+    "title": "3  Motivação",
     "section": "Um atalho analítico útil",
     "text": "Um atalho analítico útil\nO produto acima admite uma aproximação exponencial simples e acurada, obtida tomando logaritmo e usando a expansão para argumentos pequenos:\n\\[\\ln(1 - x) = -x + o(x), \\quad (x \\to 0). \\] Aplicando ao produto,\n\\[\n\\begin{aligned}\n\\ln\\!\\big(1 - p_r\\big)\n\\;&=\\;\n\\sum_{i=1}^{r-1} \\ln\\!\\left(1 - \\frac{i}{365}\\right)\\\\\n\\;&\\approx\\;\n-\\,\\sum_{i=1}^{r-1} \\frac{i}{365}\n\\;=\\;\n-\\,\\frac{1 + 2 + \\cdots + (r-1)}{365}\n\\;=\\;\n-\\,\\frac{r(r-1)}{2 \\cdot 365}.\\end{aligned}\\]\nExponentiando e isolando \\(p_r\\), obtemos a aproximação\n\\[\np_r \\;\\approx\\; 1 - \\exp\\!\\left\\{-\\,\\frac{r(r-1)}{730}\\right\\}.\n\\]\nEssa fórmula tem três virtudes didáticas:\n\nClareza: exibe explicitamente o papel do número de pares \\(\\binom{r}{2}\\).\nRapidez: permite cálculos aproximados para valores de \\(r\\) de interesse.\nBoas aproximações já para \\(r\\) na casa das dezenas.\n\n\n\n\n\n\n\nExemplo Rápido\n\n\n\n\nPara 23 pessoas:\n\n\\[p_{23}^{(\\text{aprox})}\n  \\;=\\;\n  1 - \\exp\\!\\left\\{-\\frac{23\\cdot22}{730}\\right\\}\n  \\;=\\;\n  1 - \\exp\\!\\{-0.69315\\}\n  \\;\\approx\\; 0.500,\\]\nalinhando-se ao resultado clássico de que 23 pessoas já superam 50% de chance de coincidência.",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Motivação</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Motivação</span>"
     ]
   },
   {
     "objectID": "intro.html#o-papel-da-simulação",
     "href": "intro.html#o-papel-da-simulação",
-    "title": "2  Motivação",
+    "title": "3  Motivação",
     "section": "O papel da simulação",
     "text": "O papel da simulação\nA simulação estatística permite reproduzir o experimento de forma empírica: sorteamos aleatoriamente dias de aniversário para os indivíduos e verificamos se há repetições. Repetindo o processo milhares de vezes, obtemos uma estimativa para a probabilidade de coincidência.\nPor exemplo, em R:\n\nr &lt;- 23\nbirthdays &lt;- sample(1:365, r, replace = TRUE)\nany(duplicated(birthdays))\n\n[1] TRUE\n\n\nAo repetir esse procedimento muitas vezes (por exemplo, 10.000 simulações), podemos estimar a proporção de conjuntos com coincidência. Pela Lei dos Grandes Números, essa estimativa converge para o valor teórico de aproximadamente 0,507 quando \\(r=23\\).\n\nset.seed(123) #reprodutibilidade\n\nr &lt;- 23\nB &lt;- 10000\n\nacertos &lt;- 0\ni &lt;- 0\n\nrepeat {\n  i &lt;- i + 1\n  bdays &lt;- sample(1:365, r, replace = TRUE)\n  acertos &lt;- acertos + as.integer(any(duplicated(bdays)))\n  if (i &gt;= B) break\n}\n\np_hat &lt;- acertos / B\np_hat\n\n[1] 0.5073",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Motivação</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Motivação</span>"
     ]
   },
   {
     "objectID": "intro.html#atividade-problema-do-aniversário-22-jogadores",
     "href": "intro.html#atividade-problema-do-aniversário-22-jogadores",
-    "title": "2  Motivação",
+    "title": "3  Motivação",
     "section": "Atividade: Problema do Aniversário (22 jogadores)",
     "text": "Atividade: Problema do Aniversário (22 jogadores)\nNesta motivação consideramos um exemplo discutido em Martins (2018) que é o conhecido e amplamente divulgado problema do aniversário (ver, por exemplo, Falk 2014). Martins (2018) segue o exemplo de Matthews e Stones (1998), considerando duas equipes de futebol e, portanto, coincidências de aniversário entre 22 jogadores. Martins (2018) afirma que um resultado positivo importante dessa atividade é a discussão que surgirá naturalmente entre os estudantes, com o professor atuando como mediador. Além disso, os estudantes adoram jogos e a descoberta prática, e a simulação facilita o engajamento nessas atividades, ao mesmo tempo que ilustra resultados que podem ser não intuitivos, bem como teoria geral, como a Lei dos Grandes Números.\nAgora iremos considerar o seguinte problema:\n\n\n\n\n\n\nProblema\n\n\n\nEm uma partida de futebol, qual é a probabilidade de que pelo menos dois dos 22 jogadores façam aniversário no mesmo dia?\n\n\nEm um pais chamado de país do futebol, o contexto é proposital: o futebol é popular e as probabilidades resultantes são contraintuitivas. Antes de qualquer cálculo, considere as hipóteses: (i) todos os 365 dias do ano são igualmente prováveis para qualquer aniversário; (ii) as datas de aniversário dos jogadores são independentes entre si.\nObjetivos\n\nEstimar, via simulação, a probabilidade de coincidência de aniversários.\nRelacionar frequência relativa, Lei dos Grandes Números e variação amostral.\nComparar o resultado exato e aproximado.\n\nHipóteses\n\n365 dias equiprováveis, datas independentes, ignorar bissexto/gêmeos.\n\nMateriais\n\nR (ou Posit Cloud), roteiro com comandos sample(), table(), mean().",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Motivação</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Motivação</span>"
     ]
   },
   {
     "objectID": "intro.html#exercícios",
     "href": "intro.html#exercícios",
-    "title": "2  Motivação",
+    "title": "3  Motivação",
     "section": "Exercícios",
     "text": "Exercícios\n\nDeterminar o menor número de pessoas que deve estar em uma sala para que se possa apostar, com mais de 50% de chance de ganhar, que entre elas existam pelo menos duas com o mesmo aniversário.\nDeterminar o menor número de outras pessoas que deve estar em uma sala com você para que se possa apostar, com mais de 50% de chance de ganhar, que pelo menos uma delas tenha o mesmo aniversário que o seu.\n\n\n\n\n\nFalk, Ruma. 2014. “A Closer Look at the Notorious Birthday Coincidences”. Teaching Statistics 36 (2): 41–46. https://doi.org/10.1111/test.12014.\n\n\nMartins, Rui Manuel Da Costa. 2018. “Learning the Principles of Simulation Using the Birthday Problem”. Teaching Statistics 40 (3): 108–11. https://doi.org/10.1111/test.12164.\n\n\nMatthews, Robert, e Fiona Stones. 1998. “Coincidences: the truth is out there”. Teaching Statistics 20 (1): 17–19. https://doi.org/https://doi.org/10.1111/j.1467-9639.1998.tb00752.x.",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Motivação</span>"
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Motivação</span>"
     ]
   },
   {

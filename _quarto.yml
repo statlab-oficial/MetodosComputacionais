@@ -13,6 +13,7 @@ book:
   chapters:
     - index.qmd
     - introducao.qmd
+    - revisaoR.qmd
     - intro.qmd
     #- summary.qmd
     #- pseudo.qmd
