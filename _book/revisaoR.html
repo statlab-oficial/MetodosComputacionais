@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -152,9 +186,10 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#instalação" id="toc-instalação" class="nav-link" data-scroll-target="#instalação">Instalação</a>
   <ul class="collapse">
   <li><a href="#windows" id="toc-windows" class="nav-link" data-scroll-target="#windows">Windows</a></li>
+  <li><a href="#macos" id="toc-macos" class="nav-link" data-scroll-target="#macos">macOS</a></li>
+  <li><a href="#linux" id="toc-linux" class="nav-link" data-scroll-target="#linux">Linux</a></li>
   </ul></li>
-  <li><a href="#instalando-pacotes" id="toc-instalando-pacotes" class="nav-link" data-scroll-target="#instalando-pacotes">Instalando Pacotes</a></li>
-  <li><a href="#objetos" id="toc-objetos" class="nav-link" data-scroll-target="#objetos">Objetos</a></li>
+  <li><a href="#o-que-é-o-r" id="toc-o-que-é-o-r" class="nav-link" data-scroll-target="#o-que-é-o-r">O que é o <code>R</code></a></li>
   <li><a href="#estrutura-lógicas" id="toc-estrutura-lógicas" class="nav-link" data-scroll-target="#estrutura-lógicas">Estrutura Lógicas</a></li>
   <li><a href="#estruturas-de-controle" id="toc-estruturas-de-controle" class="nav-link" data-scroll-target="#estruturas-de-controle">Estruturas de Controle</a></li>
   <li><a href="#funções" id="toc-funções" class="nav-link" data-scroll-target="#funções">Funções</a></li>
@@ -232,12 +267,672 @@ Dica
 </div>
 </div>
 </section>
+<section id="macos" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="macos">macOS</h3>
+<ol type="1">
+<li><p>Acesse <strong><code>R</code> for macOS</strong> no CRAN e baixe o arquivo <code>.pkg</code> da versão atual.</p></li>
+<li><p>Abra o <code>.pkg</code> e conclua a instalação.</p></li>
+<li><p>(Opcional) Para compilar pacotes, instale também as <strong>Command Line Tools</strong> do Xcode:</p></li>
+</ol>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">xcode-select</span> <span class="at">--install</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="instalando-pacotes" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="instalando-pacotes">Instalando Pacotes</h2>
+<section id="linux" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="linux">Linux</h3>
+<p><strong>Ubuntu/Debian</strong></p>
+<p>Opção rápida (repositório da distribuição):</p>
+<pre><code>sudo apt update
+sudo apt install -y r-base</code></pre>
+<p>Para obter versões mais novas (repositório do CRAN), siga as instruções do CRAN para adicionar o repositório oficial e então:</p>
+<pre><code>sudo apt update
+sudo apt install -y r-base r-base-dev</code></pre>
+<p><strong>Verificar a instalação</strong></p>
+<p>No terminal/Prompt:</p>
+<pre><code>R --version
+R</code></pre>
+<p>Dentro do R:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>version</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               _                           
+platform       x86_64-pc-linux-gnu         
+arch           x86_64                      
+os             linux-gnu                   
+system         x86_64, linux-gnu           
+status                                     
+major          4                           
+minor          5.1                         
+year           2025                        
+month          06                          
+day            13                          
+svn rev        88306                       
+language       R                           
+version.string R version 4.5.1 (2025-06-13)
+nickname       Great Square Root           </code></pre>
+</div>
+</div>
+<p>Se o <code>R</code> abriu no console, a instalação está ok!</p>
+<p><strong>Teste rápido de pacotes</strong></p>
+<p>No R:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("tidyverse")   # teste de instalação/espelho</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   4.0.0     ✔ tibble    3.3.0
+✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">y =</span> x<span class="sc">^</span><span class="dv">2</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 2
+      x     y
+  &lt;int&gt; &lt;dbl&gt;
+1     1     1
+2     2     4
+3     3     9
+4     4    16
+5     5    25</code></pre>
+</div>
+</div>
+<p>Se o pacote instalou e carregou sem erros, está tudo certo.</p>
+<section id="fixar-um-mirror-brasileiro-do-cran" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="fixar-um-mirror-brasileiro-do-cran">Fixar um mirror brasileiro do CRAN</h4>
+<p>Defina o espelho apenas nesta sessão:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repos =</span> <span class="fu">c</span>(<span class="at">CRAN =</span> <span class="st">"https://cran-r.c3sl.ufpr.br"</span>))</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"ggplot2"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Para tornar <strong>permanente</strong>, adicione a linha abaixo ao seu arquivo <code>~/.Rprofile</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repos =</span> <span class="fu">c</span>(<span class="at">CRAN =</span> <span class="st">"https://cloud.r-project.org"</span>))</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ou, se preferir, o espelho da UFPR:</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># options(repos = c(CRAN = "https://cran-r.c3sl.ufpr.br"))</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
-<section id="objetos" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="objetos">Objetos</h2>
+<section id="como-editar-o-.rprofile" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="como-editar-o-.rprofile">Como editar o <code>~/.Rprofile</code></h4>
+<ul>
+<li>Linux/macOS:</li>
+</ul>
+<pre><code>echo 'options(repos = c(CRAN = "https://cloud.r-project.org"))' &gt;&gt; ~/.Rprofile</code></pre>
+<ul>
+<li>Windows: o <code>~</code> normalmente aponta para <code>C:\\Users\\SEU_USUARIO\\Documents</code>.</li>
+</ul>
+<p>Você pode criar/editar <code>C:\\Users\\SEU_USUARIO\\Documents\\.Rprofile</code> com um editor de texto.</p>
+</section>
+<section id="opcional-ide-recomendada-rstudio" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="opcional-ide-recomendada-rstudio">(Opcional) IDE recomendada: RStudio</h4>
+<p>Após instalar o <code>R</code>, instale o <code>RStudio Desktop</code> (Posit) para um ambiente de desenvolvimento mais amigável:</p>
+<ul>
+<li><p>Criação/edição de scripts</p></li>
+<li><p>Gerenciamento de projetos</p></li>
+<li><p>Visualização de plots e help integrados</p></li>
+</ul>
+</section>
+<section id="dicas-e-solução-de-problemas" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="dicas-e-solução-de-problemas">Dicas e solução de problemas</h4>
+<ul>
+<li><p><strong>Permissões de administrador:</strong> em ambientes corporativos, pode ser necessário pedir para TI instalar o <code>R</code>.</p></li>
+<li><p><strong>Firewall/Proxy:</strong> se a instalação de pacotes falhar, verifique configurações de proxy e tente trocar o mirror.</p></li>
+<li><p><strong>Compatibilidade de versões:</strong> ao compilar pacotes, garanta que as ferramentas (Rtools no Windows; CLT/Xcode no macOS) correspondam à sua versão do <code>R</code>.</p></li>
+<li><p>Atualização do <code>R</code>: ao atualizar o <code>R</code>, alguns pacotes precisarão ser reinstalados; use <code>install.packages()</code> novamente.</p></li>
+<li><p><strong>Testes mínimos:</strong></p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>R version 4.5.1 (2025-06-13)
+Platform: x86_64-pc-linux-gnu
+Running under: Ubuntu 24.04.3 LTS
+
+Matrix products: default
+BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
+LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so;  LAPACK version 3.12.0
+
+locale:
+ [1] LC_CTYPE=pt_BR.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=pt_BR.UTF-8        LC_COLLATE=pt_BR.UTF-8    
+ [5] LC_MONETARY=pt_BR.UTF-8    LC_MESSAGES=pt_BR.UTF-8   
+ [7] LC_PAPER=pt_BR.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=pt_BR.UTF-8 LC_IDENTIFICATION=C       
+
+time zone: America/Recife
+tzcode source: system (glibc)
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] lubridate_1.9.3 forcats_1.0.0   stringr_1.5.1   dplyr_1.1.4    
+ [5] purrr_1.0.2     readr_2.1.5     tidyr_1.3.1     tibble_3.3.0   
+ [9] ggplot2_4.0.0   tidyverse_2.0.0
+
+loaded via a namespace (and not attached):
+ [1] gtable_0.3.6       jsonlite_1.8.8     compiler_4.5.1     tidyselect_1.2.1  
+ [5] dichromat_2.0-0.1  scales_1.4.0       yaml_2.3.8         fastmap_1.1.1     
+ [9] R6_2.6.1           generics_0.1.3     knitr_1.50         htmlwidgets_1.6.4 
+[13] pillar_1.11.0      RColorBrewer_1.1-3 tzdb_0.4.0         rlang_1.1.6       
+[17] stringi_1.8.3      xfun_0.52          S7_0.2.0           timechange_0.3.0  
+[21] cli_3.6.5          withr_3.0.2        magrittr_2.0.3     digest_0.6.34     
+[25] grid_4.5.1         rstudioapi_0.15.0  hms_1.1.3          lifecycle_1.0.4   
+[29] vctrs_0.6.5        evaluate_1.0.4     glue_1.8.0         farver_2.1.2      
+[33] rmarkdown_2.29     tools_4.5.1        pkgconfig_2.0.3    htmltools_0.5.8.1 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">capabilities</span>()  <span class="co"># checa recursos gráficos, etc.</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       jpeg         png        tiff       tcltk         X11        aqua 
+       TRUE        TRUE        TRUE        TRUE       FALSE       FALSE 
+   http/ftp     sockets      libxml        fifo      cledit       iconv 
+       TRUE        TRUE       FALSE        TRUE       FALSE        TRUE 
+        NLS       Rprof     profmem       cairo         ICU long.double 
+       TRUE        TRUE        TRUE        TRUE        TRUE        TRUE 
+    libcurl 
+       TRUE </code></pre>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="o-que-é-o-r" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="o-que-é-o-r">O que é o <code>R</code></h2>
+<p><code>R</code> é uma implementação moderna da linguagem <code>S</code>, voltada à computação estatística e à visualização de dados. Ele reúne, no mesmo lugar, um ambiente interativo para análise e criação de gráficos e uma linguagem de programação completa.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Em uma frase:</strong> R é um ambiente estatístico + uma linguagem, criada para trabalhar bem com dados, gráficos e métodos modernos.</p>
+</div>
+</div>
+<section id="principais-características" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="principais-características">Principais características</h4>
+<ul>
+<li><p><strong>Interativo e interpretado</strong>, com suporte a <strong>JIT/bytecode</strong> via pacote <code>compiler</code>.</p></li>
+<li><p><strong>Orientado a objetos</strong> (S3, S4 e R6) e com forte base <strong>funcional</strong>.</p></li>
+<li><p><strong>Modelo “tudo é objeto”</strong>: números, vetores, data frames, funções, ambientes e modelos ajustados.</p></li>
+<li><p><strong>Vetorização nativa</strong> e operações matriciais eficientes.</p></li>
+<li><p><strong>Ecossistema de pacotes</strong> amplo (CRAN, Bioconductor) para estatística e ciência de dados.</p></li>
+<li><p><strong>Extensível</strong> com C/C++/Fortran e integração com Python, SQL e serviços externos.</p></li>
+<li><p><strong>Multiplataforma</strong> (Windows, macOS, Linux) e foco em <strong>reprodutibilidade</strong> (scripts, Quarto/R Markdown).</p></li>
+</ul>
+</section>
+<section id="exemplo---tudo-é-objeto" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="exemplo---tudo-é-objeto">Exemplo - “tudo é objeto”</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>               <span class="co"># vetor (objeto)</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>media <span class="ot">&lt;-</span> <span class="fu">mean</span>(x)       <span class="co"># função aplicada ao objeto</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(z) z<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>classe_f <span class="ot">&lt;-</span> <span class="fu">class</span>(f)   <span class="co"># "function" — funções também são objetos</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(x, <span class="st">"nota"</span>) <span class="ot">&lt;-</span> <span class="st">"exemplo de atributo"</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>lista <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">x =</span> x, <span class="at">media =</span> media, <span class="at">classe_f =</span> classe_f)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(lista)             <span class="co"># inspeciona a estrutura</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>List of 3
+ $ x       : int [1:5] 1 2 3 4 5
+  ..- attr(*, "nota")= chr "exemplo de atributo"
+ $ media   : num 3
+ $ classe_f: chr "function"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>lista</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$x
+[1] 1 2 3 4 5
+attr(,"nota")
+[1] "exemplo de atributo"
+
+$media
+[1] 3
+
+$classe_f
+[1] "function"</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Dica
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dica: use <code>str(obj)</code> para entender a estrutura de qualquer objeto no <code>R</code>.</p>
+<p>Outras funções úteis: <code>class()</code>, <code>attributes()</code>, <code>typeof()</code>, <code>methods(class = ...)</code>.</p>
+</div>
+</div>
+<p>Aqui vai como mudar o <em>prompt</em> do <code>R</code> para <code>R&gt;</code>, na sessão atual usando:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">prompt =</span> <span class="st">"R&gt; "</span>, <span class="at">continue =</span> <span class="st">"+"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Para adicionar comentários no <code>R</code>, como você observou nos exemplos acima, basta usar <code>#</code>, como no exemplo abaixo:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Este é um comentário! </span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Que o semestre seja leve para todos nós!</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Uma sessão ativa do <code>R</code> sempre está “apontando” para um diretório de trabalho. Se você não informar um caminho completo ao salvar ou importar arquivos, o <code>R</code> usará esse diretório por padrão. Para descobrir onde ele está:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "/home/manoel/Documentos/Book_Computacional_UFC"</code></pre>
+</div>
+</div>
+<p>Se você deseja modificar o diretório de trabalho, isso pode ser feito de maneira simples:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Windows</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"C:/Users/SeuUsuario/Documents/meu-projeto"</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co"># macOS / Linux</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"/Users/seuusuario/meu-projeto"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>O <code>R</code> não vem com todos os pacotes adicionais que a comunidade desenvolve. Para usá-los, você precisa baixar e instalar a partir de um repositório, em geral, o CRAN.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># define um espelho (mirror) do CRAN para esta sessão</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repos =</span> <span class="fu">c</span>(<span class="at">CRAN =</span> <span class="st">"https://cloud.r-project.org"</span>))</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># instala um ou mais pacotes</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyverse"</span>)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"ggplot2"</span>, <span class="st">"dplyr"</span>, <span class="st">"readr"</span>))</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="co"># carrega para usar</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A instalação pode ser feita também facilmente usando o <code>RStudio</code>.</p>
+<p>Pacotes da comunidade são atualizados com frequência para corrigir erros e acrescentar recursos. Periodicamente, vale checar se há novas versões para o que você já tem instalado. A partir do console do <code>R</code>, você pode verificar e atualizar com um único comando.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># defina um mirror (opcional, mas recomendável)</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">repos =</span> <span class="fu">c</span>(<span class="at">CRAN =</span> <span class="st">"https://cloud.r-project.org"</span>))</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co"># procura versões mais novas e atualiza automaticamente</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="fu">update.packages</span>(<span class="at">ask =</span> <span class="cn">FALSE</span>, <span class="at">checkBuilt =</span> <span class="cn">TRUE</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><p><code>ask = FALSE</code> atualiza sem perguntar pacote a pacote.</p></li>
+<li><p><code>checkBuilt = TRUE</code> recompila pacotes se sua versão do <code>R</code> mudou.</p></li>
+</ul>
+<p><strong>Ver o que está desatualizado antes:</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">old.packages</span>()  <span class="co"># retorna uma tabela com pacotes que têm versão mais nova</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               Package         
+bookdown       "bookdown"      
+credentials    "credentials"   
+crosstalk      "crosstalk"     
+curl           "curl"          
+DT             "DT"            
+emmeans        "emmeans"       
+evaluate       "evaluate"      
+gamlss         "gamlss"        
+gamlss.data    "gamlss.data"   
+GGally         "GGally"        
+ggfx           "ggfx"          
+ggimage        "ggimage"       
+ggmap          "ggmap"         
+ggspatial      "ggspatial"     
+gld            "gld"           
+kSamples       "kSamples"      
+magick         "magick"        
+osmdata        "osmdata"       
+pagedown       "pagedown"      
+patchwork      "patchwork"     
+PKI            "PKI"           
+qqplotr        "qqplotr"       
+ragg           "ragg"          
+robustbase     "robustbase"    
+roxygen2       "roxygen2"      
+rprojroot      "rprojroot"     
+rsconnect      "rsconnect"     
+rsvg           "rsvg"          
+sftime         "sftime"        
+snowflakeauth  "snowflakeauth" 
+TH.data        "TH.data"       
+usethis        "usethis"       
+visNetwork     "visNetwork"    
+xaringan       "xaringan"      
+xaringanthemer "xaringanthemer"
+xfun           "xfun"          
+yulab.utils    "yulab.utils"   
+askpass        "askpass"       
+backports      "backports"     
+bit            "bit"           
+bit64          "bit64"         
+broom          "broom"         
+bslib          "bslib"         
+cachem         "cachem"        
+callr          "callr"         
+cli            "cli"           
+colorspace     "colorspace"    
+commonmark     "commonmark"    
+cpp11          "cpp11"         
+crayon         "crayon"        
+curl           "curl"          
+data.table     "data.table"    
+DBI            "DBI"           
+dbplyr         "dbplyr"        
+digest         "digest"        
+dtplyr         "dtplyr"        
+evaluate       "evaluate"      
+fansi          "fansi"         
+farver         "farver"        
+fastmap        "fastmap"       
+fontawesome    "fontawesome"   
+fs             "fs"            
+gargle         "gargle"        
+generics       "generics"      
+ggplot2        "ggplot2"       
+glue           "glue"          
+googledrive    "googledrive"   
+googlesheets4  "googlesheets4" 
+gtable         "gtable"        
+haven          "haven"         
+highr          "highr"         
+htmltools      "htmltools"     
+httpuv         "httpuv"        
+jsonlite       "jsonlite"      
+knitr          "knitr"         
+later          "later"         
+lubridate      "lubridate"     
+magrittr       "magrittr"      
+mime           "mime"          
+munsell        "munsell"       
+openssl        "openssl"       
+pillar         "pillar"        
+pkgKitten      "pkgKitten"     
+processx       "processx"      
+promises       "promises"      
+ps             "ps"            
+purrr          "purrr"         
+R6             "R6"            
+ragg           "ragg"          
+Rcpp           "Rcpp"          
+readxl         "readxl"        
+reprex         "reprex"        
+rlang          "rlang"         
+rmarkdown      "rmarkdown"     
+rstudioapi     "rstudioapi"    
+rvest          "rvest"         
+sass           "sass"          
+scales         "scales"        
+shiny          "shiny"         
+stringi        "stringi"       
+stringr        "stringr"       
+sys            "sys"           
+systemfonts    "systemfonts"   
+textshaping    "textshaping"   
+tibble         "tibble"        
+tidyselect     "tidyselect"    
+tinytex        "tinytex"       
+tzdb           "tzdb"          
+utf8           "utf8"          
+uuid           "uuid"          
+withr          "withr"         
+xfun           "xfun"          
+xml2           "xml2"          
+yaml           "yaml"          
+boot           "boot"          
+lattice        "lattice"       
+mgcv           "mgcv"          
+spatial        "spatial"       
+               LibPath                                          Installed 
+bookdown       "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "0.43"    
+credentials    "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "2.0.2"   
+crosstalk      "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "1.2.1"   
+curl           "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "6.4.0"   
+DT             "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "0.33"    
+emmeans        "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "1.11.2"  
+evaluate       "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "1.0.4"   
+gamlss         "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "5.4-22"  
+gamlss.data    "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "6.0-6"   
+GGally         "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "2.3.0"   
+ggfx           "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "1.0.2"   
+ggimage        "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "0.3.3"   
+ggmap          "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "4.0.1"   
+ggspatial      "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "1.1.9"   
+gld            "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "2.6.7"   
+kSamples       "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "1.2-10"  
+magick         "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "2.8.7"   
+osmdata        "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "0.2.5"   
+pagedown       "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "0.22"    
+patchwork      "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "1.3.1"   
+PKI            "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "0.1-14"  
+qqplotr        "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "0.0.6"   
+ragg           "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "1.4.0"   
+robustbase     "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "0.99-4-1"
+roxygen2       "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "7.3.2"   
+rprojroot      "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "2.1.0"   
+rsconnect      "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "1.5.0"   
+rsvg           "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "2.6.2"   
+sftime         "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "0.3.0"   
+snowflakeauth  "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "0.1.2"   
+TH.data        "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "1.1-3"   
+usethis        "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "3.1.0"   
+visNetwork     "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "2.1.2"   
+xaringan       "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "0.30"    
+xaringanthemer "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "0.4.3"   
+xfun           "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "0.52"    
+yulab.utils    "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "0.2.0"   
+askpass        "/usr/lib/R/site-library"                        "1.2.0"   
+backports      "/usr/lib/R/site-library"                        "1.4.1"   
+bit            "/usr/lib/R/site-library"                        "4.0.5"   
+bit64          "/usr/lib/R/site-library"                        "4.0.5"   
+broom          "/usr/lib/R/site-library"                        "1.0.5"   
+bslib          "/usr/lib/R/site-library"                        "0.6.1"   
+cachem         "/usr/lib/R/site-library"                        "1.0.8"   
+callr          "/usr/lib/R/site-library"                        "3.7.5"   
+cli            "/usr/lib/R/site-library"                        "3.6.2"   
+colorspace     "/usr/lib/R/site-library"                        "2.1-0"   
+commonmark     "/usr/lib/R/site-library"                        "1.9.1"   
+cpp11          "/usr/lib/R/site-library"                        "0.4.7"   
+crayon         "/usr/lib/R/site-library"                        "1.5.2"   
+curl           "/usr/lib/R/site-library"                        "5.2.0"   
+data.table     "/usr/lib/R/site-library"                        "1.14.10" 
+DBI            "/usr/lib/R/site-library"                        "1.2.2"   
+dbplyr         "/usr/lib/R/site-library"                        "2.4.0"   
+digest         "/usr/lib/R/site-library"                        "0.6.34"  
+dtplyr         "/usr/lib/R/site-library"                        "1.3.1"   
+evaluate       "/usr/lib/R/site-library"                        "0.23"    
+fansi          "/usr/lib/R/site-library"                        "1.0.5"   
+farver         "/usr/lib/R/site-library"                        "2.1.1"   
+fastmap        "/usr/lib/R/site-library"                        "1.1.1"   
+fontawesome    "/usr/lib/R/site-library"                        "0.5.2"   
+fs             "/usr/lib/R/site-library"                        "1.6.3"   
+gargle         "/usr/lib/R/site-library"                        "1.5.2"   
+generics       "/usr/lib/R/site-library"                        "0.1.3"   
+ggplot2        "/usr/lib/R/site-library"                        "3.4.4"   
+glue           "/usr/lib/R/site-library"                        "1.7.0"   
+googledrive    "/usr/lib/R/site-library"                        "2.1.1"   
+googlesheets4  "/usr/lib/R/site-library"                        "1.1.1"   
+gtable         "/usr/lib/R/site-library"                        "0.3.4"   
+haven          "/usr/lib/R/site-library"                        "2.5.4"   
+highr          "/usr/lib/R/site-library"                        "0.10"    
+htmltools      "/usr/lib/R/site-library"                        "0.5.7"   
+httpuv         "/usr/lib/R/site-library"                        "1.6.14"  
+jsonlite       "/usr/lib/R/site-library"                        "1.8.8"   
+knitr          "/usr/lib/R/site-library"                        "1.45"    
+later          "/usr/lib/R/site-library"                        "1.3.2"   
+lubridate      "/usr/lib/R/site-library"                        "1.9.3"   
+magrittr       "/usr/lib/R/site-library"                        "2.0.3"   
+mime           "/usr/lib/R/site-library"                        "0.12"    
+munsell        "/usr/lib/R/site-library"                        "0.5.0"   
+openssl        "/usr/lib/R/site-library"                        "2.1.1"   
+pillar         "/usr/lib/R/site-library"                        "1.9.0"   
+pkgKitten      "/usr/lib/R/site-library"                        "0.2.3"   
+processx       "/usr/lib/R/site-library"                        "3.8.3"   
+promises       "/usr/lib/R/site-library"                        "1.2.1"   
+ps             "/usr/lib/R/site-library"                        "1.7.6"   
+purrr          "/usr/lib/R/site-library"                        "1.0.2"   
+R6             "/usr/lib/R/site-library"                        "2.5.1"   
+ragg           "/usr/lib/R/site-library"                        "1.2.7"   
+Rcpp           "/usr/lib/R/site-library"                        "1.0.12"  
+readxl         "/usr/lib/R/site-library"                        "1.4.3"   
+reprex         "/usr/lib/R/site-library"                        "2.1.0"   
+rlang          "/usr/lib/R/site-library"                        "1.1.3"   
+rmarkdown      "/usr/lib/R/site-library"                        "2.25"    
+rstudioapi     "/usr/lib/R/site-library"                        "0.15.0"  
+rvest          "/usr/lib/R/site-library"                        "1.0.3"   
+sass           "/usr/lib/R/site-library"                        "0.4.8"   
+scales         "/usr/lib/R/site-library"                        "1.3.0"   
+shiny          "/usr/lib/R/site-library"                        "1.8.0"   
+stringi        "/usr/lib/R/site-library"                        "1.8.3"   
+stringr        "/usr/lib/R/site-library"                        "1.5.1"   
+sys            "/usr/lib/R/site-library"                        "3.4.2"   
+systemfonts    "/usr/lib/R/site-library"                        "1.0.5"   
+textshaping    "/usr/lib/R/site-library"                        "0.3.7"   
+tibble         "/usr/lib/R/site-library"                        "3.2.1"   
+tidyselect     "/usr/lib/R/site-library"                        "1.2.0"   
+tinytex        "/usr/lib/R/site-library"                        "0.49"    
+tzdb           "/usr/lib/R/site-library"                        "0.4.0"   
+utf8           "/usr/lib/R/site-library"                        "1.2.4"   
+uuid           "/usr/lib/R/site-library"                        "1.2-0"   
+withr          "/usr/lib/R/site-library"                        "2.5.0"   
+xfun           "/usr/lib/R/site-library"                        "0.41"    
+xml2           "/usr/lib/R/site-library"                        "1.3.6"   
+yaml           "/usr/lib/R/site-library"                        "2.3.8"   
+boot           "/usr/lib/R/library"                             "1.3-31"  
+lattice        "/usr/lib/R/library"                             "0.22-5"  
+mgcv           "/usr/lib/R/library"                             "1.9-1"   
+spatial        "/usr/lib/R/library"                             "7.3-17"  
+               Built   ReposVer   Repository                               
+bookdown       "4.5.0" "0.44"     "https://cloud.r-project.org/src/contrib"
+credentials    "4.5.1" "2.0.3"    "https://cloud.r-project.org/src/contrib"
+crosstalk      "4.5.0" "1.2.2"    "https://cloud.r-project.org/src/contrib"
+curl           "4.5.1" "7.0.0"    "https://cloud.r-project.org/src/contrib"
+DT             "4.5.0" "0.34.0"   "https://cloud.r-project.org/src/contrib"
+emmeans        "4.5.1" "1.11.2-8" "https://cloud.r-project.org/src/contrib"
+evaluate       "4.5.1" "1.0.5"    "https://cloud.r-project.org/src/contrib"
+gamlss         "4.5.0" "5.5-0"    "https://cloud.r-project.org/src/contrib"
+gamlss.data    "4.5.0" "6.0-7"    "https://cloud.r-project.org/src/contrib"
+GGally         "4.5.1" "2.4.0"    "https://cloud.r-project.org/src/contrib"
+ggfx           "4.5.1" "1.0.3"    "https://cloud.r-project.org/src/contrib"
+ggimage        "4.5.0" "0.3.4"    "https://cloud.r-project.org/src/contrib"
+ggmap          "4.5.1" "4.0.2"    "https://cloud.r-project.org/src/contrib"
+ggspatial      "4.5.0" "1.1.10"   "https://cloud.r-project.org/src/contrib"
+gld            "4.5.0" "2.6.8"    "https://cloud.r-project.org/src/contrib"
+kSamples       "4.5.1" "1.2-12"   "https://cloud.r-project.org/src/contrib"
+magick         "4.5.1" "2.9.0"    "https://cloud.r-project.org/src/contrib"
+osmdata        "4.5.1" "0.3.0"    "https://cloud.r-project.org/src/contrib"
+pagedown       "4.5.0" "0.23"     "https://cloud.r-project.org/src/contrib"
+patchwork      "4.5.0" "1.3.2"    "https://cloud.r-project.org/src/contrib"
+PKI            "4.5.0" "0.1-15"   "https://cloud.r-project.org/src/contrib"
+qqplotr        "4.5.1" "0.0.7"    "https://cloud.r-project.org/src/contrib"
+ragg           "4.5.1" "1.5.0"    "https://cloud.r-project.org/src/contrib"
+robustbase     "4.5.0" "0.99-6"   "https://cloud.r-project.org/src/contrib"
+roxygen2       "4.5.1" "7.3.3"    "https://cloud.r-project.org/src/contrib"
+rprojroot      "4.5.1" "2.1.1"    "https://cloud.r-project.org/src/contrib"
+rsconnect      "4.5.1" "1.5.1"    "https://cloud.r-project.org/src/contrib"
+rsvg           "4.5.1" "2.7.0"    "https://cloud.r-project.org/src/contrib"
+sftime         "4.5.1" "0.3.1"    "https://cloud.r-project.org/src/contrib"
+snowflakeauth  "4.5.1" "0.2.0"    "https://cloud.r-project.org/src/contrib"
+TH.data        "4.5.0" "1.1-4"    "https://cloud.r-project.org/src/contrib"
+usethis        "4.5.1" "3.2.1"    "https://cloud.r-project.org/src/contrib"
+visNetwork     "4.5.0" "2.1.4"    "https://cloud.r-project.org/src/contrib"
+xaringan       "4.5.0" "0.31"     "https://cloud.r-project.org/src/contrib"
+xaringanthemer "4.5.0" "0.4.4"    "https://cloud.r-project.org/src/contrib"
+xfun           "4.5.1" "0.53"     "https://cloud.r-project.org/src/contrib"
+yulab.utils    "4.5.0" "0.2.1"    "https://cloud.r-project.org/src/contrib"
+askpass        "4.3.1" "1.2.1"    "https://cloud.r-project.org/src/contrib"
+backports      "4.1.2" "1.5.0"    "https://cloud.r-project.org/src/contrib"
+bit            "4.2.2" "4.6.0"    "https://cloud.r-project.org/src/contrib"
+bit64          "4.0.2" "4.6.0-1"  "https://cloud.r-project.org/src/contrib"
+broom          "4.3.0" "1.0.10"   "https://cloud.r-project.org/src/contrib"
+bslib          "4.3.2" "0.9.0"    "https://cloud.r-project.org/src/contrib"
+cachem         "4.3.0" "1.1.0"    "https://cloud.r-project.org/src/contrib"
+callr          "4.3.3" "3.7.6"    "https://cloud.r-project.org/src/contrib"
+cli            "4.3.2" "3.6.5"    "https://cloud.r-project.org/src/contrib"
+colorspace     "4.2.2" "2.1-1"    "https://cloud.r-project.org/src/contrib"
+commonmark     "4.3.2" "2.0.0"    "https://cloud.r-project.org/src/contrib"
+cpp11          "4.3.2" "0.5.2"    "https://cloud.r-project.org/src/contrib"
+crayon         "4.2.2" "1.5.3"    "https://cloud.r-project.org/src/contrib"
+curl           "4.3.3" "7.0.0"    "https://cloud.r-project.org/src/contrib"
+data.table     "4.3.2" "1.17.8"   "https://cloud.r-project.org/src/contrib"
+DBI            "4.3.2" "1.2.3"    "https://cloud.r-project.org/src/contrib"
+dbplyr         "4.3.2" "2.5.1"    "https://cloud.r-project.org/src/contrib"
+digest         "4.3.2" "0.6.37"   "https://cloud.r-project.org/src/contrib"
+dtplyr         "4.3.0" "1.3.2"    "https://cloud.r-project.org/src/contrib"
+evaluate       "4.3.2" "1.0.5"    "https://cloud.r-project.org/src/contrib"
+fansi          "4.3.2" "1.0.6"    "https://cloud.r-project.org/src/contrib"
+farver         "4.2.1" "2.1.2"    "https://cloud.r-project.org/src/contrib"
+fastmap        "4.2.2" "1.2.0"    "https://cloud.r-project.org/src/contrib"
+fontawesome    "4.3.1" "0.5.3"    "https://cloud.r-project.org/src/contrib"
+fs             "4.3.3" "1.6.6"    "https://cloud.r-project.org/src/contrib"
+gargle         "4.3.1" "1.6.0"    "https://cloud.r-project.org/src/contrib"
+generics       "4.2.1" "0.1.4"    "https://cloud.r-project.org/src/contrib"
+ggplot2        "4.3.1" "4.0.0"    "https://cloud.r-project.org/src/contrib"
+glue           "4.3.2" "1.8.0"    "https://cloud.r-project.org/src/contrib"
+googledrive    "4.3.1" "2.1.2"    "https://cloud.r-project.org/src/contrib"
+googlesheets4  "4.3.1" "1.1.2"    "https://cloud.r-project.org/src/contrib"
+gtable         "4.3.1" "0.3.6"    "https://cloud.r-project.org/src/contrib"
+haven          "4.3.2" "2.5.5"    "https://cloud.r-project.org/src/contrib"
+highr          "4.2.2" "0.11"     "https://cloud.r-project.org/src/contrib"
+htmltools      "4.3.2" "0.5.8.1"  "https://cloud.r-project.org/src/contrib"
+httpuv         "4.3.3" "1.6.16"   "https://cloud.r-project.org/src/contrib"
+jsonlite       "4.3.2" "2.0.0"    "https://cloud.r-project.org/src/contrib"
+knitr          "4.3.2" "1.50"     "https://cloud.r-project.org/src/contrib"
+later          "4.3.2" "1.4.4"    "https://cloud.r-project.org/src/contrib"
+lubridate      "4.3.1" "1.9.4"    "https://cloud.r-project.org/src/contrib"
+magrittr       "4.1.2" "2.0.4"    "https://cloud.r-project.org/src/contrib"
+mime           "4.1.1" "0.13"     "https://cloud.r-project.org/src/contrib"
+munsell        "4.0.1" "0.5.1"    "https://cloud.r-project.org/src/contrib"
+openssl        "4.3.3" "2.3.3"    "https://cloud.r-project.org/src/contrib"
+pillar         "4.3.0" "1.11.0"   "https://cloud.r-project.org/src/contrib"
+pkgKitten      "4.2.2" "0.2.4"    "https://cloud.r-project.org/src/contrib"
+processx       "4.3.2" "3.8.6"    "https://cloud.r-project.org/src/contrib"
+promises       "4.3.1" "1.3.3"    "https://cloud.r-project.org/src/contrib"
+ps             "4.3.2" "1.9.1"    "https://cloud.r-project.org/src/contrib"
+purrr          "4.3.1" "1.1.0"    "https://cloud.r-project.org/src/contrib"
+R6             "4.1.1" "2.6.1"    "https://cloud.r-project.org/src/contrib"
+ragg           "4.3.3" "1.5.0"    "https://cloud.r-project.org/src/contrib"
+Rcpp           "4.3.2" "1.1.0"    "https://cloud.r-project.org/src/contrib"
+readxl         "4.3.1" "1.4.5"    "https://cloud.r-project.org/src/contrib"
+reprex         "4.3.2" "2.1.1"    "https://cloud.r-project.org/src/contrib"
+rlang          "4.3.2" "1.1.6"    "https://cloud.r-project.org/src/contrib"
+rmarkdown      "4.3.2" "2.29"     "https://cloud.r-project.org/src/contrib"
+rstudioapi     "4.3.1" "0.17.1"   "https://cloud.r-project.org/src/contrib"
+rvest          "4.2.1" "1.0.5"    "https://cloud.r-project.org/src/contrib"
+sass           "4.3.2" "0.4.10"   "https://cloud.r-project.org/src/contrib"
+scales         "4.3.2" "1.4.0"    "https://cloud.r-project.org/src/contrib"
+shiny          "4.3.2" "1.11.1"   "https://cloud.r-project.org/src/contrib"
+stringi        "4.3.2" "1.8.7"    "https://cloud.r-project.org/src/contrib"
+stringr        "4.3.2" "1.5.2"    "https://cloud.r-project.org/src/contrib"
+sys            "4.3.1" "3.4.3"    "https://cloud.r-project.org/src/contrib"
+systemfonts    "4.3.1" "1.2.3"    "https://cloud.r-project.org/src/contrib"
+textshaping    "4.3.1" "1.0.3"    "https://cloud.r-project.org/src/contrib"
+tibble         "4.3.1" "3.3.0"    "https://cloud.r-project.org/src/contrib"
+tidyselect     "4.2.2" "1.2.1"    "https://cloud.r-project.org/src/contrib"
+tinytex        "4.3.2" "0.57"     "https://cloud.r-project.org/src/contrib"
+tzdb           "4.3.1" "0.5.0"    "https://cloud.r-project.org/src/contrib"
+utf8           "4.3.1" "1.2.6"    "https://cloud.r-project.org/src/contrib"
+uuid           "4.3.2" "1.2-1"    "https://cloud.r-project.org/src/contrib"
+withr          "4.1.2" "3.0.2"    "https://cloud.r-project.org/src/contrib"
+xfun           "4.3.2" "0.53"     "https://cloud.r-project.org/src/contrib"
+xml2           "4.3.2" "1.4.0"    "https://cloud.r-project.org/src/contrib"
+yaml           "4.3.2" "2.3.10"   "https://cloud.r-project.org/src/contrib"
+boot           "4.4.2" "1.3-32"   "https://cloud.r-project.org/src/contrib"
+lattice        "4.3.3" "0.22-7"   "https://cloud.r-project.org/src/contrib"
+mgcv           "4.3.2" "1.9-3"    "https://cloud.r-project.org/src/contrib"
+spatial        "4.4.0" "7.3-18"   "https://cloud.r-project.org/src/contrib"</code></pre>
+</div>
+</div>
+<p><strong>Atualizar apenas alguns pacotes:</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">update.packages</span>(<span class="at">oldPkgs =</span> <span class="fu">c</span>(<span class="st">"gamlss"</span>, <span class="st">"ggmap"</span>), <span class="at">ask =</span> <span class="cn">FALSE</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
 </section>
 <section id="estrutura-lógicas" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="estrutura-lógicas">Estrutura Lógicas</h2>

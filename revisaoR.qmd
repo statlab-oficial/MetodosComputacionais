@@ -35,9 +35,270 @@ Mais adiante, mostraremos como fixar o mirror no `R` permanentemente.
 **Rtools:** após instalar, reinicie o R/RStudio. Em geral, o Rtools adiciona as ferramentas ao *PATH* automaticamente.
 :::
 
-## Instalando Pacotes {.unnumbered}
 
-## Objetos {.unnumbered}
+### macOS {.unnumbered}
+
+1. Acesse **`R` for macOS** no CRAN e baixe o arquivo `.pkg` da versão atual.
+
+2. Abra o `.pkg` e conclua a instalação.
+
+3. (Opcional) Para compilar pacotes, instale também as **Command Line Tools** do Xcode:
+
+```bash
+xcode-select --install
+``` 
+
+### Linux {.unnumbered}
+
+**Ubuntu/Debian**
+
+Opção rápida (repositório da distribuição):
+
+```
+sudo apt update
+sudo apt install -y r-base
+```
+
+Para obter versões mais novas (repositório do CRAN), siga as instruções do CRAN para adicionar o repositório oficial e então:
+
+```
+sudo apt update
+sudo apt install -y r-base r-base-dev
+```
+
+**Verificar a instalação**
+
+No terminal/Prompt:
+
+```
+R --version
+R
+```
+
+Dentro do R:
+
+```{r}
+version
+```
+
+Se o `R` abriu no console, a instalação está ok!
+
+
+**Teste rápido de pacotes**
+
+No R:
+
+```{r}
+#install.packages("tidyverse")   # teste de instalação/espelho
+library(tidyverse)
+
+tibble(x = 1:5, y = x^2)
+
+```
+
+Se o pacote instalou e carregou sem erros, está tudo certo.
+
+#### Fixar um mirror brasileiro do CRAN {.unnumbered}
+
+Defina o espelho apenas nesta sessão:
+
+```{r}
+#| eval: false
+
+options(repos = c(CRAN = "https://cran-r.c3sl.ufpr.br"))
+install.packages("ggplot2")
+```
+
+Para tornar **permanente**, adicione a linha abaixo ao seu arquivo `~/.Rprofile`:
+
+```{r}
+#| eval: false
+
+options(repos = c(CRAN = "https://cloud.r-project.org"))
+# ou, se preferir, o espelho da UFPR:
+# options(repos = c(CRAN = "https://cran-r.c3sl.ufpr.br"))
+```
+
+#### Como editar o `~/.Rprofile` {.unnumbered}
+
+- Linux/macOS:
+
+```
+echo 'options(repos = c(CRAN = "https://cloud.r-project.org"))' >> ~/.Rprofile
+```
+
+- Windows: o `~` normalmente aponta para `C:\\Users\\SEU_USUARIO\\Documents`.
+
+Você pode criar/editar `C:\\Users\\SEU_USUARIO\\Documents\\.Rprofile` com um editor de texto.
+
+
+#### (Opcional) IDE recomendada: RStudio {.unnumbered}
+
+Após instalar o `R`, instale o `RStudio Desktop` (Posit) para um ambiente de desenvolvimento mais amigável:
+
+- Criação/edição de scripts
+
+- Gerenciamento de projetos
+
+- Visualização de plots e help integrados
+
+#### Dicas e solução de problemas {.unnumbered}
+
+- **Permissões de administrador:** em ambientes corporativos, pode ser necessário pedir para TI instalar o `R`.
+
+- **Firewall/Proxy:** se a instalação de pacotes falhar, verifique configurações de proxy e tente trocar o mirror.
+
+- **Compatibilidade de versões:** ao compilar pacotes, garanta que as ferramentas (Rtools no Windows; CLT/Xcode no macOS) correspondam à sua versão do `R`.
+
+- Atualização do `R`: ao atualizar o `R`, alguns pacotes precisarão ser reinstalados; use `install.packages()` novamente.
+
+- **Testes mínimos:**
+
+```{r}
+sessionInfo()
+capabilities()  # checa recursos gráficos, etc.
+```
+
+
+## O que é o `R` {.unnumbered}
+
+`R` é uma implementação moderna da linguagem `S`, voltada à computação estatística e à visualização de dados. Ele reúne, no mesmo lugar, um ambiente interativo para análise e criação de gráficos e uma linguagem de programação completa.
+
+::: callout-note
+**Em uma frase:** R é um ambiente estatístico + uma linguagem, criada para trabalhar bem com dados, gráficos e métodos modernos.
+:::
+
+
+#### Principais características {.unnumbered}
+
+- **Interativo e interpretado**, com suporte a **JIT/bytecode** via pacote `compiler`.
+
+- **Orientado a objetos** (S3, S4 e R6) e com forte base **funcional**.
+
+- **Modelo “tudo é objeto”**: números, vetores, data frames, funções, ambientes e modelos ajustados.
+
+- **Vetorização nativa** e operações matriciais eficientes.
+
+- **Ecossistema de pacotes** amplo (CRAN, Bioconductor) para estatística e ciência de dados.
+
+- **Extensível** com C/C++/Fortran e integração com Python, SQL e serviços externos.
+
+- **Multiplataforma** (Windows, macOS, Linux) e foco em **reprodutibilidade** (scripts, Quarto/R Markdown).
+
+#### Exemplo - "tudo é objeto"  {.unnumbered}
+
+```{r}
+#| label: exemplo-objeto
+#| echo: true
+#| message: false
+#| warning: false
+
+x <- 1:5               # vetor (objeto)
+media <- mean(x)       # função aplicada ao objeto
+
+f <- function(z) z^2
+classe_f <- class(f)   # "function" — funções também são objetos
+
+attr(x, "nota") <- "exemplo de atributo"
+lista <- list(x = x, media = media, classe_f = classe_f)
+
+str(lista)             # inspeciona a estrutura
+lista
+```
+
+
+::: callout-tip
+Dica: use `str(obj)` para entender a estrutura de qualquer objeto no `R`.
+
+Outras funções úteis: `class()`, `attributes()`, `typeof()`, `methods(class = ...)`.
+:::
+
+Aqui vai como mudar o *prompt* do `R` para `R>`, na sessão atual usando:
+
+```{r}
+options(prompt = "R> ", continue = "+")
+```
+
+Para adicionar comentários no `R`, como você observou nos exemplos acima, basta usar `#`, como no exemplo abaixo:
+
+```{r}
+#Este é um comentário! 
+#Que o semestre seja leve para todos nós!
+```
+
+Uma sessão ativa do `R` sempre está “apontando” para um diretório de trabalho. Se você não informar um caminho completo ao salvar ou importar arquivos, o `R` usará esse diretório por padrão. Para descobrir onde ele está:
+
+```{r}
+getwd()
+```
+
+Se você deseja modificar o diretório de trabalho, isso pode ser feito de maneira simples:
+
+```{r}
+#| eval: false
+
+# Windows
+setwd("C:/Users/SeuUsuario/Documents/meu-projeto")
+
+# macOS / Linux
+setwd("/Users/seuusuario/meu-projeto")
+
+```
+
+
+O `R` não vem com todos os pacotes adicionais que a comunidade desenvolve. Para usá-los, você precisa baixar e instalar a partir de um repositório, em geral, o CRAN.
+
+```{r}
+#| eval: false
+# define um espelho (mirror) do CRAN para esta sessão
+options(repos = c(CRAN = "https://cloud.r-project.org"))
+
+# instala um ou mais pacotes
+install.packages("tidyverse")
+install.packages(c("ggplot2", "dplyr", "readr"))
+
+# carrega para usar
+library(tidyverse)
+```
+
+A instalação pode ser feita também facilmente usando o `RStudio`. 
+
+Pacotes da comunidade são atualizados com frequência para corrigir erros e acrescentar recursos. Periodicamente, vale checar se há novas versões para o que você já tem instalado. A partir do console do `R`, você pode verificar e atualizar com um único comando.
+
+```{r}
+#| eval: false
+
+# defina um mirror (opcional, mas recomendável)
+options(repos = c(CRAN = "https://cloud.r-project.org"))
+
+# procura versões mais novas e atualiza automaticamente
+update.packages(ask = FALSE, checkBuilt = TRUE)
+```
+
+- `ask = FALSE` atualiza sem perguntar pacote a pacote.
+
+- `checkBuilt = TRUE` recompila pacotes se sua versão do `R` mudou.
+
+**Ver o que está desatualizado antes:**
+
+```{r}
+#| warning: false
+#| message: false
+
+old.packages()  # retorna uma tabela com pacotes que têm versão mais nova
+```
+
+
+**Atualizar apenas alguns pacotes:**
+
+```{r}
+#| eval: false
+
+update.packages(oldPkgs = c("gamlss", "ggmap"), ask = FALSE)
+```
+
+
+
 
 ## Estrutura Lógicas {.unnumbered}
 
