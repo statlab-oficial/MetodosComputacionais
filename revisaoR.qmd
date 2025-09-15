@@ -429,7 +429,10 @@ for (myitem in 5:7) {
 }
 ```
 
-> **Dica de estilo:** chaves na mesma linha do for, quebra de linha para o corpo e indentação consistente.
+::: callout-tip
+ **Dica de estilo:** chaves na mesma linha do for, quebra de linha para o corpo e indentação consistente.
+::: 
+
 
 3) Linhas longas: uma linha só ou “quebradas”
 
@@ -509,7 +512,8 @@ x; y; x - y                  # diferença minúscula de arredondamento binário
 options(old)
 
 # Comparação com tolerância
-all.equal(x, y)              # TRUE (dentro da tolerância padrão)
+x;y
+all.equal(x, y)              # Se “quase iguais”, retorna TRUE. Se diferem, retorna uma string explicando a diferença (ex.: "Mean relative difference: 1.2e-08").
 isTRUE(all.equal(x, y))      # retorna um lógico (TRUE/FALSE)
 
 # 2) Outros casos que sofrem com ponto flutuante
@@ -595,6 +599,13 @@ rep(3, times = 4)      # repetição
 c(1, TRUE, "a") # tudo vira character
 ```
 
+::: callout-warning
+Quando você faz `c(1, TRUE, "a")`, o `R` precisa escolher um tipo comum para todos os elementos. A regra de coerção (promoção de tipos) segue, a grosso modo:
+
+`logical` ⟶ `integer` ⟶ `double` ⟶ `complex` ⟶ `character`
+:::
+
+
 - Indexação e filtragem:
 
 ```{r}
@@ -611,7 +622,19 @@ x["c"]
 
 4.1. Vetorização e reciclagem
 
-A maioria das operações é vetorizada (aplica-se elemento a elemento). Quando os comprimentos diferem, R tenta reciclar o menor vetor.
+A maioria das operações é vetorizada (aplica-se elemento a elemento). Quando os comprimentos diferem, `R` tenta reciclar o menor vetor.
+
+
+```{r}
+#| label: vetorizacao
+#| echo: true
+a <- 1:5
+b <- 10
+a + b   # soma escalar-vetor (b é reciclado)
+
+a + c(1, 2) # reciclagem com aviso (5 não é múltiplo de 2)
+```
+
 
 
 4.2. Nomes × Objetos e copy-on-modify
@@ -626,14 +649,15 @@ x  # permanece 1 2 3
 y  # 99 2 3
 ```
 
-- Exceção: ambientes e estruturas por referência (p.ex., R6) não seguem copy-on-modify.
-
+::: callout-warning
+Exceção: ambientes e estruturas por referência (p.ex., R6) não seguem copy-on-modify.
+:::
 
 ### Exercícios  {.unnumbered}
 
-1. Crie um vetor com os números de $5$ a $15$ e calcule a média.
+1. Crie um vetor com os números de `5` a `15` e calcule a média.
 
-2. Use `seq()` para gerar $0, 0.5, 1,\dots, 5$.
+2. Use `seq()` para gerar `0, 0.5, 1,..., 5`.
 
 3. Mostre com código a diferença entre `%/%` e `%%` usando 14 e 6.
 
@@ -641,9 +665,9 @@ y  # 99 2 3
 
 5. Verifique o tipo de `1`, `1L` e `1+0i`. Explique a diferença entre tipo (typeof) e classe (class).
 
-6. Crie e armazene uma sequência de valores de **5 a −11**, progredindo em **passos de 0.3**.
+6. Crie e armazene uma sequência de valores de `5 a −11`, progredindo em `passos de 0.3`.
 
-7. Sobrescreva o objeto de (a) com a mesma sequência invertida.
+7. Reescreva o objeto de (6) com a mesma sequência invertida.
 
 8. Repita o vetor `c(-1, 3, -5, 7, -9)` duas vezes, com cada elemento repetido 10 vezes.
 Apresente os dados ordenados do maior para o menor.
@@ -656,9 +680,9 @@ b) `5.3` repetido 3 vezes;
 
 c) o número `−3`;
 
-d) `9` valores iniciando em 102 e terminando em `length(vc)` (do item (8)).
+d) Uma sequência de nove valores começando em `102` e terminando no número que é o comprimento total do vetor criado em (8).
 
-10. Confirme que o comprimento do vetor criado em d) é 20.
+10. Confirme que o comprimento do vetor criado em (9) é 20.
 
 <!-- ## Estrutura Lógicas {.unnumbered} -->
 
