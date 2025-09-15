@@ -104,6 +104,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -190,10 +219,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#linux" id="toc-linux" class="nav-link" data-scroll-target="#linux">Linux</a></li>
   </ul></li>
   <li><a href="#o-que-é-o-r" id="toc-o-que-é-o-r" class="nav-link" data-scroll-target="#o-que-é-o-r">O que é o <code>R</code></a></li>
-  <li><a href="#estrutura-lógicas" id="toc-estrutura-lógicas" class="nav-link" data-scroll-target="#estrutura-lógicas">Estrutura Lógicas</a></li>
-  <li><a href="#estruturas-de-controle" id="toc-estruturas-de-controle" class="nav-link" data-scroll-target="#estruturas-de-controle">Estruturas de Controle</a></li>
-  <li><a href="#funções" id="toc-funções" class="nav-link" data-scroll-target="#funções">Funções</a></li>
-  <li><a href="#distribuições-de-probabilidade" id="toc-distribuições-de-probabilidade" class="nav-link" data-scroll-target="#distribuições-de-probabilidade">Distribuições de Probabilidade</a></li>
+  <li><a href="#números-aritmética-atribuição-e-vetores" id="toc-números-aritmética-atribuição-e-vetores" class="nav-link" data-scroll-target="#números-aritmética-atribuição-e-vetores">Números, Aritmética, Atribuição e Vetores</a>
+  <ul class="collapse">
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -932,21 +961,490 @@ spatial        "4.4.0" "7.3-18"   "https://cloud.r-project.org/src/contrib"</cod
 <div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">update.packages</span>(<span class="at">oldPkgs =</span> <span class="fu">c</span>(<span class="st">"gamlss"</span>, <span class="st">"ggmap"</span>), <span class="at">ask =</span> <span class="cn">FALSE</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>O <code>R</code> traz um conjunto amplo de arquivos de ajuda que permitem:</p>
+<ul>
+<li><p>Buscar funcionalidades por nome ou por tema.</p></li>
+<li><p>Entender como usar uma função e quais argumentos ela recebe.</p></li>
+<li><p>Esclarecer o papel de cada argumento e o que a função retorna.</p></li>
+<li><p>Ver exemplos de uso prontos para rodar.</p></li>
+<li><p>Saber como citar o <code>R</code>, pacotes e conjuntos de dados em publicações.</p></li>
+</ul>
+<p>Agora iremos ver algumas funções úteis:</p>
+<ul>
+<li>Ajuda com função específica:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>?lm <span class="co"># atalho                  </span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(<span class="st">"lm"</span>) <span class="co">#abre a documentação da função</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(<span class="at">package =</span> <span class="st">"stats"</span>) <span class="co"># índice de um pacote</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Buscar por tema (se você não sabe o nome exato):</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>??<span class="st">"linear model"</span>        <span class="co"># busca por tópicos</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">help.search</span>(<span class="st">"normal"</span>)   <span class="co"># alternativa</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">apropos</span>(<span class="st">"plot"</span>)         <span class="co"># lista objetos cujo nome contém "plot"</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Ver argumentos e formas de chamada</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">args</span>(lm)  <span class="co"># nomes dos argumentos (se aplicável)</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">formals</span>(lm) <span class="co"># valores-padrão dos argumentos</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Exemplos, retorno e estrutura</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">example</span>(lm) <span class="co"># roda os exemplos da ajuda</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg <span class="sc">~</span> wt, <span class="at">data =</span> mtcars)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(m)                  <span class="co"># inspeciona o objeto retornado</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="fu">methods</span>(<span class="st">"predict"</span>)      <span class="co"># métodos disponíveis para um genérico</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Vignettes (tutoriais)</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vignette</span>()  <span class="co"># lista geral</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">vignette</span>(<span class="at">package =</span> <span class="st">"ggplot2"</span>) <span class="co"># vignettes de um pacote</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">browseVignettes</span>(<span class="at">package =</span> <span class="st">"dplyr"</span>)  <span class="co"># abre no navegador</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Como citar R/pacotes/dados</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">citation</span>()  <span class="co"># como citar o R</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>To cite R in publications use:
+
+  R Core Team (2025). _R: A Language and Environment for Statistical
+  Computing_. R Foundation for Statistical Computing, Vienna, Austria.
+  &lt;https://www.R-project.org/&gt;.
+
+Uma entrada BibTeX para usuários(as) de LaTeX é
+
+  @Manual{,
+    title = {R: A Language and Environment for Statistical Computing},
+    author = {{R Core Team}},
+    organization = {R Foundation for Statistical Computing},
+    address = {Vienna, Austria},
+    year = {2025},
+    url = {https://www.R-project.org/},
+  }
+
+We have invested a lot of time and effort in creating R, please cite it
+when using it for data analysis. See also 'citation("pkgname")' for
+citing R packages.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">"ggplot2"</span>)   <span class="co"># como citar um pacote</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>To cite ggplot2 in publications, please use
+
+  H. Wickham. ggplot2: Elegant Graphics for Data Analysis.
+  Springer-Verlag New York, 2016.
+
+Uma entrada BibTeX para usuários(as) de LaTeX é
+
+  @Book{,
+    author = {Hadley Wickham},
+    title = {ggplot2: Elegant Graphics for Data Analysis},
+    publisher = {Springer-Verlag New York},
+    year = {2016},
+    isbn = {978-3-319-24277-4},
+    url = {https://ggplot2.tidyverse.org},
+  }</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">toBibtex</span>(<span class="fu">citation</span>(<span class="st">"ggplot2"</span>))  <span class="co"># em BibTeX </span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>@Book{,
+  author = {Hadley Wickham},
+  title = {ggplot2: Elegant Graphics for Data Analysis},
+  publisher = {Springer-Verlag New York},
+  year = {2016},
+  isbn = {978-3-319-24277-4},
+  url = {https://ggplot2.tidyverse.org},
+}</code></pre>
+</div>
+</div>
+<ul>
+<li>Conjuntos de dados</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>() <span class="co"># abre uma lista com os datasets disponíveis</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ?mtcars   # ajuda de um dataset específico</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Console vs.&nbsp;editor: Você pode digitar comandos diretamente no console ou escrever um script no editor e então executá-lo. Em materiais didáticos, distinguimos os dois formatos para evitar confusão.</p>
+<ol type="1">
+<li>Código mostrado com prompt <code>(R&gt;)</code> = digitado no console</li>
+</ol>
+<ul>
+<li>Em livros/notas, comandos de console costumam aparecer com o prompt na frente. Exemplo (divisão de 14 por 6):</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="fu">options</span>(<span class="at">prompt =</span> <span class="st">"R&gt; "</span>, <span class="at">continue =</span> <span class="st">"+ "</span>)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>R<span class="sc">&gt;</span> <span class="dv">14</span><span class="sc">/</span><span class="dv">6</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Ao copiar para o <code>R</code>, remova o <code>R&gt;</code>, o console já mostra o seu próprio prompt.</li>
+</ul>
+<ol start="2" type="1">
+<li>Código pensado para script (sem prompt)</li>
+</ol>
+<ul>
+<li>Quando o texto disser “escreva no editor e depois execute”, o código aparece sem <code>R&gt;</code>. Exemplo (laço simples):</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (myitem <span class="cf">in</span> <span class="dv">5</span><span class="sc">:</span><span class="dv">7</span>) {</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"--INÍCIO DO BLOCO--</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"o item atual é"</span>, myitem, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"--FIM DO BLOCO--</span><span class="sc">\n\n</span><span class="st">"</span>)</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>--INÍCIO DO BLOCO--
+o item atual é 5 
+--FIM DO BLOCO--
+
+--INÍCIO DO BLOCO--
+o item atual é 6 
+--FIM DO BLOCO--
+
+--INÍCIO DO BLOCO--
+o item atual é 7 
+--FIM DO BLOCO--</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Dica de estilo:</strong> chaves na mesma linha do for, quebra de linha para o corpo e indentação consistente.</p>
+</blockquote>
+<ol start="3" type="1">
+<li>Linhas longas: uma linha só ou “quebradas”</li>
+</ol>
+<ul>
+<li><p>Chamadas extensas podem ficar em uma linha ou ser quebradas em pontos naturais (geralmente após vírgulas ou antes de argumentos nomeados).</p></li>
+<li><p>Ao quebrar, alinhe com o parêntese de abertura ou indente um nível.</p></li>
+</ul>
+<p>Uma linha:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>ordfac.vec <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="st">"Small"</span>,<span class="st">"Large"</span>,<span class="st">"Large"</span>,<span class="st">"Regular"</span>,<span class="st">"Small"</span>),</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Small"</span>,<span class="st">"Regular"</span>,<span class="st">"Large"</span>),</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ordered =</span> <span class="cn">TRUE</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Quebrada (equivalente, apenas formatação):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>ordfac.vec2 <span class="ot">&lt;-</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">factor</span>(</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">x       =</span> <span class="fu">c</span>(<span class="st">"Small"</span>,<span class="st">"Large"</span>,<span class="st">"Large"</span>,<span class="st">"Regular"</span>,<span class="st">"Small"</span>),</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">levels  =</span> <span class="fu">c</span>(<span class="st">"Small"</span>,<span class="st">"Regular"</span>,<span class="st">"Large"</span>),</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">ordered =</span> <span class="cn">TRUE</span></span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(ordfac.vec, ordfac.vec2)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
 </section>
 </section>
-<section id="estrutura-lógicas" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="estrutura-lógicas">Estrutura Lógicas</h2>
-</section>
-<section id="estruturas-de-controle" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="estruturas-de-controle">Estruturas de Controle</h2>
-</section>
-<section id="funções" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="funções">Funções</h2>
-</section>
-<section id="distribuições-de-probabilidade" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="distribuições-de-probabilidade">Distribuições de Probabilidade</h2>
+<section id="números-aritmética-atribuição-e-vetores" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="números-aritmética-atribuição-e-vetores">Números, Aritmética, Atribuição e Vetores</h2>
+<ol type="1">
+<li>Números (<em>numerics</em>)</li>
+</ol>
+<p>Em <code>R</code>, o tipo numérico padrão é <strong>double</strong> (ponto flutuante). Você também pode ter <strong>inteiros</strong> (sufixo <code>L</code>) e <strong>complexos</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(<span class="dv">1</span>)      <span class="co"># "double"</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "double"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(<span class="dv">1</span>L)     <span class="co"># "integer"</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "integer"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(<span class="dv">1</span><span class="sc">+</span><span class="dv">2</span>i)   <span class="co"># "complex</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "complex"</code></pre>
+</div>
+</div>
+<ul>
+<li>Valores especiais:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">/</span><span class="dv">0</span>  <span class="co"># Inf</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] Inf</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span><span class="dv">1</span><span class="sc">/</span><span class="dv">0</span> <span class="co"># -Inf</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -Inf</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="dv">0</span><span class="sc">/</span><span class="dv">0</span>  <span class="co"># NaN</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NaN</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.finite</span>(<span class="fu">c</span>(<span class="cn">Inf</span>, <span class="fl">3.14</span>)) <span class="co"># checa finitude</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE  TRUE</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Dica
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Precisão numérica: comparações com <code>==</code> podem falhar por arredondamento binário. Prefira <code>all.equal(x, y)</code>.</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1) Exemplo clássico</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fl">0.1</span> <span class="sc">+</span> <span class="fl">0.2</span></span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fl">0.3</span></span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a>x <span class="sc">==</span> y                       <span class="co"># pode dar FALSE</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(x, y)              <span class="co"># compara "bit a bit": quase sempre FALSE aqui</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ver a diferença real (use mais dígitos)</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>old <span class="ot">&lt;-</span> <span class="fu">options</span>(<span class="at">digits =</span> <span class="dv">17</span>)</span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>x; y; x <span class="sc">-</span> y                  <span class="co"># diferença minúscula de arredondamento binário</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.30000000000000004</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.29999999999999999</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5.5511151231257827e-17</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(old)</span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Comparação com tolerância</span></span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(x, y)              <span class="co"># TRUE (dentro da tolerância padrão)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">isTRUE</span>(<span class="fu">all.equal</span>(x, y))      <span class="co"># retorna um lógico (TRUE/FALSE)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2) Outros casos que sofrem com ponto flutuante</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sin</span>(pi)                      <span class="co"># ~ 1.224646799e-16 (não é 0 exato)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.224647e-16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sin</span>(pi) <span class="sc">==</span> <span class="dv">0</span>                 <span class="co"># FALSE</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(<span class="fu">sin</span>(pi), <span class="dv">0</span>)        <span class="co"># TRUE</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 3) Ajustando a tolerância manualmente (quando precisar ser mais/menos rígido)</span></span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(x, y, <span class="at">tolerance =</span> <span class="fl">1e-12</span>)  <span class="co"># ainda TRUE</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(x, y, <span class="at">tolerance =</span> <span class="fl">1e-20</span>)  <span class="co"># agora acusa diferença</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Mean relative difference: 1.850372e-16"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 4) Estratégia base sem all.equal: comparar o |erro| com um limite</span></span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a><span class="fu">abs</span>((<span class="fu">sqrt</span>(<span class="dv">2</span>))<span class="sc">^</span><span class="dv">2</span> <span class="sc">-</span> <span class="dv">2</span>) <span class="sc">&lt;</span> <span class="fl">1e-12</span> <span class="co"># TRUE (aceita "igualdade" numérica com folga)</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<ol start="2" type="1">
+<li>Aritmética</li>
+</ol>
+<p>Operadores básicos: <code>+ - * / ^</code> e, ainda, divisão inteira <code>%/%</code> e módulo <code>%%</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="dv">14</span><span class="sc">/</span><span class="dv">6</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.333333</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="dv">14</span> <span class="sc">%/%</span> <span class="dv">6</span> <span class="co"># quociente inteiro</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="dv">14</span> <span class="sc">%%</span> <span class="dv">6</span> <span class="co"># resto</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">^</span><span class="dv">3</span>  <span class="co"># potência</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 8</code></pre>
+</div>
+</div>
+<ul>
+<li>Precedência: <code>^</code> → <code>* / %/% %%</code> → <code>+ -</code>. <strong>Use parênteses para deixar claro!</strong></li>
+</ul>
+<ol start="3" type="1">
+<li>Atribuição</li>
+</ol>
+<p>O padrão recomendado é <code>&lt;-</code>. <code>=</code> também atribui, mas use-o preferencialmente para argumentos de função. <code>-&gt;</code> é atribuição para a direita. <code>&lt;&lt;-</code> afeta o ambiente pai (use com parcimônia).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">=</span> <span class="dv">5</span>   <span class="co"># ok, mas prefira &lt;- fora de chamadas de função</span></span>
+<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> x <span class="sc">+</span> y</span>
+<span id="cb96-4"><a href="#cb96-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-5"><a href="#cb96-5" aria-hidden="true" tabindex="-1"></a>z <span class="ot">-&gt;</span> resultado  <span class="co"># atribuição para a direita (menos comum)</span></span>
+<span id="cb96-6"><a href="#cb96-6" aria-hidden="true" tabindex="-1"></a>resultado</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 15</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemplo de &lt;&lt;- (evite, pode dificultar depuração)</span></span>
+<span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a>contador <span class="ot">&lt;-</span> <span class="fu">local</span>({</span>
+<span id="cb98-3"><a href="#cb98-3" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb98-4"><a href="#cb98-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>() { n <span class="ot">&lt;&lt;-</span> n <span class="sc">+</span> <span class="dv">1</span>; n }</span>
+<span id="cb98-5"><a href="#cb98-5" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb98-6"><a href="#cb98-6" aria-hidden="true" tabindex="-1"></a><span class="fu">contador</span>(); <span class="fu">contador</span>(); <span class="fu">contador</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Aviso
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Boas práticas:</strong> Evite <code>&lt;&lt;-</code> sempre que possível; prefira retornar valores e trabalhar com escopos explícitos.</p>
+</div>
+</div>
+<ol start="4" type="1">
+<li>Vetores (atômicos)</li>
+</ol>
+<p>Vetores são coleções unidimensionais do mesmo tipo: lógico, inteiro, double, caractere, complexo ou raw.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>)</span>
+<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(v); <span class="fu">typeof</span>(v)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "double"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="at">by =</span> <span class="dv">2</span>)      <span class="co"># sequência</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 3 5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>                    <span class="co"># atalho</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3 4 5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb109"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="dv">3</span>, <span class="at">times =</span> <span class="dv">4</span>)      <span class="co"># repetição</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3 3 3 3</code></pre>
+</div>
+</div>
+<ul>
+<li><em>Coerção automática:</em> ao misturar tipos, <code>R</code> promove para um tipo comum.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb111"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="dv">1</span>, <span class="cn">TRUE</span>, <span class="st">"a"</span>) <span class="co"># tudo vira character</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "1"    "TRUE" "a"   </code></pre>
+</div>
+</div>
+<ul>
+<li>Indexação e filtragem:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb113"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>)</span>
+<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">3</span>]             <span class="co"># posição</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 30</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb115"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb115-1"><a href="#cb115-1" aria-hidden="true" tabindex="-1"></a>x[<span class="sc">-</span><span class="dv">1</span>]            <span class="co"># tudo, exceto o 1º</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 20 30 40 50</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a>x[x <span class="sc">&gt;</span> <span class="dv">25</span>]        <span class="co"># filtragem lógica</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 30 40 50</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(x <span class="sc">&gt;</span> <span class="dv">25</span>)    <span class="co"># posições TRUE</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3 4 5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb121"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb121-1"><a href="#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(x) <span class="ot">&lt;-</span> letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
+<span id="cb121-2"><a href="#cb121-2" aria-hidden="true" tabindex="-1"></a>x[<span class="st">"c"</span>]</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> c 
+30 </code></pre>
+</div>
+</div>
+<p>4.1. Vetorização e reciclagem</p>
+<p>A maioria das operações é vetorizada (aplica-se elemento a elemento). Quando os comprimentos diferem, R tenta reciclar o menor vetor.</p>
+<p>4.2. Nomes × Objetos e copy-on-modify</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb123"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span></span>
+<span id="cb123-2"><a href="#cb123-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> x</span>
+<span id="cb123-3"><a href="#cb123-3" aria-hidden="true" tabindex="-1"></a>y[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">99</span></span>
+<span id="cb123-4"><a href="#cb123-4" aria-hidden="true" tabindex="-1"></a>x  <span class="co"># permanece 1 2 3</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb125"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a>y  <span class="co"># 99 2 3</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 99  2  3</code></pre>
+</div>
+</div>
+<ul>
+<li>Exceção: ambientes e estruturas por referência (p.ex., R6) não seguem copy-on-modify.</li>
+</ul>
+<section id="exercícios" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="exercícios">Exercícios</h3>
+<ol type="1">
+<li><p>Crie um vetor com os números de <span class="math inline">\(5\)</span> a <span class="math inline">\(15\)</span> e calcule a média.</p></li>
+<li><p>Use <code>seq()</code> para gerar <span class="math inline">\(0, 0.5, 1,\dots, 5\)</span>.</p></li>
+<li><p>Mostre com código a diferença entre <code>%/%</code> e <code>%%</code> usando 14 e 6.</p></li>
+<li><p>Atribua <code>x &lt;- 1:4</code> e some com o vetor <code>c(10, 20)</code>. O que acontece?</p></li>
+<li><p>Verifique o tipo de <code>1</code>, <code>1L</code> e <code>1+0i</code>. Explique a diferença entre tipo (typeof) e classe (class).</p></li>
+<li><p>Crie e armazene uma sequência de valores de <strong>5 a −11</strong>, progredindo em <strong>passos de 0.3</strong>.</p></li>
+<li><p>Sobrescreva o objeto de (a) com a mesma sequência invertida.</p></li>
+<li><p>Repita o vetor <code>c(-1, 3, -5, 7, -9)</code> duas vezes, com cada elemento repetido 10 vezes. Apresente os dados ordenados do maior para o menor.</p></li>
+<li><p>Crie e armazene um vetor contendo, em qualquer ordem:</p></li>
+</ol>
+<ol type="a">
+<li><p>inteiros de <code>6</code> a <code>12</code> (inclusive);</p></li>
+<li><p><code>5.3</code> repetido 3 vezes;</p></li>
+<li><p>o número <code>−3</code>;</p></li>
+<li><p><code>9</code> valores iniciando em 102 e terminando em <code>length(vc)</code> (do item (8)).</p></li>
+</ol>
+<ol start="10" type="1">
+<li>Confirme que o comprimento do vetor criado em d) é 20.</li>
+</ol>
+<!-- ## Estrutura Lógicas {.unnumbered} -->
+<!-- ## Estruturas de Controle {.unnumbered} -->
+<!-- ## Funções {.unnumbered} -->
+<!-- ## Distribuições de Probabilidade {.unnumbered} -->
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

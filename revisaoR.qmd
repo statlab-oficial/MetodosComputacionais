@@ -298,15 +298,375 @@ update.packages(oldPkgs = c("gamlss", "ggmap"), ask = FALSE)
 ```
 
 
+O `R` traz um conjunto amplo de arquivos de ajuda que permitem:
+
+- Buscar funcionalidades por nome ou por tema.
+
+- Entender como usar uma função e quais argumentos ela recebe.
+
+- Esclarecer o papel de cada argumento e o que a função retorna.
+
+- Ver exemplos de uso prontos para rodar.
+
+- Saber como citar o `R`, pacotes e conjuntos de dados em publicações.
 
 
-## Estrutura Lógicas {.unnumbered}
+Agora iremos ver algumas funções úteis:
 
-## Estruturas de Controle {.unnumbered}
+- Ajuda com função específica:
 
-## Funções {.unnumbered}
+```{r}
+#| eval: false
 
-## Distribuições de Probabilidade {.unnumbered}
+?lm # atalho                  
+
+help("lm") #abre a documentação da função
+
+help(package = "stats") # índice de um pacote
+
+```
+
+- Buscar por tema (se você não sabe o nome exato):
+
+```{r}
+#| eval: false
+
+
+??"linear model"        # busca por tópicos
+help.search("normal")   # alternativa
+apropos("plot")         # lista objetos cujo nome contém "plot"
+```
+
+- Ver argumentos e formas de chamada
+
+```{r}
+#| eval: false
+
+args(lm)  # nomes dos argumentos (se aplicável)
+formals(lm) # valores-padrão dos argumentos
+```
+
+
+- Exemplos, retorno e estrutura
+
+```{r}
+#| eval: false
+
+example(lm) # roda os exemplos da ajuda
+m <- lm(mpg ~ wt, data = mtcars)
+str(m)                  # inspeciona o objeto retornado
+methods("predict")      # métodos disponíveis para um genérico
+
+```
+
+
+- Vignettes (tutoriais)
+
+```{r}
+#| eval: false
+
+vignette()  # lista geral
+vignette(package = "ggplot2") # vignettes de um pacote
+browseVignettes(package = "dplyr")  # abre no navegador
+```
+
+
+- Como citar R/pacotes/dados
+
+
+```{r}
+#| eval: true
+
+citation()  # como citar o R
+citation("ggplot2")   # como citar um pacote
+toBibtex(citation("ggplot2"))  # em BibTeX 
+
+
+```
+
+
+- Conjuntos de dados
+
+
+```{r}
+data() # abre uma lista com os datasets disponíveis
+
+# ?mtcars   # ajuda de um dataset específico
+```
+
+
+Console vs. editor:  Você pode digitar comandos diretamente no console ou escrever um script no editor e então executá-lo. Em materiais didáticos, distinguimos os dois formatos para evitar confusão.
+
+1) Código mostrado com prompt `(R>)` = digitado no console
+
+- Em livros/notas, comandos de console costumam aparecer com o prompt na frente.
+Exemplo (divisão de 14 por 6):
+
+```{r}
+#| label: console-exemplo
+#| eval: false
+#| prompt: true
+#| comment: NA
+options(prompt = "R> ", continue = "+ ")
+14/6
+```
+
+- Ao copiar para o `R`, remova o `R>`, o console já mostra o seu próprio prompt.
+
+2) Código pensado para script (sem prompt)
+
+- Quando o texto disser “escreva no editor e depois execute”, o código aparece sem `R>`.
+Exemplo (laço simples):
+
+
+```{r}
+#| label: loop-no-editor
+#| echo: true
+for (myitem in 5:7) {
+  cat("--INÍCIO DO BLOCO--\n")
+  cat("o item atual é", myitem, "\n")
+  cat("--FIM DO BLOCO--\n\n")
+}
+```
+
+> **Dica de estilo:** chaves na mesma linha do for, quebra de linha para o corpo e indentação consistente.
+
+3) Linhas longas: uma linha só ou “quebradas”
+
+- Chamadas extensas podem ficar em uma linha ou ser quebradas em pontos naturais (geralmente após vírgulas ou antes de argumentos nomeados).
+
+- Ao quebrar, alinhe com o parêntese de abertura ou indente um nível.
+
+Uma linha:
+
+```{r}
+#| label: linha-unica
+#| echo: true
+ordfac.vec <- factor(x = c("Small","Large","Large","Regular","Small"),
+                     levels = c("Small","Regular","Large"),
+                     ordered = TRUE)
+
+```
+
+Quebrada (equivalente, apenas formatação):
+
+```{r}
+#| label: linha-quebrada
+#| echo: true
+ordfac.vec2 <-
+  factor(
+    x       = c("Small","Large","Large","Regular","Small"),
+    levels  = c("Small","Regular","Large"),
+    ordered = TRUE
+  )
+identical(ordfac.vec, ordfac.vec2)
+
+```
+
+
+##  Números, Aritmética, Atribuição e Vetores  {.unnumbered}
+
+1) Números (*numerics*)
+
+Em `R`, o tipo numérico padrão é **double** (ponto flutuante). Você também pode ter **inteiros** (sufixo `L`) e **complexos**.
+
+```{r}
+#| label: numerics-basico
+#| echo: true
+typeof(1)      # "double"
+typeof(1L)     # "integer"
+typeof(1+2i)   # "complex
+```
+
+- Valores especiais:
+
+```{r}
+#| echo: true
+1/0  # Inf
+-1/0 # -Inf
+0/0  # NaN
+is.finite(c(Inf, 3.14)) # checa finitude
+```
+
+
+::: callout-tip
+Precisão numérica: comparações com `==` podem falhar por arredondamento binário. Prefira `all.equal(x, y)`.
+:::
+
+```{r}
+#| label: precisao-numerica
+#| echo: true
+# 1) Exemplo clássico
+x <- 0.1 + 0.2
+y <- 0.3
+
+x == y                       # pode dar FALSE
+identical(x, y)              # compara "bit a bit": quase sempre FALSE aqui
+
+# Ver a diferença real (use mais dígitos)
+old <- options(digits = 17)
+x; y; x - y                  # diferença minúscula de arredondamento binário
+options(old)
+
+# Comparação com tolerância
+all.equal(x, y)              # TRUE (dentro da tolerância padrão)
+isTRUE(all.equal(x, y))      # retorna um lógico (TRUE/FALSE)
+
+# 2) Outros casos que sofrem com ponto flutuante
+sin(pi)                      # ~ 1.224646799e-16 (não é 0 exato)
+sin(pi) == 0                 # FALSE
+all.equal(sin(pi), 0)        # TRUE
+
+# 3) Ajustando a tolerância manualmente (quando precisar ser mais/menos rígido)
+all.equal(x, y, tolerance = 1e-12)  # ainda TRUE
+all.equal(x, y, tolerance = 1e-20)  # agora acusa diferença
+
+# 4) Estratégia base sem all.equal: comparar o |erro| com um limite
+abs((sqrt(2))^2 - 2) < 1e-12 # TRUE (aceita "igualdade" numérica com folga)
+
+```
+
+
+2) Aritmética
+
+Operadores básicos: `+ - * / ^` e, ainda, divisão inteira `%/%` e módulo `%%`.
+
+
+```{r}
+#| label: aritmetica
+#| echo: true
+14/6
+14 %/% 6 # quociente inteiro
+14 %% 6 # resto
+2^3  # potência
+```
+
+
+- Precedência: `^` → `* / %/% %%` → `+ -`. **Use parênteses para deixar claro!**
+
+3) Atribuição
+
+O padrão recomendado é `<-`. `=` também atribui, mas use-o preferencialmente para argumentos de função. `->` é atribuição para a direita. `<<-` afeta o ambiente pai (use com parcimônia).
+
+
+```{r}
+#| label: atribuicao
+#| echo: true
+x <- 10
+y = 5   # ok, mas prefira <- fora de chamadas de função
+z <- x + y
+
+z -> resultado  # atribuição para a direita (menos comum)
+resultado
+
+# Exemplo de <<- (evite, pode dificultar depuração)
+contador <- local({
+  n <- 0
+  function() { n <<- n + 1; n }
+})
+contador(); contador(); contador()
+
+```
+
+
+::: callout-warning
+**Boas práticas:** Evite `<<-` sempre que possível; prefira retornar valores e trabalhar com escopos explícitos.
+:::
+
+4) Vetores (atômicos)
+
+Vetores são coleções unidimensionais do mesmo tipo: lógico, inteiro, double, caractere, complexo ou raw.
+
+```{r}
+#| label: vetores-basico
+#| echo: true
+v <- c(2, 4, 6, 8)
+length(v); typeof(v)
+
+seq(1, 5, by = 2)      # sequência
+1:5                    # atalho
+rep(3, times = 4)      # repetição
+```
+
+- *Coerção automática:* ao misturar tipos, `R` promove para um tipo comum.
+
+```{r}
+#| echo: true
+c(1, TRUE, "a") # tudo vira character
+```
+
+- Indexação e filtragem:
+
+```{r}
+#| label: indexacao
+#| echo: true
+x <- c(10, 20, 30, 40, 50)
+x[3]             # posição
+x[-1]            # tudo, exceto o 1º
+x[x > 25]        # filtragem lógica
+which(x > 25)    # posições TRUE
+names(x) <- letters[1:5]
+x["c"]
+```
+
+4.1. Vetorização e reciclagem
+
+A maioria das operações é vetorizada (aplica-se elemento a elemento). Quando os comprimentos diferem, R tenta reciclar o menor vetor.
+
+
+4.2. Nomes × Objetos e copy-on-modify
+
+```{r}
+#| label: copy-on-modify
+#| echo: true
+x <- 1:3
+y <- x
+y[1] <- 99
+x  # permanece 1 2 3
+y  # 99 2 3
+```
+
+- Exceção: ambientes e estruturas por referência (p.ex., R6) não seguem copy-on-modify.
+
+
+### Exercícios  {.unnumbered}
+
+1. Crie um vetor com os números de $5$ a $15$ e calcule a média.
+
+2. Use `seq()` para gerar $0, 0.5, 1,\dots, 5$.
+
+3. Mostre com código a diferença entre `%/%` e `%%` usando 14 e 6.
+
+4. Atribua `x <- 1:4` e some com o vetor `c(10, 20)`. O que acontece?
+
+5. Verifique o tipo de `1`, `1L` e `1+0i`. Explique a diferença entre tipo (typeof) e classe (class).
+
+6. Crie e armazene uma sequência de valores de **5 a −11**, progredindo em **passos de 0.3**.
+
+7. Sobrescreva o objeto de (a) com a mesma sequência invertida.
+
+8. Repita o vetor `c(-1, 3, -5, 7, -9)` duas vezes, com cada elemento repetido 10 vezes.
+Apresente os dados ordenados do maior para o menor.
+
+9. Crie e armazene um vetor contendo, em qualquer ordem:
+
+a) inteiros de `6` a `12` (inclusive);
+
+b) `5.3` repetido 3 vezes;
+
+c) o número `−3`;
+
+d) `9` valores iniciando em 102 e terminando em `length(vc)` (do item (8)).
+
+10. Confirme que o comprimento do vetor criado em d) é 20.
+
+<!-- ## Estrutura Lógicas {.unnumbered} -->
+
+<!-- ## Estruturas de Controle {.unnumbered} -->
+
+<!-- ## Funções {.unnumbered} -->
+
+<!-- ## Distribuições de Probabilidade {.unnumbered} -->
 
 
 
