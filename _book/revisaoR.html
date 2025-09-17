@@ -104,6 +104,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -193,6 +222,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#números-aritmética-atribuição-e-vetores" id="toc-números-aritmética-atribuição-e-vetores" class="nav-link" data-scroll-target="#números-aritmética-atribuição-e-vetores">Números, Aritmética, Atribuição e Vetores</a>
   <ul class="collapse">
   <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
+  </ul></li>
+  <li><a href="#matrizes" id="toc-matrizes" class="nav-link" data-scroll-target="#matrizes">Matrizes</a>
+  <ul class="collapse">
+  <li><a href="#exercícios-1" id="toc-exercícios-1" class="nav-link" data-scroll-target="#exercícios-1">Exercícios</a></li>
+  </ul></li>
+  <li><a href="#operações-com-matrizes" id="toc-operações-com-matrizes" class="nav-link" data-scroll-target="#operações-com-matrizes">Operações com matrizes</a>
+  <ul class="collapse">
+  <li><a href="#exercícios-2" id="toc-exercícios-2" class="nav-link" data-scroll-target="#exercícios-2">Exercícios</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -419,10 +456,10 @@ loaded via a namespace (and not attached):
  [5] dichromat_2.0-0.1  scales_1.4.0       yaml_2.3.8         fastmap_1.1.1     
  [9] R6_2.6.1           generics_0.1.3     knitr_1.50         htmlwidgets_1.6.4 
 [13] pillar_1.11.0      RColorBrewer_1.1-3 tzdb_0.4.0         rlang_1.1.6       
-[17] stringi_1.8.3      xfun_0.52          S7_0.2.0           timechange_0.3.0  
+[17] stringi_1.8.3      xfun_0.53          S7_0.2.0           timechange_0.3.0  
 [21] cli_3.6.5          withr_3.0.2        magrittr_2.0.3     digest_0.6.34     
 [25] grid_4.5.1         rstudioapi_0.15.0  hms_1.1.3          lifecycle_1.0.4   
-[29] vctrs_0.6.5        evaluate_1.0.4     glue_1.8.0         farver_2.1.2      
+[29] vctrs_0.6.5        evaluate_1.0.5     glue_1.8.0         farver_2.1.2      
 [33] rmarkdown_2.29     tools_4.5.1        pkgconfig_2.0.3    htmltools_0.5.8.1 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">capabilities</span>()  <span class="co"># checa recursos gráficos, etc.</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -569,363 +606,255 @@ Dica
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">old.packages</span>()  <span class="co"># retorna uma tabela com pacotes que têm versão mais nova</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>               Package         
-bookdown       "bookdown"      
-credentials    "credentials"   
-crosstalk      "crosstalk"     
-curl           "curl"          
-DT             "DT"            
-emmeans        "emmeans"       
-evaluate       "evaluate"      
-gamlss         "gamlss"        
-gamlss.data    "gamlss.data"   
-GGally         "GGally"        
-ggfx           "ggfx"          
-ggimage        "ggimage"       
-ggmap          "ggmap"         
-ggspatial      "ggspatial"     
-gld            "gld"           
-kSamples       "kSamples"      
-magick         "magick"        
-osmdata        "osmdata"       
-pagedown       "pagedown"      
-patchwork      "patchwork"     
-PKI            "PKI"           
-qqplotr        "qqplotr"       
-ragg           "ragg"          
-robustbase     "robustbase"    
-roxygen2       "roxygen2"      
-rprojroot      "rprojroot"     
-rsconnect      "rsconnect"     
-rsvg           "rsvg"          
-sftime         "sftime"        
-snowflakeauth  "snowflakeauth" 
-TH.data        "TH.data"       
-usethis        "usethis"       
-visNetwork     "visNetwork"    
-xaringan       "xaringan"      
-xaringanthemer "xaringanthemer"
-xfun           "xfun"          
-yulab.utils    "yulab.utils"   
-askpass        "askpass"       
-backports      "backports"     
-bit            "bit"           
-bit64          "bit64"         
-broom          "broom"         
-bslib          "bslib"         
-cachem         "cachem"        
-callr          "callr"         
-cli            "cli"           
-colorspace     "colorspace"    
-commonmark     "commonmark"    
-cpp11          "cpp11"         
-crayon         "crayon"        
-curl           "curl"          
-data.table     "data.table"    
-DBI            "DBI"           
-dbplyr         "dbplyr"        
-digest         "digest"        
-dtplyr         "dtplyr"        
-evaluate       "evaluate"      
-fansi          "fansi"         
-farver         "farver"        
-fastmap        "fastmap"       
-fontawesome    "fontawesome"   
-fs             "fs"            
-gargle         "gargle"        
-generics       "generics"      
-ggplot2        "ggplot2"       
-glue           "glue"          
-googledrive    "googledrive"   
-googlesheets4  "googlesheets4" 
-gtable         "gtable"        
-haven          "haven"         
-highr          "highr"         
-htmltools      "htmltools"     
-httpuv         "httpuv"        
-jsonlite       "jsonlite"      
-knitr          "knitr"         
-later          "later"         
-lubridate      "lubridate"     
-magrittr       "magrittr"      
-mime           "mime"          
-munsell        "munsell"       
-openssl        "openssl"       
-pillar         "pillar"        
-pkgKitten      "pkgKitten"     
-processx       "processx"      
-promises       "promises"      
-ps             "ps"            
-purrr          "purrr"         
-R6             "R6"            
-ragg           "ragg"          
-Rcpp           "Rcpp"          
-readxl         "readxl"        
-reprex         "reprex"        
-rlang          "rlang"         
-rmarkdown      "rmarkdown"     
-rstudioapi     "rstudioapi"    
-rvest          "rvest"         
-sass           "sass"          
-scales         "scales"        
-shiny          "shiny"         
-stringi        "stringi"       
-stringr        "stringr"       
-sys            "sys"           
-systemfonts    "systemfonts"   
-textshaping    "textshaping"   
-tibble         "tibble"        
-tidyselect     "tidyselect"    
-tinytex        "tinytex"       
-tzdb           "tzdb"          
-utf8           "utf8"          
-uuid           "uuid"          
-withr          "withr"         
-xfun           "xfun"          
-xml2           "xml2"          
-yaml           "yaml"          
-boot           "boot"          
-lattice        "lattice"       
-mgcv           "mgcv"          
-spatial        "spatial"       
-               LibPath                                          Installed 
-bookdown       "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "0.43"    
-credentials    "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "2.0.2"   
-crosstalk      "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "1.2.1"   
-curl           "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "6.4.0"   
-DT             "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "0.33"    
-emmeans        "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "1.11.2"  
-evaluate       "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "1.0.4"   
-gamlss         "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "5.4-22"  
-gamlss.data    "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "6.0-6"   
-GGally         "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "2.3.0"   
-ggfx           "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "1.0.2"   
-ggimage        "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "0.3.3"   
-ggmap          "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "4.0.1"   
-ggspatial      "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "1.1.9"   
-gld            "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "2.6.7"   
-kSamples       "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "1.2-10"  
-magick         "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "2.8.7"   
-osmdata        "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "0.2.5"   
-pagedown       "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "0.22"    
-patchwork      "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "1.3.1"   
-PKI            "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "0.1-14"  
-qqplotr        "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "0.0.6"   
-ragg           "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "1.4.0"   
-robustbase     "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "0.99-4-1"
-roxygen2       "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "7.3.2"   
-rprojroot      "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "2.1.0"   
-rsconnect      "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "1.5.0"   
-rsvg           "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "2.6.2"   
-sftime         "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "0.3.0"   
-snowflakeauth  "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "0.1.2"   
-TH.data        "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "1.1-3"   
-usethis        "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "3.1.0"   
-visNetwork     "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "2.1.2"   
-xaringan       "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "0.30"    
-xaringanthemer "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "0.4.3"   
-xfun           "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "0.52"    
-yulab.utils    "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5" "0.2.0"   
-askpass        "/usr/lib/R/site-library"                        "1.2.0"   
-backports      "/usr/lib/R/site-library"                        "1.4.1"   
-bit            "/usr/lib/R/site-library"                        "4.0.5"   
-bit64          "/usr/lib/R/site-library"                        "4.0.5"   
-broom          "/usr/lib/R/site-library"                        "1.0.5"   
-bslib          "/usr/lib/R/site-library"                        "0.6.1"   
-cachem         "/usr/lib/R/site-library"                        "1.0.8"   
-callr          "/usr/lib/R/site-library"                        "3.7.5"   
-cli            "/usr/lib/R/site-library"                        "3.6.2"   
-colorspace     "/usr/lib/R/site-library"                        "2.1-0"   
-commonmark     "/usr/lib/R/site-library"                        "1.9.1"   
-cpp11          "/usr/lib/R/site-library"                        "0.4.7"   
-crayon         "/usr/lib/R/site-library"                        "1.5.2"   
-curl           "/usr/lib/R/site-library"                        "5.2.0"   
-data.table     "/usr/lib/R/site-library"                        "1.14.10" 
-DBI            "/usr/lib/R/site-library"                        "1.2.2"   
-dbplyr         "/usr/lib/R/site-library"                        "2.4.0"   
-digest         "/usr/lib/R/site-library"                        "0.6.34"  
-dtplyr         "/usr/lib/R/site-library"                        "1.3.1"   
-evaluate       "/usr/lib/R/site-library"                        "0.23"    
-fansi          "/usr/lib/R/site-library"                        "1.0.5"   
-farver         "/usr/lib/R/site-library"                        "2.1.1"   
-fastmap        "/usr/lib/R/site-library"                        "1.1.1"   
-fontawesome    "/usr/lib/R/site-library"                        "0.5.2"   
-fs             "/usr/lib/R/site-library"                        "1.6.3"   
-gargle         "/usr/lib/R/site-library"                        "1.5.2"   
-generics       "/usr/lib/R/site-library"                        "0.1.3"   
-ggplot2        "/usr/lib/R/site-library"                        "3.4.4"   
-glue           "/usr/lib/R/site-library"                        "1.7.0"   
-googledrive    "/usr/lib/R/site-library"                        "2.1.1"   
-googlesheets4  "/usr/lib/R/site-library"                        "1.1.1"   
-gtable         "/usr/lib/R/site-library"                        "0.3.4"   
-haven          "/usr/lib/R/site-library"                        "2.5.4"   
-highr          "/usr/lib/R/site-library"                        "0.10"    
-htmltools      "/usr/lib/R/site-library"                        "0.5.7"   
-httpuv         "/usr/lib/R/site-library"                        "1.6.14"  
-jsonlite       "/usr/lib/R/site-library"                        "1.8.8"   
-knitr          "/usr/lib/R/site-library"                        "1.45"    
-later          "/usr/lib/R/site-library"                        "1.3.2"   
-lubridate      "/usr/lib/R/site-library"                        "1.9.3"   
-magrittr       "/usr/lib/R/site-library"                        "2.0.3"   
-mime           "/usr/lib/R/site-library"                        "0.12"    
-munsell        "/usr/lib/R/site-library"                        "0.5.0"   
-openssl        "/usr/lib/R/site-library"                        "2.1.1"   
-pillar         "/usr/lib/R/site-library"                        "1.9.0"   
-pkgKitten      "/usr/lib/R/site-library"                        "0.2.3"   
-processx       "/usr/lib/R/site-library"                        "3.8.3"   
-promises       "/usr/lib/R/site-library"                        "1.2.1"   
-ps             "/usr/lib/R/site-library"                        "1.7.6"   
-purrr          "/usr/lib/R/site-library"                        "1.0.2"   
-R6             "/usr/lib/R/site-library"                        "2.5.1"   
-ragg           "/usr/lib/R/site-library"                        "1.2.7"   
-Rcpp           "/usr/lib/R/site-library"                        "1.0.12"  
-readxl         "/usr/lib/R/site-library"                        "1.4.3"   
-reprex         "/usr/lib/R/site-library"                        "2.1.0"   
-rlang          "/usr/lib/R/site-library"                        "1.1.3"   
-rmarkdown      "/usr/lib/R/site-library"                        "2.25"    
-rstudioapi     "/usr/lib/R/site-library"                        "0.15.0"  
-rvest          "/usr/lib/R/site-library"                        "1.0.3"   
-sass           "/usr/lib/R/site-library"                        "0.4.8"   
-scales         "/usr/lib/R/site-library"                        "1.3.0"   
-shiny          "/usr/lib/R/site-library"                        "1.8.0"   
-stringi        "/usr/lib/R/site-library"                        "1.8.3"   
-stringr        "/usr/lib/R/site-library"                        "1.5.1"   
-sys            "/usr/lib/R/site-library"                        "3.4.2"   
-systemfonts    "/usr/lib/R/site-library"                        "1.0.5"   
-textshaping    "/usr/lib/R/site-library"                        "0.3.7"   
-tibble         "/usr/lib/R/site-library"                        "3.2.1"   
-tidyselect     "/usr/lib/R/site-library"                        "1.2.0"   
-tinytex        "/usr/lib/R/site-library"                        "0.49"    
-tzdb           "/usr/lib/R/site-library"                        "0.4.0"   
-utf8           "/usr/lib/R/site-library"                        "1.2.4"   
-uuid           "/usr/lib/R/site-library"                        "1.2-0"   
-withr          "/usr/lib/R/site-library"                        "2.5.0"   
-xfun           "/usr/lib/R/site-library"                        "0.41"    
-xml2           "/usr/lib/R/site-library"                        "1.3.6"   
-yaml           "/usr/lib/R/site-library"                        "2.3.8"   
-boot           "/usr/lib/R/library"                             "1.3-31"  
-lattice        "/usr/lib/R/library"                             "0.22-5"  
-mgcv           "/usr/lib/R/library"                             "1.9-1"   
-spatial        "/usr/lib/R/library"                             "7.3-17"  
-               Built   ReposVer   Repository                               
-bookdown       "4.5.0" "0.44"     "https://cloud.r-project.org/src/contrib"
-credentials    "4.5.1" "2.0.3"    "https://cloud.r-project.org/src/contrib"
-crosstalk      "4.5.0" "1.2.2"    "https://cloud.r-project.org/src/contrib"
-curl           "4.5.1" "7.0.0"    "https://cloud.r-project.org/src/contrib"
-DT             "4.5.0" "0.34.0"   "https://cloud.r-project.org/src/contrib"
-emmeans        "4.5.1" "1.11.2-8" "https://cloud.r-project.org/src/contrib"
-evaluate       "4.5.1" "1.0.5"    "https://cloud.r-project.org/src/contrib"
-gamlss         "4.5.0" "5.5-0"    "https://cloud.r-project.org/src/contrib"
-gamlss.data    "4.5.0" "6.0-7"    "https://cloud.r-project.org/src/contrib"
-GGally         "4.5.1" "2.4.0"    "https://cloud.r-project.org/src/contrib"
-ggfx           "4.5.1" "1.0.3"    "https://cloud.r-project.org/src/contrib"
-ggimage        "4.5.0" "0.3.4"    "https://cloud.r-project.org/src/contrib"
-ggmap          "4.5.1" "4.0.2"    "https://cloud.r-project.org/src/contrib"
-ggspatial      "4.5.0" "1.1.10"   "https://cloud.r-project.org/src/contrib"
-gld            "4.5.0" "2.6.8"    "https://cloud.r-project.org/src/contrib"
-kSamples       "4.5.1" "1.2-12"   "https://cloud.r-project.org/src/contrib"
-magick         "4.5.1" "2.9.0"    "https://cloud.r-project.org/src/contrib"
-osmdata        "4.5.1" "0.3.0"    "https://cloud.r-project.org/src/contrib"
-pagedown       "4.5.0" "0.23"     "https://cloud.r-project.org/src/contrib"
-patchwork      "4.5.0" "1.3.2"    "https://cloud.r-project.org/src/contrib"
-PKI            "4.5.0" "0.1-15"   "https://cloud.r-project.org/src/contrib"
-qqplotr        "4.5.1" "0.0.7"    "https://cloud.r-project.org/src/contrib"
-ragg           "4.5.1" "1.5.0"    "https://cloud.r-project.org/src/contrib"
-robustbase     "4.5.0" "0.99-6"   "https://cloud.r-project.org/src/contrib"
-roxygen2       "4.5.1" "7.3.3"    "https://cloud.r-project.org/src/contrib"
-rprojroot      "4.5.1" "2.1.1"    "https://cloud.r-project.org/src/contrib"
-rsconnect      "4.5.1" "1.5.1"    "https://cloud.r-project.org/src/contrib"
-rsvg           "4.5.1" "2.7.0"    "https://cloud.r-project.org/src/contrib"
-sftime         "4.5.1" "0.3.1"    "https://cloud.r-project.org/src/contrib"
-snowflakeauth  "4.5.1" "0.2.0"    "https://cloud.r-project.org/src/contrib"
-TH.data        "4.5.0" "1.1-4"    "https://cloud.r-project.org/src/contrib"
-usethis        "4.5.1" "3.2.1"    "https://cloud.r-project.org/src/contrib"
-visNetwork     "4.5.0" "2.1.4"    "https://cloud.r-project.org/src/contrib"
-xaringan       "4.5.0" "0.31"     "https://cloud.r-project.org/src/contrib"
-xaringanthemer "4.5.0" "0.4.4"    "https://cloud.r-project.org/src/contrib"
-xfun           "4.5.1" "0.53"     "https://cloud.r-project.org/src/contrib"
-yulab.utils    "4.5.0" "0.2.1"    "https://cloud.r-project.org/src/contrib"
-askpass        "4.3.1" "1.2.1"    "https://cloud.r-project.org/src/contrib"
-backports      "4.1.2" "1.5.0"    "https://cloud.r-project.org/src/contrib"
-bit            "4.2.2" "4.6.0"    "https://cloud.r-project.org/src/contrib"
-bit64          "4.0.2" "4.6.0-1"  "https://cloud.r-project.org/src/contrib"
-broom          "4.3.0" "1.0.10"   "https://cloud.r-project.org/src/contrib"
-bslib          "4.3.2" "0.9.0"    "https://cloud.r-project.org/src/contrib"
-cachem         "4.3.0" "1.1.0"    "https://cloud.r-project.org/src/contrib"
-callr          "4.3.3" "3.7.6"    "https://cloud.r-project.org/src/contrib"
-cli            "4.3.2" "3.6.5"    "https://cloud.r-project.org/src/contrib"
-colorspace     "4.2.2" "2.1-1"    "https://cloud.r-project.org/src/contrib"
-commonmark     "4.3.2" "2.0.0"    "https://cloud.r-project.org/src/contrib"
-cpp11          "4.3.2" "0.5.2"    "https://cloud.r-project.org/src/contrib"
-crayon         "4.2.2" "1.5.3"    "https://cloud.r-project.org/src/contrib"
-curl           "4.3.3" "7.0.0"    "https://cloud.r-project.org/src/contrib"
-data.table     "4.3.2" "1.17.8"   "https://cloud.r-project.org/src/contrib"
-DBI            "4.3.2" "1.2.3"    "https://cloud.r-project.org/src/contrib"
-dbplyr         "4.3.2" "2.5.1"    "https://cloud.r-project.org/src/contrib"
-digest         "4.3.2" "0.6.37"   "https://cloud.r-project.org/src/contrib"
-dtplyr         "4.3.0" "1.3.2"    "https://cloud.r-project.org/src/contrib"
-evaluate       "4.3.2" "1.0.5"    "https://cloud.r-project.org/src/contrib"
-fansi          "4.3.2" "1.0.6"    "https://cloud.r-project.org/src/contrib"
-farver         "4.2.1" "2.1.2"    "https://cloud.r-project.org/src/contrib"
-fastmap        "4.2.2" "1.2.0"    "https://cloud.r-project.org/src/contrib"
-fontawesome    "4.3.1" "0.5.3"    "https://cloud.r-project.org/src/contrib"
-fs             "4.3.3" "1.6.6"    "https://cloud.r-project.org/src/contrib"
-gargle         "4.3.1" "1.6.0"    "https://cloud.r-project.org/src/contrib"
-generics       "4.2.1" "0.1.4"    "https://cloud.r-project.org/src/contrib"
-ggplot2        "4.3.1" "4.0.0"    "https://cloud.r-project.org/src/contrib"
-glue           "4.3.2" "1.8.0"    "https://cloud.r-project.org/src/contrib"
-googledrive    "4.3.1" "2.1.2"    "https://cloud.r-project.org/src/contrib"
-googlesheets4  "4.3.1" "1.1.2"    "https://cloud.r-project.org/src/contrib"
-gtable         "4.3.1" "0.3.6"    "https://cloud.r-project.org/src/contrib"
-haven          "4.3.2" "2.5.5"    "https://cloud.r-project.org/src/contrib"
-highr          "4.2.2" "0.11"     "https://cloud.r-project.org/src/contrib"
-htmltools      "4.3.2" "0.5.8.1"  "https://cloud.r-project.org/src/contrib"
-httpuv         "4.3.3" "1.6.16"   "https://cloud.r-project.org/src/contrib"
-jsonlite       "4.3.2" "2.0.0"    "https://cloud.r-project.org/src/contrib"
-knitr          "4.3.2" "1.50"     "https://cloud.r-project.org/src/contrib"
-later          "4.3.2" "1.4.4"    "https://cloud.r-project.org/src/contrib"
-lubridate      "4.3.1" "1.9.4"    "https://cloud.r-project.org/src/contrib"
-magrittr       "4.1.2" "2.0.4"    "https://cloud.r-project.org/src/contrib"
-mime           "4.1.1" "0.13"     "https://cloud.r-project.org/src/contrib"
-munsell        "4.0.1" "0.5.1"    "https://cloud.r-project.org/src/contrib"
-openssl        "4.3.3" "2.3.3"    "https://cloud.r-project.org/src/contrib"
-pillar         "4.3.0" "1.11.0"   "https://cloud.r-project.org/src/contrib"
-pkgKitten      "4.2.2" "0.2.4"    "https://cloud.r-project.org/src/contrib"
-processx       "4.3.2" "3.8.6"    "https://cloud.r-project.org/src/contrib"
-promises       "4.3.1" "1.3.3"    "https://cloud.r-project.org/src/contrib"
-ps             "4.3.2" "1.9.1"    "https://cloud.r-project.org/src/contrib"
-purrr          "4.3.1" "1.1.0"    "https://cloud.r-project.org/src/contrib"
-R6             "4.1.1" "2.6.1"    "https://cloud.r-project.org/src/contrib"
-ragg           "4.3.3" "1.5.0"    "https://cloud.r-project.org/src/contrib"
-Rcpp           "4.3.2" "1.1.0"    "https://cloud.r-project.org/src/contrib"
-readxl         "4.3.1" "1.4.5"    "https://cloud.r-project.org/src/contrib"
-reprex         "4.3.2" "2.1.1"    "https://cloud.r-project.org/src/contrib"
-rlang          "4.3.2" "1.1.6"    "https://cloud.r-project.org/src/contrib"
-rmarkdown      "4.3.2" "2.29"     "https://cloud.r-project.org/src/contrib"
-rstudioapi     "4.3.1" "0.17.1"   "https://cloud.r-project.org/src/contrib"
-rvest          "4.2.1" "1.0.5"    "https://cloud.r-project.org/src/contrib"
-sass           "4.3.2" "0.4.10"   "https://cloud.r-project.org/src/contrib"
-scales         "4.3.2" "1.4.0"    "https://cloud.r-project.org/src/contrib"
-shiny          "4.3.2" "1.11.1"   "https://cloud.r-project.org/src/contrib"
-stringi        "4.3.2" "1.8.7"    "https://cloud.r-project.org/src/contrib"
-stringr        "4.3.2" "1.5.2"    "https://cloud.r-project.org/src/contrib"
-sys            "4.3.1" "3.4.3"    "https://cloud.r-project.org/src/contrib"
-systemfonts    "4.3.1" "1.2.3"    "https://cloud.r-project.org/src/contrib"
-textshaping    "4.3.1" "1.0.3"    "https://cloud.r-project.org/src/contrib"
-tibble         "4.3.1" "3.3.0"    "https://cloud.r-project.org/src/contrib"
-tidyselect     "4.2.2" "1.2.1"    "https://cloud.r-project.org/src/contrib"
-tinytex        "4.3.2" "0.57"     "https://cloud.r-project.org/src/contrib"
-tzdb           "4.3.1" "0.5.0"    "https://cloud.r-project.org/src/contrib"
-utf8           "4.3.1" "1.2.6"    "https://cloud.r-project.org/src/contrib"
-uuid           "4.3.2" "1.2-1"    "https://cloud.r-project.org/src/contrib"
-withr          "4.1.2" "3.0.2"    "https://cloud.r-project.org/src/contrib"
-xfun           "4.3.2" "0.53"     "https://cloud.r-project.org/src/contrib"
-xml2           "4.3.2" "1.4.0"    "https://cloud.r-project.org/src/contrib"
-yaml           "4.3.2" "2.3.10"   "https://cloud.r-project.org/src/contrib"
-boot           "4.4.2" "1.3-32"   "https://cloud.r-project.org/src/contrib"
-lattice        "4.3.3" "0.22-7"   "https://cloud.r-project.org/src/contrib"
-mgcv           "4.3.2" "1.9-3"    "https://cloud.r-project.org/src/contrib"
-spatial        "4.4.0" "7.3-18"   "https://cloud.r-project.org/src/contrib"</code></pre>
+<pre><code>              Package         LibPath                                         
+ggiraph       "ggiraph"       "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5"
+askpass       "askpass"       "/usr/lib/R/site-library"                       
+backports     "backports"     "/usr/lib/R/site-library"                       
+bit           "bit"           "/usr/lib/R/site-library"                       
+bit64         "bit64"         "/usr/lib/R/site-library"                       
+broom         "broom"         "/usr/lib/R/site-library"                       
+bslib         "bslib"         "/usr/lib/R/site-library"                       
+cachem        "cachem"        "/usr/lib/R/site-library"                       
+callr         "callr"         "/usr/lib/R/site-library"                       
+cli           "cli"           "/usr/lib/R/site-library"                       
+colorspace    "colorspace"    "/usr/lib/R/site-library"                       
+commonmark    "commonmark"    "/usr/lib/R/site-library"                       
+cpp11         "cpp11"         "/usr/lib/R/site-library"                       
+crayon        "crayon"        "/usr/lib/R/site-library"                       
+curl          "curl"          "/usr/lib/R/site-library"                       
+data.table    "data.table"    "/usr/lib/R/site-library"                       
+DBI           "DBI"           "/usr/lib/R/site-library"                       
+dbplyr        "dbplyr"        "/usr/lib/R/site-library"                       
+digest        "digest"        "/usr/lib/R/site-library"                       
+dtplyr        "dtplyr"        "/usr/lib/R/site-library"                       
+evaluate      "evaluate"      "/usr/lib/R/site-library"                       
+fansi         "fansi"         "/usr/lib/R/site-library"                       
+farver        "farver"        "/usr/lib/R/site-library"                       
+fastmap       "fastmap"       "/usr/lib/R/site-library"                       
+fontawesome   "fontawesome"   "/usr/lib/R/site-library"                       
+fs            "fs"            "/usr/lib/R/site-library"                       
+gargle        "gargle"        "/usr/lib/R/site-library"                       
+generics      "generics"      "/usr/lib/R/site-library"                       
+ggplot2       "ggplot2"       "/usr/lib/R/site-library"                       
+glue          "glue"          "/usr/lib/R/site-library"                       
+googledrive   "googledrive"   "/usr/lib/R/site-library"                       
+googlesheets4 "googlesheets4" "/usr/lib/R/site-library"                       
+gtable        "gtable"        "/usr/lib/R/site-library"                       
+haven         "haven"         "/usr/lib/R/site-library"                       
+highr         "highr"         "/usr/lib/R/site-library"                       
+htmltools     "htmltools"     "/usr/lib/R/site-library"                       
+httpuv        "httpuv"        "/usr/lib/R/site-library"                       
+jsonlite      "jsonlite"      "/usr/lib/R/site-library"                       
+knitr         "knitr"         "/usr/lib/R/site-library"                       
+later         "later"         "/usr/lib/R/site-library"                       
+lubridate     "lubridate"     "/usr/lib/R/site-library"                       
+magrittr      "magrittr"      "/usr/lib/R/site-library"                       
+mime          "mime"          "/usr/lib/R/site-library"                       
+munsell       "munsell"       "/usr/lib/R/site-library"                       
+openssl       "openssl"       "/usr/lib/R/site-library"                       
+pillar        "pillar"        "/usr/lib/R/site-library"                       
+pkgKitten     "pkgKitten"     "/usr/lib/R/site-library"                       
+processx      "processx"      "/usr/lib/R/site-library"                       
+promises      "promises"      "/usr/lib/R/site-library"                       
+ps            "ps"            "/usr/lib/R/site-library"                       
+purrr         "purrr"         "/usr/lib/R/site-library"                       
+R6            "R6"            "/usr/lib/R/site-library"                       
+ragg          "ragg"          "/usr/lib/R/site-library"                       
+Rcpp          "Rcpp"          "/usr/lib/R/site-library"                       
+readxl        "readxl"        "/usr/lib/R/site-library"                       
+reprex        "reprex"        "/usr/lib/R/site-library"                       
+rlang         "rlang"         "/usr/lib/R/site-library"                       
+rmarkdown     "rmarkdown"     "/usr/lib/R/site-library"                       
+rstudioapi    "rstudioapi"    "/usr/lib/R/site-library"                       
+rvest         "rvest"         "/usr/lib/R/site-library"                       
+sass          "sass"          "/usr/lib/R/site-library"                       
+scales        "scales"        "/usr/lib/R/site-library"                       
+shiny         "shiny"         "/usr/lib/R/site-library"                       
+stringi       "stringi"       "/usr/lib/R/site-library"                       
+stringr       "stringr"       "/usr/lib/R/site-library"                       
+sys           "sys"           "/usr/lib/R/site-library"                       
+systemfonts   "systemfonts"   "/usr/lib/R/site-library"                       
+textshaping   "textshaping"   "/usr/lib/R/site-library"                       
+tibble        "tibble"        "/usr/lib/R/site-library"                       
+tidyselect    "tidyselect"    "/usr/lib/R/site-library"                       
+tinytex       "tinytex"       "/usr/lib/R/site-library"                       
+tzdb          "tzdb"          "/usr/lib/R/site-library"                       
+utf8          "utf8"          "/usr/lib/R/site-library"                       
+uuid          "uuid"          "/usr/lib/R/site-library"                       
+withr         "withr"         "/usr/lib/R/site-library"                       
+xfun          "xfun"          "/usr/lib/R/site-library"                       
+xml2          "xml2"          "/usr/lib/R/site-library"                       
+yaml          "yaml"          "/usr/lib/R/site-library"                       
+boot          "boot"          "/usr/lib/R/library"                            
+lattice       "lattice"       "/usr/lib/R/library"                            
+mgcv          "mgcv"          "/usr/lib/R/library"                            
+spatial       "spatial"       "/usr/lib/R/library"                            
+              Installed Built   ReposVer 
+ggiraph       "0.9.0"   "4.5.1" "0.9.1"  
+askpass       "1.2.0"   "4.3.1" "1.2.1"  
+backports     "1.4.1"   "4.1.2" "1.5.0"  
+bit           "4.0.5"   "4.2.2" "4.6.0"  
+bit64         "4.0.5"   "4.0.2" "4.6.0-1"
+broom         "1.0.5"   "4.3.0" "1.0.10" 
+bslib         "0.6.1"   "4.3.2" "0.9.0"  
+cachem        "1.0.8"   "4.3.0" "1.1.0"  
+callr         "3.7.5"   "4.3.3" "3.7.6"  
+cli           "3.6.2"   "4.3.2" "3.6.5"  
+colorspace    "2.1-0"   "4.2.2" "2.1-1"  
+commonmark    "1.9.1"   "4.3.2" "2.0.0"  
+cpp11         "0.4.7"   "4.3.2" "0.5.2"  
+crayon        "1.5.2"   "4.2.2" "1.5.3"  
+curl          "5.2.0"   "4.3.3" "7.0.0"  
+data.table    "1.14.10" "4.3.2" "1.17.8" 
+DBI           "1.2.2"   "4.3.2" "1.2.3"  
+dbplyr        "2.4.0"   "4.3.2" "2.5.1"  
+digest        "0.6.34"  "4.3.2" "0.6.37" 
+dtplyr        "1.3.1"   "4.3.0" "1.3.2"  
+evaluate      "0.23"    "4.3.2" "1.0.5"  
+fansi         "1.0.5"   "4.3.2" "1.0.6"  
+farver        "2.1.1"   "4.2.1" "2.1.2"  
+fastmap       "1.1.1"   "4.2.2" "1.2.0"  
+fontawesome   "0.5.2"   "4.3.1" "0.5.3"  
+fs            "1.6.3"   "4.3.3" "1.6.6"  
+gargle        "1.5.2"   "4.3.1" "1.6.0"  
+generics      "0.1.3"   "4.2.1" "0.1.4"  
+ggplot2       "3.4.4"   "4.3.1" "4.0.0"  
+glue          "1.7.0"   "4.3.2" "1.8.0"  
+googledrive   "2.1.1"   "4.3.1" "2.1.2"  
+googlesheets4 "1.1.1"   "4.3.1" "1.1.2"  
+gtable        "0.3.4"   "4.3.1" "0.3.6"  
+haven         "2.5.4"   "4.3.2" "2.5.5"  
+highr         "0.10"    "4.2.2" "0.11"   
+htmltools     "0.5.7"   "4.3.2" "0.5.8.1"
+httpuv        "1.6.14"  "4.3.3" "1.6.16" 
+jsonlite      "1.8.8"   "4.3.2" "2.0.0"  
+knitr         "1.45"    "4.3.2" "1.50"   
+later         "1.3.2"   "4.3.2" "1.4.4"  
+lubridate     "1.9.3"   "4.3.1" "1.9.4"  
+magrittr      "2.0.3"   "4.1.2" "2.0.4"  
+mime          "0.12"    "4.1.1" "0.13"   
+munsell       "0.5.0"   "4.0.1" "0.5.1"  
+openssl       "2.1.1"   "4.3.3" "2.3.3"  
+pillar        "1.9.0"   "4.3.0" "1.11.0" 
+pkgKitten     "0.2.3"   "4.2.2" "0.2.4"  
+processx      "3.8.3"   "4.3.2" "3.8.6"  
+promises      "1.2.1"   "4.3.1" "1.3.3"  
+ps            "1.7.6"   "4.3.2" "1.9.1"  
+purrr         "1.0.2"   "4.3.1" "1.1.0"  
+R6            "2.5.1"   "4.1.1" "2.6.1"  
+ragg          "1.2.7"   "4.3.3" "1.5.0"  
+Rcpp          "1.0.12"  "4.3.2" "1.1.0"  
+readxl        "1.4.3"   "4.3.1" "1.4.5"  
+reprex        "2.1.0"   "4.3.2" "2.1.1"  
+rlang         "1.1.3"   "4.3.2" "1.1.6"  
+rmarkdown     "2.25"    "4.3.2" "2.29"   
+rstudioapi    "0.15.0"  "4.3.1" "0.17.1" 
+rvest         "1.0.3"   "4.2.1" "1.0.5"  
+sass          "0.4.8"   "4.3.2" "0.4.10" 
+scales        "1.3.0"   "4.3.2" "1.4.0"  
+shiny         "1.8.0"   "4.3.2" "1.11.1" 
+stringi       "1.8.3"   "4.3.2" "1.8.7"  
+stringr       "1.5.1"   "4.3.2" "1.5.2"  
+sys           "3.4.2"   "4.3.1" "3.4.3"  
+systemfonts   "1.0.5"   "4.3.1" "1.2.3"  
+textshaping   "0.3.7"   "4.3.1" "1.0.3"  
+tibble        "3.2.1"   "4.3.1" "3.3.0"  
+tidyselect    "1.2.0"   "4.2.2" "1.2.1"  
+tinytex       "0.49"    "4.3.2" "0.57"   
+tzdb          "0.4.0"   "4.3.1" "0.5.0"  
+utf8          "1.2.4"   "4.3.1" "1.2.6"  
+uuid          "1.2-0"   "4.3.2" "1.2-1"  
+withr         "2.5.0"   "4.1.2" "3.0.2"  
+xfun          "0.41"    "4.3.2" "0.53"   
+xml2          "1.3.6"   "4.3.2" "1.4.0"  
+yaml          "2.3.8"   "4.3.2" "2.3.10" 
+boot          "1.3-31"  "4.4.2" "1.3-32" 
+lattice       "0.22-5"  "4.3.3" "0.22-7" 
+mgcv          "1.9-1"   "4.3.2" "1.9-3"  
+spatial       "7.3-17"  "4.4.0" "7.3-18" 
+              Repository                               
+ggiraph       "https://cloud.r-project.org/src/contrib"
+askpass       "https://cloud.r-project.org/src/contrib"
+backports     "https://cloud.r-project.org/src/contrib"
+bit           "https://cloud.r-project.org/src/contrib"
+bit64         "https://cloud.r-project.org/src/contrib"
+broom         "https://cloud.r-project.org/src/contrib"
+bslib         "https://cloud.r-project.org/src/contrib"
+cachem        "https://cloud.r-project.org/src/contrib"
+callr         "https://cloud.r-project.org/src/contrib"
+cli           "https://cloud.r-project.org/src/contrib"
+colorspace    "https://cloud.r-project.org/src/contrib"
+commonmark    "https://cloud.r-project.org/src/contrib"
+cpp11         "https://cloud.r-project.org/src/contrib"
+crayon        "https://cloud.r-project.org/src/contrib"
+curl          "https://cloud.r-project.org/src/contrib"
+data.table    "https://cloud.r-project.org/src/contrib"
+DBI           "https://cloud.r-project.org/src/contrib"
+dbplyr        "https://cloud.r-project.org/src/contrib"
+digest        "https://cloud.r-project.org/src/contrib"
+dtplyr        "https://cloud.r-project.org/src/contrib"
+evaluate      "https://cloud.r-project.org/src/contrib"
+fansi         "https://cloud.r-project.org/src/contrib"
+farver        "https://cloud.r-project.org/src/contrib"
+fastmap       "https://cloud.r-project.org/src/contrib"
+fontawesome   "https://cloud.r-project.org/src/contrib"
+fs            "https://cloud.r-project.org/src/contrib"
+gargle        "https://cloud.r-project.org/src/contrib"
+generics      "https://cloud.r-project.org/src/contrib"
+ggplot2       "https://cloud.r-project.org/src/contrib"
+glue          "https://cloud.r-project.org/src/contrib"
+googledrive   "https://cloud.r-project.org/src/contrib"
+googlesheets4 "https://cloud.r-project.org/src/contrib"
+gtable        "https://cloud.r-project.org/src/contrib"
+haven         "https://cloud.r-project.org/src/contrib"
+highr         "https://cloud.r-project.org/src/contrib"
+htmltools     "https://cloud.r-project.org/src/contrib"
+httpuv        "https://cloud.r-project.org/src/contrib"
+jsonlite      "https://cloud.r-project.org/src/contrib"
+knitr         "https://cloud.r-project.org/src/contrib"
+later         "https://cloud.r-project.org/src/contrib"
+lubridate     "https://cloud.r-project.org/src/contrib"
+magrittr      "https://cloud.r-project.org/src/contrib"
+mime          "https://cloud.r-project.org/src/contrib"
+munsell       "https://cloud.r-project.org/src/contrib"
+openssl       "https://cloud.r-project.org/src/contrib"
+pillar        "https://cloud.r-project.org/src/contrib"
+pkgKitten     "https://cloud.r-project.org/src/contrib"
+processx      "https://cloud.r-project.org/src/contrib"
+promises      "https://cloud.r-project.org/src/contrib"
+ps            "https://cloud.r-project.org/src/contrib"
+purrr         "https://cloud.r-project.org/src/contrib"
+R6            "https://cloud.r-project.org/src/contrib"
+ragg          "https://cloud.r-project.org/src/contrib"
+Rcpp          "https://cloud.r-project.org/src/contrib"
+readxl        "https://cloud.r-project.org/src/contrib"
+reprex        "https://cloud.r-project.org/src/contrib"
+rlang         "https://cloud.r-project.org/src/contrib"
+rmarkdown     "https://cloud.r-project.org/src/contrib"
+rstudioapi    "https://cloud.r-project.org/src/contrib"
+rvest         "https://cloud.r-project.org/src/contrib"
+sass          "https://cloud.r-project.org/src/contrib"
+scales        "https://cloud.r-project.org/src/contrib"
+shiny         "https://cloud.r-project.org/src/contrib"
+stringi       "https://cloud.r-project.org/src/contrib"
+stringr       "https://cloud.r-project.org/src/contrib"
+sys           "https://cloud.r-project.org/src/contrib"
+systemfonts   "https://cloud.r-project.org/src/contrib"
+textshaping   "https://cloud.r-project.org/src/contrib"
+tibble        "https://cloud.r-project.org/src/contrib"
+tidyselect    "https://cloud.r-project.org/src/contrib"
+tinytex       "https://cloud.r-project.org/src/contrib"
+tzdb          "https://cloud.r-project.org/src/contrib"
+utf8          "https://cloud.r-project.org/src/contrib"
+uuid          "https://cloud.r-project.org/src/contrib"
+withr         "https://cloud.r-project.org/src/contrib"
+xfun          "https://cloud.r-project.org/src/contrib"
+xml2          "https://cloud.r-project.org/src/contrib"
+yaml          "https://cloud.r-project.org/src/contrib"
+boot          "https://cloud.r-project.org/src/contrib"
+lattice       "https://cloud.r-project.org/src/contrib"
+mgcv          "https://cloud.r-project.org/src/contrib"
+spatial       "https://cloud.r-project.org/src/contrib"</code></pre>
 </div>
 </div>
 <p><strong>Atualizar apenas alguns pacotes:</strong></p>
@@ -1470,6 +1399,279 @@ Aviso
 <!-- ## Estruturas de Controle {.unnumbered} -->
 <!-- ## Funções {.unnumbered} -->
 <!-- ## Distribuições de Probabilidade {.unnumbered} -->
+</section>
+</section>
+<section id="matrizes" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="matrizes">Matrizes</h2>
+<p>A matriz é uma construção matemática importante e é essencial para muitos métodos estatísticos. Normalmente descreve-se uma matriz <span class="math inline">\(A\)</span> como uma matriz <span class="math inline">\(m \times n\)</span>; isto é, <span class="math inline">\(A\)</span> terá exatamente <span class="math inline">\(m\)</span> linhas e <span class="math inline">\(n\)</span> colunas. Isso significa que <span class="math inline">\(A\)</span> terá um total de <span class="math inline">\(mn\)</span> entradas, com cada entrada a <span class="math inline">\(i, j\)</span> ocupando uma posição única dada por sua linha específica <span class="math inline">\((i = 1, 2,\dots, m)\)</span> e coluna <span class="math inline">\((j = 1, 2,\dots, n)\)</span>.</p>
+<p>Para criar uma matriz no <code>R</code>, use o comando, apropriadamente chamado, <code>matrix</code>, fornecendo as entradas da matriz ao argumento <code>data</code> como um vetor:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb135"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(</span>
+<span id="cb135-2"><a href="#cb135-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">data =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">893</span>, <span class="fl">0.17</span>),</span>
+<span id="cb135-3"><a href="#cb135-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">nrow =</span> <span class="dv">2</span>, <span class="co">#linha</span></span>
+<span id="cb135-4"><a href="#cb135-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">ncol =</span> <span class="dv">2</span>  <span class="co">#colunas</span></span>
+<span id="cb135-5"><a href="#cb135-5" aria-hidden="true" tabindex="-1"></a>     )</span>
+<span id="cb135-6"><a href="#cb135-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb135-7"><a href="#cb135-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb135-8"><a href="#cb135-8" aria-hidden="true" tabindex="-1"></a>A</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1]   [,2]
+[1,]   -3 893.00
+[2,]    2   0.17</code></pre>
+</div>
+</div>
+<p>É importante estar ciente de como o <code>R</code> preenche a matriz usando as entradas de <code>data</code>. Observando o exemplo anterior, você pode ver que a matriz <span class="math inline">\(A\)</span> foi preenchida coluna por coluna ao ler as entradas de dados da esquerda para a direita. Você pode controlar como o <code>R</code> preenche os dados usando o argumento <code>byrow</code>, como mostrado nos exemplos a seguir:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb137"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span>(<span class="at">data =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">FALSE</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3]
+[1,]    1    3    5
+[2,]    2    4    6</code></pre>
+</div>
+</div>
+<p>Qual a diferença na construção da matriz ao usar <code>byrow = TRUE</code>?</p>
+<p>Também é possível construir matrizes usando os comandos <code>cbind</code> e <code>rbind</code>. Veja os exemplos abaixo:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb139"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb139-1"><a href="#cb139-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>), <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">5</span>), <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">6</span>))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3]
+[1,]    1    2    3
+[2,]    4    5    6</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb141"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb141-1"><a href="#cb141-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">4</span><span class="sc">:</span><span class="dv">6</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3]
+[1,]    1    2    3
+[2,]    4    5    6</code></pre>
+</div>
+</div>
+<p>Para saber a dimensão, número de linhas e colunas de uma matriz você pode usar os seguintes comandos:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb143"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb143-1"><a href="#cb143-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(A); <span class="fu">nrow</span>(A); <span class="fu">ncol</span>(A)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2 2</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+</div>
+<p>Considere a seguinte matriz:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb147"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">4.5</span>, <span class="fl">55.3</span>, <span class="dv">91</span>, <span class="fl">0.1</span>, <span class="fl">105.5</span>, <span class="sc">-</span><span class="fl">4.2</span>, <span class="fl">8.2</span>, <span class="fl">27.9</span>), <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
+<span id="cb147-2"><a href="#cb147-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb147-3"><a href="#cb147-3" aria-hidden="true" tabindex="-1"></a>A</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1]  [,2] [,3]
+[1,]  0.3  91.0 -4.2
+[2,]  4.5   0.1  8.2
+[3,] 55.3 105.5 27.9</code></pre>
+</div>
+</div>
+<p>Para dizer ao <code>R</code> para “olhar para a terceira linha de <span class="math inline">\(A\)</span> e me dar o elemento da segunda coluna”, você executa o seguinte:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb149"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb149-1"><a href="#cb149-1" aria-hidden="true" tabindex="-1"></a>A[<span class="dv">3</span>, <span class="dv">2</span>]</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 105.5</code></pre>
+</div>
+</div>
+<p>Como esperado, você recebe o elemento na posição <span class="math inline">\([3,2]\)</span>.</p>
+<p>Você também pode identificar os valores ao longo da diagonal de uma matriz quadrada (isto é, uma matriz com igual número de linhas e colunas) usando o comando <code>diag</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb151"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb151-1"><a href="#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diag</span>(A)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  0.3  0.1 27.9</code></pre>
+</div>
+</div>
+<section id="exercícios-1" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="exercícios-1">Exercícios</h3>
+<p><strong>(a)</strong> Construa e armazene uma matriz <span class="math inline">\(4 \times 2\)</span> preenchida <strong>por linhas</strong> com os valores: 4.3, 3.1, 8.2, 8.2, 3.2, 0.9, 1.6 e 6.5 (nessa ordem).</p>
+<p><strong>(b)</strong> Confirme que as dimensões da matriz do item (a) são <span class="math inline">\(3 \times 2\)</span> se você remover qualquer uma das linhas.</p>
+<p><strong>(c)</strong> Sobrescreva a <strong>segunda coluna</strong> da matriz do item (a) com essa mesma coluna <strong>ordenada do menor para o maior</strong>.</p>
+<p><strong>(d)</strong> O que o <code>R</code> retorna se você excluir a <strong>quarta linha</strong> e a <strong>primeira coluna</strong> do item (c)? Use <code>matrix</code> para garantir que o resultado seja uma <strong>matriz de uma única coluna</strong>, e não um vetor.</p>
+<p><strong>(e)</strong> Armazene os <strong>quatro elementos inferiores</strong> do item (c) como uma nova matriz <span class="math inline">\(2 \times 2\)</span>.</p>
+<p><strong>(f)</strong> Sobrescreva, <strong>nesta ordem</strong>, os elementos do item (c) nas posições <span class="math inline">\((4, 2), (1, 2), (4, 1)\)</span> e <span class="math inline">\((1, 1)\)</span> com <span class="math inline">\(-\tfrac{1}{2}\)</span> dos dois valores na <strong>diagonal do item (e)</strong>.</p>
+</section>
+</section>
+<section id="operações-com-matrizes" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="operações-com-matrizes">Operações com matrizes</h2>
+<p>Em <code>R</code>, a transposta de uma matriz se obtém com <code>t()</code>, ela troca linhas por colunas.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb153"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb153-1"><a href="#cb153-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">5</span>,<span class="dv">2</span>),<span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">1</span>,<span class="dv">4</span>))</span>
+<span id="cb153-2"><a href="#cb153-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb153-3"><a href="#cb153-3" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(A)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2]
+[1,]    2    6
+[2,]    5    1
+[3,]    2    4</code></pre>
+</div>
+</div>
+<p>Você pode criar uma matriz identidade de qualquer dimensão usando a função <code>matrix</code>, mas há uma forma mais rápida usando <code>diag</code>. Antes, usei <code>diag</code> em uma matriz existente para extrair ou sobrescrever seus elementos da diagonal. Você também pode usá-la assim:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb155"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb155-1"><a href="#cb155-1" aria-hidden="true" tabindex="-1"></a>I4 <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">4</span>) <span class="co"># 4x4</span></span>
+<span id="cb155-2"><a href="#cb155-2" aria-hidden="true" tabindex="-1"></a>I4</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3] [,4]
+[1,]    1    0    0    0
+[2,]    0    1    0    0
+[3,]    0    0    1    0
+[4,]    0    0    0    1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb157"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb157-1"><a href="#cb157-1" aria-hidden="true" tabindex="-1"></a>I5 <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">1</span>, <span class="at">nrow =</span> <span class="dv">5</span>, <span class="at">ncol =</span> <span class="dv">5</span>) <span class="co">#forma explicita</span></span>
+<span id="cb157-2"><a href="#cb157-2" aria-hidden="true" tabindex="-1"></a>I5</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3] [,4] [,5]
+[1,]    1    0    0    0    0
+[2,]    0    1    0    0    0
+[3,]    0    0    1    0    0
+[4,]    0    0    0    1    0
+[5,]    0    0    0    0    1</code></pre>
+</div>
+</div>
+<p>O <code>R</code> realizará essa multiplicação de maneira elemento a elemento, como você poderia esperar. A multiplicação escalar de uma matriz é realizada usando o operador aritmético padrão <code>*</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb159"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb159-1"><a href="#cb159-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">5</span>,<span class="dv">2</span>) , <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">1</span>,<span class="dv">4</span>))</span>
+<span id="cb159-2"><a href="#cb159-2" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb159-3"><a href="#cb159-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb159-4"><a href="#cb159-4" aria-hidden="true" tabindex="-1"></a>a<span class="sc">*</span>A</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3]
+[1,]    4   10    4
+[2,]   12    2    8</code></pre>
+</div>
+</div>
+<p>Você pode somar ou subtrair quaisquer duas matrizes de mesmo tamanho usando os símbolos padrão <code>+</code> e <code>-</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb161"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb161-1"><a href="#cb161-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">5</span>,<span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">1</span>,<span class="dv">4</span>))</span>
+<span id="cb161-2"><a href="#cb161-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb161-3"><a href="#cb161-3" aria-hidden="true" tabindex="-1"></a>A</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2]
+[1,]    2    6
+[2,]    5    1
+[3,]    2    4</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb163"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb163-1"><a href="#cb163-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span>  <span class="fu">cbind</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">6</span>), <span class="fu">c</span>(<span class="fl">8.1</span>,<span class="fl">8.2</span>,<span class="sc">-</span><span class="fl">9.8</span>))</span>
+<span id="cb163-2"><a href="#cb163-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb163-3"><a href="#cb163-3" aria-hidden="true" tabindex="-1"></a>B</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2]
+[1,]   -2  8.1
+[2,]    3  8.2
+[3,]    6 -9.8</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb165"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb165-1"><a href="#cb165-1" aria-hidden="true" tabindex="-1"></a>A <span class="sc">-</span> B</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2]
+[1,]    4 -2.1
+[2,]    2 -7.2
+[3,]   -4 13.8</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb167"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb167-1"><a href="#cb167-1" aria-hidden="true" tabindex="-1"></a>A <span class="sc">+</span> B </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2]
+[1,]    0 14.1
+[2,]    8  9.2
+[3,]    8 -5.8</code></pre>
+</div>
+</div>
+<p>Ao contrário da adição, subtração e multiplicação escalar, a multiplicação de matrizes não é um cálculo elemento a elemento, e o operador padrão <code>*</code> não pode ser usado. Em vez disso, você deve usar o operador de produto matricial do <code>R</code>, escrito com símbolos de porcentagem como <code>%*%</code>. Antes de tentar esse operador, vamos primeiro armazenar as duas matrizes de exemplo e verificar se o número de colunas na primeira matriz corresponde ao número de linhas na segunda matriz usando <code>dim</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb169"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb169-1"><a href="#cb169-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">5</span>,<span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">1</span>,<span class="dv">4</span>))</span>
+<span id="cb169-2"><a href="#cb169-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb169-3"><a href="#cb169-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(A)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2 3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb171"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb171-1"><a href="#cb171-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span>  <span class="fu">cbind</span>(<span class="fu">c</span>(<span class="dv">3</span>,<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>), <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">5</span>))</span>
+<span id="cb171-2"><a href="#cb171-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb171-3"><a href="#cb171-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(B)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3 2</code></pre>
+</div>
+</div>
+<p>Isso confirma que as duas matrizes são compatíveis para a multiplicação, então você pode prosseguir.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb173"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb173-1"><a href="#cb173-1" aria-hidden="true" tabindex="-1"></a>A<span class="sc">%*%</span>B</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2]
+[1,]    3    9
+[2,]   21    3</code></pre>
+</div>
+</div>
+<p>Você pode mostrar que a multiplicação de matrizes é <strong>não comutativa</strong> usando as mesmas duas matrizes. Inverter a ordem da multiplicação produz um resultado completamente diferente.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb175"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb175-1"><a href="#cb175-1" aria-hidden="true" tabindex="-1"></a>B<span class="sc">%*%</span>A</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3]
+[1,]  -12   12   -6
+[2,]    4   -4    2
+[3,]   32   10   22</code></pre>
+</div>
+</div>
+<p>Matrizes que não são invertíveis são chamadas de singulares. Inverter uma matriz é frequentemente necessário ao resolver sistemas de equações e tem implicações práticas importantes. Há vários métodos para inversão, e o custo computacional cresce muito à medida que o tamanho da matriz aumenta. Não entraremos em detalhes aqui; para discussões formais, veja Golub e Van Loan (1989). Por ora, veja a função <code>solve</code> do <code>R</code> como uma opção para inverter matrizes.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb177"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb177-1"><a href="#cb177-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">data =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">2</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb177-2"><a href="#cb177-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb177-3"><a href="#cb177-3" aria-hidden="true" tabindex="-1"></a>A</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2]
+[1,]    3    1
+[2,]    4    2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb179"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb179-1"><a href="#cb179-1" aria-hidden="true" tabindex="-1"></a><span class="fu">solve</span>(A)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2]
+[1,]    1 -0.5
+[2,]   -2  1.5</code></pre>
+</div>
+</div>
+<p>Você também pode verificar que o produto dessas duas matrizes (usando as regras de multiplicação de matrizes) resulta na matriz identidade <span class="math inline">\(2 \times 2\)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb181"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb181-1"><a href="#cb181-1" aria-hidden="true" tabindex="-1"></a>A <span class="sc">%*%</span> <span class="fu">solve</span>(A)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2]
+[1,]    1    0
+[2,]    0    1</code></pre>
+</div>
+</div>
+<section id="exercícios-2" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="exercícios-2">Exercícios</h3>
+<p><strong>(a)</strong> Calcule</p>
+<p><span class="math display">\[
+\frac{2}{7}\left(
+\begin{bmatrix}1 &amp; 2\\2 &amp; 4 \\ 7 &amp; 6\end{bmatrix}
+-
+\begin{bmatrix}10 &amp; 20\\30 &amp; 40 \\ 50 &amp; 60\end{bmatrix}
+\right).
+\]</span></p>
+<p><strong>(b)</strong> Armazene as duas matrizes abaixo:</p>
+<p><span class="math display">\[
+A=\begin{bmatrix}1\\2\\7\end{bmatrix},
+\quad
+B=\begin{bmatrix}3\\4\\8\end{bmatrix}.
+\]</span></p>
+<p>Quais das multiplicações a seguir são possíveis? Para as que forem, calcule o resultado.</p>
+<ol type="i">
+<li><p><span class="math inline">\(A \cdot B\)</span>;</p></li>
+<li><p><span class="math inline">\(A^{\top} \cdot B\)</span>;</p></li>
+<li><p><span class="math inline">\(B^{\top} \cdot (A \cdot A^{\top})\)</span>;</p></li>
+<li><p><span class="math inline">\((A \cdot A^{\top}) \cdot B^{\top}\)</span>;</p></li>
+<li><p><span class="math inline">\(\big[(B \cdot B^{\top}) + (A \cdot A^{\top}) - 100\,I_{3}\big]^{-1}\)</span>.</p></li>
+</ol>
+<p><strong>(c)</strong> Para</p>
+<p><span class="math display">\[
+A = \begin{bmatrix}
+2&amp;0&amp;0&amp;0\\
+0&amp;3&amp;0&amp;0\\
+0&amp;0&amp;5&amp;0\\
+0&amp;0&amp;0&amp;-1
+\end{bmatrix},
+\]</span></p>
+<p>confirme que <span class="math inline">\(A^{-1}\cdot A - I_{4}\)</span> fornece uma matriz <span class="math inline">\(4\times 4\)</span> de zeros.</p>
 
 
 </section>
