@@ -139,7 +139,7 @@ Hoje, geradores como o Mersenne Twister substituíram o LCG em muitas linguagens
 
 -   Usa parâmetros pequenos, por exemplo $m = 17, a = 5, c = 1$.
 
-Pergunta para reflexão: O que acontece com a qualidade dos números gerados quando usamos parâmetros pequenos?
+**Pergunta para reflexão:** O que acontece com a qualidade dos números gerados quando usamos parâmetros pequenos?
 
 ::: callout-note
 ## Park–Miller hoje: ainda vale a pena?
@@ -175,7 +175,7 @@ Existem no `R` vários algoritmos para geradores de números pseudoaleatórios. 
 help(Random)
 ```
 
-![Imagem da documentação.](Captura de tela de 2025-09-07 15-34-20.png){fig-align="center"}
+![Imagem da documentação.](Captura%20de%20tela%20de%202025-09-07%2015-34-20.png){fig-align="center"}
 
 ## Uso de Números Aleatórios na Avaliação de Integrais
 
@@ -213,7 +213,7 @@ $$\theta = \int\limits_{0}^{1}h(u) du.$$
 
 Assim, podemos aproximar $\theta$ gerando números aleatórios $u_1, u_2, \dots, u_n \sim U(0, 1)$ e tomando como estimativa a média
 
-$$\theta \approx \frac{1}{n}\sum\limits_{i=1}^{n}h(u_i).$$ Agora, se nosso objetivo é calcular a integral:
+$$\frac{1}{n}\sum\limits_{i=1}^{n}h(u_i).$$ Agora, se nosso objetivo é calcular a integral:
 
 $$\theta = \int\limits_{0}^{\infty}g(x) dx.$$
 
@@ -243,9 +243,9 @@ $$\theta = E[g(U_1, U_2, \dots, U_n)],$$
 
 em que $U_1, U_2, \dots, U_n$ são variáveis aleatória independentes uniformente distribuídas no intervalo $(0, 1)$. Assim, se gerarmos $k$ conjuntos independentes, cada um formado por $n$ variáveis aleatórias independentes com distribuição uniforme em $(0, 1)$, então as variáveis
 
-$$g(U_{i1}, U_{i2}, \dots, U_{in}), \quad i = 1, 2, \dots, k,$$ serão independentes e identicamente distribuídas, todas com esperança igual a $\theta$ (o valor da integral). Portanto, podemos aproximar $\theta$ por meio da média amostral:
+$$g(U_{i1}, U_{i2}, \dots, U_{in}), \quad i = 1, 2, \dots, k,$$ serão independentes e identicamente distribuídas, todas com esperança igual a $\theta$ (o valor da integral). Portanto, podemos estimar $\theta$ por meio da média amostral:
 
-$$\theta \approx \frac{1}{k}\sum\limits_{i=1}^{k}g(U_{i1}, U_{i2}, \dots, U_{in}).$$
+$$\hat{\theta} = \frac{1}{k}\sum\limits_{i=1}^{k}g(U_{i1}, U_{i2}, \dots, U_{in}).$$
 
 #### Exemplo {.unnumbered}
 
@@ -255,14 +255,12 @@ Nosso objetivo é encontrar o valor aproximado da integral: $\int_{0}^{1} x^3 dx
 
 ```
 
-
 ```{R}
 set.seed(2025) #fixando a semente
 n <- 100000 #quantidade de valores uniformes gerados
 u <- runif(n) #numeros uniformes (0,1)
 mean(u^3)
 ```
-
 
 ```{python}
 import numpy as np
@@ -273,7 +271,6 @@ resultado = np.mean(u**3)
 
 print(resultado)
 ```
-
 
 #### Exercícios {.unnumbered}
 

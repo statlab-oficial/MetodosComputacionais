@@ -15,7 +15,7 @@ book:
     - introducao.qmd
     - revisaoR.qmd
     - intro.qmd
-    #- summary.qmd
+    - summary.qmd
     #- pseudo.qmd
     #- otimizaca.qmd
     #- boot.qmd

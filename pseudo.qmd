@@ -217,7 +217,7 @@ Gere $U\sim U(0,1)$. Defina $X=\mbox{Int}(kU)+1$, em que $\textrm{Int}(x)$ é a 
 Para simular valores de $X$ com $P(X=j)=1/10, \, \,\, j=1,2,3,\ldots, 10$, você pode serguir o procedimento a seguir:
 
 | $j-1$ | $j$ | $U$ | $kU$ | [$X=j$]{style="color:blue"} | [$X=\mathrm{Int}(kU)+1$]{style="color:red"} |
-|------------|------------|------------|------------|------------|---------------|
+|----|----|----|----|----|----|
 | 0 | 1 | 0,01 | 0,1 | 1 | 1 |
 | 1 | 2 | 0,31 | 3,1 | 4 | 4 |
 | 2 | 3 | 0,53 | 5,3 | 6 | 6 |
