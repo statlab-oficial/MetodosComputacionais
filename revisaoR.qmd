@@ -765,7 +765,35 @@ diag(A)
 
 **(a)** Construa e armazene uma matriz $4 \times 2$ preenchida **por linhas** com os valores:  4.3, 3.1, 8.2, 8.2, 3.2, 0.9, 1.6 e 6.5 (nessa ordem).
 
+
+```{r}
+A <- matrix(c(4.3, 3.1, 8.2, 8.2, 3.2, 0.9, 1.6, 6.5), nrow = 4, byrow = TRUE); A
+```
+
 **(b)** Confirme que as dimensões da matriz do item (a) são $3 \times 2$ se você remover qualquer uma das linhas.
+
+```{r}
+matrix_test_32 <- function(data){
+
+v_saida <- NULL
+for(i in 1:nrow(data)){
+
+v_saida[i] <- all(dim(data[-i, , drop = FALSE]) == c(3,2))       
+}       
+
+sprintf( "A matriz é 3x2? %s", ifelse(all(v_saida) == TRUE, "Sim", "Não" ) )   
+} 
+
+
+matrix_test_32(A)
+
+B <- matrix(c(1,2,3,4), ncol = 2); B
+
+matrix_test_32(B)
+
+```
+
+
 
 **(c)** Sobrescreva a **segunda coluna** da matriz do item (a) com essa mesma coluna **ordenada do menor para o maior**.
 
@@ -913,9 +941,203 @@ $$
 confirme que $A^{-1}\cdot A - I_{4}$ fornece uma matriz $4\times 4$ de zeros.
 
 
+## Laços e repetições
+
+O laço clássico, ao estilo Fortran, está disponível no `R`. A sintaxe é um pouco diferente, mas a ideia é idêntica: você pede que um índice, $i$, assuma uma sequência de valores, e que uma ou mais linhas de comandos sejam executadas tantas vezes quantos forem os valores distintos de $i$. A seguir, um laço executado cinco vezes com $i$ de $1$ a $5$; imprimimos o quadrado de cada valor:
+
+```{r}
+for(i in 1:5) print(i^2)
+```
+
+Para várias linhas de código, você usa chaves `{}` para incluir o material sobre o qual o laço deve atuar.
+Note que a “quebra de linha” (pressionar a tecla Enter) ao final de cada comando é uma parte essencial da estrutura (você pode substituir as quebras de linha por ponto e vírgula, se preferir, mas a clareza melhora se cada comando for colocado em uma linha separada).
+
+```{r}
+j <- k <- 0
+for(i in 1:5){
+j <- j + 1
+k <- k + i*j
+print(i + j + k)
+}
+```
+
+O fatorial de um número inteiro $x$ (escrito $x!$) é o produto de todos os inteiros positivos de $1$ até $x$. Por definição:
+
+$$x! = x \times (x-1) \times (x-2) \times (x-3)\dots \times 2 \times 1.$$
+Por exemplo, $4! = 4\times 3 \times 2 \times 1 = 24$. Aqui está a função:
+
+```{r}
+fac1 <- function(x){
+f <- 1
+if(x < 2) return(1)
+  for(i in 2:x){
+    f <- f*i
+  }
+f
+}
+```
+
+Parece complicado para uma tarefa simples. Mas vamos testar de 0 a 5:
+
+```{r}
+sapply(0:5, fac1)
+```
+
+Existem outras duas funções de laço no `R`: `repeat` e `while`. Vamos demonstrar seu uso para fins de ilustração, mas podemos fazer bem melhor ao escrever uma função compacta para calcular fatoriais (veja abaixo). Primeiro, a função `while`:
+
+```{r}
+fac2 <- function(x){
+  f <- 1
+  t <- x
+  while(t > 1){
+    f <- f*t
+    t <- t - 1
+  }
+  return(f)
+}
+```
+
+Agora iremos testar a função para os números inteiros de 0 a 5:
+
+```{r}
+sapply(0:5, fac2)
+```
+
+::: callout-warning
+## O ponto central
+
+o `while` sozinho não gera a sequência; você precisa configurar e atualizar manualmente uma variável de controle (aqui `t`). Isso torna o `while` menos compacto do que `for`, mas útil quando você não sabe de antemão quantas iterações serão necessárias.
+:::
+
+Por fim, vamos mostrar o uso da função `repeat`:
+
+```{r}
+fac3 <- function(x){
+  f <- 1
+  t <- x
+  repeat{
+    if(t<2) break
+    f <- f*t
+    t <- t - 1
+  }
+  return(f)
+}
+```
+
+O `repeat` em `R` não tem um fim explícito, ele vai rodar para sempre a menos que você coloque uma condição de saída que use `break`. 
+
+```{r}
+sapply(0:5,fac3)
+```
+
+É uma boa prática de programação em `R` evitar o uso de laços sempre que possível. O uso de funções vetorizadas torna isso particularmente simples em muitos casos. Suponha que você queira substituir todos os valores negativos de um array por zeros. Você poderia ter escrito algo assim:
+
+```{r}
+#| eval: false
+for(i in 1:length(y)){
+  if(y[i] < 0) y[i] <- 0
+}
+```
+
+No entanto, você pode simplesmente fazer assim:
+
+```{r}
+#| eval: false
+
+y[y<0] <- 0
+```
+
+Às vezes você quer fazer uma coisa se uma condição for verdadeira e outra diferente se a condição for falsa (em vez de não fazer nada, como no exemplo anterior). A função `ifelse` permite fazer isso em vetores inteiros sem precisar usar laços com `for`. Por exemplo, podemos querer substituir qualquer valor negativo de `y` por `–1` e qualquer valor positivo ou zero por `+1`:
+
+```{r}
+y <- c(-5, -1, 0, 2, 7)
+ifelse(y < 0, -1, 1)
+```
+
+## Escrevendo funções no `R`
 
 
+Normalmente você escreve funções em `R` para realizar operações que exigem duas ou mais linhas de código para serem executadas, e que você não quer digitar várias vezes. Podemos querer escrever funções simples para calcular medidas de tendência central, calcular fatoriais e coisas do tipo.
+
+Funções em `R` são objetos que realizam operações sobre argumentos que lhes são fornecidos e retornam um ou mais valores. A sintaxe para escrever uma função é
+
+```{r}
+#| eval: false
+
+function(lista_de_argumentos){
+  # corpo da função
+  # instruções
+  return(valor)
+}
+```
+
+O primeiro componente da declaração de função é a palavra-chave `function`, que indica ao `R` que você quer criar uma função.
+
+Uma **lista de argumentos** é uma lista separada por vírgulas de **argumentos formais**. Um argumento formal pode ser:
+
+- um símbolo (isto é, um nome de variável como `x` ou `y`),
+
+- uma declaração do tipo `símbolo = expressão` (por exemplo, `pch = 16`),
+
+- ou o argumento especial `...` (três pontos), que permite passar múltiplos argumentos adicionais.
+
+O corpo pode ser qualquer expressão válida em `R` ou um conjunto de expressões em uma ou mais linhas. Em geral, o corpo é um grupo de expressões dentro de chaves `{ }`, com cada expressão em uma linha separada (se o corpo couber em uma linha, as chaves não são necessárias).
+
+Funções normalmente são atribuídas a símbolos (variáveis), mas isso não é obrigatório. Esse conceito só começa a fazer sentido depois de ver vários exemplos em funcionamento.
+
+### Média Aritmética
+
+A média é a soma dos valores $y_i$ dividida pela quantidade
+de valores $n$ (somando ao longo do número de elementos do vetor $y$). Em `R`, $n =$`length(y)` e $\sum y =$`sum(y)`. 
+Assim, uma função para calcular a média aritmética é:
+
+```{r}
+media_aritmetica <- function(x) sum(x)/length(x)
+```
+
+Vamos testar a função com dados em que sabemos de antemão qual deve ser o resultado.
 
 
+```{r}
+y <- c(3, 3, 4, 5, 5)
+media_aritmetica(y)
+```
+
+### Mediana
+
+A mediana (ou 50º percentil) é o valor do meio dos valores ordenados de um vetor de números:
+
+```{r}
+#| eval: false
+sort(y)[ceiling(length(y)/2)]
+```
+
+Há, é claro, um pequeno problema aqui, porque se o vetor contém um número par de números, então não existe valor do meio. A lógica aqui é que precisamos calcular a média aritmética dos dois valores de `y` em cada lado do meio. Surge agora a questão de como sabemos, em geral, se o vetor contém um número ímpar ou par de números, de modo que possamos decidir qual dos dois métodos usar. O truque aqui é usar o módulo 2. Agora temos todas as ferramentas de que precisamos para escrever uma função geral para calcular medianas. Vamos chamar a função de `mediana` e defini-la assim:
+
+```{r}
+mediana <- function(x){
+  impar_par <- length(x)%%2
+  if(impar_par == 0) (sort(x)[length(x)/2] + sort(x)[1 + length(x)/2])/2
+  else sort(x)[ceiling(length(x)/2)]
+}
+```
+
+Vamos agora testar a função:
+
+```{r}
+mediana(y)
+```
+
+#### Exercícios
+
+1. Crie sua própria função que calcula a variância, o desvio-padrão e o coeficiente de variação.
+
+2. Crie uma função para listar os elementos de uma série de Fibonacci ($1, 1, 2, 3, 5, 8, \dots$).
+
+3. Crie uma função para calcular fatoriais usando o comando `cumprod`. 
+
+4. Crie sua própria função para calcular a mediana.
+
+5. Crie sua própria função para calcular a média.
 
 

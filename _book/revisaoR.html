@@ -231,6 +231,12 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#exercícios-2" id="toc-exercícios-2" class="nav-link" data-scroll-target="#exercícios-2">Exercícios</a></li>
   </ul></li>
+  <li><a href="#laços-e-repetições" id="toc-laços-e-repetições" class="nav-link" data-scroll-target="#laços-e-repetições"><span class="header-section-number">2.1</span> Laços e repetições</a></li>
+  <li><a href="#escrevendo-funções-no-r" id="toc-escrevendo-funções-no-r" class="nav-link" data-scroll-target="#escrevendo-funções-no-r"><span class="header-section-number">2.2</span> Escrevendo funções no <code>R</code></a>
+  <ul class="collapse">
+  <li><a href="#média-aritmética" id="toc-média-aritmética" class="nav-link" data-scroll-target="#média-aritmética"><span class="header-section-number">2.2.1</span> Média Aritmética</a></li>
+  <li><a href="#mediana" id="toc-mediana" class="nav-link" data-scroll-target="#mediana"><span class="header-section-number">2.2.2</span> Mediana</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -608,6 +614,8 @@ Dica
 <div class="cell-output cell-output-stdout">
 <pre><code>              Package         LibPath                                         
 ggiraph       "ggiraph"       "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5"
+ggplotify     "ggplotify"     "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5"
+pillar        "pillar"        "/home/manoel/R/x86_64-pc-linux-gnu-library/4.5"
 askpass       "askpass"       "/usr/lib/R/site-library"                       
 backports     "backports"     "/usr/lib/R/site-library"                       
 bit           "bit"           "/usr/lib/R/site-library"                       
@@ -681,6 +689,7 @@ tinytex       "tinytex"       "/usr/lib/R/site-library"
 tzdb          "tzdb"          "/usr/lib/R/site-library"                       
 utf8          "utf8"          "/usr/lib/R/site-library"                       
 uuid          "uuid"          "/usr/lib/R/site-library"                       
+vroom         "vroom"         "/usr/lib/R/site-library"                       
 withr         "withr"         "/usr/lib/R/site-library"                       
 xfun          "xfun"          "/usr/lib/R/site-library"                       
 xml2          "xml2"          "/usr/lib/R/site-library"                       
@@ -691,6 +700,8 @@ mgcv          "mgcv"          "/usr/lib/R/library"
 spatial       "spatial"       "/usr/lib/R/library"                            
               Installed Built   ReposVer 
 ggiraph       "0.9.0"   "4.5.1" "0.9.1"  
+ggplotify     "0.1.2"   "4.5.0" "0.1.3"  
+pillar        "1.11.0"  "4.5.1" "1.11.1" 
 askpass       "1.2.0"   "4.3.1" "1.2.1"  
 backports     "1.4.1"   "4.1.2" "1.5.0"  
 bit           "4.0.5"   "4.2.2" "4.6.0"  
@@ -735,7 +746,7 @@ magrittr      "2.0.3"   "4.1.2" "2.0.4"
 mime          "0.12"    "4.1.1" "0.13"   
 munsell       "0.5.0"   "4.0.1" "0.5.1"  
 openssl       "2.1.1"   "4.3.3" "2.3.3"  
-pillar        "1.9.0"   "4.3.0" "1.11.0" 
+pillar        "1.9.0"   "4.3.0" "1.11.1" 
 pkgKitten     "0.2.3"   "4.2.2" "0.2.4"  
 processx      "3.8.3"   "4.3.2" "3.8.6"  
 promises      "1.2.1"   "4.3.1" "1.3.3"  
@@ -764,6 +775,7 @@ tinytex       "0.49"    "4.3.2" "0.57"
 tzdb          "0.4.0"   "4.3.1" "0.5.0"  
 utf8          "1.2.4"   "4.3.1" "1.2.6"  
 uuid          "1.2-0"   "4.3.2" "1.2-1"  
+vroom         "1.6.5"   "4.3.2" "1.6.6"  
 withr         "2.5.0"   "4.1.2" "3.0.2"  
 xfun          "0.41"    "4.3.2" "0.53"   
 xml2          "1.3.6"   "4.3.2" "1.4.0"  
@@ -774,6 +786,8 @@ mgcv          "1.9-1"   "4.3.2" "1.9-3"
 spatial       "7.3-17"  "4.4.0" "7.3-18" 
               Repository                               
 ggiraph       "https://cloud.r-project.org/src/contrib"
+ggplotify     "https://cloud.r-project.org/src/contrib"
+pillar        "https://cloud.r-project.org/src/contrib"
 askpass       "https://cloud.r-project.org/src/contrib"
 backports     "https://cloud.r-project.org/src/contrib"
 bit           "https://cloud.r-project.org/src/contrib"
@@ -847,6 +861,7 @@ tinytex       "https://cloud.r-project.org/src/contrib"
 tzdb          "https://cloud.r-project.org/src/contrib"
 utf8          "https://cloud.r-project.org/src/contrib"
 uuid          "https://cloud.r-project.org/src/contrib"
+vroom         "https://cloud.r-project.org/src/contrib"
 withr         "https://cloud.r-project.org/src/contrib"
 xfun          "https://cloud.r-project.org/src/contrib"
 xml2          "https://cloud.r-project.org/src/contrib"
@@ -1488,7 +1503,45 @@ Aviso
 <section id="exercícios-1" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="exercícios-1">Exercícios</h3>
 <p><strong>(a)</strong> Construa e armazene uma matriz <span class="math inline">\(4 \times 2\)</span> preenchida <strong>por linhas</strong> com os valores: 4.3, 3.1, 8.2, 8.2, 3.2, 0.9, 1.6 e 6.5 (nessa ordem).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb153"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb153-1"><a href="#cb153-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fl">4.3</span>, <span class="fl">3.1</span>, <span class="fl">8.2</span>, <span class="fl">8.2</span>, <span class="fl">3.2</span>, <span class="fl">0.9</span>, <span class="fl">1.6</span>, <span class="fl">6.5</span>), <span class="at">nrow =</span> <span class="dv">4</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>); A</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2]
+[1,]  4.3  3.1
+[2,]  8.2  8.2
+[3,]  3.2  0.9
+[4,]  1.6  6.5</code></pre>
+</div>
+</div>
 <p><strong>(b)</strong> Confirme que as dimensões da matriz do item (a) são <span class="math inline">\(3 \times 2\)</span> se você remover qualquer uma das linhas.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb155"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb155-1"><a href="#cb155-1" aria-hidden="true" tabindex="-1"></a>matrix_test_32 <span class="ot">&lt;-</span> <span class="cf">function</span>(data){</span>
+<span id="cb155-2"><a href="#cb155-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb155-3"><a href="#cb155-3" aria-hidden="true" tabindex="-1"></a>v_saida <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb155-4"><a href="#cb155-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(data)){</span>
+<span id="cb155-5"><a href="#cb155-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb155-6"><a href="#cb155-6" aria-hidden="true" tabindex="-1"></a>v_saida[i] <span class="ot">&lt;-</span> <span class="fu">all</span>(<span class="fu">dim</span>(data[<span class="sc">-</span>i, , <span class="at">drop =</span> <span class="cn">FALSE</span>]) <span class="sc">==</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">2</span>))       </span>
+<span id="cb155-7"><a href="#cb155-7" aria-hidden="true" tabindex="-1"></a>}       </span>
+<span id="cb155-8"><a href="#cb155-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb155-9"><a href="#cb155-9" aria-hidden="true" tabindex="-1"></a><span class="fu">sprintf</span>( <span class="st">"A matriz é 3x2? %s"</span>, <span class="fu">ifelse</span>(<span class="fu">all</span>(v_saida) <span class="sc">==</span> <span class="cn">TRUE</span>, <span class="st">"Sim"</span>, <span class="st">"Não"</span> ) )   </span>
+<span id="cb155-10"><a href="#cb155-10" aria-hidden="true" tabindex="-1"></a>} </span>
+<span id="cb155-11"><a href="#cb155-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb155-12"><a href="#cb155-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb155-13"><a href="#cb155-13" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix_test_32</span>(A)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "A matriz é 3x2? Sim"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb157"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb157-1"><a href="#cb157-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>), <span class="at">ncol =</span> <span class="dv">2</span>); B</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2]
+[1,]    1    3
+[2,]    2    4</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb159"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb159-1"><a href="#cb159-1" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix_test_32</span>(B)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "A matriz é 3x2? Não"</code></pre>
+</div>
+</div>
 <p><strong>(c)</strong> Sobrescreva a <strong>segunda coluna</strong> da matriz do item (a) com essa mesma coluna <strong>ordenada do menor para o maior</strong>.</p>
 <p><strong>(d)</strong> O que o <code>R</code> retorna se você excluir a <strong>quarta linha</strong> e a <strong>primeira coluna</strong> do item (c)? Use <code>matrix</code> para garantir que o resultado seja uma <strong>matriz de uma única coluna</strong>, e não um vetor.</p>
 <p><strong>(e)</strong> Armazene os <strong>quatro elementos inferiores</strong> do item (c) como uma nova matriz <span class="math inline">\(2 \times 2\)</span>.</p>
@@ -1499,9 +1552,9 @@ Aviso
 <h2 class="unnumbered anchored" data-anchor-id="operações-com-matrizes">Operações com matrizes</h2>
 <p>Em <code>R</code>, a transposta de uma matriz se obtém com <code>t()</code>, ela troca linhas por colunas.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb153"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb153-1"><a href="#cb153-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">5</span>,<span class="dv">2</span>),<span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">1</span>,<span class="dv">4</span>))</span>
-<span id="cb153-2"><a href="#cb153-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb153-3"><a href="#cb153-3" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(A)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb161"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb161-1"><a href="#cb161-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">5</span>,<span class="dv">2</span>),<span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">1</span>,<span class="dv">4</span>))</span>
+<span id="cb161-2"><a href="#cb161-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb161-3"><a href="#cb161-3" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(A)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2]
 [1,]    2    6
@@ -1511,8 +1564,8 @@ Aviso
 </div>
 <p>Você pode criar uma matriz identidade de qualquer dimensão usando a função <code>matrix</code>, mas há uma forma mais rápida usando <code>diag</code>. Antes, usei <code>diag</code> em uma matriz existente para extrair ou sobrescrever seus elementos da diagonal. Você também pode usá-la assim:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb155"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb155-1"><a href="#cb155-1" aria-hidden="true" tabindex="-1"></a>I4 <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">4</span>) <span class="co"># 4x4</span></span>
-<span id="cb155-2"><a href="#cb155-2" aria-hidden="true" tabindex="-1"></a>I4</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb163"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb163-1"><a href="#cb163-1" aria-hidden="true" tabindex="-1"></a>I4 <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">4</span>) <span class="co"># 4x4</span></span>
+<span id="cb163-2"><a href="#cb163-2" aria-hidden="true" tabindex="-1"></a>I4</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2] [,3] [,4]
 [1,]    1    0    0    0
@@ -1520,8 +1573,8 @@ Aviso
 [3,]    0    0    1    0
 [4,]    0    0    0    1</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb157"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb157-1"><a href="#cb157-1" aria-hidden="true" tabindex="-1"></a>I5 <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">1</span>, <span class="at">nrow =</span> <span class="dv">5</span>, <span class="at">ncol =</span> <span class="dv">5</span>) <span class="co">#forma explicita</span></span>
-<span id="cb157-2"><a href="#cb157-2" aria-hidden="true" tabindex="-1"></a>I5</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb165"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb165-1"><a href="#cb165-1" aria-hidden="true" tabindex="-1"></a>I5 <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="dv">1</span>, <span class="at">nrow =</span> <span class="dv">5</span>, <span class="at">ncol =</span> <span class="dv">5</span>) <span class="co">#forma explicita</span></span>
+<span id="cb165-2"><a href="#cb165-2" aria-hidden="true" tabindex="-1"></a>I5</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2] [,3] [,4] [,5]
 [1,]    1    0    0    0    0
@@ -1533,10 +1586,10 @@ Aviso
 </div>
 <p>O <code>R</code> realizará essa multiplicação de maneira elemento a elemento, como você poderia esperar. A multiplicação escalar de uma matriz é realizada usando o operador aritmético padrão <code>*</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb159"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb159-1"><a href="#cb159-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">5</span>,<span class="dv">2</span>) , <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">1</span>,<span class="dv">4</span>))</span>
-<span id="cb159-2"><a href="#cb159-2" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb159-3"><a href="#cb159-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb159-4"><a href="#cb159-4" aria-hidden="true" tabindex="-1"></a>a<span class="sc">*</span>A</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb167"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb167-1"><a href="#cb167-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">5</span>,<span class="dv">2</span>) , <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">1</span>,<span class="dv">4</span>))</span>
+<span id="cb167-2"><a href="#cb167-2" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb167-3"><a href="#cb167-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb167-4"><a href="#cb167-4" aria-hidden="true" tabindex="-1"></a>a<span class="sc">*</span>A</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2] [,3]
 [1,]    4   10    4
@@ -1545,32 +1598,32 @@ Aviso
 </div>
 <p>Você pode somar ou subtrair quaisquer duas matrizes de mesmo tamanho usando os símbolos padrão <code>+</code> e <code>-</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb161"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb161-1"><a href="#cb161-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">5</span>,<span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">1</span>,<span class="dv">4</span>))</span>
-<span id="cb161-2"><a href="#cb161-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb161-3"><a href="#cb161-3" aria-hidden="true" tabindex="-1"></a>A</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb169"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb169-1"><a href="#cb169-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">5</span>,<span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">1</span>,<span class="dv">4</span>))</span>
+<span id="cb169-2"><a href="#cb169-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb169-3"><a href="#cb169-3" aria-hidden="true" tabindex="-1"></a>A</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2]
 [1,]    2    6
 [2,]    5    1
 [3,]    2    4</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb163"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb163-1"><a href="#cb163-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span>  <span class="fu">cbind</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">6</span>), <span class="fu">c</span>(<span class="fl">8.1</span>,<span class="fl">8.2</span>,<span class="sc">-</span><span class="fl">9.8</span>))</span>
-<span id="cb163-2"><a href="#cb163-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb163-3"><a href="#cb163-3" aria-hidden="true" tabindex="-1"></a>B</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb171"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb171-1"><a href="#cb171-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span>  <span class="fu">cbind</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">6</span>), <span class="fu">c</span>(<span class="fl">8.1</span>,<span class="fl">8.2</span>,<span class="sc">-</span><span class="fl">9.8</span>))</span>
+<span id="cb171-2"><a href="#cb171-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb171-3"><a href="#cb171-3" aria-hidden="true" tabindex="-1"></a>B</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2]
 [1,]   -2  8.1
 [2,]    3  8.2
 [3,]    6 -9.8</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb165"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb165-1"><a href="#cb165-1" aria-hidden="true" tabindex="-1"></a>A <span class="sc">-</span> B</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb173"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb173-1"><a href="#cb173-1" aria-hidden="true" tabindex="-1"></a>A <span class="sc">-</span> B</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2]
 [1,]    4 -2.1
 [2,]    2 -7.2
 [3,]   -4 13.8</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb167"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb167-1"><a href="#cb167-1" aria-hidden="true" tabindex="-1"></a>A <span class="sc">+</span> B </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb175"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb175-1"><a href="#cb175-1" aria-hidden="true" tabindex="-1"></a>A <span class="sc">+</span> B </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2]
 [1,]    0 14.1
@@ -1580,22 +1633,22 @@ Aviso
 </div>
 <p>Ao contrário da adição, subtração e multiplicação escalar, a multiplicação de matrizes não é um cálculo elemento a elemento, e o operador padrão <code>*</code> não pode ser usado. Em vez disso, você deve usar o operador de produto matricial do <code>R</code>, escrito com símbolos de porcentagem como <code>%*%</code>. Antes de tentar esse operador, vamos primeiro armazenar as duas matrizes de exemplo e verificar se o número de colunas na primeira matriz corresponde ao número de linhas na segunda matriz usando <code>dim</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb169"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb169-1"><a href="#cb169-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">5</span>,<span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">1</span>,<span class="dv">4</span>))</span>
-<span id="cb169-2"><a href="#cb169-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb169-3"><a href="#cb169-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(A)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb177"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb177-1"><a href="#cb177-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">5</span>,<span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">1</span>,<span class="dv">4</span>))</span>
+<span id="cb177-2"><a href="#cb177-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb177-3"><a href="#cb177-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(A)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2 3</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb171"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb171-1"><a href="#cb171-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span>  <span class="fu">cbind</span>(<span class="fu">c</span>(<span class="dv">3</span>,<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>), <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">5</span>))</span>
-<span id="cb171-2"><a href="#cb171-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb171-3"><a href="#cb171-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(B)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb179"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb179-1"><a href="#cb179-1" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span>  <span class="fu">cbind</span>(<span class="fu">c</span>(<span class="dv">3</span>,<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>), <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">1</span>,<span class="dv">5</span>))</span>
+<span id="cb179-2"><a href="#cb179-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb179-3"><a href="#cb179-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(B)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3 2</code></pre>
 </div>
 </div>
 <p>Isso confirma que as duas matrizes são compatíveis para a multiplicação, então você pode prosseguir.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb173"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb173-1"><a href="#cb173-1" aria-hidden="true" tabindex="-1"></a>A<span class="sc">%*%</span>B</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb181"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb181-1"><a href="#cb181-1" aria-hidden="true" tabindex="-1"></a>A<span class="sc">%*%</span>B</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2]
 [1,]    3    9
@@ -1604,7 +1657,7 @@ Aviso
 </div>
 <p>Você pode mostrar que a multiplicação de matrizes é <strong>não comutativa</strong> usando as mesmas duas matrizes. Inverter a ordem da multiplicação produz um resultado completamente diferente.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb175"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb175-1"><a href="#cb175-1" aria-hidden="true" tabindex="-1"></a>B<span class="sc">%*%</span>A</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb183"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb183-1"><a href="#cb183-1" aria-hidden="true" tabindex="-1"></a>B<span class="sc">%*%</span>A</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2] [,3]
 [1,]  -12   12   -6
@@ -1614,15 +1667,15 @@ Aviso
 </div>
 <p>Matrizes que não são invertíveis são chamadas de singulares. Inverter uma matriz é frequentemente necessário ao resolver sistemas de equações e tem implicações práticas importantes. Há vários métodos para inversão, e o custo computacional cresce muito à medida que o tamanho da matriz aumenta. Não entraremos em detalhes aqui; para discussões formais, veja Golub e Van Loan (1989). Por ora, veja a função <code>solve</code> do <code>R</code> como uma opção para inverter matrizes.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb177"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb177-1"><a href="#cb177-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">data =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">2</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">ncol =</span> <span class="dv">2</span>)</span>
-<span id="cb177-2"><a href="#cb177-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb177-3"><a href="#cb177-3" aria-hidden="true" tabindex="-1"></a>A</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb185"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb185-1"><a href="#cb185-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="at">data =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">2</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb185-2"><a href="#cb185-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb185-3"><a href="#cb185-3" aria-hidden="true" tabindex="-1"></a>A</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2]
 [1,]    3    1
 [2,]    4    2</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb179"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb179-1"><a href="#cb179-1" aria-hidden="true" tabindex="-1"></a><span class="fu">solve</span>(A)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb187"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb187-1"><a href="#cb187-1" aria-hidden="true" tabindex="-1"></a><span class="fu">solve</span>(A)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2]
 [1,]    1 -0.5
@@ -1631,7 +1684,7 @@ Aviso
 </div>
 <p>Você também pode verificar que o produto dessas duas matrizes (usando as regras de multiplicação de matrizes) resulta na matriz identidade <span class="math inline">\(2 \times 2\)</span></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb181"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb181-1"><a href="#cb181-1" aria-hidden="true" tabindex="-1"></a>A <span class="sc">%*%</span> <span class="fu">solve</span>(A)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb189"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb189-1"><a href="#cb189-1" aria-hidden="true" tabindex="-1"></a>A <span class="sc">%*%</span> <span class="fu">solve</span>(A)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2]
 [1,]    1    0
@@ -1672,8 +1725,195 @@ A = \begin{bmatrix}
 \end{bmatrix},
 \]</span></p>
 <p>confirme que <span class="math inline">\(A^{-1}\cdot A - I_{4}\)</span> fornece uma matriz <span class="math inline">\(4\times 4\)</span> de zeros.</p>
+</section>
+</section>
+<section id="laços-e-repetições" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="laços-e-repetições"><span class="header-section-number">2.1</span> Laços e repetições</h2>
+<p>O laço clássico, ao estilo Fortran, está disponível no <code>R</code>. A sintaxe é um pouco diferente, mas a ideia é idêntica: você pede que um índice, <span class="math inline">\(i\)</span>, assuma uma sequência de valores, e que uma ou mais linhas de comandos sejam executadas tantas vezes quantos forem os valores distintos de <span class="math inline">\(i\)</span>. A seguir, um laço executado cinco vezes com <span class="math inline">\(i\)</span> de <span class="math inline">\(1\)</span> a <span class="math inline">\(5\)</span>; imprimimos o quadrado de cada valor:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb191"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb191-1"><a href="#cb191-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) <span class="fu">print</span>(i<span class="sc">^</span><span class="dv">2</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1
+[1] 4
+[1] 9
+[1] 16
+[1] 25</code></pre>
+</div>
+</div>
+<p>Para várias linhas de código, você usa chaves <code>{}</code> para incluir o material sobre o qual o laço deve atuar. Note que a “quebra de linha” (pressionar a tecla Enter) ao final de cada comando é uma parte essencial da estrutura (você pode substituir as quebras de linha por ponto e vírgula, se preferir, mas a clareza melhora se cada comando for colocado em uma linha separada).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb193"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb193-1"><a href="#cb193-1" aria-hidden="true" tabindex="-1"></a>j <span class="ot">&lt;-</span> k <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb193-2"><a href="#cb193-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>){</span>
+<span id="cb193-3"><a href="#cb193-3" aria-hidden="true" tabindex="-1"></a>j <span class="ot">&lt;-</span> j <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb193-4"><a href="#cb193-4" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> k <span class="sc">+</span> i<span class="sc">*</span>j</span>
+<span id="cb193-5"><a href="#cb193-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(i <span class="sc">+</span> j <span class="sc">+</span> k)</span>
+<span id="cb193-6"><a href="#cb193-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3
+[1] 9
+[1] 20
+[1] 38
+[1] 65</code></pre>
+</div>
+</div>
+<p>O fatorial de um número inteiro <span class="math inline">\(x\)</span> (escrito <span class="math inline">\(x!\)</span>) é o produto de todos os inteiros positivos de <span class="math inline">\(1\)</span> até <span class="math inline">\(x\)</span>. Por definição:</p>
+<p><span class="math display">\[x! = x \times (x-1) \times (x-2) \times (x-3)\dots \times 2 \times 1.\]</span> Por exemplo, <span class="math inline">\(4! = 4\times 3 \times 2 \times 1 = 24\)</span>. Aqui está a função:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb195"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb195-1"><a href="#cb195-1" aria-hidden="true" tabindex="-1"></a>fac1 <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb195-2"><a href="#cb195-2" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb195-3"><a href="#cb195-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(x <span class="sc">&lt;</span> <span class="dv">2</span>) <span class="fu">return</span>(<span class="dv">1</span>)</span>
+<span id="cb195-4"><a href="#cb195-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span>x){</span>
+<span id="cb195-5"><a href="#cb195-5" aria-hidden="true" tabindex="-1"></a>    f <span class="ot">&lt;-</span> f<span class="sc">*</span>i</span>
+<span id="cb195-6"><a href="#cb195-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb195-7"><a href="#cb195-7" aria-hidden="true" tabindex="-1"></a>f</span>
+<span id="cb195-8"><a href="#cb195-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Parece complicado para uma tarefa simples. Mas vamos testar de 0 a 5:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb196"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb196-1"><a href="#cb196-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">5</span>, fac1)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]   1   1   2   6  24 120</code></pre>
+</div>
+</div>
+<p>Existem outras duas funções de laço no <code>R</code>: <code>repeat</code> e <code>while</code>. Vamos demonstrar seu uso para fins de ilustração, mas podemos fazer bem melhor ao escrever uma função compacta para calcular fatoriais (veja abaixo). Primeiro, a função <code>while</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb198"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb198-1"><a href="#cb198-1" aria-hidden="true" tabindex="-1"></a>fac2 <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb198-2"><a href="#cb198-2" aria-hidden="true" tabindex="-1"></a>  f <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb198-3"><a href="#cb198-3" aria-hidden="true" tabindex="-1"></a>  t <span class="ot">&lt;-</span> x</span>
+<span id="cb198-4"><a href="#cb198-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span>(t <span class="sc">&gt;</span> <span class="dv">1</span>){</span>
+<span id="cb198-5"><a href="#cb198-5" aria-hidden="true" tabindex="-1"></a>    f <span class="ot">&lt;-</span> f<span class="sc">*</span>t</span>
+<span id="cb198-6"><a href="#cb198-6" aria-hidden="true" tabindex="-1"></a>    t <span class="ot">&lt;-</span> t <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb198-7"><a href="#cb198-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb198-8"><a href="#cb198-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(f)</span>
+<span id="cb198-9"><a href="#cb198-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Agora iremos testar a função para os números inteiros de 0 a 5:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb199"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb199-1"><a href="#cb199-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">5</span>, fac2)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]   1   1   2   6  24 120</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+O ponto central
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>o <code>while</code> sozinho não gera a sequência; você precisa configurar e atualizar manualmente uma variável de controle (aqui <code>t</code>). Isso torna o <code>while</code> menos compacto do que <code>for</code>, mas útil quando você não sabe de antemão quantas iterações serão necessárias.</p>
+</div>
+</div>
+<p>Por fim, vamos mostrar o uso da função <code>repeat</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb201"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb201-1"><a href="#cb201-1" aria-hidden="true" tabindex="-1"></a>fac3 <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb201-2"><a href="#cb201-2" aria-hidden="true" tabindex="-1"></a>  f <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb201-3"><a href="#cb201-3" aria-hidden="true" tabindex="-1"></a>  t <span class="ot">&lt;-</span> x</span>
+<span id="cb201-4"><a href="#cb201-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">repeat</span>{</span>
+<span id="cb201-5"><a href="#cb201-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(t<span class="sc">&lt;</span><span class="dv">2</span>) <span class="cf">break</span></span>
+<span id="cb201-6"><a href="#cb201-6" aria-hidden="true" tabindex="-1"></a>    f <span class="ot">&lt;-</span> f<span class="sc">*</span>t</span>
+<span id="cb201-7"><a href="#cb201-7" aria-hidden="true" tabindex="-1"></a>    t <span class="ot">&lt;-</span> t <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb201-8"><a href="#cb201-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb201-9"><a href="#cb201-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(f)</span>
+<span id="cb201-10"><a href="#cb201-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>O <code>repeat</code> em <code>R</code> não tem um fim explícito, ele vai rodar para sempre a menos que você coloque uma condição de saída que use <code>break</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb202"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb202-1"><a href="#cb202-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">5</span>,fac3)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]   1   1   2   6  24 120</code></pre>
+</div>
+</div>
+<p>É uma boa prática de programação em <code>R</code> evitar o uso de laços sempre que possível. O uso de funções vetorizadas torna isso particularmente simples em muitos casos. Suponha que você queira substituir todos os valores negativos de um array por zeros. Você poderia ter escrito algo assim:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb204"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb204-1"><a href="#cb204-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(y)){</span>
+<span id="cb204-2"><a href="#cb204-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(y[i] <span class="sc">&lt;</span> <span class="dv">0</span>) y[i] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb204-3"><a href="#cb204-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>No entanto, você pode simplesmente fazer assim:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb205"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb205-1"><a href="#cb205-1" aria-hidden="true" tabindex="-1"></a>y[y<span class="sc">&lt;</span><span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Às vezes você quer fazer uma coisa se uma condição for verdadeira e outra diferente se a condição for falsa (em vez de não fazer nada, como no exemplo anterior). A função <code>ifelse</code> permite fazer isso em vetores inteiros sem precisar usar laços com <code>for</code>. Por exemplo, podemos querer substituir qualquer valor negativo de <code>y</code> por <code>–1</code> e qualquer valor positivo ou zero por <code>+1</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb206"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb206-1"><a href="#cb206-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">7</span>)</span>
+<span id="cb206-2"><a href="#cb206-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ifelse</span>(y <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -1 -1  1  1  1</code></pre>
+</div>
+</div>
+</section>
+<section id="escrevendo-funções-no-r" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="escrevendo-funções-no-r"><span class="header-section-number">2.2</span> Escrevendo funções no <code>R</code></h2>
+<p>Normalmente você escreve funções em <code>R</code> para realizar operações que exigem duas ou mais linhas de código para serem executadas, e que você não quer digitar várias vezes. Podemos querer escrever funções simples para calcular medidas de tendência central, calcular fatoriais e coisas do tipo.</p>
+<p>Funções em <code>R</code> são objetos que realizam operações sobre argumentos que lhes são fornecidos e retornam um ou mais valores. A sintaxe para escrever uma função é</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb208"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb208-1"><a href="#cb208-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(lista_de_argumentos){</span>
+<span id="cb208-2"><a href="#cb208-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># corpo da função</span></span>
+<span id="cb208-3"><a href="#cb208-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># instruções</span></span>
+<span id="cb208-4"><a href="#cb208-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(valor)</span>
+<span id="cb208-5"><a href="#cb208-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>O primeiro componente da declaração de função é a palavra-chave <code>function</code>, que indica ao <code>R</code> que você quer criar uma função.</p>
+<p>Uma <strong>lista de argumentos</strong> é uma lista separada por vírgulas de <strong>argumentos formais</strong>. Um argumento formal pode ser:</p>
+<ul>
+<li><p>um símbolo (isto é, um nome de variável como <code>x</code> ou <code>y</code>),</p></li>
+<li><p>uma declaração do tipo <code>símbolo = expressão</code> (por exemplo, <code>pch = 16</code>),</p></li>
+<li><p>ou o argumento especial <code>...</code> (três pontos), que permite passar múltiplos argumentos adicionais.</p></li>
+</ul>
+<p>O corpo pode ser qualquer expressão válida em <code>R</code> ou um conjunto de expressões em uma ou mais linhas. Em geral, o corpo é um grupo de expressões dentro de chaves <code>{ }</code>, com cada expressão em uma linha separada (se o corpo couber em uma linha, as chaves não são necessárias).</p>
+<p>Funções normalmente são atribuídas a símbolos (variáveis), mas isso não é obrigatório. Esse conceito só começa a fazer sentido depois de ver vários exemplos em funcionamento.</p>
+<section id="média-aritmética" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="média-aritmética"><span class="header-section-number">2.2.1</span> Média Aritmética</h3>
+<p>A média é a soma dos valores <span class="math inline">\(y_i\)</span> dividida pela quantidade de valores <span class="math inline">\(n\)</span> (somando ao longo do número de elementos do vetor <span class="math inline">\(y\)</span>). Em <code>R</code>, <span class="math inline">\(n =\)</span><code>length(y)</code> e <span class="math inline">\(\sum y =\)</span><code>sum(y)</code>. Assim, uma função para calcular a média aritmética é:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb209"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb209-1"><a href="#cb209-1" aria-hidden="true" tabindex="-1"></a>media_aritmetica <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">sum</span>(x)<span class="sc">/</span><span class="fu">length</span>(x)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Vamos testar a função com dados em que sabemos de antemão qual deve ser o resultado.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb210"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb210-1"><a href="#cb210-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">5</span>)</span>
+<span id="cb210-2"><a href="#cb210-2" aria-hidden="true" tabindex="-1"></a><span class="fu">media_aritmetica</span>(y)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+</div>
+</section>
+<section id="mediana" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="mediana"><span class="header-section-number">2.2.2</span> Mediana</h3>
+<p>A mediana (ou 50º percentil) é o valor do meio dos valores ordenados de um vetor de números:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb212"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb212-1"><a href="#cb212-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(y)[<span class="fu">ceiling</span>(<span class="fu">length</span>(y)<span class="sc">/</span><span class="dv">2</span>)]</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Há, é claro, um pequeno problema aqui, porque se o vetor contém um número par de números, então não existe valor do meio. A lógica aqui é que precisamos calcular a média aritmética dos dois valores de <code>y</code> em cada lado do meio. Surge agora a questão de como sabemos, em geral, se o vetor contém um número ímpar ou par de números, de modo que possamos decidir qual dos dois métodos usar. O truque aqui é usar o módulo 2. Agora temos todas as ferramentas de que precisamos para escrever uma função geral para calcular medianas. Vamos chamar a função de <code>mediana</code> e defini-la assim:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb213"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb213-1"><a href="#cb213-1" aria-hidden="true" tabindex="-1"></a>mediana <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb213-2"><a href="#cb213-2" aria-hidden="true" tabindex="-1"></a>  impar_par <span class="ot">&lt;-</span> <span class="fu">length</span>(x)<span class="sc">%%</span><span class="dv">2</span></span>
+<span id="cb213-3"><a href="#cb213-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(impar_par <span class="sc">==</span> <span class="dv">0</span>) (<span class="fu">sort</span>(x)[<span class="fu">length</span>(x)<span class="sc">/</span><span class="dv">2</span>] <span class="sc">+</span> <span class="fu">sort</span>(x)[<span class="dv">1</span> <span class="sc">+</span> <span class="fu">length</span>(x)<span class="sc">/</span><span class="dv">2</span>])<span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb213-4"><a href="#cb213-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> <span class="fu">sort</span>(x)[<span class="fu">ceiling</span>(<span class="fu">length</span>(x)<span class="sc">/</span><span class="dv">2</span>)]</span>
+<span id="cb213-5"><a href="#cb213-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Vamos agora testar a função:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb214"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb214-1"><a href="#cb214-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mediana</span>(y)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+</div>
+<section id="exercícios-3" class="level4" data-number="2.2.2.1">
+<h4 data-number="2.2.2.1" class="anchored" data-anchor-id="exercícios-3"><span class="header-section-number">2.2.2.1</span> Exercícios</h4>
+<ol type="1">
+<li><p>Crie sua própria função que calcula a variância, o desvio-padrão e o coeficiente de variação.</p></li>
+<li><p>Crie uma função para listar os elementos de uma série de Fibonacci (<span class="math inline">\(1, 1, 2, 3, 5, 8, \dots\)</span>).</p></li>
+<li><p>Crie uma função para calcular fatoriais usando o comando <code>cumprod</code>.</p></li>
+<li><p>Crie sua própria função para calcular a mediana.</p></li>
+<li><p>Crie sua própria função para calcular a média.</p></li>
+</ol>
 
 
+</section>
 </section>
 </section>
 
