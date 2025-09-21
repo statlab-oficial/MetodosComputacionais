@@ -1,7 +1,7 @@
 # Uma pequena introdução ao R
 
 
-## Introdução {.unnumbered}
+## Introdução 
 
 O `R` é peça-chave em inúmeros trabalhos de pesquisa e análise de dados porque reúne, de forma prática, um conjunto amplo de técnicas estatísticas atuais, das mais básicas às mais sofisticadas, e facilita seu uso no dia a dia. Quem começa no `R`, porém, muitas vezes também está dando os primeiros passos em programação. Assim, além de aprender as ferramentas do `R` para seus objetivos, é preciso desenvolver a “cabeça” de programador. Essa fase inicial ajuda a explicar a fama de que o `R` é “difícil”. Mesmo assim, com prática e uma boa orientação, ele se revela bem mais acessível do que parece.
 
@@ -160,7 +160,7 @@ capabilities()  # checa recursos gráficos, etc.
 ```
 
 
-## O que é o `R` {.unnumbered}
+## O que é o `R` 
 
 `R` é uma implementação moderna da linguagem `S`, voltada à computação estatística e à visualização de dados. Ele reúne, no mesmo lugar, um ambiente interativo para análise e criação de gráficos e uma linguagem de programação completa.
 
@@ -467,7 +467,7 @@ identical(ordfac.vec, ordfac.vec2)
 ```
 
 
-##  Números, Aritmética, Atribuição e Vetores  {.unnumbered}
+##  Números, Aritmética, Atribuição e Vetores  
 
 1) Números (*numerics*)
 
@@ -692,7 +692,7 @@ d) Uma sequência de nove valores começando em `102` e terminando no número qu
 
 <!-- ## Distribuições de Probabilidade {.unnumbered} -->
 
-## Matrizes {.unnumbered}
+## Matrizes 
 
 A matriz é uma construção matemática importante e é essencial para muitos métodos estatísticos. Normalmente descreve-se uma matriz $A$ como uma matriz $m \times n$; isto é, $A$ terá exatamente $m$ linhas e $n$ colunas. Isso significa que $A$ terá um total de $mn$ entradas, com cada entrada a $i, j$ ocupando uma posição única dada por sua linha específica $(i = 1, 2,\dots, m)$ e coluna $(j = 1, 2,\dots, n)$.
 
@@ -804,7 +804,7 @@ matrix_test_32(B)
 **(f)** Sobrescreva, **nesta ordem**, os elementos do item (c) nas posições $(4, 2), (1, 2), (4, 1)$ e $(1, 1)$ com $-\tfrac{1}{2}$ dos dois valores na **diagonal do item (e)**.
 
 
-## Operações com matrizes {.unnumbered}
+## Operações com matrizes 
 
 Em `R`, a transposta de uma matriz se obtém com `t()`, ela troca linhas por colunas.
 
@@ -1128,7 +1128,7 @@ Vamos agora testar a função:
 mediana(y)
 ```
 
-#### Exercícios
+### Exercícios {.unnumbered}
 
 1. Crie sua própria função que calcula a variância, o desvio-padrão e o coeficiente de variação.
 
