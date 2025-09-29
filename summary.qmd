@@ -11,6 +11,16 @@ Uma abordagem é utilizar dispositivos físicos aleatorizadores, como máquinas 
 
 Uma forma simples de obter reprodutibilidade é armazenar a sequência em um dispositivo de memória (HD, CD-ROM, livro). De fato, a RAND Corporation publicou *A Million Random Digits with 100 000 Random Normal Deviates* (1955). Entretanto, acessar armazenamento externo milhares ou milhões de vezes torna a simulação lenta.
 
+::: callout-note
+
+- Também existem fontes para números aleatórios reais na Internet. 
+
+- O [www.random.org](https://www.random.org/) oferece números
+aleatórios verdadeiros para qualquer pessoa na internet. A aleatoriedade vem do ruído atmosférico, que para muitos propósitos é melhor do que os algoritmos de números pseudoaleatórios normalmente usados em programas de computador. As pessoas usam os números para operar loterias, sorteios e apostas, e para seus jogos e sites de apostas.
+
+- Em [www.randomnumbers.info](https://www.randomnumbers.info/) é oferecida a possibilidade de baixar números aleatórios gerados usando um gerador quântico de números aleatórios sob demanda.
+:::
+
 Assim, a abordagem preferida é **gerar números pseudoaleatórios em tempo de execução**, via recorrências determinísticas sobre inteiros. Isso permite:
 
 -   Geração rápida;
@@ -56,11 +66,11 @@ $$u_n = \frac{x_n}{m}, \quad \text{com } u_n \in (0, 1).$$
 #### Exemplos {.unnumbered}
 
 ```{python}
-#| label: lcg-python
+#| label: glc-python
 #| echo: true
 # Gerador Congruencial Linear em Python
 
-def lcg(seed, a, c, m, n=10):
+def gcl(seed, a, c, m, n = 10):
     "Gera n números pseudoaleatórios normalizados em (0,1)."
     x = seed
     seq = []
@@ -75,15 +85,15 @@ a = 16807
 c = 0
 seed = 12345
 
-lcg(seed, a, c, m, n=10)
+gcl(seed, a, c, m, n=10)
 ```
 
 ```{R}
-#| label: lcg-r
+#| label: glc-r
 #| echo: true
 # Gerador Congruencial Linear em R
 
-lcg <- function(seed, a, c, m, n=10) {
+gcl <- function(seed, a, c, m, n=10) {
   x <- seed
   seq <- numeric(n)
   for (i in 1:n) {
@@ -99,7 +109,7 @@ a <- 16807
 c <- 0
 seed <- 12345
 
-lcg(seed, a, c, m, n=10)
+gcl(seed, a, c, m, n=10)
 
 ```
 
@@ -113,7 +123,7 @@ Uma forma simples de verificar se um gerador se comporta bem é observar os valo
 
 ### Limitações {.unnumbered}
 
-Apesar de sua importância histórica, os LCGs apresentam limitações:
+Apesar de sua importância histórica, os GCLs apresentam limitações:
 
 -   O período, mesmo que longo, é finito.
 
@@ -121,11 +131,11 @@ Apesar de sua importância histórica, os LCGs apresentam limitações:
 
 -   Não são recomendados para aplicações de alta segurança (como criptografia).
 
-Hoje, geradores como o Mersenne Twister substituíram o LCG em muitas linguagens (por exemplo, é o padrão no `R` e no `NumPy`). Ainda assim, o LCG é fundamental para entender os princípios da geração de números pseudoaleatórios.
+Hoje, geradores como o **Mersenne Twister** substituíram o GCL em muitas linguagens (por exemplo, é o padrão no `R` e no `NumPy`). Ainda assim, o GCL é fundamental para entender os princípios da geração de números pseudoaleatórios.
 
 #### Exercícios {.unnumbered}
 
-1.  Implemente um LCG (multiplicativo ou misto) em `Python` ou `R`.
+1.  Implemente um GCL (multiplicativo ou misto) em `Python` ou `R`.
 
 2.  Gere 1000 números pseudoaleatórios e faça:
 
@@ -164,7 +174,7 @@ Nos computadores modernos de **64 bits**, esse problema desaparece: o produto $a
 
 -   Hoje, esse período pode ser considerado curto para simulações muito extensas.
 
--   Geradores modernos, como o **Mersenne Twister** (período $2^{19937}-1$) ou a família **PCG (Gerador Congruencial Permutado)**, oferecem propriedades estatísticas superiores.
+-   Geradores modernos, como o **Mersenne Twister** (período $2^{19937}-1$) ou a família **GCP (Gerador Congruencial Permutado)**, oferecem propriedades estatísticas superiores.
 
 📌 **Em resumo:** O Park–Miller ainda é excelente para fins didáticos e pequenas simulações, mas para aplicações científicas de grande escala recomenda-se usar geradores mais robustos.
 :::

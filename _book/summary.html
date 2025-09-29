@@ -260,6 +260,23 @@ window.Quarto = {
 <li><strong>Necessidade de reprodutibilidade</strong> da sequência. Por exemplo, para verificação de código ou comparação de políticas em um modelo de simulação, usando a mesma sequência para reduzir a variância da diferença entre resultados.</li>
 </ol>
 <p>Uma forma simples de obter reprodutibilidade é armazenar a sequência em um dispositivo de memória (HD, CD-ROM, livro). De fato, a RAND Corporation publicou <em>A Million Random Digits with 100 000 Random Normal Deviates</em> (1955). Entretanto, acessar armazenamento externo milhares ou milhões de vezes torna a simulação lenta.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>Também existem fontes para números aleatórios reais na Internet.</p></li>
+<li><p>O <a href="https://www.random.org/">www.random.org</a> oferece números aleatórios verdadeiros para qualquer pessoa na internet. A aleatoriedade vem do ruído atmosférico, que para muitos propósitos é melhor do que os algoritmos de números pseudoaleatórios normalmente usados em programas de computador. As pessoas usam os números para operar loterias, sorteios e apostas, e para seus jogos e sites de apostas.</p></li>
+<li><p>Em <a href="https://www.randomnumbers.info/">www.randomnumbers.info</a> é oferecida a possibilidade de baixar números aleatórios gerados usando um gerador quântico de números aleatórios sob demanda.</p></li>
+</ul>
+</div>
+</div>
 <p>Assim, a abordagem preferida é <strong>gerar números pseudoaleatórios em tempo de execução</strong>, via recorrências determinísticas sobre inteiros. Isso permite:</p>
 <ul>
 <li>Geração rápida;</li>
@@ -322,7 +339,7 @@ Tipos
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gerador Congruencial Linear em Python</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> lcg(seed, a, c, m, n<span class="op">=</span><span class="dv">10</span>):</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gcl(seed, a, c, m, n <span class="op">=</span> <span class="dv">10</span>):</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"Gera n números pseudoaleatórios normalizados em (0,1)."</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> seed</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    seq <span class="op">=</span> []</span>
@@ -337,7 +354,7 @@ Tipos
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>seed <span class="op">=</span> <span class="dv">12345</span></span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>lcg(seed, a, c, m, n<span class="op">=</span><span class="dv">10</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>gcl(seed, a, c, m, n<span class="op">=</span><span class="dv">10</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[0.09661652850760917, 0.8339946273872604, 0.9477024976851895, 0.035878594981449935, 0.011545853229028104, 0.051155220275351417, 0.7657871678312249, 0.5849297393974521, 0.9141300529773021, 0.7838003895170057]</code></pre>
 </div>
@@ -345,7 +362,7 @@ Tipos
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gerador Congruencial Linear em R</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>lcg <span class="ot">&lt;-</span> <span class="cf">function</span>(seed, a, c, m, <span class="at">n=</span><span class="dv">10</span>) {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>gcl <span class="ot">&lt;-</span> <span class="cf">function</span>(seed, a, c, m, <span class="at">n=</span><span class="dv">10</span>) {</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> seed</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  seq <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n)</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
@@ -361,7 +378,7 @@ Tipos
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="dv">0</span></span>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>seed <span class="ot">&lt;-</span> <span class="dv">12345</span></span>
 <span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="fu">lcg</span>(seed, a, c, m, <span class="at">n=</span><span class="dv">10</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="fu">gcl</span>(seed, a, c, m, <span class="at">n=</span><span class="dv">10</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] 0.09661653 0.83399463 0.94770250 0.03587859 0.01154585 0.05115522
  [7] 0.76578717 0.58492974 0.91413005 0.78380039</code></pre>
@@ -379,17 +396,17 @@ Tipos
 </section>
 <section id="limitações" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="limitações">Limitações</h3>
-<p>Apesar de sua importância histórica, os LCGs apresentam limitações:</p>
+<p>Apesar de sua importância histórica, os GCLs apresentam limitações:</p>
 <ul>
 <li><p>O período, mesmo que longo, é finito.</p></li>
 <li><p>Podem apresentar correlações indesejadas em dimensões mais altas.</p></li>
 <li><p>Não são recomendados para aplicações de alta segurança (como criptografia).</p></li>
 </ul>
-<p>Hoje, geradores como o Mersenne Twister substituíram o LCG em muitas linguagens (por exemplo, é o padrão no <code>R</code> e no <code>NumPy</code>). Ainda assim, o LCG é fundamental para entender os princípios da geração de números pseudoaleatórios.</p>
+<p>Hoje, geradores como o <strong>Mersenne Twister</strong> substituíram o GCL em muitas linguagens (por exemplo, é o padrão no <code>R</code> e no <code>NumPy</code>). Ainda assim, o GCL é fundamental para entender os princípios da geração de números pseudoaleatórios.</p>
 <section id="exercícios" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="exercícios">Exercícios</h4>
 <ol type="1">
-<li><p>Implemente um LCG (multiplicativo ou misto) em <code>Python</code> ou <code>R</code>.</p></li>
+<li><p>Implemente um GCL (multiplicativo ou misto) em <code>Python</code> ou <code>R</code>.</p></li>
 <li><p>Gere 1000 números pseudoaleatórios e faça:</p></li>
 </ol>
 <ul>
@@ -427,7 +444,7 @@ Park–Miller hoje: ainda vale a pena?
 <p><strong>Limitações:</strong></p>
 <ul>
 <li><p>Hoje, esse período pode ser considerado curto para simulações muito extensas.</p></li>
-<li><p>Geradores modernos, como o <strong>Mersenne Twister</strong> (período <span class="math inline">\(2^{19937}-1\)</span>) ou a família <strong>PCG (Gerador Congruencial Permutado)</strong>, oferecem propriedades estatísticas superiores.</p></li>
+<li><p>Geradores modernos, como o <strong>Mersenne Twister</strong> (período <span class="math inline">\(2^{19937}-1\)</span>) ou a família <strong>GCP (Gerador Congruencial Permutado)</strong>, oferecem propriedades estatísticas superiores.</p></li>
 </ul>
 <p>📌 <strong>Em resumo:</strong> O Park–Miller ainda é excelente para fins didáticos e pequenas simulações, mas para aplicações científicas de grande escala recomenda-se usar geradores mais robustos.</p>
 </div>
