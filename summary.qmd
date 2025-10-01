@@ -49,7 +49,7 @@ $$u_n = \frac{x_n}{m}, \quad \text{com } u_n \in (0, 1).$$
 -   **Misto:** $c \neq 0$.
 :::
 
-### Por que o CGL funciona? {.unnumbered}
+### Por que o GCL funciona? {.unnumbered}
 
 1.  **Simplicidade:** apenas uma multiplicação, uma soma e uma operação de módulo.\
 2.  **Velocidade:** pode ser implementado de forma extremamente eficiente.\
@@ -193,7 +193,7 @@ Uma das primeiras aplicações do uso de números aleatórios foi na resolução
 
 $$\theta = \int\limits_{0}^{1}g(x) dx.$$
 
-Para calcular o valor da integral, observe que, se $U$ é uma variável aleatória com distribuição uniforme no intervalo $(0, 1)$, , então podemos reescrever a integral da seguinte forma:
+Para calcular o valor da integral, observe que, se $U$ é uma variável aleatória com distribuição uniforme no intervalo $(0, 1)$, então podemos reescrever a integral da seguinte forma:
 
 $$\theta = E[g(U)].$$ Se $U_1, U_2, \dots,  U_n$ são variáveis aleatórias independentes e uniformes em $(0, 1)$, então as variáveis $g(U_1), g(U_2), \dots,  g(U_n)$ são indepedentes e identicamente distribuídas, todas com esperança igual $\theta$ (o valor da integral). Assim, pelo **Teorema da Lei Forte dos Grandes Números**, temos que, com probabilidade 1,
 
@@ -302,6 +302,6 @@ print(resultado)
 
 -   $\int_{0}^{1}\int_{0}^{1} \exp\{(x+y)^2\} dy dx$.
 
--   $\int_{0}^{\infty}\int_{0}^{x} \exp\{x+y\} dydx$.
+-   $\int_{0}^{\infty}\int_{0}^{x} \exp\{-(x+y)\} dydx$.
 
 4.  Use simulação para encontrar o valor aproximado de $Cov(U, e^U)$, em que $U$ é uniforme em $(0,1)$. Compare seu resultado com o valor exato.

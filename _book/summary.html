@@ -220,7 +220,7 @@ window.Quarto = {
   <li><a href="#geração-de-sequências-u01" id="toc-geração-de-sequências-u01" class="nav-link active" data-scroll-target="#geração-de-sequências-u01"><span class="header-section-number">4.1</span> Geração de sequências <span class="math inline">\(U(0,1)\)</span></a>
   <ul class="collapse">
   <li><a href="#gerador-congruencial-linear" id="toc-gerador-congruencial-linear" class="nav-link" data-scroll-target="#gerador-congruencial-linear">Gerador Congruencial Linear</a></li>
-  <li><a href="#por-que-o-cgl-funciona" id="toc-por-que-o-cgl-funciona" class="nav-link" data-scroll-target="#por-que-o-cgl-funciona">Por que o CGL funciona?</a></li>
+  <li><a href="#por-que-o-gcl-funciona" id="toc-por-que-o-gcl-funciona" class="nav-link" data-scroll-target="#por-que-o-gcl-funciona">Por que o GCL funciona?</a></li>
   <li><a href="#critérios-para-bons-parâmetros" id="toc-critérios-para-bons-parâmetros" class="nav-link" data-scroll-target="#critérios-para-bons-parâmetros">Critérios para bons parâmetros</a></li>
   <li><a href="#visualização" id="toc-visualização" class="nav-link" data-scroll-target="#visualização">Visualização</a></li>
   <li><a href="#limitações" id="toc-limitações" class="nav-link" data-scroll-target="#limitações">Limitações</a></li>
@@ -310,8 +310,8 @@ Tipos
 </div>
 </div>
 </section>
-<section id="por-que-o-cgl-funciona" class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="por-que-o-cgl-funciona">Por que o CGL funciona?</h3>
+<section id="por-que-o-gcl-funciona" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="por-que-o-gcl-funciona">Por que o GCL funciona?</h3>
 <ol type="1">
 <li><strong>Simplicidade:</strong> apenas uma multiplicação, uma soma e uma operação de módulo.<br>
 </li>
@@ -466,7 +466,7 @@ Park–Miller hoje: ainda vale a pena?
 <h2 data-number="4.2" class="anchored" data-anchor-id="uso-de-números-aleatórios-na-avaliação-de-integrais"><span class="header-section-number">4.2</span> Uso de Números Aleatórios na Avaliação de Integrais</h2>
 <p>Uma das primeiras aplicações do uso de números aleatórios foi na resolução de integrais. Considere uma função <span class="math inline">\(g(x)\)</span> e suponha que desejamos calcular uma integral de interesse.</p>
 <p><span class="math display">\[\theta = \int\limits_{0}^{1}g(x) dx.\]</span></p>
-<p>Para calcular o valor da integral, observe que, se <span class="math inline">\(U\)</span> é uma variável aleatória com distribuição uniforme no intervalo <span class="math inline">\((0, 1)\)</span>, , então podemos reescrever a integral da seguinte forma:</p>
+<p>Para calcular o valor da integral, observe que, se <span class="math inline">\(U\)</span> é uma variável aleatória com distribuição uniforme no intervalo <span class="math inline">\((0, 1)\)</span>, então podemos reescrever a integral da seguinte forma:</p>
 <p><span class="math display">\[\theta = E[g(U)].\]</span> Se <span class="math inline">\(U_1, U_2, \dots,  U_n\)</span> são variáveis aleatórias independentes e uniformes em <span class="math inline">\((0, 1)\)</span>, então as variáveis <span class="math inline">\(g(U_1), g(U_2), \dots,  g(U_n)\)</span> são indepedentes e identicamente distribuídas, todas com esperança igual <span class="math inline">\(\theta\)</span> (o valor da integral). Assim, pelo <strong>Teorema da Lei Forte dos Grandes Números</strong>, temos que, com probabilidade 1,</p>
 <p><span class="math display">\[\frac{1}{n}\sum\limits_{i=1}^{n}g(U_i) \to \theta \quad \text{quando} \quad n \to \infty.\]</span></p>
 <p>Assim, podemos aproximar o valor da integral gerando um grande número de pontos aleatórios <span class="math inline">\(u_i\)</span> no intervalo <span class="math inline">\((0, 1)\)</span> e tomando como estimativa a média dos valores <span class="math inline">\(g(u_i)\)</span>. Esse procedimento de aproximação de integrais é conhecido como método de <strong>Monte Carlo</strong>.</p>
@@ -537,7 +537,7 @@ Park–Miller hoje: ainda vale a pena?
 <li><p><span class="math inline">\(\int_{0}^{\infty} x(1 + x^2)^{-2} dx\)</span>.</p></li>
 <li><p><span class="math inline">\(\int_{-\infty}^{\infty} \exp\{-x^2\} dx\)</span>.</p></li>
 <li><p><span class="math inline">\(\int_{0}^{1}\int_{0}^{1} \exp\{(x+y)^2\} dy dx\)</span>.</p></li>
-<li><p><span class="math inline">\(\int_{0}^{\infty}\int_{0}^{x} \exp\{x+y\} dydx\)</span>.</p></li>
+<li><p><span class="math inline">\(\int_{0}^{\infty}\int_{0}^{x} \exp\{-(x+y)\} dydx\)</span>.</p></li>
 </ul>
 <ol start="4" type="1">
 <li>Use simulação para encontrar o valor aproximado de <span class="math inline">\(Cov(U, e^U)\)</span>, em que <span class="math inline">\(U\)</span> é uniforme em <span class="math inline">\((0,1)\)</span>. Compare seu resultado com o valor exato.</li>
