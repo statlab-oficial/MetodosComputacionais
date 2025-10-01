@@ -284,9 +284,9 @@ print(resultado)
 
 #### Exercícios {.unnumbered}
 
-1.  Se $x_0$ e $x_n = 3x_{n-1}\, \text{mod}\, 150$, encontre $x_1, x_2, \dots, x_{30}$.
+1.  Se $x_0 = 5$ e $x_n = 3x_{n-1}\, \text{mod}\, 150$, encontre $x_1, x_2, \dots, x_{30}$.
 
-2.  Se $x_3$ e $x_n = (5x_{n-1} + 7)\, \text{mod}\, 200$, encontre $x_1, x_2, \dots, x_{10}$.
+2.  Se $x_0 = 3$ e $x_n = (5x_{n-1} + 7)\, \text{mod}\, 200$, encontre $x_1, x_2, \dots, x_{10}$.
 
 3.  Compare sua estimativa com o valor exato:
 
