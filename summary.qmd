@@ -151,6 +151,7 @@ Hoje, geradores como o **Mersenne Twister** substituíram o GCL em muitas lingua
 
 **Pergunta para reflexão:** O que acontece com a qualidade dos números gerados quando usamos parâmetros pequenos?
 
+
 ::: callout-note
 ## Park–Miller hoje: ainda vale a pena?
 

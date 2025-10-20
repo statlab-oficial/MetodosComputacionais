@@ -1,12 +1,29 @@
-# Números Pseudoaleatórios
-
-## Introdução
+# Números Pseudoaleatórios - Caso Discreto
 
 ## Método da Transformação Inversa
 
+
+::: {.callout-important icon="false"} 
+## Inversa Generalizada
+
+Seja $F$ uma função de distribuição qualquer. A inversa generalizada, denotada por $F^{-1}$, é definida da seguinte forma: $$ F^{-1}(u) = \mbox{inf}\{x \in \mathbb{R}: F(x)\geq u \}$$
+
+-   Tanto a inversa de $F$ como a inversa generalizada estão sendo denotadas por $F^{-1}$.
+-   Se a inversa de $F$ existe no sentido usual, ela coincide com a inversa generalizada.\
+    Note que, se $F$ for estritamente crescente e contínua, então $\forall x \in \mathbb{R}$ existirá apenas um $u$ tal que $F(x) = u$.
+-   A proposição seguinte dá base para as simulações de v.a. discretas.
+
+Seja $F$ uma função de distribuição qualquer e $F^{-1}$ sua inversa generalizada. Temos:
+
+$$F^{-1}(u) \leq x \mbox{ se, e somente se, } u \leq F(x)$$
+:::
+
+
+
+
 Suponha que desejamos gerar o valor de uma variável aleatória discreta $X$ com função de massa de probabilidade (f.m.p):
 
-$$\Pr(X = x_j) = p_j, \quad j = 0, 1, \dots, \quad \sum\limits_j p_j = 1.$$
+$$\Pr(X = x_j) = p_j, \quad j = 0, 1, \dots, \quad \text{e} \quad \sum\limits_j p_j = 1.$$
 
 ::: {.callout-important icon="false" appearance="simple"}
 ## **Interesse:** Gerar valores da variável aleatória $X$ com distribuição:
@@ -54,7 +71,7 @@ Passo 3. Repetir os passos 1 e 2 $n$ vezes, onde $n$ é o tamanho da amostra.
 
 2.  Se os valores, $x_i, i \geq 0$, são ordenados de modo que $x_0 < x_1 < \dots,$ e de denotamos $F$ como função de distribuição de $X$, então $F(x_j) = \sum\limits_{i=1}^{j}p_i$. Assim,
 
-$$X\; \text{será igual a}\; x_j\; \text{se}\; F(x_{j-1}) < U < F(x_j).$$
+$$X\; \text{será igual a}\; x_j\; \text{se}\; F(x_{j-1}) \leq U < F(x_j).$$
 :::
 
 Em outras palavras, após gerar um número aleatório $U$, determinamos o valor de $X$ encontrando o intervalo $[F(x_{j-1}), F(x_j))$ no qual $U$ se encontra (ou, de forma equivalente, encontrando o inverso de $F(U)$). É por essa razão que o procedimento acima é denominado *método da transformada inversa discreta* para gerar $X$.
@@ -177,18 +194,6 @@ Passo 3. Repetir $n$ vezes os passos 1–2.
 Com $u \sim U(0,1)$ é contínua, usar $<$ ou $\leq$ é equivalente em termos de distribuição (a probabilidade de $u$ cair exatamente no ponto de corte é zero). Em implementação numérica, essa escolha apenas define para onde vão raríssimos empates nos pontos cortes.
 :::
 
-### Inversa Generalizada {.unnumbered}
-
-Seja $F$ uma função de distribuição qualquer. A inversa generalizada, denotada por $F^{-1}$, é definida da seguinte forma: $$ F^{-1}(u) = \mbox{inf}\{x \in \mathbb{R}: F(x)\geq u \}$$
-
--   Tanto a inversa de $F$ como a inversa generalizada estão sendo denotadas por $F^{-1}$.
--   Se a inversa de $F$ existe no sentido usual, ela coincide com a inversa generalizada.\
-    Note que, se $F$ for estritamente crescente e contínua, então $\forall x \in \mathbb{R}$ existirá apenas um $u$ tal que $F(x) = u$.
--   A proposição seguinte dá base para as simulações de v.a. discretas.
-
-Seja $F$ uma função de distribuição qualquer e $F^{-1}$ sua inversa generalizada. Temos:
-
-$$F^{-1}(u) \leq x \mbox{ se, e somente se, } u \leq F(x)$$
 
 Se você deseja simular valores de $X$ com distribuição uniforme discreta:
 
@@ -240,9 +245,13 @@ Para simular valores de $X$ com $P(X=j)=1/10, \, \,\, j=1,2,3,\ldots, 10$, você
 
 Nosso objetivo agora é gerar valores de $X\sim \mbox{Poisson}(\lambda)$ com:
 
-$$p_i=P(X=i)=\dfrac{e^{-\lambda}\lambda^i}{i!}, \quad i=0,1,2,\ldots. $$ ::: {.callout-important} \## 🔎 **Identidade importante:**
+$$p_i=P(X=i)=\dfrac{e^{-\lambda}\lambda^i}{i!}, \quad i=0,1,2,\ldots. $$ 
 
-$$p_{i+1} = \dfrac{\lambda}{i+1}p_i, \quad i\geq 0.$$ :::
+::: {.callout-important icon="false"} 
+## 🔎 **Identidade importante:**
+
+$$p_{i+1} = \dfrac{\lambda}{i+1}p_i, \quad i\geq 0.$$
+:::
 
 Uma forma bastante utilizada para gerar valores de uma variável aleatória $X\sim \mbox{Poisson}(\lambda)$ é por meio de algoritmos de simulação baseados na identidade acima.
 
@@ -294,11 +303,13 @@ Por fim, iremos gerar valores da variável aleatório $X$, $X\sim \mbox{Binomial
 
 $$P(X=i)=\dfrac{n!}{i!(n-i)!}p^i(1-p)^{n-i}, \quad i=0,1,2,\ldots,n.$$
 
-::: {.callout-important icon="false"}
-## 🔎 **Identidade importante:**:
+
+::: {.callout-important}
+## Identidade importante:
 
 $$P(X=i+1) = \dfrac{n-i}{i+1}\dfrac{p}{1-p}P(X=i).$$
 :::
+
 
 A partir do resultado acima e do método da transformação inversa podemos escrever o seguinte algoritmo:
 
