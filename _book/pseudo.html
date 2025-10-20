@@ -260,75 +260,8 @@ window.Quarto = {
 
 <section id="método-da-transformação-inversa" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="método-da-transformação-inversa"><span class="header-section-number">5.1</span> Método da Transformação Inversa</h2>
-<div class="callout callout-style-default callout-important no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Inversa Generalizada
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Seja <span class="math inline">\(F\)</span> uma função de distribuição qualquer. A inversa generalizada, denotada por <span class="math inline">\(F^{-1}\)</span>, é definida da seguinte forma: <span class="math display">\[ F^{-1}(u) = \mbox{inf}\{x \in \mathbb{R}: F(x)\geq u \}\]</span></p>
-<ul>
-<li>Tanto a inversa de <span class="math inline">\(F\)</span> como a inversa generalizada estão sendo denotadas por <span class="math inline">\(F^{-1}\)</span>.</li>
-<li>Se a inversa de <span class="math inline">\(F\)</span> existe no sentido usual, ela coincide com a inversa generalizada.<br>
-Note que, se <span class="math inline">\(F\)</span> for estritamente crescente e contínua, então <span class="math inline">\(\forall x \in \mathbb{R}\)</span> existirá apenas um <span class="math inline">\(u\)</span> tal que <span class="math inline">\(F(x) = u\)</span>.</li>
-<li>A proposição seguinte dá base para as simulações de v.a. discretas.</li>
-</ul>
-<p>Seja <span class="math inline">\(F\)</span> uma função de distribuição qualquer e <span class="math inline">\(F^{-1}\)</span> sua inversa generalizada. Temos:</p>
-<p><span class="math display">\[F^{-1}(u) \leq x \mbox{ se, e somente se, } u \leq F(x)\]</span></p>
-</div>
-</div>
 <p>Suponha que desejamos gerar o valor de uma variável aleatória discreta <span class="math inline">\(X\)</span> com função de massa de probabilidade (f.m.p):</p>
 <p><span class="math display">\[\Pr(X = x_j) = p_j, \quad j = 0, 1, \dots, \quad \text{e} \quad \sum\limits_j p_j = 1.\]</span></p>
-<div class="callout callout-style-simple callout-important no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<strong>Interesse:</strong> Gerar valores da variável aleatória <span class="math inline">\(X\)</span> com distribuição:
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<table class="table">
-<thead>
-<tr class="header">
-<th><span class="math inline">\(X\)</span></th>
-<th><span class="math inline">\(P(X=x_j)\)</span></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">\(x_0\)</span></td>
-<td><span class="math inline">\(p_0\)</span></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(x_1\)</span></td>
-<td><span class="math inline">\(p_1\)</span></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(x_2\)</span></td>
-<td><span class="math inline">\(p_2\)</span></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(\vdots\)</span></td>
-<td><span class="math inline">\(\vdots\)</span></td>
-</tr>
-<tr class="odd">
-<td><span class="math inline">\(x_j\)</span></td>
-<td><span class="math inline">\(p_j\)</span></td>
-</tr>
-<tr class="even">
-<td><span class="math inline">\(\vdots\)</span></td>
-<td><span class="math inline">\(\vdots\)</span></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
 <p>Para realizar isso, gere um valor <span class="math inline">\(u\)</span> de <span class="math inline">\(U\sim(0,1)\)</span> e atribua o valor <span class="math inline">\(x_j\)</span>, <span class="math inline">\(j=0,1,\ldots\)</span>, a <span class="math inline">\(X\)</span> conforme as condições abaixo:</p>
 <p><span class="math display">\[X = \begin{cases}
 x_0, &amp; \text{se } u &lt; p_0, \\
@@ -435,7 +368,7 @@ Algoritmo 1
 <div class="cell-output cell-output-stdout">
 <pre><code>a
      1      2      3      4 
-0.2056 0.1551 0.2499 0.3894 </code></pre>
+0.2036 0.1535 0.2517 0.3912 </code></pre>
 </div>
 </div>
 <div class="cell">
@@ -456,7 +389,7 @@ Algoritmo 1
 <div class="cell-output cell-output-stdout">
 <pre><code>a
      1      2      3      4 
-0.2032 0.1520 0.2529 0.3919 </code></pre>
+0.1954 0.1516 0.2493 0.4037 </code></pre>
 </div>
 </div>
 <div class="callout callout-style-simple callout-warning no-icon callout-titled">
@@ -1026,7 +959,7 @@ Nota
 <div class="cell-output cell-output-stdout">
 <pre><code>pseudo_x
    1    2    3    4    5    6    7    8    9   10 
-0.10 0.10 0.11 0.10 0.09 0.10 0.11 0.10 0.09 0.10 </code></pre>
+0.09 0.10 0.11 0.10 0.11 0.09 0.09 0.10 0.11 0.10 </code></pre>
 </div>
 </div>
 <p>Existe algum problema com os resultados acima? Se sim, faça a correção do código e verifique graficamente a coerência dos resultados.</p>

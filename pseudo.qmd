@@ -3,40 +3,9 @@
 ## Método da Transformação Inversa
 
 
-::: {.callout-important icon="false"} 
-## Inversa Generalizada
-
-Seja $F$ uma função de distribuição qualquer. A inversa generalizada, denotada por $F^{-1}$, é definida da seguinte forma: $$ F^{-1}(u) = \mbox{inf}\{x \in \mathbb{R}: F(x)\geq u \}$$
-
--   Tanto a inversa de $F$ como a inversa generalizada estão sendo denotadas por $F^{-1}$.
--   Se a inversa de $F$ existe no sentido usual, ela coincide com a inversa generalizada.\
-    Note que, se $F$ for estritamente crescente e contínua, então $\forall x \in \mathbb{R}$ existirá apenas um $u$ tal que $F(x) = u$.
--   A proposição seguinte dá base para as simulações de v.a. discretas.
-
-Seja $F$ uma função de distribuição qualquer e $F^{-1}$ sua inversa generalizada. Temos:
-
-$$F^{-1}(u) \leq x \mbox{ se, e somente se, } u \leq F(x)$$
-:::
-
-
-
-
 Suponha que desejamos gerar o valor de uma variável aleatória discreta $X$ com função de massa de probabilidade (f.m.p):
 
 $$\Pr(X = x_j) = p_j, \quad j = 0, 1, \dots, \quad \text{e} \quad \sum\limits_j p_j = 1.$$
-
-::: {.callout-important icon="false" appearance="simple"}
-## **Interesse:** Gerar valores da variável aleatória $X$ com distribuição:
-
-| $X$      | $P(X=x_j)$ |
-|----------|------------|
-| $x_0$    | $p_0$      |
-| $x_1$    | $p_1$      |
-| $x_2$    | $p_2$      |
-| $\vdots$ | $\vdots$   |
-| $x_j$    | $p_j$      |
-| $\vdots$ | $\vdots$   |
-:::
 
 Para realizar isso, gere um valor $u$ de $U\sim(0,1)$ e atribua o valor $x_j$, $j=0,1,\ldots$, a $X$ conforme as condições abaixo:
 
@@ -63,8 +32,8 @@ Passo 1. Gerar um valor $u \sim U(0,1)$.
 
 Passo 2. Se $u < p_0$, então $X = x_0$; caso contrário:
 
--   se $u < p_0 + p_1$, então $X = x_1$; caso contrário:\
--   se $u < p_0 + p_1 + p_2$, então $X = x_2$; caso contrário:\
+- se $u < p_0 + p_1$, então $X = x_1$; caso contrário:\
+- se $u < p_0 + p_1 + p_2$, então $X = x_2$; caso contrário:\
     $\vdots$
 
 Passo 3. Repetir os passos 1 e 2 $n$ vezes, onde $n$ é o tamanho da amostra.
