@@ -183,14 +183,14 @@ $$(j-1)\leq kU < j.$$
 ::: {.callout-note .prop-blue icon="false"}
 ## Proposição 2:
 
-Gere $U\sim U(0,1)$. Defina $X=\mbox{Int}(kU)+1$, em que $\textrm{Int}(x)$ é a parte inteira de $x$.
+Gere $U\sim U(0,1)$. Defina $X=\lfloor kU  \rfloor +1$, em que $\lfloor z  \rfloor$ é o maior inteiro menor ou igual a $z$.
 :::
 
 ### Exemplo 2 {.unnumbered}
 
 Para simular valores de $X$ com $P(X=j)=1/10, \, \,\, j=1,2,3,\ldots, 10$, você pode serguir o procedimento a seguir:
 
-| $j-1$ | $j$ | $U$ | $kU$ | [$X=j$]{style="color:blue"} | [$X=\mathrm{Int}(kU)+1$]{style="color:red"} |
+| $j-1$ | $j$ | $U$ | $k\,U$ | [$X=j$]{style="color:blue"} | [$X=\lfloor k\,U \rfloor +1$]{style="color:red"} |
 |------------|------------|------------|------------|------------|------------|
 | 0 | 1 | 0,01 | 0,1 | 1 | 1 |
 | 1 | 2 | 0,31 | 3,1 | 4 | 4 |
@@ -202,13 +202,13 @@ Para simular valores de $X$ com $P(X=j)=1/10, \, \,\, j=1,2,3,\ldots, 10$, você
 
 #### Exercícios {.unnumbered}
 
-1.  Gerar uma permutação dos números $1,2,3, \ldots, n$, considerando todas as $n!$ possíveis permutações igualmente prováveis (exemplo 4b).
+1.  Gerar uma permutação dos números $1,2,3, \ldots, n$, considerando todas as $n!$ possíveis permutações igualmente prováveis.
 
-2.  Gerar valores de $X\sim \mbox{Geométrica}(p)$ (exemplo 4d).
+2.  Gerar valores de $X\sim \mbox{Geométrica}(p)$.
 
-3.  Implementar o algoritmo para gerar valores de $X\sim \mbox{Poisson}(\lambda)$ (seção 4.2).
+3.  Implementar o algoritmo para gerar valores de $X\sim \mbox{Poisson}(\lambda)$.
 
-4.  Implementar o algoritmo para gerar valores de $X\sim \mbox{Binomial}(n,p)$ (seção 4.2).
+4.  Implementar o algoritmo para gerar valores de $X\sim \mbox{Binomial}(n,p)$.
 
 ### Exemplo 3 {.unnumbered}
 

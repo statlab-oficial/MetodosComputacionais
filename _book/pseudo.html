@@ -368,7 +368,7 @@ Algoritmo 1
 <div class="cell-output cell-output-stdout">
 <pre><code>a
      1      2      3      4 
-0.2036 0.1535 0.2517 0.3912 </code></pre>
+0.1918 0.1491 0.2542 0.4049 </code></pre>
 </div>
 </div>
 <div class="cell">
@@ -389,7 +389,7 @@ Algoritmo 1
 <div class="cell-output cell-output-stdout">
 <pre><code>a
      1      2      3      4 
-0.1954 0.1516 0.2493 0.4037 </code></pre>
+0.2057 0.1499 0.2514 0.3930 </code></pre>
 </div>
 </div>
 <div class="callout callout-style-simple callout-warning no-icon callout-titled">
@@ -487,7 +487,7 @@ Proposição 2:
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Gere <span class="math inline">\(U\sim U(0,1)\)</span>. Defina <span class="math inline">\(X=\mbox{Int}(kU)+1\)</span>, em que <span class="math inline">\(\textrm{Int}(x)\)</span> é a parte inteira de <span class="math inline">\(x\)</span>.</p>
+<p>Gere <span class="math inline">\(U\sim U(0,1)\)</span>. Defina <span class="math inline">\(X=\lfloor kU  \rfloor +1\)</span>, em que <span class="math inline">\(\lfloor z  \rfloor\)</span> é o maior inteiro menor ou igual a <span class="math inline">\(z\)</span>.</p>
 </div>
 </div>
 </section>
@@ -508,9 +508,9 @@ Proposição 2:
 <th><span class="math inline">\(j-1\)</span></th>
 <th><span class="math inline">\(j\)</span></th>
 <th><span class="math inline">\(U\)</span></th>
-<th><span class="math inline">\(kU\)</span></th>
+<th><span class="math inline">\(k\,U\)</span></th>
 <th><span style="color:blue"><span class="math inline">\(X=j\)</span></span></th>
-<th><span style="color:red"><span class="math inline">\(X=\mathrm{Int}(kU)+1\)</span></span></th>
+<th><span style="color:red"><span class="math inline">\(X=\lfloor k\,U \rfloor +1\)</span></span></th>
 </tr>
 </thead>
 <tbody>
@@ -575,10 +575,10 @@ Proposição 2:
 <section id="exercícios" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="exercícios">Exercícios</h4>
 <ol type="1">
-<li><p>Gerar uma permutação dos números <span class="math inline">\(1,2,3, \ldots, n\)</span>, considerando todas as <span class="math inline">\(n!\)</span> possíveis permutações igualmente prováveis (exemplo 4b).</p></li>
-<li><p>Gerar valores de <span class="math inline">\(X\sim \mbox{Geométrica}(p)\)</span> (exemplo 4d).</p></li>
-<li><p>Implementar o algoritmo para gerar valores de <span class="math inline">\(X\sim \mbox{Poisson}(\lambda)\)</span> (seção 4.2).</p></li>
-<li><p>Implementar o algoritmo para gerar valores de <span class="math inline">\(X\sim \mbox{Binomial}(n,p)\)</span> (seção 4.2).</p></li>
+<li><p>Gerar uma permutação dos números <span class="math inline">\(1,2,3, \ldots, n\)</span>, considerando todas as <span class="math inline">\(n!\)</span> possíveis permutações igualmente prováveis.</p></li>
+<li><p>Gerar valores de <span class="math inline">\(X\sim \mbox{Geométrica}(p)\)</span>.</p></li>
+<li><p>Implementar o algoritmo para gerar valores de <span class="math inline">\(X\sim \mbox{Poisson}(\lambda)\)</span>.</p></li>
+<li><p>Implementar o algoritmo para gerar valores de <span class="math inline">\(X\sim \mbox{Binomial}(n,p)\)</span>.</p></li>
 </ol>
 </section>
 </section>
@@ -959,7 +959,7 @@ Nota
 <div class="cell-output cell-output-stdout">
 <pre><code>pseudo_x
    1    2    3    4    5    6    7    8    9   10 
-0.09 0.10 0.11 0.10 0.11 0.09 0.09 0.10 0.11 0.10 </code></pre>
+0.10 0.11 0.08 0.10 0.10 0.11 0.09 0.10 0.10 0.11 </code></pre>
 </div>
 </div>
 <p>Existe algum problema com os resultados acima? Se sim, faça a correção do código e verifique graficamente a coerência dos resultados.</p>
