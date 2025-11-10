@@ -389,7 +389,7 @@ A constante $c$ será determinada por $c=\mbox{max}\left\{\dfrac{p_j}{q_j}\right
 :::
 
 ::: callout-note
-Suponha $y=1$. Então, se $u_2<\dfrac{p_1}{0,\!12}=\dfrac{0,\!11}{0,\!12}=0,\!9167$, faremos $X=1$. Isto é, assumiremos que o valor 1 gerado é plausível de ser da distribuição de $X$. O gráfico a seguir ilustra esse processo.
+Suponha $y=1$. Então, se $u_2<\dfrac{p_1}{0,\!12}=\dfrac{0,\!11}{0,\!12}=0,\!9167$, faremos $X=1$. Isto é, assumiremos que o valor 1 gerado é plausível de ser da distribuição de $X$. 
 :::
 
 ```{r}
@@ -399,11 +399,11 @@ for(i in seq_len(1000)){
   
 pj <- c(0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10)
 
-u1 <- runif(1)
-y <- floor(10*u1) + 1
-
 
 repeat{
+u1 <- runif(1)
+y <- floor(10*u1) + 1
+  
 u2 <- runif(1)
 x <- y
 

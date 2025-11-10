@@ -368,7 +368,7 @@ Algoritmo 1
 <div class="cell-output cell-output-stdout">
 <pre><code>a
      1      2      3      4 
-0.2043 0.1480 0.2541 0.3936 </code></pre>
+0.2017 0.1482 0.2488 0.4013 </code></pre>
 </div>
 </div>
 <div class="cell">
@@ -389,7 +389,7 @@ Algoritmo 1
 <div class="cell-output cell-output-stdout">
 <pre><code>a
      1      2      3      4 
-0.1994 0.1522 0.2478 0.4006 </code></pre>
+0.1998 0.1500 0.2530 0.3972 </code></pre>
 </div>
 </div>
 <div class="callout callout-style-simple callout-warning no-icon callout-titled">
@@ -900,7 +900,7 @@ Nota
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Suponha <span class="math inline">\(y=1\)</span>. Então, se <span class="math inline">\(u_2&lt;\dfrac{p_1}{0,\!12}=\dfrac{0,\!11}{0,\!12}=0,\!9167\)</span>, faremos <span class="math inline">\(X=1\)</span>. Isto é, assumiremos que o valor 1 gerado é plausível de ser da distribuição de <span class="math inline">\(X\)</span>. O gráfico a seguir ilustra esse processo.</p>
+<p>Suponha <span class="math inline">\(y=1\)</span>. Então, se <span class="math inline">\(u_2&lt;\dfrac{p_1}{0,\!12}=\dfrac{0,\!11}{0,\!12}=0,\!9167\)</span>, faremos <span class="math inline">\(X=1\)</span>. Isto é, assumiremos que o valor 1 gerado é plausível de ser da distribuição de <span class="math inline">\(X\)</span>.</p>
 </div>
 </div>
 <div class="cell">
@@ -910,11 +910,11 @@ Nota
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>pj <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.11</span>, <span class="fl">0.12</span>, <span class="fl">0.09</span>, <span class="fl">0.08</span>, <span class="fl">0.12</span>, <span class="fl">0.10</span>, <span class="fl">0.09</span>, <span class="fl">0.09</span>, <span class="fl">0.10</span>, <span class="fl">0.10</span>)</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>u1 <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">floor</span>(<span class="dv">10</span><span class="sc">*</span>u1) <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="cf">repeat</span>{</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="cf">repeat</span>{</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>u1 <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">floor</span>(<span class="dv">10</span><span class="sc">*</span>u1) <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>u2 <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>)</span>
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> y</span>
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
@@ -928,7 +928,7 @@ Nota
 <div class="cell-output cell-output-stdout">
 <pre><code>pseudo_x
    1    2    3    4    5    6    7    8    9   10 
-0.11 0.11 0.10 0.12 0.10 0.09 0.10 0.10 0.09 0.09 </code></pre>
+0.12 0.14 0.08 0.08 0.13 0.09 0.07 0.09 0.10 0.09 </code></pre>
 </div>
 </div>
 <p>Existe algum problema com os resultados acima? Se sim, faça a correção do código e verifique graficamente a coerência dos resultados.</p>
