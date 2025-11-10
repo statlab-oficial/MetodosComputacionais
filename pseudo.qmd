@@ -363,7 +363,7 @@ $$\Pr(X=j)=\! \sum_n P(\text{j aceito na iteração $n$}) = \sum_n \left(1-\dfra
 :::
 
 ::: callout-note
-$$u<\dfrac{p_y}{c.q_y} \ \ \ \ \mbox{e}  \ \ \ \  P(U<\dfrac{p_y}{c.q_y})= \dfrac{p_y}{c.q_y} $$ $$\Downarrow$$ $$\dfrac{p_y}{c.q_y}\leq 1 \ \ \ \ \mbox{para todo} \ \ y \ \ \mbox{tal que} \ \ p_y>0$$ $$\Downarrow$$ $$c=\mbox{max}\left\{\dfrac{p_y}{q_y}\right\}$$
+$$u<\dfrac{p_y}{c\cdot q_y} \ \ \ \ \mbox{e}  \ \ \ \  P(U<\dfrac{p_y}{c\cdot q_y})= \dfrac{p_y}{c\cdot q_y} $$ $$\Downarrow$$ $$\dfrac{p_y}{c.q_y}\leq 1 \ \ \ \ \mbox{para todo} \ \ y \ \ \mbox{tal que} \ \ p_y>0$$ $$\Downarrow$$ $$c=\mbox{max}\left\{\dfrac{p_y}{q_y}\right\}$$
 :::
 
 #### Exemplo 1 {.unnumbered}
