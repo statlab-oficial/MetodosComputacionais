@@ -368,7 +368,7 @@ Algoritmo 1
 <div class="cell-output cell-output-stdout">
 <pre><code>a
      1      2      3      4 
-0.2032 0.1481 0.2489 0.3998 </code></pre>
+0.1991 0.1497 0.2429 0.4083 </code></pre>
 </div>
 </div>
 <div class="cell">
@@ -389,7 +389,7 @@ Algoritmo 1
 <div class="cell-output cell-output-stdout">
 <pre><code>a
      1      2      3      4 
-0.2048 0.1480 0.2482 0.3990 </code></pre>
+0.1984 0.1509 0.2549 0.3958 </code></pre>
 </div>
 </div>
 <div class="callout callout-style-simple callout-warning no-icon callout-titled">
@@ -773,7 +773,7 @@ Algoritmo
 <p>Passo 4. Repetir os passos 1–3 até obter o tamanho de amostra desejado.</p>
 </div>
 </div>
-<p>O algoritmo aceitação-rejeição gera uma v.a. <span class="math inline">\(X\)</span> tal que <span class="math inline">\(P(X=j)=p_j\)</span>, <span class="math inline">\(j=0,1,2,\ldots\)</span>. Além disso, o número de iterações que o algoritmo necessita para obter <span class="math inline">\(X\)</span> é uma v.a. geométrica com média <span class="math inline">\(c\)</span>.</p>
+<p>O algoritmo aceitação-rejeição gera uma v.a. <span class="math inline">\(X\)</span> tal que <span class="math inline">\(\Pr(X=j)=p_j\)</span>, <span class="math inline">\(j=0,1,2,\ldots\)</span>. Além disso, o número de iterações que o algoritmo necessita para obter <span class="math inline">\(X\)</span> é uma v.a. geométrica com média <span class="math inline">\(c\)</span>.</p>
 <div class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -789,7 +789,7 @@ Prova do Teorema
 </ol>
 <p><span class="math display">\[\Pr(Y=j,\text{aceitar})= \Pr(Y=j) \cdot \Pr(\text{aceitar}\mid Y=j)= q_j\cdot \dfrac{pj}{cq_j} = \dfrac{p_j}{c}.\]</span> 2. Calcular a probabilidade de aceitar um valor <span class="math inline">\(j\)</span> gerado:</p>
 <p><span class="math display">\[\Pr(\text{aceitar})= \sum_j \Pr(Y=j,\text{aceitar})=\sum_j \dfrac{p_j}{c} = \dfrac{1}{c}.\]</span> 3. Como cada iteração independentemente resulta um valor aceitável com probabilidade <span class="math inline">\(\frac{1}{c}\)</span>, o número de iterações necessárias segue uma geométrica de média <span class="math inline">\(c\)</span>. Portanto,</p>
-<p><span class="math display">\[P(X=j)=\! \sum_n P(\text{j aceito na iteração $n$}) = \sum_n \left(1-\dfrac{1}{c}\right)^{n-1}\cdot\dfrac{p_j}{c}=p_j.\]</span></p>
+<p><span class="math display">\[\Pr(X=j)=\! \sum_n P(\text{j aceito na iteração $n$}) = \sum_n \left(1-\dfrac{1}{c}\right)^{n-1}\cdot\dfrac{p_j}{c}=p_j.\]</span></p>
 </div>
 </div>
 <div class="callout callout-style-default callout-important no-icon callout-titled">
@@ -928,7 +928,7 @@ Nota
 <div class="cell-output cell-output-stdout">
 <pre><code>pseudo_x
    1    2    3    4    5    6    7    8    9   10 
-0.10 0.10 0.11 0.09 0.09 0.10 0.10 0.08 0.11 0.12 </code></pre>
+0.10 0.08 0.09 0.11 0.10 0.10 0.10 0.11 0.11 0.09 </code></pre>
 </div>
 </div>
 <p>Existe algum problema com os resultados acima? Se sim, faça a correção do código e verifique graficamente a coerência dos resultados.</p>

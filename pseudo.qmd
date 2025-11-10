@@ -336,7 +336,7 @@ Passo 3. Se $u < \dfrac{p_y}{c \, q_y}$, então aceite $X = y$. Caso contrário,
 Passo 4. Repetir os passos 1–3 até obter o tamanho de amostra desejado.
 :::
 
-O algoritmo aceitação-rejeição gera uma v.a. $X$ tal que $P(X=j)=p_j$, $j=0,1,2,\ldots$. Além disso, o número de iterações que o algoritmo necessita para obter $X$ é uma v.a. geométrica com média $c$.
+O algoritmo aceitação-rejeição gera uma v.a. $X$ tal que $\Pr(X=j)=p_j$, $j=0,1,2,\ldots$. Além disso, o número de iterações que o algoritmo necessita para obter $X$ é uma v.a. geométrica com média $c$.
 
 ::: {.callout-note icon="false" appearance="simple"}
 ## Prova do Teorema
@@ -349,7 +349,7 @@ $$\Pr(Y=j,\text{aceitar})= \Pr(Y=j) \cdot \Pr(\text{aceitar}\mid Y=j)= q_j\cdot 
 $$\Pr(\text{aceitar})= \sum_j \Pr(Y=j,\text{aceitar})=\sum_j \dfrac{p_j}{c} = \dfrac{1}{c}.$$
 3.  Como cada iteração independentemente resulta um valor aceitável com probabilidade $\frac{1}{c}$, o número de iterações necessárias segue uma geométrica de média $c$. Portanto,
 
-$$P(X=j)=\! \sum_n P(\text{j aceito na iteração $n$}) = \sum_n \left(1-\dfrac{1}{c}\right)^{n-1}\cdot\dfrac{p_j}{c}=p_j.$$
+$$\Pr(X=j)=\! \sum_n P(\text{j aceito na iteração $n$}) = \sum_n \left(1-\dfrac{1}{c}\right)^{n-1}\cdot\dfrac{p_j}{c}=p_j.$$
 :::
 
 ::: {.callout-important icon="false"}
