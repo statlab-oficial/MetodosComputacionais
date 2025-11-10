@@ -395,7 +395,7 @@ Suponha $y=1$. Então, se $u_2<\dfrac{p_1}{0,\!12}=\dfrac{0,\!11}{0,\!12}=0,\!91
 ```{r}
 set.seed(20252)
 pseudo_x <- NULL
-for(i in seq_len(10000)){
+for(i in seq_len(100000)){
   
 pj <- c(0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10)
 
