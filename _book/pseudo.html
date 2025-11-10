@@ -368,7 +368,7 @@ Algoritmo 1
 <div class="cell-output cell-output-stdout">
 <pre><code>a
      1      2      3      4 
-0.1976 0.1507 0.2446 0.4071 </code></pre>
+0.2032 0.1481 0.2489 0.3998 </code></pre>
 </div>
 </div>
 <div class="cell">
@@ -389,7 +389,7 @@ Algoritmo 1
 <div class="cell-output cell-output-stdout">
 <pre><code>a
      1      2      3      4 
-0.1964 0.1612 0.2481 0.3943 </code></pre>
+0.2048 0.1480 0.2482 0.3990 </code></pre>
 </div>
 </div>
 <div class="callout callout-style-simple callout-warning no-icon callout-titled">
@@ -460,7 +460,7 @@ Algoritmo 3 (mudando as desigualdades)
 </div>
 </div>
 <p>Se você deseja simular valores de <span class="math inline">\(X\)</span> com distribuição uniforme discreta:</p>
-<p><span class="math display">\[P(X=j)=1/k, \, \,\, j=1,2,3,\ldots, k.\]</span></p>
+<p><span class="math display">\[\Pr(X=j)=1/k, \quad j=1,2,3,\ldots, k.\]</span></p>
 <p>Basta utilizar a Proposições 1 ou a Proposição 2.</p>
 <div class="prop-blue callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -493,7 +493,7 @@ Proposição 2:
 </section>
 <section id="exemplo-2" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="exemplo-2">Exemplo 2</h3>
-<p>Para simular valores de <span class="math inline">\(X\)</span> com <span class="math inline">\(P(X=j)=1/10, \, \,\, j=1,2,3,\ldots, 10\)</span>, você pode serguir o procedimento a seguir:</p>
+<p>Para simular valores de <span class="math inline">\(X\)</span> com <span class="math inline">\(\Pr(X=j)=1/10, \, \,\, j=1,2,3,\ldots, 10\)</span>, você pode serguir o procedimento a seguir:</p>
 <table class="table">
 <thead>
 <tr class="header">
@@ -553,7 +553,7 @@ Proposição 2:
 <section id="exemplo-3" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="exemplo-3">Exemplo 3</h3>
 <p>Nosso objetivo agora é gerar valores de <span class="math inline">\(X\sim \mbox{Poisson}(\lambda)\)</span> com:</p>
-<p><span class="math display">\[p_i=P(X=i)=\dfrac{e^{-\lambda}\lambda^i}{i!}, \quad i=0,1,2,\ldots. \]</span></p>
+<p><span class="math display">\[p_i=\Pr(X=i)=\dfrac{e^{-\lambda}\lambda^i}{i!}, \quad i=0,1,2,\ldots. \]</span></p>
 <div class="callout callout-style-default callout-important no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -615,7 +615,7 @@ Algoritmo 4
 <section id="exemplo-4" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="exemplo-4">Exemplo 4</h3>
 <p>Por fim, iremos gerar valores da variável aleatório <span class="math inline">\(X\)</span>, <span class="math inline">\(X\sim \mbox{Binomial}(n,p)\)</span>, com f.m.p dada por:</p>
-<p><span class="math display">\[P(X=i)=\dfrac{n!}{i!(n-i)!}p^i(1-p)^{n-i}, \quad i=0,1,2,\ldots,n.\]</span></p>
+<p><span class="math display">\[\Pr(X=i)=\dfrac{n!}{i!(n-i)!}p^i(1-p)^{n-i}, \quad i=0,1,2,\ldots,n.\]</span></p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -626,7 +626,7 @@ Identidade importante:
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><span class="math display">\[P(X=i+1) = \dfrac{n-i}{i+1}\dfrac{p}{1-p}P(X=i).\]</span></p>
+<p><span class="math display">\[\Pr(X=i+1) = \dfrac{n-i}{i+1}\dfrac{p}{1-p}\Pr(X=i).\]</span></p>
 </div>
 </div>
 <p>A partir do resultado acima e do método da transformação inversa podemos escrever o seguinte algoritmo:</p>
@@ -753,8 +753,8 @@ Algoritmo 5
 </table>
 <p>Contexto:</p>
 <ul>
-<li><strong>Podemos</strong>: simular valores de <span class="math inline">\(Y\)</span> com f.p. <span class="math inline">\(q_j=P(Y=j), j\geq 0\)</span>.</li>
-<li><strong>Queremos</strong>: simular valores de <span class="math inline">\(X\)</span> com f.p. <span class="math inline">\(p_j=P(X=j), j\geq 0\)</span>.</li>
+<li><strong>Podemos</strong>: simular valores de <span class="math inline">\(Y\)</span> com f.p. <span class="math inline">\(q_j=\Pr(Y=j), j\geq 0\)</span>.</li>
+<li><strong>Queremos</strong>: simular valores de <span class="math inline">\(X\)</span> com f.p. <span class="math inline">\(p_j=\Pr(X=j), j\geq 0\)</span>.</li>
 <li><strong>Proposta</strong>: simular valor <span class="math inline">\(y\)</span> de <span class="math inline">\(Y\)</span> e aceitar esse valor para <span class="math inline">\(X\)</span> com probabilidade proporcional a <span class="math inline">\(\dfrac{p_y}{q_y}\)</span>.</li>
 </ul>
 <div class="callout callout-style-simple callout-warning no-icon callout-titled">
@@ -785,10 +785,11 @@ Prova do Teorema
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li>Em uma iteração, determinar a probabilidade de gerar e ser aceito o valor <span class="math inline">\(j\)</span>: <span class="math display">\[P(Y=j,aceitar)= P(Y=y).P(aceitar/Y=j)= q_j.\dfrac{pj}{cq_j} = \dfrac{p_j}{c}\]</span></li>
-<li>Calcular a probabilidade de aceitar um valor <span class="math inline">\(j\)</span> gerado: <span class="math display">\[P(aceitar)= \sum_j P(Y=j,aceitar)=\sum_j \dfrac{pj}{c} = \dfrac{1}{c}\]</span></li>
-<li>Como cada iteração independentemente resulta um valor aceitável com probabilidade <span class="math inline">\(\frac{1}{c}\)</span>, o número de iterações necessárias segue uma geométrica de média <span class="math inline">\(c\)</span>. Portanto, <span class="math display">\[P(X=j)=\! \sum_n P(\mbox{\textit{j aceito na iteração n}}) = \sum_n \left(\!1\!-\!\dfrac{1}{c}\!\right)^{\!\!n-1}\!\!.\dfrac{p_j}{c}=p_j\]</span>.</li>
+<li>Em uma iteração, determinar a probabilidade de gerar e ser aceito o valor <span class="math inline">\(j\)</span>:</li>
 </ol>
+<p><span class="math display">\[\Pr(Y=j,\text{aceitar})= \Pr(Y=j) \cdot \Pr(\text{aceitar}\mid Y=j)= q_j\cdot \dfrac{pj}{cq_j} = \dfrac{p_j}{c}.\]</span> 2. Calcular a probabilidade de aceitar um valor <span class="math inline">\(j\)</span> gerado:</p>
+<p><span class="math display">\[\Pr(\text{aceitar})= \sum_j \Pr(Y=j,\text{aceitar})=\sum_j \dfrac{p_j}{c} = \dfrac{1}{c}.\]</span> 3. Como cada iteração independentemente resulta um valor aceitável com probabilidade <span class="math inline">\(\frac{1}{c}\)</span>, o número de iterações necessárias segue uma geométrica de média <span class="math inline">\(c\)</span>. Portanto,</p>
+<p><span class="math display">\[P(X=j)=\! \sum_n P(\text{j aceito na iteração $n$}) = \sum_n \left(1-\dfrac{1}{c}\right)^{n-1}\cdot\dfrac{p_j}{c}=p_j.\]</span></p>
 </div>
 </div>
 <div class="callout callout-style-default callout-important no-icon callout-titled">
@@ -870,7 +871,7 @@ Nota
 </tbody>
 </table>
 <p>Considerando que sabemos gerar de uma v.a. uniforme discreta, assumiremos <span class="math inline">\(Y\)</span> com distribuição</p>
-<p><span class="math display">\[P(Y=j)=q_j=\dfrac{1}{10}; \quad j=1,2, \ldots, 10.\]</span></p>
+<p><span class="math display">\[\Pr(Y=j)=q_j=\dfrac{1}{10}; \quad j=1,2, \ldots, 10.\]</span></p>
 <p>A constante <span class="math inline">\(c\)</span> será determinada por <span class="math inline">\(c=\mbox{max}\left\{\dfrac{p_j}{q_j}\right\} =\dfrac{0,\!12}{0,\!10}=1,\!2.\)</span></p>
 <div class="callout callout-style-simple callout-warning no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -927,7 +928,7 @@ Nota
 <div class="cell-output cell-output-stdout">
 <pre><code>pseudo_x
    1    2    3    4    5    6    7    8    9   10 
-0.08 0.10 0.09 0.11 0.09 0.10 0.09 0.11 0.12 0.10 </code></pre>
+0.10 0.10 0.11 0.09 0.09 0.10 0.10 0.08 0.11 0.12 </code></pre>
 </div>
 </div>
 <p>Existe algum problema com os resultados acima? Se sim, faça a correção do código e verifique graficamente a coerência dos resultados.</p>
@@ -962,11 +963,11 @@ Observações
 <section id="método-da-composição" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="método-da-composição"><span class="header-section-number">5.3</span> Método da Composição</h2>
 <p>Suponha que tenhamos um método eficiente para simular o valor de uma variável aleatória com f.m.p. <span class="math inline">\({p_j, ; j \geq 0}\)</span> ou <span class="math inline">\({q_j, ; j \geq 0}\)</span>, e que desejamos simular a variável aleatória <span class="math inline">\(X\)</span> com f.m.p.:</p>
-<p><span class="math display">\[\Pr(X = j) = \alpha p_j + (1 - \alpha)q_j, \quad j \geq 0, 0 &lt; a &lt; 1.\]</span> Se <span class="math inline">\(X_1 \sim {p_j}\)</span> e <span class="math inline">\(X_2 \sim {q_j}\)</span>, então podemos definir</p>
+<p><span class="math display">\[\Pr(X = j) = \alpha p_j + (1 - \alpha)q_j, \quad j \geq 0, 0 &lt; \alpha &lt; 1.\]</span> Se <span class="math inline">\(X_1 \sim {p_j}\)</span> e <span class="math inline">\(X_2 \sim {q_j}\)</span>, então podemos definir</p>
 <p><span class="math display">\[X =
 \begin{cases}
-X_1, &amp; \text{com probabilidade } a, \\
-X_2, &amp; \text{com probabilidade } 1-a ,
+X_1, &amp; \text{com probabilidade } \alpha, \\
+X_2, &amp; \text{com probabilidade } 1-\alpha ,
 \end{cases}.\]</span></p>
 <p>Assim, <span class="math inline">\(X\)</span> terá exatamente a função de probabilidade acima.</p>
 <section id="exemplo" class="level4 unnumbered">

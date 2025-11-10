@@ -166,7 +166,7 @@ Com $u \sim U(0,1)$ é contínua, usar $<$ ou $\leq$ é equivalente em termos de
 
 Se você deseja simular valores de $X$ com distribuição uniforme discreta:
 
-$$P(X=j)=1/k, \, \,\, j=1,2,3,\ldots, k.$$
+$$\Pr(X=j)=1/k, \quad j=1,2,3,\ldots, k.$$
 
 Basta utilizar a Proposições 1 ou a Proposição 2.
 
@@ -188,7 +188,7 @@ Gere $U\sim U(0,1)$. Defina $X=\lfloor kU  \rfloor +1$, em que $\lfloor z  \rflo
 
 ### Exemplo 2 {.unnumbered}
 
-Para simular valores de $X$ com $P(X=j)=1/10, \, \,\, j=1,2,3,\ldots, 10$, você pode serguir o procedimento a seguir:
+Para simular valores de $X$ com $\Pr(X=j)=1/10, \, \,\, j=1,2,3,\ldots, 10$, você pode serguir o procedimento a seguir:
 
 | $U$ | $k\,U$  | [$X=\lfloor k\,U \rfloor +1$]{style="color:red"} |
 |------------|------------|------------|
@@ -214,7 +214,7 @@ Para simular valores de $X$ com $P(X=j)=1/10, \, \,\, j=1,2,3,\ldots, 10$, você
 
 Nosso objetivo agora é gerar valores de $X\sim \mbox{Poisson}(\lambda)$ com:
 
-$$p_i=P(X=i)=\dfrac{e^{-\lambda}\lambda^i}{i!}, \quad i=0,1,2,\ldots. $$ 
+$$p_i=\Pr(X=i)=\dfrac{e^{-\lambda}\lambda^i}{i!}, \quad i=0,1,2,\ldots. $$ 
 
 ::: {.callout-important icon="false"} 
 ## 🔎 **Identidade importante:**
@@ -270,13 +270,13 @@ for (j in 1:N){
 
 Por fim, iremos gerar valores da variável aleatório $X$, $X\sim \mbox{Binomial}(n,p)$, com f.m.p dada por:
 
-$$P(X=i)=\dfrac{n!}{i!(n-i)!}p^i(1-p)^{n-i}, \quad i=0,1,2,\ldots,n.$$
+$$\Pr(X=i)=\dfrac{n!}{i!(n-i)!}p^i(1-p)^{n-i}, \quad i=0,1,2,\ldots,n.$$
 
 
 ::: {.callout-important}
 ## Identidade importante:
 
-$$P(X=i+1) = \dfrac{n-i}{i+1}\dfrac{p}{1-p}P(X=i).$$
+$$\Pr(X=i+1) = \dfrac{n-i}{i+1}\dfrac{p}{1-p}\Pr(X=i).$$
 :::
 
 
@@ -320,8 +320,8 @@ Suponha que haja interesse em simular valores de uma v.a. $X$ e que não seja po
 
 Contexto:
 
--   **Podemos**: simular valores de $Y$ com f.p. $q_j=P(Y=j), j\geq 0$.
--   **Queremos**: simular valores de $X$ com f.p. \small  $p_j=P(X=j), j\geq 0$.
+-   **Podemos**: simular valores de $Y$ com f.p. $q_j=\Pr(Y=j), j\geq 0$.
+-   **Queremos**: simular valores de $X$ com f.p. \small  $p_j=\Pr(X=j), j\geq 0$.
 -   **Proposta**: simular valor $y$ de $Y$ e aceitar esse valor para $X$ com probabilidade proporcional a $\dfrac{p_y}{q_y}$.
 
 ::: {.callout-warning appearance="simple" icon="false"}
@@ -341,9 +341,15 @@ O algoritmo aceitação-rejeição gera uma v.a. $X$ tal que $P(X=j)=p_j$, $j=0,
 ::: {.callout-note icon="false" appearance="simple"}
 ## Prova do Teorema
 
-1.  Em uma iteração, determinar a probabilidade de gerar e ser aceito o valor $j$: $$P(Y=j,aceitar)= P(Y=y).P(aceitar/Y=j)= q_j.\dfrac{pj}{cq_j} = \dfrac{p_j}{c}$$
-2.  Calcular a probabilidade de aceitar um valor $j$ gerado: $$P(aceitar)= \sum_j P(Y=j,aceitar)=\sum_j \dfrac{pj}{c} = \dfrac{1}{c}$$
-3.  Como cada iteração independentemente resulta um valor aceitável com probabilidade $\frac{1}{c}$, o número de iterações necessárias segue uma geométrica de média $c$. Portanto, $$P(X=j)=\! \sum_n P(\mbox{\textit{j aceito na iteração n}}) = \sum_n \left(\!1\!-\!\dfrac{1}{c}\!\right)^{\!\!n-1}\!\!.\dfrac{p_j}{c}=p_j$$.
+1.  Em uma iteração, determinar a probabilidade de gerar e ser aceito o valor $j$: 
+
+$$\Pr(Y=j,\text{aceitar})= \Pr(Y=j) \cdot \Pr(\text{aceitar}\mid Y=j)= q_j\cdot \dfrac{pj}{cq_j} = \dfrac{p_j}{c}.$$
+2.  Calcular a probabilidade de aceitar um valor $j$ gerado:
+
+$$\Pr(\text{aceitar})= \sum_j \Pr(Y=j,\text{aceitar})=\sum_j \dfrac{p_j}{c} = \dfrac{1}{c}.$$
+3.  Como cada iteração independentemente resulta um valor aceitável com probabilidade $\frac{1}{c}$, o número de iterações necessárias segue uma geométrica de média $c$. Portanto,
+
+$$P(X=j)=\! \sum_n P(\text{j aceito na iteração $n$}) = \sum_n \left(1-\dfrac{1}{c}\right)^{n-1}\cdot\dfrac{p_j}{c}=p_j.$$
 :::
 
 ::: {.callout-important icon="false"}
@@ -370,7 +376,7 @@ Gerar um valor da variável aleatória $X$ com f.m.p.:
 
 Considerando que sabemos gerar de uma v.a. uniforme discreta, assumiremos $Y$ com distribuição
 
-$$P(Y=j)=q_j=\dfrac{1}{10}; \quad j=1,2, \ldots, 10.$$
+$$\Pr(Y=j)=q_j=\dfrac{1}{10}; \quad j=1,2, \ldots, 10.$$
 
 A constante $c$ será determinada por $c=\mbox{max}\left\{\dfrac{p_j}{q_j}\right\} =\dfrac{0,\!12}{0,\!10}=1,\!2.$
 
@@ -436,12 +442,12 @@ Existe algum problema com os resultados acima? Se sim, faça a correção do có
 
 Suponha que tenhamos um método eficiente para simular o valor de uma variável aleatória com f.m.p. ${p_j, ; j \geq 0}$ ou ${q_j, ; j \geq 0}$, e que desejamos simular a variável aleatória $X$ com f.m.p.:
 
-$$\Pr(X = j) = \alpha p_j + (1 - \alpha)q_j, \quad j \geq 0, 0 < a < 1.$$ Se $X_1 \sim {p_j}$ e $X_2 \sim {q_j}$, então podemos definir
+$$\Pr(X = j) = \alpha p_j + (1 - \alpha)q_j, \quad j \geq 0, 0 < \alpha < 1.$$ Se $X_1 \sim {p_j}$ e $X_2 \sim {q_j}$, então podemos definir
 
 $$X =
 \begin{cases}
-X_1, & \text{com probabilidade } a, \\
-X_2, & \text{com probabilidade } 1-a ,
+X_1, & \text{com probabilidade } \alpha, \\
+X_2, & \text{com probabilidade } 1-\alpha ,
 \end{cases}.$$
 
 Assim, $X$ terá exatamente a função de probabilidade acima.
