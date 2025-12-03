@@ -2,12 +2,285 @@
 
 ## Introdução
 
+Os métodos de Monte Carlo formam uma classe de algoritmos baseados em simulação aleatória. Eles surgiram no final da década de 1940, especialmente com os trabalhos de John von Neumann, Stanislaw Ulam, Enrico Fermi e Nicholas Metropolis. O nome deriva da cidade famosa por seus cassinos.
+
+```{r}
+#| label: fig-casino1
+#| echo: false
+#| fig-cap: "Cassino — Aleatoriedade como metáfora"
+knitr::include_graphics("Cassino1.jpg")
+```
+
+## Aplicações
+
+Na Estatística, os métodos de Monte Carlo são utilizados para:
+
+-   estimar parâmetros da distribuição amostral;
+
+-   calcular MSE (erro quadrático médio);
+
+-   avaliar cobertura de intervalos de confiança;
+
+-   estimar probabilidades de erro tipo I;
+
+-   estimar poder de testes de hipóteses.
+
+-   O princípio central é usar amostragem aleatória massiva para resolver problemas de integração ou otimização.
 
 ## Integração de Monte Carlo
 
+### Problema geral
+
+Queremos calcular:
+
+$$\int_\chi g(x)\,dx$$
+
+Se conseguimos escrever $g(x) = h(x) f(x)$, sendo $f$ uma densidade, então
+
+$$\int_\chi h(x) f(x) dx = E_f[h(X)],$$
+
+e aproximamos a integral por:
+
+$\bar h_n = \frac{1}{n} \sum_{j=1}^n h(x_j).$
+
+## Convergência (Lei Forte dos Grandes Números)
+
+Se $X_1,\ldots,X_n$ são i.i.d. com média $\mu$,
+
+$$\bar X_n \xrightarrow{qc} \mu.$$
+
+### Exemplo 1 — Integral em $[0,1]$
+
+$$I = \int_0^1 [\cos(50x) + \sin(20x)]^2\,dx.$$
+
+#### Código em R
+
+```{r}
+h <- function(x) (cos(50*x) + sin(20*x))^2
+integrate(h, 0, 1)
+
+n <- 1e5
+x <- runif(n)
+mean(h(x))
+curve(h, from = 0, to = 1)
+```
+
+### Exemplo 2 — Integral imprópria
+
+$$I = \int_0^\infty e^{-x^2/2} dx,$$ use a transformação $y = \frac{1}{x + 1}$ e obtenha
+
+$$I = \int_0^1 y^{-2} \exp\left\{-\frac{[(1-y)/y]^2}{2}\right\} dy.$$ Daí a segue naturalmente como no caso anterior.
+
+```{r}
+
+```
+
+### Cálculo de probabilidades via Monte Carlo
+
+Para uma variável aleatória $X$,
+
+$$P(X \in A) = E[I_A(X)],$$
+
+então, estimamos:
+
+$$\hat P = \frac{1}{n}\sum_{i=1}^n I_A(X_i).$$
+
+### Exemplo: $P(X>2.5)$, com $X\sim N(0,1)$
+
+```{r}
+n <- 1e6
+x <- rnorm(n)
+mean(x > 2.5)
+```
+
 ## Erro de Monte Carlo
 
-## Monte Carlo via Função de Importância
+Queremos estimar:
 
-## Método de Máxima Verossimilhança
+$$E_f[h(X)],$$
 
+com estimador de Monte Carlo: $\bar h_n$. A Variância do estimador de Monte Carlo é dada por:
+
+$$\operatorname{Var}(\bar h_n)
+= \operatorname{Var}\left(\frac{1}{n}\sum_{j=1}^n h(X_j)\right)
+= \frac{n \, \operatorname{Var}(h(X_j))}{n^2}
+= \frac{\operatorname{Var}(h(X))}{n}.
+$$ A variância de $h(X)$ pode ser estimada por
+
+$$
+\widehat{\operatorname{Var}}(h(X))
+= \frac{1}{n}\sum_{j=1}^n \bigl(h(x_j) - \bar h_n\bigr)^2.$$
+
+Portanto, a variância do estimador de Monte Carlo $\bar h_n$ é estimada por:
+
+$$\widehat{\operatorname{Var}}(\bar h_n)
+= \frac{1}{n^2}\sum_{j=1}^n \bigl(h(x_j) - \bar h_n\bigr)^2
+= v_n.$$
+
+O erro padrão, $\sqrt{v_n}$, reflete a precisão da aproximação.
+
+```{r}
+set.seed(1234)
+n <- 1e3
+x <- runif(n)
+h <- (cos(50*x) + sin(20*x))^2
+hbn <- cumsum(h)/(1:n)
+vn  <- cumsum((h - hbn)^2)/(1:n)^2
+
+# Bandas de 95% de confiança
+LI <- hbn - 1.96 * sqrt(vn)
+LS <- hbn + 1.96 * sqrt(vn)
+
+
+# integral_0^1 (cos(50 x) + sin(20 x))^2 dx = 0.965201
+I_true <- 0.965201
+
+# Gráfico com bandas
+plot(hbn, type = "l", xlab = "n",
+     ylab = expression(bar(h)[n]),
+     ylim = range(LI, LS))
+
+lines(LI, col = "red", lty = 2)
+lines(LS, col = "red", lty = 2)
+
+abline(h = I_true, col = "blue", lwd = 2)  # linha do valor verdadeiro
+legend("topright",
+       legend = c("Estimativa MC", "IC 95%", "Valor verdadeiro"),
+       lty = c(1, 2, 1),
+       col = c("black", "red", "blue"),
+       bty = "n")
+```
+
+## Simulações de Monte Carlo em Inferência
+
+Simulações de Monte Carlo têm como objetivo estudar as propriedades de técnicas de inferência estatística. No essencial, uma simulação de Monte Carlo funciona aplicando essas técnicas a amostras repetidamente geradas a partir de um processo de geração de dados previamente especificado.
+
+O pacote `tidyMC` busca contemplar e simplificar todo o fluxo de trabalho necessário para executar uma simulação de Monte Carlo, seja em um contexto acadêmico ou profissional. Assim, o `tidyMC` fornece funções para as seguintes tarefas:
+
+-   Executar uma simulação de Monte Carlo para uma função definida pelo usuário sobre uma grade de parâmetros, utilizando `future_mc()`.
+
+-   Resumir os resultados por meio de funções de resumo (opcionais) definidas pelo usuário, usando `summary.mc()`.
+
+-   Criar gráficos dos resultados da simulação de Monte Carlo, que podem ser modificados pelo usuário, por meio de `plot.mc()` e `plot.summary.mc()`.
+
+-   Gerar uma tabela em LaTeX resumindo os resultados da simulação de Monte Carlo usando `tidy_mc_latex()`.
+
+### Instalação
+
+O pacote `tidyMC` está disponível no CRAN. Para baixar a versão do CRAN basta:
+
+```{r}
+#| eval: false
+
+install.packages("tidyMC")
+
+```
+
+Em seguida, o pacote pode ser carregado com:
+
+```{r}
+library(tidyMC)
+```
+
+Além disso, os seguintes pacotes serão utilizados:
+
+```{r}
+# install.packages("magrittr")
+library(magrittr)
+
+# install.packages("ggplot2")
+library(ggplot2)
+
+# install.packages("kableExtra")
+library(kableExtra)
+
+```
+
+## Execute sua primeira Simulação de Monte Carlo com `future_mc()`
+
+A função `future_mc()` permite executar uma simulação de Monte Carlo para uma função definida pelo usuário e para um conjunto especificado de parâmetros.
+
+O primeiro argumento de `future_mc()` é `fun`, que deve ser uma função capaz de realizar três tarefas para uma única repetição e uma única combinação de parâmetros:
+
+-   gerar os dados,
+
+-   aplicar o método de interesse,
+
+-   avaliar o resultado obtido.
+
+A função `future_mc()` se encarrega de gerar automaticamente os laços sobre as grades de parâmetros desejadas, bem como repetir o experimento de Monte Carlo para cada combinação de parâmetros.
+
+Considere o seguinte exemplo de função `fun`, que realiza exatamente as tarefas necessárias: geração dos dados, aplicação do método e avaliação dos resultados.
+
+```{r}
+test_func <- function(param1 = 10, param2 = 2, n = 100) {
+  data <- rnorm(n, mean = param1, sd = param2)
+  stat <- mean(data)
+  stat_2 <- var(data)
+  dev_mu <- stat - param1
+  dev_sigma2 <- stat_2 - param2^2
+  dev_eqm_mu <- (stat - param1)^2
+  dev_eqm_sigma2 <- (stat_2 - param2^2)^2
+  return(list(mean = stat, var = stat_2, bmu = dev_mu, bsig2 = dev_sigma2, 
+         eqmmu = dev_eqm_mu, 
+         eqmsigma2 = dev_eqm_sigma2))
+}
+```
+
+O segundo argumento de `future_mc()` é `repetitions`, que deve ser um número inteiro especificando o total de iterações da simulação de Monte Carlo.
+
+O terceiro argumento, `param_list`, deve ser uma lista cujos componentes têm nomes correspondentes aos parâmetros da função fun que deverão variar ao longo da simulação. Cada componente dessa lista é um vetor contendo os valores desejados da grade para aquele parâmetro.
+
+Considere o exemplo a seguir para `param_list`. Observe que seus componentes recebem nomes que correspondem exatamente aos parâmetros da função `test_func()`: `param` e `x1`, respectivamente:
+
+```{r}
+param_list <- list(
+ n = c(10, 50, 90)
+)
+```
+
+A função `future_mc()` cria automaticamente todas as combinações possíveis de parâmetros especificadas em param_list e executa a simulação de Monte Carlo para cada uma dessas combinações. Se você preferir não rodar a simulação para todas as combinações possíveis, pode fornecer `param_table`, que deve ser um *data.frame* ou *data.table* contendo apenas as combinações de parâmetros de interesse.
+
+O argumento `...` permite especificar outros argumentos da função `fun` que não estão em `param_list`. Esses argumentos permanecerão fixos ao longo de todas as combinações de parâmetros.
+
+Requisitos formais que `fun` deve satisfazer:
+
+1.  Os argumentos presentes em `param_list` devem ser escalares;
+
+2.  Toda variável usada dentro de fun deve ser definida internamente ou fornecida via `...`;
+
+3.  O valor retornado por `fun` deve ser uma lista nomeada;
+
+4.  Os nomes dos valores retornados e os nomes dos argumentos presentes em `param_list` não podem coincidir.
+
+Se a função `fun` retorna uma lista nomeada de escalares, o usuário pode utilizar `summary()` para resumir todos os resultados da simulação de Monte Carlo.
+
+```{r}
+set.seed(1234)
+test_mc <- future_mc(
+  fun = test_func,
+  repetitions = 1000,
+  param_list = param_list,
+  param1 = 10,
+  param2 = 2
+)
+
+summary(test_mc)
+
+```
+
+A função `plot()` retorna uma lista de objetos das classes `gg` e `ggplot2`. Essa lista conterá um gráfico de linhas para cada saída produzida pela função `fun`, representando as trajetórias dos resultados para os diferentes cenários da simulação.
+
+```{r}
+plot(summary(test_mc))
+```
+
+Para gerar uma tabela em $\LaTeX$ basta:
+
+```{r}
+tidy_mc_latex(
+  x = summary(test_mc)
+) %>% 
+  print()
+
+```

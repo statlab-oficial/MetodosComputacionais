@@ -1,0 +1,3 @@
+# Números Pseudoaleatórios - Caso Contínuo
+
+## Método da Inversão

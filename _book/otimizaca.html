@@ -8,7 +8,7 @@
 
 <meta name="description" content="Laboratório de Inovação em Estatística - StatLab">
 
-<title>Métodos Computacionais - 3&nbsp; Motivação</title>
+<title>Métodos Computacionais - 6&nbsp; Otimização Numérica</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -55,27 +55,7 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-  margin-bottom: 0em;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -85,8 +65,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./summary.html" rel="next">
-<link href="./revisaoR.html" rel="prev">
+<link href="./mc.html" rel="next">
+<link href="./pseudo.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -166,7 +146,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./intro.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Motivação</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./otimizaca.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Otimização Numérica</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -211,7 +191,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./intro.html" class="sidebar-item-text sidebar-link active">
+  <a href="./intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Motivação</span></span></a>
   </div>
 </li>
@@ -229,7 +209,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./otimizaca.html" class="sidebar-item-text sidebar-link">
+  <a href="./otimizaca.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Otimização Numérica</span></span></a>
   </div>
 </li>
@@ -261,11 +241,7 @@ window.Quarto = {
     <h2 id="toc-title">Índice</h2>
    
   <ul>
-  <li><a href="#da-teoria-à-simulação" id="toc-da-teoria-à-simulação" class="nav-link active" data-scroll-target="#da-teoria-à-simulação">Da teoria à simulação</a></li>
-  <li><a href="#um-atalho-analítico-útil" id="toc-um-atalho-analítico-útil" class="nav-link" data-scroll-target="#um-atalho-analítico-útil">Um atalho analítico útil</a></li>
-  <li><a href="#o-papel-da-simulação" id="toc-o-papel-da-simulação" class="nav-link" data-scroll-target="#o-papel-da-simulação">O papel da simulação</a></li>
-  <li><a href="#atividade-problema-do-aniversário-22-jogadores" id="toc-atividade-problema-do-aniversário-22-jogadores" class="nav-link" data-scroll-target="#atividade-problema-do-aniversário-22-jogadores">Atividade: Problema do Aniversário (22 jogadores)</a></li>
-  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
+  <li><a href="#método-de-newton" id="toc-método-de-newton" class="nav-link active" data-scroll-target="#método-de-newton"><span class="header-section-number">6.1</span> Método de Newton</a></li>
   </ul>
 </nav>
     </div>
@@ -274,7 +250,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Motivação</span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Otimização Numérica</span></h1>
 </div>
 
 
@@ -291,166 +267,195 @@ window.Quarto = {
 </header>
 
 
-<p>A Estatística, além de lidar com modelos matemáticos rigorosos, também é permeada por situações em que a intuição humana falha de maneira sistemática. Um exemplo clássico é o <strong>problema do aniversário</strong>, que há décadas desperta curiosidade entre estudantes e pesquisadores.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Enuciado">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Enuciado
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><em>Em uma sala com</em> <span class="math inline">\(r\)</span> pessoas, qual a probabilidade de que pelo menos duas delas compartilhem o mesmo aniversário?</p>
-</div>
-</div>
-<p>Um resultado surpreendente é: com apenas <strong>23 pessoas</strong> em uma sala, a probabilidade de que haja pelo menos uma coincidência de aniversários já é <strong>superior a 50%</strong>. Esse resultado é tão interessante que pode ser uma porta de entrada natural para discutir a diferença entre <strong>probabilidade teórica</strong> e <strong>evidência empírica obtida por simulação</strong>.</p>
-<section id="da-teoria-à-simulação" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="da-teoria-à-simulação">Da teoria à simulação</h2>
-<p>Do ponto de vista teórico, a probabilidade de que todos os aniversários sejam distintos entre <span class="math inline">\(r\)</span> pessoas é</p>
-<p><span class="math display">\[\Pr(\text{todos distintos}) \;=\; \prod_{i=1}^{r-1} \frac{365-i}{365}
-\;=\; \left(1 - \frac{1}{365}\right)\!\left(1 - \frac{2}{365}\right)\!\cdots\!\left(1 - \frac{r-1}{365}\right).\]</span></p>
-<p>Logo, a probabilidade de pelo menos uma coincidência é</p>
-<p><span class="math display">\[p_r = 1 - \Pr(\text{todos distintos}).\]</span></p>
-<p>Esse produto é conceitualmente claro, mas fica pouco manejável mentalmente para <span class="math inline">\(r\)</span> moderados. É aqui que a <strong>simulação computacional</strong> pode entrar como aliada didática e científica.</p>
-</section>
-<section id="um-atalho-analítico-útil" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="um-atalho-analítico-útil">Um atalho analítico útil</h2>
-<p>O produto acima admite uma <strong>aproximação exponencial simples e acurada</strong>, obtida tomando logaritmo e usando a expansão para argumentos pequenos:</p>
-<p><span class="math display">\[\ln(1 - x) = -x + o(x), \quad (x \to 0). \]</span> Aplicando ao produto,</p>
+<section id="método-de-newton" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="método-de-newton"><span class="header-section-number">6.1</span> Método de Newton</h2>
+<p><strong>Propósito:</strong> maximizar ou minimizar a função <span class="math inline">\(f(\theta)\)</span> ou, de forma equivalente, encontrar a raiz da equação <span class="math inline">\(g(\theta)=0\)</span>, em que <span class="math inline">\(g(\theta)=f'(\theta)\)</span>.</p>
+<p>Considere um valor inicial <span class="math inline">\(\theta_0\)</span>, próximo de <span class="math inline">\(\hat{\theta}\)</span>. A expansão de Taylor de <span class="math inline">\(g(\theta)\)</span> em torno de <span class="math inline">\(\theta_0\)</span> é:</p>
 <p><span class="math display">\[
-\begin{aligned}
-\ln\!\big(1 - p_r\big)
-\;&amp;=\;
-\sum_{i=1}^{r-1} \ln\!\left(1 - \frac{i}{365}\right)\\
-\;&amp;\approx\;
--\,\sum_{i=1}^{r-1} \frac{i}{365}
-\;=\;
--\,\frac{1 + 2 + \cdots + (r-1)}{365}
-\;=\;
--\,\frac{r(r-1)}{2 \cdot 365}.\end{aligned}\]</span></p>
-<p>Exponentiando e isolando <span class="math inline">\(p_r\)</span>, obtemos a aproximação</p>
-<p><span class="math display">\[
-p_r \;\approx\; 1 - \exp\!\left\{-\,\frac{r(r-1)}{730}\right\}.
+g(\theta)
+=
+g(\theta_0)
++
+g'(\theta_0)(\theta - \theta_0)
++
+\frac{g''(\theta_0)(\theta-\theta_0)^2}{2!}
++
+\cdots
 \]</span></p>
-<p>Essa fórmula tem três virtudes didáticas:</p>
+<p>Para <span class="math inline">\(|\theta - \theta_0|\)</span> pequeno, desprezamos termos quadráticos ou superiores:</p>
+<p><span class="math display">\[
+g(\theta) \approx g(\theta_0) + g'(\theta_0)(\theta - \theta_0).
+\]</span></p>
+<p>Estamos aproximando <span class="math inline">\(g(\theta)\)</span> por uma função linear de <span class="math inline">\(\theta\)</span> que tem o mesmo valor e inclinação de <span class="math inline">\(g(\theta)\)</span> no ponto <span class="math inline">\(\theta=\theta_0\)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="grafico_newton_1.jpeg" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Aproximação de g(θ) por uma função linear</figcaption>
+</figure>
+</div>
+<p>O método de Newton trata com a equação da reta que passa pelo ponto <span class="math inline">\((\theta_i,g(\theta_i))\)</span> e é tangente à curva nesse ponto:</p>
+<p><span class="math display">\[g(\theta)-g(\theta_i)=g'(\theta_i)(\theta-\theta_i),\quad i=0,1,2,\ldots\]</span></p>
+<p>em que <span class="math inline">\(g'(\theta_i)\)</span> é a inclinação da reta (derivada). Essa reta passa pelo ponto <span class="math inline">\((\theta_{i+1},0)\)</span>. Assim,</p>
+<p><span class="math display">\[\begin{align*}
+0-g(\theta_i)&amp; = &amp; g'(\theta_i)(\theta_{i+1}-\theta_i) \Rightarrow\\
+\theta_{i+1} &amp; = &amp; \theta_i - \dfrac{g(\theta_i)}{g'(\theta_i)}
+\end{align*}\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="grafico_newton_2.jpeg" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Método de Newton - Ilustração</figcaption>
+</figure>
+</div>
+<p>Note que <span class="math inline">\(\theta_0\)</span> é apenas uma “estimativa qualquer” para a raiz <span class="math inline">\(\hat\theta\)</span> da equação <span class="math inline">\(g(\theta)\)</span>. A proposta do método é atualizar esse valor proposto da seguinte forma:</p>
+<ul>
+<li>determinar <span class="math inline">\(\theta_1=\theta_0 - \dfrac{g(\theta_0)}{g'(\theta_0)}\)</span></li>
+<li>determinar <span class="math inline">\(\theta_2=\theta_1 - \dfrac{g(\theta_1)}{g'(\theta_1)}\)</span></li>
+<li>repetir esse processo até que <span class="math inline">\(\theta_{i+1}\approx\theta_i\)</span></li>
+<li><span class="math inline">\(\theta_i\)</span> será a raiz da equação.</li>
+</ul>
+<p>O método de Newton está implementado na função <code>maxNR</code> do pacote <code>maxLik</code> do programa <code>R</code>.</p>
+<p><strong>Exemplo:</strong> Seja <span class="math inline">\(f(\theta) = 100\log(\theta)-50\theta -50\log(1-\exp(-\theta))\)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="grafico_newton_3.jpeg" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Curva da função <span class="math inline">\(f(\theta)\)</span></figcaption>
+</figure>
+</div>
+<p>Determinando o ponto de máximo da função <span class="math inline">\(f(\theta):\)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maxLik)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(u) (<span class="dv">100</span><span class="sc">*</span><span class="fu">log</span>(u) <span class="sc">-</span> <span class="dv">50</span><span class="sc">*</span>u<span class="dv">-50</span><span class="sc">*</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">exp</span>(<span class="sc">-</span>u)))</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">maxNR</span>(f, <span class="at">star =</span> <span class="dv">1</span>)<span class="sc">$</span>estimate <span class="co"># 1.593624</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.593624</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">maxNR</span>(f, <span class="at">star =</span> <span class="dv">1</span>)<span class="sc">$</span>maximum  <span class="co"># -21.72331</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -21.72331</code></pre>
+</div>
+</div>
+<p>Outras funções relacionadas a otimização:</p>
 <ol type="1">
-<li><p><strong>Clareza</strong>: exibe explicitamente o papel do número de pares <span class="math inline">\(\binom{r}{2}\)</span>.</p></li>
-<li><p><strong>Rapidez</strong>: permite cálculos aproximados para valores de <span class="math inline">\(r\)</span> de interesse.</p></li>
-<li><p><strong>Boas aproximações</strong> já para <span class="math inline">\(r\)</span> na casa das dezenas.</p></li>
+<li><code>optimize</code>: determinar o ponto de máximo (mínimo) da função <span class="math inline">\(f(\theta)\)</span>:</li>
 </ol>
-<div class="callout callout-style-default callout-warning callout-titled" title="Exemplo Rápido">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exemplo Rápido
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li>Para <strong>23 pessoas</strong>:</li>
-</ul>
-<p><span class="math display">\[p_{23}^{(\text{aprox})}
-  \;=\;
-  1 - \exp\!\left\{-\frac{23\cdot22}{730}\right\}
-  \;=\;
-  1 - \exp\!\{-0.69315\}
-  \;\approx\; 0.500,\]</span></p>
-<p>alinhando-se ao resultado clássico de que <strong>23</strong> pessoas já superam 50% de chance de coincidência.</p>
-</div>
-</div>
-</section>
-<section id="o-papel-da-simulação" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="o-papel-da-simulação">O papel da simulação</h2>
-<p>A simulação estatística permite reproduzir o experimento de forma empírica: sorteamos aleatoriamente dias de aniversário para os indivíduos e verificamos se há repetições. Repetindo o processo milhares de vezes, obtemos uma estimativa para a probabilidade de coincidência.</p>
-<p>Por exemplo, em <strong>R</strong>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="dv">23</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>birthdays <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">365</span>, r, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">any</span>(<span class="fu">duplicated</span>(birthdays))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(u) (<span class="dv">100</span><span class="sc">*</span><span class="fu">log</span>(u) <span class="sc">-</span> <span class="dv">50</span><span class="sc">*</span>u<span class="dv">-50</span><span class="sc">*</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">exp</span>(<span class="sc">-</span>u)))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">optimize</span>(f, <span class="at">lower =</span> <span class="dv">0</span>, <span class="at">upper =</span> <span class="dv">5</span>, <span class="at">maximum =</span> <span class="cn">TRUE</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] TRUE</code></pre>
+<pre><code>$maximum
+[1] 1.593607
+
+$objective
+[1] -21.72331</code></pre>
 </div>
 </div>
-<p>Ao repetir esse procedimento muitas vezes (por exemplo, 10.000 simulações), podemos estimar a proporção de conjuntos com coincidência. Pela Lei dos Grandes Números, essa estimativa converge para o valor teórico de aproximadamente 0,507 quando <span class="math inline">\(r=23\)</span>.</p>
+<ol start="2" type="1">
+<li><code>uniroot</code>: determinar a raiz da equação <span class="math inline">\(\dfrac{\partial{f}}{\partial\theta}=0\)</span>.</li>
+</ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>) <span class="co">#reprodutibilidade</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="dv">23</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>acertos <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="cf">repeat</span> {</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  i <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  bdays <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">365</span>, r, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  acertos <span class="ot">&lt;-</span> acertos <span class="sc">+</span> <span class="fu">as.integer</span>(<span class="fu">any</span>(<span class="fu">duplicated</span>(bdays)))</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (i <span class="sc">&gt;=</span> B) <span class="cf">break</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>p_hat <span class="ot">&lt;-</span> acertos <span class="sc">/</span> B</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>p_hat</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(u) <span class="dv">100</span><span class="sc">*</span>(<span class="dv">1</span><span class="sc">/</span>u)<span class="sc">-</span><span class="dv">50-50</span><span class="sc">*</span>(<span class="fu">exp</span>(<span class="sc">-</span>u)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">exp</span>(<span class="sc">-</span>u)))</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">uniroot</span>(f, <span class="at">interval =</span> <span class="fu">c</span>(<span class="fl">0.001</span>, <span class="dv">5</span>))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.5073</code></pre>
+<pre><code>$root
+[1] 1.593632
+
+$f.root
+[1] -0.0001788499
+
+$iter
+[1] 8
+
+$init.it
+[1] NA
+
+$estim.prec
+[1] 6.103516e-05</code></pre>
 </div>
 </div>
-</section>
-<section id="atividade-problema-do-aniversário-22-jogadores" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="atividade-problema-do-aniversário-22-jogadores">Atividade: Problema do Aniversário (22 jogadores)</h2>
-<p>Nesta motivação consideramos um exemplo discutido em <span class="citation" data-cites="martins_learning_2018">Martins (<a href="#ref-martins_learning_2018" role="doc-biblioref">2018</a>)</span> que é o conhecido e amplamente divulgado problema do aniversário <span class="citation" data-cites="falk_closer_2014">(ver, por exemplo, <a href="#ref-falk_closer_2014" role="doc-biblioref">Falk 2014</a>)</span>. <span class="citation" data-cites="martins_learning_2018">Martins (<a href="#ref-martins_learning_2018" role="doc-biblioref">2018</a>)</span> segue o exemplo de <span class="citation" data-cites="matthews_coincidences_1998">Matthews e Stones (<a href="#ref-matthews_coincidences_1998" role="doc-biblioref">1998</a>)</span>, considerando duas equipes de futebol e, portanto, coincidências de aniversário entre 22 jogadores. <span class="citation" data-cites="martins_learning_2018">Martins (<a href="#ref-martins_learning_2018" role="doc-biblioref">2018</a>)</span> afirma que um resultado positivo importante dessa atividade é a discussão que surgirá naturalmente entre os estudantes, com o professor atuando como mediador. Além disso, os estudantes adoram jogos e a descoberta prática, e a simulação facilita o engajamento nessas atividades, ao mesmo tempo que ilustra resultados que podem ser não intuitivos, bem como teoria geral, como a <strong>Lei dos Grandes Números</strong>.</p>
-<p>Agora iremos considerar o seguinte problema:</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Problema">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<p>A função <code>D</code> é usada para a obtenção de <em>derivadas</em>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemplo 1</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">expression</span>(x<span class="sc">^</span><span class="dv">4</span>, <span class="st">"x"</span>)   </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> <span class="fu">D</span>(f, <span class="st">"x"</span>);d1  <span class="co"># primeira derivada</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>4 * x^3</code></pre>
 </div>
-<div class="callout-title-container flex-fill">
-Problema
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Em uma partida de futebol, qual é a probabilidade de que pelo menos dois dos 22 jogadores façam aniversário no mesmo dia?</p>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> <span class="fu">D</span>(d1, <span class="st">"x"</span>);d2 <span class="co"># segunda derivada</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>4 * (3 * x^2)</code></pre>
 </div>
 </div>
-<p>Em um pais chamado de país do futebol, o contexto é proposital: o futebol é popular e as probabilidades resultantes são contraintuitivas. Antes de qualquer cálculo, considere as hipóteses: (i) todos os 365 dias do ano são igualmente prováveis para qualquer aniversário; (ii) as datas de aniversário dos jogadores são independentes entre si.</p>
-<p><strong>Objetivos</strong></p>
-<ul>
-<li><p>Estimar, via simulação, a probabilidade de coincidência de aniversários.</p></li>
-<li><p>Relacionar frequência relativa, Lei dos Grandes Números e variação amostral.</p></li>
-<li><p>Comparar o resultado exato e aproximado.</p></li>
-</ul>
-<p><strong>Hipóteses</strong></p>
-<ul>
-<li>365 dias equiprováveis, datas independentes, ignorar bissexto/gêmeos.</li>
-</ul>
-<p><strong>Materiais</strong></p>
-<ul>
-<li>R (ou Posit Cloud), roteiro com comandos <code>sample()</code>, <code>table()</code>, <code>mean()</code>.</li>
-</ul>
-</section>
-<section id="exercícios" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="exercícios">Exercícios</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemplo 2 </span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>f  <span class="ot">&lt;-</span> <span class="fu">expression</span>(<span class="dv">100</span><span class="sc">*</span><span class="fu">log</span>(u) <span class="sc">-</span> <span class="dv">50</span><span class="sc">*</span>u<span class="dv">-50</span><span class="sc">*</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">exp</span>(<span class="sc">-</span>u)))</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> <span class="fu">D</span>(f, <span class="st">"u"</span>);d1  <span class="co"># primeira derivada</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>100 * (1/u) - 50 - 50 * (exp(-u)/(1 - exp(-u)))</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> <span class="fu">D</span>(d1, <span class="st">"u"</span>);d2 <span class="co"># segunda derivada</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>-(100 * (1/u^2) - 50 * (exp(-u)/(1 - exp(-u)) + exp(-u) * exp(-u)/(1 - 
+    exp(-u))^2))</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemplo 3: função para derivadas de ordem n</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>Dn <span class="ot">&lt;-</span> <span class="cf">function</span>(expressao, variavel, <span class="at">ordem =</span> <span class="dv">1</span>) {</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(ordem <span class="sc">&lt;</span> <span class="dv">1</span>) <span class="fu">stop</span>(<span class="st">"ordem deve ser &gt;= 1"</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> <span class="cf">if</span>(ordem <span class="sc">==</span> <span class="dv">1</span>) <span class="fu">D</span>(expressao, variavel)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> <span class="fu">Dn</span>(<span class="fu">D</span>(expressao, variavel), variavel, ordem <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="fu">Dn</span>(<span class="fu">expression</span>(x<span class="sc">^</span><span class="dv">4</span>), <span class="st">"x"</span>, <span class="dv">1</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>4 * x^3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Dn</span>(<span class="fu">expression</span>(x<span class="sc">^</span><span class="dv">4</span>), <span class="st">"x"</span>, <span class="dv">2</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>4 * (3 * x^2)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Dn</span>(<span class="fu">expression</span>(x<span class="sc">^</span><span class="dv">4</span>), <span class="st">"x"</span>, <span class="dv">3</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>4 * (3 * (2 * x))</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemplo 4: implementando o método de Newton</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>f  <span class="ot">&lt;-</span> <span class="cf">function</span>(u) <span class="dv">100</span><span class="sc">*</span><span class="fu">log</span>(u)<span class="sc">-</span><span class="dv">50</span><span class="sc">*</span>u<span class="dv">-50</span><span class="sc">*</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">exp</span>(<span class="sc">-</span>u))</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> <span class="cf">function</span>(u) (<span class="dv">100</span><span class="sc">/</span>u)<span class="sc">-</span><span class="dv">50</span><span class="sc">-</span>(<span class="dv">50</span><span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>u))<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">exp</span>(<span class="sc">-</span>u))</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> <span class="cf">function</span>(u) <span class="sc">-</span>(<span class="dv">100</span><span class="sc">/</span>u<span class="sc">^</span><span class="dv">2</span>)<span class="sc">-</span>(<span class="dv">50</span><span class="sc">*</span><span class="fu">exp</span>(u))<span class="sc">/</span>(<span class="fu">exp</span>(u)<span class="sc">-</span><span class="dv">1</span>)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># estimativa/chute inicial </span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>dif <span class="ot">&lt;-</span> <span class="dv">1</span>; i <span class="ot">&lt;-</span> <span class="dv">2</span>; f.max <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (dif <span class="sc">&gt;</span> <span class="fl">0.00001</span>) {</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  u[i] <span class="ot">&lt;-</span> u[i<span class="dv">-1</span>] <span class="sc">-</span> <span class="fu">d1</span>(u[i<span class="dv">-1</span>])<span class="sc">/</span><span class="fu">d2</span>(u[i<span class="dv">-1</span>])</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  dif <span class="ot">&lt;-</span> <span class="fu">abs</span>(u[i] <span class="sc">-</span> u[i<span class="dv">-1</span>])</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  f.max <span class="ot">&lt;-</span> <span class="fu">f</span>(u[i])</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  i <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>u[i<span class="dv">-1</span>]</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.593615</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>f.max</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -21.72331</code></pre>
+</div>
+</div>
+<p>Considere que <span class="math inline">\(\hat\theta\)</span>, o estimador de máxima verossimilhança do parâmetro <span class="math inline">\(\theta\)</span>, pode ser obtido de <span class="math inline">\(U(\theta)=0\)</span>, ou seja, <span class="math inline">\(\hat\theta\)</span> é a raiz dessa equação. Portanto, o procedimento de Newton se estabelece fazendo <span class="math inline">\(g(\theta)=U(\theta)\)</span> e <span class="math inline">\(g'(\theta)=U'(\theta)=-I(\theta)\)</span> e é dado por</p>
+<p><span class="math display">\[\theta_{i+1}  =  \theta_i + \dfrac{U(\theta_i)}{I(\theta_i)},\quad i=0,1,2,\ldots \]</span> Quando <span class="math inline">\(\theta_{i+1}\approx\theta_i\)</span>, o estimador de máxima verossimilhança será <span class="math inline">\(\hat\theta=\theta_{i}\)</span>.</p>
+<p>Observações:</p>
 <ol type="1">
-<li><p>Determinar o menor número de pessoas que deve estar em uma sala para que se possa apostar, com mais de 50% de chance de ganhar, que entre elas existam pelo menos duas com o mesmo aniversário.</p></li>
-<li><p>Determinar o menor número de outras pessoas que deve estar em uma sala com você para que se possa apostar, com mais de 50% de chance de ganhar, que pelo menos uma delas tenha o mesmo aniversário que o seu.</p></li>
+<li>Com bons chutes iniciais, 3 ou 4 iterações são suficientes para a convergência. Isso se deve ao fato de que para grandes amostras, <span class="math inline">\(U(\theta)\)</span> é próxima da linearidade em <span class="math inline">\(\theta\)</span>.</li>
+<li>Se <span class="math inline">\(U(\theta)\)</span> é exatamente linear em <span class="math inline">\(\theta\)</span>, o método produz <span class="math inline">\(\hat\theta\)</span> em uma única iteração.</li>
+<li>Se <span class="math inline">\(U(\theta)=0\)</span> tem mais de uma raiz, o método não necessariamente converge para a raiz desejada. Dificuldades também surgem se o máximo ocorre no limite ou próximo a um limite do espaço paramétrico. Sugere-se examinar o gráfico de <span class="math inline">\(l(\theta)\)</span> antes de aplicar o método de Newton.</li>
 </ol>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
-<div id="ref-falk_closer_2014" class="csl-entry" role="listitem">
-Falk, Ruma. 2014. <span>“A Closer Look at the Notorious Birthday Coincidences”</span>. <em>Teaching Statistics</em> 36 (2): 41–46. <a href="https://doi.org/10.1111/test.12014">https://doi.org/10.1111/test.12014</a>.
-</div>
-<div id="ref-martins_learning_2018" class="csl-entry" role="listitem">
-Martins, Rui Manuel Da Costa. 2018. <span>“Learning the Principles of Simulation Using the Birthday Problem”</span>. <em>Teaching Statistics</em> 40 (3): 108–11. <a href="https://doi.org/10.1111/test.12164">https://doi.org/10.1111/test.12164</a>.
-</div>
-<div id="ref-matthews_coincidences_1998" class="csl-entry" role="listitem">
-Matthews, Robert, e Fiona Stones. 1998. <span>“Coincidences: the truth is out there”</span>. <em>Teaching Statistics</em> 20 (1): 17–19. https://doi.org/<a href="https://doi.org/10.1111/j.1467-9639.1998.tb00752.x">https://doi.org/10.1111/j.1467-9639.1998.tb00752.x</a>.
-</div>
-</div>
 </section>
 
 </main> <!-- /main -->
@@ -865,13 +870,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./revisaoR.html" class="pagination-link" aria-label="Uma pequena introdução ao R">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Uma pequena introdução ao R</span></span>
+      <a href="./pseudo.html" class="pagination-link" aria-label="Números Pseudoaleatórios - Caso Discreto">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Números Pseudoaleatórios - Caso Discreto</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./summary.html" class="pagination-link" aria-label="Números Uniformes">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Números Uniformes</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./mc.html" class="pagination-link" aria-label="Métodos de Monte Carlo">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Métodos de Monte Carlo</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

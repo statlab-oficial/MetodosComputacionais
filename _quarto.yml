@@ -17,9 +17,11 @@ book:
     - intro.qmd
     - summary.qmd
     - pseudo.qmd
-    #- otimizaca.qmd
-    #- boot.qmd
-    #- mc.qmd
+    #- pseudo_cont.qmd
+    - otimizaca.qmd
+    - mc.qmd
+    - boot.qmd
+    
     #- em.qmd
     #- metodosadicionais.qmd
     - references.qmd

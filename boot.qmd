@@ -4,81 +4,67 @@
 
 ### Introdução
 
-Bootstrap é um método (computacional) de reamostragem baseado em subamostras de
-uma amostra observada, sendo introduzido por Efron (1979). Pode ser utilizado com o
-propósito de estimar erros padrão, viés de estimadores, construir intervalos de 
-confiança, testes de hipóteses, entre outros. Pode ser utilizando sob duas abordagens:
-**paramétrica** e **não paramétrica**. A abordagem paramétrica exige um modelo estatística, enquanto que na abordagem não paramétrica não há suposição de modelo estatístico; toma-se por base uma distribuição empírica que atribui probabilidade $1/n$ para cada um dos $n$ elementos da amostra. Algumas referências importantes neste tema são: Efron (1979),  Wu (1986), Fisher $\&$ Hall (1989),  Fredman (1986), Efron $\&$ Tibshirani (1993), Horowitz (1997), Davison $\&$ Hinkley (1997).
-
+Bootstrap é um método (computacional) de reamostragem baseado em subamostras de uma amostra observada, sendo introduzido por Efron (1979). Pode ser utilizado com o propósito de estimar erros padrão, viés de estimadores, construir intervalos de confiança, testes de hipóteses, entre outros. Pode ser utilizando sob duas abordagens: **paramétrica** e **não paramétrica**. A abordagem paramétrica exige um modelo estatística, enquanto que na abordagem não paramétrica não há suposição de modelo estatístico; toma-se por base uma distribuição empírica que atribui probabilidade $1/n$ para cada um dos $n$ elementos da amostra. Algumas referências importantes neste tema são: Efron (1979), Wu (1986), Fisher $\&$ Hall (1989), Fredman (1986), Efron $\&$ Tibshirani (1993), Horowitz (1997), Davison $\&$ Hinkley (1997).
 
 ### Acurária da média amostral
 
 Experimento com 16 ratos, divididos em dois grupos: um grupo recebeu o tratamento e um outro grupo não recebeu o tratamento (controle). O tempo de sobrevivência (dias) é apresentado para cada um dos ratos. O tratamento prolonga a vida?
 
-
-| grupo          | tempo 1 | tempo 2 | tempo 3 | n  | média  | $\widehat{ep}$(média) |
-|----------------|---------|---------|---------|----|--------|------------------------|
-| tratamento (X) | 94      | 197     | 16      | 7  | 86,86  | 25,24                 |
-|                | 38      | 99      | 141     |    |        |                        |
-|                | 23      |         |         |    |        |                        |
-| controle (Y)   | 52      | 104     | 146     | 9  | 56,22  | 14,14                 |
-|                | 10      | 51      | 30      |    |        |                        |
-|                | 40      | 27      | 46      |    |        |                        |
-| diferença      |         |         |         |    | 30,63  | 28,93                 |
+| grupo          | tempo 1 | tempo 2 | tempo 3 | n   | média | $\widehat{ep}$(média) |
+|----------------|---------|---------|---------|-----|-------|-----------------------|
+| tratamento (X) | 94      | 197     | 16      | 7   | 86,86 | 25,24                 |
+|                | 38      | 99      | 141     |     |       |                       |
+|                | 23      |         |         |     |       |                       |
+| controle (Y)   | 52      | 104     | 146     | 9   | 56,22 | 14,14                 |
+|                | 10      | 51      | 30      |     |       |                       |
+|                | 40      | 27      | 46      |     |       |                       |
+| diferença      |         |         |         |     | 30,63 | 28,93                 |
 
 Alguns pontos importantes são:
 
-- A resposta à pergunta dependerá de quão acurado(s) é(são) o(s) estimador(es).
+-   A resposta à pergunta dependerá de quão acurado(s) é(são) o(s) estimador(es).
 
-- O erro padrão é uma medida (muito usual) de acurácia de estimador.
+-   O erro padrão é uma medida (muito usual) de acurácia de estimador.
 
-- erro padrão estimado para a média amostral $\bar{X}$ $$\widehat{ep}(\bar{X})=\sqrt{\dfrac{s^2}{n}},$$ em que 
-$s^2=\sum_{i=1}^n(x_i-\bar{x})^2/(n-1)$.
+-   erro padrão estimado para a média amostral $\bar{X}$ $$\widehat{ep}(\bar{X})=\sqrt{\dfrac{s^2}{n}},$$ em que $s^2=\sum_{i=1}^n(x_i-\bar{x})^2/(n-1)$.
 
-- erro padrão de qualquer estimador é definido pela raiz quadrada de sua variância
+-   erro padrão de qualquer estimador é definido pela raiz quadrada de sua variância
 
 Além disso, temos que:
 
-- erro padrão pequeno $\longrightarrow$ acurácia alta
+-   erro padrão pequeno $\longrightarrow$ acurácia alta
 
-- erro padrão grande  $\longrightarrow$ acurácia baixa
+-   erro padrão grande $\longrightarrow$ acurácia baixa
 
-- acurácia alta (baixa) indica que o estimador apresenta valores próximos (distantes) ao seu valor esperado
+-   acurácia alta (baixa) indica que o estimador apresenta valores próximos (distantes) ao seu valor esperado
 
+-   espera-se que 68$\%$ dos valores do estimador estejam a menos de um erro padrão do seu valor esperado, e 95$\%$, a menos de dois erros padrões
 
-- espera-se que 68$\%$ dos valores do estimador estejam  a menos de um erro padrão do seu valor esperado, e 95$\%$, a menos de dois erros padrões 
-
-
-- erro padrão da diferença $(\bar{X}-\bar{Y})$:
-$$28.93=\sqrt{25.24^2+14.14^2}.$$
-
+-   erro padrão da diferença $(\bar{X}-\bar{Y})$: $$28.93=\sqrt{25.24^2+14.14^2}.$$
 
 **Resposta à pergunta:** a diferença observada 30.63 é somente 30.63/28.93=1.05 erros padrões (estimados) maior que zero, indicando um resultado não significativo, ou seja, o tratamento não aumenta o tempo médio de vida (considerando a teoria dos testes de hipóteses).
 
 O erro padrão para o estimador média amostral apresenta fórmula conhecida, mas há casos em que não dispomos de fórmulas. Suponha que haja interesse em comparar os dois grupos de ratos em relação aos tempos medianos. Temos: md(X)=94 e md(Y)=46. A diferença é 48, maior que a diferença para as médias. Com base na mediana, o tratamento prolonga a vida?
 
-
 ### Estimativa bootstrap do erro padrão
 
 Considerações:
 
-- $\underset{\sim}{x} = (x_1,\,x_2\,\ldots,\,x_n)$: vetor de dados observado (amostra original de tamanho $n$)
+-   $\underset{\sim}{x} = (x_1,\,x_2\,\ldots,\,x_n)$: vetor de dados observado (amostra original de tamanho $n$)
 
-- $s(\underset{\sim}{x})$: estatística de interesse (por exemplo, média amostral)
+-   $s(\underset{\sim}{x})$: estatística de interesse (por exemplo, média amostral)
 
-- Uma amostra bootstrap $\underset{\sim}{x}^*=(x_1^*, x_2^*, \ldots, x_n^*)$ é obtida pela amostragem aleatória de tamanho $n$, com reposição, de $\underset{\sim}{x}$. Por exemplo, com $n=7$, poderíamos obter $\underset{\sim}{x}^*=(x_1^*, x_2^*, \ldots, x_n^*)=(x_5, x_7, x_5, x_4, x_7, x_3, x_1)$.
-
+-   Uma amostra bootstrap $\underset{\sim}{x}^*=(x_1^*, x_2^*, \ldots, x_n^*)$ é obtida pela amostragem aleatória de tamanho $n$, com reposição, de $\underset{\sim}{x}$. Por exemplo, com $n=7$, poderíamos obter $\underset{\sim}{x}^*=(x_1^*, x_2^*, \ldots, x_n^*)=(x_5, x_7, x_5, x_4, x_7, x_3, x_1)$.
 
 **O algoritmo bootstrap**
 
-- gerar $B$ amostras bootstrap independentes: $\underset{\sim}{x}^{*^{1}}, \underset{\sim}{x}^{*^{2}}, \ldots, \underset{\sim}{x}^{*^{B}},$ cada uma de tamanho $n$ e $50 \leq B \leq 200$. 
+-   gerar $B$ amostras bootstrap independentes: $\underset{\sim}{x}^{*^{1}}, \underset{\sim}{x}^{*^{2}}, \ldots, \underset{\sim}{x}^{*^{B}},$ cada uma de tamanho $n$ e $50 \leq B \leq 200$.
 
-- calcular $s(\underset{\sim}{x}^{*^{b}})$, $b=1, 2, \ldots, B$. $s(\underset{\sim}{x}^{*^{b}})$ é denominada réplica bootstrap de $s(\underset{\sim}{x})$
+-   calcular $s(\underset{\sim}{x}^{*^{b}})$, $b=1, 2, \ldots, B$. $s(\underset{\sim}{x}^{*^{b}})$ é denominada réplica bootstrap de $s(\underset{\sim}{x})$
 
-- calcular $\hat{ep}_{boot}=\hat{ep}_{B}=\sqrt{ \dfrac{\sum_{b=1}^{B}[s(\underset{\sim}{x}^{*^{b}})-s(.)]^2}{B-1}},$em que $s(.)=\frac{\sum_{b=1}^{B}s(\underset{\sim}{x}^{*^{b}})}{B}$
+-   calcular $\hat{ep}_{boot}=\hat{ep}_{B}=\sqrt{ \dfrac{\sum_{b=1}^{B}[s(\underset{\sim}{x}^{*^{b}})-s(.)]^2}{B-1}},$em que $s(.)=\frac{\sum_{b=1}^{B}s(\underset{\sim}{x}^{*^{b}})}{B}$
 
-
-Sintaxe do `R` para calcular a estimativa bootstrap do erro padrão da média do tempo de sobrevida dos ratos do grupo tratamento. 
+Sintaxe do `R` para calcular a estimativa bootstrap do erro padrão da média do tempo de sobrevida dos ratos do grupo tratamento.
 
 ```{r}
 set.seed(1234)
@@ -96,41 +82,44 @@ for(i in 1:B){
 ep <-  sd(s); ep
 ```
 
-
-Estimativas bootstrap do erro padrão da média e da mediana do tempo de sobrevivência dos ratos do grupo tratamento.
-A mediana é menos acurada (erros padrões maiores) que a média para esse conjunto de dados.
-
+Estimativas bootstrap do erro padrão da média e da mediana do tempo de sobrevivência dos ratos do grupo tratamento. A mediana é menos acurada (erros padrões maiores) que a média para esse conjunto de dados.
 
 | $B$     | 50    | 100   | 250   | 500   | 1000  | $\infty$ |
 |---------|-------|-------|-------|-------|-------|----------|
 | média   | 19.72 | 23.63 | 22.32 | 23.79 | 23.02 | 23.36    |
 | mediana | 32.21 | 36.35 | 34.46 | 36.72 | 36.48 | 37.83    |
 
-
 Formalização:
 
-- $\underset{\sim}{X} = X_1, X_2,\dots, X_n$: amostra aleatória de uma f.d.a. $F$
-- $\underset{\sim}{x} = (x_1, x_2,\ldots, x_n)$: amostra aleatória observada de $F$
-- $\Theta=t(F)$: parâmetro ($\Theta$ uma função de $F$)
-- $\hat{\Theta}=s(\underset{\sim}{X})$: estimador para $\Theta$
-- $\hat{\theta}=s(\underset{\sim}{x})$: estimativa para $\Theta$
-- Quão acurado é o estimador $\hat{\Theta}$?
-- Seja $\hat{F}$ a distribuição empírica que atribui a probabilidade $1/n$ para cada valor observado $x_i$, $i=1,2,\ldots, n$. A amostra bootstrap $\underset{\sim}{x}^*$ é definida como a amostra aleatória com reposição de tamanho $n$ extraída de $\hat{F}$.
-$$\underset{\sim}{x}^*=(x_1^*,\,x_2^*\,\ldots,\,x_n^*)$$
-$$\hat{F}\longrightarrow (x_1^*,\,x_2^*\,\ldots,\,x_n^*)$$
-**Nota:**
+-   $\underset{\sim}{X} = X_1, X_2,\dots, X_n$: amostra aleatória de uma f.d.a. $F$
 
+-   $\underset{\sim}{x} = (x_1, x_2,\ldots, x_n)$: amostra aleatória observada de $F$
 
-- $\underset{\sim}{x}^*$: o símbolo $*$ indica que a amostra não é a original $\underset{\sim}{x}$, mas uma versão aleatorizada(reamostrada) de  $\underset{\sim}{x}$
-- a cada amostra bootstrap corresponde uma réplica bootstrap de $\hat\theta$,  $\hat\theta^* =s(\underset{\sim}{x}^*)$
-- $ep_F(\hat\Theta)$ é estimado por $ep_{\hat{F}}(\hat\Theta^*)$, chamado \textbf{estimador bootstrap ideal} para o erro padrão $\hat\Theta$
-- Raramente faz-se necessário $B\geq 200$ para estimar erro padrão; valores (muito) maiores são necessários, por exemplo, para IC bootstrap.
+-   $\Theta=t(F)$: parâmetro ($\Theta$ uma função de $F$)
 
-- $\displaystyle\lim_{B \to \infty} \hat{ep}_B=ep_{\hat{F}}=ep_{\hat{F}}(\hat\Theta^*)$ 
-- O estimador bootstrap ideal  $ep_{\hat{F}}(\hat\Theta^*)$ e sua aproximação $\hat{ep}_B$ são chamados **estimadores bootstrap não-paramétricos**, pois baseiam-se em $\hat{F}$, o estimador não-paramétrico de $F$.
-- total de amostras bootstrap distintas (combinação com repetição): 
-$$\binom{2n -1}{n}.$$
-- No `R`: ver as funções `factorial()`, `choose()`, `combn()`, `combinations()`.
+-   $\hat{\Theta}=s(\underset{\sim}{X})$: estimador para $\Theta$
+
+-   $\hat{\theta}=s(\underset{\sim}{x})$: estimativa para $\Theta$
+
+-   Quão acurado é o estimador $\hat{\Theta}$?
+
+-   Seja $\hat{F}$ a distribuição empírica que atribui a probabilidade $1/n$ para cada valor observado $x_i$, $i=1,2,\ldots, n$. A amostra bootstrap $\underset{\sim}{x}^*$ é definida como a amostra aleatória com reposição de tamanho $n$ extraída de $\hat{F}$. $$\underset{\sim}{x}^*=(x_1^*,\,x_2^*\,\ldots,\,x_n^*)$$ $$\hat{F}\longrightarrow (x_1^*,\,x_2^*\,\ldots,\,x_n^*)$$ **Nota:**
+
+-   $\underset{\sim}{x}^*$: o símbolo $*$ indica que a amostra não é a original $\underset{\sim}{x}$, mas uma versão aleatorizada(reamostrada) de $\underset{\sim}{x}$
+
+-   a cada amostra bootstrap corresponde uma réplica bootstrap de $\hat\theta$, $\hat\theta^* =s(\underset{\sim}{x}^*)$
+
+-   $ep_F(\hat\Theta)$ é estimado por $ep_{\hat{F}}(\hat\Theta^*)$, chamado \textbf{estimador bootstrap ideal} para o erro padrão $\hat\Theta$
+
+-   Raramente faz-se necessário $B\geq 200$ para estimar erro padrão; valores (muito) maiores são necessários, por exemplo, para IC bootstrap.
+
+-   $\displaystyle\lim_{B \to \infty} \hat{ep}_B=ep_{\hat{F}}=ep_{\hat{F}}(\hat\Theta^*)$
+
+-   O estimador bootstrap ideal $ep_{\hat{F}}(\hat\Theta^*)$ e sua aproximação $\hat{ep}_B$ são chamados **estimadores bootstrap não-paramétricos**, pois baseiam-se em $\hat{F}$, o estimador não-paramétrico de $F$.
+
+-   total de amostras bootstrap distintas (combinação com repetição): $$\binom{2n -1}{n}.$$
+
+-   No `R`: ver as funções `factorial()`, `choose()`, `combn()`, `combinations()`.
 
 #### Exemplo
 
@@ -147,45 +136,35 @@ Dados de faculdades americanas de direito. População: $N=82$ faculdades. Amost
 | 7      | 555  | 3,00 | 15     | 594  | 2,96 |
 | 8      | 661  | 3,43 |        |      |      |
 
-- Façamos $Y$=LSAT e $Z$=GPA. A estatística (estimador) de interesse é o coeficiente de correlação amostral entre as variáveis $Y$ e $Z$: 
-$$\hat{\Theta}=corr(Y,Z)=\dfrac{Cov(Y,Z)}{DP(Y).DP(Z)}=\dfrac{\sum_{i=1}^n(Y_i-\bar{Y})(Z_i-\bar{Z})/n}{DP(Y).DP(Z)}$$
+-   Façamos $Y$=LSAT e $Z$=GPA. A estatística (estimador) de interesse é o coeficiente de correlação amostral entre as variáveis $Y$ e $Z$: $$\hat{\Theta}=corr(Y,Z)=\dfrac{Cov(Y,Z)}{DP(Y).DP(Z)}=\dfrac{\sum_{i=1}^n(Y_i-\bar{Y})(Z_i-\bar{Z})/n}{DP(Y).DP(Z)}$$
 
-- Para os dados observados, a estimativa do coeficiente de correlação amostral é  0.776. Quão acurado é o estimador?
-
-: **Estimativas bootstrap do erro padrão para $\hat{\Theta} = corr(Y,Z)$**
+-   Para os dados observados, a estimativa do coeficiente de correlação amostral é 0.776. Quão acurado é o estimador?
 
 | $B$          | 25    | 50    | 100   | 200   | 400   | 800   | 1600  | 3200  |
 |--------------|-------|-------|-------|-------|-------|-------|-------|-------|
 | $\hat{ep}_B$ | 0,140 | 0,142 | 0,151 | 0,143 | 0,141 | 0,137 | 0,133 | 0,132 |
 
-::: {.callout-note}
+: **Estimativas bootstrap do erro padrão para** $\hat{\Theta} = corr(Y,Z)$
+
+::: callout-note
 No caso de valores extremos inflacionarem fortemente $\hat{ep}_B$, uma medida mais robusta para o estimador bootstrap do erro padrão é desejável. (ver Efron $\&$ Tibshirani (1993)).
 :::
 
-
-::: {.callout-note}
-Inferências baseadas na distribuição normal são "questionáveis" quando o histograma das réplicas bootstrap indica forte assimetria. 
+::: callout-note
+Inferências baseadas na distribuição normal são "questionáveis" quando o histograma das réplicas bootstrap indica forte assimetria.
 :::
 
+#### Exercícios:
 
+(1) Considere $B = 3200$. Para cada uma das 3200 amostras bootstrap, obtenha a réplica bootstrap $\hat{\theta}^*=corr(y^*,z^*)$. Faça o histograma das réplicas.
 
-#### Exercícios: 
-
-(1) Considere $B = 3200$. Para cada uma das 3200 amostras bootstrap, obtenha a réplica bootstrap $\hat{\theta}^*=corr(y^*,z^*)$. Faça o histograma das réplicas. 
-
-(2) A Tabela 3.2, p. 21 do livro texto, apresenta os dados populacionais das 82 faculdades. Selecione 3200 amostras aleatórias de tamanho $n = 15$. Para cada uma dessas amostra calcule o coeficiente de correlação e faça o histograma.   
-
-
-
+(2) A Tabela 3.2, p. 21 do livro texto, apresenta os dados populacionais das 82 faculdades. Selecione 3200 amostras aleatórias de tamanho $n = 15$. Para cada uma dessas amostra calcule o coeficiente de correlação e faça o histograma.
 
 ### Bootstrap Paramétrico
 
-O estimador bootstrap paramétrico do erro padrão é definido por $$ep_{\hat{F}_{par}}(\hat\Theta^*),$$
-em que $\hat{F}_{par}$ é um estimador de $F$ derivado do modelo paramétrico para os dados.
+O estimador bootstrap paramétrico do erro padrão é definido por $$ep_{\hat{F}_{par}}(\hat\Theta^*),$$ em que $\hat{F}_{par}$ é um estimador de $F$ derivado do modelo paramétrico para os dados.
 
-
-Para os dados das faculdades: Vamos supor que a população (LSAT, GPA) possa ser descrita por um modelo paramétrico normal bivariado $F$. Estimamos $F$ por $\hat{F}_{normal}$, que denota a f.d.a. de uma normal bivariada com vetor de médias e matriz de covariâncias  $(\bar{y},\bar{z})$ e 
-$\dfrac{1}{14}\left(
+Para os dados das faculdades: Vamos supor que a população (LSAT, GPA) possa ser descrita por um modelo paramétrico normal bivariado $F$. Estimamos $F$ por $\hat{F}_{normal}$, que denota a f.d.a. de uma normal bivariada com vetor de médias e matriz de covariâncias $(\bar{y},\bar{z})$ e $\dfrac{1}{14}\left(
 \begin{array}{ll}
 \sum(y_i-\bar{y})^2            &  \sum(y_i-\bar{y})(z_i-\bar{z}) \\
 \sum(y_i-\bar{y})(z_i-\bar{z}) &  \sum(z_i-\bar{z})^2  \\
@@ -196,29 +175,26 @@ O estimador bootstrap paramétrico do erro padrão da correlação $\hat{\Theta}
 
 **O algoritmo bootstrap:**
 
-- extrair $B$ amostras de tamanho $n$ de $\hat{F}_{par}$: $\underset{\sim}{x}^{*^{1}}, \underset{\sim}{x}^{*^{2}}, \ldots, \underset{\sim}{x}^{*^{B}}$
-- calcular $s(\underset{\sim}{x}^{*^{b}})$, $b=1, 2, \ldots, B$. $s(\underset{\sim}{x}^{*^{b}})$ é a réplica bootstrap de $s(\underset{\sim}{x})$
-- calcular $\hat{ep}_{boot}=\hat{ep}_{B}=\sqrt{ \dfrac{\sum_{b=1}^{B}[s(\underset{\sim}{x}^{*^{b}})-s(.)]^2}{B-1}},$em que $s(.)=\frac{\sum_{b=1}^{B}s(\underset{\sim}{x}^{*^{b}})}{B}$
+-   extrair $B$ amostras de tamanho $n$ de $\hat{F}_{par}$: $\underset{\sim}{x}^{*^{1}}, \underset{\sim}{x}^{*^{2}}, \ldots, \underset{\sim}{x}^{*^{B}}$
+-   calcular $s(\underset{\sim}{x}^{*^{b}})$, $b=1, 2, \ldots, B$. $s(\underset{\sim}{x}^{*^{b}})$ é a réplica bootstrap de $s(\underset{\sim}{x})$
+-   calcular $\hat{ep}_{boot}=\hat{ep}_{B}=\sqrt{ \dfrac{\sum_{b=1}^{B}[s(\underset{\sim}{x}^{*^{b}})-s(.)]^2}{B-1}},$em que $s(.)=\frac{\sum_{b=1}^{B}s(\underset{\sim}{x}^{*^{b}})}{B}$
 
 No exemplo das faculdades, assumindo o modelo normal bivariado, extraímos $B$ amostras de tamanho $n=15$ de $\hat{F}_{normal}$, calculamos o coeficiente de correlação para cada amostra e, por fim, calculamos o desvio padrão desses coeficientes de correlação. Usando $B=3200$ encontramos $\hat{ep}_{B}=0.124$, que é próximo ao valor 0.131 obtido com o bootstrap não-paramétrico.
 
 A fórmula teórica para o erro padrão do coeficiente de correlação é $\dfrac{1-\hat{\Theta}^2}{\sqrt{n-3}}$, com $\hat{\Theta}=corr(Y,Z)$. Vimos que $\hat{\theta}=0.776$, o que resulta a estimativa 0.115 para o erro padrão do coeficiente de correlação entre as variáveis $Y$=LSAT e $Z$=GPA.
 
-
-Transformação de Fisher para o coeficiente de correlação $\hat{\Theta}$: $\hat{\zeta}=0.5\log\left(\dfrac{1+\hat{\Theta}}{1-\hat{\Theta}}\right)$. Assim, $\hat{\zeta}$  tem distribuição aproximadamente normal com média $0.5\log\left(\dfrac{1+\Theta}{1-\Theta}\right)$ e variância $\dfrac{1}{n-3}$. O erro padrão para $\hat{\zeta}$ é $\sqrt{\dfrac{1}{n-3}}$. Para o exemplo das faculdades, o valor é $\dfrac{1}{\sqrt{12}}=0.289$.
+Transformação de Fisher para o coeficiente de correlação $\hat{\Theta}$: $\hat{\zeta}=0.5\log\left(\dfrac{1+\hat{\Theta}}{1-\hat{\Theta}}\right)$. Assim, $\hat{\zeta}$ tem distribuição aproximadamente normal com média $0.5\log\left(\dfrac{1+\Theta}{1-\Theta}\right)$ e variância $\dfrac{1}{n-3}$. O erro padrão para $\hat{\zeta}$ é $\sqrt{\dfrac{1}{n-3}}$. Para o exemplo das faculdades, o valor é $\dfrac{1}{\sqrt{12}}=0.289$.
 
 A título de comparação com o procedimento bootstrap, a estatística (estimador) $\hat{\zeta}$ foi estimado em cada uma das $B=3200$ amostras bootstrap. O desvio padrão das réplicas bootstrap resultou 0.290 (muito próximo ao valor teórico 0.289). Histogramas para as correlações $\hat{\theta}^*$e para os $\hat{\zeta}^*$.
 
-
-::: {.callout-important}
-Muitas fórmulas para os erros padrões são aproximações baseadas na teoria normal e isso "explica" os resultados próximos obtidos com o uso do bootstrap paramétrico que extrai amostras a partir da distribuição normal. 
+::: callout-important
+Muitas fórmulas para os erros padrões são aproximações baseadas na teoria normal e isso "explica" os resultados próximos obtidos com o uso do bootstrap paramétrico que extrai amostras a partir da distribuição normal.
 :::
 
 Vantagens do bootstrap sobre os métodos tradicionais:
 
-- **bootstrap não-paramétrico:** não é necessário fazer suposições de modelos paramétricos para a população;
-- **bootstrap paramétrico:** possibilita estimar erros padrões em problemas para os quais não há fórmulas para os erros padrões.
-
+-   **bootstrap não-paramétrico:** não é necessário fazer suposições de modelos paramétricos para a população;
+-   **bootstrap paramétrico:** possibilita estimar erros padrões em problemas para os quais não há fórmulas para os erros padrões.
 
 ## Jackknife
 
@@ -226,63 +202,51 @@ Vantagens do bootstrap sobre os métodos tradicionais:
 
 Jackknife é uma técnica para estimar viés e erro padrão de estimadores. É uma técnica que antecede o bootstrap e foi proposta no trabalho pioneiro Quenouille (1949) para reduzir viés do estimador da correlação serial.
 
-
 **Formalização:**
 
-- $\underset{\sim}{X} = (X_1, X_2, \dots, X_n)$: amostra aleatória de uma f.d.a. $F$
+-   $\underset{\sim}{X} = (X_1, X_2, \dots, X_n)$: amostra aleatória de uma f.d.a. $F$
 
-- $\underset{\sim}{x} = (x_1, x_2, \dots, x_n)$: amostra aleatória observada de $F$
+-   $\underset{\sim}{x} = (x_1, x_2, \dots, x_n)$: amostra aleatória observada de $F$
 
-- $\Theta=t(F)$: parâmetro ($\Theta$ uma função de $F$)
+-   $\Theta=t(F)$: parâmetro ($\Theta$ uma função de $F$)
 
-- $\hat{\Theta}=s(\underset{\sim}{X})$: estimador para $\Theta$
+-   $\hat{\Theta}=s(\underset{\sim}{X})$: estimador para $\Theta$
 
-- $\hat{\theta}=s(\underset{\sim}{x})$: estimativa para $\Theta$
+-   $\hat{\theta}=s(\underset{\sim}{x})$: estimativa para $\Theta$
 
-O jackknife toma como base $n$ amostras de tamanho $n-1$ selecionadas da amostra aleatória observada. A $i$-ésima  amostra jackknife consiste da amostra observada com a $i$-ésima observação removida,  $i=1,2, \ldots, n$: 
-$${\underset{\sim}{x}}_{(i)}=(x_1,x_2,\ldots, x_{i-1},x_{i+1}, \ldots, x_n).$$
+O jackknife toma como base $n$ amostras de tamanho $n-1$ selecionadas da amostra aleatória observada. A $i$-ésima amostra jackknife consiste da amostra observada com a $i$-ésima observação removida, $i=1,2, \ldots, n$: $${\underset{\sim}{x}}_{(i)}=(x_1,x_2,\ldots, x_{i-1},x_{i+1}, \ldots, x_n).$$
 
 ### Estimador do viés
 
-Para cada amostra $i$ jackknife, é obtida a réplica jackknife $\hat{\theta}_{(i)}=s({\underset{\sim}{x}}_{(i)})$ e o estimador jackknife do viés de $\hat{\Theta}$ é dado por:
-$$\widehat{\mbox{viés}}_{jack} =(n-1)( \hat{\Theta}_{(\cdot)} - \hat{\Theta} ),$$
-em que $\hat{\Theta}_{(\cdot)}=\sum_{i=1}^n\dfrac{\hat{\Theta}_{(i)}}{n}$.
-
-
+Para cada amostra $i$ jackknife, é obtida a réplica jackknife $\hat{\theta}_{(i)}=s({\underset{\sim}{x}}_{(i)})$ e o estimador jackknife do viés de $\hat{\Theta}$ é dado por: $$\widehat{\mbox{viés}}_{jack} =(n-1)( \hat{\Theta}_{(\cdot)} - \hat{\Theta} ),$$ em que $\hat{\Theta}_{(\cdot)}=\sum_{i=1}^n\dfrac{\hat{\Theta}_{(i)}}{n}$.
 
 ### Estimado do erro padrão
 
-O estimador jackknife do erro padrão de $\hat{\Theta}$ pode ser escrito da seguinte maneira:
-$$\widehat{ep}_{jack} =\left[ \dfrac{n-1}{n}\sum_{i=1}^n (\hat{\Theta}_{(i)} - \hat{\Theta}_{(\cdot)})^2\right]^{\frac{1}{2}},$$
-em que $\hat{\Theta}_{(\cdot)}=\sum_{i=1}^n\dfrac{\hat{\Theta}_{(i)}}{n}$.
-
+O estimador jackknife do erro padrão de $\hat{\Theta}$ pode ser escrito da seguinte maneira: $$\widehat{ep}_{jack} =\left[ \dfrac{n-1}{n}\sum_{i=1}^n (\hat{\Theta}_{(i)} - \hat{\Theta}_{(\cdot)})^2\right]^{\frac{1}{2}},$$ em que $\hat{\Theta}_{(\cdot)}=\sum_{i=1}^n\dfrac{\hat{\Theta}_{(i)}}{n}$.
 
 Algumas considerações importantes:
 
-- Bootstrap: amostragem aleatória com reposição;
+-   Bootstrap: amostragem aleatória com reposição;
 
-- Jackknife: amostras fixas;
+-   Jackknife: amostras fixas;
 
-- Jackknife requer o cálculo do estimador apenas para $n$ amostras; 
+-   Jackknife requer o cálculo do estimador apenas para $n$ amostras;
 
-- A acurácia do estimador jackknife do erro padrão depende de quão próximo o estimador é da linearidade. Para funções fortemente não lineares, o jackknife pode ser ineficiente;
+-   A acurácia do estimador jackknife do erro padrão depende de quão próximo o estimador é da linearidade. Para funções fortemente não lineares, o jackknife pode ser ineficiente;
 
-- Estimador linear: $\hat{\Theta}=s(\underset{\sim}{X})=\mu +\frac{1}{n}\sum_{i=1}^n\alpha(X_i).$
-
+-   Estimador linear: $\hat{\Theta}=s(\underset{\sim}{X})=\mu +\frac{1}{n}\sum_{i=1}^n\alpha(X_i).$
 
 #### Exemplo
 
 Considere a amostra observada: $\underset{\sim}{x}=(10,26,30,40,48)$ e o estimador: mediana($\hat{\Theta}$). As amostras e réplicas jackknife são dadas, respectivamente, por:
 
-1. ${\underset{\sim}{x}}_{(1)}=(26,30,40,48)$ e  $\hat{\theta}_{(1)}=35;$
-2. ${\underset{\sim}{x}}_{(2)}=(10,30,40,48)$ e $\hat{\theta}_{(2)}=35;$
-3. ${\underset{\sim}{x}}_{(3)}=(10,26,40,48)$ e $\hat{\theta}_{(3)}=33;$
-4. ${\underset{\sim}{x}}_{(4)}=(10,26,30,48)$ e $\hat{\theta}_{(4)}=28;$
-5. ${\underset{\sim}{x}}_{(5)}=(10,26,30,40)$ e $\hat{\theta}_{(5)}=28.$
+1.  ${\underset{\sim}{x}}_{(1)}=(26,30,40,48)$ e $\hat{\theta}_{(1)}=35;$
+2.  ${\underset{\sim}{x}}_{(2)}=(10,30,40,48)$ e $\hat{\theta}_{(2)}=35;$
+3.  ${\underset{\sim}{x}}_{(3)}=(10,26,40,48)$ e $\hat{\theta}_{(3)}=33;$
+4.  ${\underset{\sim}{x}}_{(4)}=(10,26,30,48)$ e $\hat{\theta}_{(4)}=28;$
+5.  ${\underset{\sim}{x}}_{(5)}=(10,26,30,40)$ e $\hat{\theta}_{(5)}=28.$
 
-Desta forma, a estimativa jackknife do erro padrão de $\hat{\Theta}$:
- $$\widehat{ep}_{jack} =\left[ \dfrac{4}{5}\sum_{i=1}^5 (\hat{\theta}_{(i)} - \hat{\theta}_{(\cdot)})^2\right]^{\frac{1}{2}}\approx 6.38,$$
- com $\hat{\theta}_{(\cdot)}=\sum_{i=1}^5\dfrac{\hat{\theta}_{(i)}}{5}=31.8.$
+Desta forma, a estimativa jackknife do erro padrão de $\hat{\Theta}$: $$\widehat{ep}_{jack} =\left[ \dfrac{4}{5}\sum_{i=1}^5 (\hat{\theta}_{(i)} - \hat{\theta}_{(\cdot)})^2\right]^{\frac{1}{2}}\approx 6.38,$$ com $\hat{\theta}_{(\cdot)}=\sum_{i=1}^5\dfrac{\hat{\theta}_{(i)}}{5}=31.8.$
 
 A seguir, a sintaxe do `R` para calcular a estimativa jackknife do erro padrão para a mediana.
 
@@ -300,31 +264,25 @@ ep.jack <- sqrt(((n-1)^2/n)*var(est.jack))
 ep.jack
 ```
 
-
-
 ## Intervalos de Confiança
 
 ::: {.callout-warning title="Notação"}
-- $\underset{\sim}{X} = (X_1, x_2, \dots, X_n)$: amostra aleatória de uma f.d.a. $F$
+-   $\underset{\sim}{X} = (X_1, x_2, \dots, X_n)$: amostra aleatória de uma f.d.a. $F$
 
-- $\underset{\sim}{x} = (x_1, x_2, \dots, x_n)$: amostra aleatória observada de $F$
+-   $\underset{\sim}{x} = (x_1, x_2, \dots, x_n)$: amostra aleatória observada de $F$
 
-- $\Theta=t(F)$: parâmetro ($\Theta$ uma função de $F$)
+-   $\Theta=t(F)$: parâmetro ($\Theta$ uma função de $F$)
 
-- $\hat{\Theta}=s(\underset{\sim}{X})$: estimador para $\Theta$
+-   $\hat{\Theta}=s(\underset{\sim}{X})$: estimador para $\Theta$
 
-- $\hat{\theta}=s(\underset{\sim}{x})$: estimativa para $\Theta$
+-   $\hat{\theta}=s(\underset{\sim}{x})$: estimativa para $\Theta$
 :::
-
 
 ## Intervalos de Confiança Normal Padrão
 
 Suponha que $\hat{\Theta}\sim N(\Theta, ep(\hat{\Theta})^2)$. Portanto, se $ep(\hat{\Theta})$ é conhecido temos que:
 
-$$Z=\dfrac{\hat{\Theta} - \Theta}{ep(\hat\Theta)} \sim N(0,1),$$
-e
-$$IC_z\left(100(1-\alpha)\%,\Theta\right)=\hat{\Theta} \pm z_{\frac{\alpha}{2}}ep(\hat{\Theta}).$$
-
+$$Z=\dfrac{\hat{\Theta} - \Theta}{ep(\hat\Theta)} \sim N(0,1),$$ e $$IC_z\left(100(1-\alpha)\%,\Theta\right)=\hat{\Theta} \pm z_{\frac{\alpha}{2}}ep(\hat{\Theta}).$$
 
 ## Intervalo de Confiança t-Student
 
@@ -336,112 +294,89 @@ e
 
 $$IC_t\left(100(1-\alpha)\%,\Theta\right)=\hat{\Theta} \pm t_{(n-1,\frac{\alpha}{2})}\hat{ep}(\hat{\Theta}).$$
 
-
 ## IC bootstrap-$t$
 
-Agora vamos definir 
+Agora vamos definir
 
-$$Z^{*^b}=\dfrac{ \hat{\Theta}^{*^b} - \hat{\Theta} }{\hat{ep}^{*^b}},$$
-em que $\hat{\Theta}^{*^b}=s(\underset{\sim}{X}^{*^b})$ e $\hat{ep}^{*^b}$ são obtidos para cada amostra bootstrap $\underset{\sim}{x}^*$. O percentil $100 \cdot \alpha$ de $Z^{*^b}$ é estimado pelo valor $\hat{t}^{(\alpha)}$, tal que 
-$$ \#\{Z^{*^b}\leq \hat{t}^{(\alpha)} \}/B=\alpha.$$ 
+$$Z^{*^b}=\dfrac{ \hat{\Theta}^{*^b} - \hat{\Theta} }{\hat{ep}^{*^b}},$$ em que $\hat{\Theta}^{*^b}=s(\underset{\sim}{X}^{*^b})$ e $\hat{ep}^{*^b}$ são obtidos para cada amostra bootstrap $\underset{\sim}{x}^*$. O percentil $100 \cdot \alpha$ de $Z^{*^b}$ é estimado pelo valor $\hat{t}^{(\alpha)}$, tal que $$ \#\{Z^{*^b}\leq \hat{t}^{(\alpha)} \}/B=\alpha.$$
 
 Por exemplo, se $B=100$ e a confiança para o intervalo é de 90$\%$, a estimativa $\hat{t}^{(0.05)}$ será o quinto maior valor de $Z^{*^b}$ e a estimativa $\hat{t}^{(0.95)}$ será o nonagésimo quinto maior valor de $Z^{*^b}$.
 
-
-Este procedimento estima a distribuição de $Z$ (quantidade pivotal) diretamente dos dados. Não é necessário a suposição teórica de normalidade e sua distribuição é a mesma para qualquer \theta.  O intervalo (bilateral) bootstrap-t de confiança $100\times(1-2\alpha)\%$ para o parâmetro $\Theta$, denotado por 
-$IC_t^*\left(100(1-2\alpha)\%,\Theta\right)$, é definido por: 
+Este procedimento estima a distribuição de $Z$ (quantidade pivotal) diretamente dos dados. Não é necessário a suposição teórica de normalidade e sua distribuição é a mesma para qualquer \theta. O intervalo (bilateral) bootstrap-t de confiança $100\times(1-2\alpha)\%$ para o parâmetro $\Theta$, denotado por $IC_t^*\left(100(1-2\alpha)\%,\Theta\right)$, é definido por:
 
 $$ \left[\hat{\Theta} - \hat{t}^{(1-\alpha)}\hat{ep}(\hat{\Theta}), \hat{\Theta} - \hat{t}^{(\alpha)}\hat{ep}(\hat{\Theta})\right].$$ Emprega-se estimativas \textit{plug-in} para $\hat{\Theta}$ e $\hat{ep}(\hat{\Theta})$; não sendo possível, o erro padrão é estimado usando bootstrap ou jackknife.
 
-
-::: {.callout-important}
+::: callout-important
 Se $B\cdot\alpha$ não resultar um número inteiro?
 
-1. Efron $\&$ Tibshirani (1993): supondo $\alpha \leq 0.5$, faça $k=\mbox{Int}[(B+1)\cdot\alpha]$ (o maior inteiro $\leq (B+1)\cdot\alpha$ ) e defina os percentis empíricos de ordem $100\cdot\alpha$ e $100\cdot(1-\alpha)$, respectivamente, pelo $k$-ésimo e $(B+1-k)$-ésimo maiores valores de $Z^{*^b}$.
+1.  Efron $\&$ Tibshirani (1993): supondo $\alpha \leq 0.5$, faça $k=\mbox{Int}[(B+1)\cdot\alpha]$ (o maior inteiro $\leq (B+1)\cdot\alpha$ ) e defina os percentis empíricos de ordem $100\cdot\alpha$ e $100\cdot(1-\alpha)$, respectivamente, pelo $k$-ésimo e $(B+1-k)$-ésimo maiores valores de $Z^{*^b}$.
 
-2.  Davidson $\&$  Hinkley (1997): interpolação dos percentis.
+2.  Davidson $\&$ Hinkley (1997): interpolação dos percentis.
 :::
-
-
 
 ::: {.callout-note title="Considerações"}
-- Este intervalo pode ser fortemente influenciado por poucos valores discrepantes.
+-   Este intervalo pode ser fortemente influenciado por poucos valores discrepantes.
 
-- Em geral, é necessário um valor de $B$ muito superior a 200.
+-   Em geral, é necessário um valor de $B$ muito superior a 200.
 
-- Para grandes amostras, o IC bootstrap-t pode estar mais próximo do nível de cobertura desejado do que os IC Normal ou t-Student.
+-   Para grandes amostras, o IC bootstrap-t pode estar mais próximo do nível de cobertura desejado do que os IC Normal ou t-Student.
 
-- Abaixo, percentis da distribuição $t$-Student com 8 gl, normal padrão e distribuição bootstrap de $Z^{*^b}$ (para o grupo controle no experimento com os ratos; $B=1000$).
+-   Abaixo, percentis da distribuição $t$-Student com 8 gl, normal padrão e distribuição bootstrap de $Z^{*^b}$ (para o grupo controle no experimento com os ratos; $B=1000$).
 :::
 
-
-: Comparação dos percentis de diferentes distribuições.
-
-| percentil   | 5    | 10   | 90   | 95   |
-|-------------|------|------|------|------|
+| percentil   | 5     | 10    | 90   | 95   |
+|-------------|-------|-------|------|------|
 | $t_8$       | -1.86 | -1.40 | 1.40 | 1.86 |
 | Normal      | -1.65 | -1.28 | 1.28 | 1.65 |
 | bootstrap-t | -4.53 | -2.01 | 1.19 | 1.53 |
 
-
+: Comparação dos percentis de diferentes distribuições.
 
 O IC bootstrap-$t$ para $\Theta$ (média do tempo de sobrevivência de ratos não submetidos ao tratamento (grupo controle)):
 
-$$\left[ 56.22-1.53 \times 13.33, \ 56.22+4.53  \times 13.33\right]=\left[35.82, \ 116.74\right],$$
-usado a estimativa \textit{plug-in} para o erro padrão da média.
-
+$$\left[ 56.22-1.53 \times 13.33, \ 56.22+4.53  \times 13.33\right]=\left[35.82, \ 116.74\right],$$ usado a estimativa \textit{plug-in} para o erro padrão da média.
 
 ::: {.callout-tip title="Considerações Finais"}
+-   os valores dos percentis bootstrap-$t$ podem não ser simétricos em relação ao zero.
 
-- os valores dos percentis bootstrap-$t$ podem  não ser simétricos em relação ao zero.
+-   aplicável para estatísticas de localização (média, mediana etc).
 
-- aplicável para estatísticas de localização (média, mediana etc).
+-   Cautela no uso envolvendo pequenas amostras (limites do intervalo fora do espaço paramétrico).
 
-- Cautela no uso envolvendo pequenas amostras (limites do intervalo fora do espaço paramétrico).
-
-- o $IC^*_t$ não é *transformation-respecting* (ver próxima seção)
-
+-   o $IC^*_t$ não é *transformation-respecting* (ver próxima seção)
 :::
-
 
 ### Intervalos de Confiança bootstrap percentil
 
-O intervalo bootstrap percentil de confiança $100(1-2\alpha)\%$, denotado por 
-$IC_p^*\left(100(1-2\alpha)\%,\Theta \right)$,  é definido por 
+O intervalo bootstrap percentil de confiança $100(1-2\alpha)\%$, denotado por $IC_p^*\left(100(1-2\alpha)\%,\Theta \right)$, é definido por
 
-$$\left[ \hat\Theta^{*(\alpha)}, \ \hat\Theta^{*(1-\alpha)}\right],$$
-em que  $\hat\Theta^{*(\alpha)}$ é o percentil de ordem 100$\alpha$ da distribuição bootstrap de $\hat\Theta^*$. Esta definição refere-se a um número infinito de réplicas. 
-
+$$\left[ \hat\Theta^{*(\alpha)}, \ \hat\Theta^{*(1-\alpha)}\right],$$ em que $\hat\Theta^{*(\alpha)}$ é o percentil de ordem 100$\alpha$ da distribuição bootstrap de $\hat\Theta^*$. Esta definição refere-se a um número infinito de réplicas.
 
 Em situações práticas, o intervalo é aproximado com base nos resultados de $B$ réplicas bootstrap:
 
-$$\left[ \hat\Theta_B^{*(\alpha)}, \ \hat\Theta_B^{*(1-\alpha)}\right],$$
-em que $\hat\Theta_B^{*(\alpha)}$ é dado pelo percentil de ordem 100$\alpha$ dos valores de $\hat\theta_B^{*(b)}$, isto é, o $(B\cdot\alpha)$-ésimo valor ordenado da lista das $B$ réplicas de  $\hat\theta_B^{*(b)}$.
+$$\left[ \hat\Theta_B^{*(\alpha)}, \ \hat\Theta_B^{*(1-\alpha)}\right],$$ em que $\hat\Theta_B^{*(\alpha)}$ é dado pelo percentil de ordem 100$\alpha$ dos valores de $\hat\theta_B^{*(b)}$, isto é, o $(B\cdot\alpha)$-ésimo valor ordenado da lista das $B$ réplicas de $\hat\theta_B^{*(b)}$.
 
-
-::: {.callout-note}
+::: callout-note
 Se a distribuição de $\hat\Theta^{*}$ é aproximadamente normal, os intervalos percentil e normal padrão são próximos.
 :::
 
-
 #### Exemplo
 
-Para uma amostra: \va , $n=10$, de uma distribuição (população) normal padrão, considere o parâmetro de interesse $\Theta$. $\Theta=\exp(\mu)$, sendo $\mu=0$. Sendo a estimativa para $\Theta$: $\hat{\theta}=\exp(\bar{x})$. Além disso, use o bootstrap não paramétrico: $B=1000$ réplicas $\hat{\theta}^*$ usando a amostra observada: (1.669, -0.411, -0.322,  0.746, -0.868, -0.874,  1.011, -0.173,  0.021,  1.482). Resultando na estimativa para $\Theta$: $\hat{\theta}=\exp(\bar{x})=1.256$.
+Para uma amostra: \va , $n=10$, de uma distribuição (população) normal padrão, considere o parâmetro de interesse $\Theta$. $\Theta=\exp(\mu)$, sendo $\mu=0$. Sendo a estimativa para $\Theta$: $\hat{\theta}=\exp(\bar{x})$. Além disso, use o bootstrap não paramétrico: $B=1000$ réplicas $\hat{\theta}^*$ usando a amostra observada: (1.669, -0.411, -0.322, 0.746, -0.868, -0.874, 1.011, -0.173, 0.021, 1.482). Resultando na estimativa para $\Theta$: $\hat{\theta}=\exp(\bar{x})=1.256$.
 
-:Percentis de $\hat\theta^*$ com base em 1000 réplicas bootstrap.
+| 2.5% |  5%  | 10%  | 16%  | 50%  | 84%  | 90%  | 95%  | 97.5% |
+|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:-----:|
+| 0.74 | 0.81 | 0.89 | 0.95 | 1.25 | 1.65 | 1.77 | 2.00 | 2.13  |
 
-| 2.5% | 5%  | 10% | 16% | 50% | 84% | 90% | 95% | 97.5% |
-|:----:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:-----:|
-| 0.74 | 0.81 | 0.89 | 0.95 | 1.25 | 1.65 | 1.77 | 2.00 | 2.13 |
+: Percentis de $\hat\theta^*$ com base em 1000 réplicas bootstrap.
 
-
-Desta maneira, temos que 
+Desta maneira, temos que
 
 $$IC_p^*\left(95\%,\Theta\right)=\left[0.74, 2.13\right],$$
 
 e
 
-$$IC_p^*\left(90\%,\Theta\right)=\left[0.81, 2.00\right].$$                                                                                                       
+$$IC_p^*\left(90\%,\Theta\right)=\left[0.81, 2.00\right].$$\
 Abaixo um código `R` para o exemplo.
 
 ```{r}
@@ -462,9 +397,9 @@ sz <- sort(theta)
 rbind(100*alfa, round(sz[c(B*alfa)],2)) 
 ```
 
-Agora iremos considerar outra abordagem. Seja $\Phi=\log(\Theta)$ e  $\hat\Phi=\log(\hat\Theta)=\bar{X}$. Usando $IC_z\left(95\%,\Phi \right)= \hat{\Phi} \pm z_{\frac{\alpha}{2}}\hat{ep}(\hat{\Phi})$, resulta $\left[ 0.228 \pm 1.96 \times 0.28 \right]=\left[-0.32, 0.78\right]$, em que $\hat{ep}(\hat{\Phi})$ é o estimador \textit{plug-in} para o erro padrão de $\hat\Phi$. Fazendo a transformação inversa, o intervalo para $\Theta$ é $\left[0.73, 2.18\right]$. Note que o intervalo percentil para $\Theta$ assemelha-se ao intervalo normal padrão construído para uma transformação  apropriada de $\Theta$ e transformado para a escala de $\Theta$.
+Agora iremos considerar outra abordagem. Seja $\Phi=\log(\Theta)$ e $\hat\Phi=\log(\hat\Theta)=\bar{X}$. Usando $IC_z\left(95\%,\Phi \right)= \hat{\Phi} \pm z_{\frac{\alpha}{2}}\hat{ep}(\hat{\Phi})$, resulta $\left[ 0.228 \pm 1.96 \times 0.28 \right]=\left[-0.32, 0.78\right]$, em que $\hat{ep}(\hat{\Phi})$ é o estimador \textit{plug-in} para o erro padrão de $\hat\Phi$. Fazendo a transformação inversa, o intervalo para $\Theta$ é $\left[0.73, 2.18\right]$. Note que o intervalo percentil para $\Theta$ assemelha-se ao intervalo normal padrão construído para uma transformação apropriada de $\Theta$ e transformado para a escala de $\Theta$.
 
-::: {.callout-important}
+::: callout-important
 **Vantagem do método percentil:** Não é necessário conhecer a transformação (normalizadora). O método percentil incorpora automaticamente a transformação adequada.
 :::
 
@@ -472,33 +407,24 @@ Agora iremos considerar outra abordagem. Seja $\Phi=\log(\Theta)$ e  $\hat\Phi=\
 Suponha a transformação $\hat\Phi=m(\hat\Theta)$ e, consequentemente, $\hat\Phi\sim N(\Phi,c^2)$, para algum erro padrão $c$. Então, o intervalo percentil para $\Theta$ será dado por $$\left[ m^{-1}(\hat\Phi -z_{\frac{\alpha}{2}}.c), m^{-1}(\hat\Phi +z_{\frac{\alpha}{2}}.c)\right].$$
 :::
 
+::: callout-note
+-   Em situações nas quais o uso de IC padrão é adequado$^*$, o IC percentil produz resultados próximos ao do IC padrão.
 
-::: {.callout-note}
-
-- Em situações nas quais o uso de IC padrão é adequado$^*$, o IC percentil produz resultados próximos ao do IC padrão.
-
-- Em situações nas quais o uso do IC padrão é adequado apenas após uma transformação no parâmetro, a aplicaçao do método percentil automaticamente contempla essa transformação.
-
+-   Em situações nas quais o uso do IC padrão é adequado apenas após uma transformação no parâmetro, a aplicaçao do método percentil automaticamente contempla essa transformação.
 :::
-
 
 ::: {.callout-tip title="Considerações Finais"}
+-   Propriedade \textit{transformation-respecting}: o intervalo percentil para qualquer transformação (monotônica) $\Phi=m(\Theta)$ do parâmetro $\Theta$ é dado por $$\left[ m(\hat\Theta^{*(\alpha)}), \ m(\hat\Theta^{*(1-\alpha)}\right].$$
 
-- Propriedade \textit{transformation-respecting}: o intervalo percentil para qualquer transformação (monotônica) $\Phi=m(\Theta)$ do parâmetro $\Theta$ é dado por 
-$$\left[ m(\hat\Theta^{*(\alpha)}), \ m(\hat\Theta^{*(1-\alpha)}\right].$$
+-   A propriedade também é válida para o intervalo aproximado com base nos resultados de $B$ réplicas bootstrap: $$\left[ m(\hat\Theta_B^{*(\alpha)}), \ m(\hat\Theta_B^{*(1-\alpha)})\right].$$
 
-- A propriedade também é válida para o intervalo aproximado com base nos resultados de $B$ réplicas bootstrap:
-$$\left[ m(\hat\Theta_B^{*(\alpha)}), \ m(\hat\Theta_B^{*(1-\alpha)})\right].$$
-
-- Propriedade *range-preserving*: produz intervalos com limites dentro do espaço paramétrico.
+-   Propriedade *range-preserving*: produz intervalos com limites dentro do espaço paramétrico.
 :::
-
 
 ### Intervalos de Confiança bootstrap - versões aprimoradas
 
+O intervalo bootstrap-$t$ apresenta boa probabilidade de cobertura teórica, mas tende a ser irregular na prática. Já o intervalo bootstrap percentil é menos irregular, mas apresenta probabilidade de cobertura menos satisfatória.
 
-O intervalo bootstrap-$t$ apresenta boa probabilidade de cobertura teórica, mas tende a ser irregular na prática. Já o intervalo bootstrap percentil é menos irregular, mas apresenta probabilidade de cobertura menos satisfatória. 
+**Proposta:** intervalo bootstrap $BC_a$ (*bias-corrected and accelerated*) e $ABC$ (*approximate bootstrap confidence*).
 
-**Proposta:** intervalo bootstrap $BC_a$ (*bias-corrected and accelerated*) e $ABC$ (*approximate bootstrap confidence*). 
-
-substancial melhoria na prática e na teoria. correção de viés do estimador. o $ABC$ exige menos esforço computacional do que o $BC_a$ 
+substancial melhoria na prática e na teoria. correção de viés do estimador. o $ABC$ exige menos esforço computacional do que o $BC_a$
