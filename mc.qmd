@@ -45,7 +45,7 @@ $\bar h_n = \frac{1}{n} \sum_{j=1}^n h(x_j).$
 
 ## Convergência (Lei Forte dos Grandes Números)
 
-Se $X_1,\ldots,X_n$ são i.i.d. com média $\mu$,
+Se $X_1,\dots,X_n$ são i.i.d. com média $\mu$,
 
 $$\bar X_n \xrightarrow{qc} \mu.$$
 
@@ -70,10 +70,6 @@ curve(h, from = 0, to = 1)
 $$I = \int_0^\infty e^{-x^2/2} dx,$$ use a transformação $y = \frac{1}{x + 1}$ e obtenha
 
 $$I = \int_0^1 y^{-2} \exp\left\{-\frac{[(1-y)/y]^2}{2}\right\} dy.$$ Daí a segue naturalmente como no caso anterior.
-
-```{r}
-
-```
 
 ### Cálculo de probabilidades via Monte Carlo
 
@@ -216,7 +212,7 @@ Considere o seguinte exemplo de função `fun`, que realiza exatamente as tarefa
 test_func <- function(param1 = 10, param2 = 2, n = 100) {
   data <- rnorm(n, mean = param1, sd = param2)
   stat <- mean(data)
-  stat_2 <- var(data)
+  stat_2 <- sum((data- mean(data))^2)/length(data)
   dev_mu <- stat - param1
   dev_sigma2 <- stat_2 - param2^2
   dev_eqm_mu <- (stat - param1)^2
@@ -275,9 +271,10 @@ A função `plot()` retorna uma lista de objetos das classes `gg` e `ggplot2`. E
 plot(summary(test_mc))
 ```
 
-Para gerar uma tabela em $\LaTeX$ basta:
+Para gerar uma tabela em LaTeX basta:
 
 ```{r}
+#| eval: false
 tidy_mc_latex(
   x = summary(test_mc)
 ) %>% 

@@ -252,7 +252,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#introdução-1" id="toc-introdução-1" class="nav-link" data-scroll-target="#introdução-1"><span class="header-section-number">8.2.1</span> Introdução</a></li>
   <li><a href="#estimador-do-viés" id="toc-estimador-do-viés" class="nav-link" data-scroll-target="#estimador-do-viés"><span class="header-section-number">8.2.2</span> Estimador do viés</a></li>
-  <li><a href="#estimado-do-erro-padrão" id="toc-estimado-do-erro-padrão" class="nav-link" data-scroll-target="#estimado-do-erro-padrão"><span class="header-section-number">8.2.3</span> Estimado do erro padrão</a></li>
+  <li><a href="#estimador-do-erro-padrão" id="toc-estimador-do-erro-padrão" class="nav-link" data-scroll-target="#estimador-do-erro-padrão"><span class="header-section-number">8.2.3</span> Estimador do erro padrão</a></li>
   </ul></li>
   <li><a href="#intervalos-de-confiança" id="toc-intervalos-de-confiança" class="nav-link" data-scroll-target="#intervalos-de-confiança"><span class="header-section-number">8.3</span> Intervalos de Confiança</a></li>
   <li><a href="#intervalos-de-confiança-normal-padrão" id="toc-intervalos-de-confiança-normal-padrão" class="nav-link" data-scroll-target="#intervalos-de-confiança-normal-padrão"><span class="header-section-number">8.4</span> Intervalos de Confiança Normal Padrão</a></li>
@@ -705,8 +705,8 @@ Importante
 <h3 data-number="8.2.2" class="anchored" data-anchor-id="estimador-do-viés"><span class="header-section-number">8.2.2</span> Estimador do viés</h3>
 <p>Para cada amostra <span class="math inline">\(i\)</span> jackknife, é obtida a réplica jackknife <span class="math inline">\(\hat{\theta}_{(i)}=s({\underset{\sim}{x}}_{(i)})\)</span> e o estimador jackknife do viés de <span class="math inline">\(\hat{\Theta}\)</span> é dado por: <span class="math display">\[\widehat{\mbox{viés}}_{jack} =(n-1)( \hat{\Theta}_{(\cdot)} - \hat{\Theta} ),\]</span> em que <span class="math inline">\(\hat{\Theta}_{(\cdot)}=\sum_{i=1}^n\dfrac{\hat{\Theta}_{(i)}}{n}\)</span>.</p>
 </section>
-<section id="estimado-do-erro-padrão" class="level3" data-number="8.2.3">
-<h3 data-number="8.2.3" class="anchored" data-anchor-id="estimado-do-erro-padrão"><span class="header-section-number">8.2.3</span> Estimado do erro padrão</h3>
+<section id="estimador-do-erro-padrão" class="level3" data-number="8.2.3">
+<h3 data-number="8.2.3" class="anchored" data-anchor-id="estimador-do-erro-padrão"><span class="header-section-number">8.2.3</span> Estimador do erro padrão</h3>
 <p>O estimador jackknife do erro padrão de <span class="math inline">\(\hat{\Theta}\)</span> pode ser escrito da seguinte maneira: <span class="math display">\[\widehat{ep}_{jack} =\left[ \dfrac{n-1}{n}\sum_{i=1}^n (\hat{\Theta}_{(i)} - \hat{\Theta}_{(\cdot)})^2\right]^{\frac{1}{2}},\]</span> em que <span class="math inline">\(\hat{\Theta}_{(\cdot)}=\sum_{i=1}^n\dfrac{\hat{\Theta}_{(i)}}{n}\)</span>.</p>
 <p>Algumas considerações importantes:</p>
 <ul>
@@ -786,8 +786,8 @@ Notação
 <p>Agora vamos definir</p>
 <p><span class="math display">\[Z^{*^b}=\dfrac{ \hat{\Theta}^{*^b} - \hat{\Theta} }{\hat{ep}^{*^b}},\]</span> em que <span class="math inline">\(\hat{\Theta}^{*^b}=s(\underset{\sim}{X}^{*^b})\)</span> e <span class="math inline">\(\hat{ep}^{*^b}\)</span> são obtidos para cada amostra bootstrap <span class="math inline">\(\underset{\sim}{x}^*\)</span>. O percentil <span class="math inline">\(100 \cdot \alpha\)</span> de <span class="math inline">\(Z^{*^b}\)</span> é estimado pelo valor <span class="math inline">\(\hat{t}^{(\alpha)}\)</span>, tal que <span class="math display">\[ \#\{Z^{*^b}\leq \hat{t}^{(\alpha)} \}/B=\alpha.\]</span></p>
 <p>Por exemplo, se <span class="math inline">\(B=100\)</span> e a confiança para o intervalo é de 90<span class="math inline">\(\%\)</span>, a estimativa <span class="math inline">\(\hat{t}^{(0.05)}\)</span> será o quinto maior valor de <span class="math inline">\(Z^{*^b}\)</span> e a estimativa <span class="math inline">\(\hat{t}^{(0.95)}\)</span> será o nonagésimo quinto maior valor de <span class="math inline">\(Z^{*^b}\)</span>.</p>
-<p>Este procedimento estima a distribuição de <span class="math inline">\(Z\)</span> (quantidade pivotal) diretamente dos dados. Não é necessário a suposição teórica de normalidade e sua distribuição é a mesma para qualquer . O intervalo (bilateral) bootstrap-t de confiança <span class="math inline">\(100\times(1-2\alpha)\%\)</span> para o parâmetro <span class="math inline">\(\Theta\)</span>, denotado por <span class="math inline">\(IC_t^*\left(100(1-2\alpha)\%,\Theta\right)\)</span>, é definido por:</p>
-<p><span class="math display">\[ \left[\hat{\Theta} - \hat{t}^{(1-\alpha)}\hat{ep}(\hat{\Theta}), \hat{\Theta} - \hat{t}^{(\alpha)}\hat{ep}(\hat{\Theta})\right].\]</span> Emprega-se estimativas para <span class="math inline">\(\hat{\Theta}\)</span> e <span class="math inline">\(\hat{ep}(\hat{\Theta})\)</span>; não sendo possível, o erro padrão é estimado usando bootstrap ou jackknife.</p>
+<p>Este procedimento estima a distribuição de <span class="math inline">\(Z\)</span> (quantidade pivotal) diretamente dos dados. Não é necessário a suposição teórica de normalidade e sua distribuição é a mesma para qualquer <span class="math inline">\(\theta\)</span>. O intervalo (bilateral) bootstrap-t de confiança <span class="math inline">\(100\times(1-2\alpha)\%\)</span> para o parâmetro <span class="math inline">\(\Theta\)</span>, denotado por <span class="math inline">\(IC_t^*\left(100(1-2\alpha)\%,\Theta\right)\)</span>, é definido por:</p>
+<p><span class="math display">\[\left[\hat{\Theta} - \hat{t}^{(1-\alpha)}\hat{ep}(\hat{\Theta}), \hat{\Theta} - \hat{t}^{(\alpha)}\hat{ep}(\hat{\Theta})\right].\]</span> Emprega-se estimativas para <span class="math inline">\(\hat{\Theta}\)</span> e <span class="math inline">\(\hat{ep}(\hat{\Theta})\)</span>; não sendo possível, o erro padrão é estimado usando bootstrap ou jackknife.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">

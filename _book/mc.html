@@ -329,7 +329,7 @@ Figura&nbsp;7.1: Cassino — Aleatoriedade como metáfora
 </section>
 <section id="convergência-lei-forte-dos-grandes-números" class="level2" data-number="7.4">
 <h2 data-number="7.4" class="anchored" data-anchor-id="convergência-lei-forte-dos-grandes-números"><span class="header-section-number">7.4</span> Convergência (Lei Forte dos Grandes Números)</h2>
-<p>Se <span class="math inline">\(X_1,\ldots,X_n\)</span> são i.i.d. com média <span class="math inline">\(\mu\)</span>,</p>
+<p>Se <span class="math inline">\(X_1,\dots,X_n\)</span> são i.i.d. com média <span class="math inline">\(\mu\)</span>,</p>
 <p><span class="math display">\[\bar X_n \xrightarrow{qc} \mu.\]</span></p>
 <section id="exemplo-1-integral-em-01" class="level3" data-number="7.4.1">
 <h3 data-number="7.4.1" class="anchored" data-anchor-id="exemplo-1-integral-em-01"><span class="header-section-number">7.4.1</span> Exemplo 1 — Integral em <span class="math inline">\([0,1]\)</span></h3>
@@ -346,7 +346,7 @@ Figura&nbsp;7.1: Cassino — Aleatoriedade como metáfora
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(n)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">h</span>(x))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.9648448</code></pre>
+<pre><code>[1] 0.9624456</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(h, <span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">1</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -378,7 +378,7 @@ Figura&nbsp;7.1: Cassino — Aleatoriedade como metáfora
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x <span class="sc">&gt;</span> <span class="fl">2.5</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.006231</code></pre>
+<pre><code>[1] 0.006176</code></pre>
 </div>
 </div>
 </section>
@@ -434,7 +434,7 @@ Figura&nbsp;7.1: Cassino — Aleatoriedade como metáfora
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="mc_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="mc_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -488,7 +488,7 @@ Figura&nbsp;7.1: Cassino — Aleatoriedade como metáfora
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>test_func <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">param1 =</span> <span class="dv">10</span>, <span class="at">param2 =</span> <span class="dv">2</span>, <span class="at">n =</span> <span class="dv">100</span>) {</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> param1, <span class="at">sd =</span> param2)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  stat <span class="ot">&lt;-</span> <span class="fu">mean</span>(data)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  stat_2 <span class="ot">&lt;-</span> <span class="fu">var</span>(data)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  stat_2 <span class="ot">&lt;-</span> <span class="fu">sum</span>((data<span class="sc">-</span> <span class="fu">mean</span>(data))<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span><span class="fu">length</span>(data)</span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  dev_mu <span class="ot">&lt;-</span> stat <span class="sc">-</span> param1</span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  dev_sigma2 <span class="ot">&lt;-</span> stat_2 <span class="sc">-</span> param2<span class="sc">^</span><span class="dv">2</span></span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  dev_eqm_mu <span class="ot">&lt;-</span> (stat <span class="sc">-</span> param1)<span class="sc">^</span><span class="dv">2</span></span>
@@ -538,7 +538,7 @@ Figura&nbsp;7.1: Cassino — Aleatoriedade como metáfora
 <div class="cell-output cell-output-stderr">
 <pre><code>
  Simulation was successfull!
- Running time: 00:00:00.724471</code></pre>
+ Running time: 00:00:00.812283</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test_mc)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -549,9 +549,9 @@ Figura&nbsp;7.1: Cassino — Aleatoriedade como metáfora
  
  
 Results for the output var: 
-   n=10: 4.086977 
-   n=50: 3.996691 
-   n=90: 3.993414 
+   n=10: 3.678279 
+   n=50: 3.916758 
+   n=90: 3.949042 
  
  
 Results for the output bmu: 
@@ -561,9 +561,9 @@ Results for the output bmu:
  
  
 Results for the output bsig2: 
-   n=10: 0.0869768 
-   n=50: -0.003308584 
-   n=90: -0.006586334 
+   n=10: -0.3217209 
+   n=50: -0.08324241 
+   n=90: -0.0509576 
  
  
 Results for the output eqmmu: 
@@ -573,9 +573,9 @@ Results for the output eqmmu:
  
  
 Results for the output eqmsigma2: 
-   n=10: 4.015759 
-   n=50: 0.6168457 
-   n=90: 0.3424298 
+   n=10: 3.350142 
+   n=50: 0.5993374 
+   n=90: 0.3374168 
  
  </code></pre>
 </div>
@@ -586,69 +586,52 @@ Results for the output eqmsigma2:
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="mc_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="mc_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="mc_files/figure-html/unnamed-chunk-11-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="mc_files/figure-html/unnamed-chunk-10-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="mc_files/figure-html/unnamed-chunk-11-3.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="mc_files/figure-html/unnamed-chunk-10-3.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="mc_files/figure-html/unnamed-chunk-11-4.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="mc_files/figure-html/unnamed-chunk-10-4.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="mc_files/figure-html/unnamed-chunk-11-5.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="mc_files/figure-html/unnamed-chunk-10-5.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="mc_files/figure-html/unnamed-chunk-11-6.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="mc_files/figure-html/unnamed-chunk-10-6.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>Para gerar uma tabela em <span class="math inline">\(\LaTeX\)</span> basta:</p>
+<p>Para gerar uma tabela em LaTeX basta:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy_mc_latex</span>(</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">summary</span>(test_mc)</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>\begin{table}
-
-\caption{\label{tab:unnamed-chunk-12}Monte Carlo simulations results}
-\centering
-\begin{tabular}[t]{ccccccc}
-\toprule
-n &amp; mean &amp; var &amp; bmu &amp; bsig2 &amp; eqmmu &amp; eqmsigma2\\
-\midrule
-10 &amp; 9.991 &amp; 4.087 &amp; -0.009 &amp; 0.087 &amp; 0.365 &amp; 4.016\\
-50 &amp; 9.993 &amp; 3.997 &amp; -0.007 &amp; -0.003 &amp; 0.085 &amp; 0.617\\
-90 &amp; 9.997 &amp; 3.993 &amp; -0.003 &amp; -0.007 &amp; 0.045 &amp; 0.342\\
-\bottomrule
-\multicolumn{7}{l}{\textsuperscript{} Total repetitions = 1000, total parameter combinations = 3}\\
-\end{tabular}
-\end{table}</code></pre>
-</div>
 </div>
 
 

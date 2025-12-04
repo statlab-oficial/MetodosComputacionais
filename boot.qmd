@@ -220,7 +220,7 @@ O jackknife toma como base $n$ amostras de tamanho $n-1$ selecionadas da amostra
 
 Para cada amostra $i$ jackknife, é obtida a réplica jackknife $\hat{\theta}_{(i)}=s({\underset{\sim}{x}}_{(i)})$ e o estimador jackknife do viés de $\hat{\Theta}$ é dado por: $$\widehat{\mbox{viés}}_{jack} =(n-1)( \hat{\Theta}_{(\cdot)} - \hat{\Theta} ),$$ em que $\hat{\Theta}_{(\cdot)}=\sum_{i=1}^n\dfrac{\hat{\Theta}_{(i)}}{n}$.
 
-### Estimado do erro padrão
+### Estimador do erro padrão
 
 O estimador jackknife do erro padrão de $\hat{\Theta}$ pode ser escrito da seguinte maneira: $$\widehat{ep}_{jack} =\left[ \dfrac{n-1}{n}\sum_{i=1}^n (\hat{\Theta}_{(i)} - \hat{\Theta}_{(\cdot)})^2\right]^{\frac{1}{2}},$$ em que $\hat{\Theta}_{(\cdot)}=\sum_{i=1}^n\dfrac{\hat{\Theta}_{(i)}}{n}$.
 
@@ -302,9 +302,9 @@ $$Z^{*^b}=\dfrac{ \hat{\Theta}^{*^b} - \hat{\Theta} }{\hat{ep}^{*^b}},$$ em que 
 
 Por exemplo, se $B=100$ e a confiança para o intervalo é de 90$\%$, a estimativa $\hat{t}^{(0.05)}$ será o quinto maior valor de $Z^{*^b}$ e a estimativa $\hat{t}^{(0.95)}$ será o nonagésimo quinto maior valor de $Z^{*^b}$.
 
-Este procedimento estima a distribuição de $Z$ (quantidade pivotal) diretamente dos dados. Não é necessário a suposição teórica de normalidade e sua distribuição é a mesma para qualquer \theta. O intervalo (bilateral) bootstrap-t de confiança $100\times(1-2\alpha)\%$ para o parâmetro $\Theta$, denotado por $IC_t^*\left(100(1-2\alpha)\%,\Theta\right)$, é definido por:
+Este procedimento estima a distribuição de $Z$ (quantidade pivotal) diretamente dos dados. Não é necessário a suposição teórica de normalidade e sua distribuição é a mesma para qualquer $\theta$. O intervalo (bilateral) bootstrap-t de confiança $100\times(1-2\alpha)\%$ para o parâmetro $\Theta$, denotado por $IC_t^*\left(100(1-2\alpha)\%,\Theta\right)$, é definido por:
 
-$$ \left[\hat{\Theta} - \hat{t}^{(1-\alpha)}\hat{ep}(\hat{\Theta}), \hat{\Theta} - \hat{t}^{(\alpha)}\hat{ep}(\hat{\Theta})\right].$$ Emprega-se estimativas \textit{plug-in} para $\hat{\Theta}$ e $\hat{ep}(\hat{\Theta})$; não sendo possível, o erro padrão é estimado usando bootstrap ou jackknife.
+$$\left[\hat{\Theta} - \hat{t}^{(1-\alpha)}\hat{ep}(\hat{\Theta}), \hat{\Theta} - \hat{t}^{(\alpha)}\hat{ep}(\hat{\Theta})\right].$$ Emprega-se estimativas \textit{plug-in} para $\hat{\Theta}$ e $\hat{ep}(\hat{\Theta})$; não sendo possível, o erro padrão é estimado usando bootstrap ou jackknife.
 
 ::: callout-important
 Se $B\cdot\alpha$ não resultar um número inteiro?
