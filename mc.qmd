@@ -181,15 +181,9 @@ library(tidyMC)
 Além disso, os seguintes pacotes serão utilizados:
 
 ```{r}
-# install.packages("magrittr")
 library(magrittr)
-
-# install.packages("ggplot2")
 library(ggplot2)
-
-# install.packages("kableExtra")
 library(kableExtra)
-
 ```
 
 ## Execute sua primeira Simulação de Monte Carlo com `future_mc()`
@@ -268,6 +262,7 @@ summary(test_mc)
 A função `plot()` retorna uma lista de objetos das classes `gg` e `ggplot2`. Essa lista conterá um gráfico de linhas para cada saída produzida pela função `fun`, representando as trajetórias dos resultados para os diferentes cenários da simulação.
 
 ```{r}
+#| eval: false
 plot(summary(test_mc))
 ```
 
