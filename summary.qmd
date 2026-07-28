@@ -12,18 +12,18 @@ Uma abordagem é utilizar dispositivos físicos aleatorizadores, como máquinas 
 Uma forma simples de obter reprodutibilidade é armazenar a sequência em um dispositivo de memória (HD, CD-ROM, livro). De fato, a RAND Corporation publicou *A Million Random Digits with 100 000 Random Normal Deviates* (1955). Entretanto, acessar armazenamento externo milhares ou milhões de vezes torna a simulação lenta.
 
 ::: callout-note
--   Também existem fontes para números aleatórios reais na Internet.
+- Também existem fontes para números aleatórios reais na Internet.
 
--   O [www.random.org](https://www.random.org/) oferece números aleatórios verdadeiros para qualquer pessoa na internet. A aleatoriedade vem do ruído atmosférico, que para muitos propósitos é melhor do que os algoritmos de números pseudoaleatórios normalmente usados em programas de computador. As pessoas usam os números para operar loterias, sorteios e apostas, e para seus jogos e sites de apostas.
+- O [www.random.org](https://www.random.org/) oferece números aleatórios verdadeiros para qualquer pessoa na internet. A aleatoriedade vem do ruído atmosférico, que para muitos propósitos é melhor do que os algoritmos de números pseudoaleatórios normalmente usados em programas de computador. As pessoas usam os números para operar loterias, sorteios e apostas, e para seus jogos e sites de apostas.
 
--   Em [www.randomnumbers.info](https://www.randomnumbers.info/) é oferecida a possibilidade de baixar números aleatórios gerados usando um gerador quântico de números aleatórios sob demanda.
+- Em [www.randomnumbers.info](https://www.randomnumbers.info/) é oferecida a possibilidade de baixar números aleatórios gerados usando um gerador quântico de números aleatórios sob demanda.
 :::
 
 Assim, a abordagem preferida é **gerar números pseudoaleatórios em tempo de execução**, via recorrências determinísticas sobre inteiros. Isso permite:
 
--   Geração rápida;
--   Eliminação do problema de armazenamento;
--   Reprodutibilidade controlada.
+- Geração rápida;
+- Eliminação do problema de armazenamento;
+- Reprodutibilidade controlada.
 
 Entretanto, a escolha inadequada da recorrência pode gerar sequências com baixa qualidade estatística. Um dos métodos mais antigos e influentes para isso é o **Gerador Congruencial Linear (GCL)**.
 
@@ -43,8 +43,8 @@ $$u_n = \frac{x_n}{m}, \quad \text{com } u_n \in (0, 1).$$
 ::: callout-note
 ## Tipos
 
--   **Multiplicativo:** $c = 0$.\
--   **Misto:** $c \neq 0$.
+- **Multiplicativo:** $c = 0$.\
+- **Misto:** $c \neq 0$.
 :::
 
 ### Por que o GCL funciona? {.unnumbered}
@@ -55,11 +55,11 @@ $$u_n = \frac{x_n}{m}, \quad \text{com } u_n \in (0, 1).$$
 
 ### Critérios para bons parâmetros {.unnumbered}
 
--   O módulo $m$ deve ser **grande**, de preferência próximo da capacidade da máquina.\
--   Para GCL multiplicativo, se $m$ for primo, existe a possibilidade de alcançar período máximo $m-1$.\
--   Valores históricos:
-    -   **Park–Miller (1988):** $m = 2^{31} - 1$, $a = 16807$, $c = 0$.\
-    -   **Numerical Recipes (1992):** $m = 2^{32}$, $a = 1664525$, $c = 1013904223$.
+- O módulo $m$ deve ser **grande**, de preferência próximo da capacidade da máquina.\
+- Para GCL multiplicativo, se $m$ for primo, existe a possibilidade de alcançar período máximo $m-1$.\
+- Valores históricos:
+  - **Park–Miller (1988):** $m = 2^{31} - 1$, $a = 16807$, $c = 0$.\
+  - **Numerical Recipes (1992):** $m = 2^{32}$, $a = 1664525$, $c = 1013904223$.
 
 #### Exemplos {.unnumbered}
 
@@ -115,19 +115,19 @@ gcl(seed, a, c, m, n=10)
 
 Uma forma simples de verificar se um gerador se comporta bem é observar os valores em um gráfico de dispersão $(u_{n}, u_{n+1}).$
 
--   Um bom gerador mostra pontos espalhados de forma quase aleatória.
+- Um bom gerador mostra pontos espalhados de forma quase aleatória.
 
--   Um gerador ruim forma padrões visíveis (linhas ou grades).
+- Um gerador ruim forma padrões visíveis (linhas ou grades).
 
 ### Limitações {.unnumbered}
 
 Apesar de sua importância histórica, os GCLs apresentam limitações:
 
--   O período, mesmo que longo, é finito.
+- O período, mesmo que longo, é finito.
 
--   Podem apresentar correlações indesejadas em dimensões mais altas.
+- Podem apresentar correlações indesejadas em dimensões mais altas.
 
--   Não são recomendados para aplicações de alta segurança (como criptografia).
+- Não são recomendados para aplicações de alta segurança (como criptografia).
 
 Hoje, geradores como o **Mersenne Twister** substituíram o GCL em muitas linguagens (por exemplo, é o padrão no `R` e no `NumPy`). Ainda assim, o GCL é fundamental para entender os princípios da geração de números pseudoaleatórios.
 
@@ -137,15 +137,15 @@ Hoje, geradores como o **Mersenne Twister** substituíram o GCL em muitas lingua
 
 2.  Gere 1000 números pseudoaleatórios e faça:
 
--   Um histograma para verificar se a distribuição se parece com a uniforme $(0, 1)$.
+- Um histograma para verificar se a distribuição se parece com a uniforme $(0, 1)$.
 
--   Um gráfico de dispersão de pares consecutivos $(u_{n}, u_{n+1})$.
+- Um gráfico de dispersão de pares consecutivos $(u_{n}, u_{n+1})$.
 
 3.  Compare o comportamento quando:
 
--   Usa os parâmetros clássicos de Park–Miller $(m = 2^{31} - 1, a = 16807, c = 0)$.
+- Usa os parâmetros clássicos de Park–Miller $(m = 2^{31} - 1, a = 16807, c = 0)$.
 
--   Usa parâmetros pequenos, por exemplo $m = 17, a = 5, c = 1$.
+- Usa parâmetros pequenos, por exemplo $m = 17, a = 5, c = 1$.
 
 **Pergunta para reflexão:** O que acontece com a qualidade dos números gerados quando usamos parâmetros pequenos?
 
@@ -162,17 +162,17 @@ Nos computadores modernos de **64 bits**, esse problema desaparece: o produto $a
 
 **Vantagens atuais:**
 
--   Simples e rápido.
+- Simples e rápido.
 
--   Fácil de implementar em qualquer linguagem.
+- Fácil de implementar em qualquer linguagem.
 
--   Período máximo de mais de **2 bilhões** de números.
+- Período máximo de mais de **2 bilhões** de números.
 
 **Limitações:**
 
--   Hoje, esse período pode ser considerado curto para simulações muito extensas.
+- Hoje, esse período pode ser considerado curto para simulações muito extensas.
 
--   Geradores modernos, como o **Mersenne Twister** (período $2^{19937}-1$) ou a família **GCP (Gerador Congruencial Permutado)**, oferecem propriedades estatísticas superiores.
+- Geradores modernos, como o **Mersenne Twister** (período $2^{19937}-1$) ou a família **GCP (Gerador Congruencial Permutado)**, oferecem propriedades estatísticas superiores.
 
 📌 **Em resumo:** O Park–Miller ainda é excelente para fins didáticos e pequenas simulações, mas para aplicações científicas de grande escala recomenda-se usar geradores mais robustos.
 :::
@@ -288,18 +288,18 @@ print(resultado)
 
 3.  Compare sua estimativa com o valor exato:
 
--   $\int_{0}^{1} \exp\{{e^x}\} dx$.
+- $\int_{0}^{1} \exp\{{e^x}\} dx$.
 
--   $\int_{0}^{1} (1 - x^2)^{3/2} dx$.
+- $\int_{0}^{1} (1 - x^2)^{3/2} dx$.
 
--   $\int_{-2}^{2} \exp\{x + x^2\} dx$.
+- $\int_{-2}^{2} \exp\{x + x^2\} dx$.
 
--   $\int_{0}^{\infty} x(1 + x^2)^{-2} dx$.
+- $\int_{0}^{\infty} x(1 + x^2)^{-2} dx$.
 
--   $\int_{-\infty}^{\infty} \exp\{-x^2\} dx$.
+- $\int_{-\infty}^{\infty} \exp\{-x^2\} dx$.
 
--   $\int_{0}^{1}\int_{0}^{1} \exp\{(x+y)^2\} dy dx$.
+- $\int_{0}^{1}\int_{0}^{1} \exp\{(x+y)^2\} dy dx$.
 
--   $\int_{0}^{\infty}\int_{0}^{x} \exp\{-(x+y)\} dydx$.
+- $\int_{0}^{\infty}\int_{0}^{x} \exp\{-(x+y)\} dydx$.
 
 4.  Use simulação para encontrar o valor aproximado de $Cov(U, e^U)$, em que $U$ é uniforme em $(0,1)$. Compare seu resultado com o valor exato.
