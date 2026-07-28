@@ -4,7 +4,20 @@
 
 ### Introdução
 
-Bootstrap é um método (computacional) de reamostragem baseado em subamostras de uma amostra observada, sendo introduzido por Efron (1979). Pode ser utilizado com o propósito de estimar erros padrão, viés de estimadores, construir intervalos de confiança, testes de hipóteses, entre outros. Pode ser utilizando sob duas abordagens: **paramétrica** e **não paramétrica**. A abordagem paramétrica exige um modelo estatística, enquanto que na abordagem não paramétrica não há suposição de modelo estatístico; toma-se por base uma distribuição empírica que atribui probabilidade $1/n$ para cada um dos $n$ elementos da amostra. Algumas referências importantes neste tema são: Efron (1979), Wu (1986), Fisher $\&$ Hall (1989), Fredman (1986), Efron $\&$ Tibshirani (1993), Horowitz (1997), Davison $\&$ Hinkley (1997).
+Ao longo deste material, utilizamos simulações de Monte Carlo para demonstrar propriedades estatísticas de estimadores. Simulamos processos de geração de dados no computador e, em seguida, examinamos diretamente os resultados.
+
+Este capítulo explica como técnicas de simulação intensivas em computação podem ser aplicadas a **uma única amostra** para estimar a distribuição amostral de uma estatística. Esses procedimentos, cada vez mais populares, são conhecidos como **métodos bootstrap**. Eles podem ser usados para corroborar resultados baseados na teoria padrão ou fornecer respostas quando métodos convencionais falham.
+
+A expressão inglesa *“pull yourself up by your bootstraps”* descreve a situação de alguém que consegue superar dificuldades **sozinho**, apesar de recursos limitados. A frase vem do livro *The Surprising Adventures of Baron Munchausen*, de Rudolph Erich Raspe. O barão conta uma série de histórias fantásticas sobre suas viagens, incluindo feitos impossíveis e fugas ousadas. Bradley Efron escolheu o termo “bootstrap” para descrever um esquema de reamostragem que estava desenvolvendo porque “o uso do termo bootstrap deriva da expressão *to pull oneself up by one’s own bootstrap…* (O Barão havia caído no fundo de um lago profundo. Quando tudo parecia perdido, ele teve a ideia de se erguer puxando as próprias alças das botas.)” (Efron e Tibshirani (1993), p. 5).
+
+Em estatística e em outras áreas, **bootstrapping** passou a significar **reamostrar repetida e aleatoriamente a partir de uma amostra original**, usando cada amostra reamostrada para calcular uma estatística. A distribuição empírica resultante dessa estatística é então examinada e interpretada como uma aproximação da verdadeira distribuição amostral.
+
+::: callout-note
+O vínculo entre bootstrap e Monte Carlo é evidente: ambos se baseiam em amostragem repetitiva e exame direto dos resultados. A grande diferença, porém, é que o *bootstrap* usa a **amostra original** como população da qual se reamostra, enquanto as simulações de Monte Carlo partem de um **processo de geração de dados especificado** (com valores conhecidos dos parâmetros). Enquanto Monte Carlo serve para testar estimadores, os métodos *bootstrap* podem ser usados para estimar a variabilidade de uma estatística e o formato de sua distribuição amostral.
+:::
+
+
+O Bootstrap pode ser utilizado com o propósito de estimar erros padrão, viés de estimadores, construir intervalos de confiança, testes de hipóteses, entre outros. Pode ser utilizando sob duas abordagens: **paramétrica** e **não paramétrica**. A abordagem paramétrica exige um modelo estatística, enquanto que na abordagem não paramétrica não há suposição de modelo estatístico; toma-se por base uma distribuição empírica que atribui probabilidade $1/n$ para cada um dos $n$ elementos da amostra. Algumas referências importantes neste tema são: Efron (1979), Wu (1986), Fisher $\&$ Hall (1989), Fredman (1986), Efron $\&$ Tibshirani (1993), Horowitz (1997), Davison $\&$ Hinkley (1997).
 
 ### Acurária da média amostral
 

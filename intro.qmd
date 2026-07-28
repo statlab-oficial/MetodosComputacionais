@@ -27,8 +27,7 @@ O produto acima admite uma **aproximação exponencial simples e acurada**, obti
 
 $$\ln(1 - x) = -x + o(x), \quad (x \to 0). $$ Aplicando ao produto,
 
-$$
-\begin{aligned}
+$$\begin{aligned}
 \ln\!\big(1 - p_r\big)
 \;&=\;
 \sum_{i=1}^{r-1} \ln\!\left(1 - \frac{i}{365}\right)\\
@@ -41,9 +40,7 @@ $$
 
 Exponentiando e isolando $p_r$, obtemos a aproximação
 
-$$
-p_r \;\approx\; 1 - \exp\!\left\{-\,\frac{r(r-1)}{730}\right\}.
-$$
+$$p_r \;\approx\; 1 - \exp\!\left\{-\,\frac{r(r-1)}{730}\right\}.$$
 
 Essa fórmula tem três virtudes didáticas:
 
@@ -54,7 +51,7 @@ Essa fórmula tem três virtudes didáticas:
 3)  **Boas aproximações** já para $r$ na casa das dezenas.
 
 ::: {.callout-warning title="Exemplo Rápido"}
--   Para **23 pessoas**:
+- Para **23 pessoas**:
 
 $$p_{23}^{(\text{aprox})}
   \;=\;
@@ -114,19 +111,19 @@ Em um pais chamado de país do futebol, o contexto é proposital: o futebol é p
 
 **Objetivos**
 
--   Estimar, via simulação, a probabilidade de coincidência de aniversários.
+- Estimar, via simulação, a probabilidade de coincidência de aniversários.
 
--   Relacionar frequência relativa, Lei dos Grandes Números e variação amostral.
+- Relacionar frequência relativa, Lei dos Grandes Números e variação amostral.
 
--   Comparar o resultado exato e aproximado.
+- Comparar o resultado exato e aproximado.
 
 **Hipóteses**
 
--   365 dias equiprováveis, datas independentes, ignorar bissexto/gêmeos.
+- 365 dias equiprováveis, datas independentes, ignorar bissexto/gêmeos.
 
 **Materiais**
 
--   R (ou Posit Cloud), roteiro com comandos `sample()`, `table()`, `mean()`.
+- R (ou Posit Cloud), roteiro com comandos `sample()`, `table()`, `mean()`.
 
 ## Exercícios {.unnumbered}
 

@@ -12,13 +12,11 @@ Uma abordagem é utilizar dispositivos físicos aleatorizadores, como máquinas 
 Uma forma simples de obter reprodutibilidade é armazenar a sequência em um dispositivo de memória (HD, CD-ROM, livro). De fato, a RAND Corporation publicou *A Million Random Digits with 100 000 Random Normal Deviates* (1955). Entretanto, acessar armazenamento externo milhares ou milhões de vezes torna a simulação lenta.
 
 ::: callout-note
+-   Também existem fontes para números aleatórios reais na Internet.
 
-- Também existem fontes para números aleatórios reais na Internet. 
+-   O [www.random.org](https://www.random.org/) oferece números aleatórios verdadeiros para qualquer pessoa na internet. A aleatoriedade vem do ruído atmosférico, que para muitos propósitos é melhor do que os algoritmos de números pseudoaleatórios normalmente usados em programas de computador. As pessoas usam os números para operar loterias, sorteios e apostas, e para seus jogos e sites de apostas.
 
-- O [www.random.org](https://www.random.org/) oferece números
-aleatórios verdadeiros para qualquer pessoa na internet. A aleatoriedade vem do ruído atmosférico, que para muitos propósitos é melhor do que os algoritmos de números pseudoaleatórios normalmente usados em programas de computador. As pessoas usam os números para operar loterias, sorteios e apostas, e para seus jogos e sites de apostas.
-
-- Em [www.randomnumbers.info](https://www.randomnumbers.info/) é oferecida a possibilidade de baixar números aleatórios gerados usando um gerador quântico de números aleatórios sob demanda.
+-   Em [www.randomnumbers.info](https://www.randomnumbers.info/) é oferecida a possibilidade de baixar números aleatórios gerados usando um gerador quântico de números aleatórios sob demanda.
 :::
 
 Assim, a abordagem preferida é **gerar números pseudoaleatórios em tempo de execução**, via recorrências determinísticas sobre inteiros. Isso permite:
@@ -150,7 +148,6 @@ Hoje, geradores como o **Mersenne Twister** substituíram o GCL em muitas lingua
 -   Usa parâmetros pequenos, por exemplo $m = 17, a = 5, c = 1$.
 
 **Pergunta para reflexão:** O que acontece com a qualidade dos números gerados quando usamos parâmetros pequenos?
-
 
 ::: callout-note
 ## Park–Miller hoje: ainda vale a pena?
