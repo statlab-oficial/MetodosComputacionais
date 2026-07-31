@@ -1,7 +1,6 @@
-# Números Pseudoaleatórios - Caso Discreto
+# Simulação de Variáveis Aleatórias
 
 ## Método da Transformação Inversa
-
 
 Suponha que desejamos gerar o valor de uma variável aleatória discreta $X$ com função de massa de probabilidade (f.m.p):
 
@@ -34,7 +33,7 @@ Passo 2. Se $u < p_0$, então $X = x_0$; caso contrário:
 
 - se $u < p_0 + p_1$, então $X = x_1$; caso contrário:\
 - se $u < p_0 + p_1 + p_2$, então $X = x_2$; caso contrário:\
-    $\vdots$
+  $\vdots$
 
 Passo 3. Repetir os passos 1 e 2 $n$ vezes, onde $n$ é o tamanho da amostra.
 
@@ -60,13 +59,13 @@ Passo 1. Gerar $n$ valores $u \sim U(0,1)$.
 
 Passo 2. Para cada $u$:
 
--   Se $u < 0.20$, então $X = 1$.
+- Se $u < 0.20$, então $X = 1$.
 
--   Caso contrário, se $u < 0.35$, então $X = 2$.
+- Caso contrário, se $u < 0.35$, então $X = 2$.
 
--   Caso contrário, se $u < 0.60$, então $X = 3$.
+- Caso contrário, se $u < 0.60$, então $X = 3$.
 
--   Caso contrário ($u \geq 0.60$), então $X = 4$.
+- Caso contrário ($u \geq 0.60$), então $X = 4$.
 
 Passo 3. Repetir $n$ vezes os passos 1 e 2.
 :::
@@ -124,13 +123,13 @@ Passo 1. Gerar um valor $u \sim U(0,1)$.
 
 Passo 2. Para cada $u$:
 
--   Se $u < 0.40$, então $X = 4$;
+- Se $u < 0.40$, então $X = 4$;
 
--   Caso contrário, se $u < 0.65$, então $X = 3$;
+- Caso contrário, se $u < 0.65$, então $X = 3$;
 
--   Caso contrário, se $u < 0.85$, então $X = 1$;
+- Caso contrário, se $u < 0.85$, então $X = 1$;
 
--   Caso contrário $u \geq 0.85$, então $X = 2$.
+- Caso contrário $u \geq 0.85$, então $X = 2$.
 
 Passo 3. Repetir $n$ vezes os passos 1 e 2.
 :::
@@ -148,11 +147,11 @@ Passo 1. Gerar $u \sim U(0,1)$.
 
 Passo 2. Se $u \leq 0.40$, então $X = 4$;
 
--   senão, se $u \leq 0.65$, então $X = 3$;
+- senão, se $u \leq 0.65$, então $X = 3$;
 
--   senão, se $u \leq 0.85$, então $X = 1$;
+- senão, se $u \leq 0.85$, então $X = 1$;
 
--   senão ($u > 0.85$), então $X = 2$.
+- senão ($u > 0.85$), então $X = 2$.
 
 Passo 3. Repetir $n$ vezes os passos 1–2.
 :::
@@ -162,7 +161,6 @@ Passo 3. Repetir $n$ vezes os passos 1–2.
 
 Com $u \sim U(0,1)$ é contínua, usar $<$ ou $\leq$ é equivalente em termos de distribuição (a probabilidade de $u$ cair exatamente no ponto de corte é zero). Em implementação numérica, essa escolha apenas define para onde vão raríssimos empates nos pontos cortes.
 :::
-
 
 Se você deseja simular valores de $X$ com distribuição uniforme discreta:
 
@@ -190,15 +188,15 @@ Gere $U\sim U(0,1)$. Defina $X=\lfloor kU  \rfloor +1$, em que $\lfloor z  \rflo
 
 Para simular valores de $X$ com $\Pr(X=j)=1/10, \, \,\, j=1,2,3,\ldots, 10$, você pode serguir o procedimento a seguir:
 
-| $U$ | $k\,U$  | [$X=\lfloor k\,U \rfloor +1$]{style="color:red"} |
-|------------|------------|------------|
-|  0,01 | 0,1 |  1 |
-|  0,31 | 3,1 |  4 |
-|  0,53 | 5,3 |  6 |
-|  0,92 | 9,2 |  10 |
-|  0,45 | 4,5 |  5 |
-| $\vdots$ | $\vdots$ | $\vdots$ |
-|  0,74 | 7,4 | 8 |
+| $U$      | $k\,U$   | [$X=\lfloor k\,U \rfloor +1$]{style="color:red"} |
+|----------|----------|--------------------------------------------------|
+| 0,01     | 0,1      | 1                                                |
+| 0,31     | 3,1      | 4                                                |
+| 0,53     | 5,3      | 6                                                |
+| 0,92     | 9,2      | 10                                               |
+| 0,45     | 4,5      | 5                                                |
+| $\vdots$ | $\vdots$ | $\vdots$                                         |
+| 0,74     | 7,4      | 8                                                |
 
 #### Exercícios {.unnumbered}
 
@@ -214,9 +212,9 @@ Para simular valores de $X$ com $\Pr(X=j)=1/10, \, \,\, j=1,2,3,\ldots, 10$, voc
 
 Nosso objetivo agora é gerar valores de $X\sim \mbox{Poisson}(\lambda)$ com:
 
-$$p_i=\Pr(X=i)=\dfrac{e^{-\lambda}\lambda^i}{i!}, \quad i=0,1,2,\ldots. $$ 
+$$p_i=\Pr(X=i)=\dfrac{e^{-\lambda}\lambda^i}{i!}, \quad i=0,1,2,\ldots. $$
 
-::: {.callout-important icon="false"} 
+::: {.callout-important icon="false"}
 ## 🔎 **Identidade importante:**
 
 $$p_{i+1} = \dfrac{\lambda}{i+1}p_i, \quad i\geq 0.$$
@@ -235,13 +233,13 @@ Passo 3. Se $u < F$, então definir $X = i$ e parar.
 
 Passo 4. Caso contrário:
 
--   atualizar $i \leftarrow i+1$,
+- atualizar $i \leftarrow i+1$,
 
--   atualizar $p \leftarrow \frac{\lambda}{i}\,p$,
+- atualizar $p \leftarrow \frac{\lambda}{i}\,p$,
 
--   atualizar $F \leftarrow F + p$,
+- atualizar $F \leftarrow F + p$,
 
--   voltar ao passo 3.
+- voltar ao passo 3.
 :::
 
 #### Exercício {.unnumbered}
@@ -272,13 +270,11 @@ Por fim, iremos gerar valores da variável aleatório $X$, $X\sim \mbox{Binomial
 
 $$\Pr(X=i)=\dfrac{n!}{i!(n-i)!}p^i(1-p)^{n-i}, \quad i=0,1,2,\ldots,n.$$
 
-
-::: {.callout-important}
+::: callout-important
 ## Identidade importante:
 
 $$\Pr(X=i+1) = \dfrac{n-i}{i+1}\dfrac{p}{1-p}\Pr(X=i).$$
 :::
-
 
 A partir do resultado acima e do método da transformação inversa podemos escrever o seguinte algoritmo:
 
@@ -293,13 +289,13 @@ Passo 3. Se $u < F$, definir $X = i$ e parar.
 
 Passo 4. Caso contrário:
 
--   atualizar $p_r \leftarrow \dfrac{n-i}{i+1}\,k\,p_r$,
+- atualizar $p_r \leftarrow \dfrac{n-i}{i+1}\,k\,p_r$,
 
--   atualizar $F \leftarrow F + p_r$,
+- atualizar $F \leftarrow F + p_r$,
 
--   atualizar $i \leftarrow i+1$,
+- atualizar $i \leftarrow i+1$,
 
--   voltar ao passo 3.
+- voltar ao passo 3.
 :::
 
 ### Exercício 5 {.unnumbered}
@@ -320,9 +316,9 @@ Suponha que haja interesse em simular valores de uma v.a. $X$ e que não seja po
 
 Contexto:
 
--   **Podemos**: simular valores de $Y$ com f.p. $q_j=\Pr(Y=j), j\geq 0$.
--   **Queremos**: simular valores de $X$ com f.p. \small  $p_j=\Pr(X=j), j\geq 0$.
--   **Proposta**: simular valor $y$ de $Y$ e aceitar esse valor para $X$ com probabilidade proporcional a $\dfrac{p_y}{q_y}$.
+- **Podemos**: simular valores de $Y$ com f.p. $q_j=\Pr(Y=j), j\geq 0$.
+- **Queremos**: simular valores de $X$ com f.p. \small  $p_j=\Pr(X=j), j\geq 0$.
+- **Proposta**: simular valor $y$ de $Y$ e aceitar esse valor para $X$ com probabilidade proporcional a $\dfrac{p_y}{q_y}$.
 
 ::: {.callout-warning appearance="simple" icon="false"}
 ## Algoritmo
@@ -341,13 +337,11 @@ O algoritmo aceitação-rejeição gera uma v.a. $X$ tal que $\Pr(X=j)=p_j$, $j=
 ::: {.callout-note icon="false" appearance="simple"}
 ## Prova do Teorema
 
-1.  Em uma iteração, determinar a probabilidade de gerar e ser aceito o valor $j$: 
+1.  Em uma iteração, determinar a probabilidade de gerar e ser aceito o valor $j$:
 
-$$\Pr(Y=j,\text{aceitar})= \Pr(Y=j) \cdot \Pr(\text{aceitar}\mid Y=j)= q_j\cdot \dfrac{pj}{cq_j} = \dfrac{p_j}{c}.$$
-2.  Calcular a probabilidade de aceitar um valor $j$ gerado:
+$$\Pr(Y=j,\text{aceitar})= \Pr(Y=j) \cdot \Pr(\text{aceitar}\mid Y=j)= q_j\cdot \dfrac{pj}{cq_j} = \dfrac{p_j}{c}.$$ 2. Calcular a probabilidade de aceitar um valor $j$ gerado:
 
-$$\Pr(\text{aceitar})= \sum_j \Pr(Y=j,\text{aceitar})=\sum_j \dfrac{p_j}{c} = \dfrac{1}{c}.$$
-3.  Como cada iteração independentemente resulta um valor aceitável com probabilidade $\frac{1}{c}$, o número de iterações necessárias segue uma geométrica de média $c$. Portanto,
+$$\Pr(\text{aceitar})= \sum_j \Pr(Y=j,\text{aceitar})=\sum_j \dfrac{p_j}{c} = \dfrac{1}{c}.$$ 3. Como cada iteração independentemente resulta um valor aceitável com probabilidade $\frac{1}{c}$, o número de iterações necessárias segue uma geométrica de média $c$. Portanto,
 
 $$\Pr(X=j)=\! \sum_n P(\text{j aceito na iteração $n$}) = \sum_n \left(1-\dfrac{1}{c}\right)^{n-1}\cdot\dfrac{p_j}{c}=p_j.$$
 :::
@@ -355,11 +349,11 @@ $$\Pr(X=j)=\! \sum_n P(\text{j aceito na iteração $n$}) = \sum_n \left(1-\dfra
 ::: {.callout-important icon="false"}
 ## Observações
 
--   A constante $c$ está relacionada com o número de interações necessárias até a aceitação de um valor de $Y$ para $X$.
+- A constante $c$ está relacionada com o número de interações necessárias até a aceitação de um valor de $Y$ para $X$.
 
--   O valor $c$ deve ser o menor possível.
+- O valor $c$ deve ser o menor possível.
 
--   O valor de $c$ será o $\mbox{max}\left\{\dfrac{p_y}{q_y}\right\}$.
+- O valor de $c$ será o $\mbox{max}\left\{\dfrac{p_y}{q_y}\right\}$.
 :::
 
 ::: callout-note
@@ -389,7 +383,7 @@ A constante $c$ será determinada por $c=\mbox{max}\left\{\dfrac{p_j}{q_j}\right
 :::
 
 ::: callout-note
-Suponha $y=1$. Então, se $u_2<\dfrac{p_1}{0,\!12}=\dfrac{0,\!11}{0,\!12}=0,\!9167$, faremos $X=1$. Isto é, assumiremos que o valor 1 gerado é plausível de ser da distribuição de $X$. 
+Suponha $y=1$. Então, se $u_2<\dfrac{p_1}{0,\!12}=\dfrac{0,\!11}{0,\!12}=0,\!9167$, faremos $X=1$. Isto é, assumiremos que o valor 1 gerado é plausível de ser da distribuição de $X$.
 :::
 
 ```{r}
@@ -421,15 +415,15 @@ Existe algum problema com os resultados acima? Se sim, faça a correção do có
 ::: {.callout-important icon="false"}
 ## Observações
 
--   $91,\!67\%$ de todos os valores 1 gerados de $Y$ serão aceitos
+- $91,\!67\%$ de todos os valores 1 gerados de $Y$ serão aceitos
 
--   $100\%$ dos valores 2 gerados de $Y$ serão aceitos
+- $100\%$ dos valores 2 gerados de $Y$ serão aceitos
 
--   $75\%$ dos valores 3 gerados de $Y$ serão aceitos
+- $75\%$ dos valores 3 gerados de $Y$ serão aceitos
 
--   Qualquer valor da constante $c$ inferior a $1,\!2$ impossibilita gerar a distribuição de $X$
+- Qualquer valor da constante $c$ inferior a $1,\!2$ impossibilita gerar a distribuição de $X$
 
--   Qualquer valor da constante $c$ superior a $1,\!2$ tornaria o processo mais lento para a obteção da amostra
+- Qualquer valor da constante $c$ superior a $1,\!2$ tornaria o processo mais lento para a obteção da amostra
 :::
 
 #### Exercícios {.unnumbered}
@@ -470,8 +464,8 @@ $$p_j^{(1)} = 0.1, \quad j = 1, \dots, 10 \quad \text{e} \quad p_j^{(2)} = \begi
 
 podemos realizar essa simulação gerando primeiro um número aleatório $U \sim U(0,1)$ e então:
 
--   Se $U < 0.5$, gerar $X$ de uma uniforme discreta sobre $\{1,2,\dots,10\}$.
--   Caso contrário ($U \geq 0.5$), gerar $X$ de uma uniforme discreta sobre $\{6,7,8,9,10\}$.
+- Se $U < 0.5$, gerar $X$ de uma uniforme discreta sobre $\{1,2,\dots,10\}$.
+- Caso contrário ($U \geq 0.5$), gerar $X$ de uma uniforme discreta sobre $\{6,7,8,9,10\}$.
 
 ::: {.callout-warning appearance="simple" icon="false"}
 ## Algoritmo
@@ -485,9 +479,7 @@ Passo 3. Se $U_1 < 0.5$, definir $X = \mathrm{Int}(10U_1)+1$. Caso contrário, d
 
 Se $F_i$, $i=1,\dots,n$ são funções de distribuição e $\alpha_i$, $i=1,\dots,n$ são números não negativos cuja soma é 1, então a função de distribuição:
 
-$$
-F(x) = \sum_{i=1}^n \alpha_i F_i(x),
-$$
+$$F(x) = \sum_{i=1}^n \alpha_i F_i(x),$$
 
 é uma **mistura**, ou uma **composição**, das funções de distribuição $F_i$, $i = 1, \dots, n$.
 

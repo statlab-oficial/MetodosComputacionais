@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Laboratório de Inovação em Estatística - StatLab">
 
-<title>Métodos Computacionais - 5&nbsp; Números Pseudoaleatórios - Caso Discreto</title>
+<title>3&nbsp; Simulação de Variáveis Aleatórias</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,17 +64,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./otimizaca.html" rel="next">
+<link href="./mc.html" rel="next">
 <link href="./summary.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -146,7 +147,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./pseudo.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Números Pseudoaleatórios - Caso Discreto</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./pseudo.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Simulação de Variáveis Aleatórias</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -159,52 +160,56 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
-    <div class="sidebar-title mb-0 py-0">
-      <a href="./">Métodos Computacionais</a> 
-    </div>
-      </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Procurar"></div>
         </div>
         </div>
+        <div class="sidebar-tools-collapse">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo escuro"><i class="bi"></i></a>
+</div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Prefácio</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./introducao.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./revisaoR.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Uma pequena introdução ao R</span></span></a>
+ <span class="menu-text">Informações Legais e Declaração de Uso de Inteligência Artificial</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Motivação</span></span></a>
+ <span class="menu-text">Identificação da Disciplina</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./revisaoR.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução ao R e Programação Estatística</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Números Uniformes</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Geração de Números Pseudoaleatórios</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pseudo.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Números Pseudoaleatórios - Caso Discreto</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Simulação de Variáveis Aleatórias</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./mc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Métodos de Monte Carlo</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./boot.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Bootstrap e Jackknife</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -215,14 +220,14 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./mc.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Métodos de Monte Carlo</span></span></a>
+  <a href="./em.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Algoritmo EM</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./boot.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Métodos de Reamostragem</span></span></a>
+  <a href="./metodosadicionais.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Aplicações Modernas em Estatística Computacional</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -241,7 +246,7 @@ window.Quarto = {
     <h2 id="toc-title">Índice</h2>
    
   <ul>
-  <li><a href="#método-da-transformação-inversa" id="toc-método-da-transformação-inversa" class="nav-link active" data-scroll-target="#método-da-transformação-inversa"><span class="header-section-number">5.1</span> Método da Transformação Inversa</a>
+  <li><a href="#método-da-transformação-inversa" id="toc-método-da-transformação-inversa" class="nav-link active" data-scroll-target="#método-da-transformação-inversa"><span class="header-section-number">3.1</span> Método da Transformação Inversa</a>
   <ul class="collapse">
   <li><a href="#exemplo-1" id="toc-exemplo-1" class="nav-link" data-scroll-target="#exemplo-1">Exemplo 1</a></li>
   <li><a href="#exemplo-2" id="toc-exemplo-2" class="nav-link" data-scroll-target="#exemplo-2">Exemplo 2</a></li>
@@ -249,8 +254,8 @@ window.Quarto = {
   <li><a href="#exemplo-4" id="toc-exemplo-4" class="nav-link" data-scroll-target="#exemplo-4">Exemplo 4</a></li>
   <li><a href="#exercício-5" id="toc-exercício-5" class="nav-link" data-scroll-target="#exercício-5">Exercício 5</a></li>
   </ul></li>
-  <li><a href="#método-da-aceitação-rejeição" id="toc-método-da-aceitação-rejeição" class="nav-link" data-scroll-target="#método-da-aceitação-rejeição"><span class="header-section-number">5.2</span> Método da Aceitação-Rejeição</a></li>
-  <li><a href="#método-da-composição" id="toc-método-da-composição" class="nav-link" data-scroll-target="#método-da-composição"><span class="header-section-number">5.3</span> Método da Composição</a></li>
+  <li><a href="#método-da-aceitação-rejeição" id="toc-método-da-aceitação-rejeição" class="nav-link" data-scroll-target="#método-da-aceitação-rejeição"><span class="header-section-number">3.2</span> Método da Aceitação-Rejeição</a></li>
+  <li><a href="#método-da-composição" id="toc-método-da-composição" class="nav-link" data-scroll-target="#método-da-composição"><span class="header-section-number">3.3</span> Método da Composição</a></li>
   </ul>
 </nav>
     </div>
@@ -259,7 +264,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Números Pseudoaleatórios - Caso Discreto</span></h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Simulação de Variáveis Aleatórias</span></h1>
 </div>
 
 
@@ -276,8 +281,8 @@ window.Quarto = {
 </header>
 
 
-<section id="método-da-transformação-inversa" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="método-da-transformação-inversa"><span class="header-section-number">5.1</span> Método da Transformação Inversa</h2>
+<section id="método-da-transformação-inversa" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="método-da-transformação-inversa"><span class="header-section-number">3.1</span> Método da Transformação Inversa</h2>
 <p>Suponha que desejamos gerar o valor de uma variável aleatória discreta <span class="math inline">\(X\)</span> com função de massa de probabilidade (f.m.p):</p>
 <p><span class="math display">\[\Pr(X = x_j) = p_j, \quad j = 0, 1, \dots, \quad \text{e} \quad \sum\limits_j p_j = 1.\]</span></p>
 <p>Para realizar isso, gere um valor <span class="math inline">\(u\)</span> de <span class="math inline">\(U\sim(0,1)\)</span> e atribua o valor <span class="math inline">\(x_j\)</span>, <span class="math inline">\(j=0,1,\ldots\)</span>, a <span class="math inline">\(X\)</span> conforme as condições abaixo:</p>
@@ -386,7 +391,7 @@ Algoritmo 1
 <div class="cell-output cell-output-stdout">
 <pre><code>a
      1      2      3      4 
-0.2020 0.1516 0.2456 0.4008 </code></pre>
+0.1972 0.1528 0.2503 0.3997 </code></pre>
 </div>
 </div>
 <div class="cell">
@@ -407,7 +412,7 @@ Algoritmo 1
 <div class="cell-output cell-output-stdout">
 <pre><code>a
      1      2      3      4 
-0.2000 0.1497 0.2522 0.3981 </code></pre>
+0.1933 0.1472 0.2451 0.4144 </code></pre>
 </div>
 </div>
 <div class="callout callout-style-simple callout-warning no-icon callout-titled">
@@ -513,6 +518,11 @@ Proposição 2:
 <h3 class="unnumbered anchored" data-anchor-id="exemplo-2">Exemplo 2</h3>
 <p>Para simular valores de <span class="math inline">\(X\)</span> com <span class="math inline">\(\Pr(X=j)=1/10, \, \,\, j=1,2,3,\ldots, 10\)</span>, você pode serguir o procedimento a seguir:</p>
 <table class="table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 71%">
+</colgroup>
 <thead>
 <tr class="header">
 <th><span class="math inline">\(U\)</span></th>
@@ -676,8 +686,8 @@ Algoritmo 5
 <p>Escreve um código na linguagem <code>R</code> baseado no Algoritmo 5. Utilize alguma ferramenta gráfica para verificar a coerência dos resultados.</p>
 </section>
 </section>
-<section id="método-da-aceitação-rejeição" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="método-da-aceitação-rejeição"><span class="header-section-number">5.2</span> Método da Aceitação-Rejeição</h2>
+<section id="método-da-aceitação-rejeição" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="método-da-aceitação-rejeição"><span class="header-section-number">3.2</span> Método da Aceitação-Rejeição</h2>
 <p>Suponha que haja interesse em simular valores de uma v.a. <span class="math inline">\(X\)</span> e que não seja possível inverter a sua função de distribuição ou não dispomos de um método para gerar dessa variável aleatória. Entretanto, sabemos como simular de uma outra v.a. <span class="math inline">\(Y\)</span> e que é possível estabelecer uma relação entre as probabilidades associadas às duas variáveis aleatórias (<span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>) de tal modo que valores de <span class="math inline">\(Y\)</span> possam ser admitidos como valores de <span class="math inline">\(X\)</span>.</p>
 <table class="table">
 <colgroup>
@@ -978,8 +988,8 @@ Observações
 </ol>
 </section>
 </section>
-<section id="método-da-composição" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="método-da-composição"><span class="header-section-number">5.3</span> Método da Composição</h2>
+<section id="método-da-composição" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="método-da-composição"><span class="header-section-number">3.3</span> Método da Composição</h2>
 <p>Suponha que tenhamos um método eficiente para simular o valor de uma variável aleatória com f.m.p. <span class="math inline">\({p_j, ; j \geq 0}\)</span> ou <span class="math inline">\({q_j, ; j \geq 0}\)</span>, e que desejamos simular a variável aleatória <span class="math inline">\(X\)</span> com f.m.p.:</p>
 <p><span class="math display">\[\Pr(X = j) = \alpha p_j + (1 - \alpha)q_j, \quad j \geq 0, 0 &lt; \alpha &lt; 1.\]</span> Se <span class="math inline">\(X_1 \sim {p_j}\)</span> e <span class="math inline">\(X_2 \sim {q_j}\)</span>, então podemos definir</p>
 <p><span class="math display">\[X =
@@ -1021,9 +1031,7 @@ Algoritmo
 </div>
 </div>
 <p>Se <span class="math inline">\(F_i\)</span>, <span class="math inline">\(i=1,\dots,n\)</span> são funções de distribuição e <span class="math inline">\(\alpha_i\)</span>, <span class="math inline">\(i=1,\dots,n\)</span> são números não negativos cuja soma é 1, então a função de distribuição:</p>
-<p><span class="math display">\[
-F(x) = \sum_{i=1}^n \alpha_i F_i(x),
-\]</span></p>
+<p><span class="math display">\[F(x) = \sum_{i=1}^n \alpha_i F_i(x),\]</span></p>
 <p>é uma <strong>mistura</strong>, ou uma <strong>composição</strong>, das funções de distribuição <span class="math inline">\(F_i\)</span>, <span class="math inline">\(i = 1, \dots, n\)</span>.</p>
 <p>Uma maneira de simular a partir de <span class="math inline">\(F\)</span> é primeiro simular uma variável aleatória <span class="math inline">\(I\)</span>, igual a <span class="math inline">\(i\)</span> com probabilidade <span class="math inline">\(\alpha_i\)</span>, <span class="math inline">\(i=1,\dots,n\)</span>, e então simular a partir da distribuição <span class="math inline">\(F_I\)</span> (Isto é, se o valor simulado de <span class="math inline">\(I\)</span> for <span class="math inline">\(I = j\)</span>, então a segunda simulação é feita a partir de <span class="math inline">\(F_j\)</span>). Essa abordagem para simular de <span class="math inline">\(F\)</span> é frequentemente chamada de <strong>método de composição</strong>.</p>
 
@@ -1052,6 +1060,150 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -1443,13 +1595,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./summary.html" class="pagination-link" aria-label="Números Uniformes">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Números Uniformes</span></span>
+      <a href="./summary.html" class="pagination-link" aria-label="Geração de Números Pseudoaleatórios">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Geração de Números Pseudoaleatórios</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./otimizaca.html" class="pagination-link" aria-label="Otimização Numérica">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Otimização Numérica</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./mc.html" class="pagination-link" aria-label="Métodos de Monte Carlo">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Métodos de Monte Carlo</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

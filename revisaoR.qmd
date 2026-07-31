@@ -1,7 +1,154 @@
-# Uma pequena introdução ao R
+# Introdução ao R e Programação Estatística
+
+A simulação tem um papel preponderante na estatística moderna, e suas vantagens no ensino de Estatística são conhecidas há muito tempo. Em um de seus primeiros números, o periódico *Teaching Statistics* publicou artigos que aludem precisamente a isso. @thomas_cusum_1980 afirmaram que "a introdução do computador na sala de aula escolar trouxe uma nova técnica para o ensino, a técnica da simulação". @ZiefflerGarfield2007 e @tintle_combating_2015 discutem o papel e a importância da aprendizagem baseada em simulação no currículo de graduação em Estatística. No entanto, outros autores [por exemplo, @hodgson_simulation_2000] discutem alguns problemas que podem surgir ao ensinar uma disciplina por meio de simulação, a saber, o desenvolvimento de certos equívocos na mente dos estudantes [@martins_learning_2018].
+
+Todo estudante da Universidade Federal do Ceará conhece a cena. É hora do almoço no Restaurante Universitário (RU). A fila se alonga pelo pátio, colegas conversam, alguns reclamam da espera, outros aproveitam o tempo para revisar o conteúdo da próxima prova. O tempo parece correr de forma diferente quando estamos na fila. Para alguns, são apenas alguns minutos. Para outros, parece uma eternidade.
+
+Agora, pense um pouco. Quanto tempo, em média, um aluno passa esperando para se servir? Qual a chance de alguém que chega por volta das 12h30 esperar mais de vinte minutos? Por que em alguns dias a fila anda rápido e em outros parece não ter fim?
+
+Essas perguntas podem parecer simples, mas abrem caminho para um universo fascinante. Elas revelam como a **Probabilidade e a Estatística** estão presentes em situações que vivemos todos os dias. A fila do RU não é apenas um detalhe da rotina estudantil. Ela é um retrato de como os fenômenos aleatórios acontecem ao nosso redor. Cada chegada de estudante, cada tempo de atendimento, cada variação de um dia para o outro forma um sistema dinâmico que pode ser estudado e compreendido.
+
+É esse o convite deste livro. Explorar como traduzir a realidade em modelos, como usar simulações para observar padrões e como a Estatística pode ajudar a responder perguntas sobre o nosso cotidiano. Mais do que fórmulas, ela é uma maneira de olhar o mundo e encontrar nele sentido.
+
+Aprender Estatística é aprender a lidar com a incerteza. É descobrir que até na fila do almoço existe conhecimento escondido, esperando para ser revelado.
+
+## Motivação
+
+A Estatística, além de lidar com modelos matemáticos rigorosos, também é permeada por situações em que a intuição humana falha de maneira sistemática. Um exemplo clássico é o **problema do aniversário**, que há décadas desperta curiosidade entre estudantes e pesquisadores.
+
+::: {.callout-tip title="Enuciado"}
+*Em uma sala com* $r$ pessoas, qual a probabilidade de que pelo menos duas delas compartilhem o mesmo aniversário?
+:::
+
+Um resultado surpreendente é: com apenas **23 pessoas** em uma sala, a probabilidade de que haja pelo menos uma coincidência de aniversários já é **superior a 50%**. Esse resultado é tão interessante que pode ser uma porta de entrada natural para discutir a diferença entre **probabilidade teórica** e **evidência empírica obtida por simulação**.
+
+## Da teoria à simulação {.unnumbered}
+
+Do ponto de vista teórico, a probabilidade de que todos os aniversários sejam distintos entre $r$ pessoas é
+
+$$\Pr(\text{todos distintos}) \;=\; \prod_{i=1}^{r-1} \frac{365-i}{365}
+\;=\; \left(1 - \frac{1}{365}\right)\!\left(1 - \frac{2}{365}\right)\!\cdots\!\left(1 - \frac{r-1}{365}\right).$$
+
+Logo, a probabilidade de pelo menos uma coincidência é
+
+$$p_r = 1 - \Pr(\text{todos distintos}).$$
+
+Esse produto é conceitualmente claro, mas fica pouco manejável mentalmente para $r$ moderados. É aqui que a **simulação computacional** pode entrar como aliada didática e científica.
+
+## Um atalho analítico útil {.unnumbered}
+
+O produto acima admite uma **aproximação exponencial simples e acurada**, obtida tomando logaritmo e usando a expansão para argumentos pequenos:
+
+$$\ln(1 - x) = -x + o(x), \quad (x \to 0). $$ Aplicando ao produto,
+
+$$\begin{aligned}
+\ln\!\big(1 - p_r\big)
+\;&=\;
+\sum_{i=1}^{r-1} \ln\!\left(1 - \frac{i}{365}\right)\\
+\;&\approx\;
+-\,\sum_{i=1}^{r-1} \frac{i}{365}
+\;=\;
+-\,\frac{1 + 2 + \cdots + (r-1)}{365}
+\;=\;
+-\,\frac{r(r-1)}{2 \cdot 365}.\end{aligned}$$
+
+Exponentiando e isolando $p_r$, obtemos a aproximação
+
+$$p_r \;\approx\; 1 - \exp\!\left\{-\,\frac{r(r-1)}{730}\right\}.$$
+
+Essa fórmula tem três virtudes didáticas:
+
+1)  **Clareza**: exibe explicitamente o papel do número de pares $\binom{r}{2}$.
+
+2)  **Rapidez**: permite cálculos aproximados para valores de $r$ de interesse.
+
+3)  **Boas aproximações** já para $r$ na casa das dezenas.
+
+::: {.callout-warning title="Exemplo Rápido"}
+- Para **23 pessoas**:
+
+$$p_{23}^{(\text{aprox})}
+  \;=\;
+  1 - \exp\!\left\{-\frac{23\cdot22}{730}\right\}
+  \;=\;
+  1 - \exp\!\{-0.69315\}
+  \;\approx\; 0.500,$$
+
+alinhando-se ao resultado clássico de que **23** pessoas já superam 50% de chance de coincidência.
+:::
+
+## O papel da simulação {.unnumbered}
+
+A simulação estatística permite reproduzir o experimento de forma empírica: sorteamos aleatoriamente dias de aniversário para os indivíduos e verificamos se há repetições. Repetindo o processo milhares de vezes, obtemos uma estimativa para a probabilidade de coincidência.
+
+Por exemplo, em **R**:
+
+```{r}
+r <- 23
+birthdays <- sample(1:365, r, replace = TRUE)
+any(duplicated(birthdays))
+```
+
+Ao repetir esse procedimento muitas vezes (por exemplo, 10.000 simulações), podemos estimar a proporção de conjuntos com coincidência. Pela Lei dos Grandes Números, essa estimativa converge para o valor teórico de aproximadamente 0,507 quando $r=23$.
+
+```{r}
+set.seed(123) #reprodutibilidade
+
+r <- 23
+B <- 10000
+
+acertos <- 0
+i <- 0
+
+repeat {
+  i <- i + 1
+  bdays <- sample(1:365, r, replace = TRUE)
+  acertos <- acertos + as.integer(any(duplicated(bdays)))
+  if (i >= B) break
+}
+
+p_hat <- acertos / B
+p_hat
+```
+
+## Atividade: Problema do Aniversário (22 jogadores) {.unnumbered}
+
+Nesta motivação consideramos um exemplo discutido em @martins_learning_2018 que é o conhecido e amplamente divulgado problema do aniversário [ver, por exemplo, @falk_closer_2014]. @martins_learning_2018 segue o exemplo de @matthews_coincidences_1998, considerando duas equipes de futebol e, portanto, coincidências de aniversário entre 22 jogadores. @martins_learning_2018 afirma que um resultado positivo importante dessa atividade é a discussão que surgirá naturalmente entre os estudantes, com o professor atuando como mediador. Além disso, os estudantes adoram jogos e a descoberta prática, e a simulação facilita o engajamento nessas atividades, ao mesmo tempo que ilustra resultados que podem ser não intuitivos, bem como teoria geral, como a **Lei dos Grandes Números**.
+
+Agora iremos considerar o seguinte problema:
+
+::: {.callout-tip title="Problema"}
+Em uma partida de futebol, qual é a probabilidade de que pelo menos dois dos 22 jogadores façam aniversário no mesmo dia?
+:::
+
+Em um pais chamado de país do futebol, o contexto é proposital: o futebol é popular e as probabilidades resultantes são contraintuitivas. Antes de qualquer cálculo, considere as hipóteses: (i) todos os 365 dias do ano são igualmente prováveis para qualquer aniversário; (ii) as datas de aniversário dos jogadores são independentes entre si.
+
+**Objetivos**
+
+- Estimar, via simulação, a probabilidade de coincidência de aniversários.
+
+- Relacionar frequência relativa, Lei dos Grandes Números e variação amostral.
+
+- Comparar o resultado exato e aproximado.
+
+**Hipóteses**
+
+- 365 dias equiprováveis, datas independentes, ignorar bissexto/gêmeos.
+
+**Materiais**
+
+- R (ou Posit Cloud), roteiro com comandos `sample()`, `table()`, `mean()`.
+
+## Exercícios {.unnumbered}
+
+1)  Determinar o menor número de pessoas que deve estar em uma sala para que se possa apostar, com mais de 50% de chance de ganhar, que entre elas existam pelo menos duas com o mesmo aniversário.
+
+2)  Determinar o menor número de outras pessoas que deve estar em uma sala com você para que se possa apostar, com mais de 50% de chance de ganhar, que pelo menos uma delas tenha o mesmo aniversário que o seu.
 
 
-## Introdução 
+
+## Uma Pequena Introdução ao R
+
 
 O `R` é peça-chave em inúmeros trabalhos de pesquisa e análise de dados porque reúne, de forma prática, um conjunto amplo de técnicas estatísticas atuais, das mais básicas às mais sofisticadas, e facilita seu uso no dia a dia. Quem começa no `R`, porém, muitas vezes também está dando os primeiros passos em programação. Assim, além de aprender as ferramentas do `R` para seus objetivos, é preciso desenvolver a “cabeça” de programador. Essa fase inicial ajuda a explicar a fama de que o `R` é “difícil”. Mesmo assim, com prática e uma boa orientação, ele se revela bem mais acessível do que parece.
 
@@ -10,43 +157,41 @@ O `R` é peça-chave em inúmeros trabalhos de pesquisa e análise de dados porq
 Este guia mostra como **baixar e instalar o `R` a partir do CRAN** (Comprehensive R Archive Network), com orientações específicas para **Windows**, **macOS** e **Linux**. Ao final, você testará a instalação e configurará um **espelho (mirror) brasileiro** para baixar pacotes mais rápido.
 
 ::: callout-note
-**O que é o CRAN?**  
-É a rede oficial de servidores que distribui o `R` e seus pacotes. Você pode usar o endereço inteligente [https://cloud.r-project.org](https://cloud.r-project.org) ou definir um espelho no Brasil (ex.: C3SL/UFPR).
+**O que é o CRAN?**\
+É a rede oficial de servidores que distribui o `R` e seus pacotes. Você pode usar o endereço inteligente <https://cloud.r-project.org> ou definir um espelho no Brasil (ex.: C3SL/UFPR).
 :::
-
 
 Você pode simplesmente usar:
 
-- **Cloud CRAN (recomendado):** [https://cloud.r-project.org](https://cloud.r-project.org) (redireciona para um espelho próximo).
+- **Cloud CRAN (recomendado):** <https://cloud.r-project.org> (redireciona para um espelho próximo).
 
-- **Brasil (ex.: UFPR/C3SL):** [https://cran-r.c3sl.ufpr.br](https://cran-r.c3sl.ufpr.br)
+- **Brasil (ex.: UFPR/C3SL):** <https://cran-r.c3sl.ufpr.br>
 
 Mais adiante, mostraremos como fixar o mirror no `R` permanentemente.
 
 ### Windows {.unnumbered}
 
-1. Acesse a página **Download `R` for Windows** → **base** e baixe o instalador.
+1.  Acesse a página **Download `R` for Windows** → **base** e baixe o instalador.
 
-2. Execute o instalador e avance com as opções padrão (recomendado para iniciantes).
+2.  Execute o instalador e avance com as opções padrão (recomendado para iniciantes).
 
-3. (Opcional) Se pretende **compilar pacotes a partir do código-fonte**, instale o **Rtools** compatível com a sua versão do `R`.
+3.  (Opcional) Se pretende **compilar pacotes a partir do código-fonte**, instale o **Rtools** compatível com a sua versão do `R`.
 
 ::: callout-tip
 **Rtools:** após instalar, reinicie o R/RStudio. Em geral, o Rtools adiciona as ferramentas ao *PATH* automaticamente.
 :::
 
-
 ### macOS {.unnumbered}
 
-1. Acesse **`R` for macOS** no CRAN e baixe o arquivo `.pkg` da versão atual.
+1.  Acesse **`R` for macOS** no CRAN e baixe o arquivo `.pkg` da versão atual.
 
-2. Abra o `.pkg` e conclua a instalação.
+2.  Abra o `.pkg` e conclua a instalação.
 
-3. (Opcional) Para compilar pacotes, instale também as **Command Line Tools** do Xcode:
+3.  (Opcional) Para compilar pacotes, instale também as **Command Line Tools** do Xcode:
 
-```bash
+``` bash
 xcode-select --install
-``` 
+```
 
 ### Linux {.unnumbered}
 
@@ -54,14 +199,14 @@ xcode-select --install
 
 Opção rápida (repositório da distribuição):
 
-```
+```         
 sudo apt update
 sudo apt install -y r-base
 ```
 
 Para obter versões mais novas (repositório do CRAN), siga as instruções do CRAN para adicionar o repositório oficial e então:
 
-```
+```         
 sudo apt update
 sudo apt install -y r-base r-base-dev
 ```
@@ -70,7 +215,7 @@ sudo apt install -y r-base r-base-dev
 
 No terminal/Prompt:
 
-```
+```         
 R --version
 R
 ```
@@ -82,7 +227,6 @@ version
 ```
 
 Se o `R` abriu no console, a instalação está ok!
-
 
 **Teste rápido de pacotes**
 
@@ -123,14 +267,13 @@ options(repos = c(CRAN = "https://cloud.r-project.org"))
 
 - Linux/macOS:
 
-```
+```         
 echo 'options(repos = c(CRAN = "https://cloud.r-project.org"))' >> ~/.Rprofile
 ```
 
 - Windows: o `~` normalmente aponta para `C:\\Users\\SEU_USUARIO\\Documents`.
 
 Você pode criar/editar `C:\\Users\\SEU_USUARIO\\Documents\\.Rprofile` com um editor de texto.
-
 
 #### (Opcional) IDE recomendada: RStudio {.unnumbered}
 
@@ -159,15 +302,13 @@ sessionInfo()
 capabilities()  # checa recursos gráficos, etc.
 ```
 
-
-## O que é o `R` 
+## O que é o `R`
 
 `R` é uma implementação moderna da linguagem `S`, voltada à computação estatística e à visualização de dados. Ele reúne, no mesmo lugar, um ambiente interativo para análise e criação de gráficos e uma linguagem de programação completa.
 
 ::: callout-note
 **Em uma frase:** R é um ambiente estatístico + uma linguagem, criada para trabalhar bem com dados, gráficos e métodos modernos.
 :::
-
 
 #### Principais características {.unnumbered}
 
@@ -185,7 +326,7 @@ capabilities()  # checa recursos gráficos, etc.
 
 - **Multiplataforma** (Windows, macOS, Linux) e foco em **reprodutibilidade** (scripts, Quarto/R Markdown).
 
-#### Exemplo - "tudo é objeto"  {.unnumbered}
+#### Exemplo - "tudo é objeto" {.unnumbered}
 
 ```{r}
 #| label: exemplo-objeto
@@ -205,7 +346,6 @@ lista <- list(x = x, media = media, classe_f = classe_f)
 str(lista)             # inspeciona a estrutura
 lista
 ```
-
 
 ::: callout-tip
 Dica: use `str(obj)` para entender a estrutura de qualquer objeto no `R`.
@@ -245,7 +385,6 @@ setwd("/Users/seuusuario/meu-projeto")
 
 ```
 
-
 O `R` não vem com todos os pacotes adicionais que a comunidade desenvolve. Para usá-los, você precisa baixar e instalar a partir de um repositório, em geral, o CRAN.
 
 ```{r}
@@ -261,7 +400,7 @@ install.packages(c("ggplot2", "dplyr", "readr"))
 library(tidyverse)
 ```
 
-A instalação pode ser feita também facilmente usando o `RStudio`. 
+A instalação pode ser feita também facilmente usando o `RStudio`.
 
 Pacotes da comunidade são atualizados com frequência para corrigir erros e acrescentar recursos. Periodicamente, vale checar se há novas versões para o que você já tem instalado. A partir do console do `R`, você pode verificar e atualizar com um único comando.
 
@@ -288,7 +427,6 @@ update.packages(ask = FALSE, checkBuilt = TRUE)
 old.packages()  # retorna uma tabela com pacotes que têm versão mais nova
 ```
 
-
 **Atualizar apenas alguns pacotes:**
 
 ```{r}
@@ -296,7 +434,6 @@ old.packages()  # retorna uma tabela com pacotes que têm versão mais nova
 
 update.packages(oldPkgs = c("gamlss", "ggmap"), ask = FALSE)
 ```
-
 
 O `R` traz um conjunto amplo de arquivos de ajuda que permitem:
 
@@ -309,7 +446,6 @@ O `R` traz um conjunto amplo de arquivos de ajuda que permitem:
 - Ver exemplos de uso prontos para rodar.
 
 - Saber como citar o `R`, pacotes e conjuntos de dados em publicações.
-
 
 Agora iremos ver algumas funções úteis:
 
@@ -346,7 +482,6 @@ args(lm)  # nomes dos argumentos (se aplicável)
 formals(lm) # valores-padrão dos argumentos
 ```
 
-
 - Exemplos, retorno e estrutura
 
 ```{r}
@@ -359,7 +494,6 @@ methods("predict")      # métodos disponíveis para um genérico
 
 ```
 
-
 - Vignettes (tutoriais)
 
 ```{r}
@@ -370,9 +504,7 @@ vignette(package = "ggplot2") # vignettes de um pacote
 browseVignettes(package = "dplyr")  # abre no navegador
 ```
 
-
 - Como citar R/pacotes/dados
-
 
 ```{r}
 #| eval: true
@@ -384,9 +516,7 @@ toBibtex(citation("ggplot2"))  # em BibTeX
 
 ```
 
-
 - Conjuntos de dados
-
 
 ```{r}
 data() # abre uma lista com os datasets disponíveis
@@ -394,13 +524,11 @@ data() # abre uma lista com os datasets disponíveis
 # ?mtcars   # ajuda de um dataset específico
 ```
 
+Console vs. editor: Você pode digitar comandos diretamente no console ou escrever um script no editor e então executá-lo. Em materiais didáticos, distinguimos os dois formatos para evitar confusão.
 
-Console vs. editor:  Você pode digitar comandos diretamente no console ou escrever um script no editor e então executá-lo. Em materiais didáticos, distinguimos os dois formatos para evitar confusão.
+1)  Código mostrado com prompt `(R>)` = digitado no console
 
-1) Código mostrado com prompt `(R>)` = digitado no console
-
-- Em livros/notas, comandos de console costumam aparecer com o prompt na frente.
-Exemplo (divisão de 14 por 6):
+- Em livros/notas, comandos de console costumam aparecer com o prompt na frente. Exemplo (divisão de 14 por 6):
 
 ```{r}
 #| label: console-exemplo
@@ -413,11 +541,9 @@ options(prompt = "R> ", continue = "+ ")
 
 - Ao copiar para o `R`, remova o `R>`, o console já mostra o seu próprio prompt.
 
-2) Código pensado para script (sem prompt)
+2)  Código pensado para script (sem prompt)
 
-- Quando o texto disser “escreva no editor e depois execute”, o código aparece sem `R>`.
-Exemplo (laço simples):
-
+- Quando o texto disser “escreva no editor e depois execute”, o código aparece sem `R>`. Exemplo (laço simples):
 
 ```{r}
 #| label: loop-no-editor
@@ -430,11 +556,10 @@ for (myitem in 5:7) {
 ```
 
 ::: callout-tip
- **Dica de estilo:** chaves na mesma linha do for, quebra de linha para o corpo e indentação consistente.
-::: 
+**Dica de estilo:** chaves na mesma linha do for, quebra de linha para o corpo e indentação consistente.
+:::
 
-
-3) Linhas longas: uma linha só ou “quebradas”
+3)  Linhas longas: uma linha só ou “quebradas”
 
 - Chamadas extensas podem ficar em uma linha ou ser quebradas em pontos naturais (geralmente após vírgulas ou antes de argumentos nomeados).
 
@@ -466,10 +591,9 @@ identical(ordfac.vec, ordfac.vec2)
 
 ```
 
+## Números, Aritmética, Atribuição e Vetores
 
-##  Números, Aritmética, Atribuição e Vetores  
-
-1) Números (*numerics*)
+1)  Números (*numerics*)
 
 Em `R`, o tipo numérico padrão é **double** (ponto flutuante). Você também pode ter **inteiros** (sufixo `L`) e **complexos**.
 
@@ -490,7 +614,6 @@ typeof(1+2i)   # "complex
 0/0  # NaN
 is.finite(c(Inf, 3.14)) # checa finitude
 ```
-
 
 ::: callout-tip
 Precisão numérica: comparações com `==` podem falhar por arredondamento binário. Prefira `all.equal(x, y)`.
@@ -530,11 +653,9 @@ abs((sqrt(2))^2 - 2) < 1e-12 # TRUE (aceita "igualdade" numérica com folga)
 
 ```
 
-
-2) Aritmética
+2)  Aritmética
 
 Operadores básicos: `+ - * / ^` e, ainda, divisão inteira `%/%` e módulo `%%`.
-
 
 ```{r}
 #| label: aritmetica
@@ -545,13 +666,11 @@ Operadores básicos: `+ - * / ^` e, ainda, divisão inteira `%/%` e módulo `%%`
 2^3  # potência
 ```
 
-
 - Precedência: `^` → `* / %/% %%` → `+ -`. **Use parênteses para deixar claro!**
 
-3) Atribuição
+3)  Atribuição
 
 O padrão recomendado é `<-`. `=` também atribui, mas use-o preferencialmente para argumentos de função. `->` é atribuição para a direita. `<<-` afeta o ambiente pai (use com parcimônia).
-
 
 ```{r}
 #| label: atribuicao
@@ -572,12 +691,11 @@ contador(); contador(); contador()
 
 ```
 
-
 ::: callout-warning
 **Boas práticas:** Evite `<<-` sempre que possível; prefira retornar valores e trabalhar com escopos explícitos.
 :::
 
-4) Vetores (atômicos)
+4)  Vetores (atômicos)
 
 Vetores são coleções unidimensionais do mesmo tipo: lógico, inteiro, double, caractere, complexo ou raw.
 
@@ -605,7 +723,6 @@ Quando você faz `c(1, TRUE, "a")`, o `R` precisa escolher um tipo comum para to
 `logical` ⟶ `integer` ⟶ `double` ⟶ `complex` ⟶ `character`
 :::
 
-
 - Indexação e filtragem:
 
 ```{r}
@@ -624,7 +741,6 @@ x["c"]
 
 A maioria das operações é vetorizada (aplica-se elemento a elemento). Quando os comprimentos diferem, `R` tenta reciclar o menor vetor.
 
-
 ```{r}
 #| label: vetorizacao
 #| echo: true
@@ -634,8 +750,6 @@ a + b   # soma escalar-vetor (b é reciclado)
 
 a + c(1, 2) # reciclagem com aviso (5 não é múltiplo de 2)
 ```
-
-
 
 4.2. Nomes × Objetos e copy-on-modify
 
@@ -653,34 +767,37 @@ y  # 99 2 3
 Exceção: ambientes e estruturas por referência (p.ex., R6) não seguem copy-on-modify.
 :::
 
-### Exercícios  {.unnumbered}
+### Exercícios {.unnumbered}
 
-1. Crie um vetor com os números de `5` a `15` e calcule a média.
+1.  Crie um vetor com os números de `5` a `15` e calcule a média.
 
-2. Use `seq()` para gerar `0, 0.5, 1,..., 5`.
+2.  Use `seq()` para gerar `0, 0.5, 1,..., 5`.
 
-3. Mostre com código a diferença entre `%/%` e `%%` usando 14 e 6.
+3.  Mostre com código a diferença entre `%/%` e `%%` usando 14 e 6.
 
-4. Atribua `x <- 1:4` e some com o vetor `c(10, 20)`. O que acontece?
+4.  Atribua `x <- 1:4` e some com o vetor `c(10, 20)`. O que acontece?
 
-5. Verifique o tipo de `1`, `1L` e `1+0i`. Explique a diferença entre tipo (typeof) e classe (class).
+5.  Verifique o tipo de `1`, `1L` e `1+0i`. Explique a diferença entre tipo (typeof) e classe (class).
 
-6. Crie e armazene uma sequência de valores de `5 a −11`, progredindo em `passos de 0.3`.
+6.  Crie e armazene uma sequência de valores de `5 a −11`, progredindo em `passos de 0.3`.
 
-7. Reescreva o objeto de (6) com a mesma sequência invertida.
+7.  Reescreva o objeto de (6) com a mesma sequência invertida.
 
-8. Repita o vetor `c(-1, 3, -5, 7, -9)` duas vezes, com cada elemento repetido 10 vezes.
-Apresente os dados ordenados do maior para o menor.
+8.  Repita o vetor `c(-1, 3, -5, 7, -9)` duas vezes, com cada elemento repetido 10 vezes. Apresente os dados ordenados do maior para o menor.
 
-9. Crie e armazene um vetor contendo, em qualquer ordem:
+9.  Crie e armazene um vetor contendo, em qualquer ordem:
 
-a) inteiros de `6` a `12` (inclusive);
+<!-- -->
 
-b) `5.3` repetido 3 vezes;
+a)  inteiros de `6` a `12` (inclusive);
 
-c) o número `−3`;
+b)  `5.3` repetido 3 vezes;
 
-d) Uma sequência de nove valores começando em `102` e terminando no número que é o comprimento total do vetor criado em (8).
+c)  o número `−3`;
+
+d)  Uma sequência de nove valores começando em `102` e terminando no número que é o comprimento total do vetor criado em (8).
+
+<!-- -->
 
 10. Confirme que o comprimento do vetor criado em (9) é 20.
 
@@ -692,10 +809,9 @@ d) Uma sequência de nove valores começando em `102` e terminando no número qu
 
 <!-- ## Distribuições de Probabilidade {.unnumbered} -->
 
-## Matrizes 
+## Matrizes
 
 A matriz é uma construção matemática importante e é essencial para muitos métodos estatísticos. Normalmente descreve-se uma matriz $A$ como uma matriz $m \times n$; isto é, $A$ terá exatamente $m$ linhas e $n$ colunas. Isso significa que $A$ terá um total de $mn$ entradas, com cada entrada a $i, j$ ocupando uma posição única dada por sua linha específica $(i = 1, 2,\dots, m)$ e coluna $(j = 1, 2,\dots, n)$.
-
 
 Para criar uma matriz no `R`, use o comando, apropriadamente chamado, `matrix`, fornecendo as entradas da matriz ao argumento `data` como um vetor:
 
@@ -710,16 +826,13 @@ A <- matrix(
 A
 ```
 
-
 É importante estar ciente de como o `R` preenche a matriz usando as entradas de `data`. Observando o exemplo anterior, você pode ver que a matriz $A$ foi preenchida coluna por coluna ao ler as entradas de dados da esquerda para a direita. Você pode controlar como o `R` preenche os dados usando o argumento `byrow`, como mostrado nos exemplos a seguir:
-
 
 ```{r}
 matrix(data = c(1,2,3,4,5,6), nrow = 2, ncol = 3, byrow = FALSE)
 ```
 
 Qual a diferença na construção da matriz ao usar `byrow = TRUE`?
-
 
 Também é possível construir matrizes usando os comandos `cbind` e `rbind`. Veja os exemplos abaixo:
 
@@ -742,10 +855,7 @@ A <- matrix(c(0.3, 4.5, 55.3, 91, 0.1, 105.5, -4.2, 8.2, 27.9), nrow = 3, ncol =
 A
 ```
 
-
-Para dizer ao `R` para “olhar para a terceira linha de $A$ e me dar o elemento da
-segunda coluna”, você executa o seguinte:
-
+Para dizer ao `R` para “olhar para a terceira linha de $A$ e me dar o elemento da segunda coluna”, você executa o seguinte:
 
 ```{r}
 A[3, 2]
@@ -759,12 +869,9 @@ Você também pode identificar os valores ao longo da diagonal de uma matriz qua
 diag(A)
 ```
 
-
-
 ### Exercícios {.unnumbered}
 
-**(a)** Construa e armazene uma matriz $4 \times 2$ preenchida **por linhas** com os valores:  4.3, 3.1, 8.2, 8.2, 3.2, 0.9, 1.6 e 6.5 (nessa ordem).
-
+**(a)** Construa e armazene uma matriz $4 \times 2$ preenchida **por linhas** com os valores: 4.3, 3.1, 8.2, 8.2, 3.2, 0.9, 1.6 e 6.5 (nessa ordem).
 
 ```{r}
 A <- matrix(c(4.3, 3.1, 8.2, 8.2, 3.2, 0.9, 1.6, 6.5), nrow = 4, byrow = TRUE); A
@@ -793,8 +900,6 @@ matrix_test_32(B)
 
 ```
 
-
-
 **(c)** Sobrescreva a **segunda coluna** da matriz do item (a) com essa mesma coluna **ordenada do menor para o maior**.
 
 **(d)** O que o `R` retorna se você excluir a **quarta linha** e a **primeira coluna** do item (c)? Use `matrix` para garantir que o resultado seja uma **matriz de uma única coluna**, e não um vetor.
@@ -803,8 +908,7 @@ matrix_test_32(B)
 
 **(f)** Sobrescreva, **nesta ordem**, os elementos do item (c) nas posições $(4, 2), (1, 2), (4, 1)$ e $(1, 1)$ com $-\tfrac{1}{2}$ dos dois valores na **diagonal do item (e)**.
 
-
-## Operações com matrizes 
+## Operações com matrizes
 
 Em `R`, a transposta de uma matriz se obtém com `t()`, ela troca linhas por colunas.
 
@@ -852,7 +956,6 @@ A + B
 
 Ao contrário da adição, subtração e multiplicação escalar, a multiplicação de matrizes não é um cálculo elemento a elemento, e o operador padrão `*` não pode ser usado. Em vez disso, você deve usar o operador de produto matricial do `R`, escrito com símbolos de porcentagem como `%*%`. Antes de tentar esse operador, vamos primeiro armazenar as duas matrizes de exemplo e verificar se o número de colunas na primeira matriz corresponde ao número de linhas na segunda matriz usando `dim`.
 
-
 ```{r}
 A <- rbind(c(2,5,2), c(6,1,4))
 
@@ -865,7 +968,6 @@ dim(B)
 
 Isso confirma que as duas matrizes são compatíveis para a multiplicação, então você pode prosseguir.
 
-
 ```{r}
 A%*%B
 ```
@@ -875,7 +977,6 @@ Você pode mostrar que a multiplicação de matrizes é **não comutativa** usan
 ```{r}
 B%*%A
 ```
-
 
 Matrizes que não são invertíveis são chamadas de singulares. Inverter uma matriz é frequentemente necessário ao resolver sistemas de equações e tem implicações práticas importantes. Há vários métodos para inversão, e o custo computacional cresce muito à medida que o tamanho da matriz aumenta. Não entraremos em detalhes aqui; para discussões formais, veja Golub e Van Loan (1989). Por ora, veja a função `solve` do `R` como uma opção para inverter matrizes.
 
@@ -893,30 +994,25 @@ Você também pode verificar que o produto dessas duas matrizes (usando as regra
 A %*% solve(A)
 ```
 
-
 ### Exercícios {.unnumbered}
 
 **(a)** Calcule
 
-$$
-\frac{2}{7}\left(
+$$\frac{2}{7}\left(
 \begin{bmatrix}1 & 2\\2 & 4 \\ 7 & 6\end{bmatrix}
 -
 \begin{bmatrix}10 & 20\\30 & 40 \\ 50 & 60\end{bmatrix}
-\right).
-$$
+\right).$$
 
 **(b)** Armazene as duas matrizes abaixo:
 
-$$
-A=\begin{bmatrix}1\\2\\7\end{bmatrix},
+$$A=\begin{bmatrix}1\\2\\7\end{bmatrix},
 \quad
-B=\begin{bmatrix}3\\4\\8\end{bmatrix}.
-$$
+B=\begin{bmatrix}3\\4\\8\end{bmatrix}.$$
 
 Quais das multiplicações a seguir são possíveis? Para as que forem, calcule o resultado.
 
-i. $A \cdot B$;
+i.  $A \cdot B$;
 
 ii. $A^{\top} \cdot B$;
 
@@ -924,22 +1020,18 @@ iii. $B^{\top} \cdot (A \cdot A^{\top})$;
 
 iv. $(A \cdot A^{\top}) \cdot B^{\top}$;
 
-v. $\big[(B \cdot B^{\top}) + (A \cdot A^{\top}) - 100\,I_{3}\big]^{-1}$.
-
+v.  $\big[(B \cdot B^{\top}) + (A \cdot A^{\top}) - 100\,I_{3}\big]^{-1}$.
 
 **(c)** Para
 
-$$
-A = \begin{bmatrix}
+$$A = \begin{bmatrix}
 2&0&0&0\\
 0&3&0&0\\
 0&0&5&0\\
 0&0&0&-1
-\end{bmatrix},
-$$
+\end{bmatrix},$$
 
 confirme que $A^{-1}\cdot A - I_{4}$ fornece uma matriz $4\times 4$ de zeros.
-
 
 ## Laços e repetições
 
@@ -949,8 +1041,7 @@ O laço clássico, ao estilo Fortran, está disponível no `R`. A sintaxe é um 
 for(i in 1:5) print(i^2)
 ```
 
-Para várias linhas de código, você usa chaves `{}` para incluir o material sobre o qual o laço deve atuar.
-Note que a “quebra de linha” (pressionar a tecla Enter) ao final de cada comando é uma parte essencial da estrutura (você pode substituir as quebras de linha por ponto e vírgula, se preferir, mas a clareza melhora se cada comando for colocado em uma linha separada).
+Para várias linhas de código, você usa chaves `{}` para incluir o material sobre o qual o laço deve atuar. Note que a “quebra de linha” (pressionar a tecla Enter) ao final de cada comando é uma parte essencial da estrutura (você pode substituir as quebras de linha por ponto e vírgula, se preferir, mas a clareza melhora se cada comando for colocado em uma linha separada).
 
 ```{r}
 j <- k <- 0
@@ -963,8 +1054,7 @@ print(i + j + k)
 
 O fatorial de um número inteiro $x$ (escrito $x!$) é o produto de todos os inteiros positivos de $1$ até $x$. Por definição:
 
-$$x! = x \times (x-1) \times (x-2) \times (x-3)\dots \times 2 \times 1.$$
-Por exemplo, $4! = 4\times 3 \times 2 \times 1 = 24$. Aqui está a função:
+$$x! = x \times (x-1) \times (x-2) \times (x-3)\dots \times 2 \times 1.$$ Por exemplo, $4! = 4\times 3 \times 2 \times 1 = 24$. Aqui está a função:
 
 ```{r}
 fac1 <- function(x){
@@ -1024,7 +1114,7 @@ fac3 <- function(x){
 }
 ```
 
-O `repeat` em `R` não tem um fim explícito, ele vai rodar para sempre a menos que você coloque uma condição de saída que use `break`. 
+O `repeat` em `R` não tem um fim explícito, ele vai rodar para sempre a menos que você coloque uma condição de saída que use `break`.
 
 ```{r}
 sapply(0:5,fac3)
@@ -1056,7 +1146,6 @@ ifelse(y < 0, -1, 1)
 
 ## Escrevendo funções no `R`
 
-
 Normalmente você escreve funções em `R` para realizar operações que exigem duas ou mais linhas de código para serem executadas, e que você não quer digitar várias vezes. Podemos querer escrever funções simples para calcular medidas de tendência central, calcular fatoriais e coisas do tipo.
 
 Funções em `R` são objetos que realizam operações sobre argumentos que lhes são fornecidos e retornam um ou mais valores. A sintaxe para escrever uma função é
@@ -1087,16 +1176,13 @@ Funções normalmente são atribuídas a símbolos (variáveis), mas isso não �
 
 ### Média Aritmética
 
-A média é a soma dos valores $y_i$ dividida pela quantidade
-de valores $n$ (somando ao longo do número de elementos do vetor $y$). Em `R`, $n =$`length(y)` e $\sum y =$`sum(y)`. 
-Assim, uma função para calcular a média aritmética é:
+A média é a soma dos valores $y_i$ dividida pela quantidade de valores $n$ (somando ao longo do número de elementos do vetor $y$). Em `R`, $n =$`length(y)` e $\sum y =$`sum(y)`. Assim, uma função para calcular a média aritmética é:
 
 ```{r}
 media_aritmetica <- function(x) sum(x)/length(x)
 ```
 
 Vamos testar a função com dados em que sabemos de antemão qual deve ser o resultado.
-
 
 ```{r}
 y <- c(3, 3, 4, 5, 5)
@@ -1130,14 +1216,12 @@ mediana(y)
 
 ### Exercícios {.unnumbered}
 
-1. Crie sua própria função que calcula a variância, o desvio-padrão e o coeficiente de variação.
+1.  Crie sua própria função que calcula a variância, o desvio-padrão e o coeficiente de variação.
 
-2. Crie uma função para listar os elementos de uma série de Fibonacci ($1, 1, 2, 3, 5, 8, \dots$).
+2.  Crie uma função para listar os elementos de uma série de Fibonacci ($1, 1, 2, 3, 5, 8, \dots$).
 
-3. Crie uma função para calcular fatoriais usando o comando `cumprod`. 
+3.  Crie uma função para calcular fatoriais usando o comando `cumprod`.
 
-4. Crie sua própria função para calcular a mediana.
+4.  Crie sua própria função para calcular a mediana.
 
-5. Crie sua própria função para calcular a média.
-
-
+5.  Crie sua própria função para calcular a média.

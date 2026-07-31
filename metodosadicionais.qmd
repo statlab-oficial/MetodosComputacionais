@@ -1,1 +1,1 @@
-# Métodos Adicionais
+#  Aplicações Modernas em Estatística Computacional

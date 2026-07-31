@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Laboratório de Inovação em Estatística - StatLab">
 
-<title>Métodos Computacionais - 8&nbsp; Métodos de Reamostragem</title>
+<title>5&nbsp; Bootstrap e Jackknife</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,17 +64,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
+<link href="./otimizaca.html" rel="next">
 <link href="./mc.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -146,7 +147,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./boot.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Métodos de Reamostragem</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./boot.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Bootstrap e Jackknife</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -159,52 +160,56 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
-    <div class="sidebar-title mb-0 py-0">
-      <a href="./">Métodos Computacionais</a> 
-    </div>
-      </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Procurar"></div>
         </div>
         </div>
+        <div class="sidebar-tools-collapse">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo escuro"><i class="bi"></i></a>
+</div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Prefácio</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./introducao.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./revisaoR.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Uma pequena introdução ao R</span></span></a>
+ <span class="menu-text">Informações Legais e Declaração de Uso de Inteligência Artificial</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Motivação</span></span></a>
+ <span class="menu-text">Identificação da Disciplina</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./revisaoR.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução ao R e Programação Estatística</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Números Uniformes</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Geração de Números Pseudoaleatórios</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pseudo.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Números Pseudoaleatórios - Caso Discreto</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Simulação de Variáveis Aleatórias</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./mc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Métodos de Monte Carlo</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./boot.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Bootstrap e Jackknife</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -215,14 +220,14 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./mc.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Métodos de Monte Carlo</span></span></a>
+  <a href="./em.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Algoritmo EM</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./boot.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Métodos de Reamostragem</span></span></a>
+  <a href="./metodosadicionais.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Aplicações Modernas em Estatística Computacional</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -241,26 +246,26 @@ window.Quarto = {
     <h2 id="toc-title">Índice</h2>
    
   <ul>
-  <li><a href="#bootstrap" id="toc-bootstrap" class="nav-link active" data-scroll-target="#bootstrap"><span class="header-section-number">8.1</span> Bootstrap</a>
+  <li><a href="#bootstrap" id="toc-bootstrap" class="nav-link active" data-scroll-target="#bootstrap"><span class="header-section-number">5.1</span> Bootstrap</a>
   <ul class="collapse">
-  <li><a href="#introdução" id="toc-introdução" class="nav-link" data-scroll-target="#introdução"><span class="header-section-number">8.1.1</span> Introdução</a></li>
-  <li><a href="#acurária-da-média-amostral" id="toc-acurária-da-média-amostral" class="nav-link" data-scroll-target="#acurária-da-média-amostral"><span class="header-section-number">8.1.2</span> Acurária da média amostral</a></li>
-  <li><a href="#estimativa-bootstrap-do-erro-padrão" id="toc-estimativa-bootstrap-do-erro-padrão" class="nav-link" data-scroll-target="#estimativa-bootstrap-do-erro-padrão"><span class="header-section-number">8.1.3</span> Estimativa bootstrap do erro padrão</a></li>
-  <li><a href="#bootstrap-paramétrico" id="toc-bootstrap-paramétrico" class="nav-link" data-scroll-target="#bootstrap-paramétrico"><span class="header-section-number">8.1.4</span> Bootstrap Paramétrico</a></li>
+  <li><a href="#introdução" id="toc-introdução" class="nav-link" data-scroll-target="#introdução"><span class="header-section-number">5.1.1</span> Introdução</a></li>
+  <li><a href="#acurária-da-média-amostral" id="toc-acurária-da-média-amostral" class="nav-link" data-scroll-target="#acurária-da-média-amostral"><span class="header-section-number">5.1.2</span> Acurária da média amostral</a></li>
+  <li><a href="#estimativa-bootstrap-do-erro-padrão" id="toc-estimativa-bootstrap-do-erro-padrão" class="nav-link" data-scroll-target="#estimativa-bootstrap-do-erro-padrão"><span class="header-section-number">5.1.3</span> Estimativa bootstrap do erro padrão</a></li>
+  <li><a href="#bootstrap-paramétrico" id="toc-bootstrap-paramétrico" class="nav-link" data-scroll-target="#bootstrap-paramétrico"><span class="header-section-number">5.1.4</span> Bootstrap Paramétrico</a></li>
   </ul></li>
-  <li><a href="#jackknife" id="toc-jackknife" class="nav-link" data-scroll-target="#jackknife"><span class="header-section-number">8.2</span> Jackknife</a>
+  <li><a href="#jackknife" id="toc-jackknife" class="nav-link" data-scroll-target="#jackknife"><span class="header-section-number">5.2</span> Jackknife</a>
   <ul class="collapse">
-  <li><a href="#introdução-1" id="toc-introdução-1" class="nav-link" data-scroll-target="#introdução-1"><span class="header-section-number">8.2.1</span> Introdução</a></li>
-  <li><a href="#estimador-do-viés" id="toc-estimador-do-viés" class="nav-link" data-scroll-target="#estimador-do-viés"><span class="header-section-number">8.2.2</span> Estimador do viés</a></li>
-  <li><a href="#estimador-do-erro-padrão" id="toc-estimador-do-erro-padrão" class="nav-link" data-scroll-target="#estimador-do-erro-padrão"><span class="header-section-number">8.2.3</span> Estimador do erro padrão</a></li>
+  <li><a href="#introdução-1" id="toc-introdução-1" class="nav-link" data-scroll-target="#introdução-1"><span class="header-section-number">5.2.1</span> Introdução</a></li>
+  <li><a href="#estimador-do-viés" id="toc-estimador-do-viés" class="nav-link" data-scroll-target="#estimador-do-viés"><span class="header-section-number">5.2.2</span> Estimador do viés</a></li>
+  <li><a href="#estimador-do-erro-padrão" id="toc-estimador-do-erro-padrão" class="nav-link" data-scroll-target="#estimador-do-erro-padrão"><span class="header-section-number">5.2.3</span> Estimador do erro padrão</a></li>
   </ul></li>
-  <li><a href="#intervalos-de-confiança" id="toc-intervalos-de-confiança" class="nav-link" data-scroll-target="#intervalos-de-confiança"><span class="header-section-number">8.3</span> Intervalos de Confiança</a></li>
-  <li><a href="#intervalos-de-confiança-normal-padrão" id="toc-intervalos-de-confiança-normal-padrão" class="nav-link" data-scroll-target="#intervalos-de-confiança-normal-padrão"><span class="header-section-number">8.4</span> Intervalos de Confiança Normal Padrão</a></li>
-  <li><a href="#intervalo-de-confiança-t-student" id="toc-intervalo-de-confiança-t-student" class="nav-link" data-scroll-target="#intervalo-de-confiança-t-student"><span class="header-section-number">8.5</span> Intervalo de Confiança t-Student</a></li>
-  <li><a href="#ic-bootstrap-t" id="toc-ic-bootstrap-t" class="nav-link" data-scroll-target="#ic-bootstrap-t"><span class="header-section-number">8.6</span> IC bootstrap-<span class="math inline">\(t\)</span></a>
+  <li><a href="#intervalos-de-confiança" id="toc-intervalos-de-confiança" class="nav-link" data-scroll-target="#intervalos-de-confiança"><span class="header-section-number">5.3</span> Intervalos de Confiança</a></li>
+  <li><a href="#intervalos-de-confiança-normal-padrão" id="toc-intervalos-de-confiança-normal-padrão" class="nav-link" data-scroll-target="#intervalos-de-confiança-normal-padrão"><span class="header-section-number">5.4</span> Intervalos de Confiança Normal Padrão</a></li>
+  <li><a href="#intervalo-de-confiança-t-student" id="toc-intervalo-de-confiança-t-student" class="nav-link" data-scroll-target="#intervalo-de-confiança-t-student"><span class="header-section-number">5.5</span> Intervalo de Confiança t-Student</a></li>
+  <li><a href="#ic-bootstrap-t" id="toc-ic-bootstrap-t" class="nav-link" data-scroll-target="#ic-bootstrap-t"><span class="header-section-number">5.6</span> IC bootstrap-<span class="math inline">\(t\)</span></a>
   <ul class="collapse">
-  <li><a href="#intervalos-de-confiança-bootstrap-percentil" id="toc-intervalos-de-confiança-bootstrap-percentil" class="nav-link" data-scroll-target="#intervalos-de-confiança-bootstrap-percentil"><span class="header-section-number">8.6.1</span> Intervalos de Confiança bootstrap percentil</a></li>
-  <li><a href="#intervalos-de-confiança-bootstrap---versões-aprimoradas" id="toc-intervalos-de-confiança-bootstrap---versões-aprimoradas" class="nav-link" data-scroll-target="#intervalos-de-confiança-bootstrap---versões-aprimoradas"><span class="header-section-number">8.6.2</span> Intervalos de Confiança bootstrap - versões aprimoradas</a></li>
+  <li><a href="#intervalos-de-confiança-bootstrap-percentil" id="toc-intervalos-de-confiança-bootstrap-percentil" class="nav-link" data-scroll-target="#intervalos-de-confiança-bootstrap-percentil"><span class="header-section-number">5.6.1</span> Intervalos de Confiança bootstrap percentil</a></li>
+  <li><a href="#intervalos-de-confiança-bootstrap---versões-aprimoradas" id="toc-intervalos-de-confiança-bootstrap---versões-aprimoradas" class="nav-link" data-scroll-target="#intervalos-de-confiança-bootstrap---versões-aprimoradas"><span class="header-section-number">5.6.2</span> Intervalos de Confiança bootstrap - versões aprimoradas</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -270,7 +275,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Métodos de Reamostragem</span></h1>
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Bootstrap e Jackknife</span></h1>
 </div>
 
 
@@ -287,10 +292,10 @@ window.Quarto = {
 </header>
 
 
-<section id="bootstrap" class="level2" data-number="8.1">
-<h2 data-number="8.1" class="anchored" data-anchor-id="bootstrap"><span class="header-section-number">8.1</span> Bootstrap</h2>
-<section id="introdução" class="level3" data-number="8.1.1">
-<h3 data-number="8.1.1" class="anchored" data-anchor-id="introdução"><span class="header-section-number">8.1.1</span> Introdução</h3>
+<section id="bootstrap" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="bootstrap"><span class="header-section-number">5.1</span> Bootstrap</h2>
+<section id="introdução" class="level3" data-number="5.1.1">
+<h3 data-number="5.1.1" class="anchored" data-anchor-id="introdução"><span class="header-section-number">5.1.1</span> Introdução</h3>
 <p>Ao longo deste material, utilizamos simulações de Monte Carlo para demonstrar propriedades estatísticas de estimadores. Simulamos processos de geração de dados no computador e, em seguida, examinamos diretamente os resultados.</p>
 <p>Este capítulo explica como técnicas de simulação intensivas em computação podem ser aplicadas a <strong>uma única amostra</strong> para estimar a distribuição amostral de uma estatística. Esses procedimentos, cada vez mais populares, são conhecidos como <strong>métodos bootstrap</strong>. Eles podem ser usados para corroborar resultados baseados na teoria padrão ou fornecer respostas quando métodos convencionais falham.</p>
 <p>A expressão inglesa <em>“pull yourself up by your bootstraps”</em> descreve a situação de alguém que consegue superar dificuldades <strong>sozinho</strong>, apesar de recursos limitados. A frase vem do livro <em>The Surprising Adventures of Baron Munchausen</em>, de Rudolph Erich Raspe. O barão conta uma série de histórias fantásticas sobre suas viagens, incluindo feitos impossíveis e fugas ousadas. Bradley Efron escolheu o termo “bootstrap” para descrever um esquema de reamostragem que estava desenvolvendo porque “o uso do termo bootstrap deriva da expressão <em>to pull oneself up by one’s own bootstrap…</em> (O Barão havia caído no fundo de um lago profundo. Quando tudo parecia perdido, ele teve a ideia de se erguer puxando as próprias alças das botas.)” (Efron e Tibshirani (1993), p.&nbsp;5).</p>
@@ -310,8 +315,8 @@ Nota
 </div>
 <p>O Bootstrap pode ser utilizado com o propósito de estimar erros padrão, viés de estimadores, construir intervalos de confiança, testes de hipóteses, entre outros. Pode ser utilizando sob duas abordagens: <strong>paramétrica</strong> e <strong>não paramétrica</strong>. A abordagem paramétrica exige um modelo estatística, enquanto que na abordagem não paramétrica não há suposição de modelo estatístico; toma-se por base uma distribuição empírica que atribui probabilidade <span class="math inline">\(1/n\)</span> para cada um dos <span class="math inline">\(n\)</span> elementos da amostra. Algumas referências importantes neste tema são: Efron (1979), Wu (1986), Fisher <span class="math inline">\(\&amp;\)</span> Hall (1989), Fredman (1986), Efron <span class="math inline">\(\&amp;\)</span> Tibshirani (1993), Horowitz (1997), Davison <span class="math inline">\(\&amp;\)</span> Hinkley (1997).</p>
 </section>
-<section id="acurária-da-média-amostral" class="level3" data-number="8.1.2">
-<h3 data-number="8.1.2" class="anchored" data-anchor-id="acurária-da-média-amostral"><span class="header-section-number">8.1.2</span> Acurária da média amostral</h3>
+<section id="acurária-da-média-amostral" class="level3" data-number="5.1.2">
+<h3 data-number="5.1.2" class="anchored" data-anchor-id="acurária-da-média-amostral"><span class="header-section-number">5.1.2</span> Acurária da média amostral</h3>
 <p>Experimento com 16 ratos, divididos em dois grupos: um grupo recebeu o tratamento e um outro grupo não recebeu o tratamento (controle). O tempo de sobrevivência (dias) é apresentado para cada um dos ratos. O tratamento prolonga a vida?</p>
 <table class="table">
 <colgroup>
@@ -418,8 +423,8 @@ Nota
 <p><strong>Resposta à pergunta:</strong> a diferença observada 30.63 é somente 30.63/28.93=1.05 erros padrões (estimados) maior que zero, indicando um resultado não significativo, ou seja, o tratamento não aumenta o tempo médio de vida (considerando a teoria dos testes de hipóteses).</p>
 <p>O erro padrão para o estimador média amostral apresenta fórmula conhecida, mas há casos em que não dispomos de fórmulas. Suponha que haja interesse em comparar os dois grupos de ratos em relação aos tempos medianos. Temos: md(X)=94 e md(Y)=46. A diferença é 48, maior que a diferença para as médias. Com base na mediana, o tratamento prolonga a vida?</p>
 </section>
-<section id="estimativa-bootstrap-do-erro-padrão" class="level3" data-number="8.1.3">
-<h3 data-number="8.1.3" class="anchored" data-anchor-id="estimativa-bootstrap-do-erro-padrão"><span class="header-section-number">8.1.3</span> Estimativa bootstrap do erro padrão</h3>
+<section id="estimativa-bootstrap-do-erro-padrão" class="level3" data-number="5.1.3">
+<h3 data-number="5.1.3" class="anchored" data-anchor-id="estimativa-bootstrap-do-erro-padrão"><span class="header-section-number">5.1.3</span> Estimativa bootstrap do erro padrão</h3>
 <p>Considerações:</p>
 <ul>
 <li><p><span class="math inline">\(\underset{\sim}{x} = (x_1,\,x_2\,\ldots,\,x_n)\)</span>: vetor de dados observado (amostra original de tamanho <span class="math inline">\(n\)</span>)</p></li>
@@ -503,8 +508,8 @@ Nota
 <li><p>total de amostras bootstrap distintas (combinação com repetição): <span class="math display">\[\binom{2n -1}{n}.\]</span></p></li>
 <li><p>No <code>R</code>: ver as funções <code>factorial()</code>, <code>choose()</code>, <code>combn()</code>, <code>combinations()</code>.</p></li>
 </ul>
-<section id="exemplo" class="level4" data-number="8.1.3.1">
-<h4 data-number="8.1.3.1" class="anchored" data-anchor-id="exemplo"><span class="header-section-number">8.1.3.1</span> Exemplo</h4>
+<section id="exemplo" class="level4" data-number="5.1.3.1">
+<h4 data-number="5.1.3.1" class="anchored" data-anchor-id="exemplo"><span class="header-section-number">5.1.3.1</span> Exemplo</h4>
 <p>Dados de faculdades americanas de direito. População: <span class="math inline">\(N=82\)</span> faculdades. Amostra aleatória: <span class="math inline">\(n=15\)</span> faculdades. Variáveis analisadas: LSAT (escore médio em um teste), GPA (pontuação média na faculdade).</p>
 <table class="table">
 <thead>
@@ -655,16 +660,16 @@ Nota
 </div>
 </div>
 </section>
-<section id="exercícios" class="level4" data-number="8.1.3.2">
-<h4 data-number="8.1.3.2" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">8.1.3.2</span> Exercícios:</h4>
+<section id="exercícios" class="level4" data-number="5.1.3.2">
+<h4 data-number="5.1.3.2" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">5.1.3.2</span> Exercícios:</h4>
 <ol type="1">
 <li><p>Considere <span class="math inline">\(B = 3200\)</span>. Para cada uma das 3200 amostras bootstrap, obtenha a réplica bootstrap <span class="math inline">\(\hat{\theta}^*=corr(y^*,z^*)\)</span>. Faça o histograma das réplicas.</p></li>
 <li><p>A Tabela 3.2, p.&nbsp;21 do livro texto, apresenta os dados populacionais das 82 faculdades. Selecione 3200 amostras aleatórias de tamanho <span class="math inline">\(n = 15\)</span>. Para cada uma dessas amostra calcule o coeficiente de correlação e faça o histograma.</p></li>
 </ol>
 </section>
 </section>
-<section id="bootstrap-paramétrico" class="level3" data-number="8.1.4">
-<h3 data-number="8.1.4" class="anchored" data-anchor-id="bootstrap-paramétrico"><span class="header-section-number">8.1.4</span> Bootstrap Paramétrico</h3>
+<section id="bootstrap-paramétrico" class="level3" data-number="5.1.4">
+<h3 data-number="5.1.4" class="anchored" data-anchor-id="bootstrap-paramétrico"><span class="header-section-number">5.1.4</span> Bootstrap Paramétrico</h3>
 <p>O estimador bootstrap paramétrico do erro padrão é definido por <span class="math display">\[ep_{\hat{F}_{par}}(\hat\Theta^*),\]</span> em que <span class="math inline">\(\hat{F}_{par}\)</span> é um estimador de <span class="math inline">\(F\)</span> derivado do modelo paramétrico para os dados.</p>
 <p>Para os dados das faculdades: Vamos supor que a população (LSAT, GPA) possa ser descrita por um modelo paramétrico normal bivariado <span class="math inline">\(F\)</span>. Estimamos <span class="math inline">\(F\)</span> por <span class="math inline">\(\hat{F}_{normal}\)</span>, que denota a f.d.a. de uma normal bivariada com vetor de médias e matriz de covariâncias <span class="math inline">\((\bar{y},\bar{z})\)</span> e <span class="math inline">\(\dfrac{1}{14}\left(
 \begin{array}{ll}
@@ -703,10 +708,10 @@ Importante
 </ul>
 </section>
 </section>
-<section id="jackknife" class="level2" data-number="8.2">
-<h2 data-number="8.2" class="anchored" data-anchor-id="jackknife"><span class="header-section-number">8.2</span> Jackknife</h2>
-<section id="introdução-1" class="level3" data-number="8.2.1">
-<h3 data-number="8.2.1" class="anchored" data-anchor-id="introdução-1"><span class="header-section-number">8.2.1</span> Introdução</h3>
+<section id="jackknife" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="jackknife"><span class="header-section-number">5.2</span> Jackknife</h2>
+<section id="introdução-1" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="introdução-1"><span class="header-section-number">5.2.1</span> Introdução</h3>
 <p>Jackknife é uma técnica para estimar viés e erro padrão de estimadores. É uma técnica que antecede o bootstrap e foi proposta no trabalho pioneiro Quenouille (1949) para reduzir viés do estimador da correlação serial.</p>
 <p><strong>Formalização:</strong></p>
 <ul>
@@ -718,12 +723,12 @@ Importante
 </ul>
 <p>O jackknife toma como base <span class="math inline">\(n\)</span> amostras de tamanho <span class="math inline">\(n-1\)</span> selecionadas da amostra aleatória observada. A <span class="math inline">\(i\)</span>-ésima amostra jackknife consiste da amostra observada com a <span class="math inline">\(i\)</span>-ésima observação removida, <span class="math inline">\(i=1,2, \ldots, n\)</span>: <span class="math display">\[{\underset{\sim}{x}}_{(i)}=(x_1,x_2,\ldots, x_{i-1},x_{i+1}, \ldots, x_n).\]</span></p>
 </section>
-<section id="estimador-do-viés" class="level3" data-number="8.2.2">
-<h3 data-number="8.2.2" class="anchored" data-anchor-id="estimador-do-viés"><span class="header-section-number">8.2.2</span> Estimador do viés</h3>
+<section id="estimador-do-viés" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="estimador-do-viés"><span class="header-section-number">5.2.2</span> Estimador do viés</h3>
 <p>Para cada amostra <span class="math inline">\(i\)</span> jackknife, é obtida a réplica jackknife <span class="math inline">\(\hat{\theta}_{(i)}=s({\underset{\sim}{x}}_{(i)})\)</span> e o estimador jackknife do viés de <span class="math inline">\(\hat{\Theta}\)</span> é dado por: <span class="math display">\[\widehat{\mbox{viés}}_{jack} =(n-1)( \hat{\Theta}_{(\cdot)} - \hat{\Theta} ),\]</span> em que <span class="math inline">\(\hat{\Theta}_{(\cdot)}=\sum_{i=1}^n\dfrac{\hat{\Theta}_{(i)}}{n}\)</span>.</p>
 </section>
-<section id="estimador-do-erro-padrão" class="level3" data-number="8.2.3">
-<h3 data-number="8.2.3" class="anchored" data-anchor-id="estimador-do-erro-padrão"><span class="header-section-number">8.2.3</span> Estimador do erro padrão</h3>
+<section id="estimador-do-erro-padrão" class="level3" data-number="5.2.3">
+<h3 data-number="5.2.3" class="anchored" data-anchor-id="estimador-do-erro-padrão"><span class="header-section-number">5.2.3</span> Estimador do erro padrão</h3>
 <p>O estimador jackknife do erro padrão de <span class="math inline">\(\hat{\Theta}\)</span> pode ser escrito da seguinte maneira: <span class="math display">\[\widehat{ep}_{jack} =\left[ \dfrac{n-1}{n}\sum_{i=1}^n (\hat{\Theta}_{(i)} - \hat{\Theta}_{(\cdot)})^2\right]^{\frac{1}{2}},\]</span> em que <span class="math inline">\(\hat{\Theta}_{(\cdot)}=\sum_{i=1}^n\dfrac{\hat{\Theta}_{(i)}}{n}\)</span>.</p>
 <p>Algumas considerações importantes:</p>
 <ul>
@@ -733,8 +738,8 @@ Importante
 <li><p>A acurácia do estimador jackknife do erro padrão depende de quão próximo o estimador é da linearidade. Para funções fortemente não lineares, o jackknife pode ser ineficiente;</p></li>
 <li><p>Estimador linear: <span class="math inline">\(\hat{\Theta}=s(\underset{\sim}{X})=\mu +\frac{1}{n}\sum_{i=1}^n\alpha(X_i).\)</span></p></li>
 </ul>
-<section id="exemplo-1" class="level4" data-number="8.2.3.1">
-<h4 data-number="8.2.3.1" class="anchored" data-anchor-id="exemplo-1"><span class="header-section-number">8.2.3.1</span> Exemplo</h4>
+<section id="exemplo-1" class="level4" data-number="5.2.3.1">
+<h4 data-number="5.2.3.1" class="anchored" data-anchor-id="exemplo-1"><span class="header-section-number">5.2.3.1</span> Exemplo</h4>
 <p>Considere a amostra observada: <span class="math inline">\(\underset{\sim}{x}=(10,26,30,40,48)\)</span> e o estimador: mediana(<span class="math inline">\(\hat{\Theta}\)</span>). As amostras e réplicas jackknife são dadas, respectivamente, por:</p>
 <ol type="1">
 <li><span class="math inline">\({\underset{\sim}{x}}_{(1)}=(26,30,40,48)\)</span> e <span class="math inline">\(\hat{\theta}_{(1)}=35;\)</span></li>
@@ -764,8 +769,8 @@ Importante
 </section>
 </section>
 </section>
-<section id="intervalos-de-confiança" class="level2" data-number="8.3">
-<h2 data-number="8.3" class="anchored" data-anchor-id="intervalos-de-confiança"><span class="header-section-number">8.3</span> Intervalos de Confiança</h2>
+<section id="intervalos-de-confiança" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="intervalos-de-confiança"><span class="header-section-number">5.3</span> Intervalos de Confiança</h2>
 <div class="callout callout-style-default callout-warning callout-titled" title="Notação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -786,20 +791,20 @@ Notação
 </div>
 </div>
 </section>
-<section id="intervalos-de-confiança-normal-padrão" class="level2" data-number="8.4">
-<h2 data-number="8.4" class="anchored" data-anchor-id="intervalos-de-confiança-normal-padrão"><span class="header-section-number">8.4</span> Intervalos de Confiança Normal Padrão</h2>
+<section id="intervalos-de-confiança-normal-padrão" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="intervalos-de-confiança-normal-padrão"><span class="header-section-number">5.4</span> Intervalos de Confiança Normal Padrão</h2>
 <p>Suponha que <span class="math inline">\(\hat{\Theta}\sim N(\Theta, ep(\hat{\Theta})^2)\)</span>. Portanto, se <span class="math inline">\(ep(\hat{\Theta})\)</span> é conhecido temos que:</p>
 <p><span class="math display">\[Z=\dfrac{\hat{\Theta} - \Theta}{ep(\hat\Theta)} \sim N(0,1),\]</span> e <span class="math display">\[IC_z\left(100(1-\alpha)\%,\Theta\right)=\hat{\Theta} \pm z_{\frac{\alpha}{2}}ep(\hat{\Theta}).\]</span></p>
 </section>
-<section id="intervalo-de-confiança-t-student" class="level2" data-number="8.5">
-<h2 data-number="8.5" class="anchored" data-anchor-id="intervalo-de-confiança-t-student"><span class="header-section-number">8.5</span> Intervalo de Confiança t-Student</h2>
+<section id="intervalo-de-confiança-t-student" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="intervalo-de-confiança-t-student"><span class="header-section-number">5.5</span> Intervalo de Confiança t-Student</h2>
 <p>Suponha que <span class="math inline">\(\hat{\Theta}\sim N(\Theta, ep(\hat{\Theta})^2)\)</span> e se <span class="math inline">\(ep(\hat{\Theta})\)</span> é desconhecido, portanto</p>
 <p><span class="math display">\[Z=\dfrac{\hat{\Theta} - \Theta}{\hat{ep}(\hat\Theta)} \sim \mbox{t-Student}(n-1),\]</span></p>
 <p>e</p>
 <p><span class="math display">\[IC_t\left(100(1-\alpha)\%,\Theta\right)=\hat{\Theta} \pm t_{(n-1,\frac{\alpha}{2})}\hat{ep}(\hat{\Theta}).\]</span></p>
 </section>
-<section id="ic-bootstrap-t" class="level2" data-number="8.6">
-<h2 data-number="8.6" class="anchored" data-anchor-id="ic-bootstrap-t"><span class="header-section-number">8.6</span> IC bootstrap-<span class="math inline">\(t\)</span></h2>
+<section id="ic-bootstrap-t" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="ic-bootstrap-t"><span class="header-section-number">5.6</span> IC bootstrap-<span class="math inline">\(t\)</span></h2>
 <p>Agora vamos definir</p>
 <p><span class="math display">\[Z^{*^b}=\dfrac{ \hat{\Theta}^{*^b} - \hat{\Theta} }{\hat{ep}^{*^b}},\]</span> em que <span class="math inline">\(\hat{\Theta}^{*^b}=s(\underset{\sim}{X}^{*^b})\)</span> e <span class="math inline">\(\hat{ep}^{*^b}\)</span> são obtidos para cada amostra bootstrap <span class="math inline">\(\underset{\sim}{x}^*\)</span>. O percentil <span class="math inline">\(100 \cdot \alpha\)</span> de <span class="math inline">\(Z^{*^b}\)</span> é estimado pelo valor <span class="math inline">\(\hat{t}^{(\alpha)}\)</span>, tal que <span class="math display">\[ \#\{Z^{*^b}\leq \hat{t}^{(\alpha)} \}/B=\alpha.\]</span></p>
 <p>Por exemplo, se <span class="math inline">\(B=100\)</span> e a confiança para o intervalo é de 90<span class="math inline">\(\%\)</span>, a estimativa <span class="math inline">\(\hat{t}^{(0.05)}\)</span> será o quinto maior valor de <span class="math inline">\(Z^{*^b}\)</span> e a estimativa <span class="math inline">\(\hat{t}^{(0.95)}\)</span> será o nonagésimo quinto maior valor de <span class="math inline">\(Z^{*^b}\)</span>.</p>
@@ -895,8 +900,8 @@ Considerações Finais
 </ul>
 </div>
 </div>
-<section id="intervalos-de-confiança-bootstrap-percentil" class="level3" data-number="8.6.1">
-<h3 data-number="8.6.1" class="anchored" data-anchor-id="intervalos-de-confiança-bootstrap-percentil"><span class="header-section-number">8.6.1</span> Intervalos de Confiança bootstrap percentil</h3>
+<section id="intervalos-de-confiança-bootstrap-percentil" class="level3" data-number="5.6.1">
+<h3 data-number="5.6.1" class="anchored" data-anchor-id="intervalos-de-confiança-bootstrap-percentil"><span class="header-section-number">5.6.1</span> Intervalos de Confiança bootstrap percentil</h3>
 <p>O intervalo bootstrap percentil de confiança <span class="math inline">\(100(1-2\alpha)\%\)</span>, denotado por <span class="math inline">\(IC_p^*\left(100(1-2\alpha)\%,\Theta \right)\)</span>, é definido por</p>
 <p><span class="math display">\[\left[ \hat\Theta^{*(\alpha)}, \ \hat\Theta^{*(1-\alpha)}\right],\]</span> em que <span class="math inline">\(\hat\Theta^{*(\alpha)}\)</span> é o percentil de ordem 100<span class="math inline">\(\alpha\)</span> da distribuição bootstrap de <span class="math inline">\(\hat\Theta^*\)</span>. Esta definição refere-se a um número infinito de réplicas.</p>
 <p>Em situações práticas, o intervalo é aproximado com base nos resultados de <span class="math inline">\(B\)</span> réplicas bootstrap:</p>
@@ -914,8 +919,8 @@ Nota
 <p>Se a distribuição de <span class="math inline">\(\hat\Theta^{*}\)</span> é aproximadamente normal, os intervalos percentil e normal padrão são próximos.</p>
 </div>
 </div>
-<section id="exemplo-2" class="level4" data-number="8.6.1.1">
-<h4 data-number="8.6.1.1" class="anchored" data-anchor-id="exemplo-2"><span class="header-section-number">8.6.1.1</span> Exemplo</h4>
+<section id="exemplo-2" class="level4" data-number="5.6.1.1">
+<h4 data-number="5.6.1.1" class="anchored" data-anchor-id="exemplo-2"><span class="header-section-number">5.6.1.1</span> Exemplo</h4>
 <p>Para uma amostra: , <span class="math inline">\(n=10\)</span>, de uma distribuição (população) normal padrão, considere o parâmetro de interesse <span class="math inline">\(\Theta\)</span>. <span class="math inline">\(\Theta=\exp(\mu)\)</span>, sendo <span class="math inline">\(\mu=0\)</span>. Sendo a estimativa para <span class="math inline">\(\Theta\)</span>: <span class="math inline">\(\hat{\theta}=\exp(\bar{x})\)</span>. Além disso, use o bootstrap não paramétrico: <span class="math inline">\(B=1000\)</span> réplicas <span class="math inline">\(\hat{\theta}^*\)</span> usando a amostra observada: (1.669, -0.411, -0.322, 0.746, -0.868, -0.874, 1.011, -0.173, 0.021, 1.482). Resultando na estimativa para <span class="math inline">\(\Theta\)</span>: <span class="math inline">\(\hat{\theta}=\exp(\bar{x})=1.256\)</span>.</p>
 <table class="table">
 <caption>Percentis de <span class="math inline">\(\hat\theta^*\)</span> com base em 1000 réplicas bootstrap.</caption>
@@ -1038,8 +1043,8 @@ Considerações Finais
 </div>
 </section>
 </section>
-<section id="intervalos-de-confiança-bootstrap---versões-aprimoradas" class="level3" data-number="8.6.2">
-<h3 data-number="8.6.2" class="anchored" data-anchor-id="intervalos-de-confiança-bootstrap---versões-aprimoradas"><span class="header-section-number">8.6.2</span> Intervalos de Confiança bootstrap - versões aprimoradas</h3>
+<section id="intervalos-de-confiança-bootstrap---versões-aprimoradas" class="level3" data-number="5.6.2">
+<h3 data-number="5.6.2" class="anchored" data-anchor-id="intervalos-de-confiança-bootstrap---versões-aprimoradas"><span class="header-section-number">5.6.2</span> Intervalos de Confiança bootstrap - versões aprimoradas</h3>
 <p>O intervalo bootstrap-<span class="math inline">\(t\)</span> apresenta boa probabilidade de cobertura teórica, mas tende a ser irregular na prática. Já o intervalo bootstrap percentil é menos irregular, mas apresenta probabilidade de cobertura menos satisfatória.</p>
 <p><strong>Proposta:</strong> intervalo bootstrap <span class="math inline">\(BC_a\)</span> (<em>bias-corrected and accelerated</em>) e <span class="math inline">\(ABC\)</span> (<em>approximate bootstrap confidence</em>).</p>
 <p>substancial melhoria na prática e na teoria. correção de viés do estimador. o <span class="math inline">\(ABC\)</span> exige menos esforço computacional do que o <span class="math inline">\(BC_a\)</span></p>
@@ -1069,6 +1074,150 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -1461,12 +1610,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./mc.html" class="pagination-link" aria-label="Métodos de Monte Carlo">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Métodos de Monte Carlo</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Métodos de Monte Carlo</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link" aria-label="Referências">
-        <span class="nav-page-text">Referências</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./otimizaca.html" class="pagination-link" aria-label="Otimização Numérica">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Otimização Numérica</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

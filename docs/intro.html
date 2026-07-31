@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Laboratório de Inovação em Estatística - StatLab">
 
-<title>Métodos Computacionais - 3&nbsp; Motivação</title>
+<title>Identificação da Disciplina</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,61 +20,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-  margin-bottom: 0em;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -85,17 +30,19 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./summary.html" rel="next">
-<link href="./revisaoR.html" rel="prev">
+<link href="./revisaoR.html" rel="next">
+<link href="./index.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -124,35 +71,6 @@ div.csl-indent {
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -166,7 +84,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./intro.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Motivação</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./intro.html">Identificação da Disciplina</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -179,52 +97,56 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
-    <div class="sidebar-title mb-0 py-0">
-      <a href="./">Métodos Computacionais</a> 
-    </div>
-      </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Procurar"></div>
         </div>
         </div>
+        <div class="sidebar-tools-collapse">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo escuro"><i class="bi"></i></a>
+</div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Prefácio</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./introducao.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./revisaoR.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Uma pequena introdução ao R</span></span></a>
+ <span class="menu-text">Informações Legais e Declaração de Uso de Inteligência Artificial</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./intro.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Motivação</span></span></a>
+ <span class="menu-text">Identificação da Disciplina</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./revisaoR.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução ao R e Programação Estatística</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Números Uniformes</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Geração de Números Pseudoaleatórios</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pseudo.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Números Pseudoaleatórios - Caso Discreto</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Simulação de Variáveis Aleatórias</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./mc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Métodos de Monte Carlo</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./boot.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Bootstrap e Jackknife</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -235,14 +157,14 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./mc.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Métodos de Monte Carlo</span></span></a>
+  <a href="./em.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Algoritmo EM</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./boot.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Métodos de Reamostragem</span></span></a>
+  <a href="./metodosadicionais.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Aplicações Modernas em Estatística Computacional</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -261,11 +183,26 @@ window.Quarto = {
     <h2 id="toc-title">Índice</h2>
    
   <ul>
-  <li><a href="#da-teoria-à-simulação" id="toc-da-teoria-à-simulação" class="nav-link active" data-scroll-target="#da-teoria-à-simulação">Da teoria à simulação</a></li>
-  <li><a href="#um-atalho-analítico-útil" id="toc-um-atalho-analítico-útil" class="nav-link" data-scroll-target="#um-atalho-analítico-útil">Um atalho analítico útil</a></li>
-  <li><a href="#o-papel-da-simulação" id="toc-o-papel-da-simulação" class="nav-link" data-scroll-target="#o-papel-da-simulação">O papel da simulação</a></li>
-  <li><a href="#atividade-problema-do-aniversário-22-jogadores" id="toc-atividade-problema-do-aniversário-22-jogadores" class="nav-link" data-scroll-target="#atividade-problema-do-aniversário-22-jogadores">Atividade: Problema do Aniversário (22 jogadores)</a></li>
-  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
+  <li><a href="#ementa" id="toc-ementa" class="nav-link active" data-scroll-target="#ementa">EMENTA</a></li>
+  <li><a href="#objetivo-geral" id="toc-objetivo-geral" class="nav-link" data-scroll-target="#objetivo-geral">OBJETIVO GERAL</a></li>
+  <li><a href="#objetivos-específicos" id="toc-objetivos-específicos" class="nav-link" data-scroll-target="#objetivos-específicos">OBJETIVOS ESPECÍFICOS</a></li>
+  <li><a href="#conteúdo-programático" id="toc-conteúdo-programático" class="nav-link" data-scroll-target="#conteúdo-programático">CONTEÚDO PROGRAMÁTICO</a>
+  <ul class="collapse">
+  <li><a href="#unidade-i-introdução-ao-r-e-programação-estatística" id="toc-unidade-i-introdução-ao-r-e-programação-estatística" class="nav-link" data-scroll-target="#unidade-i-introdução-ao-r-e-programação-estatística">Unidade I – Introdução ao R e programação estatística</a></li>
+  <li><a href="#unidade-ii-geração-de-números-pseudoaleatórios" id="toc-unidade-ii-geração-de-números-pseudoaleatórios" class="nav-link" data-scroll-target="#unidade-ii-geração-de-números-pseudoaleatórios">Unidade II – Geração de números pseudoaleatórios</a></li>
+  <li><a href="#unidade-iii-simulação-de-variáveis-aleatórias" id="toc-unidade-iii-simulação-de-variáveis-aleatórias" class="nav-link" data-scroll-target="#unidade-iii-simulação-de-variáveis-aleatórias">Unidade III – Simulação de variáveis aleatórias</a></li>
+  <li><a href="#unidade-iv-métodos-de-monte-carlo" id="toc-unidade-iv-métodos-de-monte-carlo" class="nav-link" data-scroll-target="#unidade-iv-métodos-de-monte-carlo">Unidade IV – Métodos de Monte Carlo</a></li>
+  <li><a href="#unidade-v-bootstrap-e-jackknife" id="toc-unidade-v-bootstrap-e-jackknife" class="nav-link" data-scroll-target="#unidade-v-bootstrap-e-jackknife">Unidade V – Bootstrap e Jackknife</a></li>
+  <li><a href="#unidade-vi-otimização-numérica" id="toc-unidade-vi-otimização-numérica" class="nav-link" data-scroll-target="#unidade-vi-otimização-numérica">Unidade VI – Otimização numérica</a></li>
+  <li><a href="#unidade-vii-algoritmo-em" id="toc-unidade-vii-algoritmo-em" class="nav-link" data-scroll-target="#unidade-vii-algoritmo-em">Unidade VII – Algoritmo EM</a></li>
+  <li><a href="#unidade-viii-aplicações-modernas-em-estatística-computacional" id="toc-unidade-viii-aplicações-modernas-em-estatística-computacional" class="nav-link" data-scroll-target="#unidade-viii-aplicações-modernas-em-estatística-computacional">Unidade VIII – Aplicações modernas em Estatística Computacional</a></li>
+  </ul></li>
+  <li><a href="#metodologia" id="toc-metodologia" class="nav-link" data-scroll-target="#metodologia">METODOLOGIA</a></li>
+  <li><a href="#avaliação" id="toc-avaliação" class="nav-link" data-scroll-target="#avaliação">AVALIAÇÃO</a></li>
+  <li><a href="#critérios-de-avaliação" id="toc-critérios-de-avaliação" class="nav-link" data-scroll-target="#critérios-de-avaliação">CRITÉRIOS DE AVALIAÇÃO</a></li>
+  <li><a href="#bibliografia-básica" id="toc-bibliografia-básica" class="nav-link" data-scroll-target="#bibliografia-básica">BIBLIOGRAFIA BÁSICA</a></li>
+  <li><a href="#bibliografia-complementar" id="toc-bibliografia-complementar" class="nav-link" data-scroll-target="#bibliografia-complementar">BIBLIOGRAFIA COMPLEMENTAR</a></li>
+  <li><a href="#observações-finais" id="toc-observações-finais" class="nav-link" data-scroll-target="#observações-finais">Observações Finais</a></li>
   </ul>
 </nav>
     </div>
@@ -274,7 +211,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Motivação</span></h1>
+<h1 class="title">Identificação da Disciplina</h1>
 </div>
 
 
@@ -291,163 +228,198 @@ window.Quarto = {
 </header>
 
 
-<p>A Estatística, além de lidar com modelos matemáticos rigorosos, também é permeada por situações em que a intuição humana falha de maneira sistemática. Um exemplo clássico é o <strong>problema do aniversário</strong>, que há décadas desperta curiosidade entre estudantes e pesquisadores.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Enuciado">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Enuciado
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><em>Em uma sala com</em> <span class="math inline">\(r\)</span> pessoas, qual a probabilidade de que pelo menos duas delas compartilhem o mesmo aniversário?</p>
-</div>
-</div>
-<p>Um resultado surpreendente é: com apenas <strong>23 pessoas</strong> em uma sala, a probabilidade de que haja pelo menos uma coincidência de aniversários já é <strong>superior a 50%</strong>. Esse resultado é tão interessante que pode ser uma porta de entrada natural para discutir a diferença entre <strong>probabilidade teórica</strong> e <strong>evidência empírica obtida por simulação</strong>.</p>
-<section id="da-teoria-à-simulação" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="da-teoria-à-simulação">Da teoria à simulação</h2>
-<p>Do ponto de vista teórico, a probabilidade de que todos os aniversários sejam distintos entre <span class="math inline">\(r\)</span> pessoas é</p>
-<p><span class="math display">\[\Pr(\text{todos distintos}) \;=\; \prod_{i=1}^{r-1} \frac{365-i}{365}
-\;=\; \left(1 - \frac{1}{365}\right)\!\left(1 - \frac{2}{365}\right)\!\cdots\!\left(1 - \frac{r-1}{365}\right).\]</span></p>
-<p>Logo, a probabilidade de pelo menos uma coincidência é</p>
-<p><span class="math display">\[p_r = 1 - \Pr(\text{todos distintos}).\]</span></p>
-<p>Esse produto é conceitualmente claro, mas fica pouco manejável mentalmente para <span class="math inline">\(r\)</span> moderados. É aqui que a <strong>simulação computacional</strong> pode entrar como aliada didática e científica.</p>
+<ul>
+<li><p>Curso: Estatística</p></li>
+<li><p>Disciplina: Estatística Computacional</p></li>
+<li><p>Carga Horária: 64 horas</p></li>
+<li><p>Créditos: 4</p></li>
+<li><p>Regime: Semestral</p></li>
+<li><p>Pré-requisitos: Probabilidade II (CC0285) e Análise Exploratória de Dados (CC0280) e Sistemas de Informação e Banco de Dados (CK0084)</p></li>
+<li><p>Período Letivo: 2026.2</p></li>
+<li><p>Professor(a): Dr.&nbsp;Manoel Santos-Neto</p></li>
+</ul>
+<section id="ementa" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="ementa">EMENTA</h2>
+<p>Uso de pacotes estatísticos: R ou SPLUS, SPSS. Planilhas eletrônicas com apoio ferramental. Geração números pseudo-Aleatórios e variáveis aleatórias. Simulação estatística: métodos de inversão, rejeição, composição e métodos de reamostragem. Otimização numérica: Newton-Raphson, scoring, quase-Newton. Algoritmo EM. “Bootstrap” e “Jackknife”. Métodos de Monte Carlo.</p>
 </section>
-<section id="um-atalho-analítico-útil" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="um-atalho-analítico-útil">Um atalho analítico útil</h2>
-<p>O produto acima admite uma <strong>aproximação exponencial simples e acurada</strong>, obtida tomando logaritmo e usando a expansão para argumentos pequenos:</p>
-<p><span class="math display">\[\ln(1 - x) = -x + o(x), \quad (x \to 0). \]</span> Aplicando ao produto,</p>
-<p><span class="math display">\[\begin{aligned}
-\ln\!\big(1 - p_r\big)
-\;&amp;=\;
-\sum_{i=1}^{r-1} \ln\!\left(1 - \frac{i}{365}\right)\\
-\;&amp;\approx\;
--\,\sum_{i=1}^{r-1} \frac{i}{365}
-\;=\;
--\,\frac{1 + 2 + \cdots + (r-1)}{365}
-\;=\;
--\,\frac{r(r-1)}{2 \cdot 365}.\end{aligned}\]</span></p>
-<p>Exponentiando e isolando <span class="math inline">\(p_r\)</span>, obtemos a aproximação</p>
-<p><span class="math display">\[p_r \;\approx\; 1 - \exp\!\left\{-\,\frac{r(r-1)}{730}\right\}.\]</span></p>
-<p>Essa fórmula tem três virtudes didáticas:</p>
+<section id="objetivo-geral" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="objetivo-geral">OBJETIVO GERAL</h2>
+<p>Desenvolver competências teóricas e computacionais para compreensão, implementação e aplicação dos principais métodos de Estatística Computacional, utilizando a linguagem R como ferramenta principal.</p>
+</section>
+<section id="objetivos-específicos" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="objetivos-específicos">OBJETIVOS ESPECÍFICOS</h2>
+<ul>
+<li><p>Utilizar o R para programação e análise estatística;</p></li>
+<li><p>compreender e implementar métodos de geração de números pseudoaleatórios e variáveis aleatórias;</p></li>
+<li><p>aplicar técnicas de simulação e métodos de Monte Carlo;</p></li>
+<li><p>compreender e aplicar os métodos Bootstrap e Jackknife;</p></li>
+<li><p>implementar métodos de otimização numérica e o algoritmo EM;</p></li>
+<li><p>avaliar criticamente a precisão, convergência e eficiência dos métodos computacionais;</p></li>
+<li><p>desenvolver análises estatísticas computacionais organizadas e reprodutíveis.</p></li>
+</ul>
+</section>
+<section id="conteúdo-programático" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="conteúdo-programático">CONTEÚDO PROGRAMÁTICO</h2>
+<section id="unidade-i-introdução-ao-r-e-programação-estatística" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="unidade-i-introdução-ao-r-e-programação-estatística">Unidade I – Introdução ao R e programação estatística</h3>
+<ul>
+<li><p>Estatística Computacional: conceitos, objetivos e aplicações;</p></li>
+<li><p>ambiente computacional e organização de projetos em R;</p></li>
+<li><p>objetos, vetores, matrizes, listas e data.frame;</p></li>
+<li><p>estruturas condicionais e estruturas de repetição;</p></li>
+<li><p>funções e programação modular;</p></li>
+<li><p>programação vetorizada e noções de programação funcional;</p></li>
+<li><p>manipulação e análise de dados;</p></li>
+<li><p>organização, documentação e reprodutibilidade do código;</p></li>
+<li><p>introdução ao desenvolvimento de relatórios computacionais reproduzíveis.</p></li>
+</ul>
+</section>
+<section id="unidade-ii-geração-de-números-pseudoaleatórios" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="unidade-ii-geração-de-números-pseudoaleatórios">Unidade II – Geração de números pseudoaleatórios</h3>
+<ul>
+<li><p>aleatoriedade e pseudoaleatoriedade;</p></li>
+<li><p>princípios dos geradores de números pseudoaleatórios;</p></li>
+<li><p>geradores congruenciais;</p></li>
+<li><p>período e propriedades desejáveis de um gerador;</p></li>
+<li><p>sementes e reprodutibilidade;</p></li>
+<li><p>geração de números pseudoaleatórios no R;</p></li>
+</ul>
+</section>
+<section id="unidade-iii-simulação-de-variáveis-aleatórias" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="unidade-iii-simulação-de-variáveis-aleatórias">Unidade III – Simulação de variáveis aleatórias</h3>
+<ul>
+<li><p>fundamentos da simulação estatística;</p></li>
+<li><p>geração de variáveis aleatórias discretas e contínuas;</p></li>
+<li><p>método da transformação inversa;</p></li>
+<li><p>método da rejeição;</p></li>
+<li><p>método da composição;</p></li>
+<li><p>implementação dos métodos em R;</p></li>
+</ul>
+</section>
+<section id="unidade-iv-métodos-de-monte-carlo" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="unidade-iv-métodos-de-monte-carlo">Unidade IV – Métodos de Monte Carlo</h3>
+<ul>
+<li><p>fundamentos dos métodos de Monte Carlo;</p></li>
+<li><p>Lei dos Grandes Números e fundamentação probabilística;</p></li>
+<li><p>estimação de probabilidades e esperanças por simulação;</p></li>
+<li><p>integração de Monte Carlo;</p></li>
+<li><p>introdução às técnicas de redução de variância;</p></li>
+<li><p>planejamento e implementação de estudos de simulação; aplicações estatísticas em R.</p></li>
+</ul>
+</section>
+<section id="unidade-v-bootstrap-e-jackknife" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="unidade-v-bootstrap-e-jackknife">Unidade V – Bootstrap e Jackknife</h3>
+<ul>
+<li><p>princípios dos métodos de reamostragem;</p></li>
+<li><p>distribuição empírica;</p></li>
+<li><p>Bootstrap não paramétrico;</p></li>
+<li><p>Bootstrap paramétrico;</p></li>
+<li><p>estimação Bootstrap de viés e erro padrão;</p></li>
+<li><p>intervalos de confiança Bootstrap;</p></li>
+<li><p>método Jackknife;</p></li>
+<li><p>estimação de viés e erro padrão por Jackknife;</p></li>
+<li><p>análise da influência das observações;</p></li>
+<li><p>comparação entre Bootstrap e Jackknife;</p></li>
+<li><p>limitações dos métodos de reamostragem;</p></li>
+<li><p>implementação e aplicações em R.</p></li>
+</ul>
+</section>
+<section id="unidade-vi-otimização-numérica" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="unidade-vi-otimização-numérica">Unidade VI – Otimização numérica</h3>
+<ul>
+<li><p>problemas de otimização em Estatística;</p></li>
+<li><p>funções objetivo e log-verossimilhança;</p></li>
+<li><p>métodos iterativos e critérios de convergência;</p></li>
+<li><p>método de Newton-Raphson;</p></li>
+</ul>
+<p>-função escore e matriz Hessiana;</p>
+<ul>
+<li><p>informação observada e informação de Fisher;</p></li>
+<li><p>método Escore de Fiher;</p></li>
+<li><p>métodos quase-Newton;</p></li>
+<li><p>método BFGS e noções de L-BFGS;</p></li>
+<li><p>escolha de valores iniciais;</p></li>
+<li><p>estabilidade e diagnóstico de convergência;</p></li>
+<li><p>utilização de funções de otimização disponíveis no R;</p></li>
+<li><p>aplicações à estimação por máxima verossimilhança.</p></li>
+</ul>
+</section>
+<section id="unidade-vii-algoritmo-em" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="unidade-vii-algoritmo-em">Unidade VII – Algoritmo EM</h3>
+<ul>
+<li><p>problemas estatísticos envolvendo informações incompletas e variáveis latentes;</p></li>
+<li><p>dados observados e dados completos;</p></li>
+<li><p>estrutura geral do algoritmo EM;</p></li>
+<li><p>etapa da esperança (E);</p></li>
+<li><p>etapa da maximização (M);</p></li>
+<li><p>propriedade de monotonicidade da log-verossimilhança;</p></li>
+<li><p>critérios de convergência;</p></li>
+<li><p>sensibilidade aos valores iniciais;</p></li>
+<li><p>máximos locais e limitações computacionais;</p></li>
+<li><p>implementação do algoritmo EM em R;</p></li>
+<li><p>aplicação a modelos de mistura de distribuições;</p></li>
+<li><p>interpretação e diagnóstico dos resultados.</p></li>
+</ul>
+</section>
+<section id="unidade-viii-aplicações-modernas-em-estatística-computacional" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="unidade-viii-aplicações-modernas-em-estatística-computacional">Unidade VIII – Aplicações modernas em Estatística Computacional</h3>
+<ul>
+<li><p>planejamento de estudos computacionais;</p></li>
+<li><p>comparação empírica de estimadores e procedimentos estatísticos;</p></li>
+<li><p>avaliação de viés, variância, erro quadrático médio e cobertura;</p></li>
+<li><p>reprodutibilidade em experimentos computacionais;</p></li>
+<li><p>documentação e comunicação de resultados.</p></li>
+</ul>
+</section>
+</section>
+<section id="metodologia" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="metodologia">METODOLOGIA</h2>
+<p>A disciplina será desenvolvida por meio de aulas teóricas e práticas, integrando fundamentos estatísticos, formulação matemática e implementação computacional em R. Serão utilizados exemplos, exercícios, estudos de simulação e atividades computacionais, com organização didática que favoreça diferentes formas de aprendizagem, preservando o rigor teórico e computacional.</p>
+</section>
+<section id="avaliação" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="avaliação">AVALIAÇÃO</h2>
+<p>A avaliação será contínua, por meio de avaliações individuais, atividades computacionais, exercícios e/ou projetos. Serão considerados tanto o domínio dos fundamentos teóricos quanto a capacidade de implementar, analisar e interpretar os métodos estudados.</p>
+</section>
+<section id="critérios-de-avaliação" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="critérios-de-avaliação">CRITÉRIOS DE AVALIAÇÃO</h2>
+<p>Serão considerados:</p>
+<ul>
+<li><p>domínio dos conceitos teóricos;</p></li>
+<li><p>correção estatística e computacional;</p></li>
+<li><p>qualidade da implementação em R;</p></li>
+<li><p>interpretação adequada dos resultados;</p></li>
+<li><p>clareza e organização das análises;</p></li>
+<li><p>capacidade de avaliar limitações, convergência e estabilidade dos métodos.</p></li>
+</ul>
+</section>
+<section id="bibliografia-básica" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="bibliografia-básica">BIBLIOGRAFIA BÁSICA</h2>
 <ol type="1">
-<li><p><strong>Clareza</strong>: exibe explicitamente o papel do número de pares <span class="math inline">\(\binom{r}{2}\)</span>.</p></li>
-<li><p><strong>Rapidez</strong>: permite cálculos aproximados para valores de <span class="math inline">\(r\)</span> de interesse.</p></li>
-<li><p><strong>Boas aproximações</strong> já para <span class="math inline">\(r\)</span> na casa das dezenas.</p></li>
+<li><p>ROSS, SHELDON. Simulation, 4th ed., San Diego, California: Elsevier, 2006</p></li>
+<li><p>EFRON, B.; TIBSSHIRANI, R. J. An Introducion to the Bootstrap. New York: Chapman e Hall, 1993.</p></li>
+<li><p>LIBREOFFICE. Introdução ao CALC, Planilhas de cálculo no LibreOffice. Disponível em: &lt;https://documentation.libreoffice.org/assets/Uploads/Do cumentation/pt-br/CG70/CG70-CalcGuide-Master.pdf&gt; Acesso em: 15 mar. 2022.</p></li>
+<li><p>ROBERT, C; CASELLA, G. Introducing Monte Carlo Methods with R. Springer eBooks XX, 284 p (Use R). ISBN 9781441915764. Disponível em 86 <a href="https://doi.org/10.1007/978-1-4419-1576-4" class="uri">https://doi.org/10.1007/978-1-4419-1576-4</a> Acesso em : 15 mar. 2022.</p></li>
+<li><p>CRAWLEY, Michael J. The R Book. Chichester: John Wiley &amp; Sons, 2007.</p></li>
 </ol>
-<div class="callout callout-style-default callout-warning callout-titled" title="Exemplo Rápido">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Exemplo Rápido
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li>Para <strong>23 pessoas</strong>:</li>
-</ul>
-<p><span class="math display">\[p_{23}^{(\text{aprox})}
-  \;=\;
-  1 - \exp\!\left\{-\frac{23\cdot22}{730}\right\}
-  \;=\;
-  1 - \exp\!\{-0.69315\}
-  \;\approx\; 0.500,\]</span></p>
-<p>alinhando-se ao resultado clássico de que <strong>23</strong> pessoas já superam 50% de chance de coincidência.</p>
-</div>
-</div>
 </section>
-<section id="o-papel-da-simulação" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="o-papel-da-simulação">O papel da simulação</h2>
-<p>A simulação estatística permite reproduzir o experimento de forma empírica: sorteamos aleatoriamente dias de aniversário para os indivíduos e verificamos se há repetições. Repetindo o processo milhares de vezes, obtemos uma estimativa para a probabilidade de coincidência.</p>
-<p>Por exemplo, em <strong>R</strong>:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="dv">23</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>birthdays <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">365</span>, r, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">any</span>(<span class="fu">duplicated</span>(birthdays))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] FALSE</code></pre>
-</div>
-</div>
-<p>Ao repetir esse procedimento muitas vezes (por exemplo, 10.000 simulações), podemos estimar a proporção de conjuntos com coincidência. Pela Lei dos Grandes Números, essa estimativa converge para o valor teórico de aproximadamente 0,507 quando <span class="math inline">\(r=23\)</span>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>) <span class="co">#reprodutibilidade</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="dv">23</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>acertos <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="cf">repeat</span> {</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  i <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  bdays <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">365</span>, r, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  acertos <span class="ot">&lt;-</span> acertos <span class="sc">+</span> <span class="fu">as.integer</span>(<span class="fu">any</span>(<span class="fu">duplicated</span>(bdays)))</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (i <span class="sc">&gt;=</span> B) <span class="cf">break</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>p_hat <span class="ot">&lt;-</span> acertos <span class="sc">/</span> B</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>p_hat</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.5073</code></pre>
-</div>
-</div>
-</section>
-<section id="atividade-problema-do-aniversário-22-jogadores" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="atividade-problema-do-aniversário-22-jogadores">Atividade: Problema do Aniversário (22 jogadores)</h2>
-<p>Nesta motivação consideramos um exemplo discutido em <span class="citation" data-cites="martins_learning_2018">Martins (<a href="references.html#ref-martins_learning_2018" role="doc-biblioref">2018</a>)</span> que é o conhecido e amplamente divulgado problema do aniversário <span class="citation" data-cites="falk_closer_2014">(ver, por exemplo, <a href="references.html#ref-falk_closer_2014" role="doc-biblioref">Falk 2014</a>)</span>. <span class="citation" data-cites="martins_learning_2018">Martins (<a href="references.html#ref-martins_learning_2018" role="doc-biblioref">2018</a>)</span> segue o exemplo de <span class="citation" data-cites="matthews_coincidences_1998">Matthews e Stones (<a href="references.html#ref-matthews_coincidences_1998" role="doc-biblioref">1998</a>)</span>, considerando duas equipes de futebol e, portanto, coincidências de aniversário entre 22 jogadores. <span class="citation" data-cites="martins_learning_2018">Martins (<a href="references.html#ref-martins_learning_2018" role="doc-biblioref">2018</a>)</span> afirma que um resultado positivo importante dessa atividade é a discussão que surgirá naturalmente entre os estudantes, com o professor atuando como mediador. Além disso, os estudantes adoram jogos e a descoberta prática, e a simulação facilita o engajamento nessas atividades, ao mesmo tempo que ilustra resultados que podem ser não intuitivos, bem como teoria geral, como a <strong>Lei dos Grandes Números</strong>.</p>
-<p>Agora iremos considerar o seguinte problema:</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Problema">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Problema
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Em uma partida de futebol, qual é a probabilidade de que pelo menos dois dos 22 jogadores façam aniversário no mesmo dia?</p>
-</div>
-</div>
-<p>Em um pais chamado de país do futebol, o contexto é proposital: o futebol é popular e as probabilidades resultantes são contraintuitivas. Antes de qualquer cálculo, considere as hipóteses: (i) todos os 365 dias do ano são igualmente prováveis para qualquer aniversário; (ii) as datas de aniversário dos jogadores são independentes entre si.</p>
-<p><strong>Objetivos</strong></p>
-<ul>
-<li><p>Estimar, via simulação, a probabilidade de coincidência de aniversários.</p></li>
-<li><p>Relacionar frequência relativa, Lei dos Grandes Números e variação amostral.</p></li>
-<li><p>Comparar o resultado exato e aproximado.</p></li>
-</ul>
-<p><strong>Hipóteses</strong></p>
-<ul>
-<li>365 dias equiprováveis, datas independentes, ignorar bissexto/gêmeos.</li>
-</ul>
-<p><strong>Materiais</strong></p>
-<ul>
-<li>R (ou Posit Cloud), roteiro com comandos <code>sample()</code>, <code>table()</code>, <code>mean()</code>.</li>
-</ul>
-</section>
-<section id="exercícios" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="exercícios">Exercícios</h2>
+<section id="bibliografia-complementar" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="bibliografia-complementar">BIBLIOGRAFIA COMPLEMENTAR</h2>
 <ol type="1">
-<li><p>Determinar o menor número de pessoas que deve estar em uma sala para que se possa apostar, com mais de 50% de chance de ganhar, que entre elas existam pelo menos duas com o mesmo aniversário.</p></li>
-<li><p>Determinar o menor número de outras pessoas que deve estar em uma sala com você para que se possa apostar, com mais de 50% de chance de ganhar, que pelo menos uma delas tenha o mesmo aniversário que o seu.</p></li>
+<li><p>DAVIDSON, A. C.; HINKLEY, D. V. Bootstrap Methods and their Application. New York: Cambridge University Press,</p></li>
+<li></li>
+<li><p>AQUINO, J. ALVES. R para cientistas sociais. &lt;http://www.uesc.br/editora/livrosdigitais_20140513/r_cie ntistas.pdf&gt;</p></li>
+<li><p>GARRET G.; HADLEY W. R for Data Science. Disponível em: <a href="https://r4ds.had.co.nz/" class="uri">https://r4ds.had.co.nz/</a> Acesso em : 15 mar. 2022.</p></li>
+<li><p>DALGAARD, P. Introductory Statistics with R. Springer, 2008.</p></li>
+<li><p>BRUNI, Adriano Leal. SPSS aplicado à pesquisa acadêmica. São Paulo: Atlas, 2009.</p></li>
+<li><p>KELLER, A; HEINRICH, S; NIEDERREITER, H. SPRINGERLINK (ONLINE SERVICE). Monte Carlo and Quasi-Monte Carlo Methods 2006. Springer eBooksBerlin, Heidelberg: Springer-Verlag Berlin Heidelberg, 2008. ISBN</p></li>
+<li><p>Disponível em: <a href="http://dx.doi.org/10.1007/978-3-540-74496-2" class="uri">http://dx.doi.org/10.1007/978-3-540-74496-2</a> Acesso em: 15 mar. 2022</p></li>
 </ol>
+</section>
+<section id="observações-finais" class="level2">
+<h2 class="anchored" data-anchor-id="observações-finais">Observações Finais</h2>
+<p>A linguagem R será utilizada como principal ambiente computacional da disciplina. Os materiais e atividades buscarão integrar teoria e prática, com atenção à acessibilidade pedagógica, à organização dos conteúdos e à reprodutibilidade das análises. O cronograma poderá ser ajustado conforme o desenvolvimento da turma e o calendário acadêmico.</p>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
-<div id="ref-falk_closer_2014" class="csl-entry" role="listitem">
-Falk, Ruma. 2014. <span>“A Closer Look at the Notorious Birthday Coincidences”</span>. <em>Teaching Statistics</em> 36 (2): 41–46. <a href="https://doi.org/10.1111/test.12014">https://doi.org/10.1111/test.12014</a>.
-</div>
-<div id="ref-martins_learning_2018" class="csl-entry" role="listitem">
-Martins, Rui Manuel Da Costa. 2018. <span>“Learning the Principles of Simulation Using the Birthday Problem”</span>. <em>Teaching Statistics</em> 40 (3): 108–11. <a href="https://doi.org/10.1111/test.12164">https://doi.org/10.1111/test.12164</a>.
-</div>
-<div id="ref-matthews_coincidences_1998" class="csl-entry" role="listitem">
-Matthews, Robert, e Fiona Stones. 1998. <span>“Coincidences: the truth is out there”</span>. <em>Teaching Statistics</em> 20 (1): 17–19. https://doi.org/<a href="https://doi.org/10.1111/j.1467-9639.1998.tb00752.x">https://doi.org/10.1111/j.1467-9639.1998.tb00752.x</a>.
-</div>
-</div>
 </section>
 
 </main> <!-- /main -->
@@ -471,6 +443,150 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -862,13 +978,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./revisaoR.html" class="pagination-link" aria-label="Uma pequena introdução ao R">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Uma pequena introdução ao R</span></span>
+      <a href="./index.html" class="pagination-link" aria-label="Informações Legais e Declaração de Uso de Inteligência Artificial">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Informações Legais e Declaração de Uso de Inteligência Artificial</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./summary.html" class="pagination-link" aria-label="Números Uniformes">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Números Uniformes</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./revisaoR.html" class="pagination-link" aria-label="Introdução ao R e Programação Estatística">
+        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução ao R e Programação Estatística</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

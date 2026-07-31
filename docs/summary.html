@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Laboratório de Inovação em Estatística - StatLab">
 
-<title>Métodos Computacionais - 4&nbsp; Números Uniformes</title>
+<title>2&nbsp; Geração de Números Pseudoaleatórios</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -66,16 +65,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./pseudo.html" rel="next">
-<link href="./intro.html" rel="prev">
+<link href="./revisaoR.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -146,7 +147,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./summary.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Números Uniformes</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./summary.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Geração de Números Pseudoaleatórios</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -159,52 +160,56 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
-    <div class="sidebar-title mb-0 py-0">
-      <a href="./">Métodos Computacionais</a> 
-    </div>
-      </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Procurar"></div>
         </div>
         </div>
+        <div class="sidebar-tools-collapse">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo escuro"><i class="bi"></i></a>
+</div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Prefácio</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./introducao.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./revisaoR.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Uma pequena introdução ao R</span></span></a>
+ <span class="menu-text">Informações Legais e Declaração de Uso de Inteligência Artificial</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Motivação</span></span></a>
+ <span class="menu-text">Identificação da Disciplina</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./revisaoR.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução ao R e Programação Estatística</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./summary.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Números Uniformes</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Geração de Números Pseudoaleatórios</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pseudo.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Números Pseudoaleatórios - Caso Discreto</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Simulação de Variáveis Aleatórias</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./mc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Métodos de Monte Carlo</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./boot.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Bootstrap e Jackknife</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -215,14 +220,14 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./mc.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Métodos de Monte Carlo</span></span></a>
+  <a href="./em.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Algoritmo EM</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./boot.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Métodos de Reamostragem</span></span></a>
+  <a href="./metodosadicionais.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Aplicações Modernas em Estatística Computacional</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -241,7 +246,7 @@ window.Quarto = {
     <h2 id="toc-title">Índice</h2>
    
   <ul>
-  <li><a href="#geração-de-sequências-u01" id="toc-geração-de-sequências-u01" class="nav-link active" data-scroll-target="#geração-de-sequências-u01"><span class="header-section-number">4.1</span> Geração de sequências <span class="math inline">\(U(0,1)\)</span></a>
+  <li><a href="#geração-de-sequências-u01" id="toc-geração-de-sequências-u01" class="nav-link active" data-scroll-target="#geração-de-sequências-u01"><span class="header-section-number">2.1</span> Geração de sequências <span class="math inline">\(U(0,1)\)</span></a>
   <ul class="collapse">
   <li><a href="#gerador-congruencial-linear" id="toc-gerador-congruencial-linear" class="nav-link" data-scroll-target="#gerador-congruencial-linear">Gerador Congruencial Linear</a></li>
   <li><a href="#por-que-o-gcl-funciona" id="toc-por-que-o-gcl-funciona" class="nav-link" data-scroll-target="#por-que-o-gcl-funciona">Por que o GCL funciona?</a></li>
@@ -249,7 +254,6 @@ window.Quarto = {
   <li><a href="#visualização" id="toc-visualização" class="nav-link" data-scroll-target="#visualização">Visualização</a></li>
   <li><a href="#limitações" id="toc-limitações" class="nav-link" data-scroll-target="#limitações">Limitações</a></li>
   </ul></li>
-  <li><a href="#uso-de-números-aleatórios-na-avaliação-de-integrais" id="toc-uso-de-números-aleatórios-na-avaliação-de-integrais" class="nav-link" data-scroll-target="#uso-de-números-aleatórios-na-avaliação-de-integrais"><span class="header-section-number">4.2</span> Uso de Números Aleatórios na Avaliação de Integrais</a></li>
   </ul>
 </nav>
     </div>
@@ -258,7 +262,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Números Uniformes</span></h1>
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Geração de Números Pseudoaleatórios</span></h1>
 </div>
 
 
@@ -276,8 +280,8 @@ window.Quarto = {
 
 
 <p>As simulações, de modo geral, requerem uma base inicial formada por números aleatórios. Diz-se que uma sequência <span class="math inline">\(R_1, R_2, \ldots\)</span> é composta por números aleatórios quando cada termo segue a distribuição uniforme <span class="math inline">\(U(0,1)\)</span> e <span class="math inline">\(R_i\)</span> é independente de <span class="math inline">\(R_j\)</span> para todo <span class="math inline">\(i \neq j\)</span>. Embora alguns autores utilizem o termo “números aleatórios” para se referir a variáveis amostradas de qualquer distribuição, aqui ele será usado exclusivamente para variáveis com distribuição <span class="math inline">\(U(0,1)\)</span>.</p>
-<section id="geração-de-sequências-u01" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="geração-de-sequências-u01"><span class="header-section-number">4.1</span> Geração de sequências <span class="math inline">\(U(0,1)\)</span></h2>
+<section id="geração-de-sequências-u01" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="geração-de-sequências-u01"><span class="header-section-number">2.1</span> Geração de sequências <span class="math inline">\(U(0,1)\)</span></h2>
 <p>Uma abordagem é utilizar dispositivos físicos aleatorizadores, como máquinas que sorteiam números de loteria, roletas ou circuitos eletrônicos que produzem “ruído aleatório”. Contudo, tais dispositivos apresentam desvantagens:</p>
 <ol type="1">
 <li><strong>Baixa velocidade</strong> e dificuldade de integração direta com computadores.</li>
@@ -483,91 +487,9 @@ Park–Miller hoje: ainda vale a pena?
 <figcaption>Imagem da documentação.</figcaption>
 </figure>
 </div>
-</section>
-</section>
-</section>
-<section id="uso-de-números-aleatórios-na-avaliação-de-integrais" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="uso-de-números-aleatórios-na-avaliação-de-integrais"><span class="header-section-number">4.2</span> Uso de Números Aleatórios na Avaliação de Integrais</h2>
-<p>Uma das primeiras aplicações do uso de números aleatórios foi na resolução de integrais. Considere uma função <span class="math inline">\(g(x)\)</span> e suponha que desejamos calcular uma integral de interesse.</p>
-<p><span class="math display">\[\theta = \int\limits_{0}^{1}g(x) dx.\]</span></p>
-<p>Para calcular o valor da integral, observe que, se <span class="math inline">\(U\)</span> é uma variável aleatória com distribuição uniforme no intervalo <span class="math inline">\((0, 1)\)</span>, então podemos reescrever a integral da seguinte forma:</p>
-<p><span class="math display">\[\theta = E[g(U)].\]</span> Se <span class="math inline">\(U_1, U_2, \dots,  U_n\)</span> são variáveis aleatórias independentes e uniformes em <span class="math inline">\((0, 1)\)</span>, então as variáveis <span class="math inline">\(g(U_1), g(U_2), \dots,  g(U_n)\)</span> são indepedentes e identicamente distribuídas, todas com esperança igual <span class="math inline">\(\theta\)</span> (o valor da integral). Assim, pelo <strong>Teorema da Lei Forte dos Grandes Números</strong>, temos que, com probabilidade 1,</p>
-<p><span class="math display">\[\frac{1}{n}\sum\limits_{i=1}^{n}g(U_i) \to \theta \quad \text{quando} \quad n \to \infty.\]</span></p>
-<p>Assim, podemos aproximar o valor da integral gerando um grande número de pontos aleatórios <span class="math inline">\(u_i\)</span> no intervalo <span class="math inline">\((0, 1)\)</span> e tomando como estimativa a média dos valores <span class="math inline">\(g(u_i)\)</span>. Esse procedimento de aproximação de integrais é conhecido como método de <strong>Monte Carlo</strong>.</p>
-<p>Se quisermos calcular uma integral mais geral, podemos aplicar a mesma ideia: transformar o problema em uma esperança matemática e, em seguida, aproximá-la por meio de médias amostrais obtidas a partir de números aleatórios. Considere:</p>
-<p><span class="math display">\[\theta = \int\limits_{a}^{b}g(x) dx.\]</span></p>
-<p>Se quisermos calcular a integral em um intervalo genérico <span class="math inline">\((a, b)\)</span>, fazemos a substituição</p>
-<p><span class="math display">\[u = \frac{x - a}{b-a}, \quad du = \frac{dx}{b-a},\]</span></p>
-<p>o que nos permite reescrevê-la como</p>
-<p><span class="math display">\[\theta = \int\limits_{a}^{b}g(x) dx = (b-a)\int\limits_{0}^{1}g(a + (b-a)u) du.\]</span></p>
-<p>Definindo</p>
-<p><span class="math display">\[h(u) = (b-a)g(a + (b-a)u),\]</span></p>
-<p>temos</p>
-<p><span class="math display">\[\theta = \int\limits_{0}^{1}h(u) du.\]</span></p>
-<p>Assim, podemos aproximar <span class="math inline">\(\theta\)</span> gerando números aleatórios <span class="math inline">\(u_1, u_2, \dots, u_n \sim U(0, 1)\)</span> e tomando como estimativa a média</p>
-<p><span class="math display">\[\frac{1}{n}\sum\limits_{i=1}^{n}h(u_i).\]</span> Agora, se nosso objetivo é calcular a integral:</p>
-<p><span class="math display">\[\theta = \int\limits_{0}^{\infty}g(x) dx.\]</span></p>
-<p>Fazendo a mudança de variável</p>
-<p><span class="math display">\[u = \frac{1}{x+1}, \quad du = \frac{-dx}{(x+1)^2} = -u^2 dx.\]</span></p>
-<p>Logo,</p>
-<p><span class="math display">\[dx = -\frac{du}{u^2},\]</span></p>
-<p>e a integral resultante é</p>
-<p><span class="math display">\[\theta = \int\limits_{0}^{1}h(u) du,\]</span></p>
-<p>com</p>
-<p><span class="math display">\[h(u) = \frac{g\left(\frac{1}{u} - 1\right)}{u^2}.\]</span></p>
-<p>A utilidade de empregar números aleatórios para aproximar integrais torna-se ainda mais evidente no caso de integrais multidimensionais. Suponha que <span class="math inline">\(g\)</span> seja uma função com argumento <span class="math inline">\(n\)</span>-dimensional e que estejamos interessados em calcular:</p>
-<p><span class="math display">\[\theta = \int\limits_{0}^{1}\int\limits_{0}^{1}\dots\int\limits_{0}^{1} g(x_1, x_2, \dots, x_n)dx_1 dx_2 \dots dx_n.\]</span></p>
-<p>Observe que <span class="math inline">\(\theta\)</span> pode ser expresso como o seguinte valor esperado:</p>
-<p><span class="math display">\[\theta = E[g(U_1, U_2, \dots, U_n)],\]</span></p>
-<p>em que <span class="math inline">\(U_1, U_2, \dots, U_n\)</span> são variáveis aleatória independentes uniformente distribuídas no intervalo <span class="math inline">\((0, 1)\)</span>. Assim, se gerarmos <span class="math inline">\(k\)</span> conjuntos independentes, cada um formado por <span class="math inline">\(n\)</span> variáveis aleatórias independentes com distribuição uniforme em <span class="math inline">\((0, 1)\)</span>, então as variáveis</p>
-<p><span class="math display">\[g(U_{i1}, U_{i2}, \dots, U_{in}), \quad i = 1, 2, \dots, k,\]</span> serão independentes e identicamente distribuídas, todas com esperança igual a <span class="math inline">\(\theta\)</span> (o valor da integral). Portanto, podemos estimar <span class="math inline">\(\theta\)</span> por meio da média amostral:</p>
-<p><span class="math display">\[\hat{\theta} = \frac{1}{k}\sum\limits_{i=1}^{k}g(U_{i1}, U_{i2}, \dots, U_{in}).\]</span></p>
-<section id="exemplo" class="level4 unnumbered">
-<h4 class="unnumbered anchored" data-anchor-id="exemplo">Exemplo</h4>
-<p>Nosso objetivo é encontrar o valor aproximado da integral: <span class="math inline">\(\int_{0}^{1} x^3 dx = 0.25.\)</span></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2025</span>) <span class="co">#fixando a semente</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100000</span> <span class="co">#quantidade de valores uniformes gerados</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">runif</span>(n) <span class="co">#numeros uniformes (0,1)</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(u<span class="sc">^</span><span class="dv">3</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2503221</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">2025</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">100000</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> np.random.uniform(<span class="dv">0</span>, <span class="dv">1</span>, n)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>resultado <span class="op">=</span> np.mean(u<span class="op">**</span><span class="dv">3</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(resultado)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>0.2508972398766188</code></pre>
-</div>
-</div>
-</section>
-<section id="exercícios-1" class="level4 unnumbered">
-<h4 class="unnumbered anchored" data-anchor-id="exercícios-1">Exercícios</h4>
-<ol type="1">
-<li><p>Se <span class="math inline">\(x_0 = 5\)</span> e <span class="math inline">\(x_n = 3x_{n-1}\, \text{mod}\, 150\)</span>, encontre <span class="math inline">\(x_1, x_2, \dots, x_{30}\)</span>.</p></li>
-<li><p>Se <span class="math inline">\(x_0 = 3\)</span> e <span class="math inline">\(x_n = (5x_{n-1} + 7)\, \text{mod}\, 200\)</span>, encontre <span class="math inline">\(x_1, x_2, \dots, x_{10}\)</span>.</p></li>
-<li><p>Compare sua estimativa com o valor exato:</p></li>
-</ol>
-<ul>
-<li><p><span class="math inline">\(\int_{0}^{1} \exp\{{e^x}\} dx\)</span>.</p></li>
-<li><p><span class="math inline">\(\int_{0}^{1} (1 - x^2)^{3/2} dx\)</span>.</p></li>
-<li><p><span class="math inline">\(\int_{-2}^{2} \exp\{x + x^2\} dx\)</span>.</p></li>
-<li><p><span class="math inline">\(\int_{0}^{\infty} x(1 + x^2)^{-2} dx\)</span>.</p></li>
-<li><p><span class="math inline">\(\int_{-\infty}^{\infty} \exp\{-x^2\} dx\)</span>.</p></li>
-<li><p><span class="math inline">\(\int_{0}^{1}\int_{0}^{1} \exp\{(x+y)^2\} dy dx\)</span>.</p></li>
-<li><p><span class="math inline">\(\int_{0}^{\infty}\int_{0}^{x} \exp\{-(x+y)\} dydx\)</span>.</p></li>
-</ul>
-<ol start="4" type="1">
-<li>Use simulação para encontrar o valor aproximado de <span class="math inline">\(Cov(U, e^U)\)</span>, em que <span class="math inline">\(U\)</span> é uniforme em <span class="math inline">\((0,1)\)</span>. Compare seu resultado com o valor exato.</li>
-</ol>
 
 
+</section>
 </section>
 </section>
 
@@ -592,6 +514,150 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -983,13 +1049,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./intro.html" class="pagination-link" aria-label="Motivação">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Motivação</span></span>
+      <a href="./revisaoR.html" class="pagination-link" aria-label="Introdução ao R e Programação Estatística">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução ao R e Programação Estatística</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./pseudo.html" class="pagination-link" aria-label="Números Pseudoaleatórios - Caso Discreto">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Números Pseudoaleatórios - Caso Discreto</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./pseudo.html" class="pagination-link" aria-label="Simulação de Variáveis Aleatórias">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Simulação de Variáveis Aleatórias</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

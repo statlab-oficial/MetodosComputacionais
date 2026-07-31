@@ -6,8 +6,7 @@
 
 Considere um valor inicial $\theta_0$, próximo de $\hat{\theta}$. A expansão de Taylor de $g(\theta)$ em torno de $\theta_0$ é:
 
-$$
-g(\theta)
+$$g(\theta)
 =
 g(\theta_0)
 +
@@ -15,14 +14,11 @@ g'(\theta_0)(\theta - \theta_0)
 +
 \frac{g''(\theta_0)(\theta-\theta_0)^2}{2!}
 +
-\cdots
-$$
+\cdots$$
 
 Para $|\theta - \theta_0|$ pequeno, desprezamos termos quadráticos ou superiores:
 
-$$
-g(\theta) \approx g(\theta_0) + g'(\theta_0)(\theta - \theta_0).
-$$
+$$g(\theta) \approx g(\theta_0) + g'(\theta_0)(\theta - \theta_0).$$
 
 Estamos aproximando $g(\theta)$ por uma função linear de $\theta$ que tem o mesmo valor e inclinação de $g(\theta)$ no ponto $\theta=\theta_0$.
 
@@ -34,19 +30,17 @@ $$g(\theta)-g(\theta_i)=g'(\theta_i)(\theta-\theta_i),\quad i=0,1,2,\ldots$$
 
 em que $g'(\theta_i)$ é a inclinação da reta (derivada). Essa reta passa pelo ponto $(\theta_{i+1},0)$. Assim,
 
-$$
-0-g(\theta_i) =  g'(\theta_i)(\theta_{i+1}-\theta_i) \Rightarrow
-\theta_{i+1}  =  \theta_i - \dfrac{g(\theta_i)}{g'(\theta_i)}
-$$
+$$0-g(\theta_i) =  g'(\theta_i)(\theta_{i+1}-\theta_i) \Rightarrow
+\theta_{i+1}  =  \theta_i - \dfrac{g(\theta_i)}{g'(\theta_i)}$$
 
 ![Método de Newton - Ilustração](grafico_newton_2.jpeg){width="80%"}
 
 Note que $\theta_0$ é apenas uma "estimativa qualquer" para a raiz $\hat\theta$ da equação $g(\theta)$. A proposta do método é atualizar esse valor proposto da seguinte forma:
 
--   determinar $\theta_1=\theta_0 - \dfrac{g(\theta_0)}{g'(\theta_0)}$
--   determinar $\theta_2=\theta_1 - \dfrac{g(\theta_1)}{g'(\theta_1)}$
--   repetir esse processo até que $\theta_{i+1}\approx\theta_i$
--   $\theta_i$ será a raiz da equação.
+- determinar $\theta_1=\theta_0 - \dfrac{g(\theta_0)}{g'(\theta_0)}$
+- determinar $\theta_2=\theta_1 - \dfrac{g(\theta_1)}{g'(\theta_1)}$
+- repetir esse processo até que $\theta_{i+1}\approx\theta_i$
+- $\theta_i$ será a raiz da equação.
 
 O método de Newton está implementado na função `maxNR` do pacote `maxLik` do programa `R`.
 

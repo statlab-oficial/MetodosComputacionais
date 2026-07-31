@@ -15,17 +15,17 @@ knitr::include_graphics("Cassino1.jpg")
 
 Na Estatística, os métodos de Monte Carlo são utilizados para:
 
--   estimar parâmetros da distribuição amostral;
+- estimar parâmetros da distribuição amostral;
 
--   calcular MSE (erro quadrático médio);
+- calcular MSE (erro quadrático médio);
 
--   avaliar cobertura de intervalos de confiança;
+- avaliar cobertura de intervalos de confiança;
 
--   estimar probabilidades de erro tipo I;
+- estimar probabilidades de erro tipo I;
 
--   estimar poder de testes de hipóteses.
+- estimar poder de testes de hipóteses.
 
--   O princípio central é usar amostragem aleatória massiva para resolver problemas de integração ou otimização.
+- O princípio central é usar amostragem aleatória massiva para resolver problemas de integração ou otimização.
 
 ## Integração de Monte Carlo
 
@@ -100,11 +100,10 @@ com estimador de Monte Carlo: $\bar h_n$. A Variância do estimador de Monte Car
 $$\operatorname{Var}(\bar h_n)
 = \operatorname{Var}\left(\frac{1}{n}\sum_{j=1}^n h(X_j)\right)
 = \frac{n \, \operatorname{Var}(h(X_j))}{n^2}
-= \frac{\operatorname{Var}(h(X))}{n}.
-$$ A variância de $h(X)$ pode ser estimada por
+= \frac{\operatorname{Var}(h(X))}{n}.$$
+A variância de $h(X)$ pode ser estimada por
 
-$$
-\widehat{\operatorname{Var}}(h(X))
+$$\widehat{\operatorname{Var}}(h(X))
 = \frac{1}{n}\sum_{j=1}^n \bigl(h(x_j) - \bar h_n\bigr)^2.$$
 
 Portanto, a variância do estimador de Monte Carlo $\bar h_n$ é estimada por:
@@ -147,19 +146,140 @@ legend("topright",
        bty = "n")
 ```
 
+## Uso de Números Aleatórios na Avaliação de Integrais
+
+Uma das primeiras aplicações do uso de números aleatórios foi na resolução de integrais. Considere uma função $g(x)$ e suponha que desejamos calcular uma integral de interesse.
+
+$$\theta = \int\limits_{0}^{1}g(x) dx.$$
+
+Para calcular o valor da integral, observe que, se $U$ é uma variável aleatória com distribuição uniforme no intervalo $(0, 1)$, então podemos reescrever a integral da seguinte forma:
+
+$$\theta = E[g(U)].$$ Se $U_1, U_2, \dots,  U_n$ são variáveis aleatórias independentes e uniformes em $(0, 1)$, então as variáveis $g(U_1), g(U_2), \dots,  g(U_n)$ são indepedentes e identicamente distribuídas, todas com esperança igual $\theta$ (o valor da integral). Assim, pelo **Teorema da Lei Forte dos Grandes Números**, temos que, com probabilidade 1,
+
+$$\frac{1}{n}\sum\limits_{i=1}^{n}g(U_i) \to \theta \quad \text{quando} \quad n \to \infty.$$
+
+Assim, podemos aproximar o valor da integral gerando um grande número de pontos aleatórios $u_i$ no intervalo $(0, 1)$ e tomando como estimativa a média dos valores $g(u_i)$. Esse procedimento de aproximação de integrais é conhecido como método de **Monte Carlo**.
+
+Se quisermos calcular uma integral mais geral, podemos aplicar a mesma ideia: transformar o problema em uma esperança matemática e, em seguida, aproximá-la por meio de médias amostrais obtidas a partir de números aleatórios. Considere:
+
+$$\theta = \int\limits_{a}^{b}g(x) dx.$$
+
+Se quisermos calcular a integral em um intervalo genérico $(a, b)$, fazemos a substituição
+
+$$u = \frac{x - a}{b-a}, \quad du = \frac{dx}{b-a},$$
+
+o que nos permite reescrevê-la como
+
+$$\theta = \int\limits_{a}^{b}g(x) dx = (b-a)\int\limits_{0}^{1}g(a + (b-a)u) du.$$
+
+Definindo
+
+$$h(u) = (b-a)g(a + (b-a)u),$$
+
+temos
+
+$$\theta = \int\limits_{0}^{1}h(u) du.$$
+
+Assim, podemos aproximar $\theta$ gerando números aleatórios $u_1, u_2, \dots, u_n \sim U(0, 1)$ e tomando como estimativa a média
+
+$$\frac{1}{n}\sum\limits_{i=1}^{n}h(u_i).$$ Agora, se nosso objetivo é calcular a integral:
+
+$$\theta = \int\limits_{0}^{\infty}g(x) dx.$$
+
+Fazendo a mudança de variável
+
+$$u = \frac{1}{x+1}, \quad du = \frac{-dx}{(x+1)^2} = -u^2 dx.$$
+
+Logo,
+
+$$dx = -\frac{du}{u^2},$$
+
+e a integral resultante é
+
+$$\theta = \int\limits_{0}^{1}h(u) du,$$
+
+com
+
+$$h(u) = \frac{g\left(\frac{1}{u} - 1\right)}{u^2}.$$
+
+A utilidade de empregar números aleatórios para aproximar integrais torna-se ainda mais evidente no caso de integrais multidimensionais. Suponha que $g$ seja uma função com argumento $n$-dimensional e que estejamos interessados em calcular:
+
+$$\theta = \int\limits_{0}^{1}\int\limits_{0}^{1}\dots\int\limits_{0}^{1} g(x_1, x_2, \dots, x_n)dx_1 dx_2 \dots dx_n.$$
+
+Observe que $\theta$ pode ser expresso como o seguinte valor esperado:
+
+$$\theta = E[g(U_1, U_2, \dots, U_n)],$$
+
+em que $U_1, U_2, \dots, U_n$ são variáveis aleatória independentes uniformente distribuídas no intervalo $(0, 1)$. Assim, se gerarmos $k$ conjuntos independentes, cada um formado por $n$ variáveis aleatórias independentes com distribuição uniforme em $(0, 1)$, então as variáveis
+
+$$g(U_{i1}, U_{i2}, \dots, U_{in}), \quad i = 1, 2, \dots, k,$$ serão independentes e identicamente distribuídas, todas com esperança igual a $\theta$ (o valor da integral). Portanto, podemos estimar $\theta$ por meio da média amostral:
+
+$$\hat{\theta} = \frac{1}{k}\sum\limits_{i=1}^{k}g(U_{i1}, U_{i2}, \dots, U_{in}).$$
+
+#### Exemplo {.unnumbered}
+
+Nosso objetivo é encontrar o valor aproximado da integral: $\int_{0}^{1} x^3 dx = 0.25.$
+
+```{python}
+
+```
+
+```{R}
+set.seed(2025) #fixando a semente
+n <- 100000 #quantidade de valores uniformes gerados
+u <- runif(n) #numeros uniformes (0,1)
+mean(u^3)
+```
+
+```{python}
+import numpy as np
+np.random.seed(2025)
+n = 100000
+u = np.random.uniform(0, 1, n)
+resultado = np.mean(u**3)
+
+print(resultado)
+```
+
+#### Exercícios {.unnumbered}
+
+1.  Se $x_0 = 5$ e $x_n = 3x_{n-1}\, \text{mod}\, 150$, encontre $x_1, x_2, \dots, x_{30}$.
+
+2.  Se $x_0 = 3$ e $x_n = (5x_{n-1} + 7)\, \text{mod}\, 200$, encontre $x_1, x_2, \dots, x_{10}$.
+
+3.  Compare sua estimativa com o valor exato:
+
+- $\int_{0}^{1} \exp\{{e^x}\} dx$.
+
+- $\int_{0}^{1} (1 - x^2)^{3/2} dx$.
+
+- $\int_{-2}^{2} \exp\{x + x^2\} dx$.
+
+- $\int_{0}^{\infty} x(1 + x^2)^{-2} dx$.
+
+- $\int_{-\infty}^{\infty} \exp\{-x^2\} dx$.
+
+- $\int_{0}^{1}\int_{0}^{1} \exp\{(x+y)^2\} dy dx$.
+
+- $\int_{0}^{\infty}\int_{0}^{x} \exp\{-(x+y)\} dydx$.
+
+4.  Use simulação para encontrar o valor aproximado de $Cov(U, e^U)$, em que $U$ é uniforme em $(0,1)$. Compare seu resultado com o valor exato.
+
+
+
 ## Simulações de Monte Carlo em Inferência
 
 Simulações de Monte Carlo têm como objetivo estudar as propriedades de técnicas de inferência estatística. No essencial, uma simulação de Monte Carlo funciona aplicando essas técnicas a amostras repetidamente geradas a partir de um processo de geração de dados previamente especificado.
 
 O pacote `tidyMC` busca contemplar e simplificar todo o fluxo de trabalho necessário para executar uma simulação de Monte Carlo, seja em um contexto acadêmico ou profissional. Assim, o `tidyMC` fornece funções para as seguintes tarefas:
 
--   Executar uma simulação de Monte Carlo para uma função definida pelo usuário sobre uma grade de parâmetros, utilizando `future_mc()`.
+- Executar uma simulação de Monte Carlo para uma função definida pelo usuário sobre uma grade de parâmetros, utilizando `future_mc()`.
 
--   Resumir os resultados por meio de funções de resumo (opcionais) definidas pelo usuário, usando `summary.mc()`.
+- Resumir os resultados por meio de funções de resumo (opcionais) definidas pelo usuário, usando `summary.mc()`.
 
--   Criar gráficos dos resultados da simulação de Monte Carlo, que podem ser modificados pelo usuário, por meio de `plot.mc()` e `plot.summary.mc()`.
+- Criar gráficos dos resultados da simulação de Monte Carlo, que podem ser modificados pelo usuário, por meio de `plot.mc()` e `plot.summary.mc()`.
 
--   Gerar uma tabela em LaTeX resumindo os resultados da simulação de Monte Carlo usando `tidy_mc_latex()`.
+- Gerar uma tabela em LaTeX resumindo os resultados da simulação de Monte Carlo usando `tidy_mc_latex()`.
 
 ### Instalação
 
@@ -192,11 +312,11 @@ A função `future_mc()` permite executar uma simulação de Monte Carlo para um
 
 O primeiro argumento de `future_mc()` é `fun`, que deve ser uma função capaz de realizar três tarefas para uma única repetição e uma única combinação de parâmetros:
 
--   gerar os dados,
+- gerar os dados,
 
--   aplicar o método de interesse,
+- aplicar o método de interesse,
 
--   avaliar o resultado obtido.
+- avaliar o resultado obtido.
 
 A função `future_mc()` se encarrega de gerar automaticamente os laços sobre as grades de parâmetros desejadas, bem como repetir o experimento de Monte Carlo para cada combinação de parâmetros.
 

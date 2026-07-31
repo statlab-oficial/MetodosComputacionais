@@ -7,38 +7,51 @@ lang: pt-BR
 
 
 book:
-  title: "Métodos Computacionais"
-  subtitle: "Departamento de Estatística e Matemática Aplicada"
-  description: "Laboratório de Inovação em Estatística - StatLab"
-  author: "Ronald Targino, Rafael Braz, Juvêncio Nobre e Manoel Santos-Neto"
-  date: today
+ # title: "Métodos Computacionais"
+  #subtitle: "Departamento de Estatística e Matemática Aplicada"
+  #description: "Laboratório de Inovação em Estatística - StatLab"
+  #author: "Ronald Targino, Rafael Braz, Juvêncio Nobre e Manoel Santos-Neto"
+  #date: today
   chapters:
     - index.qmd
-    - introducao.qmd
-    - revisaoR.qmd
     - intro.qmd
+    #- motivacao.qmd
+    #- introducao.qmd
+    - revisaoR.qmd
     - summary.qmd
     - pseudo.qmd
-    #- pseudo_cont.qmd
-    - otimizaca.qmd
     - mc.qmd
+    #- pseudo_cont.qmd
     - boot.qmd
+    - otimizaca.qmd
+    - em.qmd
+    - metodosadicionais.qmd
+    
     
     #- em.qmd
     #- metodosadicionais.qmd
     - references.qmd
 
 bibliography: BOOK.bib
+csl: https://www.zotero.org/styles/associacao-brasileira-de-normas-tecnicas # Opcional: para normas ABNT
+
 
 format:
   html:
-    theme: lux
+    theme: 
+      light: flatly
+      dark: darkly
     css: styles.css
   pdf:
     documentclass: scrreprt
-    pdf-engine: lualatex
+    pdf-engine: xelatex
+    lang: pt-br
     include-in-header: macros.tex
+    include-before-body: cover.tex
     
 editor: visual
+
+
+
 
 

@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Laboratório de Inovação em Estatística - StatLab">
 
-<title>Métodos Computacionais - 7&nbsp; Métodos de Monte Carlo</title>
+<title>4&nbsp; Métodos de Monte Carlo</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -66,16 +65,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./boot.html" rel="next">
-<link href="./otimizaca.html" rel="prev">
+<link href="./pseudo.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -146,7 +147,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./mc.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Métodos de Monte Carlo</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./mc.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Métodos de Monte Carlo</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -159,52 +160,56 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
-    <div class="sidebar-title mb-0 py-0">
-      <a href="./">Métodos Computacionais</a> 
-    </div>
-      </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Procurar"></div>
         </div>
         </div>
+        <div class="sidebar-tools-collapse">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo escuro"><i class="bi"></i></a>
+</div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Prefácio</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./introducao.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./revisaoR.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Uma pequena introdução ao R</span></span></a>
+ <span class="menu-text">Informações Legais e Declaração de Uso de Inteligência Artificial</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Motivação</span></span></a>
+ <span class="menu-text">Identificação da Disciplina</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./revisaoR.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução ao R e Programação Estatística</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Números Uniformes</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Geração de Números Pseudoaleatórios</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./pseudo.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Números Pseudoaleatórios - Caso Discreto</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Simulação de Variáveis Aleatórias</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./mc.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Métodos de Monte Carlo</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./boot.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Bootstrap e Jackknife</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -215,14 +220,14 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./mc.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Métodos de Monte Carlo</span></span></a>
+  <a href="./em.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Algoritmo EM</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./boot.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Métodos de Reamostragem</span></span></a>
+  <a href="./metodosadicionais.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Aplicações Modernas em Estatística Computacional</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -241,25 +246,26 @@ window.Quarto = {
     <h2 id="toc-title">Índice</h2>
    
   <ul>
-  <li><a href="#introdução" id="toc-introdução" class="nav-link active" data-scroll-target="#introdução"><span class="header-section-number">7.1</span> Introdução</a></li>
-  <li><a href="#aplicações" id="toc-aplicações" class="nav-link" data-scroll-target="#aplicações"><span class="header-section-number">7.2</span> Aplicações</a></li>
-  <li><a href="#integração-de-monte-carlo" id="toc-integração-de-monte-carlo" class="nav-link" data-scroll-target="#integração-de-monte-carlo"><span class="header-section-number">7.3</span> Integração de Monte Carlo</a>
+  <li><a href="#introdução" id="toc-introdução" class="nav-link active" data-scroll-target="#introdução"><span class="header-section-number">4.1</span> Introdução</a></li>
+  <li><a href="#aplicações" id="toc-aplicações" class="nav-link" data-scroll-target="#aplicações"><span class="header-section-number">4.2</span> Aplicações</a></li>
+  <li><a href="#integração-de-monte-carlo" id="toc-integração-de-monte-carlo" class="nav-link" data-scroll-target="#integração-de-monte-carlo"><span class="header-section-number">4.3</span> Integração de Monte Carlo</a>
   <ul class="collapse">
-  <li><a href="#problema-geral" id="toc-problema-geral" class="nav-link" data-scroll-target="#problema-geral"><span class="header-section-number">7.3.1</span> Problema geral</a></li>
+  <li><a href="#problema-geral" id="toc-problema-geral" class="nav-link" data-scroll-target="#problema-geral"><span class="header-section-number">4.3.1</span> Problema geral</a></li>
   </ul></li>
-  <li><a href="#convergência-lei-forte-dos-grandes-números" id="toc-convergência-lei-forte-dos-grandes-números" class="nav-link" data-scroll-target="#convergência-lei-forte-dos-grandes-números"><span class="header-section-number">7.4</span> Convergência (Lei Forte dos Grandes Números)</a>
+  <li><a href="#convergência-lei-forte-dos-grandes-números" id="toc-convergência-lei-forte-dos-grandes-números" class="nav-link" data-scroll-target="#convergência-lei-forte-dos-grandes-números"><span class="header-section-number">4.4</span> Convergência (Lei Forte dos Grandes Números)</a>
   <ul class="collapse">
-  <li><a href="#exemplo-1-integral-em-01" id="toc-exemplo-1-integral-em-01" class="nav-link" data-scroll-target="#exemplo-1-integral-em-01"><span class="header-section-number">7.4.1</span> Exemplo 1 — Integral em <span class="math inline">\([0,1]\)</span></a></li>
-  <li><a href="#exemplo-2-integral-imprópria" id="toc-exemplo-2-integral-imprópria" class="nav-link" data-scroll-target="#exemplo-2-integral-imprópria"><span class="header-section-number">7.4.2</span> Exemplo 2 — Integral imprópria</a></li>
-  <li><a href="#cálculo-de-probabilidades-via-monte-carlo" id="toc-cálculo-de-probabilidades-via-monte-carlo" class="nav-link" data-scroll-target="#cálculo-de-probabilidades-via-monte-carlo"><span class="header-section-number">7.4.3</span> Cálculo de probabilidades via Monte Carlo</a></li>
-  <li><a href="#exemplo-px2.5-com-xsim-n01" id="toc-exemplo-px2.5-com-xsim-n01" class="nav-link" data-scroll-target="#exemplo-px2.5-com-xsim-n01"><span class="header-section-number">7.4.4</span> Exemplo: <span class="math inline">\(P(X&gt;2.5)\)</span>, com <span class="math inline">\(X\sim N(0,1)\)</span></a></li>
+  <li><a href="#exemplo-1-integral-em-01" id="toc-exemplo-1-integral-em-01" class="nav-link" data-scroll-target="#exemplo-1-integral-em-01"><span class="header-section-number">4.4.1</span> Exemplo 1 — Integral em <span class="math inline">\([0,1]\)</span></a></li>
+  <li><a href="#exemplo-2-integral-imprópria" id="toc-exemplo-2-integral-imprópria" class="nav-link" data-scroll-target="#exemplo-2-integral-imprópria"><span class="header-section-number">4.4.2</span> Exemplo 2 — Integral imprópria</a></li>
+  <li><a href="#cálculo-de-probabilidades-via-monte-carlo" id="toc-cálculo-de-probabilidades-via-monte-carlo" class="nav-link" data-scroll-target="#cálculo-de-probabilidades-via-monte-carlo"><span class="header-section-number">4.4.3</span> Cálculo de probabilidades via Monte Carlo</a></li>
+  <li><a href="#exemplo-px2.5-com-xsim-n01" id="toc-exemplo-px2.5-com-xsim-n01" class="nav-link" data-scroll-target="#exemplo-px2.5-com-xsim-n01"><span class="header-section-number">4.4.4</span> Exemplo: <span class="math inline">\(P(X&gt;2.5)\)</span>, com <span class="math inline">\(X\sim N(0,1)\)</span></a></li>
   </ul></li>
-  <li><a href="#erro-de-monte-carlo" id="toc-erro-de-monte-carlo" class="nav-link" data-scroll-target="#erro-de-monte-carlo"><span class="header-section-number">7.5</span> Erro de Monte Carlo</a></li>
-  <li><a href="#simulações-de-monte-carlo-em-inferência" id="toc-simulações-de-monte-carlo-em-inferência" class="nav-link" data-scroll-target="#simulações-de-monte-carlo-em-inferência"><span class="header-section-number">7.6</span> Simulações de Monte Carlo em Inferência</a>
+  <li><a href="#erro-de-monte-carlo" id="toc-erro-de-monte-carlo" class="nav-link" data-scroll-target="#erro-de-monte-carlo"><span class="header-section-number">4.5</span> Erro de Monte Carlo</a></li>
+  <li><a href="#uso-de-números-aleatórios-na-avaliação-de-integrais" id="toc-uso-de-números-aleatórios-na-avaliação-de-integrais" class="nav-link" data-scroll-target="#uso-de-números-aleatórios-na-avaliação-de-integrais"><span class="header-section-number">4.6</span> Uso de Números Aleatórios na Avaliação de Integrais</a></li>
+  <li><a href="#simulações-de-monte-carlo-em-inferência" id="toc-simulações-de-monte-carlo-em-inferência" class="nav-link" data-scroll-target="#simulações-de-monte-carlo-em-inferência"><span class="header-section-number">4.7</span> Simulações de Monte Carlo em Inferência</a>
   <ul class="collapse">
-  <li><a href="#instalação" id="toc-instalação" class="nav-link" data-scroll-target="#instalação"><span class="header-section-number">7.6.1</span> Instalação</a></li>
+  <li><a href="#instalação" id="toc-instalação" class="nav-link" data-scroll-target="#instalação"><span class="header-section-number">4.7.1</span> Instalação</a></li>
   </ul></li>
-  <li><a href="#execute-sua-primeira-simulação-de-monte-carlo-com-future_mc" id="toc-execute-sua-primeira-simulação-de-monte-carlo-com-future_mc" class="nav-link" data-scroll-target="#execute-sua-primeira-simulação-de-monte-carlo-com-future_mc"><span class="header-section-number">7.7</span> Execute sua primeira Simulação de Monte Carlo com <code>future_mc()</code></a></li>
+  <li><a href="#execute-sua-primeira-simulação-de-monte-carlo-com-future_mc" id="toc-execute-sua-primeira-simulação-de-monte-carlo-com-future_mc" class="nav-link" data-scroll-target="#execute-sua-primeira-simulação-de-monte-carlo-com-future_mc"><span class="header-section-number">4.8</span> Execute sua primeira Simulação de Monte Carlo com <code>future_mc()</code></a></li>
   </ul>
 </nav>
     </div>
@@ -268,7 +274,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Métodos de Monte Carlo</span></h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Métodos de Monte Carlo</span></h1>
 </div>
 
 
@@ -285,8 +291,8 @@ window.Quarto = {
 </header>
 
 
-<section id="introdução" class="level2" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="introdução"><span class="header-section-number">7.1</span> Introdução</h2>
+<section id="introdução" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="introdução"><span class="header-section-number">4.1</span> Introdução</h2>
 <p>Os métodos de Monte Carlo formam uma classe de algoritmos baseados em simulação aleatória. Eles surgiram no final da década de 1940, especialmente com os trabalhos de John von Neumann, Stanislaw Ulam, Enrico Fermi e Nicholas Metropolis. O nome deriva da cidade famosa por seus cassinos.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -296,15 +302,15 @@ window.Quarto = {
 <img src="Cassino1.jpg" class="img-fluid figure-img" width="951">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-casino1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;7.1: Cassino — Aleatoriedade como metáfora
+Figura&nbsp;4.1: Cassino — Aleatoriedade como metáfora
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="aplicações" class="level2" data-number="7.2">
-<h2 data-number="7.2" class="anchored" data-anchor-id="aplicações"><span class="header-section-number">7.2</span> Aplicações</h2>
+<section id="aplicações" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="aplicações"><span class="header-section-number">4.2</span> Aplicações</h2>
 <p>Na Estatística, os métodos de Monte Carlo são utilizados para:</p>
 <ul>
 <li><p>estimar parâmetros da distribuição amostral;</p></li>
@@ -315,10 +321,10 @@ Figura&nbsp;7.1: Cassino — Aleatoriedade como metáfora
 <li><p>O princípio central é usar amostragem aleatória massiva para resolver problemas de integração ou otimização.</p></li>
 </ul>
 </section>
-<section id="integração-de-monte-carlo" class="level2" data-number="7.3">
-<h2 data-number="7.3" class="anchored" data-anchor-id="integração-de-monte-carlo"><span class="header-section-number">7.3</span> Integração de Monte Carlo</h2>
-<section id="problema-geral" class="level3" data-number="7.3.1">
-<h3 data-number="7.3.1" class="anchored" data-anchor-id="problema-geral"><span class="header-section-number">7.3.1</span> Problema geral</h3>
+<section id="integração-de-monte-carlo" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="integração-de-monte-carlo"><span class="header-section-number">4.3</span> Integração de Monte Carlo</h2>
+<section id="problema-geral" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="problema-geral"><span class="header-section-number">4.3.1</span> Problema geral</h3>
 <p>Queremos calcular:</p>
 <p><span class="math display">\[\int_\chi g(x)\,dx\]</span></p>
 <p>Se conseguimos escrever <span class="math inline">\(g(x) = h(x) f(x)\)</span>, sendo <span class="math inline">\(f\)</span> uma densidade, então</p>
@@ -327,15 +333,15 @@ Figura&nbsp;7.1: Cassino — Aleatoriedade como metáfora
 <p><span class="math inline">\(\bar h_n = \frac{1}{n} \sum_{j=1}^n h(x_j).\)</span></p>
 </section>
 </section>
-<section id="convergência-lei-forte-dos-grandes-números" class="level2" data-number="7.4">
-<h2 data-number="7.4" class="anchored" data-anchor-id="convergência-lei-forte-dos-grandes-números"><span class="header-section-number">7.4</span> Convergência (Lei Forte dos Grandes Números)</h2>
+<section id="convergência-lei-forte-dos-grandes-números" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="convergência-lei-forte-dos-grandes-números"><span class="header-section-number">4.4</span> Convergência (Lei Forte dos Grandes Números)</h2>
 <p>Se <span class="math inline">\(X_1,\dots,X_n\)</span> são i.i.d. com média <span class="math inline">\(\mu\)</span>,</p>
 <p><span class="math display">\[\bar X_n \xrightarrow{qc} \mu.\]</span></p>
-<section id="exemplo-1-integral-em-01" class="level3" data-number="7.4.1">
-<h3 data-number="7.4.1" class="anchored" data-anchor-id="exemplo-1-integral-em-01"><span class="header-section-number">7.4.1</span> Exemplo 1 — Integral em <span class="math inline">\([0,1]\)</span></h3>
+<section id="exemplo-1-integral-em-01" class="level3" data-number="4.4.1">
+<h3 data-number="4.4.1" class="anchored" data-anchor-id="exemplo-1-integral-em-01"><span class="header-section-number">4.4.1</span> Exemplo 1 — Integral em <span class="math inline">\([0,1]\)</span></h3>
 <p><span class="math display">\[I = \int_0^1 [\cos(50x) + \sin(20x)]^2\,dx.\]</span></p>
-<section id="código-em-r" class="level4" data-number="7.4.1.1">
-<h4 data-number="7.4.1.1" class="anchored" data-anchor-id="código-em-r"><span class="header-section-number">7.4.1.1</span> Código em R</h4>
+<section id="código-em-r" class="level4" data-number="4.4.1.1">
+<h4 data-number="4.4.1.1" class="anchored" data-anchor-id="código-em-r"><span class="header-section-number">4.4.1.1</span> Código em R</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="cf">function</span>(x) (<span class="fu">cos</span>(<span class="dv">50</span><span class="sc">*</span>x) <span class="sc">+</span> <span class="fu">sin</span>(<span class="dv">20</span><span class="sc">*</span>x))<span class="sc">^</span><span class="dv">2</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">integrate</span>(h, <span class="dv">0</span>, <span class="dv">1</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -346,7 +352,7 @@ Figura&nbsp;7.1: Cassino — Aleatoriedade como metáfora
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(n)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">h</span>(x))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.96887</code></pre>
+<pre><code>[1] 0.9702052</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(h, <span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">1</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -359,42 +365,40 @@ Figura&nbsp;7.1: Cassino — Aleatoriedade como metáfora
 </div>
 </section>
 </section>
-<section id="exemplo-2-integral-imprópria" class="level3" data-number="7.4.2">
-<h3 data-number="7.4.2" class="anchored" data-anchor-id="exemplo-2-integral-imprópria"><span class="header-section-number">7.4.2</span> Exemplo 2 — Integral imprópria</h3>
+<section id="exemplo-2-integral-imprópria" class="level3" data-number="4.4.2">
+<h3 data-number="4.4.2" class="anchored" data-anchor-id="exemplo-2-integral-imprópria"><span class="header-section-number">4.4.2</span> Exemplo 2 — Integral imprópria</h3>
 <p><span class="math display">\[I = \int_0^\infty e^{-x^2/2} dx,\]</span> use a transformação <span class="math inline">\(y = \frac{1}{x + 1}\)</span> e obtenha</p>
 <p><span class="math display">\[I = \int_0^1 y^{-2} \exp\left\{-\frac{[(1-y)/y]^2}{2}\right\} dy.\]</span> Daí a segue naturalmente como no caso anterior.</p>
 </section>
-<section id="cálculo-de-probabilidades-via-monte-carlo" class="level3" data-number="7.4.3">
-<h3 data-number="7.4.3" class="anchored" data-anchor-id="cálculo-de-probabilidades-via-monte-carlo"><span class="header-section-number">7.4.3</span> Cálculo de probabilidades via Monte Carlo</h3>
+<section id="cálculo-de-probabilidades-via-monte-carlo" class="level3" data-number="4.4.3">
+<h3 data-number="4.4.3" class="anchored" data-anchor-id="cálculo-de-probabilidades-via-monte-carlo"><span class="header-section-number">4.4.3</span> Cálculo de probabilidades via Monte Carlo</h3>
 <p>Para uma variável aleatória <span class="math inline">\(X\)</span>,</p>
 <p><span class="math display">\[P(X \in A) = E[I_A(X)],\]</span></p>
 <p>então, estimamos:</p>
 <p><span class="math display">\[\hat P = \frac{1}{n}\sum_{i=1}^n I_A(X_i).\]</span></p>
 </section>
-<section id="exemplo-px2.5-com-xsim-n01" class="level3" data-number="7.4.4">
-<h3 data-number="7.4.4" class="anchored" data-anchor-id="exemplo-px2.5-com-xsim-n01"><span class="header-section-number">7.4.4</span> Exemplo: <span class="math inline">\(P(X&gt;2.5)\)</span>, com <span class="math inline">\(X\sim N(0,1)\)</span></h3>
+<section id="exemplo-px2.5-com-xsim-n01" class="level3" data-number="4.4.4">
+<h3 data-number="4.4.4" class="anchored" data-anchor-id="exemplo-px2.5-com-xsim-n01"><span class="header-section-number">4.4.4</span> Exemplo: <span class="math inline">\(P(X&gt;2.5)\)</span>, com <span class="math inline">\(X\sim N(0,1)\)</span></h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fl">1e6</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x <span class="sc">&gt;</span> <span class="fl">2.5</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.006238</code></pre>
+<pre><code>[1] 0.006216</code></pre>
 </div>
 </div>
 </section>
 </section>
-<section id="erro-de-monte-carlo" class="level2" data-number="7.5">
-<h2 data-number="7.5" class="anchored" data-anchor-id="erro-de-monte-carlo"><span class="header-section-number">7.5</span> Erro de Monte Carlo</h2>
+<section id="erro-de-monte-carlo" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="erro-de-monte-carlo"><span class="header-section-number">4.5</span> Erro de Monte Carlo</h2>
 <p>Queremos estimar:</p>
 <p><span class="math display">\[E_f[h(X)],\]</span></p>
 <p>com estimador de Monte Carlo: <span class="math inline">\(\bar h_n\)</span>. A Variância do estimador de Monte Carlo é dada por:</p>
 <p><span class="math display">\[\operatorname{Var}(\bar h_n)
 = \operatorname{Var}\left(\frac{1}{n}\sum_{j=1}^n h(X_j)\right)
 = \frac{n \, \operatorname{Var}(h(X_j))}{n^2}
-= \frac{\operatorname{Var}(h(X))}{n}.
-\]</span> A variância de <span class="math inline">\(h(X)\)</span> pode ser estimada por</p>
-<p><span class="math display">\[
-\widehat{\operatorname{Var}}(h(X))
+= \frac{\operatorname{Var}(h(X))}{n}.\]</span> A variância de <span class="math inline">\(h(X)\)</span> pode ser estimada por</p>
+<p><span class="math display">\[\widehat{\operatorname{Var}}(h(X))
 = \frac{1}{n}\sum_{j=1}^n \bigl(h(x_j) - \bar h_n\bigr)^2.\]</span></p>
 <p>Portanto, a variância do estimador de Monte Carlo <span class="math inline">\(\bar h_n\)</span> é estimada por:</p>
 <p><span class="math display">\[\widehat{\operatorname{Var}}(\bar h_n)
@@ -440,8 +444,90 @@ Figura&nbsp;7.1: Cassino — Aleatoriedade como metáfora
 </div>
 </div>
 </section>
-<section id="simulações-de-monte-carlo-em-inferência" class="level2" data-number="7.6">
-<h2 data-number="7.6" class="anchored" data-anchor-id="simulações-de-monte-carlo-em-inferência"><span class="header-section-number">7.6</span> Simulações de Monte Carlo em Inferência</h2>
+<section id="uso-de-números-aleatórios-na-avaliação-de-integrais" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="uso-de-números-aleatórios-na-avaliação-de-integrais"><span class="header-section-number">4.6</span> Uso de Números Aleatórios na Avaliação de Integrais</h2>
+<p>Uma das primeiras aplicações do uso de números aleatórios foi na resolução de integrais. Considere uma função <span class="math inline">\(g(x)\)</span> e suponha que desejamos calcular uma integral de interesse.</p>
+<p><span class="math display">\[\theta = \int\limits_{0}^{1}g(x) dx.\]</span></p>
+<p>Para calcular o valor da integral, observe que, se <span class="math inline">\(U\)</span> é uma variável aleatória com distribuição uniforme no intervalo <span class="math inline">\((0, 1)\)</span>, então podemos reescrever a integral da seguinte forma:</p>
+<p><span class="math display">\[\theta = E[g(U)].\]</span> Se <span class="math inline">\(U_1, U_2, \dots,  U_n\)</span> são variáveis aleatórias independentes e uniformes em <span class="math inline">\((0, 1)\)</span>, então as variáveis <span class="math inline">\(g(U_1), g(U_2), \dots,  g(U_n)\)</span> são indepedentes e identicamente distribuídas, todas com esperança igual <span class="math inline">\(\theta\)</span> (o valor da integral). Assim, pelo <strong>Teorema da Lei Forte dos Grandes Números</strong>, temos que, com probabilidade 1,</p>
+<p><span class="math display">\[\frac{1}{n}\sum\limits_{i=1}^{n}g(U_i) \to \theta \quad \text{quando} \quad n \to \infty.\]</span></p>
+<p>Assim, podemos aproximar o valor da integral gerando um grande número de pontos aleatórios <span class="math inline">\(u_i\)</span> no intervalo <span class="math inline">\((0, 1)\)</span> e tomando como estimativa a média dos valores <span class="math inline">\(g(u_i)\)</span>. Esse procedimento de aproximação de integrais é conhecido como método de <strong>Monte Carlo</strong>.</p>
+<p>Se quisermos calcular uma integral mais geral, podemos aplicar a mesma ideia: transformar o problema em uma esperança matemática e, em seguida, aproximá-la por meio de médias amostrais obtidas a partir de números aleatórios. Considere:</p>
+<p><span class="math display">\[\theta = \int\limits_{a}^{b}g(x) dx.\]</span></p>
+<p>Se quisermos calcular a integral em um intervalo genérico <span class="math inline">\((a, b)\)</span>, fazemos a substituição</p>
+<p><span class="math display">\[u = \frac{x - a}{b-a}, \quad du = \frac{dx}{b-a},\]</span></p>
+<p>o que nos permite reescrevê-la como</p>
+<p><span class="math display">\[\theta = \int\limits_{a}^{b}g(x) dx = (b-a)\int\limits_{0}^{1}g(a + (b-a)u) du.\]</span></p>
+<p>Definindo</p>
+<p><span class="math display">\[h(u) = (b-a)g(a + (b-a)u),\]</span></p>
+<p>temos</p>
+<p><span class="math display">\[\theta = \int\limits_{0}^{1}h(u) du.\]</span></p>
+<p>Assim, podemos aproximar <span class="math inline">\(\theta\)</span> gerando números aleatórios <span class="math inline">\(u_1, u_2, \dots, u_n \sim U(0, 1)\)</span> e tomando como estimativa a média</p>
+<p><span class="math display">\[\frac{1}{n}\sum\limits_{i=1}^{n}h(u_i).\]</span> Agora, se nosso objetivo é calcular a integral:</p>
+<p><span class="math display">\[\theta = \int\limits_{0}^{\infty}g(x) dx.\]</span></p>
+<p>Fazendo a mudança de variável</p>
+<p><span class="math display">\[u = \frac{1}{x+1}, \quad du = \frac{-dx}{(x+1)^2} = -u^2 dx.\]</span></p>
+<p>Logo,</p>
+<p><span class="math display">\[dx = -\frac{du}{u^2},\]</span></p>
+<p>e a integral resultante é</p>
+<p><span class="math display">\[\theta = \int\limits_{0}^{1}h(u) du,\]</span></p>
+<p>com</p>
+<p><span class="math display">\[h(u) = \frac{g\left(\frac{1}{u} - 1\right)}{u^2}.\]</span></p>
+<p>A utilidade de empregar números aleatórios para aproximar integrais torna-se ainda mais evidente no caso de integrais multidimensionais. Suponha que <span class="math inline">\(g\)</span> seja uma função com argumento <span class="math inline">\(n\)</span>-dimensional e que estejamos interessados em calcular:</p>
+<p><span class="math display">\[\theta = \int\limits_{0}^{1}\int\limits_{0}^{1}\dots\int\limits_{0}^{1} g(x_1, x_2, \dots, x_n)dx_1 dx_2 \dots dx_n.\]</span></p>
+<p>Observe que <span class="math inline">\(\theta\)</span> pode ser expresso como o seguinte valor esperado:</p>
+<p><span class="math display">\[\theta = E[g(U_1, U_2, \dots, U_n)],\]</span></p>
+<p>em que <span class="math inline">\(U_1, U_2, \dots, U_n\)</span> são variáveis aleatória independentes uniformente distribuídas no intervalo <span class="math inline">\((0, 1)\)</span>. Assim, se gerarmos <span class="math inline">\(k\)</span> conjuntos independentes, cada um formado por <span class="math inline">\(n\)</span> variáveis aleatórias independentes com distribuição uniforme em <span class="math inline">\((0, 1)\)</span>, então as variáveis</p>
+<p><span class="math display">\[g(U_{i1}, U_{i2}, \dots, U_{in}), \quad i = 1, 2, \dots, k,\]</span> serão independentes e identicamente distribuídas, todas com esperança igual a <span class="math inline">\(\theta\)</span> (o valor da integral). Portanto, podemos estimar <span class="math inline">\(\theta\)</span> por meio da média amostral:</p>
+<p><span class="math display">\[\hat{\theta} = \frac{1}{k}\sum\limits_{i=1}^{k}g(U_{i1}, U_{i2}, \dots, U_{in}).\]</span></p>
+<section id="exemplo" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="exemplo">Exemplo</h4>
+<p>Nosso objetivo é encontrar o valor aproximado da integral: <span class="math inline">\(\int_{0}^{1} x^3 dx = 0.25.\)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2025</span>) <span class="co">#fixando a semente</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100000</span> <span class="co">#quantidade de valores uniformes gerados</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">runif</span>(n) <span class="co">#numeros uniformes (0,1)</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(u<span class="sc">^</span><span class="dv">3</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2503221</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">2025</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">100000</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> np.random.uniform(<span class="dv">0</span>, <span class="dv">1</span>, n)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>resultado <span class="op">=</span> np.mean(u<span class="op">**</span><span class="dv">3</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(resultado)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0.2508972398766188</code></pre>
+</div>
+</div>
+</section>
+<section id="exercícios" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="exercícios">Exercícios</h4>
+<ol type="1">
+<li><p>Se <span class="math inline">\(x_0 = 5\)</span> e <span class="math inline">\(x_n = 3x_{n-1}\, \text{mod}\, 150\)</span>, encontre <span class="math inline">\(x_1, x_2, \dots, x_{30}\)</span>.</p></li>
+<li><p>Se <span class="math inline">\(x_0 = 3\)</span> e <span class="math inline">\(x_n = (5x_{n-1} + 7)\, \text{mod}\, 200\)</span>, encontre <span class="math inline">\(x_1, x_2, \dots, x_{10}\)</span>.</p></li>
+<li><p>Compare sua estimativa com o valor exato:</p></li>
+</ol>
+<ul>
+<li><p><span class="math inline">\(\int_{0}^{1} \exp\{{e^x}\} dx\)</span>.</p></li>
+<li><p><span class="math inline">\(\int_{0}^{1} (1 - x^2)^{3/2} dx\)</span>.</p></li>
+<li><p><span class="math inline">\(\int_{-2}^{2} \exp\{x + x^2\} dx\)</span>.</p></li>
+<li><p><span class="math inline">\(\int_{0}^{\infty} x(1 + x^2)^{-2} dx\)</span>.</p></li>
+<li><p><span class="math inline">\(\int_{-\infty}^{\infty} \exp\{-x^2\} dx\)</span>.</p></li>
+<li><p><span class="math inline">\(\int_{0}^{1}\int_{0}^{1} \exp\{(x+y)^2\} dy dx\)</span>.</p></li>
+<li><p><span class="math inline">\(\int_{0}^{\infty}\int_{0}^{x} \exp\{-(x+y)\} dydx\)</span>.</p></li>
+</ul>
+<ol start="4" type="1">
+<li>Use simulação para encontrar o valor aproximado de <span class="math inline">\(Cov(U, e^U)\)</span>, em que <span class="math inline">\(U\)</span> é uniforme em <span class="math inline">\((0,1)\)</span>. Compare seu resultado com o valor exato.</li>
+</ol>
+</section>
+</section>
+<section id="simulações-de-monte-carlo-em-inferência" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="simulações-de-monte-carlo-em-inferência"><span class="header-section-number">4.7</span> Simulações de Monte Carlo em Inferência</h2>
 <p>Simulações de Monte Carlo têm como objetivo estudar as propriedades de técnicas de inferência estatística. No essencial, uma simulação de Monte Carlo funciona aplicando essas técnicas a amostras repetidamente geradas a partir de um processo de geração de dados previamente especificado.</p>
 <p>O pacote <code>tidyMC</code> busca contemplar e simplificar todo o fluxo de trabalho necessário para executar uma simulação de Monte Carlo, seja em um contexto acadêmico ou profissional. Assim, o <code>tidyMC</code> fornece funções para as seguintes tarefas:</p>
 <ul>
@@ -450,26 +536,26 @@ Figura&nbsp;7.1: Cassino — Aleatoriedade como metáfora
 <li><p>Criar gráficos dos resultados da simulação de Monte Carlo, que podem ser modificados pelo usuário, por meio de <code>plot.mc()</code> e <code>plot.summary.mc()</code>.</p></li>
 <li><p>Gerar uma tabela em LaTeX resumindo os resultados da simulação de Monte Carlo usando <code>tidy_mc_latex()</code>.</p></li>
 </ul>
-<section id="instalação" class="level3" data-number="7.6.1">
-<h3 data-number="7.6.1" class="anchored" data-anchor-id="instalação"><span class="header-section-number">7.6.1</span> Instalação</h3>
+<section id="instalação" class="level3" data-number="4.7.1">
+<h3 data-number="4.7.1" class="anchored" data-anchor-id="instalação"><span class="header-section-number">4.7.1</span> Instalação</h3>
 <p>O pacote <code>tidyMC</code> está disponível no CRAN. Para baixar a versão do CRAN basta:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyMC"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyMC"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Em seguida, o pacote pode ser carregado com:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyMC)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyMC)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Além disso, os seguintes pacotes serão utilizados:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
-<section id="execute-sua-primeira-simulação-de-monte-carlo-com-future_mc" class="level2" data-number="7.7">
-<h2 data-number="7.7" class="anchored" data-anchor-id="execute-sua-primeira-simulação-de-monte-carlo-com-future_mc"><span class="header-section-number">7.7</span> Execute sua primeira Simulação de Monte Carlo com <code>future_mc()</code></h2>
+<section id="execute-sua-primeira-simulação-de-monte-carlo-com-future_mc" class="level2" data-number="4.8">
+<h2 data-number="4.8" class="anchored" data-anchor-id="execute-sua-primeira-simulação-de-monte-carlo-com-future_mc"><span class="header-section-number">4.8</span> Execute sua primeira Simulação de Monte Carlo com <code>future_mc()</code></h2>
 <p>A função <code>future_mc()</code> permite executar uma simulação de Monte Carlo para uma função definida pelo usuário e para um conjunto especificado de parâmetros.</p>
 <p>O primeiro argumento de <code>future_mc()</code> é <code>fun</code>, que deve ser uma função capaz de realizar três tarefas para uma única repetição e uma única combinação de parâmetros:</p>
 <ul>
@@ -480,26 +566,26 @@ Figura&nbsp;7.1: Cassino — Aleatoriedade como metáfora
 <p>A função <code>future_mc()</code> se encarrega de gerar automaticamente os laços sobre as grades de parâmetros desejadas, bem como repetir o experimento de Monte Carlo para cada combinação de parâmetros.</p>
 <p>Considere o seguinte exemplo de função <code>fun</code>, que realiza exatamente as tarefas necessárias: geração dos dados, aplicação do método e avaliação dos resultados.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>test_func <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">param1 =</span> <span class="dv">10</span>, <span class="at">param2 =</span> <span class="dv">2</span>, <span class="at">n =</span> <span class="dv">100</span>) {</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> param1, <span class="at">sd =</span> param2)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  stat <span class="ot">&lt;-</span> <span class="fu">mean</span>(data)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  stat_2 <span class="ot">&lt;-</span> <span class="fu">sum</span>((data<span class="sc">-</span> <span class="fu">mean</span>(data))<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span><span class="fu">length</span>(data)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  dev_mu <span class="ot">&lt;-</span> stat <span class="sc">-</span> param1</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  dev_sigma2 <span class="ot">&lt;-</span> stat_2 <span class="sc">-</span> param2<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  dev_eqm_mu <span class="ot">&lt;-</span> (stat <span class="sc">-</span> param1)<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  dev_eqm_sigma2 <span class="ot">&lt;-</span> (stat_2 <span class="sc">-</span> param2<span class="sc">^</span><span class="dv">2</span>)<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">mean =</span> stat, <span class="at">var =</span> stat_2, <span class="at">bmu =</span> dev_mu, <span class="at">bsig2 =</span> dev_sigma2, </span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">eqmmu =</span> dev_eqm_mu, </span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">eqmsigma2 =</span> dev_eqm_sigma2))</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>test_func <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">param1 =</span> <span class="dv">10</span>, <span class="at">param2 =</span> <span class="dv">2</span>, <span class="at">n =</span> <span class="dv">100</span>) {</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> param1, <span class="at">sd =</span> param2)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  stat <span class="ot">&lt;-</span> <span class="fu">mean</span>(data)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  stat_2 <span class="ot">&lt;-</span> <span class="fu">sum</span>((data<span class="sc">-</span> <span class="fu">mean</span>(data))<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span><span class="fu">length</span>(data)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  dev_mu <span class="ot">&lt;-</span> stat <span class="sc">-</span> param1</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  dev_sigma2 <span class="ot">&lt;-</span> stat_2 <span class="sc">-</span> param2<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  dev_eqm_mu <span class="ot">&lt;-</span> (stat <span class="sc">-</span> param1)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  dev_eqm_sigma2 <span class="ot">&lt;-</span> (stat_2 <span class="sc">-</span> param2<span class="sc">^</span><span class="dv">2</span>)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">mean =</span> stat, <span class="at">var =</span> stat_2, <span class="at">bmu =</span> dev_mu, <span class="at">bsig2 =</span> dev_sigma2, </span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">eqmmu =</span> dev_eqm_mu, </span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">eqmsigma2 =</span> dev_eqm_sigma2))</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>O segundo argumento de <code>future_mc()</code> é <code>repetitions</code>, que deve ser um número inteiro especificando o total de iterações da simulação de Monte Carlo.</p>
 <p>O terceiro argumento, <code>param_list</code>, deve ser uma lista cujos componentes têm nomes correspondentes aos parâmetros da função fun que deverão variar ao longo da simulação. Cada componente dessa lista é um vetor contendo os valores desejados da grade para aquele parâmetro.</p>
 <p>Considere o exemplo a seguir para <code>param_list</code>. Observe que seus componentes recebem nomes que correspondem exatamente aos parâmetros da função <code>test_func()</code>: <code>param</code> e <code>x1</code>, respectivamente:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>param_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a> <span class="at">n =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">50</span>, <span class="dv">90</span>)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>param_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a> <span class="at">n =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">50</span>, <span class="dv">90</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>A função <code>future_mc()</code> cria automaticamente todas as combinações possíveis de parâmetros especificadas em param_list e executa a simulação de Monte Carlo para cada uma dessas combinações. Se você preferir não rodar a simulação para todas as combinações possíveis, pode fornecer <code>param_table</code>, que deve ser um <em>data.frame</em> ou <em>data.table</em> contendo apenas as combinações de parâmetros de interesse.</p>
 <p>O argumento <code>...</code> permite especificar outros argumentos da função <code>fun</code> que não estão em <code>param_list</code>. Esses argumentos permanecerão fixos ao longo de todas as combinações de parâmetros.</p>
@@ -512,14 +598,14 @@ Figura&nbsp;7.1: Cassino — Aleatoriedade como metáfora
 </ol>
 <p>Se a função <code>fun</code> retorna uma lista nomeada de escalares, o usuário pode utilizar <code>summary()</code> para resumir todos os resultados da simulação de Monte Carlo.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>test_mc <span class="ot">&lt;-</span> <span class="fu">future_mc</span>(</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">fun =</span> test_func,</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">repetitions =</span> <span class="dv">1000</span>,</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">param_list =</span> param_list,</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">param1 =</span> <span class="dv">10</span>,</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">param2 =</span> <span class="dv">2</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>test_mc <span class="ot">&lt;-</span> <span class="fu">future_mc</span>(</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">fun =</span> test_func,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">repetitions =</span> <span class="dv">1000</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">param_list =</span> param_list,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">param1 =</span> <span class="dv">10</span>,</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">param2 =</span> <span class="dv">2</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Running single test-iteration for each parameter combination...</code></pre>
 </div>
@@ -533,9 +619,9 @@ Figura&nbsp;7.1: Cassino — Aleatoriedade como metáfora
 <div class="cell-output cell-output-stderr">
 <pre><code>
  Simulation was successfull!
- Running time: 00:00:00.796358</code></pre>
+ Running time: 00:00:00.73618</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test_mc)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test_mc)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Results for the output mean: 
    n=10: 9.991484 
@@ -577,14 +663,14 @@ Results for the output eqmsigma2:
 </div>
 <p>A função <code>plot()</code> retorna uma lista de objetos das classes <code>gg</code> e <code>ggplot2</code>. Essa lista conterá um gráfico de linhas para cada saída produzida pela função <code>fun</code>, representando as trajetórias dos resultados para os diferentes cenários da simulação.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">summary</span>(test_mc))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">summary</span>(test_mc))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Para gerar uma tabela em LaTeX basta:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy_mc_latex</span>(</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">summary</span>(test_mc)</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy_mc_latex</span>(</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">summary</span>(test_mc)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
@@ -611,6 +697,150 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -1002,13 +1232,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./otimizaca.html" class="pagination-link" aria-label="Otimização Numérica">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Otimização Numérica</span></span>
+      <a href="./pseudo.html" class="pagination-link" aria-label="Simulação de Variáveis Aleatórias">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Simulação de Variáveis Aleatórias</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./boot.html" class="pagination-link" aria-label="Métodos de Reamostragem">
-        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Métodos de Reamostragem</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./boot.html" class="pagination-link" aria-label="Bootstrap e Jackknife">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Bootstrap e Jackknife</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

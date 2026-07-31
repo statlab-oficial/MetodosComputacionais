@@ -1,132 +1,288 @@
-# Motivação
+# Identificação da Disciplina {.unnumbered}
 
-A Estatística, além de lidar com modelos matemáticos rigorosos, também é permeada por situações em que a intuição humana falha de maneira sistemática. Um exemplo clássico é o **problema do aniversário**, que há décadas desperta curiosidade entre estudantes e pesquisadores.
+- Curso: Estatística
 
-::: {.callout-tip title="Enuciado"}
-*Em uma sala com* $r$ pessoas, qual a probabilidade de que pelo menos duas delas compartilhem o mesmo aniversário?
-:::
+- Disciplina: Estatística Computacional
 
-Um resultado surpreendente é: com apenas **23 pessoas** em uma sala, a probabilidade de que haja pelo menos uma coincidência de aniversários já é **superior a 50%**. Esse resultado é tão interessante que pode ser uma porta de entrada natural para discutir a diferença entre **probabilidade teórica** e **evidência empírica obtida por simulação**.
+- Carga Horária: 64 horas
 
-## Da teoria à simulação {.unnumbered}
+- Créditos: 4
 
-Do ponto de vista teórico, a probabilidade de que todos os aniversários sejam distintos entre $r$ pessoas é
+- Regime: Semestral
 
-$$\Pr(\text{todos distintos}) \;=\; \prod_{i=1}^{r-1} \frac{365-i}{365}
-\;=\; \left(1 - \frac{1}{365}\right)\!\left(1 - \frac{2}{365}\right)\!\cdots\!\left(1 - \frac{r-1}{365}\right).$$
+- Pré-requisitos: Probabilidade II (CC0285) e Análise Exploratória de Dados (CC0280) e Sistemas de Informação e Banco de Dados (CK0084)
 
-Logo, a probabilidade de pelo menos uma coincidência é
+- Período Letivo: 2026.2
 
-$$p_r = 1 - \Pr(\text{todos distintos}).$$
+- Professor(a): Dr. Manoel Santos-Neto
 
-Esse produto é conceitualmente claro, mas fica pouco manejável mentalmente para $r$ moderados. É aqui que a **simulação computacional** pode entrar como aliada didática e científica.
 
-## Um atalho analítico útil {.unnumbered}
+## EMENTA {.unnumbered}
 
-O produto acima admite uma **aproximação exponencial simples e acurada**, obtida tomando logaritmo e usando a expansão para argumentos pequenos:
 
-$$\ln(1 - x) = -x + o(x), \quad (x \to 0). $$ Aplicando ao produto,
+Uso de pacotes estatísticos: R ou SPLUS, SPSS. Planilhas eletrônicas
+com apoio ferramental. Geração números pseudo-Aleatórios e
+variáveis aleatórias. Simulação estatística: métodos de inversão,
+rejeição, composição e métodos de reamostragem. Otimização
+numérica: Newton-Raphson, scoring, quase-Newton. Algoritmo
+EM. “Bootstrap” e “Jackknife”. Métodos de Monte Carlo. 
 
-$$\begin{aligned}
-\ln\!\big(1 - p_r\big)
-\;&=\;
-\sum_{i=1}^{r-1} \ln\!\left(1 - \frac{i}{365}\right)\\
-\;&\approx\;
--\,\sum_{i=1}^{r-1} \frac{i}{365}
-\;=\;
--\,\frac{1 + 2 + \cdots + (r-1)}{365}
-\;=\;
--\,\frac{r(r-1)}{2 \cdot 365}.\end{aligned}$$
+## OBJETIVO GERAL {.unnumbered}
 
-Exponentiando e isolando $p_r$, obtemos a aproximação
+Desenvolver competências teóricas e computacionais para compreensão, implementação e aplicação dos principais métodos de Estatística Computacional, utilizando a linguagem R como ferramenta principal.
 
-$$p_r \;\approx\; 1 - \exp\!\left\{-\,\frac{r(r-1)}{730}\right\}.$$
 
-Essa fórmula tem três virtudes didáticas:
+## OBJETIVOS ESPECÍFICOS {.unnumbered}
 
-1)  **Clareza**: exibe explicitamente o papel do número de pares $\binom{r}{2}$.
+- Utilizar o R para programação e análise estatística;
 
-2)  **Rapidez**: permite cálculos aproximados para valores de $r$ de interesse.
+- compreender e implementar métodos de geração de números pseudoaleatórios e variáveis aleatórias;
 
-3)  **Boas aproximações** já para $r$ na casa das dezenas.
+- aplicar técnicas de simulação e métodos de Monte Carlo;
 
-::: {.callout-warning title="Exemplo Rápido"}
-- Para **23 pessoas**:
+- compreender e aplicar os métodos Bootstrap e Jackknife;
 
-$$p_{23}^{(\text{aprox})}
-  \;=\;
-  1 - \exp\!\left\{-\frac{23\cdot22}{730}\right\}
-  \;=\;
-  1 - \exp\!\{-0.69315\}
-  \;\approx\; 0.500,$$
+- implementar métodos de otimização numérica e o algoritmo EM;
 
-alinhando-se ao resultado clássico de que **23** pessoas já superam 50% de chance de coincidência.
-:::
+- avaliar criticamente a precisão, convergência e eficiência dos métodos computacionais;
 
-## O papel da simulação {.unnumbered}
+- desenvolver análises estatísticas computacionais organizadas e reprodutíveis.
 
-A simulação estatística permite reproduzir o experimento de forma empírica: sorteamos aleatoriamente dias de aniversário para os indivíduos e verificamos se há repetições. Repetindo o processo milhares de vezes, obtemos uma estimativa para a probabilidade de coincidência.
 
-Por exemplo, em **R**:
+## CONTEÚDO PROGRAMÁTICO {.unnumbered}
 
-```{r}
-r <- 23
-birthdays <- sample(1:365, r, replace = TRUE)
-any(duplicated(birthdays))
-```
 
-Ao repetir esse procedimento muitas vezes (por exemplo, 10.000 simulações), podemos estimar a proporção de conjuntos com coincidência. Pela Lei dos Grandes Números, essa estimativa converge para o valor teórico de aproximadamente 0,507 quando $r=23$.
+### Unidade I – Introdução ao R e programação estatística {.unnumbered}
 
-```{r}
-set.seed(123) #reprodutibilidade
+- Estatística Computacional: conceitos, objetivos e aplicações;
 
-r <- 23
-B <- 10000
+- ambiente computacional e organização de projetos em R;
 
-acertos <- 0
-i <- 0
+- objetos, vetores, matrizes, listas e data.frame;
 
-repeat {
-  i <- i + 1
-  bdays <- sample(1:365, r, replace = TRUE)
-  acertos <- acertos + as.integer(any(duplicated(bdays)))
-  if (i >= B) break
-}
+- estruturas condicionais e estruturas de repetição;
 
-p_hat <- acertos / B
-p_hat
-```
+- funções e programação modular;
 
-## Atividade: Problema do Aniversário (22 jogadores) {.unnumbered}
+- programação vetorizada e noções de programação funcional;
 
-Nesta motivação consideramos um exemplo discutido em @martins_learning_2018 que é o conhecido e amplamente divulgado problema do aniversário [ver, por exemplo, @falk_closer_2014]. @martins_learning_2018 segue o exemplo de @matthews_coincidences_1998, considerando duas equipes de futebol e, portanto, coincidências de aniversário entre 22 jogadores. @martins_learning_2018 afirma que um resultado positivo importante dessa atividade é a discussão que surgirá naturalmente entre os estudantes, com o professor atuando como mediador. Além disso, os estudantes adoram jogos e a descoberta prática, e a simulação facilita o engajamento nessas atividades, ao mesmo tempo que ilustra resultados que podem ser não intuitivos, bem como teoria geral, como a **Lei dos Grandes Números**.
+- manipulação e análise de dados;
 
-Agora iremos considerar o seguinte problema:
+- organização, documentação e reprodutibilidade do código;
 
-::: {.callout-tip title="Problema"}
-Em uma partida de futebol, qual é a probabilidade de que pelo menos dois dos 22 jogadores façam aniversário no mesmo dia?
-:::
+- introdução ao desenvolvimento de relatórios computacionais reproduzíveis.
 
-Em um pais chamado de país do futebol, o contexto é proposital: o futebol é popular e as probabilidades resultantes são contraintuitivas. Antes de qualquer cálculo, considere as hipóteses: (i) todos os 365 dias do ano são igualmente prováveis para qualquer aniversário; (ii) as datas de aniversário dos jogadores são independentes entre si.
 
-**Objetivos**
+### Unidade II – Geração de números pseudoaleatórios {.unnumbered}
 
-- Estimar, via simulação, a probabilidade de coincidência de aniversários.
+- aleatoriedade e pseudoaleatoriedade;
 
-- Relacionar frequência relativa, Lei dos Grandes Números e variação amostral.
+- princípios dos geradores de números pseudoaleatórios;
 
-- Comparar o resultado exato e aproximado.
+- geradores congruenciais;
 
-**Hipóteses**
+- período e propriedades desejáveis de um gerador;
 
-- 365 dias equiprováveis, datas independentes, ignorar bissexto/gêmeos.
+- sementes e reprodutibilidade;
 
-**Materiais**
+- geração de números pseudoaleatórios no R;
 
-- R (ou Posit Cloud), roteiro com comandos `sample()`, `table()`, `mean()`.
 
-## Exercícios {.unnumbered}
 
-1)  Determinar o menor número de pessoas que deve estar em uma sala para que se possa apostar, com mais de 50% de chance de ganhar, que entre elas existam pelo menos duas com o mesmo aniversário.
+### Unidade III – Simulação de variáveis aleatórias {.unnumbered}
 
-2)  Determinar o menor número de outras pessoas que deve estar em uma sala com você para que se possa apostar, com mais de 50% de chance de ganhar, que pelo menos uma delas tenha o mesmo aniversário que o seu.
+- fundamentos da simulação estatística;
+
+- geração de variáveis aleatórias discretas e contínuas;
+
+- método da transformação inversa;
+
+- método da rejeição;
+
+- método da composição;
+
+- implementação dos métodos em R;
+
+
+### Unidade IV – Métodos de Monte Carlo {.unnumbered}
+
+- fundamentos dos métodos de Monte Carlo;
+
+- Lei dos Grandes Números e fundamentação probabilística;
+
+- estimação de probabilidades e esperanças por simulação;
+
+- integração de Monte Carlo;
+
+- introdução às técnicas de redução de variância;
+
+- planejamento e implementação de estudos de simulação;
+aplicações estatísticas em R.
+
+
+### Unidade V – Bootstrap e Jackknife {.unnumbered}
+
+
+- princípios dos métodos de reamostragem;
+
+- distribuição empírica;
+
+- Bootstrap não paramétrico;
+
+- Bootstrap paramétrico;
+
+- estimação Bootstrap de viés e erro padrão;
+
+- intervalos de confiança Bootstrap;
+
+- método Jackknife;
+
+- estimação de viés e erro padrão por Jackknife;
+
+- análise da influência das observações;
+
+- comparação entre Bootstrap e Jackknife;
+
+- limitações dos métodos de reamostragem;
+
+- implementação e aplicações em R.
+
+
+### Unidade VI – Otimização numérica {.unnumbered}
+
+- problemas de otimização em Estatística;
+
+- funções objetivo e log-verossimilhança;
+
+- métodos iterativos e critérios de convergência;
+
+- método de Newton-Raphson;
+
+-função escore e matriz Hessiana;
+
+- informação observada e informação de Fisher;
+
+- método Escore de Fiher;
+
+- métodos quase-Newton;
+
+- método BFGS e noções de L-BFGS;
+
+- escolha de valores iniciais;
+
+- estabilidade e diagnóstico de convergência;
+
+- utilização de funções de otimização disponíveis no R;
+
+- aplicações à estimação por máxima verossimilhança.
+
+
+
+### Unidade VII – Algoritmo EM {.unnumbered}
+
+
+- problemas estatísticos envolvendo informações incompletas e variáveis latentes;
+
+- dados observados e dados completos;
+
+- estrutura geral do algoritmo EM;
+
+- etapa da esperança (E);
+
+- etapa da maximização (M);
+
+- propriedade de monotonicidade da log-verossimilhança;
+
+- critérios de convergência;
+
+- sensibilidade aos valores iniciais;
+
+- máximos locais e limitações computacionais;
+
+- implementação do algoritmo EM em R;
+
+- aplicação a modelos de mistura de distribuições;
+
+- interpretação e diagnóstico dos resultados.
+
+
+
+### Unidade VIII – Aplicações modernas em Estatística Computacional {.unnumbered}
+
+- planejamento de estudos computacionais;
+
+- comparação empírica de estimadores e procedimentos estatísticos;
+
+- avaliação de viés, variância, erro quadrático médio e cobertura;
+
+- reprodutibilidade em experimentos computacionais;
+
+- documentação e comunicação de resultados.
+
+
+## METODOLOGIA {.unnumbered}
+
+A disciplina será desenvolvida por meio de aulas teóricas e práticas, integrando fundamentos estatísticos, formulação matemática e implementação computacional em R. Serão utilizados exemplos, exercícios, estudos de simulação e atividades computacionais, com organização didática que favoreça diferentes formas de aprendizagem, preservando o rigor teórico e computacional.
+
+## AVALIAÇÃO {.unnumbered}
+
+A avaliação será contínua, por meio de avaliações individuais, atividades computacionais, exercícios e/ou projetos. Serão considerados tanto o domínio dos fundamentos teóricos quanto a capacidade de implementar, analisar e interpretar os métodos estudados.
+
+
+## CRITÉRIOS DE AVALIAÇÃO {.unnumbered}
+
+Serão considerados:
+
+- domínio dos conceitos teóricos;
+
+- correção estatística e computacional;
+
+- qualidade da implementação em R;
+
+- interpretação adequada dos resultados;
+
+- clareza e organização das análises;
+
+- capacidade de avaliar limitações, convergência e estabilidade dos métodos.
+
+
+## BIBLIOGRAFIA BÁSICA {.unnumbered}
+
+1. ROSS, SHELDON. Simulation, 4th ed., San Diego, California: Elsevier, 2006
+
+2. EFRON, B.; TIBSSHIRANI, R. J. An Introducion to the Bootstrap. New York: Chapman e Hall, 1993.
+
+3. LIBREOFFICE. Introdução ao CALC, Planilhas de cálculo no LibreOffice. Disponível em: <https://documentation.libreoffice.org/assets/Uploads/Do
+cumentation/pt-br/CG70/CG70-CalcGuide-Master.pdf> Acesso em: 15 mar. 2022.
+
+4. ROBERT, C; CASELLA, G. Introducing Monte Carlo Methods with R. Springer eBooks XX, 284 p (Use R). ISBN 9781441915764. Disponível em 
+86 <https://doi.org/10.1007/978-1-4419-1576-4> Acesso em : 15 mar. 2022.
+
+5. CRAWLEY, Michael J. The R Book. Chichester: John Wiley & Sons, 2007.
+
+## BIBLIOGRAFIA COMPLEMENTAR {.unnumbered}
+
+1. DAVIDSON, A. C.; HINKLEY, D. V. Bootstrap Methods and their Application. New York: Cambridge University Press,
+1997.
+
+2. AQUINO, J. ALVES. R para cientistas sociais.
+<http://www.uesc.br/editora/livrosdigitais_20140513/r_cie
+ntistas.pdf>
+
+3. GARRET G.; HADLEY W. R for Data Science. Disponível em:
+<https://r4ds.had.co.nz/> Acesso em : 15 mar. 2022.
+
+4. DALGAARD, P. Introductory Statistics with R. Springer, 2008.
+
+5. BRUNI, Adriano Leal. SPSS aplicado à pesquisa acadêmica. São Paulo: Atlas, 2009.
+
+6. KELLER, A; HEINRICH, S; NIEDERREITER, H. SPRINGERLINK (ONLINE SERVICE). Monte Carlo and Quasi-Monte Carlo Methods 2006. Springer eBooksBerlin, Heidelberg: Springer-Verlag Berlin Heidelberg, 2008. ISBN
+9783540744962. Disponível em: <http://dx.doi.org/10.1007/978-3-540-74496-2> Acesso em: 15 mar. 2022
+
+
+## Observações Finais
+
+A linguagem R será utilizada como principal ambiente computacional da disciplina. Os materiais e atividades buscarão integrar teoria e prática, com atenção à acessibilidade pedagógica, à organização dos conteúdos e à reprodutibilidade das análises. O cronograma poderá ser ajustado conforme o desenvolvimento da turma e o calendário acadêmico.
+
+
+
