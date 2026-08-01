@@ -246,16 +246,23 @@ window.Quarto = {
     <h2 id="toc-title">Índice</h2>
    
   <ul>
-  <li><a href="#método-da-transformação-inversa" id="toc-método-da-transformação-inversa" class="nav-link active" data-scroll-target="#método-da-transformação-inversa"><span class="header-section-number">3.1</span> Método da Transformação Inversa</a>
+  <li><a href="#caso-discreto" id="toc-caso-discreto" class="nav-link active" data-scroll-target="#caso-discreto"><span class="header-section-number">3.1</span> Caso Discreto</a>
   <ul class="collapse">
+  <li><a href="#método-da-transformação-inversa" id="toc-método-da-transformação-inversa" class="nav-link" data-scroll-target="#método-da-transformação-inversa"><span class="header-section-number">3.1.1</span> Método da Transformação Inversa</a></li>
   <li><a href="#exemplo-1" id="toc-exemplo-1" class="nav-link" data-scroll-target="#exemplo-1">Exemplo 1</a></li>
   <li><a href="#exemplo-2" id="toc-exemplo-2" class="nav-link" data-scroll-target="#exemplo-2">Exemplo 2</a></li>
   <li><a href="#exemplo-3" id="toc-exemplo-3" class="nav-link" data-scroll-target="#exemplo-3">Exemplo 3</a></li>
   <li><a href="#exemplo-4" id="toc-exemplo-4" class="nav-link" data-scroll-target="#exemplo-4">Exemplo 4</a></li>
   <li><a href="#exercício-5" id="toc-exercício-5" class="nav-link" data-scroll-target="#exercício-5">Exercício 5</a></li>
+  <li><a href="#método-da-aceitação-rejeição" id="toc-método-da-aceitação-rejeição" class="nav-link" data-scroll-target="#método-da-aceitação-rejeição"><span class="header-section-number">3.1.2</span> Método da Aceitação-Rejeição</a></li>
+  <li><a href="#método-da-composição" id="toc-método-da-composição" class="nav-link" data-scroll-target="#método-da-composição"><span class="header-section-number">3.1.3</span> Método da Composição</a></li>
   </ul></li>
-  <li><a href="#método-da-aceitação-rejeição" id="toc-método-da-aceitação-rejeição" class="nav-link" data-scroll-target="#método-da-aceitação-rejeição"><span class="header-section-number">3.2</span> Método da Aceitação-Rejeição</a></li>
-  <li><a href="#método-da-composição" id="toc-método-da-composição" class="nav-link" data-scroll-target="#método-da-composição"><span class="header-section-number">3.3</span> Método da Composição</a></li>
+  <li><a href="#caso-contínuo" id="toc-caso-contínuo" class="nav-link" data-scroll-target="#caso-contínuo"><span class="header-section-number">3.2</span> Caso Contínuo</a>
+  <ul class="collapse">
+  <li><a href="#método-da-transformação-inversa-1" id="toc-método-da-transformação-inversa-1" class="nav-link" data-scroll-target="#método-da-transformação-inversa-1"><span class="header-section-number">3.2.1</span> Método da Transformação Inversa</a></li>
+  <li><a href="#método-da-aceitação-e-rejeição" id="toc-método-da-aceitação-e-rejeição" class="nav-link" data-scroll-target="#método-da-aceitação-e-rejeição"><span class="header-section-number">3.2.2</span> Método da Aceitação e Rejeição</a></li>
+  <li><a href="#método-da-composição-misturas" id="toc-método-da-composição-misturas" class="nav-link" data-scroll-target="#método-da-composição-misturas"><span class="header-section-number">3.2.3</span> Método da Composição (Misturas)</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -281,8 +288,10 @@ window.Quarto = {
 </header>
 
 
-<section id="método-da-transformação-inversa" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="método-da-transformação-inversa"><span class="header-section-number">3.1</span> Método da Transformação Inversa</h2>
+<section id="caso-discreto" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="caso-discreto"><span class="header-section-number">3.1</span> Caso Discreto</h2>
+<section id="método-da-transformação-inversa" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="método-da-transformação-inversa"><span class="header-section-number">3.1.1</span> Método da Transformação Inversa</h3>
 <p>Suponha que desejamos gerar o valor de uma variável aleatória discreta <span class="math inline">\(X\)</span> com função de massa de probabilidade (f.m.p):</p>
 <p><span class="math display">\[\Pr(X = x_j) = p_j, \quad j = 0, 1, \dots, \quad \text{e} \quad \sum\limits_j p_j = 1.\]</span></p>
 <p>Para realizar isso, gere um valor <span class="math inline">\(u\)</span> de <span class="math inline">\(U\sim(0,1)\)</span> e atribua o valor <span class="math inline">\(x_j\)</span>, <span class="math inline">\(j=0,1,\ldots\)</span>, a <span class="math inline">\(X\)</span> conforme as condições abaixo:</p>
@@ -339,6 +348,7 @@ Nota
 <p>O tempo necessário para gerar uma variável aleatória discreta por esse método é proporcional ao número de intervalos que devem ser pesquisados. Por essa razão, às vezes é vantajoso considerar os possíveis valores <span class="math inline">\(x_j\)</span> de <span class="math inline">\(X\)</span> em ordem decrescente das probabilidades <span class="math inline">\(p_j\)</span>.</p>
 </div>
 </div>
+</section>
 <section id="exemplo-1" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="exemplo-1">Exemplo 1</h3>
 <p>Simular <span class="math inline">\(n\)</span> valores de <span class="math inline">\(X\)</span> tal que <span class="math inline">\(p_1 = 0.20\)</span>, <span class="math inline">\(p_2 = 0.15\)</span>, <span class="math inline">\(p_3 = 0.25\)</span>, <span class="math inline">\(p_4 = 0.40\)</span>, em que <span class="math inline">\(p_j = P(X=j)\)</span>.</p>
@@ -391,7 +401,7 @@ Algoritmo 1
 <div class="cell-output cell-output-stdout">
 <pre><code>a
      1      2      3      4 
-0.1972 0.1528 0.2503 0.3997 </code></pre>
+0.2031 0.1530 0.2512 0.3927 </code></pre>
 </div>
 </div>
 <div class="cell">
@@ -412,7 +422,7 @@ Algoritmo 1
 <div class="cell-output cell-output-stdout">
 <pre><code>a
      1      2      3      4 
-0.1933 0.1472 0.2451 0.4144 </code></pre>
+0.1994 0.1522 0.2454 0.4030 </code></pre>
 </div>
 </div>
 <div class="callout callout-style-simple callout-warning no-icon callout-titled">
@@ -685,9 +695,8 @@ Algoritmo 5
 <h3 class="unnumbered anchored" data-anchor-id="exercício-5">Exercício 5</h3>
 <p>Escreve um código na linguagem <code>R</code> baseado no Algoritmo 5. Utilize alguma ferramenta gráfica para verificar a coerência dos resultados.</p>
 </section>
-</section>
-<section id="método-da-aceitação-rejeição" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="método-da-aceitação-rejeição"><span class="header-section-number">3.2</span> Método da Aceitação-Rejeição</h2>
+<section id="método-da-aceitação-rejeição" class="level3" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="método-da-aceitação-rejeição"><span class="header-section-number">3.1.2</span> Método da Aceitação-Rejeição</h3>
 <p>Suponha que haja interesse em simular valores de uma v.a. <span class="math inline">\(X\)</span> e que não seja possível inverter a sua função de distribuição ou não dispomos de um método para gerar dessa variável aleatória. Entretanto, sabemos como simular de uma outra v.a. <span class="math inline">\(Y\)</span> e que é possível estabelecer uma relação entre as probabilidades associadas às duas variáveis aleatórias (<span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>) de tal modo que valores de <span class="math inline">\(Y\)</span> possam ser admitidos como valores de <span class="math inline">\(X\)</span>.</p>
 <table class="table">
 <colgroup>
@@ -988,8 +997,8 @@ Observações
 </ol>
 </section>
 </section>
-<section id="método-da-composição" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="método-da-composição"><span class="header-section-number">3.3</span> Método da Composição</h2>
+<section id="método-da-composição" class="level3" data-number="3.1.3">
+<h3 data-number="3.1.3" class="anchored" data-anchor-id="método-da-composição"><span class="header-section-number">3.1.3</span> Método da Composição</h3>
 <p>Suponha que tenhamos um método eficiente para simular o valor de uma variável aleatória com f.m.p. <span class="math inline">\({p_j, ; j \geq 0}\)</span> ou <span class="math inline">\({q_j, ; j \geq 0}\)</span>, e que desejamos simular a variável aleatória <span class="math inline">\(X\)</span> com f.m.p.:</p>
 <p><span class="math display">\[\Pr(X = j) = \alpha p_j + (1 - \alpha)q_j, \quad j \geq 0, 0 &lt; \alpha &lt; 1.\]</span> Se <span class="math inline">\(X_1 \sim {p_j}\)</span> e <span class="math inline">\(X_2 \sim {q_j}\)</span>, então podemos definir</p>
 <p><span class="math display">\[X =
@@ -1034,8 +1043,65 @@ Algoritmo
 <p><span class="math display">\[F(x) = \sum_{i=1}^n \alpha_i F_i(x),\]</span></p>
 <p>é uma <strong>mistura</strong>, ou uma <strong>composição</strong>, das funções de distribuição <span class="math inline">\(F_i\)</span>, <span class="math inline">\(i = 1, \dots, n\)</span>.</p>
 <p>Uma maneira de simular a partir de <span class="math inline">\(F\)</span> é primeiro simular uma variável aleatória <span class="math inline">\(I\)</span>, igual a <span class="math inline">\(i\)</span> com probabilidade <span class="math inline">\(\alpha_i\)</span>, <span class="math inline">\(i=1,\dots,n\)</span>, e então simular a partir da distribuição <span class="math inline">\(F_I\)</span> (Isto é, se o valor simulado de <span class="math inline">\(I\)</span> for <span class="math inline">\(I = j\)</span>, então a segunda simulação é feita a partir de <span class="math inline">\(F_j\)</span>). Essa abordagem para simular de <span class="math inline">\(F\)</span> é frequentemente chamada de <strong>método de composição</strong>.</p>
+</section>
+</section>
+</section>
+<section id="caso-contínuo" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="caso-contínuo"><span class="header-section-number">3.2</span> Caso Contínuo</h2>
+<p>A geração de variáveis aleatórias contínuas baseia-se quase inteiramente na existência de um fluxo de números independentes e identicamente distribuídos (i.i.d.) vindos de uma distribuição Uniforme (0,1).</p>
+<section id="método-da-transformação-inversa-1" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="método-da-transformação-inversa-1"><span class="header-section-number">3.2.1</span> Método da Transformação Inversa</h3>
+<p>O método da inversão é a técnica mais direta para gerar variáveis aleatórias. Ele se baseia na Transformada Integral de Probabilidade: se <span class="math inline">\(X\)</span> é uma variável aleatória contínua com função de distribuição acumulada (FDA), <span class="math inline">\(F(x)\)</span>, então a variáveil <span class="math inline">\(U = F(X)\)</span> segue uma distribuição Uniforme <span class="math inline">\((0, 1)\)</span>.</p>
+<div class="callout callout-style-simple callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Algoritmo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p>Gerar <span class="math inline">\(U \sim U(0,1)\)</span>;</p></li>
+<li><p>Definir <span class="math inline">\(X = F^{-1}(U)\)</span>, onde <span class="math inline">\(F^{-1}(\cdot)\)</span> é a função quantílica (inversa da FDA).</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="método-da-aceitação-e-rejeição" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="método-da-aceitação-e-rejeição"><span class="header-section-number">3.2.2</span> Método da Aceitação e Rejeição</h3>
+<p>Quando a inversa da CDF não possui uma forma fechada (como na distribuição Beta ou Normal), utilizamos métodos indiretos. O método da rejeição requer uma densidade instrumental <span class="math inline">\(g(x)\)</span> que seja fácil de simular e uma constante <span class="math inline">\(c\)</span> tal que a razão entre a densidade alvo <span class="math inline">\(f(x)\)</span> e <span class="math inline">\(g(x)\)</span> seja limitada: <span class="math inline">\(f(x)/g(x) \leq c\)</span>.</p>
+<div class="callout callout-style-simple callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Algoritmo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p>Simula <span class="math inline">\(Y \sim g\)</span> e <span class="math inline">\(U \sim U(0,1)\)</span> de forma independente;</p></li>
+<li><p>Aceita <span class="math inline">\(X = Y\)</span> se <span class="math inline">\(U \leq \frac{f(Y)}{cg(Y)}\)</span>.</p></li>
+<li><p>Caso contrário, rejeita <span class="math inline">\(Y\)</span> e retornar ao passo 1.</p></li>
+</ol>
+</div>
+</div>
+<blockquote class="blockquote">
+<p>A eficiência deste método é dada por <span class="math inline">\(1/c\)</span>, que representa a probabilidade de aceitação em cada tentativa.</p>
+</blockquote>
+</section>
+<section id="método-da-composição-misturas" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="método-da-composição-misturas"><span class="header-section-number">3.2.3</span> Método da Composição (Misturas)</h3>
+<p>Algumas distribuições complexas podem ser decompostas como uma mistura de distribuições mais simples. Se a densidade alvo puder ser escrita como <span class="math inline">\(f(x) = \sum p_i f_i(x)\)</span>, simulamos primeiro um índice <span class="math inline">\(I\)</span> com probabilidade <span class="math inline">\(p_i\)</span> e depois geramos <span class="math inline">\(X\)</span> a partir da densidade <span class="math inline">\(f_I\)</span> selecionada.</p>
+<section id="exemplo-5" class="level4" data-number="3.2.3.1">
+<h4 data-number="3.2.3.1" class="anchored" data-anchor-id="exemplo-5"><span class="header-section-number">3.2.3.1</span> Exemplo:</h4>
+<p>A distribuição de <span class="math inline">\(t\)</span> de Student pode ser representada como uma mistura de Normais onde a variância é controlada por uma variável Qui-quadrado.</p>
 
 
+</section>
 </section>
 </section>
 

@@ -16,21 +16,13 @@
 
 - Professor(a): Dr. Manoel Santos-Neto
 
-
 ## EMENTA {.unnumbered}
 
-
-Uso de pacotes estatísticos: R ou SPLUS, SPSS. Planilhas eletrônicas
-com apoio ferramental. Geração números pseudo-Aleatórios e
-variáveis aleatórias. Simulação estatística: métodos de inversão,
-rejeição, composição e métodos de reamostragem. Otimização
-numérica: Newton-Raphson, scoring, quase-Newton. Algoritmo
-EM. “Bootstrap” e “Jackknife”. Métodos de Monte Carlo. 
+Uso de pacotes estatísticos: R ou SPLUS, SPSS. Planilhas eletrônicas com apoio ferramental. Geração números pseudo-Aleatórios e variáveis aleatórias. Simulação estatística: métodos de inversão, rejeição, composição e métodos de reamostragem. Otimização numérica: Newton-Raphson, scoring, quase-Newton. Algoritmo EM. “Bootstrap” e “Jackknife”. Métodos de Monte Carlo.
 
 ## OBJETIVO GERAL {.unnumbered}
 
 Desenvolver competências teóricas e computacionais para compreensão, implementação e aplicação dos principais métodos de Estatística Computacional, utilizando a linguagem R como ferramenta principal.
-
 
 ## OBJETIVOS ESPECÍFICOS {.unnumbered}
 
@@ -48,9 +40,7 @@ Desenvolver competências teóricas e computacionais para compreensão, implemen
 
 - desenvolver análises estatísticas computacionais organizadas e reprodutíveis.
 
-
 ## CONTEÚDO PROGRAMÁTICO {.unnumbered}
-
 
 ### Unidade I – Introdução ao R e programação estatística {.unnumbered}
 
@@ -72,7 +62,6 @@ Desenvolver competências teóricas e computacionais para compreensão, implemen
 
 - introdução ao desenvolvimento de relatórios computacionais reproduzíveis.
 
-
 ### Unidade II – Geração de números pseudoaleatórios {.unnumbered}
 
 - aleatoriedade e pseudoaleatoriedade;
@@ -86,8 +75,6 @@ Desenvolver competências teóricas e computacionais para compreensão, implemen
 - sementes e reprodutibilidade;
 
 - geração de números pseudoaleatórios no R;
-
-
 
 ### Unidade III – Simulação de variáveis aleatórias {.unnumbered}
 
@@ -103,7 +90,6 @@ Desenvolver competências teóricas e computacionais para compreensão, implemen
 
 - implementação dos métodos em R;
 
-
 ### Unidade IV – Métodos de Monte Carlo {.unnumbered}
 
 - fundamentos dos métodos de Monte Carlo;
@@ -116,12 +102,9 @@ Desenvolver competências teóricas e computacionais para compreensão, implemen
 
 - introdução às técnicas de redução de variância;
 
-- planejamento e implementação de estudos de simulação;
-aplicações estatísticas em R.
-
+- planejamento e implementação de estudos de simulação; aplicações estatísticas em R.
 
 ### Unidade V – Bootstrap e Jackknife {.unnumbered}
-
 
 - princípios dos métodos de reamostragem;
 
@@ -147,7 +130,6 @@ aplicações estatísticas em R.
 
 - implementação e aplicações em R.
 
-
 ### Unidade VI – Otimização numérica {.unnumbered}
 
 - problemas de otimização em Estatística;
@@ -158,7 +140,7 @@ aplicações estatísticas em R.
 
 - método de Newton-Raphson;
 
--função escore e matriz Hessiana;
+- função escore e matriz Hessiana;
 
 - informação observada e informação de Fisher;
 
@@ -176,10 +158,7 @@ aplicações estatísticas em R.
 
 - aplicações à estimação por máxima verossimilhança.
 
-
-
 ### Unidade VII – Algoritmo EM {.unnumbered}
-
 
 - problemas estatísticos envolvendo informações incompletas e variáveis latentes;
 
@@ -205,8 +184,6 @@ aplicações estatísticas em R.
 
 - interpretação e diagnóstico dos resultados.
 
-
-
 ### Unidade VIII – Aplicações modernas em Estatística Computacional {.unnumbered}
 
 - planejamento de estudos computacionais;
@@ -219,7 +196,6 @@ aplicações estatísticas em R.
 
 - documentação e comunicação de resultados.
 
-
 ## METODOLOGIA {.unnumbered}
 
 A disciplina será desenvolvida por meio de aulas teóricas e práticas, integrando fundamentos estatísticos, formulação matemática e implementação computacional em R. Serão utilizados exemplos, exercícios, estudos de simulação e atividades computacionais, com organização didática que favoreça diferentes formas de aprendizagem, preservando o rigor teórico e computacional.
@@ -227,7 +203,6 @@ A disciplina será desenvolvida por meio de aulas teóricas e práticas, integra
 ## AVALIAÇÃO {.unnumbered}
 
 A avaliação será contínua, por meio de avaliações individuais, atividades computacionais, exercícios e/ou projetos. Serão considerados tanto o domínio dos fundamentos teóricos quanto a capacidade de implementar, analisar e interpretar os métodos estudados.
-
 
 ## CRITÉRIOS DE AVALIAÇÃO {.unnumbered}
 
@@ -245,44 +220,33 @@ Serão considerados:
 
 - capacidade de avaliar limitações, convergência e estabilidade dos métodos.
 
-
 ## BIBLIOGRAFIA BÁSICA {.unnumbered}
 
-1. ROSS, SHELDON. Simulation, 4th ed., San Diego, California: Elsevier, 2006
+1.  ROSS, SHELDON. Simulation, 4th ed., San Diego, California: Elsevier, 2006
 
-2. EFRON, B.; TIBSSHIRANI, R. J. An Introducion to the Bootstrap. New York: Chapman e Hall, 1993.
+2.  EFRON, B.; TIBSSHIRANI, R. J. An Introducion to the Bootstrap. New York: Chapman e Hall, 1993.
 
-3. LIBREOFFICE. Introdução ao CALC, Planilhas de cálculo no LibreOffice. Disponível em: <https://documentation.libreoffice.org/assets/Uploads/Do
-cumentation/pt-br/CG70/CG70-CalcGuide-Master.pdf> Acesso em: 15 mar. 2022.
+3.  LIBREOFFICE. Introdução ao CALC, Planilhas de cálculo no LibreOffice. Disponível em: \<https://documentation.libreoffice.org/assets/Uploads/Do cumentation/pt-br/CG70/CG70-CalcGuide-Master.pdf\> Acesso em: 15 mar. 2022.
 
-4. ROBERT, C; CASELLA, G. Introducing Monte Carlo Methods with R. Springer eBooks XX, 284 p (Use R). ISBN 9781441915764. Disponível em 
-86 <https://doi.org/10.1007/978-1-4419-1576-4> Acesso em : 15 mar. 2022.
+4.  ROBERT, C; CASELLA, G. Introducing Monte Carlo Methods with R. Springer eBooks XX, 284 p (Use R). ISBN 9781441915764. Disponível em 86 <https://doi.org/10.1007/978-1-4419-1576-4> Acesso em : 15 mar. 2022.
 
-5. CRAWLEY, Michael J. The R Book. Chichester: John Wiley & Sons, 2007.
+5.  CRAWLEY, Michael J. The R Book. Chichester: John Wiley & Sons, 2007.
 
 ## BIBLIOGRAFIA COMPLEMENTAR {.unnumbered}
 
-1. DAVIDSON, A. C.; HINKLEY, D. V. Bootstrap Methods and their Application. New York: Cambridge University Press,
-1997.
+1.  DAVIDSON, A. C.; HINKLEY, D. V. Bootstrap Methods and their Application. New York: Cambridge University Press,
 
-2. AQUINO, J. ALVES. R para cientistas sociais.
-<http://www.uesc.br/editora/livrosdigitais_20140513/r_cie
-ntistas.pdf>
 
-3. GARRET G.; HADLEY W. R for Data Science. Disponível em:
-<https://r4ds.had.co.nz/> Acesso em : 15 mar. 2022.
+2.  AQUINO, J. ALVES. R para cientistas sociais. \<http://www.uesc.br/editora/livrosdigitais_20140513/r_cie ntistas.pdf\>
 
-4. DALGAARD, P. Introductory Statistics with R. Springer, 2008.
+3.  GARRET G.; HADLEY W. R for Data Science. Disponível em: <https://r4ds.had.co.nz/> Acesso em : 15 mar. 2022.
 
-5. BRUNI, Adriano Leal. SPSS aplicado à pesquisa acadêmica. São Paulo: Atlas, 2009.
+4.  DALGAARD, P. Introductory Statistics with R. Springer, 2008.
 
-6. KELLER, A; HEINRICH, S; NIEDERREITER, H. SPRINGERLINK (ONLINE SERVICE). Monte Carlo and Quasi-Monte Carlo Methods 2006. Springer eBooksBerlin, Heidelberg: Springer-Verlag Berlin Heidelberg, 2008. ISBN
-9783540744962. Disponível em: <http://dx.doi.org/10.1007/978-3-540-74496-2> Acesso em: 15 mar. 2022
+5.  BRUNI, Adriano Leal. SPSS aplicado à pesquisa acadêmica. São Paulo: Atlas, 2009.
 
+6.  KELLER, A; HEINRICH, S; NIEDERREITER, H. SPRINGERLINK (ONLINE SERVICE). Monte Carlo and Quasi-Monte Carlo Methods 2006. Springer eBooksBerlin, Heidelberg: Springer-Verlag Berlin Heidelberg, 2008. ISBN Disponível em: <http://dx.doi.org/10.1007/978-3-540-74496-2> Acesso em: 15 mar. 2022
 
 ## Observações Finais
 
 A linguagem R será utilizada como principal ambiente computacional da disciplina. Os materiais e atividades buscarão integrar teoria e prática, com atenção à acessibilidade pedagógica, à organização dos conteúdos e à reprodutibilidade das análises. O cronograma poderá ser ajustado conforme o desenvolvimento da turma e o calendário acadêmico.
-
-
-

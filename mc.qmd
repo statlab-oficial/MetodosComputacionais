@@ -1,7 +1,5 @@
 # Métodos de Monte Carlo
 
-## Introdução
-
 Os métodos de Monte Carlo formam uma classe de algoritmos baseados em simulação aleatória. Eles surgiram no final da década de 1940, especialmente com os trabalhos de John von Neumann, Stanislaw Ulam, Enrico Fermi e Nicholas Metropolis. O nome deriva da cidade famosa por seus cassinos.
 
 ```{r}
@@ -11,140 +9,19 @@ Os métodos de Monte Carlo formam uma classe de algoritmos baseados em simulaç�
 knitr::include_graphics("Cassino1.jpg")
 ```
 
-## Aplicações
-
 Na Estatística, os métodos de Monte Carlo são utilizados para:
 
 - estimar parâmetros da distribuição amostral;
 
-- calcular MSE (erro quadrático médio);
+- calcular EQM (erro quadrático médio);
 
 - avaliar cobertura de intervalos de confiança;
 
 - estimar probabilidades de erro tipo I;
 
+- estimar o nível descritivo de um teste de hipóteses;
+
 - estimar poder de testes de hipóteses.
-
-- O princípio central é usar amostragem aleatória massiva para resolver problemas de integração ou otimização.
-
-## Integração de Monte Carlo
-
-### Problema geral
-
-Queremos calcular:
-
-$$\int_\chi g(x)\,dx$$
-
-Se conseguimos escrever $g(x) = h(x) f(x)$, sendo $f$ uma densidade, então
-
-$$\int_\chi h(x) f(x) dx = E_f[h(X)],$$
-
-e aproximamos a integral por:
-
-$\bar h_n = \frac{1}{n} \sum_{j=1}^n h(x_j).$
-
-## Convergência (Lei Forte dos Grandes Números)
-
-Se $X_1,\dots,X_n$ são i.i.d. com média $\mu$,
-
-$$\bar X_n \xrightarrow{qc} \mu.$$
-
-### Exemplo 1 — Integral em $[0,1]$
-
-$$I = \int_0^1 [\cos(50x) + \sin(20x)]^2\,dx.$$
-
-#### Código em R
-
-```{r}
-h <- function(x) (cos(50*x) + sin(20*x))^2
-integrate(h, 0, 1)
-
-n <- 1e5
-x <- runif(n)
-mean(h(x))
-curve(h, from = 0, to = 1)
-```
-
-### Exemplo 2 — Integral imprópria
-
-$$I = \int_0^\infty e^{-x^2/2} dx,$$ use a transformação $y = \frac{1}{x + 1}$ e obtenha
-
-$$I = \int_0^1 y^{-2} \exp\left\{-\frac{[(1-y)/y]^2}{2}\right\} dy.$$ Daí a segue naturalmente como no caso anterior.
-
-### Cálculo de probabilidades via Monte Carlo
-
-Para uma variável aleatória $X$,
-
-$$P(X \in A) = E[I_A(X)],$$
-
-então, estimamos:
-
-$$\hat P = \frac{1}{n}\sum_{i=1}^n I_A(X_i).$$
-
-### Exemplo: $P(X>2.5)$, com $X\sim N(0,1)$
-
-```{r}
-n <- 1e6
-x <- rnorm(n)
-mean(x > 2.5)
-```
-
-## Erro de Monte Carlo
-
-Queremos estimar:
-
-$$E_f[h(X)],$$
-
-com estimador de Monte Carlo: $\bar h_n$. A Variância do estimador de Monte Carlo é dada por:
-
-$$\operatorname{Var}(\bar h_n)
-= \operatorname{Var}\left(\frac{1}{n}\sum_{j=1}^n h(X_j)\right)
-= \frac{n \, \operatorname{Var}(h(X_j))}{n^2}
-= \frac{\operatorname{Var}(h(X))}{n}.$$
-A variância de $h(X)$ pode ser estimada por
-
-$$\widehat{\operatorname{Var}}(h(X))
-= \frac{1}{n}\sum_{j=1}^n \bigl(h(x_j) - \bar h_n\bigr)^2.$$
-
-Portanto, a variância do estimador de Monte Carlo $\bar h_n$ é estimada por:
-
-$$\widehat{\operatorname{Var}}(\bar h_n)
-= \frac{1}{n^2}\sum_{j=1}^n \bigl(h(x_j) - \bar h_n\bigr)^2
-= v_n.$$
-
-O erro padrão, $\sqrt{v_n}$, reflete a precisão da aproximação.
-
-```{r}
-set.seed(1234)
-n <- 1e3
-x <- runif(n)
-h <- (cos(50*x) + sin(20*x))^2
-hbn <- cumsum(h)/(1:n)
-vn  <- cumsum((h - hbn)^2)/(1:n)^2
-
-# Bandas de 95% de confiança
-LI <- hbn - 1.96 * sqrt(vn)
-LS <- hbn + 1.96 * sqrt(vn)
-
-
-# integral_0^1 (cos(50 x) + sin(20 x))^2 dx = 0.965201
-I_true <- 0.965201
-
-# Gráfico com bandas
-plot(hbn, type = "l", xlab = "n",
-     ylab = expression(bar(h)[n]),
-     ylim = range(LI, LS))
-
-lines(LI, col = "red", lty = 2)
-lines(LS, col = "red", lty = 2)
-
-abline(h = I_true, col = "blue", lwd = 2)  # linha do valor verdadeiro
-legend("topright",
-       legend = c("Estimativa MC", "IC 95%", "Valor verdadeiro"),
-       lty = c(1, 2, 1),
-       col = c("black", "red", "blue"),
-       bty = "n")
-```
 
 ## Uso de Números Aleatórios na Avaliação de Integrais
 
@@ -265,7 +142,106 @@ print(resultado)
 
 4.  Use simulação para encontrar o valor aproximado de $Cov(U, e^U)$, em que $U$ é uniforme em $(0,1)$. Compare seu resultado com o valor exato.
 
+### Estimativa de Probabilidades via Monte Carlo {.unnumbered}
 
+O método de Monte Carlo permite aproximar integrais complexas e, consequentemente, probabilidades, ao tratar o problema como o cálculo de uma esperança matemática.
+
+Para qualquer evento $A$, a probabilidade $P(X \in A)$ pode ser expressa como a esperança da função indicadora $I_A(X)$, em que $I_A(X) = 1$ se $x \in A$ e $0$ caso contrário. Pela Lei Forte dos Grandes Números, a média aritmética de uma amostra independente e identicamente distribuída (i.i.d.) converge para o valor real da esperança conforme o tamanho da amostra, $n$, aumenta
+
+$$\hat{P}_n = \frac{1}{n}\sum\limits_{i=1}^{n}I_A(X_i) \to  P(X \in A).$$
+
+#### Precisão e Erro Padrão {.unnumbered}
+
+Como $\hat P$ é a média de variáveis Bernoulli, sua variância teórica é dada por $Var(\hat P) = \frac{P(1-P)}{n}$. De acordo com o Teorema Central do Limite, para um $n$ suficientemente grande, o erro da estimativa distribui-se aproximadamente como uma distribuição Normal, permitindo calcular o erro padrão da simulação.
+
+##### Exemplo: $P(X>2.5)$, com $X\sim N(0,1)$ {.unnumbered}
+
+No `R`, a estimativa é realizada de forma eficiente através da vetorização, evitando laços lentos. Para eventos nas caudas (eventos raros), é essencial monitorar a estabilidade da estimativa.
+
+```{r}
+set.seed(20262) # Garante a reprodutibilidade
+n <- 1e6
+x <- rnorm(n)
+
+# Estimativa de Monte Carlo
+indicadora <- x > 2.5
+p_hat <- mean(indicadora)
+
+# Cálculo do Erro Padrão
+erro_padrao <- sqrt(p_hat * (1 - p_hat) / n)
+
+# Resultados
+cat("Estimativa:", p_hat, "\n")
+cat("Erro Padrão:", erro_padrao, "\n")
+cat("Intervalo de Confiança (95%): [", p_hat - 1.96*erro_padrao, ",", p_hat + 1.96*erro_padrao, "]\n")
+```
+
+> Embora o método de Monte Carlo direto seja robusto, ele pode ser ineficiente para probabilidades muito pequenas, exigindo um $n$ astronômico para obter precisão relativa. Nesses casos, técnicas como a Amostragem de Importância podem ser utilizadas para reduzir a variância, simulando de uma distribuição que enfatize a região de interesse (neste caso, valores $> 2{,}5$)
+
+### Erro e Convergência de Monte Carlo
+
+O objetivo fundamental da integração de Monte Carlo é estimar a esperança matemática $I = E_f[h(X)] = \int_{\mathcal{X}} h(x)f(x)dx$. O estimador de Monte Carlo, $\bar h_n$, é a média aritmética de uma amostra $X_1, \dots, X_n$ gerada a partir da densidade $f$:
+
+$$\bar h_n = \frac{1}{n} \sum\limits_{i=1}^{n} h(X_j).$$
+
+Note que a validade desta aproximação possui pilares da teoria das probabilidades.
+
+1.  Lei Forte dos Grandes Números: garante que $\bar h_n$ converge quase certamente para o valor real $I$ conforme $n \to \infty$.
+
+2.  Teorema Central do Limite (TCL): Afirma que, para $n$ grande, o erro de integração $\bar h_n - I$ possui distribuição aproximadamente normal com média $0$ e variância $\sigma^2/n$.
+
+Como a variância populacional $\sigma^2 = Var(h(X))$ é geralmente desconhecida, nós estimamos a partir da amostra para avaliar a precisão do método:
+
+com estimador de Monte Carlo: $\bar h_n$. A Variância do estimador de Monte Carlo é dada por:
+
+$$\widehat{\operatorname{Var}}(h(X))
+= \frac{1}{n}\sum_{j=1}^n \bigl(h(x_j) - \bar h_n\bigr)^2.$$
+
+Consequentemente, a variância do estimador da média, $Var(\bar h_n)$ é estimada por:
+
+$$v_n = \frac{\widehat{\operatorname{Var}}(\bar h_n)}{n} 
+= \frac{1}{n^2}\sum_{j=1}^n \bigl(h(x_j) - \bar h_n\bigr)^2.$$
+
+O erro padrão, $\sqrt{v_n}$, é a medida padrão da variabilidade do estimador. É importante notar que a precisão de Monte Carlo melhora a uma taxa de $O(n^{-1/2})$, o que significa que para reduzir o erro pela metade, é necessário quadruplicar o número de simulações.
+
+Uma prática recomendada é monitorar a evolução da estimativa e das bandas de erro conforme $n$ aumenta. As bandas baseadas em $\pm1.96 \sqrt{v_n}$ representam um intervalo de confiança de 95% para a estimativa em cada ponto da iteração.
+
+> *Nota de cautela:* Estas bandas indicam a confiança na estimativa se a simulação fosse interrompida naquele valor de $n$. Elas não garantem que a trajetória inteira do estimador permanecerá dentro desses limites em uma nova execução.
+
+```{r}
+set.seed(1234)
+n <- 1e3
+x <- runif(n)
+h <- (cos(50*x) + sin(20*x))^2
+
+# Estimativas acumuladas (vetorizadas para eficiência no R)
+hbn <- cumsum(h) / (1:n)
+# Variância acumulada do estimador da média
+# Nota: usando a fórmula de soma de quadrados para v_n
+vn  <- (cumsum(h^2) / (1:n) - hbn^2) / (1:n)
+
+# Intervalo de Confiança Assintótico (95%)
+erro_padrao <- sqrt(vn)
+LI <- hbn - 1.96 * erro_padrao
+LS <- hbn + 1.96 * erro_padrao
+
+# Valor verdadeiro da integral para comparação
+I_true <- 0.965201
+
+# Visualização da Convergência
+plot(hbn, type = "l", lwd = 2, xlab = "Número de iterações (n)",
+     ylab = expression(bar(h)[n]),
+     main = "Convergência de Monte Carlo com Bandas",
+     ylim = range(c(LI, LS), na.rm = TRUE))
+
+lines(LI, col = "red", lty = 2)
+lines(LS, col = "red", lty = 2)
+abline(h = I_true, col = "blue", lwd = 2)
+
+legend("topright", 
+       legend = c("Estimativa Acumulada", "IC 95% (Assintótico)", "Valor Real"),
+       col = c("black", "red", "blue"), lty = c(1, 2, 1), lwd = c(2, 1, 2), bty = "n")
+```
 
 ## Simulações de Monte Carlo em Inferência
 

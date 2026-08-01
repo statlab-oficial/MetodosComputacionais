@@ -1,12 +1,14 @@
 # Geração de Números Pseudoaleatórios
 
-As simulações, de modo geral, requerem uma base inicial formada por números aleatórios. Diz-se que uma sequência $R_1, R_2, \ldots$ é composta por números aleatórios quando cada termo segue a distribuição uniforme $U(0,1)$ e $R_i$ é independente de $R_j$ para todo $i \neq j$. Embora alguns autores utilizem o termo “números aleatórios” para se referir a variáveis amostradas de qualquer distribuição, aqui ele será usado exclusivamente para variáveis com distribuição $U(0,1)$.
+As simulações estatísticas requerem uma base inicial formada por números que imitem a aleatoriedade. Formalmente, buscamos uma sequência $U_1, U_2, \dots$ de variáveis independentes e identicamente distribuídas (iid) seguindo a distribuição uniforme no intervalo $(0,1)$.
+
 
 ## Geração de sequências $U(0,1)$
 
 Uma abordagem é utilizar dispositivos físicos aleatorizadores, como máquinas que sorteiam números de loteria, roletas ou circuitos eletrônicos que produzem “ruído aleatório”. Contudo, tais dispositivos apresentam desvantagens:
 
 1.  **Baixa velocidade** e dificuldade de integração direta com computadores.
+
 2.  **Necessidade de reprodutibilidade** da sequência. Por exemplo, para verificação de código ou comparação de políticas em um modelo de simulação, usando a mesma sequência para reduzir a variância da diferença entre resultados.
 
 Uma forma simples de obter reprodutibilidade é armazenar a sequência em um dispositivo de memória (HD, CD-ROM, livro). De fato, a RAND Corporation publicou *A Million Random Digits with 100 000 Random Normal Deviates* (1955). Entretanto, acessar armazenamento externo milhares ou milhões de vezes torna a simulação lenta.
@@ -19,47 +21,77 @@ Uma forma simples de obter reprodutibilidade é armazenar a sequência em um dis
 - Em [www.randomnumbers.info](https://www.randomnumbers.info/) é oferecida a possibilidade de baixar números aleatórios gerados usando um gerador quântico de números aleatórios sob demanda.
 :::
 
-Assim, a abordagem preferida é **gerar números pseudoaleatórios em tempo de execução**, via recorrências determinísticas sobre inteiros. Isso permite:
 
-- Geração rápida;
-- Eliminação do problema de armazenamento;
-- Reprodutibilidade controlada.
+## Por que "Pseudoaleatórios"?
+
+Diferente de dispositivos físicos (como ruído atmosférico ou decaimento quântico), que geram aleatoriedade real mas são lentos e irreprodutíveis, os computadores utilizam algoritmos determinísticos. Esses números são chamados de pseudoaleatórios porque, embora pareçam aleatórios sob testes estatísticos, são gerados por fórmulas matemáticas fixas.
+
+A abordagem computacional é preferida por três razões fundamentais:
+
+
+1. *Eficiência*: Geração extremamente rápida em tempo de execução.
+
+2. *Economia de Memória*: Elimina a necessidade de armazenar tabelas imensas de números.
+
+3. *Reprodutibilidade*: Através do uso de uma semente (`seed`), é possível replicar exatamente a mesma sequência, o que é vital para depuração de código e redução de variância em comparações de modelos.
+
 
 Entretanto, a escolha inadequada da recorrência pode gerar sequências com baixa qualidade estatística. Um dos métodos mais antigos e influentes para isso é o **Gerador Congruencial Linear (GCL)**.
 
-### Gerador Congruencial Linear {.unnumbered}
+## O Gerador Congruencial Linear (GCL)
 
-O GCL produz uma sequência de inteiros $x_0, x_1, x_2, \dots$ segundo a regra:
+O GCL é um dos métodos mais clássicos para gerar sequências pseudoaleatórias. Ele produz uma sequência de inteiros $x_n$ através da recorrência: 
+
 
 $$x_n = (a \, x_{n-1} + c) \;\; \text{mod} \;\; m$$
 
-em que, $m > 0$ é o **módulo**, $a$ é o **multiplicador**, $c$ é o **incremento** e\
-$x_0$ é a **semente** (*seed*), escolhida pelo usuário.
-
-O resultado final é obtido normalizando os valores:
+em que, $m > 0$ é o **módulo**, $a$ é o **multiplicador**, $c$ é o **incremento** e $x_0$ é a **semente** (*seed*), escolhida pelo usuário. O resultado final é obtido normalizando os valores:
 
 $$u_n = \frac{x_n}{m}, \quad \text{com } u_n \in (0, 1).$$
 
-::: callout-note
-## Tipos
+### Escolha de Parâmetros e Período
 
-- **Multiplicativo:** $c = 0$.\
-- **Misto:** $c \neq 0$.
-:::
+A qualidade do gerador depende criticamente da escolha de $a$, $c$ e $m$. Como os valores de $x_n$ estão no conjunto $\{0, 1, \dots, m-1\}$, a sequência inevitavelmente se repetirá após, no máximo, $m$ sorteios. Esse intervalo antes da repetição é chamado de período.
+
+Para maximizar o período e a qualidade estatística, seguem-se algumas diretrizes:
+
+- Módulo ($m$): Deve ser um número primo grande, geralmente próximo à capacidade da palavra do computador (ex. $m = 2^{31} - 1$ para máquinas de 32 bits).
+
+- Multiplicador ($a$): Para $m = 2^{31} - 1$, uma escolha comum e testada é $a = 7^5 = 16807$.
+
+- Valores históricos:
+  
+  - **Park–Miller (1988):** $m = 2^{31} - 1$, $a = 16807$, $c = 0$.\
+  
+  - **Numerical Recipes (1992):** $m = 2^{32}$, $a = 1664525$, $c = 1013904223$.
+
+
+## Implementação no R
+
+No ambiente `R`, não precisamos implementar esses geradores manualmente para uso cotidiano, pois o *software* oferece funções otimizadas.
+
+- `runif(n)`: Gera $n$ valores uniformes (0,1).
+
+- `set.seed(semente)`: Define o ponto de partida da sequência. Se não for definida, o `R` utiliza o relógio do sistema como semente padrão. 
+
+
+```{r}
+# Exemplo de reprodutibilidade
+set.seed(123)
+runif(5)  # Gera 5 números
+set.seed(123)
+runif(5)  # Gera EXATAMENTE os mesmos 5 números
+```
+
 
 ### Por que o GCL funciona? {.unnumbered}
 
-1.  **Simplicidade:** apenas uma multiplicação, uma soma e uma operação de módulo.\
-2.  **Velocidade:** pode ser implementado de forma extremamente eficiente.\
+1.  **Simplicidade:** apenas uma multiplicação, uma soma e uma operação de módulo.
+
+2.  **Velocidade:** pode ser implementado de forma extremamente eficiente.
+
 3.  **Controle:** dependendo da escolha de $a, c, m$, é possível obter um período longo, ou seja, muitos números gerados antes de a sequência se repetir.
 
-### Critérios para bons parâmetros {.unnumbered}
-
-- O módulo $m$ deve ser **grande**, de preferência próximo da capacidade da máquina.\
-- Para GCL multiplicativo, se $m$ for primo, existe a possibilidade de alcançar período máximo $m-1$.\
-- Valores históricos:
-  - **Park–Miller (1988):** $m = 2^{31} - 1$, $a = 16807$, $c = 0$.\
-  - **Numerical Recipes (1992):** $m = 2^{32}$, $a = 1664525$, $c = 1013904223$.
 
 #### Exemplos {.unnumbered}
 
@@ -111,13 +143,17 @@ gcl(seed, a, c, m, n=10)
 
 ```
 
-### Visualização {.unnumbered}
 
-Uma forma simples de verificar se um gerador se comporta bem é observar os valores em um gráfico de dispersão $(u_{n}, u_{n+1}).$
+## Como validar um Gerador?
 
-- Um bom gerador mostra pontos espalhados de forma quase aleatória.
+Um "bom" gerador deve passar por verificações rápidas para garantir que as propriedades i.i.d. sejam mantidas.
 
-- Um gerador ruim forma padrões visíveis (linhas ou grades).
+1. Histograma: Os valores devem se distribuir de forma plana (uniforme) entre 0 e 1.
+
+2. Gráfico de Pares $(U_i, U_{i+1})$: Ajuda a detectar dependências seriais. Os pontos devem preencher o quadrado unitário sem padrões ou linhas visíveis (evitando o "agrupamento" ou *clumping*).
+
+3. Autocorrelação: A correlação entre valores sucessivos deve ser desprezível.
+
 
 ### Limitações {.unnumbered}
 
@@ -184,4 +220,3 @@ help(Random)
 ```
 
 ![Imagem da documentação.](Captura%20de%20tela%20de%202025-09-07%2015-34-20.png){fig-align="center"}
-

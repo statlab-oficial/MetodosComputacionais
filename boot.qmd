@@ -2,8 +2,6 @@
 
 ## Bootstrap
 
-### Introdução
-
 Ao longo deste material, utilizamos simulações de Monte Carlo para demonstrar propriedades estatísticas de estimadores. Simulamos processos de geração de dados no computador e, em seguida, examinamos diretamente os resultados.
 
 Este capítulo explica como técnicas de simulação intensivas em computação podem ser aplicadas a **uma única amostra** para estimar a distribuição amostral de uma estatística. Esses procedimentos, cada vez mais populares, são conhecidos como **métodos bootstrap**. Eles podem ser usados para corroborar resultados baseados na teoria padrão ou fornecer respostas quando métodos convencionais falham.

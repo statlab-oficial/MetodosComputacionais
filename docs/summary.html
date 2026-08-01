@@ -246,12 +246,18 @@ window.Quarto = {
     <h2 id="toc-title">Índice</h2>
    
   <ul>
-  <li><a href="#geração-de-sequências-u01" id="toc-geração-de-sequências-u01" class="nav-link active" data-scroll-target="#geração-de-sequências-u01"><span class="header-section-number">2.1</span> Geração de sequências <span class="math inline">\(U(0,1)\)</span></a>
+  <li><a href="#geração-de-sequências-u01" id="toc-geração-de-sequências-u01" class="nav-link active" data-scroll-target="#geração-de-sequências-u01"><span class="header-section-number">2.1</span> Geração de sequências <span class="math inline">\(U(0,1)\)</span></a></li>
+  <li><a href="#por-que-pseudoaleatórios" id="toc-por-que-pseudoaleatórios" class="nav-link" data-scroll-target="#por-que-pseudoaleatórios"><span class="header-section-number">2.2</span> Por que “Pseudoaleatórios”?</a></li>
+  <li><a href="#o-gerador-congruencial-linear-gcl" id="toc-o-gerador-congruencial-linear-gcl" class="nav-link" data-scroll-target="#o-gerador-congruencial-linear-gcl"><span class="header-section-number">2.3</span> O Gerador Congruencial Linear (GCL)</a>
   <ul class="collapse">
-  <li><a href="#gerador-congruencial-linear" id="toc-gerador-congruencial-linear" class="nav-link" data-scroll-target="#gerador-congruencial-linear">Gerador Congruencial Linear</a></li>
+  <li><a href="#escolha-de-parâmetros-e-período" id="toc-escolha-de-parâmetros-e-período" class="nav-link" data-scroll-target="#escolha-de-parâmetros-e-período"><span class="header-section-number">2.3.1</span> Escolha de Parâmetros e Período</a></li>
+  </ul></li>
+  <li><a href="#implementação-no-r" id="toc-implementação-no-r" class="nav-link" data-scroll-target="#implementação-no-r"><span class="header-section-number">2.4</span> Implementação no R</a>
+  <ul class="collapse">
   <li><a href="#por-que-o-gcl-funciona" id="toc-por-que-o-gcl-funciona" class="nav-link" data-scroll-target="#por-que-o-gcl-funciona">Por que o GCL funciona?</a></li>
-  <li><a href="#critérios-para-bons-parâmetros" id="toc-critérios-para-bons-parâmetros" class="nav-link" data-scroll-target="#critérios-para-bons-parâmetros">Critérios para bons parâmetros</a></li>
-  <li><a href="#visualização" id="toc-visualização" class="nav-link" data-scroll-target="#visualização">Visualização</a></li>
+  </ul></li>
+  <li><a href="#como-validar-um-gerador" id="toc-como-validar-um-gerador" class="nav-link" data-scroll-target="#como-validar-um-gerador"><span class="header-section-number">2.5</span> Como validar um Gerador?</a>
+  <ul class="collapse">
   <li><a href="#limitações" id="toc-limitações" class="nav-link" data-scroll-target="#limitações">Limitações</a></li>
   </ul></li>
   </ul>
@@ -279,13 +285,13 @@ window.Quarto = {
 </header>
 
 
-<p>As simulações, de modo geral, requerem uma base inicial formada por números aleatórios. Diz-se que uma sequência <span class="math inline">\(R_1, R_2, \ldots\)</span> é composta por números aleatórios quando cada termo segue a distribuição uniforme <span class="math inline">\(U(0,1)\)</span> e <span class="math inline">\(R_i\)</span> é independente de <span class="math inline">\(R_j\)</span> para todo <span class="math inline">\(i \neq j\)</span>. Embora alguns autores utilizem o termo “números aleatórios” para se referir a variáveis amostradas de qualquer distribuição, aqui ele será usado exclusivamente para variáveis com distribuição <span class="math inline">\(U(0,1)\)</span>.</p>
+<p>As simulações estatísticas requerem uma base inicial formada por números que imitem a aleatoriedade. Formalmente, buscamos uma sequência <span class="math inline">\(U_1, U_2, \dots\)</span> de variáveis independentes e identicamente distribuídas (iid) seguindo a distribuição uniforme no intervalo <span class="math inline">\((0,1)\)</span>.</p>
 <section id="geração-de-sequências-u01" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="geração-de-sequências-u01"><span class="header-section-number">2.1</span> Geração de sequências <span class="math inline">\(U(0,1)\)</span></h2>
 <p>Uma abordagem é utilizar dispositivos físicos aleatorizadores, como máquinas que sorteiam números de loteria, roletas ou circuitos eletrônicos que produzem “ruído aleatório”. Contudo, tais dispositivos apresentam desvantagens:</p>
 <ol type="1">
-<li><strong>Baixa velocidade</strong> e dificuldade de integração direta com computadores.</li>
-<li><strong>Necessidade de reprodutibilidade</strong> da sequência. Por exemplo, para verificação de código ou comparação de políticas em um modelo de simulação, usando a mesma sequência para reduzir a variância da diferença entre resultados.</li>
+<li><p><strong>Baixa velocidade</strong> e dificuldade de integração direta com computadores.</p></li>
+<li><p><strong>Necessidade de reprodutibilidade</strong> da sequência. Por exemplo, para verificação de código ou comparação de políticas em um modelo de simulação, usando a mesma sequência para reduzir a variância da diferença entre resultados.</p></li>
 </ol>
 <p>Uma forma simples de obter reprodutibilidade é armazenar a sequência em um dispositivo de memória (HD, CD-ROM, livro). De fato, a RAND Corporation publicou <em>A Million Random Digits with 100 000 Random Normal Deviates</em> (1955). Entretanto, acessar armazenamento externo milhares ou milhões de vezes torna a simulação lenta.</p>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -305,108 +311,112 @@ Nota
 </ul>
 </div>
 </div>
-<p>Assim, a abordagem preferida é <strong>gerar números pseudoaleatórios em tempo de execução</strong>, via recorrências determinísticas sobre inteiros. Isso permite:</p>
-<ul>
-<li>Geração rápida;</li>
-<li>Eliminação do problema de armazenamento;</li>
-<li>Reprodutibilidade controlada.</li>
-</ul>
-<p>Entretanto, a escolha inadequada da recorrência pode gerar sequências com baixa qualidade estatística. Um dos métodos mais antigos e influentes para isso é o <strong>Gerador Congruencial Linear (GCL)</strong>.</p>
-<section id="gerador-congruencial-linear" class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="gerador-congruencial-linear">Gerador Congruencial Linear</h3>
-<p>O GCL produz uma sequência de inteiros <span class="math inline">\(x_0, x_1, x_2, \dots\)</span> segundo a regra:</p>
-<p><span class="math display">\[x_n = (a \, x_{n-1} + c) \;\; \text{mod} \;\; m\]</span></p>
-<p>em que, <span class="math inline">\(m &gt; 0\)</span> é o <strong>módulo</strong>, <span class="math inline">\(a\)</span> é o <strong>multiplicador</strong>, <span class="math inline">\(c\)</span> é o <strong>incremento</strong> e<br>
-<span class="math inline">\(x_0\)</span> é a <strong>semente</strong> (<em>seed</em>), escolhida pelo usuário.</p>
-<p>O resultado final é obtido normalizando os valores:</p>
-<p><span class="math display">\[u_n = \frac{x_n}{m}, \quad \text{com } u_n \in (0, 1).\]</span></p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tipos
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li><strong>Multiplicativo:</strong> <span class="math inline">\(c = 0\)</span>.<br>
-</li>
-<li><strong>Misto:</strong> <span class="math inline">\(c \neq 0\)</span>.</li>
-</ul>
-</div>
-</div>
 </section>
+<section id="por-que-pseudoaleatórios" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="por-que-pseudoaleatórios"><span class="header-section-number">2.2</span> Por que “Pseudoaleatórios”?</h2>
+<p>Diferente de dispositivos físicos (como ruído atmosférico ou decaimento quântico), que geram aleatoriedade real mas são lentos e irreprodutíveis, os computadores utilizam algoritmos determinísticos. Esses números são chamados de pseudoaleatórios porque, embora pareçam aleatórios sob testes estatísticos, são gerados por fórmulas matemáticas fixas.</p>
+<p>A abordagem computacional é preferida por três razões fundamentais:</p>
+<ol type="1">
+<li><p><em>Eficiência</em>: Geração extremamente rápida em tempo de execução.</p></li>
+<li><p><em>Economia de Memória</em>: Elimina a necessidade de armazenar tabelas imensas de números.</p></li>
+<li><p><em>Reprodutibilidade</em>: Através do uso de uma semente (<code>seed</code>), é possível replicar exatamente a mesma sequência, o que é vital para depuração de código e redução de variância em comparações de modelos.</p></li>
+</ol>
+<p>Entretanto, a escolha inadequada da recorrência pode gerar sequências com baixa qualidade estatística. Um dos métodos mais antigos e influentes para isso é o <strong>Gerador Congruencial Linear (GCL)</strong>.</p>
+</section>
+<section id="o-gerador-congruencial-linear-gcl" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="o-gerador-congruencial-linear-gcl"><span class="header-section-number">2.3</span> O Gerador Congruencial Linear (GCL)</h2>
+<p>O GCL é um dos métodos mais clássicos para gerar sequências pseudoaleatórias. Ele produz uma sequência de inteiros <span class="math inline">\(x_n\)</span> através da recorrência:</p>
+<p><span class="math display">\[x_n = (a \, x_{n-1} + c) \;\; \text{mod} \;\; m\]</span></p>
+<p>em que, <span class="math inline">\(m &gt; 0\)</span> é o <strong>módulo</strong>, <span class="math inline">\(a\)</span> é o <strong>multiplicador</strong>, <span class="math inline">\(c\)</span> é o <strong>incremento</strong> e <span class="math inline">\(x_0\)</span> é a <strong>semente</strong> (<em>seed</em>), escolhida pelo usuário. O resultado final é obtido normalizando os valores:</p>
+<p><span class="math display">\[u_n = \frac{x_n}{m}, \quad \text{com } u_n \in (0, 1).\]</span></p>
+<section id="escolha-de-parâmetros-e-período" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="escolha-de-parâmetros-e-período"><span class="header-section-number">2.3.1</span> Escolha de Parâmetros e Período</h3>
+<p>A qualidade do gerador depende criticamente da escolha de <span class="math inline">\(a\)</span>, <span class="math inline">\(c\)</span> e <span class="math inline">\(m\)</span>. Como os valores de <span class="math inline">\(x_n\)</span> estão no conjunto <span class="math inline">\(\{0, 1, \dots, m-1\}\)</span>, a sequência inevitavelmente se repetirá após, no máximo, <span class="math inline">\(m\)</span> sorteios. Esse intervalo antes da repetição é chamado de período.</p>
+<p>Para maximizar o período e a qualidade estatística, seguem-se algumas diretrizes:</p>
+<ul>
+<li><p>Módulo (<span class="math inline">\(m\)</span>): Deve ser um número primo grande, geralmente próximo à capacidade da palavra do computador (ex. <span class="math inline">\(m = 2^{31} - 1\)</span> para máquinas de 32 bits).</p></li>
+<li><p>Multiplicador (<span class="math inline">\(a\)</span>): Para <span class="math inline">\(m = 2^{31} - 1\)</span>, uma escolha comum e testada é <span class="math inline">\(a = 7^5 = 16807\)</span>.</p></li>
+<li><p>Valores históricos:</p>
+<ul>
+<li><p><strong>Park–Miller (1988):</strong> <span class="math inline">\(m = 2^{31} - 1\)</span>, <span class="math inline">\(a = 16807\)</span>, <span class="math inline">\(c = 0\)</span>.<br>
+</p></li>
+<li><p><strong>Numerical Recipes (1992):</strong> <span class="math inline">\(m = 2^{32}\)</span>, <span class="math inline">\(a = 1664525\)</span>, <span class="math inline">\(c = 1013904223\)</span>.</p></li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="implementação-no-r" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="implementação-no-r"><span class="header-section-number">2.4</span> Implementação no R</h2>
+<p>No ambiente <code>R</code>, não precisamos implementar esses geradores manualmente para uso cotidiano, pois o <em>software</em> oferece funções otimizadas.</p>
+<ul>
+<li><p><code>runif(n)</code>: Gera <span class="math inline">\(n\)</span> valores uniformes (0,1).</p></li>
+<li><p><code>set.seed(semente)</code>: Define o ponto de partida da sequência. Se não for definida, o <code>R</code> utiliza o relógio do sistema como semente padrão.</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemplo de reprodutibilidade</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">runif</span>(<span class="dv">5</span>)  <span class="co"># Gera 5 números</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2875775 0.7883051 0.4089769 0.8830174 0.9404673</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">runif</span>(<span class="dv">5</span>)  <span class="co"># Gera EXATAMENTE os mesmos 5 números</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2875775 0.7883051 0.4089769 0.8830174 0.9404673</code></pre>
+</div>
+</div>
 <section id="por-que-o-gcl-funciona" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="por-que-o-gcl-funciona">Por que o GCL funciona?</h3>
 <ol type="1">
-<li><strong>Simplicidade:</strong> apenas uma multiplicação, uma soma e uma operação de módulo.<br>
-</li>
-<li><strong>Velocidade:</strong> pode ser implementado de forma extremamente eficiente.<br>
-</li>
-<li><strong>Controle:</strong> dependendo da escolha de <span class="math inline">\(a, c, m\)</span>, é possível obter um período longo, ou seja, muitos números gerados antes de a sequência se repetir.</li>
+<li><p><strong>Simplicidade:</strong> apenas uma multiplicação, uma soma e uma operação de módulo.</p></li>
+<li><p><strong>Velocidade:</strong> pode ser implementado de forma extremamente eficiente.</p></li>
+<li><p><strong>Controle:</strong> dependendo da escolha de <span class="math inline">\(a, c, m\)</span>, é possível obter um período longo, ou seja, muitos números gerados antes de a sequência se repetir.</p></li>
 </ol>
-</section>
-<section id="critérios-para-bons-parâmetros" class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="critérios-para-bons-parâmetros">Critérios para bons parâmetros</h3>
-<ul>
-<li>O módulo <span class="math inline">\(m\)</span> deve ser <strong>grande</strong>, de preferência próximo da capacidade da máquina.<br>
-</li>
-<li>Para GCL multiplicativo, se <span class="math inline">\(m\)</span> for primo, existe a possibilidade de alcançar período máximo <span class="math inline">\(m-1\)</span>.<br>
-</li>
-<li>Valores históricos:
-<ul>
-<li><strong>Park–Miller (1988):</strong> <span class="math inline">\(m = 2^{31} - 1\)</span>, <span class="math inline">\(a = 16807\)</span>, <span class="math inline">\(c = 0\)</span>.<br>
-</li>
-<li><strong>Numerical Recipes (1992):</strong> <span class="math inline">\(m = 2^{32}\)</span>, <span class="math inline">\(a = 1664525\)</span>, <span class="math inline">\(c = 1013904223\)</span>.</li>
-</ul></li>
-</ul>
 <section id="exemplos" class="level4 unnumbered">
 <h4 class="unnumbered anchored" data-anchor-id="exemplos">Exemplos</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gerador Congruencial Linear em Python</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gcl(seed, a, c, m, n <span class="op">=</span> <span class="dv">10</span>):</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"Gera n números pseudoaleatórios normalizados em (0,1)."</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> seed</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    seq <span class="op">=</span> []</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n):</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> (a <span class="op">*</span> x <span class="op">+</span> c) <span class="op">%</span> m</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        seq.append(x <span class="op">/</span> m)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> seq</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemplo: Park–Miller (multiplicativo)</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> <span class="dv">2</span><span class="op">**</span><span class="dv">31</span> <span class="op">-</span> <span class="dv">1</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">16807</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>seed <span class="op">=</span> <span class="dv">12345</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>gcl(seed, a, c, m, n<span class="op">=</span><span class="dv">10</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gerador Congruencial Linear em Python</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gcl(seed, a, c, m, n <span class="op">=</span> <span class="dv">10</span>):</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"Gera n números pseudoaleatórios normalizados em (0,1)."</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> seed</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    seq <span class="op">=</span> []</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> (a <span class="op">*</span> x <span class="op">+</span> c) <span class="op">%</span> m</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        seq.append(x <span class="op">/</span> m)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> seq</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemplo: Park–Miller (multiplicativo)</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> <span class="dv">2</span><span class="op">**</span><span class="dv">31</span> <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">16807</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>seed <span class="op">=</span> <span class="dv">12345</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>gcl(seed, a, c, m, n<span class="op">=</span><span class="dv">10</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[0.09661652850760917, 0.8339946273872604, 0.9477024976851895, 0.035878594981449935, 0.011545853229028104, 0.051155220275351417, 0.7657871678312249, 0.5849297393974521, 0.9141300529773021, 0.7838003895170057]</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gerador Congruencial Linear em R</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>gcl <span class="ot">&lt;-</span> <span class="cf">function</span>(seed, a, c, m, <span class="at">n=</span><span class="dv">10</span>) {</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> seed</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  seq <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> (a <span class="sc">*</span> x <span class="sc">+</span> c) <span class="sc">%%</span> m</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    seq[i] <span class="ot">&lt;-</span> x <span class="sc">/</span> m</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  seq</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemplo: Park–Miller</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">^</span><span class="dv">31</span> <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">16807</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>seed <span class="ot">&lt;-</span> <span class="dv">12345</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="fu">gcl</span>(seed, a, c, m, <span class="at">n=</span><span class="dv">10</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gerador Congruencial Linear em R</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>gcl <span class="ot">&lt;-</span> <span class="cf">function</span>(seed, a, c, m, <span class="at">n=</span><span class="dv">10</span>) {</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> seed</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  seq <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> (a <span class="sc">*</span> x <span class="sc">+</span> c) <span class="sc">%%</span> m</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    seq[i] <span class="ot">&lt;-</span> x <span class="sc">/</span> m</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  seq</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemplo: Park–Miller</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">^</span><span class="dv">31</span> <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">16807</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>seed <span class="ot">&lt;-</span> <span class="dv">12345</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="fu">gcl</span>(seed, a, c, m, <span class="at">n=</span><span class="dv">10</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] 0.09661653 0.83399463 0.94770250 0.03587859 0.01154585 0.05115522
  [7] 0.76578717 0.58492974 0.91413005 0.78380039</code></pre>
@@ -414,14 +424,15 @@ Tipos
 </div>
 </section>
 </section>
-<section id="visualização" class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="visualização">Visualização</h3>
-<p>Uma forma simples de verificar se um gerador se comporta bem é observar os valores em um gráfico de dispersão <span class="math inline">\((u_{n}, u_{n+1}).\)</span></p>
-<ul>
-<li><p>Um bom gerador mostra pontos espalhados de forma quase aleatória.</p></li>
-<li><p>Um gerador ruim forma padrões visíveis (linhas ou grades).</p></li>
-</ul>
 </section>
+<section id="como-validar-um-gerador" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="como-validar-um-gerador"><span class="header-section-number">2.5</span> Como validar um Gerador?</h2>
+<p>Um “bom” gerador deve passar por verificações rápidas para garantir que as propriedades i.i.d. sejam mantidas.</p>
+<ol type="1">
+<li><p>Histograma: Os valores devem se distribuir de forma plana (uniforme) entre 0 e 1.</p></li>
+<li><p>Gráfico de Pares <span class="math inline">\((U_i, U_{i+1})\)</span>: Ajuda a detectar dependências seriais. Os pontos devem preencher o quadrado unitário sem padrões ou linhas visíveis (evitando o “agrupamento” ou <em>clumping</em>).</p></li>
+<li><p>Autocorrelação: A correlação entre valores sucessivos deve ser desprezível.</p></li>
+</ol>
 <section id="limitações" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="limitações">Limitações</h3>
 <p>Apesar de sua importância histórica, os GCLs apresentam limitações:</p>
@@ -479,7 +490,7 @@ Park–Miller hoje: ainda vale a pena?
 </div>
 <p>Existem no <code>R</code> vários algoritmos para geradores de números pseudoaleatórios. Para ver quais são, basta:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(Random)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(Random)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">

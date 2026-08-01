@@ -1,6 +1,8 @@
 # Simulação de Variáveis Aleatórias
 
-## Método da Transformação Inversa
+## Caso Discreto
+
+### Método da Transformação Inversa
 
 Suponha que desejamos gerar o valor de uma variável aleatória discreta $X$ com função de massa de probabilidade (f.m.p):
 
@@ -302,7 +304,7 @@ Passo 4. Caso contrário:
 
 Escreve um código na linguagem `R` baseado no Algoritmo 5. Utilize alguma ferramenta gráfica para verificar a coerência dos resultados.
 
-## Método da Aceitação-Rejeição
+### Método da Aceitação-Rejeição
 
 Suponha que haja interesse em simular valores de uma v.a. $X$ e que não seja possível inverter a sua função de distribuição ou não dispomos de um método para gerar dessa variável aleatória. Entretanto, sabemos como simular de uma outra v.a. $Y$ e que é possível estabelecer uma relação entre as probabilidades associadas às duas variáveis aleatórias ($X$ e $Y$) de tal modo que valores de $Y$ possam ser admitidos como valores de $X$.
 
@@ -432,7 +434,7 @@ Existe algum problema com os resultados acima? Se sim, faça a correção do có
 
 2.  Compare com os resultados obtidos no Exemplo.
 
-## Método da Composição
+### Método da Composição
 
 Suponha que tenhamos um método eficiente para simular o valor de uma variável aleatória com f.m.p. ${p_j, ; j \geq 0}$ ou ${q_j, ; j \geq 0}$, e que desejamos simular a variável aleatória $X$ com f.m.p.:
 
@@ -484,3 +486,50 @@ $$F(x) = \sum_{i=1}^n \alpha_i F_i(x),$$
 é uma **mistura**, ou uma **composição**, das funções de distribuição $F_i$, $i = 1, \dots, n$.
 
 Uma maneira de simular a partir de $F$ é primeiro simular uma variável aleatória $I$, igual a $i$ com probabilidade $\alpha_i$, $i=1,\dots,n$, e então simular a partir da distribuição $F_I$ (Isto é, se o valor simulado de $I$ for $I = j$, então a segunda simulação é feita a partir de $F_j$). Essa abordagem para simular de $F$ é frequentemente chamada de **método de composição**.
+
+## Caso Contínuo
+
+A geração de variáveis aleatórias contínuas baseia-se quase inteiramente na existência de um fluxo de números independentes e identicamente distribuídos (i.i.d.) vindos de uma distribuição Uniforme (0,1). 
+
+### Método da Transformação Inversa
+
+O método da inversão é a técnica mais direta para gerar variáveis aleatórias. Ele se baseia na Transformada Integral de Probabilidade: se $X$ é uma variável aleatória contínua com função de distribuição acumulada (FDA), $F(x)$, então a variáveil $U = F(X)$ segue uma distribuição Uniforme $(0, 1)$.
+
+
+::: {.callout-warning appearance="simple" icon="false"}
+## Algoritmo
+
+1. Gerar $U \sim U(0,1)$;
+
+2. Definir $X = F^{-1}(U)$, onde $F^{-1}(\cdot)$ é a função quantílica (inversa da FDA).
+
+:::
+
+
+
+
+### Método da  Aceitação e Rejeição
+
+Quando a inversa da CDF não possui uma forma fechada (como na distribuição Beta ou Normal), utilizamos métodos indiretos. O método da rejeição requer uma densidade instrumental $g(x)$ que seja fácil de simular e uma constante $c$ tal que a razão entre a densidade alvo $f(x)$ e $g(x)$ seja limitada: $f(x)/g(x) \leq c$.
+
+::: {.callout-warning appearance="simple" icon="false"}
+## Algoritmo
+
+1. Simula $Y \sim g$ e $U \sim U(0,1)$ de forma independente;
+
+2. Aceita $X = Y$ se $U \leq \frac{f(Y)}{cg(Y)}$.
+
+3. Caso contrário, rejeita $Y$ e retornar ao passo 1.
+
+:::
+
+> A eficiência deste método é dada por $1/c$, que representa a probabilidade de aceitação em cada tentativa. 
+
+### Método da Composição (Misturas)
+
+Algumas distribuições complexas podem ser decompostas como uma mistura de distribuições mais simples. Se a densidade alvo puder ser escrita como $f(x) = \sum p_i f_i(x)$, simulamos primeiro um índice $I$ com probabilidade $p_i$ e depois geramos $X$ a partir da densidade $f_I$ selecionada.
+
+
+#### Exemplo: 
+
+A distribuição de $t$ de Student pode ser representada como uma mistura de Normais onde a variância é controlada por uma variável Qui-quadrado. 
