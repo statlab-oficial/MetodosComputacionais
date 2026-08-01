@@ -251,20 +251,14 @@ window.Quarto = {
   <li><a href="#acurária-da-média-amostral" id="toc-acurária-da-média-amostral" class="nav-link" data-scroll-target="#acurária-da-média-amostral"><span class="header-section-number">5.1.1</span> Acurária da média amostral</a></li>
   <li><a href="#estimativa-bootstrap-do-erro-padrão" id="toc-estimativa-bootstrap-do-erro-padrão" class="nav-link" data-scroll-target="#estimativa-bootstrap-do-erro-padrão"><span class="header-section-number">5.1.2</span> Estimativa bootstrap do erro padrão</a></li>
   <li><a href="#bootstrap-paramétrico" id="toc-bootstrap-paramétrico" class="nav-link" data-scroll-target="#bootstrap-paramétrico"><span class="header-section-number">5.1.3</span> Bootstrap Paramétrico</a></li>
+  <li><a href="#intervalos-de-confiança" id="toc-intervalos-de-confiança" class="nav-link" data-scroll-target="#intervalos-de-confiança"><span class="header-section-number">5.1.4</span> Intervalos de Confiança</a></li>
   </ul></li>
-  <li><a href="#jackknife" id="toc-jackknife" class="nav-link" data-scroll-target="#jackknife"><span class="header-section-number">5.2</span> Jackknife</a>
+  <li><a href="#o-método-jackknife" id="toc-o-método-jackknife" class="nav-link" data-scroll-target="#o-método-jackknife"><span class="header-section-number">5.2</span> O Método Jackknife</a>
   <ul class="collapse">
-  <li><a href="#introdução" id="toc-introdução" class="nav-link" data-scroll-target="#introdução"><span class="header-section-number">5.2.1</span> Introdução</a></li>
-  <li><a href="#estimador-do-viés" id="toc-estimador-do-viés" class="nav-link" data-scroll-target="#estimador-do-viés"><span class="header-section-number">5.2.2</span> Estimador do viés</a></li>
-  <li><a href="#estimador-do-erro-padrão" id="toc-estimador-do-erro-padrão" class="nav-link" data-scroll-target="#estimador-do-erro-padrão"><span class="header-section-number">5.2.3</span> Estimador do erro padrão</a></li>
-  </ul></li>
-  <li><a href="#intervalos-de-confiança" id="toc-intervalos-de-confiança" class="nav-link" data-scroll-target="#intervalos-de-confiança"><span class="header-section-number">5.3</span> Intervalos de Confiança</a></li>
-  <li><a href="#intervalos-de-confiança-normal-padrão" id="toc-intervalos-de-confiança-normal-padrão" class="nav-link" data-scroll-target="#intervalos-de-confiança-normal-padrão"><span class="header-section-number">5.4</span> Intervalos de Confiança Normal Padrão</a></li>
-  <li><a href="#intervalo-de-confiança-t-student" id="toc-intervalo-de-confiança-t-student" class="nav-link" data-scroll-target="#intervalo-de-confiança-t-student"><span class="header-section-number">5.5</span> Intervalo de Confiança t-Student</a></li>
-  <li><a href="#ic-bootstrap-t" id="toc-ic-bootstrap-t" class="nav-link" data-scroll-target="#ic-bootstrap-t"><span class="header-section-number">5.6</span> IC bootstrap-<span class="math inline">\(t\)</span></a>
-  <ul class="collapse">
-  <li><a href="#intervalos-de-confiança-bootstrap-percentil" id="toc-intervalos-de-confiança-bootstrap-percentil" class="nav-link" data-scroll-target="#intervalos-de-confiança-bootstrap-percentil"><span class="header-section-number">5.6.1</span> Intervalos de Confiança bootstrap percentil</a></li>
-  <li><a href="#intervalos-de-confiança-bootstrap---versões-aprimoradas" id="toc-intervalos-de-confiança-bootstrap---versões-aprimoradas" class="nav-link" data-scroll-target="#intervalos-de-confiança-bootstrap---versões-aprimoradas"><span class="header-section-number">5.6.2</span> Intervalos de Confiança bootstrap - versões aprimoradas</a></li>
+  <li><a href="#o-princípio-leave-one-out" id="toc-o-princípio-leave-one-out" class="nav-link" data-scroll-target="#o-princípio-leave-one-out"><span class="header-section-number">5.2.1</span> O Princípio “Leave-One-Out”</a></li>
+  <li><a href="#estimativa-de-viés-e-variância" id="toc-estimativa-de-viés-e-variância" class="nav-link" data-scroll-target="#estimativa-de-viés-e-variância"><span class="header-section-number">5.2.2</span> Estimativa de Viés e Variância</a></li>
+  <li><a href="#exemplos-computacionais-em-r" id="toc-exemplos-computacionais-em-r" class="nav-link" data-scroll-target="#exemplos-computacionais-em-r"><span class="header-section-number">5.2.3</span> Exemplos Computacionais em R</a></li>
+  <li><a href="#jackknife-vs.-bootstrap" id="toc-jackknife-vs.-bootstrap" class="nav-link" data-scroll-target="#jackknife-vs.-bootstrap"><span class="header-section-number">5.2.4</span> Jackknife vs.&nbsp;Bootstrap</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -504,8 +498,8 @@ Nota
 <li><p>total de amostras bootstrap distintas (combinação com repetição): <span class="math display">\[\binom{2n -1}{n}.\]</span></p></li>
 <li><p>No <code>R</code>: ver as funções <code>factorial()</code>, <code>choose()</code>, <code>combn()</code>, <code>combinations()</code>.</p></li>
 </ul>
-<section id="exemplo" class="level4" data-number="5.1.2.1">
-<h4 data-number="5.1.2.1" class="anchored" data-anchor-id="exemplo"><span class="header-section-number">5.1.2.1</span> Exemplo</h4>
+<section id="exemplo" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="exemplo">Exemplo</h4>
 <p>Dados de faculdades americanas de direito. População: <span class="math inline">\(N=82\)</span> faculdades. Amostra aleatória: <span class="math inline">\(n=15\)</span> faculdades. Variáveis analisadas: LSAT (escore médio em um teste), GPA (pontuação média na faculdade).</p>
 <table class="table">
 <thead>
@@ -656,8 +650,8 @@ Nota
 </div>
 </div>
 </section>
-<section id="exercícios" class="level4" data-number="5.1.2.2">
-<h4 data-number="5.1.2.2" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">5.1.2.2</span> Exercícios:</h4>
+<section id="exercícios" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="exercícios">Exercícios:</h4>
 <ol type="1">
 <li><p>Considere <span class="math inline">\(B = 3200\)</span>. Para cada uma das 3200 amostras bootstrap, obtenha a réplica bootstrap <span class="math inline">\(\hat{\theta}^*=corr(y^*,z^*)\)</span>. Faça o histograma das réplicas.</p></li>
 <li><p>A Tabela 3.2, p.&nbsp;21 do livro texto, apresenta os dados populacionais das 82 faculdades. Selecione 3200 amostras aleatórias de tamanho <span class="math inline">\(n = 15\)</span>. Para cada uma dessas amostra calcule o coeficiente de correlação e faça o histograma.</p></li>
@@ -703,70 +697,8 @@ Importante
 <li><strong>bootstrap paramétrico:</strong> possibilita estimar erros padrões em problemas para os quais não há fórmulas para os erros padrões.</li>
 </ul>
 </section>
-</section>
-<section id="jackknife" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="jackknife"><span class="header-section-number">5.2</span> Jackknife</h2>
-<section id="introdução" class="level3" data-number="5.2.1">
-<h3 data-number="5.2.1" class="anchored" data-anchor-id="introdução"><span class="header-section-number">5.2.1</span> Introdução</h3>
-<p>Jackknife é uma técnica para estimar viés e erro padrão de estimadores. É uma técnica que antecede o bootstrap e foi proposta no trabalho pioneiro Quenouille (1949) para reduzir viés do estimador da correlação serial.</p>
-<p><strong>Formalização:</strong></p>
-<ul>
-<li><p><span class="math inline">\(\underset{\sim}{X} = (X_1, X_2, \dots, X_n)\)</span>: amostra aleatória de uma f.d.a. <span class="math inline">\(F\)</span></p></li>
-<li><p><span class="math inline">\(\underset{\sim}{x} = (x_1, x_2, \dots, x_n)\)</span>: amostra aleatória observada de <span class="math inline">\(F\)</span></p></li>
-<li><p><span class="math inline">\(\Theta=t(F)\)</span>: parâmetro (<span class="math inline">\(\Theta\)</span> uma função de <span class="math inline">\(F\)</span>)</p></li>
-<li><p><span class="math inline">\(\hat{\Theta}=s(\underset{\sim}{X})\)</span>: estimador para <span class="math inline">\(\Theta\)</span></p></li>
-<li><p><span class="math inline">\(\hat{\theta}=s(\underset{\sim}{x})\)</span>: estimativa para <span class="math inline">\(\Theta\)</span></p></li>
-</ul>
-<p>O jackknife toma como base <span class="math inline">\(n\)</span> amostras de tamanho <span class="math inline">\(n-1\)</span> selecionadas da amostra aleatória observada. A <span class="math inline">\(i\)</span>-ésima amostra jackknife consiste da amostra observada com a <span class="math inline">\(i\)</span>-ésima observação removida, <span class="math inline">\(i=1,2, \ldots, n\)</span>: <span class="math display">\[{\underset{\sim}{x}}_{(i)}=(x_1,x_2,\ldots, x_{i-1},x_{i+1}, \ldots, x_n).\]</span></p>
-</section>
-<section id="estimador-do-viés" class="level3" data-number="5.2.2">
-<h3 data-number="5.2.2" class="anchored" data-anchor-id="estimador-do-viés"><span class="header-section-number">5.2.2</span> Estimador do viés</h3>
-<p>Para cada amostra <span class="math inline">\(i\)</span> jackknife, é obtida a réplica jackknife <span class="math inline">\(\hat{\theta}_{(i)}=s({\underset{\sim}{x}}_{(i)})\)</span> e o estimador jackknife do viés de <span class="math inline">\(\hat{\Theta}\)</span> é dado por: <span class="math display">\[\widehat{\mbox{viés}}_{jack} =(n-1)( \hat{\Theta}_{(\cdot)} - \hat{\Theta} ),\]</span> em que <span class="math inline">\(\hat{\Theta}_{(\cdot)}=\sum_{i=1}^n\dfrac{\hat{\Theta}_{(i)}}{n}\)</span>.</p>
-</section>
-<section id="estimador-do-erro-padrão" class="level3" data-number="5.2.3">
-<h3 data-number="5.2.3" class="anchored" data-anchor-id="estimador-do-erro-padrão"><span class="header-section-number">5.2.3</span> Estimador do erro padrão</h3>
-<p>O estimador jackknife do erro padrão de <span class="math inline">\(\hat{\Theta}\)</span> pode ser escrito da seguinte maneira: <span class="math display">\[\widehat{ep}_{jack} =\left[ \dfrac{n-1}{n}\sum_{i=1}^n (\hat{\Theta}_{(i)} - \hat{\Theta}_{(\cdot)})^2\right]^{\frac{1}{2}},\]</span> em que <span class="math inline">\(\hat{\Theta}_{(\cdot)}=\sum_{i=1}^n\dfrac{\hat{\Theta}_{(i)}}{n}\)</span>.</p>
-<p>Algumas considerações importantes:</p>
-<ul>
-<li><p>Bootstrap: amostragem aleatória com reposição;</p></li>
-<li><p>Jackknife: amostras fixas;</p></li>
-<li><p>Jackknife requer o cálculo do estimador apenas para <span class="math inline">\(n\)</span> amostras;</p></li>
-<li><p>A acurácia do estimador jackknife do erro padrão depende de quão próximo o estimador é da linearidade. Para funções fortemente não lineares, o jackknife pode ser ineficiente;</p></li>
-<li><p>Estimador linear: <span class="math inline">\(\hat{\Theta}=s(\underset{\sim}{X})=\mu +\frac{1}{n}\sum_{i=1}^n\alpha(X_i).\)</span></p></li>
-</ul>
-<section id="exemplo-1" class="level4" data-number="5.2.3.1">
-<h4 data-number="5.2.3.1" class="anchored" data-anchor-id="exemplo-1"><span class="header-section-number">5.2.3.1</span> Exemplo</h4>
-<p>Considere a amostra observada: <span class="math inline">\(\underset{\sim}{x}=(10,26,30,40,48)\)</span> e o estimador: mediana(<span class="math inline">\(\hat{\Theta}\)</span>). As amostras e réplicas jackknife são dadas, respectivamente, por:</p>
-<ol type="1">
-<li><span class="math inline">\({\underset{\sim}{x}}_{(1)}=(26,30,40,48)\)</span> e <span class="math inline">\(\hat{\theta}_{(1)}=35;\)</span></li>
-<li><span class="math inline">\({\underset{\sim}{x}}_{(2)}=(10,30,40,48)\)</span> e <span class="math inline">\(\hat{\theta}_{(2)}=35;\)</span></li>
-<li><span class="math inline">\({\underset{\sim}{x}}_{(3)}=(10,26,40,48)\)</span> e <span class="math inline">\(\hat{\theta}_{(3)}=33;\)</span></li>
-<li><span class="math inline">\({\underset{\sim}{x}}_{(4)}=(10,26,30,48)\)</span> e <span class="math inline">\(\hat{\theta}_{(4)}=28;\)</span></li>
-<li><span class="math inline">\({\underset{\sim}{x}}_{(5)}=(10,26,30,40)\)</span> e <span class="math inline">\(\hat{\theta}_{(5)}=28.\)</span></li>
-</ol>
-<p>Desta forma, a estimativa jackknife do erro padrão de <span class="math inline">\(\hat{\Theta}\)</span>: <span class="math display">\[\widehat{ep}_{jack} =\left[ \dfrac{4}{5}\sum_{i=1}^5 (\hat{\theta}_{(i)} - \hat{\theta}_{(\cdot)})^2\right]^{\frac{1}{2}}\approx 6.38,\]</span> com <span class="math inline">\(\hat{\theta}_{(\cdot)}=\sum_{i=1}^5\dfrac{\hat{\theta}_{(i)}}{5}=31.8.\)</span></p>
-<p>A seguir, a sintaxe do <code>R</code> para calcular a estimativa jackknife do erro padrão para a mediana.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">26</span>,<span class="dv">30</span>,<span class="dv">40</span>,<span class="dv">48</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>est.jack <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n){ </span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  est.jack[i] <span class="ot">&lt;-</span> <span class="fu">median</span>(x[<span class="sc">-</span>i])</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>ep.jack <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(((n<span class="dv">-1</span>)<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>n)<span class="sc">*</span><span class="fu">var</span>(est.jack))</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>ep.jack</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 6.374951</code></pre>
-</div>
-</div>
-</section>
-</section>
-</section>
-<section id="intervalos-de-confiança" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="intervalos-de-confiança"><span class="header-section-number">5.3</span> Intervalos de Confiança</h2>
+<section id="intervalos-de-confiança" class="level3" data-number="5.1.4">
+<h3 data-number="5.1.4" class="anchored" data-anchor-id="intervalos-de-confiança"><span class="header-section-number">5.1.4</span> Intervalos de Confiança</h3>
 <div class="callout callout-style-default callout-warning callout-titled" title="Notação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -786,21 +718,20 @@ Notação
 </ul>
 </div>
 </div>
-</section>
-<section id="intervalos-de-confiança-normal-padrão" class="level2" data-number="5.4">
-<h2 data-number="5.4" class="anchored" data-anchor-id="intervalos-de-confiança-normal-padrão"><span class="header-section-number">5.4</span> Intervalos de Confiança Normal Padrão</h2>
+<section id="intervalos-de-confiança-normal-padrão" class="level4" data-number="5.1.4.1">
+<h4 data-number="5.1.4.1" class="anchored" data-anchor-id="intervalos-de-confiança-normal-padrão"><span class="header-section-number">5.1.4.1</span> Intervalos de Confiança Normal Padrão</h4>
 <p>Suponha que <span class="math inline">\(\hat{\Theta}\sim N(\Theta, ep(\hat{\Theta})^2)\)</span>. Portanto, se <span class="math inline">\(ep(\hat{\Theta})\)</span> é conhecido temos que:</p>
 <p><span class="math display">\[Z=\dfrac{\hat{\Theta} - \Theta}{ep(\hat\Theta)} \sim N(0,1),\]</span> e <span class="math display">\[IC_z\left(100(1-\alpha)\%,\Theta\right)=\hat{\Theta} \pm z_{\frac{\alpha}{2}}ep(\hat{\Theta}).\]</span></p>
 </section>
-<section id="intervalo-de-confiança-t-student" class="level2" data-number="5.5">
-<h2 data-number="5.5" class="anchored" data-anchor-id="intervalo-de-confiança-t-student"><span class="header-section-number">5.5</span> Intervalo de Confiança t-Student</h2>
+<section id="intervalo-de-confiança-t-student" class="level4" data-number="5.1.4.2">
+<h4 data-number="5.1.4.2" class="anchored" data-anchor-id="intervalo-de-confiança-t-student"><span class="header-section-number">5.1.4.2</span> Intervalo de Confiança t-Student</h4>
 <p>Suponha que <span class="math inline">\(\hat{\Theta}\sim N(\Theta, ep(\hat{\Theta})^2)\)</span> e se <span class="math inline">\(ep(\hat{\Theta})\)</span> é desconhecido, portanto</p>
 <p><span class="math display">\[Z=\dfrac{\hat{\Theta} - \Theta}{\hat{ep}(\hat\Theta)} \sim \mbox{t-Student}(n-1),\]</span></p>
 <p>e</p>
 <p><span class="math display">\[IC_t\left(100(1-\alpha)\%,\Theta\right)=\hat{\Theta} \pm t_{(n-1,\frac{\alpha}{2})}\hat{ep}(\hat{\Theta}).\]</span></p>
 </section>
-<section id="ic-bootstrap-t" class="level2" data-number="5.6">
-<h2 data-number="5.6" class="anchored" data-anchor-id="ic-bootstrap-t"><span class="header-section-number">5.6</span> IC bootstrap-<span class="math inline">\(t\)</span></h2>
+<section id="ic-bootstrap-t" class="level4" data-number="5.1.4.3">
+<h4 data-number="5.1.4.3" class="anchored" data-anchor-id="ic-bootstrap-t"><span class="header-section-number">5.1.4.3</span> IC bootstrap-<span class="math inline">\(t\)</span></h4>
 <p>Agora vamos definir</p>
 <p><span class="math display">\[Z^{*^b}=\dfrac{ \hat{\Theta}^{*^b} - \hat{\Theta} }{\hat{ep}^{*^b}},\]</span> em que <span class="math inline">\(\hat{\Theta}^{*^b}=s(\underset{\sim}{X}^{*^b})\)</span> e <span class="math inline">\(\hat{ep}^{*^b}\)</span> são obtidos para cada amostra bootstrap <span class="math inline">\(\underset{\sim}{x}^*\)</span>. O percentil <span class="math inline">\(100 \cdot \alpha\)</span> de <span class="math inline">\(Z^{*^b}\)</span> é estimado pelo valor <span class="math inline">\(\hat{t}^{(\alpha)}\)</span>, tal que <span class="math display">\[ \#\{Z^{*^b}\leq \hat{t}^{(\alpha)} \}/B=\alpha.\]</span></p>
 <p>Por exemplo, se <span class="math inline">\(B=100\)</span> e a confiança para o intervalo é de 90<span class="math inline">\(\%\)</span>, a estimativa <span class="math inline">\(\hat{t}^{(0.05)}\)</span> será o quinto maior valor de <span class="math inline">\(Z^{*^b}\)</span> e a estimativa <span class="math inline">\(\hat{t}^{(0.95)}\)</span> será o nonagésimo quinto maior valor de <span class="math inline">\(Z^{*^b}\)</span>.</p>
@@ -896,8 +827,9 @@ Considerações Finais
 </ul>
 </div>
 </div>
-<section id="intervalos-de-confiança-bootstrap-percentil" class="level3" data-number="5.6.1">
-<h3 data-number="5.6.1" class="anchored" data-anchor-id="intervalos-de-confiança-bootstrap-percentil"><span class="header-section-number">5.6.1</span> Intervalos de Confiança bootstrap percentil</h3>
+</section>
+<section id="intervalos-de-confiança-bootstrap-percentil" class="level4" data-number="5.1.4.4">
+<h4 data-number="5.1.4.4" class="anchored" data-anchor-id="intervalos-de-confiança-bootstrap-percentil"><span class="header-section-number">5.1.4.4</span> Intervalos de Confiança bootstrap percentil</h4>
 <p>O intervalo bootstrap percentil de confiança <span class="math inline">\(100(1-2\alpha)\%\)</span>, denotado por <span class="math inline">\(IC_p^*\left(100(1-2\alpha)\%,\Theta \right)\)</span>, é definido por</p>
 <p><span class="math display">\[\left[ \hat\Theta^{*(\alpha)}, \ \hat\Theta^{*(1-\alpha)}\right],\]</span> em que <span class="math inline">\(\hat\Theta^{*(\alpha)}\)</span> é o percentil de ordem 100<span class="math inline">\(\alpha\)</span> da distribuição bootstrap de <span class="math inline">\(\hat\Theta^*\)</span>. Esta definição refere-se a um número infinito de réplicas.</p>
 <p>Em situações práticas, o intervalo é aproximado com base nos resultados de <span class="math inline">\(B\)</span> réplicas bootstrap:</p>
@@ -915,8 +847,9 @@ Nota
 <p>Se a distribuição de <span class="math inline">\(\hat\Theta^{*}\)</span> é aproximadamente normal, os intervalos percentil e normal padrão são próximos.</p>
 </div>
 </div>
-<section id="exemplo-2" class="level4" data-number="5.6.1.1">
-<h4 data-number="5.6.1.1" class="anchored" data-anchor-id="exemplo-2"><span class="header-section-number">5.6.1.1</span> Exemplo</h4>
+</section>
+<section id="exemplo-1" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="exemplo-1">Exemplo</h4>
 <p>Para uma amostra: , <span class="math inline">\(n=10\)</span>, de uma distribuição (população) normal padrão, considere o parâmetro de interesse <span class="math inline">\(\Theta\)</span>. <span class="math inline">\(\Theta=\exp(\mu)\)</span>, sendo <span class="math inline">\(\mu=0\)</span>. Sendo a estimativa para <span class="math inline">\(\Theta\)</span>: <span class="math inline">\(\hat{\theta}=\exp(\bar{x})\)</span>. Além disso, use o bootstrap não paramétrico: <span class="math inline">\(B=1000\)</span> réplicas <span class="math inline">\(\hat{\theta}^*\)</span> usando a amostra observada: (1.669, -0.411, -0.322, 0.746, -0.868, -0.874, 1.011, -0.173, 0.021, 1.482). Resultando na estimativa para <span class="math inline">\(\Theta\)</span>: <span class="math inline">\(\hat{\theta}=\exp(\bar{x})=1.256\)</span>.</p>
 <table class="table">
 <caption>Percentis de <span class="math inline">\(\hat\theta^*\)</span> com base em 1000 réplicas bootstrap.</caption>
@@ -953,24 +886,24 @@ Nota
 <p><span class="math display">\[IC_p^*\left(90\%,\Theta\right)=\left[0.81, 2.00\right].\]</span><br>
 Abaixo um código <code>R</code> para o exemplo.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n) <span class="co"># amostra observada</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="dv">1000</span>     <span class="co"># no. de réplicas bootstrap</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>alfa <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.025</span>,<span class="fl">0.05</span>,<span class="fl">0.10</span>,<span class="fl">0.16</span>,<span class="fl">0.50</span>,<span class="fl">0.84</span>,<span class="fl">0.90</span>,<span class="fl">0.95</span>,<span class="fl">0.975</span>)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>B){</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  a <span class="ot">&lt;-</span> <span class="fu">sample</span>(x,n,<span class="at">replace=</span><span class="cn">TRUE</span>)  <span class="co"># amostra bootstrap</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  theta[i] <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">mean</span>(a))       <span class="co"># réplica bootstrap </span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">mean</span>(x)) <span class="co"># estimativa</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n) <span class="co"># amostra observada</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="dv">1000</span>     <span class="co"># no. de réplicas bootstrap</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>alfa <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.025</span>,<span class="fl">0.05</span>,<span class="fl">0.10</span>,<span class="fl">0.16</span>,<span class="fl">0.50</span>,<span class="fl">0.84</span>,<span class="fl">0.90</span>,<span class="fl">0.95</span>,<span class="fl">0.975</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>B){</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  a <span class="ot">&lt;-</span> <span class="fu">sample</span>(x,n,<span class="at">replace=</span><span class="cn">TRUE</span>)  <span class="co"># amostra bootstrap</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  theta[i] <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">mean</span>(a))       <span class="co"># réplica bootstrap </span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">mean</span>(x)) <span class="co"># estimativa</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.6817056</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>sz <span class="ot">&lt;-</span> <span class="fu">sort</span>(theta)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="dv">100</span><span class="sc">*</span>alfa, <span class="fu">round</span>(sz[<span class="fu">c</span>(B<span class="sc">*</span>alfa)],<span class="dv">2</span>)) </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>sz <span class="ot">&lt;-</span> <span class="fu">sort</span>(theta)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(<span class="dv">100</span><span class="sc">*</span>alfa, <span class="fu">round</span>(sz[<span class="fu">c</span>(B<span class="sc">*</span>alfa)],<span class="dv">2</span>)) </span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     [,1] [,2]  [,3]  [,4]  [,5]  [,6] [,7] [,8] [,9]
 [1,] 2.50 5.00 10.00 16.00 50.00 84.00   90 95.0 97.5
@@ -1038,12 +971,126 @@ Considerações Finais
 </div>
 </div>
 </section>
-</section>
-<section id="intervalos-de-confiança-bootstrap---versões-aprimoradas" class="level3" data-number="5.6.2">
-<h3 data-number="5.6.2" class="anchored" data-anchor-id="intervalos-de-confiança-bootstrap---versões-aprimoradas"><span class="header-section-number">5.6.2</span> Intervalos de Confiança bootstrap - versões aprimoradas</h3>
+<section id="intervalos-de-confiança-bootstrap---versões-aprimoradas" class="level4" data-number="5.1.4.5">
+<h4 data-number="5.1.4.5" class="anchored" data-anchor-id="intervalos-de-confiança-bootstrap---versões-aprimoradas"><span class="header-section-number">5.1.4.5</span> Intervalos de Confiança bootstrap - versões aprimoradas</h4>
 <p>O intervalo bootstrap-<span class="math inline">\(t\)</span> apresenta boa probabilidade de cobertura teórica, mas tende a ser irregular na prática. Já o intervalo bootstrap percentil é menos irregular, mas apresenta probabilidade de cobertura menos satisfatória.</p>
 <p><strong>Proposta:</strong> intervalo bootstrap <span class="math inline">\(BC_a\)</span> (<em>bias-corrected and accelerated</em>) e <span class="math inline">\(ABC\)</span> (<em>approximate bootstrap confidence</em>).</p>
 <p>substancial melhoria na prática e na teoria. correção de viés do estimador. o <span class="math inline">\(ABC\)</span> exige menos esforço computacional do que o <span class="math inline">\(BC_a\)</span></p>
+</section>
+</section>
+</section>
+<section id="o-método-jackknife" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="o-método-jackknife"><span class="header-section-number">5.2</span> O Método Jackknife</h2>
+<p>O Jackknife é um precursor histórico do Bootstrap, proposto inicialmente por Maurice Quenouille (1949) para estimativa de viés e expandido por John Tukey (1958) para estimativa de variância. Enquanto o Bootstrap utiliza sorteios aleatórios com reposição, o Jackknife adota uma abordagem sistemática, baseada na exclusão de uma observação por vez.</p>
+<section id="o-princípio-leave-one-out" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="o-princípio-leave-one-out"><span class="header-section-number">5.2.1</span> O Princípio “Leave-One-Out”</h3>
+<p>Dada uma amostra original <span class="math inline">\(\mathbf{x} = (x_1, x_2, \dots, x_n)\)</span>, criamos <span class="math inline">\(n\)</span> subamostras de tamanho <span class="math inline">\(n-1\)</span>, onde cada amostra <span class="math inline">\(\mathbf{x}_{(i)}\)</span> é obtida removendo-se a <span class="math inline">\(i\)</span>-ésima observação. Para cada subamostra, calculamos o estimador de interesse, gerando as chamadas réplicas jackknife:</p>
+<p><span class="math display">\[\hat \theta_{(i)} = g(\mathbf{x}_{(i)}), \quad i = 1, \dots,n .\]</span></p>
+</section>
+<section id="estimativa-de-viés-e-variância" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="estimativa-de-viés-e-variância"><span class="header-section-number">5.2.2</span> Estimativa de Viés e Variância</h3>
+<p>Diferente do Bootstrap, que trata a distribuição empírica de forma direta, o Jackknife utiliza as réplicas para aproximar a influência de cada ponto na estatística.</p>
+<ol type="1">
+<li>Estimativa Jackknife do Viés: O viés do estimador original <span class="math inline">\(\hat \theta\)</span> é estimado por:</li>
+</ol>
+<p><span class="math display">\[\widehat{\text{vies}}_{\text{jack}} = (n-1)(\bar \theta_{\text{jack}} - \hat \theta),\]</span> em que <span class="math inline">\(\bar \theta_{\text{jack}} = \frac{1}{n}\sum\limits_{i=1}^{n}\hat \theta_{(i)}\)</span>.</p>
+<ol start="2" type="1">
+<li>Estimativa Jackknife da Variância: A variância de <span class="math inline">\(\hat \theta\)</span> é calculada pela dispersão das réplicas em relação à sua média:</li>
+</ol>
+<p><span class="math display">\[\widehat{\text{var}}_{\text{jack}} = \frac{(n-1)}{n}\sum\limits_{i=1}^{n}  (\hat \theta_{(i)} - \bar \theta_{\text{jack}})^2.\]</span> Algumas considerações importantes:</p>
+<ul>
+<li><p>Bootstrap: amostragem aleatória com reposição;</p></li>
+<li><p>Jackknife: amostras fixas;</p></li>
+<li><p>Jackknife requer o cálculo do estimador apenas para <span class="math inline">\(n\)</span> amostras;</p></li>
+<li><p>A acurácia do estimador jackknife do erro padrão depende de quão próximo o estimador é da linearidade. Para funções fortemente não lineares, o jackknife pode ser ineficiente;</p></li>
+<li><p>Estimador linear: <span class="math inline">\(\hat{\theta}=s(\underset{\sim}{X})=\mu +\frac{1}{n}\sum_{i=1}^n\alpha(X_i).\)</span></p></li>
+</ul>
+<section id="exemplo-2" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="exemplo-2">Exemplo</h4>
+<p>Considere a amostra observada: <span class="math inline">\(\underset{\sim}{x}=(10,26,30,40,48)\)</span> e o estimador: mediana(<span class="math inline">\(\hat{\Theta}\)</span>). As amostras e réplicas jackknife são dadas, respectivamente, por:</p>
+<ol type="1">
+<li><span class="math inline">\({\underset{\sim}{x}}_{(1)}=(26,30,40,48)\)</span> e <span class="math inline">\(\hat{\theta}_{(1)}=35;\)</span></li>
+<li><span class="math inline">\({\underset{\sim}{x}}_{(2)}=(10,30,40,48)\)</span> e <span class="math inline">\(\hat{\theta}_{(2)}=35;\)</span></li>
+<li><span class="math inline">\({\underset{\sim}{x}}_{(3)}=(10,26,40,48)\)</span> e <span class="math inline">\(\hat{\theta}_{(3)}=33;\)</span></li>
+<li><span class="math inline">\({\underset{\sim}{x}}_{(4)}=(10,26,30,48)\)</span> e <span class="math inline">\(\hat{\theta}_{(4)}=28;\)</span></li>
+<li><span class="math inline">\({\underset{\sim}{x}}_{(5)}=(10,26,30,40)\)</span> e <span class="math inline">\(\hat{\theta}_{(5)}=28.\)</span></li>
+</ol>
+<p>Desta forma, a estimativa jackknife do erro padrão de <span class="math inline">\(\hat{\theta}\)</span>: <span class="math display">\[\widehat{ep}_{jack} =\left[ \dfrac{4}{5}\sum_{i=1}^5 (\hat{\theta}_{(i)} - \bar \theta_{\text{jack}})^2\right]^{\frac{1}{2}}\approx 6.38,\]</span> em que <span class="math inline">\(\bar \theta_{\text{jack}}=\sum_{i=1}^5\dfrac{\hat{\theta}_{(i)}}{5}=31.8.\)</span></p>
+</section>
+</section>
+<section id="exemplos-computacionais-em-r" class="level3" data-number="5.2.3">
+<h3 data-number="5.2.3" class="anchored" data-anchor-id="exemplos-computacionais-em-r"><span class="header-section-number">5.2.3</span> Exemplos Computacionais em R</h3>
+<p>Diferente do Bootstrap, que exige o uso de <code>sample(..., replace = TRUE)</code>, o Jackknife é implementado através da exclusão de índices (<code>data[-i]</code>).</p>
+<p><strong>Exemplo 1:</strong> Estimando o Viés da Variância Amostral</p>
+<p>Sabemos que o estimador da variância que divide pela soma por <span class="math inline">\(n\)</span> (em vez de <span class="math inline">\(n-1\)</span>) é viesado. Vamos usar o Jackknife para detectar esse viés.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dados de exemplo</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>, <span class="at">mean =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">2</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(dados)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimador viesado da variância (divisão por n)</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>var_viesada <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">sum</span>((x <span class="sc">-</span> <span class="fu">mean</span>(x))<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> <span class="fu">length</span>(x)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>theta_hat <span class="ot">&lt;-</span> <span class="fu">var_viesada</span>(dados)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Réplicas Jackknife</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>jack_reps <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  jack_reps[i] <span class="ot">&lt;-</span> <span class="fu">var_viesada</span>(dados[<span class="sc">-</span>i])</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Cálculo do Viés Jackknife</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>theta_jack_bar <span class="ot">&lt;-</span> <span class="fu">mean</span>(jack_reps)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>bias_jack <span class="ot">&lt;-</span> (n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> (theta_jack_bar <span class="sc">-</span> theta_hat)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Estimativa original:"</span>, theta_hat, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Estimativa original: 6.547375 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Viés estimado via Jackknife:"</span>, bias_jack, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Viés estimado via Jackknife: -0.3445987 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Estimativa corrigida (Jackknife):"</span>, theta_hat <span class="sc">-</span> bias_jack, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Estimativa corrigida (Jackknife): 6.891974 </code></pre>
+</div>
+</div>
+<p><strong>Exemplo 2:</strong> Variância da Mediana</p>
+<p>O Jackknife é útil para estimadores onde não temos uma fórmula de variância analítica simples, como a mediana.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dados originais</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">56</span>, <span class="dv">101</span>, <span class="dv">78</span>, <span class="dv">67</span>, <span class="dv">93</span>, <span class="dv">87</span>, <span class="dv">64</span>, <span class="dv">72</span>, <span class="dv">80</span>, <span class="dv">69</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Réplicas para a mediana</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>jack_med <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  jack_med[i] <span class="ot">&lt;-</span> <span class="fu">median</span>(x[<span class="sc">-</span>i])</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimativa da Variância Jackknife</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>med_jack_bar <span class="ot">&lt;-</span> <span class="fu">mean</span>(jack_med)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>var_jack_med <span class="ot">&lt;-</span> ((n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> n) <span class="sc">*</span> <span class="fu">sum</span>((jack_med <span class="sc">-</span> med_jack_bar)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>se_jack_med <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(var_jack_med)</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Mediana Amostral:"</span>, <span class="fu">median</span>(x), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Mediana Amostral: 75 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Erro Padrão Jackknife da Mediana:"</span>, se_jack_med, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Erro Padrão Jackknife da Mediana: 9 </code></pre>
+</div>
+</div>
+</section>
+<section id="jackknife-vs.-bootstrap" class="level3" data-number="5.2.4">
+<h3 data-number="5.2.4" class="anchored" data-anchor-id="jackknife-vs.-bootstrap"><span class="header-section-number">5.2.4</span> Jackknife vs.&nbsp;Bootstrap</h3>
+<ol type="1">
+<li><p>Sistemático vs.&nbsp;Aleatório: O Jackknife produz sempre o mesmo resultado para o mesmo dataset, enquanto o Bootstrap depende do número de simulações <span class="math inline">\(B\)</span> e da semente aleatória.</p></li>
+<li><p>Custo Computacional: O Jackknife exige exatamente <span class="math inline">\(n\)</span> iterações. O Bootstrap geralmente exige <span class="math inline">\(B \geq 1000\)</span> para precisão.</p></li>
+<li><p>Limitação: O Jackknife falha com estatísticas não suaves (como a mediana em amostras muito pequenas), onde o Bootstrap tende a ser mais robusto.</p></li>
+</ol>
 
 
 </section>
