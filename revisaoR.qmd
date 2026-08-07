@@ -1376,4 +1376,4 @@ Para $X\sim N(0,1)$, calcule densidade em zero, $P(X\leq1{,}96)$, quantil $0{,}9
 *Base de leitura:* @voss2014statistical [Seção B.4, pp. 292--294].
 :::
 
-# Referências
+# Referências {.unnumbered}
