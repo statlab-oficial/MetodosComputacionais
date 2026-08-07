@@ -1356,7 +1356,7 @@ Considere os tempos do grupo tratamento do exemplo do manuscrito.
 2.  Repita o cálculo para a mediana.
 3.  Faça um gráfico de $\widehat{ep}_{\text{boot}}$ contra $B$.
 4.  Discuta qual estatística apresenta maior estabilidade para essa amostra.
-
+:::
 
 ::: {.callout-tip title="Exercício 2 — viés"}
 Para a mesma amostra:
@@ -1472,5 +1472,5 @@ Compare as estimativas. Explique por que reamostrar pontos isoladamente destrói
 *Base de leitura:* @chernick2008bootstrap \[Capítulo 5\] e @chernick2011introduction [Capítulo 5].
 :::
 
-
 # Referências {.unnumbered}
+::::::::::::
