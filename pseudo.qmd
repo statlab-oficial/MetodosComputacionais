@@ -1,535 +1,2339 @@
 # Simulação de Variáveis Aleatórias
 
-## Caso Discreto
+A geração de variáveis aleatórias transforma uma sequência de números pseudoaleatórios uniformes em observações provenientes de distribuições probabilísticas de interesse. Em termos abstratos, grande parte dos algoritmos de geração pode ser descrita da seguinte forma: primeiro produzimos números
 
-### Método da Transformação Inversa
+$$
+U_1,\ldots,U_k
+\stackrel{iid}{\sim}
+U(0,1),
+$$
 
-Suponha que desejamos gerar o valor de uma variável aleatória discreta $X$ com função de massa de probabilidade (f.m.p):
+e, em seguida, aplicamos uma transformação
 
-$$\Pr(X = x_j) = p_j, \quad j = 0, 1, \dots, \quad \text{e} \quad \sum\limits_j p_j = 1.$$
+$$
+X
+=
+g(U_1,\ldots,U_k)
+$$
 
-Para realizar isso, gere um valor $u$ de $U\sim(0,1)$ e atribua o valor $x_j$, $j=0,1,\ldots$, a $X$ conforme as condições abaixo:
+de modo que $X$ possua a distribuição desejada.
 
-$$X = \begin{cases}
-x_0, & \text{se } u < p_0, \\
-x_1, & \text{se } p_0 \leq u < p_0+p_1, \\
-x_2, & \text{se } p_0+p_1 \leq u < p_0+p_1+p_2, \\
-x_3, & \text{se } p_0+p_1+p_2 \leq u < p_0+p_1+p_2+p_3, \\
-\vdots & \\
-x_j, & \text{se } \displaystyle \sum_{i=0}^{j-1} p_i \leq u < \sum_{i=0}^{j} p_i, \\
-\vdots &
-\end{cases}$$
+Essa perspectiva unifica métodos aparentemente diferentes, como transformação inversa, composição, aceitação-rejeição, métodos de transformação para a distribuição normal e algoritmos especializados para distribuições discretas.
 
-Como, para $0 < a < b < 1, \Pr(a \leq U < b) = b-a$, temos que:
+> **Base bibliográfica:** @kroese2011handbook [Capítulo 3, pp. 43--83] descreve a geração de variáveis aleatórias como a transformação de números uniformes em variáveis de distribuições arbitrárias. @voss2014statistical [Capítulo 1, pp. 8--36] apresenta métodos para distribuições discretas, transformação inversa, aceitação-rejeição e transformações de variáveis. @rubinstein2008simulation [Capítulo 2, especialmente Seções 2.3--2.5, aproximadamente pp. 54--80] apresenta métodos gerais e algoritmos específicos para geração de variáveis e vetores aleatórios.
 
-$$\Pr(X = x_j) = \Pr\left(\sum\limits_{i=0}^{j-1}p_i \leq U < \sum\limits_{i=0}^{j}p_i\right) = p_j,$$ e, portanto, $X$ possui a distribuição desejada.
+## Objetivos de aprendizagem
 
-::: {.callout-important icon="false" appearance="simple"}
-## Observações:
+Ao final deste capítulo, espera-se que o leitor seja capaz de:
 
-1.  Algoritmo - O procedimento anterior pode ser escrito como:
+- explicar por que números $U(0,1)$ funcionam como blocos básicos de geração;
+- definir corretamente a função quantil generalizada;
+- aplicar o método da transformação inversa nos casos discreto e contínuo;
+- implementar algoritmos de geração para Bernoulli, uniforme discreta, geométrica, Poisson e binomial;
+- distinguir busca sequencial, consulta por tabela e método *alias* para distribuições discretas;
+- aplicar o método de aceitação-rejeição e calcular sua probabilidade de aceitação;
+- avaliar a eficiência de uma densidade proposta;
+- aplicar o método de composição para misturas;
+- reconhecer transformações úteis entre distribuições;
+- implementar o método de Box--Muller para a distribuição normal;
+- compreender o método da razão de uniformes;
+- gerar distribuições truncadas por transformação inversa;
+- reconhecer limitações numéricas de algoritmos teoricamente exatos;
+- validar computacionalmente uma implementação de geração;
+- distinguir geração univariada de geração multivariada.
 
-Passo 1. Gerar um valor $u \sim U(0,1)$.
+> **Base bibliográfica:** organização didática baseada em @voss2014statistical [Capítulo 1], @kroese2011handbook [Capítulos 3 e 4] e @rubinstein2008simulation [Capítulo 2].
 
-Passo 2. Se $u < p_0$, então $X = x_0$; caso contrário:
 
-- se $u < p_0 + p_1$, então $X = x_1$; caso contrário:\
-- se $u < p_0 + p_1 + p_2$, então $X = x_2$; caso contrário:\
-  $\vdots$
+## Da uniforme para outras distribuições
 
-Passo 3. Repetir os passos 1 e 2 $n$ vezes, onde $n$ é o tamanho da amostra.
+Considere uma variável
 
-2.  Se os valores, $x_i, i \geq 0$, são ordenados de modo que $x_0 < x_1 < \dots,$ e de denotamos $F$ como função de distribuição de $X$, então $F(x_j) = \sum\limits_{i=1}^{j}p_i$. Assim,
+$$
+U\sim U(0,1).
+$$
 
-$$X\; \text{será igual a}\; x_j\; \text{se}\; F(x_{j-1}) \leq U < F(x_j).$$
+A geração de $X\sim F$ pode ser entendida como a busca de uma função $g$ tal que
+
+$$
+X=g(U)
+$$
+
+tenha distribuição $F$.
+
+Em alguns casos, um único uniforme é suficiente. Em outros, usam-se vários uniformes, variáveis auxiliares, distribuições propostas ou algoritmos iterativos.
+
+::: {.callout-tip title="Interpretação"}
+O objetivo de um algoritmo de geração não é apenas produzir valores que “pareçam” plausíveis. O algoritmo deve produzir uma variável cuja distribuição possa ser demonstrada matematicamente como sendo a distribuição-alvo, exceto pelas limitações de precisão finita do computador.
+
+*Base bibliográfica:* @kroese2011handbook [Capítulo 3, p. 43].
 :::
 
-Em outras palavras, após gerar um número aleatório $U$, determinamos o valor de $X$ encontrando o intervalo $[F(x_{j-1}), F(x_j))$ no qual $U$ se encontra (ou, de forma equivalente, encontrando o inverso de $F(U)$). É por essa razão que o procedimento acima é denominado *método da transformada inversa discreta* para gerar $X$.
+## Função quantil e inversa generalizada
 
-::: callout-note
-O tempo necessário para gerar uma variável aleatória discreta por esse método é proporcional ao número de intervalos que devem ser pesquisados. Por essa razão, às vezes é vantajoso considerar os possíveis valores $x_j$ de $X$ em ordem decrescente das probabilidades $p_j$.
+Para uma função de distribuição $F$, define-se a função quantil generalizada por
+
+$$
+\boxed{
+F^{-1}(u)
+=
+\inf
+\left\{
+x\in\mathbb R:
+F(x)\geq u
+\right\},
+\qquad
+0<u<1.
+}
+$$
+
+Essa definição funciona mesmo quando $F$ não é estritamente crescente e, em particular, quando $F$ corresponde a uma distribuição discreta.
+
+> **Base bibliográfica:** @voss2014statistical [Seção 1.3, aproximadamente pp. 11--15] utiliza a inversa generalizada para formular o método da transformação inversa em situações contínuas e discretas. @kroese2011handbook [Seção 3.1.1, pp. 45--47] apresenta o mesmo princípio.
+
+::: {.callout-note title="Definição: método da transformação inversa"}
+Se
+
+$$
+U\sim U(0,1)
+$$
+
+e
+
+$$
+X=F^{-1}(U),
+$$
+
+então
+
+$$
+X\sim F.
+$$
+
+*Base bibliográfica:* @voss2014statistical [Proposição 1.14 e Seção 1.3, aproximadamente pp. 12--15] e @kroese2011handbook [Seção 3.1.1, pp. 45--47].
 :::
 
-### Exemplo 1 {.unnumbered}
+## Caso discreto
 
-Simular $n$ valores de $X$ tal que $p_1 = 0.20$, $p_2 = 0.15$, $p_3 = 0.25$, $p_4 = 0.40$, em que $p_j = P(X=j)$.
+### Transformação inversa discreta
 
-::: {.callout-warning icon="false" appearance="simple"}
-## Algoritmo 1
+Suponha que
 
-Passo 1. Gerar $n$ valores $u \sim U(0,1)$.
+$$
+P(X=x_j)=p_j,
+\qquad
+j=0,1,\ldots,
+$$
 
-Passo 2. Para cada $u$:
+com
 
-- Se $u < 0.20$, então $X = 1$.
+$$
+p_j\geq0
+$$
 
-- Caso contrário, se $u < 0.35$, então $X = 2$.
+e
 
-- Caso contrário, se $u < 0.60$, então $X = 3$.
+$$
+\sum_{j=0}^{\infty}p_j=1.
+$$
 
-- Caso contrário ($u \geq 0.60$), então $X = 4$.
+Assuma inicialmente
 
-Passo 3. Repetir $n$ vezes os passos 1 e 2.
+$$
+x_0<x_1<x_2<\cdots.
+$$
+
+Defina
+
+$$
+F(x_j)
+=
+\sum_{i=0}^jp_i.
+$$
+
+Se
+
+$$
+U\sim U(0,1),
+$$
+
+então
+
+$$
+X=x_j
+$$
+
+quando
+
+$$
+F(x_{j-1})<U\leq F(x_j),
+$$
+
+com a convenção
+
+$$
+F(x_{-1})=0.
+$$
+
+Equivalentemente, escolhe-se o menor índice $j$ tal que
+
+$$
+F(x_j)\geq U.
+$$
+
+> **Base bibliográfica:** @kroese2011handbook [Algoritmo 3.2, pp. 46--47] e @voss2014statistical [Exemplo 1.18, pp. 14--15].
+
+::: {.callout-note title="Algoritmo: inversa discreta"}
+1. Gere
+   $$
+   U\sim U(0,1).
+   $$
+2. Calcule ou consulte as probabilidades acumuladas
+   $$
+   F_j=\sum_{i=0}^jp_i.
+   $$
+3. Determine o menor $j$ tal que
+   $$
+   F_j\geq U.
+   $$
+4. Retorne
+   $$
+   X=x_j.
+   $$
 :::
 
-A seguir, são apresentados dos códigos escritos na linguagem `R`:
+### Exemplo: distribuição em quatro pontos
+
+Considere
+
+$$
+P(X=1)=0{,}20,
+$$
+
+$$
+P(X=2)=0{,}15,
+$$
+
+$$
+P(X=3)=0{,}25
+$$
+
+e
+
+$$
+P(X=4)=0{,}40.
+$$
+
+As probabilidades acumuladas são
+
+$$
+0{,}20,\quad
+0{,}35,\quad
+0{,}60,\quad
+1.
+$$
+
+Assim,
+
+$$
+X=
+\begin{cases}
+1, & 0<U\leq0{,}20,\\
+2, & 0{,}20<U\leq0{,}35,\\
+3, & 0{,}35<U\leq0{,}60,\\
+4, & 0{,}60<U<1.
+\end{cases}
+$$
+
+::: {.callout-important title="Exemplo computacional"}
+```{r}
+set.seed(2026)
+
+N <- 10000
+
+x <- 1:4
+p <- c(0.20, 0.15, 0.25, 0.40)
+
+F <- cumsum(p)
+
+u <- runif(N)
+
+simular_um <- function(ui) {
+  x[which(ui <= F)[1]]
+}
+
+amostra <- vapply(
+  u,
+  simular_um,
+  numeric(1)
+)
+
+prop.table(
+  table(amostra)
+)
+```
+
+O exemplo numérico foi preservado do manuscrito anexado e reescrito usando diretamente a inversa discreta. A estrutura do algoritmo segue @kroese2011handbook [Algoritmo 3.2, pp. 46--47].
+:::
+
+### Implementação vetorizada
+
+Para uma distribuição finita, podemos usar uma função auxiliar:
 
 ```{r}
-# Proposta 1
-n <- 10000
-x <- 1:4 
-p <- c(0.20, 0.15, 0.25, 0.40)
-pa <- cumsum(p) # probabilidades acumuladas
-a  <- c() # vetor para a amostra gerada de X
+rdiscreta_inversa <- function(
+    n,
+    valores,
+    prob
+) {
+  stopifnot(
+    length(valores) == length(prob),
+    all(prob >= 0),
+    abs(sum(prob) - 1) < 1e-12
+  )
 
-for(i in 1:n){
-  u <- runif(1)
-  if (u < pa[1]) {
-    a[i] <- x[1]
-  } else { 
-      if (u < pa[2]) {
-        a[i] <- x[2]
-      } else { if (u < pa[3]) {
-        a[i] <- x[3]
-      } else { 
-          a[i] <- x[4]
-          }
-      }
+  F <- cumsum(prob)
+
+  u <- runif(n)
+
+  vapply(
+    u,
+    function(ui) {
+      valores[which(ui <= F)[1]]
+    },
+    numeric(1)
+  )
+}
+```
+
+```{r}
+set.seed(2026)
+
+x <- rdiscreta_inversa(
+  n = 10000,
+  valores = 1:4,
+  prob = c(
+    0.20,
+    0.15,
+    0.25,
+    0.40
+  )
+)
+
+prop.table(
+  table(x)
+)
+```
+
+::: {.callout-warning title="Observação computacional"}
+Para distribuições com muitos pontos de suporte e muitas gerações, procurar sequencialmente o primeiro ponto acumulado pode ser ineficiente. Métodos como busca binária, *table lookup* e *alias* podem reduzir o custo.
+
+*Base bibliográfica:* @kroese2011handbook [Seções 3.1.3--3.1.4, pp. 55--58].
+:::
+
+## Ordem dos valores e custo da busca
+
+Ordenar os valores possíveis de $X$ pelas probabilidades decrescentes para acelerar a geração. A ideia é válida quando se implementa uma **busca sequencial sobre categorias**, pois categorias de grande probabilidade serão testadas primeiro. Entretanto, após essa reordenação, a sequência já não representa a função de distribuição acumulada em ordem crescente dos valores $x_j$.
+
+::: {.callout-important title="Distinção importante"}
+Há dois algoritmos diferentes:
+
+- **inversão via CDF:** os valores $x_j$ aparecem em ordem crescente e busca-se o primeiro $F(x_j)\geq U$;
+- **busca sequencial por categorias:** as categorias podem ser reordenadas por probabilidade, desde que os intervalos uniformes sejam reconstruídos de acordo com essa nova ordem.
+
+Não se deve chamar a segunda estratégia de “CDF ordenada pelos $p_j$”, pois a função de distribuição é definida pela ordem dos valores de $X$.
+:::
+
+Para o exemplo anterior, uma ordem eficiente seria
+
+$$
+4,\;3,\;1,\;2,
+$$
+
+associada às probabilidades
+
+$$
+0{,}40,\;0{,}25,\;0{,}20,\;0{,}15.
+$$
+
+## Desigualdades nos pontos de corte
+
+Em teoria, se
+
+$$
+U\sim U(0,1)
+$$
+
+for uma variável contínua ideal, então
+
+$$
+P(U=c)=0
+$$
+
+para qualquer constante $c$.
+
+Consequentemente, usar $<$ ou $\leq$ nos pontos de corte não altera a distribuição teórica.
+
+::: {.callout-warning title="Observação sobre precisão finita"}
+Em um computador, a saída pseudoaleatória assume valores em um conjunto finito. Assim, um valor pode coincidir numericamente com um ponto de corte. A implementação deve adotar uma convenção consistente.
+
+O *Handbook of Monte Carlo Methods* chama atenção para efeitos de precisão finita em algoritmos de transformação, incluindo a possibilidade de mapeamentos artificiais para massas pontuais.
+
+*Base bibliográfica:* @kroese2011handbook [Remark 3.1.1, pp. 44--45].
+:::
+
+## Distribuição Bernoulli
+
+Se
+
+$$
+X\sim\operatorname{Ber}(p),
+$$
+
+então
+
+$$
+P(X=1)=p
+$$
+
+e
+
+$$
+P(X=0)=1-p.
+$$
+
+Uma implementação imediata é
+
+$$
+X=I(U\leq p).
+$$
+
+```{r}
+rbernoulli <- function(n, p) {
+  as.integer(
+    runif(n) <= p
+  )
+}
+```
+
+> **Base bibliográfica:** @kroese2011handbook [Seção 4.1.1, pp. 85--86].
+
+## Uniforme discreta
+
+Queremos gerar
+
+$$
+X\sim DU(1,k),
+$$
+
+isto é,
+
+$$
+P(X=j)=\frac1k,
+\qquad
+j=1,\ldots,k.
+$$
+
+Se
+
+$$
+U\sim U[0,1),
+$$
+
+podemos definir
+
+$$
+\boxed{
+X=\lfloor kU\rfloor+1.
+}
+$$
+
+De fato,
+
+$$
+X=j
+$$
+
+se, e somente se,
+
+$$
+\frac{j-1}{k}
+\leq U
+<
+\frac{j}{k}.
+$$
+
+> **Base bibliográfica:** a geração uniforme discreta é discutida em @kroese2011handbook [Seção 4.1.8, pp. 101--102].
+
+```{r}
+runif_discreta <- function(
+    n,
+    k
+) {
+  floor(k * runif(n)) + 1L
+}
+```
+
+::: {.callout-warning title="Observação"}
+A fórmula acima pressupõe que a fonte uniforme utilizada não devolva exatamente $1$. Caso um gerador admita $U=1$, a expressão poderia produzir $k+1$ e seria necessário um tratamento explícito.
+:::
+
+## Distribuição geométrica por inversão
+
+Considere a parametrização
+
+$$
+P(X=k)
+=
+p(1-p)^{k-1},
+\qquad
+k=1,2,\ldots.
+$$
+
+A função de sobrevivência é
+
+$$
+P(X>k)
+=
+(1-p)^k.
+$$
+
+Uma representação por inversão é
+
+$$
+\boxed{
+X
+=
+\left\lceil
+\frac{
+\log U
+}{
+\log(1-p)
+}
+\right\rceil,
+}
+$$
+
+para
+
+$$
+U\sim U(0,1).
+$$
+
+> **Base bibliográfica:** @kroese2011handbook [Seção 4.1.3, Algoritmos 4.7--4.8, pp. 91--92].
+
+```{r}
+rgeom1 <- function(
+    n,
+    p
+) {
+  ceiling(
+    log(runif(n)) /
+      log1p(-p)
+  )
+}
+```
+
+::: {.callout-warning title="Observação sobre parametrização"}
+O R usa, em `rgeom()`, a parametrização baseada no número de falhas antes do primeiro sucesso, cujo suporte começa em $0$. O algoritmo acima usa suporte $1,2,\ldots$.
+
+
+## Distribuição Poisson
+
+Para
+
+$$
+X\sim\operatorname{Poi}(\lambda),
+$$
+
+a função de massa é
+
+$$
+p_i
+=
+P(X=i)
+=
+e^{-\lambda}
+\frac{\lambda^i}{i!},
+\qquad
+i=0,1,\ldots.
+$$
+
+As probabilidades satisfazem a recorrência
+
+$$
+\boxed{
+p_{i+1}
+=
+\frac{\lambda}{i+1}p_i.
+}
+$$
+
+Isso permite construir a CDF de modo recursivo sem recalcular fatoriais.
+
+### Inversão por acumulação
+
+::: {.callout-note title="Algoritmo"}
+1. Gere
+   $$
+   U\sim U(0,1).
+   $$
+2. Inicialize
+   $$
+   i=0,\qquad
+   p_0=e^{-\lambda},\qquad
+   F=p_0.
+   $$
+3. Enquanto
+   $$
+   U>F,
+   $$
+   faça
+   $$
+   i\leftarrow i+1,
+   $$
+   $$
+   p_i
+   \leftarrow
+   \frac{\lambda}{i}p_{i-1},
+   $$
+   e
+   $$
+   F\leftarrow F+p_i.
+   $$
+4. Retorne $i$.
+:::
+
+```{r}
+rpois_inversa <- function(
+    n,
+    lambda
+) {
+  out <- integer(n)
+
+  for (j in seq_len(n)) {
+    u <- runif(1)
+
+    i <- 0L
+    pr <- exp(-lambda)
+    F <- pr
+
+    while (u > F) {
+      i <- i + 1L
+      pr <- pr * lambda / i
+      F <- F + pr
     }
-}
-table(a)/n # tabela de proporções
 
+    out[j] <- i
+  }
+
+  out
+}
 ```
+
+::: {.callout-warning title="Limitação"}
+Para $\lambda$ grande, o termo
+
+$$
+e^{-\lambda}
+$$
+
+pode se tornar numericamente muito pequeno e a busca sequencial pode ser lenta. Portanto, esse algoritmo é didático e apropriado sobretudo para valores moderados de $\lambda$.
+
+@kroese2011handbook [Seção 4.1.7, pp. 98--101] apresenta algoritmos especializados para Poisson e discute explicitamente a necessidade de métodos diferentes quando $\lambda$ é grande.
+:::
+
+### Outro algoritmo clássico para Poisson
+
+@kroese2011handbook [Algoritmo 4.13, p. 100] utiliza o produto de uniformes.
+
+Se
+
+$$
+U_1,U_2,\ldots
+\stackrel{iid}{\sim}
+U(0,1),
+$$
+
+gera-se até que
+
+$$
+\prod_{j=1}^n U_j
+<
+e^{-\lambda}.
+$$
+
+O número de fatores antes de ultrapassar o limite produz uma variável Poisson.
+
+Esse método também se torna lento quando $\lambda$ cresce.
+
+## Distribuição binomial
+
+Se
+
+$$
+X\sim\operatorname{Bin}(n,p),
+$$
+
+então uma construção fundamental é
+
+$$
+X
+=
+B_1+\cdots+B_n,
+$$
+
+onde
+
+$$
+B_i
+\stackrel{iid}{\sim}
+\operatorname{Ber}(p).
+$$
+
+::: {.callout-note title="Algoritmo por soma de Bernoulli"}
+1. Gere
+   $$
+   B_1,\ldots,B_n
+   \stackrel{iid}{\sim}
+   \operatorname{Ber}(p).
+   $$
+2. Retorne
+   $$
+   X=\sum_{i=1}^nB_i.
+   $$
+:::
+
+> **Base bibliográfica:** @kroese2011handbook [Algoritmo 4.2, pp. 88--89].
 
 ```{r}
-# Proposta 2
-n <- 10000; 
-x <- 1:4; 
-p <- c(0.20, 0.15, 0.25, 0.40)
-pa <- cumsum(p) # probabilidades acumuladas
-a  <- c() # vetor para a amostra gerada de X
-		
-for(i in 1:n){
-  u = runif(1)
-  ifelse(u < pa[1], a[i] <- x[1], 
-    ifelse(u < pa[2], a[i] <- x[2],
-      ifelse(u < pa[3], a[i] <- x[3], a[i] <- x[4])))
-}
-table(a)/n # tabela de proporções
-```
-
-::: {.callout-warning icon="false" appearance="simple"}
-## Algoritmo 2
-
-Passo 1. Gerar um valor $u \sim U(0,1)$.
-
-Passo 2. Para cada $u$:
-
-- Se $u < 0.40$, então $X = 4$;
-
-- Caso contrário, se $u < 0.65$, então $X = 3$;
-
-- Caso contrário, se $u < 0.85$, então $X = 1$;
-
-- Caso contrário $u \geq 0.85$, então $X = 2$.
-
-Passo 3. Repetir $n$ vezes os passos 1 e 2.
-:::
-
-::: {.callout-important icon="false"}
-## 🔎 **Observação**:
-
-A proposta 2 usa a **ordem decrescente** dos $p_j$ para otimizar a busca.
-:::
-
-::: {.callout-warning icon="false" appearance="simple"}
-## Algoritmo 3 (mudando as desigualdades)
-
-Passo 1. Gerar $u \sim U(0,1)$.
-
-Passo 2. Se $u \leq 0.40$, então $X = 4$;
-
-- senão, se $u \leq 0.65$, então $X = 3$;
-
-- senão, se $u \leq 0.85$, então $X = 1$;
-
-- senão ($u > 0.85$), então $X = 2$.
-
-Passo 3. Repetir $n$ vezes os passos 1–2.
-:::
-
-::: {.callout-important icon="false"}
-## 🔎 **Observação**:
-
-Com $u \sim U(0,1)$ é contínua, usar $<$ ou $\leq$ é equivalente em termos de distribuição (a probabilidade de $u$ cair exatamente no ponto de corte é zero). Em implementação numérica, essa escolha apenas define para onde vão raríssimos empates nos pontos cortes.
-:::
-
-Se você deseja simular valores de $X$ com distribuição uniforme discreta:
-
-$$\Pr(X=j)=1/k, \quad j=1,2,3,\ldots, k.$$
-
-Basta utilizar a Proposições 1 ou a Proposição 2.
-
-::: {.callout-note .prop-blue icon="false"}
-## Proposição 1:
-
-Gere $U\sim U(0,1)$. Defina $X=j$ se
-
-$$\frac{j-1}{k}\leq U < \frac{j}{k},$$ ou, equivalentemente,
-
-$$(j-1)\leq kU < j.$$
-:::
-
-::: {.callout-note .prop-blue icon="false"}
-## Proposição 2:
-
-Gere $U\sim U(0,1)$. Defina $X=\lfloor kU  \rfloor +1$, em que $\lfloor z  \rfloor$ é o maior inteiro menor ou igual a $z$.
-:::
-
-### Exemplo 2 {.unnumbered}
-
-Para simular valores de $X$ com $\Pr(X=j)=1/10, \, \,\, j=1,2,3,\ldots, 10$, você pode serguir o procedimento a seguir:
-
-| $U$      | $k\,U$   | [$X=\lfloor k\,U \rfloor +1$]{style="color:red"} |
-|----------|----------|--------------------------------------------------|
-| 0,01     | 0,1      | 1                                                |
-| 0,31     | 3,1      | 4                                                |
-| 0,53     | 5,3      | 6                                                |
-| 0,92     | 9,2      | 10                                               |
-| 0,45     | 4,5      | 5                                                |
-| $\vdots$ | $\vdots$ | $\vdots$                                         |
-| 0,74     | 7,4      | 8                                                |
-
-#### Exercícios {.unnumbered}
-
-1.  Gerar uma permutação dos números $1,2,3, \ldots, n$, considerando todas as $n!$ possíveis permutações igualmente prováveis.
-
-2.  Gerar valores de $X\sim \mbox{Geométrica}(p)$.
-
-3.  Implementar o algoritmo para gerar valores de $X\sim \mbox{Poisson}(\lambda)$.
-
-4.  Implementar o algoritmo para gerar valores de $X\sim \mbox{Binomial}(n,p)$.
-
-### Exemplo 3 {.unnumbered}
-
-Nosso objetivo agora é gerar valores de $X\sim \mbox{Poisson}(\lambda)$ com:
-
-$$p_i=\Pr(X=i)=\dfrac{e^{-\lambda}\lambda^i}{i!}, \quad i=0,1,2,\ldots. $$
-
-::: {.callout-important icon="false"}
-## 🔎 **Identidade importante:**
-
-$$p_{i+1} = \dfrac{\lambda}{i+1}p_i, \quad i\geq 0.$$
-:::
-
-Uma forma bastante utilizada para gerar valores de uma variável aleatória $X\sim \mbox{Poisson}(\lambda)$ é por meio de algoritmos de simulação baseados na identidade acima.
-
-::: {.callout-warning icon="false" appearance="simple"}
-## Algoritmo 4
-
-Passo 1. Gerar um número aleatório $u \sim U(0,1)$.
-
-Passo 2. Inicializar $i = 0$, $p = e^{-\lambda}$, $F = p$.
-
-Passo 3. Se $u < F$, então definir $X = i$ e parar.
-
-Passo 4. Caso contrário:
-
-- atualizar $i \leftarrow i+1$,
-
-- atualizar $p \leftarrow \frac{\lambda}{i}\,p$,
-
-- atualizar $F \leftarrow F + p$,
-
-- voltar ao passo 3.
-:::
-
-#### Exercício {.unnumbered}
-
-Complete o código `R` abaixo:
-
-```{r eval=FALSE}
-N = 10^5 # tamanho da amostra
-L = 3  # lambda
-x = c()
-for (j in 1:N){
-  u = runif(1)
-  i = 0; p = exp(-L); F = p
-  aceito = "não"
-  while (aceito != "sim"){
-    if(u < F) {
-  	   ...
-  	 } else {
-        ...
-      }
-  }
+rbinom_bernoulli <- function(
+    N,
+    size,
+    prob
+) {
+  replicate(
+    N,
+    sum(
+      runif(size) <= prob
+    )
+  )
 }
 ```
 
-### Exemplo 4 {.unnumbered}
-
-Por fim, iremos gerar valores da variável aleatório $X$, $X\sim \mbox{Binomial}(n,p)$, com f.m.p dada por:
-
-$$\Pr(X=i)=\dfrac{n!}{i!(n-i)!}p^i(1-p)^{n-i}, \quad i=0,1,2,\ldots,n.$$
-
-::: callout-important
-## Identidade importante:
-
-$$\Pr(X=i+1) = \dfrac{n-i}{i+1}\dfrac{p}{1-p}\Pr(X=i).$$
+::: {.callout-tip title="Interpretação"}
+Esse algoritmo mostra diretamente a origem probabilística da binomial, mas seu custo é proporcional a `size`. Bibliotecas estatísticas usam algoritmos mais sofisticados quando os parâmetros tornam esse procedimento ineficiente.
 :::
 
-A partir do resultado acima e do método da transformação inversa podemos escrever o seguinte algoritmo:
+### Recorrência das probabilidades binomiais
 
-::: {.callout-warning appearance="simple" icon="false"}
-## Algoritmo 5
+A função de massa satisfaz
 
-Passo 1. Gerar um número aleatório $u \sim U(0,1)$.
+$$
+P(X=i+1)
+=
+\frac{n-i}{i+1}
+\frac{p}{1-p}
+P(X=i).
+$$
 
-Passo 2. Calcular $k = \dfrac{p}{1-p}$, inicializar $i = 0$, $p_r = (1-p)^n$, $F = p_r$.
+Com
 
-Passo 3. Se $u < F$, definir $X = i$ e parar.
+$$
+P(X=0)
+=
+(1-p)^n,
+$$
 
-Passo 4. Caso contrário:
+essa identidade também pode ser usada em um algoritmo de inversão acumulativa.
 
-- atualizar $p_r \leftarrow \dfrac{n-i}{i+1}\,k\,p_r$,
+::: {.callout-warning title="Casos de fronteira"}
+Se $p=0$, então $X=0$ com probabilidade $1$. Se $p=1$, então $X=n$ com probabilidade $1$. Um algoritmo que contém
 
-- atualizar $F \leftarrow F + p_r$,
+$$
+\frac{p}{1-p}
+$$
 
-- atualizar $i \leftarrow i+1$,
-
-- voltar ao passo 3.
+deve tratar explicitamente esses casos.
 :::
 
-### Exercício 5 {.unnumbered}
+## *Table lookup*
 
-Escreve um código na linguagem `R` baseado no Algoritmo 5. Utilize alguma ferramenta gráfica para verificar a coerência dos resultados.
+Se a distribuição discreta é fixa e será usada muitas vezes, uma tabela pode ser construída previamente. O método *table lookup* cria uma tabela de objetos em que a frequência de cada valor representa sua probabilidade e, em seguida, seleciona uma posição uniformemente.
 
-### Método da Aceitação-Rejeição
+> **Base bibliográfica:** @kroese2011handbook [Seção 3.1.3, pp. 55--56].
 
-Suponha que haja interesse em simular valores de uma v.a. $X$ e que não seja possível inverter a sua função de distribuição ou não dispomos de um método para gerar dessa variável aleatória. Entretanto, sabemos como simular de uma outra v.a. $Y$ e que é possível estabelecer uma relação entre as probabilidades associadas às duas variáveis aleatórias ($X$ e $Y$) de tal modo que valores de $Y$ possam ser admitidos como valores de $X$.
-
-| $x$   | 1    | 2    | 3    | 4    | 5    | 6    | 7    | 8    | 9    | 10   |
-|-------|------|------|------|------|------|------|------|------|------|------|
-| $p_x$ | 0,11 | 0,12 | 0,09 | 0,08 | 0,12 | 0,10 | 0,09 | 0,09 | 0,10 | 0,10 |
-
-| $y$   | 1    | 2    | 3    | 4    | 5    | 6    | 7    | 8    | 9    | 10   |
-|-------|------|------|------|------|------|------|------|------|------|------|
-| $q_y$ | 0,10 | 0,10 | 0,10 | 0,10 | 0,10 | 0,10 | 0,10 | 0,10 | 0,10 | 0,10 |
-
-Contexto:
-
-- **Podemos**: simular valores de $Y$ com f.p. $q_j=\Pr(Y=j), j\geq 0$.
-- **Queremos**: simular valores de $X$ com f.p. \small  $p_j=\Pr(X=j), j\geq 0$.
-- **Proposta**: simular valor $y$ de $Y$ e aceitar esse valor para $X$ com probabilidade proporcional a $\dfrac{p_y}{q_y}$.
-
-::: {.callout-warning appearance="simple" icon="false"}
-## Algoritmo
-
-Passo 1. Simular $y$ de $Y$ com f.m.p. $q_y$.
-
-Passo 2. Gerar $u \sim U(0,1)$.
-
-Passo 3. Se $u < \dfrac{p_y}{c \, q_y}$, então aceite $X = y$. Caso contrário, rejeite e não atribua valor a $X$.
-
-Passo 4. Repetir os passos 1–3 até obter o tamanho de amostra desejado.
+::: {.callout-tip title="Interpretação"}
+O custo de preparação da tabela é pago apenas uma vez. Depois disso, uma geração pode ser muito rápida. O método é particularmente natural quando as probabilidades são racionais com denominador comum manejável.
 :::
 
-O algoritmo aceitação-rejeição gera uma v.a. $X$ tal que $\Pr(X=j)=p_j$, $j=0,1,2,\ldots$. Além disso, o número de iterações que o algoritmo necessita para obter $X$ é uma v.a. geométrica com média $c$.
+## Método *alias*
 
-::: {.callout-note icon="false" appearance="simple"}
-## Prova do Teorema
+O método *alias* é uma técnica eficiente para geração repetida de distribuições discretas finitas. A ideia consiste em representar uma distribuição arbitrária de $K$ pontos como uma mistura equiprovável de distribuições de dois pontos. Depois de uma etapa de pré-processamento, cada observação pode ser gerada com custo essencialmente constante.
 
-1.  Em uma iteração, determinar a probabilidade de gerar e ser aceito o valor $j$:
+> **Base bibliográfica:** @kroese2011handbook [Seção 3.1.4, pp. 56--58; Algoritmo 3.8].
 
-$$\Pr(Y=j,\text{aceitar})= \Pr(Y=j) \cdot \Pr(\text{aceitar}\mid Y=j)= q_j\cdot \dfrac{pj}{cq_j} = \dfrac{p_j}{c}.$$ 2. Calcular a probabilidade de aceitar um valor $j$ gerado:
+::: {.callout-observation title="Observação"}
+Para uma única geração ou para uma distribuição com poucos pontos, a inversão simples é normalmente suficiente. O método *alias* torna-se atraente quando:
 
-$$\Pr(\text{aceitar})= \sum_j \Pr(Y=j,\text{aceitar})=\sum_j \dfrac{p_j}{c} = \dfrac{1}{c}.$$ 3. Como cada iteração independentemente resulta um valor aceitável com probabilidade $\frac{1}{c}$, o número de iterações necessárias segue uma geométrica de média $c$. Portanto,
+- o suporte é grande;
+- as probabilidades permanecem fixas;
+- muitas observações serão geradas.
 
-$$\Pr(X=j)=\! \sum_n P(\text{j aceito na iteração $n$}) = \sum_n \left(1-\dfrac{1}{c}\right)^{n-1}\cdot\dfrac{p_j}{c}=p_j.$$
+Essa distinção entre **custo de preparação** e **custo por geração** é importante em Estatística Computacional.
 :::
 
-::: {.callout-important icon="false"}
-## Observações
+## Caso contínuo
 
-- A constante $c$ está relacionada com o número de interações necessárias até a aceitação de um valor de $Y$ para $X$.
+### Transformação inversa
 
-- O valor $c$ deve ser o menor possível.
+Se $F$ é a função de distribuição de uma variável contínua e podemos calcular
 
-- O valor de $c$ será o $\mbox{max}\left\{\dfrac{p_y}{q_y}\right\}$.
+$$
+F^{-1}(u),
+$$
+
+então
+
+$$
+X=F^{-1}(U),
+\qquad
+U\sim U(0,1),
+$$
+
+tem distribuição $F$.
+
+> **Base bibliográfica:** @voss2014statistical [Seção 1.3, pp. 11--15] e @kroese2011handbook [Seção 3.1.1, pp. 45--47].
+
+::: {.callout-tip title="Interpretação"}
+O método transforma posições uniformes na escala acumulada de probabilidade em posições na escala original de $X$.
 :::
 
-::: callout-note
-$$u<\dfrac{p_y}{c\cdot q_y} \ \ \ \ \mbox{e}  \ \ \ \  P(U<\dfrac{p_y}{c\cdot q_y})= \dfrac{p_y}{c\cdot q_y} $$ $$\Downarrow$$ $$\dfrac{p_y}{c.q_y}\leq 1 \ \ \ \ \mbox{para todo} \ \ y \ \ \mbox{tal que} \ \ p_y>0$$ $$\Downarrow$$ $$c=\mbox{max}\left\{\dfrac{p_y}{q_y}\right\}$$
+## Exemplo: distribuição exponencial
+
+Considere
+
+$$
+X\sim\operatorname{Exp}(\lambda),
+$$
+
+com função de distribuição
+
+$$
+F(x)
+=
+1-e^{-\lambda x},
+\qquad
+x\geq0.
+$$
+
+Resolva
+
+$$
+u
+=
+1-e^{-\lambda x}.
+$$
+
+Temos
+
+$$
+e^{-\lambda x}
+=
+1-u
+$$
+
+e
+
+$$
+\boxed{
+x
+=
+-\frac1\lambda
+\log(1-u).
+}
+$$
+
+Como
+
+$$
+1-U\sim U(0,1),
+$$
+
+também podemos escrever
+
+$$
+\boxed{
+X
+=
+-\frac1\lambda
+\log U.
+}
+$$
+
+> **Base bibliográfica:** @kroese2011handbook [Algoritmo 4.29, pp. 108--109].
+
+```{r}
+rexp_inversa <- function(
+    n,
+    lambda
+) {
+  -log(runif(n)) / lambda
+}
+```
+
+## Exemplo: densidade $f(x)=3x^2$
+
+Considere
+
+$$
+f(x)
+=
+3x^2,
+\qquad
+0\leq x\leq1.
+$$
+
+Então
+
+$$
+F(x)
+=
+x^3
+$$
+
+e
+
+$$
+F^{-1}(u)
+=
+u^{1/3}.
+$$
+
+Logo,
+
+$$
+X=U^{1/3}
+$$
+
+tem a densidade desejada.
+
+> **Base bibliográfica:** exemplo retirado de @voss2014statistical [Exemplo 1.17, aproximadamente p. 14].
+
+```{r}
+set.seed(2026)
+
+N <- 10000
+
+x <- runif(N)^(1 / 3)
+
+hist(
+  x,
+  probability = TRUE,
+  breaks = 30
+)
+
+curve(
+  3 * x^2,
+  from = 0,
+  to = 1,
+  add = TRUE,
+  lwd = 2
+)
+```
+
+## Transformações afins
+
+Muitas distribuições pertencem a famílias de localização e escala. Se
+
+$$
+Z
+$$
+
+possui uma distribuição padrão e
+
+$$
+X
+=
+\mu+\sigma Z,
+\qquad
+\sigma>0,
+$$
+
+então a geração de $X$ pode ser reduzida à geração de $Z$.
+
+Por exemplo, se
+
+$$
+Z\sim N(0,1),
+$$
+
+então
+
+$$
+X=\mu+\sigma Z
+$$
+
+tem distribuição
+
+$$
+N(\mu,\sigma^2).
+$$
+
+> **Base bibliográfica:** @kroese2011handbook [Seção 3.1.2, pp. 47--55] discute transformações gerais e famílias localização-escala.
+
+## Método de aceitação-rejeição
+
+O método de aceitação-rejeição é útil quando podemos gerar de uma distribuição proposta, mas não diretamente da distribuição-alvo. Considere uma densidade-alvo $f$ e uma densidade proposta $g$. Suponha que:
+
+$$
+g(x)>0
+\quad
+\text{sempre que}
+\quad
+f(x)>0
+$$
+
+e exista uma constante finita
+
+$$
+c\geq1
+$$
+
+tal que
+
+$$
+f(x)
+\leq
+c\,g(x)
+$$
+
+para todo $x$.
+
+Equivalentemente,
+
+$$
+\frac{f(x)}{g(x)}
+\leq c.
+$$
+
+> **Base bibliográfica:** @voss2014statistical [Seção 1.4.2, aproximadamente pp. 18--22] e @kroese2011handbook [Seção 3.1.5, pp. 59--66].
+
+::: {.callout-note title="Algoritmo de aceitação-rejeição"}
+1. Gere
+   $$
+   Y\sim g.
+   $$
+2. Gere, independentemente,
+   $$
+   U\sim U(0,1).
+   $$
+3. Aceite
+   $$
+   X=Y
+   $$
+   se
+   $$
+   U
+   \leq
+   \frac{
+   f(Y)
+   }{
+   c\,g(Y)
+   }.
+   $$
+4. Se houver rejeição, retorne ao passo 1.
 :::
 
-#### Exemplo 1 {.unnumbered}
+## Por que o método funciona?
 
-Gerar um valor da variável aleatória $X$ com f.m.p.:
+Para qualquer conjunto mensurável $A$,
 
-| $j$   | 1    | 2    | 3    | 4    | 5    | 6    | 7    | 8    | 9    | 10   |
-|-------|------|------|------|------|------|------|------|------|------|------|
+$$
+P(
+Y\in A,\text{ aceitar}
+)
+=
+\int_A
+g(y)
+\frac{
+f(y)
+}{
+c\,g(y)
+}
+\,dy.
+$$
+
+Logo,
+
+$$
+P(
+Y\in A,\text{ aceitar}
+)
+=
+\frac1c
+\int_Af(y)\,dy.
+$$
+
+A probabilidade total de aceitação é
+
+$$
+P(\text{aceitar})
+=
+\frac1c.
+$$
+
+Portanto,
+
+$$
+P(
+Y\in A
+\mid
+\text{aceitar}
+)
+=
+\int_Af(y)\,dy,
+$$
+
+e a variável aceita possui densidade $f$.
+
+> **Base bibliográfica:** @voss2014statistical [Algoritmos 1.19 e 1.22, pp. 15--21] e @kroese2011handbook [Seção 3.1.5, pp. 59--66].
+
+## Eficiência da aceitação-rejeição
+
+Como
+
+$$
+P(\text{aceitar})=\frac1c,
+$$
+
+o número de propostas necessárias até uma aceitação tem distribuição geométrica com média
+
+$$
+E(N_{\text{prop}})
+=
+c.
+$$
+
+Assim, desejamos escolher $g$ de modo que
+
+$$
+c
+=
+\sup_x
+\frac{f(x)}{g(x)}
+$$
+
+seja tão pequeno quanto possível, sem tornar difícil a geração de $Y\sim g$.
+
+::: {.callout-tip title="Interpretação"}
+Uma proposta eficiente deve equilibrar dois objetivos:
+
+1. ser fácil de simular;
+2. acompanhar razoavelmente bem a forma e as caudas da densidade-alvo.
+
+Uma proposta com pouca massa onde $f$ é relevante pode produzir um valor de $c$ enorme ou até infinito.
+:::
+
+## Aceitação-rejeição no caso discreto
+
+Se desejamos gerar
+
+$$
+P(X=j)=p_j
+$$
+
+e conseguimos gerar
+
+$$
+P(Y=j)=q_j,
+$$
+
+precisamos de
+
+$$
+q_j>0
+\quad
+\text{sempre que}
+\quad
+p_j>0.
+$$
+
+Escolha
+
+$$
+c
+\geq
+\sup_j
+\frac{p_j}{q_j}.
+$$
+
+Aceite $Y=j$ se
+
+$$
+U
+\leq
+\frac{p_j}{cq_j}.
+$$
+
+A probabilidade de aceitação continua sendo
+
+$$
+\frac1c.
+$$
+
+> **Base bibliográfica:** o resultado é a versão discreta do método geral de aceitação-rejeição em @voss2014statistical [Seção 1.4] e @kroese2011handbook [Seção 3.1.5].
+
+## Exemplo discreto de aceitação-rejeição
+
+Considere a distribuição-alvo
+
+| $j$ | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | $p_j$ | 0,11 | 0,12 | 0,09 | 0,08 | 0,12 | 0,10 | 0,09 | 0,09 | 0,10 | 0,10 |
 
-Considerando que sabemos gerar de uma v.a. uniforme discreta, assumiremos $Y$ com distribuição
+Use como proposta a uniforme discreta em $\{1,\ldots,10\}$:
 
-$$\Pr(Y=j)=q_j=\dfrac{1}{10}; \quad j=1,2, \ldots, 10.$$
+$$
+q_j=0{,}1.
+$$
 
-A constante $c$ será determinada por $c=\mbox{max}\left\{\dfrac{p_j}{q_j}\right\} =\dfrac{0,\!12}{0,\!10}=1,\!2.$
+Então
 
-::: {.callout-warning appearance="simple" icon="false"}
-## Algoritmo
+$$
+c
+=
+\max_j
+\frac{p_j}{q_j}
+=
+\frac{0{,}12}{0{,}10}
+=
+1{,}2.
+$$
 
-1.  Simular $y$ de $Y$: gere $u_1 \sim U(0,1)$ e faça $y = \mathrm{Int}(10u_1)+1$.
-2.  Gerar um segundo número aleatório $u_2$.
-3.  Se $u_2 < \dfrac{p_y}{0.12}$, faça $X=y$ e pare. Caso contrário, retorne ao passo 1.
-:::
+Assim,
 
-::: callout-note
-Suponha $y=1$. Então, se $u_2<\dfrac{p_1}{0,\!12}=\dfrac{0,\!11}{0,\!12}=0,\!9167$, faremos $X=1$. Isto é, assumiremos que o valor 1 gerado é plausível de ser da distribuição de $X$.
-:::
+$$
+P(\text{aceitar})
+=
+\frac1{1{,}2}
+=
+\frac56
+\approx0{,}8333.
+$$
 
+::: {.callout-important title="Exemplo computacional corrigido"}
 ```{r}
 set.seed(20252)
-pseudo_x <- NULL
-for(i in seq_len(100000)){
-  
-pj <- c(0.11, 0.12, 0.09, 0.08, 0.12, 0.10, 0.09, 0.09, 0.10, 0.10)
 
+pj <- c(
+  0.11, 0.12, 0.09, 0.08, 0.12,
+  0.10, 0.09, 0.09, 0.10, 0.10
+)
 
-repeat{
-u1 <- runif(1)
-y <- floor(10*u1) + 1
-  
-u2 <- runif(1)
-x <- y
+qj <- rep(
+  0.1,
+  10
+)
 
-if(u2 < pj[y]/0.12) break
+c_envelope <- max(
+  pj / qj
+)
+
+r_alvo <- function(n) {
+  out <- integer(n)
+  propostas <- integer(n)
+
+  for (i in seq_len(n)) {
+    tentativas <- 0L
+
+    repeat {
+      tentativas <- tentativas + 1L
+
+      y <- floor(
+        10 * runif(1)
+      ) + 1L
+
+      u <- runif(1)
+
+      if (
+        u <=
+        pj[y] /
+          (c_envelope * qj[y])
+      ) {
+        out[i] <- y
+        propostas[i] <- tentativas
+        break
+      }
+    }
+  }
+
+  list(
+    x = out,
+    propostas = propostas
+  )
 }
 
-pseudo_x[i] <- x
-}
+sim <- r_alvo(
+  100000
+)
 
-round(prop.table(table(pseudo_x)),2)
+prop.table(
+  table(sim$x)
+)
+
+mean(
+  sim$propostas
+)
+
+c_envelope
 ```
 
-Existe algum problema com os resultados acima? Se sim, faça a correção do código e verifique graficamente a coerência dos resultados.
+Espera-se que
 
-::: {.callout-important icon="false"}
-## Observações
+$$
+E(N_{\text{prop}})
+\approx1{,}2.
+$$
 
-- $91,\!67\%$ de todos os valores 1 gerados de $Y$ serão aceitos
-
-- $100\%$ dos valores 2 gerados de $Y$ serão aceitos
-
-- $75\%$ dos valores 3 gerados de $Y$ serão aceitos
-
-- Qualquer valor da constante $c$ inferior a $1,\!2$ impossibilita gerar a distribuição de $X$
-
-- Qualquer valor da constante $c$ superior a $1,\!2$ tornaria o processo mais lento para a obteção da amostra
+O exemplo numérico foi preservado do manuscrito anexado; a implementação foi corrigida e reorganizada.
 :::
 
-#### Exercícios {.unnumbered}
 
-1.  Gere números pseudoaleatórios de $X$ considerando $c = 2,4$.
+## Exemplo contínuo de aceitação-rejeição
 
-2.  Compare com os resultados obtidos no Exemplo.
+Considere a densidade
 
-### Método da Composição
+$$
+f(x)
+=
+2x,
+\qquad
+0<x<1.
+$$
 
-Suponha que tenhamos um método eficiente para simular o valor de uma variável aleatória com f.m.p. ${p_j, ; j \geq 0}$ ou ${q_j, ; j \geq 0}$, e que desejamos simular a variável aleatória $X$ com f.m.p.:
+Use como proposta
 
-$$\Pr(X = j) = \alpha p_j + (1 - \alpha)q_j, \quad j \geq 0, 0 < \alpha < 1.$$ Se $X_1 \sim {p_j}$ e $X_2 \sim {q_j}$, então podemos definir
+$$
+g(x)=1,
+\qquad
+0<x<1,
+$$
 
-$$X =
+isto é,
+
+$$
+Y\sim U(0,1).
+$$
+
+Como
+
+$$
+\frac{f(x)}{g(x)}
+=
+2x
+\leq2,
+$$
+
+podemos usar
+
+$$
+c=2.
+$$
+
+A probabilidade de aceitação é
+
+$$
+\frac12.
+$$
+
+```{r}
+set.seed(2026)
+
+r_triangular <- function(n) {
+  out <- numeric(n)
+
+  for (i in seq_len(n)) {
+    repeat {
+      y <- runif(1)
+      u <- runif(1)
+
+      if (u <= y) {
+        out[i] <- y
+        break
+      }
+    }
+  }
+
+  out
+}
+
+x <- r_triangular(
+  10000
+)
+
+hist(
+  x,
+  probability = TRUE,
+  breaks = 30
+)
+
+curve(
+  2 * x,
+  from = 0,
+  to = 1,
+  add = TRUE,
+  lwd = 2
+)
+```
+
+O exemplo ilustra o algoritmo geral de @voss2014statistical [Seção 1.4] e @kroese2011handbook [Seção 3.1.5].
+
+## Método da composição
+
+Suponha que a distribuição-alvo seja uma mistura
+
+$$
+F
+=
+\sum_{k=1}^K
+\alpha_kF_k,
+$$
+
+com
+
+$$
+\alpha_k\geq0
+$$
+
+e
+
+$$
+\sum_{k=1}^K
+\alpha_k=1.
+$$
+
+Uma variável da mistura pode ser gerada em duas etapas.
+
+::: {.callout-note title="Algoritmo de composição"}
+1. Gere um indicador $I$ tal que
+   $$
+   P(I=k)=\alpha_k.
+   $$
+2. Condicionalmente a $I=k$, gere
+   $$
+   X\sim F_k.
+   $$
+3. Retorne $X$.
+:::
+
+> **Base bibliográfica:** @voss2014statistical [Algoritmo 2.9, pp. 47--48] e @kroese2011handbook [Seção 3.1.2.6, aproximadamente p. 53].
+
+::: {.callout-important title="Interpretação"}
+Uma mistura
+
+$$
+\sum_k\alpha_kF_k
+$$
+
+não é a mesma coisa que a distribuição da soma ponderada
+
+$$
+\sum_k\alpha_kX_k.
+$$
+
+Na mistura, seleciona-se **uma componente** ao acaso e, depois, gera-se uma observação dessa componente.
+
+*Base bibliográfica:* @voss2014statistical [Exemplo 2.7 e Algoritmo 2.9, pp. 46--48].
+:::
+
+## Exemplo de composição corrigido
+
+Deseja-se gerar
+
+$$
+P(X=j)
+=
 \begin{cases}
-X_1, & \text{com probabilidade } \alpha, \\
-X_2, & \text{com probabilidade } 1-\alpha ,
-\end{cases}.$$
+0{,}05, & j=1,\ldots,5,\\
+0{,}15, & j=6,\ldots,10.
+\end{cases}
+$$
 
-Assim, $X$ terá exatamente a função de probabilidade acima.
+Podemos escrever
 
-#### Exemplo {.unnumbered}
+$$
+P
+=
+0{,}5P_1
++
+0{,}5P_2,
+$$
 
-Suponha que desejamos gerar o valor de uma variável aleatória $X$ tal que
+onde:
 
-$$p_j = \Pr(X = j) =  \begin{cases}
-0.05, & \text{para}\quad j = 1, 2, 3, 4, 5, \\
-0.15, & \text{para}\quad  j = 6, 7, 8, 9, 10,
-\end{cases}$$
+- $P_1$ é uniforme em $\{1,\ldots,10\}$;
+- $P_2$ é uniforme em $\{6,\ldots,10\}$.
 
-Note que $p_j = 0.5 \times p_j^{(1)} + 0.5 \times p_j^{(2)},$ em que
+Use
 
-$$p_j^{(1)} = 0.1, \quad j = 1, \dots, 10 \quad \text{e} \quad p_j^{(2)} = \begin{cases}
-0, & \text{para}\quad j = 1, 2, 3, 4, 5, \\
-0.2, & \text{para}\quad  j = 6, 7, 8, 9, 10,
-\end{cases}$$
+$$
+U_1,U_2\stackrel{iid}{\sim}U(0,1).
+$$
 
-podemos realizar essa simulação gerando primeiro um número aleatório $U \sim U(0,1)$ e então:
+Se
 
-- Se $U < 0.5$, gerar $X$ de uma uniforme discreta sobre $\{1,2,\dots,10\}$.
-- Caso contrário ($U \geq 0.5$), gerar $X$ de uma uniforme discreta sobre $\{6,7,8,9,10\}$.
+$$
+U_1<0{,}5,
+$$
 
-::: {.callout-warning appearance="simple" icon="false"}
-## Algoritmo
+gere da primeira componente usando **$U_2$**:
 
-Passo 1. Gerar $U_1 \sim U(0,1)$.
+$$
+X
+=
+\lfloor10U_2\rfloor+1.
+$$
 
-Passo 2. Gerar $U_2 \sim U(0,1)$.
+Caso contrário,
 
-Passo 3. Se $U_1 < 0.5$, definir $X = \mathrm{Int}(10U_1)+1$. Caso contrário, definir $X = \mathrm{Int}(5U_2)+6$.
+$$
+X
+=
+\lfloor5U_2\rfloor+6.
+$$
+
+```{r}
+set.seed(2026)
+
+N <- 100000
+
+u1 <- runif(N)
+u2 <- runif(N)
+
+x <- ifelse(
+  u1 < 0.5,
+  floor(10 * u2) + 1,
+  floor(5 * u2) + 6
+)
+
+prop.table(
+  table(x)
+)
+```
+
+
+## Transformações entre distribuições
+
+Nem toda geração precisa ser feita por inversão ou rejeição. Relações probabilísticas conhecidas podem ser exploradas diretamente.
+
+@kroese2011handbook [Seção 3.1.2, pp. 47--55] apresenta diversas transformações:
+
+- transformações afins;
+- recíprocos;
+- transformações de variáveis;
+- truncamento;
+- somas;
+- composição;
+- método polar;
+- estatísticas de ordem;
+- produtos.
+
+## Somas e convoluções
+
+Se
+
+$$
+X_1,\ldots,X_n
+$$
+
+são independentes e sabemos gerar cada uma delas, podemos construir distribuições conhecidas por soma.
+
+Exemplos:
+
+$$
+\operatorname{Bin}(n,p)
+=
+\sum_{i=1}^n
+\operatorname{Ber}(p),
+$$
+
+e, para $n$ inteiro,
+
+$$
+\operatorname{Gamma}(n,\lambda)
+=
+\sum_{i=1}^n
+\operatorname{Exp}(\lambda)
+$$
+
+na parametrização correspondente.
+
+> **Base bibliográfica:** @kroese2011handbook [Capítulo 4] explora extensivamente relações entre distribuições como base de algoritmos de geração.
+
+## Geração normal pelo método de Box--Muller
+
+A distribuição normal é um caso importante em que uma transformação de dois uniformes produz duas normais independentes. Se
+
+$$
+U_1,U_2
+\stackrel{iid}{\sim}
+U(0,1),
+$$
+
+defina
+
+$$
+R
+=
+\sqrt{
+-2\log U_1
+}
+$$
+
+e
+
+$$
+\Theta
+=
+2\pi U_2.
+$$
+
+Então
+
+$$
+Z_1
+=
+R\cos\Theta
+$$
+
+e
+
+$$
+Z_2
+=
+R\sin\Theta
+$$
+
+são independentes com distribuição
+
+$$
+N(0,1).
+$$
+
+> **Base bibliográfica:** @kroese2011handbook [Seção 4.2.11, pp. 122--125] e @rubinstein2008simulation [Capítulo 2; o índice identifica o método de Box--Muller na p. 59].
+
+```{r}
+rnorm_box_muller <- function(
+    n
+) {
+  m <- ceiling(n / 2)
+
+  u1 <- runif(m)
+  u2 <- runif(m)
+
+  r <- sqrt(
+    -2 * log(u1)
+  )
+
+  theta <- 2 * pi * u2
+
+  z1 <- r * cos(theta)
+  z2 <- r * sin(theta)
+
+  c(
+    z1,
+    z2
+  )[seq_len(n)]
+}
+```
+
+```{r}
+set.seed(2026)
+
+z <- rnorm_box_muller(
+  10000
+)
+
+hist(
+  z,
+  probability = TRUE,
+  breaks = 40
+)
+
+curve(
+  dnorm(x),
+  add = TRUE,
+  lwd = 2
+)
+```
+
+::: {.callout-observation title="Observação"}
+O *Handbook* apresenta também o método polar de Marsaglia, que evita avaliações trigonométricas, e outros geradores especializados para a normal.
+
+*Base bibliográfica:* @kroese2011handbook [Algoritmo 4.48, p. 124].
 :::
 
-Se $F_i$, $i=1,\dots,n$ são funções de distribuição e $\alpha_i$, $i=1,\dots,n$ são números não negativos cuja soma é 1, então a função de distribuição:
+## A normal e o método inverso
 
-$$F(x) = \sum_{i=1}^n \alpha_i F_i(x),$$
+A função quantil normal não possui uma expressão elementar simples. Entretanto, isso não significa que o método inverso seja matematicamente impossível. É possível aproximar numericamente
 
-é uma **mistura**, ou uma **composição**, das funções de distribuição $F_i$, $i = 1, \dots, n$.
+$$
+\Phi^{-1}(u).
+$$
 
-Uma maneira de simular a partir de $F$ é primeiro simular uma variável aleatória $I$, igual a $i$ com probabilidade $\alpha_i$, $i=1,\dots,n$, e então simular a partir da distribuição $F_I$ (Isto é, se o valor simulado de $I$ for $I = j$, então a segunda simulação é feita a partir de $F_j$). Essa abordagem para simular de $F$ é frequentemente chamada de **método de composição**.
+Em bibliotecas científicas, funções quantis podem usar aproximações numéricas altamente eficientes.
 
-## Caso Contínuo
+::: {.callout-warning title="Correção conceitual"}
+A afirmação “a normal não pode ser gerada por inversão” deve ser substituída por:
 
-A geração de variáveis aleatórias contínuas baseia-se quase inteiramente na existência de um fluxo de números independentes e identicamente distribuídos (i.i.d.) vindos de uma distribuição Uniforme (0,1). 
+> A função quantil normal não possui uma forma elementar simples; por isso, inversão analítica direta não é conveniente, e algoritmos especializados ou aproximações numéricas são normalmente empregados.
 
-### Método da Transformação Inversa
-
-O método da inversão é a técnica mais direta para gerar variáveis aleatórias. Ele se baseia na Transformada Integral de Probabilidade: se $X$ é uma variável aleatória contínua com função de distribuição acumulada (FDA), $F(x)$, então a variáveil $U = F(X)$ segue uma distribuição Uniforme $(0, 1)$.
-
-
-::: {.callout-warning appearance="simple" icon="false"}
-## Algoritmo
-
-1. Gerar $U \sim U(0,1)$;
-
-2. Definir $X = F^{-1}(U)$, onde $F^{-1}(\cdot)$ é a função quantílica (inversa da FDA).
-
+*Base bibliográfica:* @voss2014statistical [p. 15] observa que o método inverso não é diretamente conveniente para distribuições como a normal; @kroese2011handbook [p. 46] ressalta que até uma inversa disponível pode não ser o método computacionalmente mais eficiente.
 :::
 
+## Método da razão de uniformes
 
+O método da razão de uniformes permite gerar de uma densidade conhecida até uma constante de normalização. Se
 
+$$
+f(z)
+\propto
+h(z),
+$$
 
-### Método da  Aceitação e Rejeição
+constrói-se uma região bidimensional associada a $h$. Ao gerar uniformemente nessa região e retornar uma razão de coordenadas, obtém-se a distribuição-alvo.
 
-Quando a inversa da CDF não possui uma forma fechada (como na distribuição Beta ou Normal), utilizamos métodos indiretos. O método da rejeição requer uma densidade instrumental $g(x)$ que seja fácil de simular e uma constante $c$ tal que a razão entre a densidade alvo $f(x)$ e $g(x)$ seja limitada: $f(x)/g(x) \leq c$.
+> **Base bibliográfica:** @kroese2011handbook [Seção 3.1.6, pp. 66--67].
 
-::: {.callout-warning appearance="simple" icon="false"}
-## Algoritmo
+::: {.callout-observation title="Observação"}
+Esse método é mais avançado que transformação inversa e aceitação-rejeição elementar, mas merece ser apresentado porque:
 
-1. Simula $Y \sim g$ e $U \sim U(0,1)$ de forma independente;
-
-2. Aceita $X = Y$ se $U \leq \frac{f(Y)}{cg(Y)}$.
-
-3. Caso contrário, rejeita $Y$ e retornar ao passo 1.
-
+- pode dispensar a constante normalizadora;
+- é base para algoritmos eficientes de distribuições como normal, Cauchy e outras;
+- fornece uma ligação geométrica entre geração uniforme bidimensional e densidades univariadas.
 :::
 
-> A eficiência deste método é dada por $1/c$, que representa a probabilidade de aceitação em cada tentativa. 
+## Distribuições truncadas
 
-### Método da Composição (Misturas)
+Suponha que
 
-Algumas distribuições complexas podem ser decompostas como uma mistura de distribuições mais simples. Se a densidade alvo puder ser escrita como $f(x) = \sum p_i f_i(x)$, simulamos primeiro um índice $I$ com probabilidade $p_i$ e depois geramos $X$ a partir da densidade $f_I$ selecionada.
+$$
+X\sim F
+$$
+
+e queremos gerar da distribuição de $X$ condicionada a
+
+$$
+a\leq X\leq b.
+$$
+
+Se $F^{-1}$ estiver disponível, podemos gerar
+
+$$
+U\sim U(0,1)
+$$
+
+e definir
+
+$$
+\boxed{
+X
+=
+F^{-1}
+\left[
+F(a^-)
++
+U
+\left(
+F(b)-F(a^-)
+\right)
+\right].
+}
+$$
+
+> **Base bibliográfica:** @kroese2011handbook [Seção 3.1.2.4 e Algoritmo 3.3, pp. 50--51].
+
+::: {.callout-tip title="Interpretação"}
+Em vez de gerar em toda a escala de probabilidades $(0,1)$, sorteia-se uniformemente apenas dentro do intervalo de probabilidade correspondente à região de truncamento.
+:::
+
+### Exemplo: exponencial truncada em $[0,2]$
+
+Para
+
+$$
+X\sim\operatorname{Exp}(1),
+$$
+
+temos
+
+$$
+F(x)=1-e^{-x}.
+$$
+
+Então a exponencial truncada em $[0,2]$ pode ser gerada por
+
+$$
+X
+=
+-\log
+\left[
+1-
+U(1-e^{-2})
+\right].
+$$
+
+> **Base bibliográfica:** exemplo baseado em @kroese2011handbook [Exemplo 3.5, pp. 50--51].
+
+## Distribuição t de Student por transformação
+
+Se
+
+$$
+Z\sim N(0,1)
+$$
+
+e
+
+$$
+V\sim\chi_\nu^2
+$$
+
+são independentes, então
+
+$$
+\boxed{
+T
+=
+\frac{
+Z
+}{
+\sqrt{V/\nu}
+}
+}
+$$
+
+tem distribuição $t_\nu$.
+
+Essa representação também mostra que a distribuição t pode ser interpretada como uma distribuição normal com escala aleatória.
+
+> **Base bibliográfica:** @kroese2011handbook [Seção 4.2.15, pp. 131--134; para a extensão multivariada, pp. 147--148].
+
+::: {.callout-warning title="Correção de linguagem"}
+É preferível dizer que a t pode ser vista como uma **mistura de escala normal**, e não simplesmente que “a variância é controlada por uma qui-quadrado”. A representação precisa é dada pela razão acima ou, equivalentemente, pela mistura na escala/precisão apropriada.
+:::
+
+## Geração multivariada: uma introdução
+
+A geração multivariada é uma extensão natural e importante.
+
+### Componentes independentes
+
+Se $X_1,\ldots,X_d$ são independentes e sabemos gerar cada marginal $F_j$, então basta gerar cada componente independentemente.
+
+> **Base bibliográfica:** @kroese2011handbook [Algoritmo 3.14, p. 67].
+
+### Geração componente a componente
+
+Para uma distribuição conjunta, $f(x_1,\ldots,x_d),$ uma decomposição útil é
+
+$$
+f(x_1,\ldots,x_d)
+=
+f_1(x_1)
+\prod_{j=2}^d
+f_j(
+x_j
+\mid
+x_1,\ldots,x_{j-1}
+).
+$$
+
+Assim:
+
+1. gere $X_1$ da marginal;
+2. gere $X_2\mid X_1$;
+3. gere $X_3\mid X_1,X_2$;
+4. continue até $X_d$.
+
+> **Base bibliográfica:** @voss2014statistical [Algoritmo 2.11, pp. 48--49].
+
+### Normal multivariada
+
+Se $Z\sim N_d(0,I)$ e
+
+$$
+\Sigma=AA^\top
+$$
+
+é uma decomposição de Cholesky, então
+
+$$
+\boxed{
+X
+=
+\mu+AZ
+}
+$$
+
+tem distribuição
+
+$$
+N_d(\mu,\Sigma).
+$$
+
+> **Base bibliográfica:** @kroese2011handbook [Algoritmo 4.71, pp. 143--147] e @voss2014statistical [Seção 2.1, pp. 41--45].
+
+::: {.callout-observation title="Observação"}
+Uma exposição completa de simulação multivariada — incluindo cópulas, normais multivariadas, Dirichlet e t multivariada — pode ser organizada em um capítulo próprio. Aqui a seção serve apenas para mostrar que a geração univariada é o primeiro bloco de uma teoria mais ampla.
+:::
+
+## Precisão finita e geração teoricamente exata
+
+Os algoritmos deste capítulo são normalmente demonstrados assumindo que:
+
+1. podemos gerar uniformes ideais;
+2. operações reais são realizadas com precisão infinita.
+
+Nenhuma dessas condições é literalmente verdadeira em um computador.
+
+@kroese2011handbook [Remark 3.1.1, pp. 44--45] mostra que transformações podem concentrar numericamente muitos valores em um único ponto quando a distribuição possui grande massa em regiões mal representadas em ponto flutuante.
+
+::: {.callout-warning title="Observação"}
+Um algoritmo matematicamente exato pode não ser numericamente exato em aritmética de ponto flutuante.
+
+Problemas relevantes incluem:
+
+- `log(0)`;
+- cancelamento numérico;
+- *underflow* de probabilidades muito pequenas;
+- *overflow* de razões ou fatoriais;
+- mapeamento de muitos valores para o mesmo número representável.
+:::
+
+### Boas práticas numéricas
+
+Em R, funções como
+
+```r
+log1p(x)
+expm1(x)
+```
+
+podem ser úteis quando há cancelamento em expressões envolvendo
+
+$$
+\log(1+x)
+$$
+
+ou
+
+$$
+e^x-1.
+$$
 
 
-#### Exemplo: 
+## Como validar uma implementação de geração
 
-A distribuição de $t$ de Student pode ser representada como uma mistura de Normais onde a variância é controlada por uma variável Qui-quadrado. 
+Uma implementação deve ser verificada em mais de um nível.
+
+### Frequências ou histograma
+
+No caso discreto, compare
+
+$$
+\widehat p_j
+=
+\frac1N
+\sum_{i=1}^N
+I(X_i=j)
+$$
+
+com $p_j$.
+
+No caso contínuo, compare o histograma com a densidade teórica.
+
+### Função de distribuição empírica
+
+A função empírica
+
+$$
+\widehat F_N(x)
+=
+\frac1N
+\sum_{i=1}^N
+I(X_i\leq x)
+$$
+
+pode ser comparada com $F(x)$.
+
+### Momentos
+
+Se os momentos existem, compare média e variância amostrais com
+
+$$
+E(X)
+$$
+
+e
+
+$$
+\operatorname{Var}(X).
+$$
+
+### Quantis
+
+Compare quantis empíricos com quantis teóricos.
+
+### Independência
+
+Se o algoritmo pretende produzir observações iid, examine também dependência serial.
+
+::: {.callout-important title="Princípio de validação"}
+Um gráfico coerente não prova que o algoritmo está correto. A validação ideal combina:
+
+- demonstração matemática da distribuição produzida;
+- testes unitários do código;
+- comparação numérica com propriedades conhecidas;
+- inspeção de frequência, momentos e quantis.
+
+*Base bibliográfica:* @voss2014statistical [Apêndice B.3.3, pp. 290--292] enfatiza a importância de testar código; o Capítulo 1 fornece a fundamentação matemática dos algoritmos.
+:::
+
+## Funções de geração disponíveis em R
+
+Para aplicações usuais, o R já fornece geradores para muitas distribuições, por exemplo:
+
+```r
+runif()
+rnorm()
+rexp()
+rbinom()
+rpois()
+rbeta()
+rgamma()
+rchisq()
+rt()
+```
+
+O propósito de implementar manualmente os algoritmos neste capítulo é **didático**: compreender como números uniformes podem ser transformados em variáveis de outras distribuições.
+
+> **Base bibliográfica:** @voss2014statistical [Apêndice B.4, pp. 292--294] discute geração aleatória em R.
+
+::: {.callout-warning title="Observação"}
+Em trabalho aplicado, não se deve substituir automaticamente os geradores consolidados da linguagem por versões didáticas escritas à mão. As implementações de bibliotecas podem selecionar algoritmos diferentes conforme os valores dos parâmetros e lidar com dificuldades numéricas específicas.
+:::
+
+## Como escolher um método
+
+| Situação | Método natural | Observação |
+|---|---|---|
+| CDF com inversa simples | transformação inversa | conceitualmente simples |
+| Distribuição discreta pequena | inversão acumulativa | fácil de implementar |
+| Distribuição discreta fixa com muitas gerações | *alias* / tabela | custo de pré-processamento |
+| Alvo dominável por distribuição simples | aceitação-rejeição | eficiência $=1/c$ |
+| Distribuição expressa como mistura | composição | selecionar componente e gerar condicionalmente |
+| Relação conhecida entre distribuições | transformação | pode ser extremamente eficiente |
+| Normal padrão | Box--Muller, polar ou métodos especializados | mais eficiente que inversão analítica direta |
+| Distribuição truncada com quantil disponível | inversão restrita | evita rejeições |
+| Densidade conhecida até constante | razão de uniformes ou rejeição | depende da geometria |
+| Vetor normal | Cholesky | preserva covariance desejada |
+
+> **Base bibliográfica:** síntese baseada em @kroese2011handbook [Capítulos 3--4] e @voss2014statistical [Capítulos 1--2].
+
+
+# Síntese
+
+::: {.callout-note title="Síntese"}
+A geração de variáveis aleatórias parte de uma fonte de números uniformes e constrói uma transformação que produz a distribuição desejada. No método inverso,
+
+$$
+X
+=
+F^{-1}(U).
+$$
+
+No método de aceitação-rejeição,
+
+$$
+Y\sim g
+$$
+
+é aceito com probabilidade
+
+$$
+\frac{
+f(Y)
+}{
+c\,g(Y)
+},
+$$
+
+e a taxa de aceitação é
+
+$$
+\frac1c.
+$$
+
+No método de composição, primeiro seleciona-se uma componente $I$ com probabilidades $\alpha_i$ e depois se gera
+
+$$
+X\sim F_I.
+$$
+
+Métodos especializados exploram relações entre distribuições, como:
+
+$$
+\operatorname{Bin}(n,p)
+=
+\sum_{i=1}^n
+\operatorname{Ber}(p),
+$$
+
+a transformação Box--Muller para a normal e a decomposição de Cholesky para a normal multivariada.
+
+A escolha do método depende não apenas da validade matemática, mas também de custo computacional, estabilidade numérica, parâmetros da distribuição e número de observações a serem geradas.
+:::
+
+# Exercícios
+
+::: {.callout-caution title="Exercício 1 — inversa discreta"}
+Considere
+
+$$
+P(X=1)=0{,}20,
+\quad
+P(X=2)=0{,}15,
+\quad
+P(X=3)=0{,}25,
+\quad
+P(X=4)=0{,}40.
+$$
+
+1. Construa a CDF.
+2. Escreva a inversa generalizada.
+3. Implemente o algoritmo em R.
+4. Gere $N=100\,000$ valores e compare as frequências com as probabilidades teóricas.
+:::
+
+::: {.callout-caution title="Exercício 2 — busca ordenada por probabilidade"}
+Use a mesma distribuição do Exercício 1.
+
+1. Reordene as categorias pelas probabilidades decrescentes.
+2. Implemente uma busca sequencial nessa nova ordem.
+3. Conte o número médio de comparações.
+4. Compare com a ordem natural $1,2,3,4$.
+5. Explique por que o algoritmo reordenado já não deve ser interpretado como uma busca direta na CDF em ordem de $x$.
+:::
+
+::: {.callout-caution title="Exercício 3 — geométrica"}
+Derive, usando transformação inversa, um gerador para
+
+$$
+P(X=k)
+=
+p(1-p)^{k-1},
+\qquad
+k=1,2,\ldots.
+$$
+
+Implemente o método e compare:
+
+$$
+\bar X
+$$
+
+com
+
+$$
+E(X)=\frac1p.
+$$
+
+*Base de leitura:* @kroese2011handbook [Seção 4.1.3, pp. 91--92].
+:::
+
+::: {.callout-caution title="Exercício 4 — Poisson"}
+Implemente o algoritmo de inversão recursiva para
+
+$$
+\lambda
+\in
+\{0{,}5,\;3,\;10,\;50,\;100\}.
+$$
+
+Para cada valor:
+
+1. gere $10^4$ observações;
+2. registre o tempo;
+3. compare média e variância com $\lambda$;
+4. explique por que o custo cresce.
+
+Compare com `rpois()`.
+
+*Base de leitura:* @kroese2011handbook [Seção 4.1.7, pp. 98--101].
+:::
+
+::: {.callout-caution title="Exercício 5 — binomial"}
+Implemente
+
+$$
+X
+=
+\sum_{i=1}^nB_i,
+\qquad
+B_i\sim\operatorname{Ber}(p).
+$$
+
+Compare a distribuição simulada com `rbinom()` para diferentes valores de $n$.
+
+*Baseado em @kroese2011handbook [Algoritmo 4.2, pp. 88--89].*
+:::
+
+::: {.callout-caution title="Exercício 6 — aceitação-rejeição discreta"}
+Use a distribuição
+
+$$
+p
+=
+(0{,}11,0{,}12,0{,}09,0{,}08,0{,}12,
+0{,}10,0{,}09,0{,}09,0{,}10,0{,}10).
+$$
+
+1. Use proposta uniforme.
+2. Calcule $c$.
+3. Estime empiricamente a taxa de aceitação.
+4. Compare o número médio de propostas com $c$.
+5. Repita artificialmente com $c=2{,}4$ e compare a eficiência.
+:::
+
+::: {.callout-caution title="Exercício 7 — escolha da proposta"}
+Para a densidade
+
+$$
+f(x)=2x,
+\qquad
+0<x<1,
+$$
+
+use duas propostas diferentes que satisfaçam a condição de envelope.
+
+Calcule $c$ em cada caso e compare as taxas de aceitação.
+:::
+
+::: {.callout-caution title="Exercício 8 — composição"}
+Reproduza a mistura
+
+$$
+P(X=j)
+=
+\begin{cases}
+0{,}05, & j=1,\ldots,5,\\
+0{,}15, & j=6,\ldots,10.
+\end{cases}
+$$
+
+1. Implemente corretamente usando dois uniformes independentes.
+2. Implemente a versão incorreta que reutiliza $U_1$ no primeiro ramo.
+3. Compare graficamente as duas distribuições empíricas.
+4. Explique a origem do erro.
+:::
+
+::: {.callout-caution title="Exercício 9 — exponencial por inversão"}
+Derive e implemente o gerador
+
+$$
+X
+=
+-\frac1\lambda\log U.
+$$
+
+Compare média e variância simuladas com
+
+$$
+E(X)=\frac1\lambda
+$$
+
+e
+
+$$
+\operatorname{Var}(X)=\frac1{\lambda^2}.
+$$
+:::
+
+::: {.callout-caution title="Exercício 10 — Box--Muller"}
+Implemente Box--Muller para gerar $10^5$ valores de $N(0,1)$.
+
+Verifique:
+
+- média;
+- variância;
+- histograma;
+- gráfico quantil-quantil;
+- correlação entre os pares $(Z_1,Z_2)$ produzidos pelo mesmo par de uniformes.
+
+*Base de leitura:* @kroese2011handbook [Seção 4.2.11, pp. 122--125].
+:::
+
+::: {.callout-caution title="Exercício 11 — exponencial truncada"}
+Gere valores de
+
+$$
+X\sim\operatorname{Exp}(1)
+$$
+
+condicionados a
+
+$$
+0\leq X\leq2
+$$
+
+por:
+
+1. aceitação-rejeição;
+2. transformação inversa da distribuição truncada.
+
+Compare o número médio de uniformes utilizados.
+
+*Baseado em @kroese2011handbook [Algoritmo 3.3 e Exemplo 3.5, pp. 50--51].*
+:::
+
+::: {.callout-caution title="Exercício 12 — método alias"}
+Pesquise a Seção 3.1.4 de @kroese2011handbook [pp. 56--58].
+
+1. Explique a etapa de pré-processamento.
+2. Explique por que cada geração exige uma escolha de coluna e uma segunda decisão binária.
+3. Compare conceitualmente sua complexidade por observação com a busca sequencial.
+:::
+
+::: {.callout-caution title="Exercício 13 — normal multivariada"}
+Considere
+
+$$
+\mu
+=
+\begin{pmatrix}
+0\\
+1
+\end{pmatrix}
+$$
+
+e
+
+$$
+\Sigma
+=
+\begin{pmatrix}
+1 & 0{,}8\\
+0{,}8 & 2
+\end{pmatrix}.
+$$
+
+1. Calcule uma decomposição de Cholesky de $\Sigma$.
+2. Gere $10^5$ vetores normais.
+3. Compare a média e a matriz de covariâncias empíricas com $\mu$ e $\Sigma$.
+
+*Base de leitura:* @voss2014statistical [Seção 2.1, pp. 41--45] e @kroese2011handbook [Seção 4.3.3, pp. 143--147].
+:::
+
+# Referências {.unnumbered}

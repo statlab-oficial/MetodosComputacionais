@@ -184,17 +184,7 @@ Desenvolver competências teóricas e computacionais para compreensão, implemen
 
 - interpretação e diagnóstico dos resultados.
 
-### Unidade VIII – Aplicações modernas em Estatística Computacional {.unnumbered}
 
-- planejamento de estudos computacionais;
-
-- comparação empírica de estimadores e procedimentos estatísticos;
-
-- avaliação de viés, variância, erro quadrático médio e cobertura;
-
-- reprodutibilidade em experimentos computacionais;
-
-- documentação e comunicação de resultados.
 
 ## METODOLOGIA {.unnumbered}
 
@@ -235,7 +225,6 @@ Serão considerados:
 ## BIBLIOGRAFIA COMPLEMENTAR {.unnumbered}
 
 1.  DAVIDSON, A. C.; HINKLEY, D. V. Bootstrap Methods and their Application. New York: Cambridge University Press,
-
 
 2.  AQUINO, J. ALVES. R para cientistas sociais. \<http://www.uesc.br/editora/livrosdigitais_20140513/r_cie ntistas.pdf\>
 

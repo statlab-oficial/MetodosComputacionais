@@ -23,229 +23,1868 @@ Na Estatística, os métodos de Monte Carlo são utilizados para:
 
 - estimar poder de testes de hipóteses.
 
-## Uso de Números Aleatórios na Avaliação de Integrais
+A ideia fundamental, dos métodos de Monte Carlo, é simples: quando uma quantidade pode ser escrita como uma esperança,
 
-Uma das primeiras aplicações do uso de números aleatórios foi na resolução de integrais. Considere uma função $g(x)$ e suponha que desejamos calcular uma integral de interesse.
+$$
+I = E[h(X)],
+$$
 
-$$\theta = \int\limits_{0}^{1}g(x) dx.$$
+podemos gerar realizações independentes
 
-Para calcular o valor da integral, observe que, se $U$ é uma variável aleatória com distribuição uniforme no intervalo $(0, 1)$, então podemos reescrever a integral da seguinte forma:
+$$
+X_1,\ldots,X_N
+$$
 
-$$\theta = E[g(U)].$$ Se $U_1, U_2, \dots,  U_n$ são variáveis aleatórias independentes e uniformes em $(0, 1)$, então as variáveis $g(U_1), g(U_2), \dots,  g(U_n)$ são indepedentes e identicamente distribuídas, todas com esperança igual $\theta$ (o valor da integral). Assim, pelo **Teorema da Lei Forte dos Grandes Números**, temos que, com probabilidade 1,
+com a mesma distribuição de $X$ e aproximar $I$ pela média
 
-$$\frac{1}{n}\sum\limits_{i=1}^{n}g(U_i) \to \theta \quad \text{quando} \quad n \to \infty.$$
+$$
+\widehat I_N
+=
+\frac{1}{N}
+\sum_{j=1}^N h(X_j).
+$$
 
-Assim, podemos aproximar o valor da integral gerando um grande número de pontos aleatórios $u_i$ no intervalo $(0, 1)$ e tomando como estimativa a média dos valores $g(u_i)$. Esse procedimento de aproximação de integrais é conhecido como método de **Monte Carlo**.
+A simplicidade dessa construção esconde uma grande generalidade. A mesma estrutura permite aproximar integrais, probabilidades, momentos, funções de risco e outras quantidades difíceis de calcular analiticamente. Além disso, simulações repetidas de conjuntos de dados permitem estudar viés, variância, erro quadrático médio, cobertura de intervalos, nível e poder de procedimentos estatísticos.
 
-Se quisermos calcular uma integral mais geral, podemos aplicar a mesma ideia: transformar o problema em uma esperança matemática e, em seguida, aproximá-la por meio de médias amostrais obtidas a partir de números aleatórios. Considere:
+> **Base bibliográfica:** a estrutura conceitual principal deste capítulo segue @voss2014statistical [Capítulo 3, pp. 69--108], @kroese2011handbook [especialmente Capítulos 1, 8--10], @rubinstein2008simulation [Capítulos 2, 4 e 5], @ross2006simulation [Capítulos 3, 7 e 8] e @thulin2025modern [Capítulo 7, pp. 248--273].
 
-$$\theta = \int\limits_{a}^{b}g(x) dx.$$
+## Objetivos de aprendizagem
 
-Se quisermos calcular a integral em um intervalo genérico $(a, b)$, fazemos a substituição
+Ao final deste capítulo, espera-se que o leitor seja capaz de:
 
-$$u = \frac{x - a}{b-a}, \quad du = \frac{dx}{b-a},$$
+- distinguir números aleatórios de números pseudoaleatórios;
+- explicar o papel de uma semente e de um gerador pseudoaleatório;
+- construir um estimador de Monte Carlo para uma esperança;
+- reescrever integrais e probabilidades como esperanças;
+- demonstrar a ausência de viés e calcular a variância do estimador básico de Monte Carlo;
+- estimar o erro padrão de Monte Carlo e construir intervalos de incerteza para a aproximação;
+- determinar aproximadamente o número de simulações necessário para uma precisão desejada;
+- reconhecer a taxa de convergência $O(N^{-1/2})$;
+- diagnosticar a ineficiência do Monte Carlo direto para eventos raros;
+- aplicar amostragem por importância, variáveis antitéticas e variáveis de controle;
+- planejar estudos de simulação para avaliar estimadores, intervalos e testes estatísticos;
+- calcular o erro de Monte Carlo de medidas como viés, cobertura, nível e poder;
+- implementar procedimentos reprodutíveis em R;
+- distinguir Monte Carlo com amostras independentes de métodos MCMC.
 
-o que nos permite reescrevê-la como
+> **Base bibliográfica:** organização didática baseada em @voss2014statistical [Capítulos 1 e 3], @thulin2025modern [Seções 7.1--7.3, pp. 248--265], @kroese2011handbook [Capítulos 1, 8--10] e @rubinstein2008simulation [Capítulos 2, 4--6].
 
-$$\theta = \int\limits_{a}^{b}g(x) dx = (b-a)\int\limits_{0}^{1}g(a + (b-a)u) du.$$
 
-Definindo
+## Números aleatórios e pseudoaleatórios
 
-$$h(u) = (b-a)g(a + (b-a)u),$$
+Métodos de Monte Carlo dependem da capacidade de gerar grandes sequências de valores que se comportem, para os fins computacionais desejados, como realizações de variáveis aleatórias. Em computadores digitais, essas sequências são normalmente geradas por algoritmos determinísticos.
 
-temos
+::: {.callout-note title="Definição"}
+Um **gerador de números pseudoaleatórios** é um algoritmo determinístico que, a partir de um estado inicial ou **semente**, produz uma sequência de números concebida para apresentar propriedades estatísticas semelhantes às de uma sequência aleatória.
 
-$$\theta = \int\limits_{0}^{1}h(u) du.$$
+*Base bibliográfica:* @voss2014statistical [Seção 1.1, pp. 2--8], @kroese2011handbook [Capítulo 1] e @rubinstein2008simulation [Seção 2.2, a partir da p. 49].
+:::
 
-Assim, podemos aproximar $\theta$ gerando números aleatórios $u_1, u_2, \dots, u_n \sim U(0, 1)$ e tomando como estimativa a média
+### Gerador congruencial linear
 
-$$\frac{1}{n}\sum\limits_{i=1}^{n}h(u_i).$$ Agora, se nosso objetivo é calcular a integral:
+Um modelo histórico e didático de gerador é o **gerador congruencial linear**:
 
-$$\theta = \int\limits_{0}^{\infty}g(x) dx.$$
+$$
+X_{j+1}
+=
+(aX_j+c)\bmod m,
+$$
 
-Fazendo a mudança de variável
+em que
 
-$$u = \frac{1}{x+1}, \quad du = \frac{-dx}{(x+1)^2} = -u^2 dx.$$
+- $m$ é o módulo;
+- $a$ é o multiplicador;
+- $c$ é o incremento;
+- $X_0$ é a semente.
+
+Uma sequência em $[0,1)$ pode ser obtida por
+
+$$
+U_j=\frac{X_j}{m}.
+$$
+
+> **Base bibliográfica:** @voss2014statistical [Seção 1.1.1, pp. 2--4].
+
+::: {.callout-tip title="Interpretação"}
+O gerador é determinístico: a mesma semente produz exatamente a mesma sequência. A aleatoriedade é uma propriedade operacional da sequência para fins estatísticos, não uma indeterminação física do algoritmo.
+:::
+
+#### Implementação didática em R
+
+```{r}
+#| eval: true
+
+lcg <- function(n, x0, a, c, m) {
+  x <- numeric(n + 1)
+  x[1] <- x0
+
+  for (j in seq_len(n)) {
+    x[j + 1] <- (a * x[j] + c) %% m
+  }
+
+  data.frame(
+    iter = 0:n,
+    x = x,
+    u = x / m
+  )
+}
+
+lcg(
+  n = 10,
+  x0 = 3,
+  a = 5,
+  c = 7,
+  m = 200
+)
+```
+
+> **Base bibliográfica:** algoritmo baseado em @voss2014statistical [Algoritmo 1.2 e Seção 1.1.1, pp. 2--4].
+
+::: {.callout-warning title="Observação"}
+Geradores congruenciais simples são úteis para compreender os princípios de geração pseudoaleatória, mas não devem ser adotados automaticamente em aplicações científicas modernas. Qualidade de período, dependência serial e comportamento multidimensional são aspectos importantes de um gerador.
+
+*Base bibliográfica:* @voss2014statistical [Seções 1.1.2--1.1.3, pp. 4--8] e @kroese2011handbook [Capítulo 1].
+:::
+
+### Sementes e reprodutibilidade em R
+
+Em R, uma semente pode ser fixada com:
+
+```{r}
+set.seed(2026)
+
+runif(5)
+rnorm(5)
+```
+
+Se o código for executado novamente com a mesma semente e o mesmo ambiente de geração, a sequência produzida será reproduzível.
+
+> **Base bibliográfica:** @thulin2025modern [Seção 7.1.1, pp. 248--249].
+
+::: {.callout-tip title="Interpretação"}
+Fixar a semente não melhora a precisão estatística. Sua função é permitir que um experimento computacional seja reproduzido.
+:::
+
+## O estimador básico de Monte Carlo
+
+Seja $X$ uma variável ou vetor aleatório e seja $h$ uma função real tal que
+
+$$
+E[|h(X)|]<\infty.
+$$
+
+Queremos estimar
+
+$$
+I=E[h(X)].
+$$
+
+Se
+
+$$
+X_1,\ldots,X_N
+$$
+
+são cópias independentes de $X$, define-se
+
+$$
+\boxed{
+\widehat I_N
+=
+\frac{1}{N}
+\sum_{j=1}^N h(X_j)
+}.
+$$
+
+::: {.callout-note title="Definição"}
+O **estimador básico de Monte Carlo** para $E[h(X)]$ é a média amostral das avaliações $h(X_j)$ em realizações independentes da distribuição de $X$.
+
+*Base bibliográfica:* @voss2014statistical [Definição 3.7 e Algoritmo 3.8, pp. 74--76].
+:::
+
+A Lei Forte dos Grandes Números fornece, sob condições usuais,
+
+$$
+\widehat I_N
+\overset{q.c.}{\longrightarrow}
+I
+\qquad
+\text{quando }
+N\to\infty.
+$$
+
+Esse resultado justifica a consistência da aproximação.
+
+> **Base bibliográfica:** @voss2014statistical [Seções 3.1--3.2, pp. 69--76].
+
+## Integração de Monte Carlo
+
+Uma integral pode muitas vezes ser reescrita como uma esperança. Essa transformação é o ponto de partida da integração de Monte Carlo.
+
+### Integral em $[0,1]$
+
+Considere
+
+$$
+I
+=
+\int_0^1 g(x)\,dx.
+$$
+
+Se
+
+$$
+U\sim U(0,1),
+$$
+
+então
+
+$$
+I
+=
+E[g(U)].
+$$
 
 Logo,
 
-$$dx = -\frac{du}{u^2},$$
+$$
+\widehat I_N
+=
+\frac{1}{N}
+\sum_{j=1}^N
+g(U_j),
+\qquad
+U_j\stackrel{iid}{\sim}U(0,1).
+$$
 
-e a integral resultante é
+> **Base bibliográfica:** a representação de integrais como esperanças é uma aplicação padrão de Monte Carlo desenvolvida em @voss2014statistical [Seções 3.1--3.2] e ilustrada em R por @thulin2025modern [Seção 7.1.4, pp. 254--256]. @ross2006simulation [Capítulo 3, pp. 41--48] também apresenta o uso de números aleatórios na avaliação de integrais.
 
-$$\theta = \int\limits_{0}^{1}h(u) du,$$
+::: {.callout-important title="Exemplo: $\int_0^1 x^3\,dx$"}
+O valor exato é
 
-com
+$$
+I
+=
+\int_0^1x^3\,dx
+=
+\frac14.
+$$
 
-$$h(u) = \frac{g\left(\frac{1}{u} - 1\right)}{u^2}.$$
-
-A utilidade de empregar números aleatórios para aproximar integrais torna-se ainda mais evidente no caso de integrais multidimensionais. Suponha que $g$ seja uma função com argumento $n$-dimensional e que estejamos interessados em calcular:
-
-$$\theta = \int\limits_{0}^{1}\int\limits_{0}^{1}\dots\int\limits_{0}^{1} g(x_1, x_2, \dots, x_n)dx_1 dx_2 \dots dx_n.$$
-
-Observe que $\theta$ pode ser expresso como o seguinte valor esperado:
-
-$$\theta = E[g(U_1, U_2, \dots, U_n)],$$
-
-em que $U_1, U_2, \dots, U_n$ são variáveis aleatória independentes uniformente distribuídas no intervalo $(0, 1)$. Assim, se gerarmos $k$ conjuntos independentes, cada um formado por $n$ variáveis aleatórias independentes com distribuição uniforme em $(0, 1)$, então as variáveis
-
-$$g(U_{i1}, U_{i2}, \dots, U_{in}), \quad i = 1, 2, \dots, k,$$ serão independentes e identicamente distribuídas, todas com esperança igual a $\theta$ (o valor da integral). Portanto, podemos estimar $\theta$ por meio da média amostral:
-
-$$\hat{\theta} = \frac{1}{k}\sum\limits_{i=1}^{k}g(U_{i1}, U_{i2}, \dots, U_{in}).$$
-
-#### Exemplo {.unnumbered}
-
-Nosso objetivo é encontrar o valor aproximado da integral: $\int_{0}^{1} x^3 dx = 0.25.$
-
-```{python}
-
-```
-
-```{R}
-set.seed(2025) #fixando a semente
-n <- 100000 #quantidade de valores uniformes gerados
-u <- runif(n) #numeros uniformes (0,1)
-mean(u^3)
-```
-
-```{python}
-import numpy as np
-np.random.seed(2025)
-n = 100000
-u = np.random.uniform(0, 1, n)
-resultado = np.mean(u**3)
-
-print(resultado)
-```
-
-#### Exercícios {.unnumbered}
-
-1.  Se $x_0 = 5$ e $x_n = 3x_{n-1}\, \text{mod}\, 150$, encontre $x_1, x_2, \dots, x_{30}$.
-
-2.  Se $x_0 = 3$ e $x_n = (5x_{n-1} + 7)\, \text{mod}\, 200$, encontre $x_1, x_2, \dots, x_{10}$.
-
-3.  Compare sua estimativa com o valor exato:
-
-- $\int_{0}^{1} \exp\{{e^x}\} dx$.
-
-- $\int_{0}^{1} (1 - x^2)^{3/2} dx$.
-
-- $\int_{-2}^{2} \exp\{x + x^2\} dx$.
-
-- $\int_{0}^{\infty} x(1 + x^2)^{-2} dx$.
-
-- $\int_{-\infty}^{\infty} \exp\{-x^2\} dx$.
-
-- $\int_{0}^{1}\int_{0}^{1} \exp\{(x+y)^2\} dy dx$.
-
-- $\int_{0}^{\infty}\int_{0}^{x} \exp\{-(x+y)\} dydx$.
-
-4.  Use simulação para encontrar o valor aproximado de $Cov(U, e^U)$, em que $U$ é uniforme em $(0,1)$. Compare seu resultado com o valor exato.
-
-### Estimativa de Probabilidades via Monte Carlo {.unnumbered}
-
-O método de Monte Carlo permite aproximar integrais complexas e, consequentemente, probabilidades, ao tratar o problema como o cálculo de uma esperança matemática.
-
-Para qualquer evento $A$, a probabilidade $P(X \in A)$ pode ser expressa como a esperança da função indicadora $I_A(X)$, em que $I_A(X) = 1$ se $x \in A$ e $0$ caso contrário. Pela Lei Forte dos Grandes Números, a média aritmética de uma amostra independente e identicamente distribuída (i.i.d.) converge para o valor real da esperança conforme o tamanho da amostra, $n$, aumenta
-
-$$\hat{P}_n = \frac{1}{n}\sum\limits_{i=1}^{n}I_A(X_i) \to  P(X \in A).$$
-
-#### Precisão e Erro Padrão {.unnumbered}
-
-Como $\hat P$ é a média de variáveis Bernoulli, sua variância teórica é dada por $Var(\hat P) = \frac{P(1-P)}{n}$. De acordo com o Teorema Central do Limite, para um $n$ suficientemente grande, o erro da estimativa distribui-se aproximadamente como uma distribuição Normal, permitindo calcular o erro padrão da simulação.
-
-##### Exemplo: $P(X>2.5)$, com $X\sim N(0,1)$ {.unnumbered}
-
-No `R`, a estimativa é realizada de forma eficiente através da vetorização, evitando laços lentos. Para eventos nas caudas (eventos raros), é essencial monitorar a estabilidade da estimativa.
+Uma aproximação de Monte Carlo é:
 
 ```{r}
-set.seed(20262) # Garante a reprodutibilidade
-n <- 1e6
-x <- rnorm(n)
+set.seed(2025)
 
-# Estimativa de Monte Carlo
-indicadora <- x > 2.5
-p_hat <- mean(indicadora)
+N <- 100000
+u <- runif(N)
 
-# Cálculo do Erro Padrão
-erro_padrao <- sqrt(p_hat * (1 - p_hat) / n)
-
-# Resultados
-cat("Estimativa:", p_hat, "\n")
-cat("Erro Padrão:", erro_padrao, "\n")
-cat("Intervalo de Confiança (95%): [", p_hat - 1.96*erro_padrao, ",", p_hat + 1.96*erro_padrao, "]\n")
+I_hat <- mean(u^3)
+I_hat
 ```
 
-> Embora o método de Monte Carlo direto seja robusto, ele pode ser ineficiente para probabilidades muito pequenas, exigindo um $n$ astronômico para obter precisão relativa. Nesses casos, técnicas como a Amostragem de Importância podem ser utilizadas para reduzir a variância, simulando de uma distribuição que enfatize a região de interesse (neste caso, valores $> 2{,}5$)
+A estimativa tende a se aproximar de $0{,}25$ quando $N$ cresce.
 
-### Erro e Convergência de Monte Carlo
+*Base bibliográfica:* exemplo computacional baseado na formulação de @voss2014statistical [Capítulo 3].
+:::
 
-O objetivo fundamental da integração de Monte Carlo é estimar a esperança matemática $I = E_f[h(X)] = \int_{\mathcal{X}} h(x)f(x)dx$. O estimador de Monte Carlo, $\bar h_n$, é a média aritmética de uma amostra $X_1, \dots, X_n$ gerada a partir da densidade $f$:
+### Integral em um intervalo $(a,b)$
 
-$$\bar h_n = \frac{1}{n} \sum\limits_{i=1}^{n} h(X_j).$$
+Para
 
-Note que a validade desta aproximação possui pilares da teoria das probabilidades.
+$$
+I
+=
+\int_a^b g(x)\,dx,
+$$
 
-1.  Lei Forte dos Grandes Números: garante que $\bar h_n$ converge quase certamente para o valor real $I$ conforme $n \to \infty$.
+faça
 
-2.  Teorema Central do Limite (TCL): Afirma que, para $n$ grande, o erro de integração $\bar h_n - I$ possui distribuição aproximadamente normal com média $0$ e variância $\sigma^2/n$.
+$$
+x
+=
+a+(b-a)u,
+\qquad
+u\in(0,1).
+$$
 
-Como a variância populacional $\sigma^2 = Var(h(X))$ é geralmente desconhecida, nós estimamos a partir da amostra para avaliar a precisão do método:
+Então
 
-com estimador de Monte Carlo: $\bar h_n$. A Variância do estimador de Monte Carlo é dada por:
+$$
+dx
+=
+(b-a)\,du
+$$
 
-$$\widehat{\operatorname{Var}}(h(X))
-= \frac{1}{n}\sum_{j=1}^n \bigl(h(x_j) - \bar h_n\bigr)^2.$$
+e
 
-Consequentemente, a variância do estimador da média, $Var(\bar h_n)$ é estimada por:
+$$
+I
+=
+(b-a)
+\int_0^1
+g(a+(b-a)u)\,du.
+$$
 
-$$v_n = \frac{\widehat{\operatorname{Var}}(\bar h_n)}{n} 
-= \frac{1}{n^2}\sum_{j=1}^n \bigl(h(x_j) - \bar h_n\bigr)^2.$$
+Portanto,
 
-O erro padrão, $\sqrt{v_n}$, é a medida padrão da variabilidade do estimador. É importante notar que a precisão de Monte Carlo melhora a uma taxa de $O(n^{-1/2})$, o que significa que para reduzir o erro pela metade, é necessário quadruplicar o número de simulações.
+$$
+I
+=
+E[h(U)],
+$$
 
-Uma prática recomendada é monitorar a evolução da estimativa e das bandas de erro conforme $n$ aumenta. As bandas baseadas em $\pm1.96 \sqrt{v_n}$ representam um intervalo de confiança de 95% para a estimativa em cada ponto da iteração.
+onde
 
-> *Nota de cautela:* Estas bandas indicam a confiança na estimativa se a simulação fosse interrompida naquele valor de $n$. Elas não garantem que a trajetória inteira do estimador permanecerá dentro desses limites em uma nova execução.
+$$
+h(U)
+=
+(b-a)
+g(a+(b-a)U).
+$$
+
+O estimador é
+
+$$
+\widehat I_N
+=
+\frac{b-a}{N}
+\sum_{j=1}^N
+g(a+(b-a)U_j).
+$$
+
+### Integral em $(0,\infty)$
+
+Para
+
+$$
+I
+=
+\int_0^\infty g(x)\,dx,
+$$
+
+uma possibilidade é usar
+
+$$
+u
+=
+\frac{1}{x+1},
+$$
+
+o que implica
+
+$$
+x
+=
+\frac{1}{u}-1
+$$
+
+e
+
+$$
+dx
+=
+-\frac{1}{u^2}\,du.
+$$
+
+Assim,
+
+$$
+I
+=
+\int_0^1
+\frac{
+g\left(\frac{1}{u}-1\right)
+}{
+u^2
+}\,du.
+$$
+
+Logo,
+
+$$
+h(u)
+=
+\frac{
+g\left(\frac{1}{u}-1\right)
+}{
+u^2
+}.
+$$
+
+::: {.callout-warning title="Observação"}
+Uma transformação matematicamente correta pode gerar um integrando com variância muito elevada. A eficiência de Monte Carlo depende de
+
+$$
+\operatorname{Var}[h(U)],
+$$
+
+e não apenas da existência da identidade integral. Para integrais de cauda, uma escolha probabilística por amostragem de importância pode ser muito mais eficiente.
+
+*Base bibliográfica:* @voss2014statistical [Seções 3.2--3.3, pp. 74--96].
+:::
+
+### Integrais multidimensionais
+
+Para
+
+$$
+I
+=
+\int_{[0,1]^d}
+g(x_1,\ldots,x_d)
+\,dx_1\cdots dx_d,
+$$
+
+se
+
+$$
+U
+=
+(U_1,\ldots,U_d)
+$$
+
+tem componentes independentes $U(0,1)$, então
+
+$$
+I=E[g(U)].
+$$
+
+Com vetores independentes
+
+$$
+U^{(1)},\ldots,U^{(N)},
+$$
+
+temos
+
+$$
+\widehat I_N
+=
+\frac{1}{N}
+\sum_{j=1}^N
+g(U^{(j)}).
+$$
+
+::: {.callout-tip title="Interpretação"}
+A taxa básica de erro de Monte Carlo continua sendo da ordem $N^{-1/2}$. Ela não exibe explicitamente uma potência dependente da dimensão como ocorre em muitas regras determinísticas de quadratura. Entretanto, isso não significa que a dimensão seja irrelevante: a variância de $g(U)$, o custo de gerar vetores e a geometria do integrando podem piorar com $d$.
+
+@thulin2025modern [pp. 254--256] observa que Monte Carlo é particularmente atraente para integrais de dimensão elevada, enquanto métodos determinísticos podem ser superiores em problemas simples de baixa dimensão.
+:::
+
+### Integração por área
+
+Outra construção é interpretar uma área como probabilidade. Para o quarto de círculo unitário,
+
+$$
+x^2+y^2\leq 1,
+\qquad
+0\leq x,y\leq1,
+$$
+
+temos
+
+$$
+P(X^2+Y^2\leq1)
+=
+\frac{\pi}{4},
+$$
+
+quando $X,Y\stackrel{iid}{\sim}U(0,1)$.
+
+```{r}
+set.seed(2026)
+
+N <- 10000
+x <- runif(N)
+y <- runif(N)
+
+mean(x^2 + y^2 <= 1)
+pi / 4
+```
+
+> **Base bibliográfica:** exemplo baseado na Seção 7.1.4 de @thulin2025modern [pp. 254--256].
+
+## Estimação de probabilidades
+
+Se $A$ é um evento, sua função indicadora é
+
+$$
+I_A(X)
+=
+\begin{cases}
+1, & X\in A,\\
+0, & X\notin A.
+\end{cases}
+$$
+
+Como
+
+$$
+P(X\in A)
+=
+E[I_A(X)],
+$$
+
+a probabilidade pode ser estimada por
+
+$$
+\widehat p_N
+=
+\frac{1}{N}
+\sum_{j=1}^N
+I_A(X_j).
+$$
+
+> **Base bibliográfica:** @voss2014statistical [Seção 3.1 e Exemplo 3.18, pp. 71--72 e 81].
+
+Como as indicadoras são Bernoulli,
+
+$$
+E(\widehat p_N)=p
+$$
+
+e
+
+$$
+\operatorname{Var}(\widehat p_N)
+=
+\frac{p(1-p)}{N}.
+$$
+
+Uma estimativa do erro padrão é
+
+$$
+\widehat{ep}_{MC}(\widehat p_N)
+=
+\sqrt{
+\frac{
+\widehat p_N(1-\widehat p_N)
+}{
+N
+}
+}.
+$$
+
+::: {.callout-important title="Exemplo: probabilidade de cauda normal"}
+Considere
+
+$$
+X\sim N(0,1)
+$$
+
+e
+
+$$
+p=P(X>2{,}5).
+$$
+
+```{r}
+set.seed(20262)
+
+N <- 1e6
+x <- rnorm(N)
+
+p_hat <- mean(x > 2.5)
+
+se_mc <- sqrt(
+  p_hat * (1 - p_hat) / N
+)
+
+c(
+  estimate = p_hat,
+  mc_se = se_mc,
+  exact = pnorm(2.5, lower.tail = FALSE)
+)
+```
+
+Um intervalo assintótico de Monte Carlo é
+
+$$
+\widehat p_N
+\pm
+1{,}96
+\widehat{ep}_{MC}.
+$$
+
+*Base bibliográfica:* @voss2014statistical [Exemplo 3.18 e Seção 3.2.4, pp. 81--84].
+:::
+
+## Erro de Monte Carlo
+
+Defina
+
+$$
+Y_j=h(X_j)
+$$
+
+e
+
+$$
+\sigma^2
+=
+\operatorname{Var}[h(X)]<\infty.
+$$
+
+O estimador é
+
+$$
+\widehat I_N
+=
+\bar Y_N.
+$$
+
+### Viés, variância e MSE
+
+Como
+
+$$
+E(\widehat I_N)
+=
+I,
+$$
+
+o estimador básico é não viesado:
+
+$$
+\operatorname{bias}(\widehat I_N)=0.
+$$
+
+Por independência,
+
+$$
+\operatorname{Var}(\widehat I_N)
+=
+\frac{\sigma^2}{N}.
+$$
+
+Portanto,
+
+$$
+\operatorname{MSE}(\widehat I_N)
+=
+\frac{\sigma^2}{N}
+$$
+
+e
+
+$$
+\operatorname{RMSE}(\widehat I_N)
+=
+\frac{\sigma}{\sqrt N}.
+$$
+
+> **Base bibliográfica:** @voss2014statistical [Proposição 3.14, pp. 77--80].
+
+::: {.callout-note title="Resultado central"}
+A precisão do Monte Carlo básico melhora à taxa
+
+$$
+O(N^{-1/2}).
+$$
+
+Assim, para reduzir aproximadamente o erro pela metade, é necessário multiplicar $N$ por quatro.
+
+*Base bibliográfica:* @voss2014statistical [pp. 79--80].
+:::
+
+### Estimativa do erro padrão
+
+A variância de $Y=h(X)$ é estimada por
+
+$$
+\widehat\sigma^2
+=
+\frac{1}{N-1}
+\sum_{j=1}^N
+\left(
+Y_j-\bar Y_N
+\right)^2.
+$$
+
+Consequentemente,
+
+$$
+\widehat{\operatorname{Var}}
+(\widehat I_N)
+=
+\frac{\widehat\sigma^2}{N}
+$$
+
+e
+
+$$
+\boxed{
+\widehat{ep}_{MC}
+=
+\frac{\widehat\sigma}{\sqrt N}
+}.
+$$
+
+> **Base bibliográfica:** @voss2014statistical [Eq. 3.9, pp. 80--81].
+
+### Teorema Central do Limite
+
+Se
+
+$$
+0<\sigma^2<\infty,
+$$
+
+o Teorema Central do Limite fornece
+
+$$
+\frac{
+\sqrt N
+(\widehat I_N-I)
+}{
+\sigma
+}
+\overset{d}{\longrightarrow}
+N(0,1).
+$$
+
+Assim, para $N$ suficientemente grande,
+
+$$
+I
+\approx
+\widehat I_N
+\pm
+z_{1-\alpha/2}
+\frac{\widehat\sigma}{\sqrt N}.
+$$
+
+> **Base bibliográfica:** @voss2014statistical [Seção 3.2.4, pp. 82--84].
+
+::: {.callout-warning title="Observação"}
+A Lei Forte dos Grandes Números e o Teorema Central do Limite têm papéis distintos.
+
+- A Lei dos Grandes Números justifica a convergência da média para a esperança.
+- O TCL fornece a aproximação normal usada para quantificar o erro em escala $N^{-1/2}$ e requer condições adicionais, em particular variância finita na forma usada aqui.
+
+Se $\operatorname{Var}[h(X)]=\infty$, a média ainda pode convergir sob condições mais fracas, mas os intervalos normais e a taxa usual podem deixar de ser úteis.
+
+*Base bibliográfica:* @voss2014statistical [pp. 82--84].
+:::
+
+## Escolha do número de simulações
+
+A escolha de $N$ deve refletir a precisão desejada e o custo computacional.
+
+### Critério baseado no MSE
+
+Como
+
+$$
+\operatorname{MSE}(\widehat I_N)
+=
+\frac{\sigma^2}{N},
+$$
+
+para obter
+
+$$
+\operatorname{RMSE}
+\leq
+\varepsilon,
+$$
+
+é suficiente escolher
+
+$$
+N
+\geq
+\frac{\sigma^2}{\varepsilon^2}.
+$$
+
+> **Base bibliográfica:** @voss2014statistical [Seção 3.2.3 e Eq. 3.10, pp. 80--82].
+
+### Critério baseado em probabilidade aproximada
+
+Pelo TCL, para desejar aproximadamente
+
+$$
+P(
+|\widehat I_N-I|
+\leq
+\varepsilon
+)
+\geq
+1-\alpha,
+$$
+
+uma escolha aproximada é
+
+$$
+N
+\gtrsim
+\frac{
+z_{1-\alpha/2}^2\sigma^2
+}{
+\varepsilon^2
+}.
+$$
+
+Se $\sigma^2$ for desconhecida, uma execução piloto pode ser usada para estimá-la antes da simulação principal.
+
+> **Base bibliográfica:** @voss2014statistical [Lema 3.19 e Exemplo 3.20, pp. 82--84].
+
+::: {.callout-warning title="Observação sobre parada sequencial"}
+Interromper automaticamente a simulação assim que um erro padrão estimado fica abaixo de um limiar parece natural, mas deve ser feito com cuidado: se o próprio $N$ depende das realizações observadas, propriedades do estimador podem ser alteradas.
+
+*Base bibliográfica:* @voss2014statistical [Seção 3.2.3, pp. 81--82].
+:::
+
+## Erro relativo e eventos raros
+
+Quando $p$ é pequeno, um erro absoluto aparentemente pequeno pode representar grande incerteza relativa.
+
+Para o estimador direto
+
+$$
+\widehat p_N
+=
+\frac{1}{N}
+\sum_{j=1}^N I_A(X_j),
+$$
+
+temos aproximadamente
+
+$$
+ep(\widehat p_N)
+=
+\sqrt{
+\frac{p(1-p)}{N}
+}.
+$$
+
+O erro padrão relativo é
+
+$$
+\frac{
+ep(\widehat p_N)
+}{
+p
+}
+=
+\sqrt{
+\frac{1-p}{Np}
+}.
+$$
+
+Se $p$ é muito pequeno,
+
+$$
+\frac{
+ep(\widehat p_N)
+}{
+p
+}
+\approx
+\frac{1}{\sqrt{Np}}.
+$$
+
+::: {.callout-tip title="Interpretação"}
+O produto $Np$ é aproximadamente o número esperado de ocorrências do evento raro. Se $Np$ é pequeno, a estimativa direta será altamente instável; pode inclusive resultar em zero simplesmente porque nenhum evento ocorreu na simulação.
+:::
+
+> **Base bibliográfica:** a ineficiência do Monte Carlo direto para eventos raros e métodos específicos para esse problema são tratados em @kroese2011handbook [Capítulo 10] e @rubinstein2008simulation [Capítulo 5].
+
+## Redução de variância
+
+Aumentar $N$ reduz o erro, mas pode ser caro. Outra estratégia é construir um estimador com a mesma esperança e variância menor.
+
+> **Base bibliográfica:** @voss2014statistical [Seção 3.3, pp. 84--96], @kroese2011handbook [Capítulo 9, pp. 347--379], @rubinstein2008simulation [Capítulo 5] e @ross2006simulation [Capítulo 8].
+
+### Amostragem por importância
+
+Suponha que
+
+$$
+I
+=
+E_f[h(X)]
+=
+\int
+h(x)f(x)\,dx.
+$$
+
+Escolha uma densidade auxiliar $q$ tal que
+
+$$
+q(x)>0
+$$
+
+sempre que
+
+$$
+h(x)f(x)\neq0.
+$$
+
+Então
+
+$$
+I
+=
+\int
+h(x)
+\frac{f(x)}{q(x)}
+q(x)\,dx
+=
+E_q
+\left[
+h(Y)
+\frac{f(Y)}{q(Y)}
+\right],
+$$
+
+onde
+
+$$
+Y\sim q.
+$$
+
+O estimador é
+
+$$
+\boxed{
+\widehat I_{IS}
+=
+\frac{1}{N}
+\sum_{j=1}^N
+h(Y_j)
+\frac{
+f(Y_j)
+}{
+q(Y_j)
+}
+}.
+$$
+
+> **Base bibliográfica:** @voss2014statistical [Seção 3.3.1 e Algoritmo 3.22, pp. 84--88].
+
+::: {.callout-tip title="Interpretação"}
+A densidade $q$ deve gerar mais observações nas regiões que contribuem fortemente para a integral. Os pesos
+
+$$
+w(y)
+=
+\frac{f(y)}{q(y)}
+$$
+
+corrigem a mudança da distribuição de amostragem.
+:::
+
+#### Exemplo: cauda normal rara
+
+Considere
+
+$$
+p=P(X>4),
+\qquad
+X\sim N(0,1).
+$$
+
+No Monte Carlo direto, simulam-se valores de $N(0,1)$. Em amostragem por importância, podemos gerar
+
+$$
+Y\sim N(4,1)
+$$
+
+e usar o peso de verossimilhança.
+
+```{r}
+#| eval: true
+
+set.seed(2026)
+
+N <- 100000
+
+# Monte Carlo direto
+x <- rnorm(N)
+direct <- as.numeric(x > 4)
+
+p_direct <- mean(direct)
+se_direct <- sd(direct) / sqrt(N)
+
+# Importance sampling
+y <- rnorm(N, mean = 4, sd = 1)
+
+w <- dnorm(y, mean = 0, sd = 1) /
+     dnorm(y, mean = 4, sd = 1)
+
+z <- as.numeric(y > 4) * w
+
+p_is <- mean(z)
+se_is <- sd(z) / sqrt(N)
+
+rbind(
+  direct = c(estimate = p_direct, se = se_direct),
+  importance = c(estimate = p_is, se = se_is),
+  exact = c(
+    estimate = pnorm(4, lower.tail = FALSE),
+    se = NA
+  )
+)
+```
+
+A comparação relevante é entre os erros padrão obtidos para o mesmo $N$.
+
+*Base bibliográfica:* construção baseada em @voss2014statistical [Seção 3.3.1, pp. 84--88] e na discussão de eventos raros de @kroese2011handbook [Capítulo 10].
+:::
+
+::: {.callout-warning title="Observação"}
+Uma escolha ruim de $q$ pode aumentar a variância e, em casos extremos, produzir pesos altamente instáveis ou variância infinita. Amostragem por importância não é automaticamente superior ao Monte Carlo direto.
+
+*Base bibliográfica:* @kroese2011handbook [Capítulos 9--10].
+:::
+
+### Variáveis antitéticas
+
+O método de variáveis antitéticas cria amostras marginalmente corretas, mas negativamente correlacionadas.
+
+Se
+
+$$
+U\sim U(0,1),
+$$
+
+então
+
+$$
+1-U\sim U(0,1).
+$$
+
+Para uma função monotônica $h$, os valores
+
+$$
+h(U)
+\qquad\text{e}\qquad
+h(1-U)
+$$
+
+podem apresentar covariância negativa.
+
+O estimador por pares é
+
+$$
+\widehat I_A
+=
+\frac{1}{M}
+\sum_{j=1}^M
+\frac{
+h(U_j)+h(1-U_j)
+}{2}.
+$$
+
+> **Base bibliográfica:** @voss2014statistical [Seção 3.3.2 e Algoritmo 3.26, pp. 88--93].
+
+#### Exemplo com $h(u)=u^3$
+
+```{r}
+#| eval: true
+
+set.seed(2026)
+
+M <- 50000
+u <- runif(M)
+
+mc_pair <- (u^3 + runif(M)^3) / 2
+anti_pair <- (u^3 + (1 - u)^3) / 2
+
+c(
+  se_independent_pairs =
+    sd(mc_pair) / sqrt(M),
+
+  se_antithetic_pairs =
+    sd(anti_pair) / sqrt(M)
+)
+```
+
+Como $u^3$ é crescente, o pareamento $u$ e $1-u$ induz uma forte compensação entre valores altos e baixos.
+
+### Variáveis de controle
+
+Suponha que queremos estimar
+
+$$
+I=E[Y]
+$$
+
+e dispomos de uma variável $C$ correlacionada com $Y$ cuja esperança
+
+$$
+\mu_C=E[C]
+$$
+
+é conhecida.
+
+Considere
+
+$$
+Y_\beta
+=
+Y
+-
+\beta(C-\mu_C).
+$$
+
+Como
+
+$$
+E(C-\mu_C)=0,
+$$
+
+temos
+
+$$
+E(Y_\beta)=E(Y)=I.
+$$
+
+A escolha ótima, quando as covariâncias são conhecidas, é
+
+$$
+\beta^\star
+=
+\frac{
+\operatorname{Cov}(Y,C)
+}{
+\operatorname{Var}(C)
+}.
+$$
+
+> **Base bibliográfica:** @voss2014statistical [Seção 3.3.3, pp. 93--96].
+
+#### Exemplo: novamente $\int_0^1u^3\,du$
+
+Tome
+
+$$
+Y=U^3
+$$
+
+e
+
+$$
+C=U.
+$$
+
+Sabemos que
+
+$$
+E(U)=\frac12.
+$$
+
+Além disso,
+
+$$
+\beta^\star
+=
+\frac{
+\operatorname{Cov}(U^3,U)
+}{
+\operatorname{Var}(U)
+}
+=
+0{,}9.
+$$
+
+Logo,
+
+$$
+\widehat I_{CV}
+=
+\frac{1}{N}
+\sum_{j=1}^N
+\left[
+U_j^3
+-
+0{,}9
+\left(U_j-\frac12\right)
+\right].
+$$
+
+```{r}
+#| eval: true
+
+set.seed(2026)
+
+N <- 100000
+u <- runif(N)
+
+y <- u^3
+
+y_cv <- u^3 -
+  0.9 * (u - 0.5)
+
+c(
+  estimate_mc = mean(y),
+  se_mc = sd(y) / sqrt(N),
+  estimate_cv = mean(y_cv),
+  se_cv = sd(y_cv) / sqrt(N),
+  exact = 1 / 4
+)
+```
+
+> **Base bibliográfica:** exemplo baseado no método de variáveis de controle de @voss2014statistical [Seção 3.3.3].
+
+### Outras técnicas importantes
+
+@kroese2011handbook [Capítulo 9] apresenta, além das três técnicas anteriores:
+
+- Monte Carlo condicional;
+- estratificação;
+- amostragem por hipercubo latino;
+- Quasi-Monte Carlo.
+
+@rubinstein2008simulation [Capítulo 5] discute também o uso de números aleatórios comuns para comparar sistemas ou configurações.
+
+::: {.callout-warning title="Observação"}
+Essas técnicas não são desenvolvidas em detalhe neste capítulo introdutório. Para um curso de mestrado, **estratificação, Monte Carlo condicional e Quasi-Monte Carlo** são extensões naturais após as três técnicas básicas.
+:::
+
+## Monitoramento da convergência
+
+Considere, para $k=1,\ldots,N$,
+
+$$
+\widehat I_k
+=
+\frac{1}{k}
+\sum_{j=1}^kY_j.
+$$
+
+Traçar $\widehat I_k$ ao longo de $k$ é uma forma útil de visualizar o comportamento da simulação.
+
+Para cada $k$, uma banda aproximada pontual é
+
+$$
+\widehat I_k
+\pm
+1{,}96
+\frac{
+\widehat\sigma_k
+}{
+\sqrt{k}
+}.
+$$
+
+::: {.callout-warning title="Observação"}
+Essas bandas são **pontuais**. Elas quantificam a incerteza de uma estimativa se a simulação fosse interrompida naquele $k$. Não constituem uma banda simultânea que deva conter toda a trajetória com probabilidade 95%.
+:::
+
+### Exemplo
+
+Considere
+
+$$
+h(x)
+=
+(\cos(50x)+\sin(20x))^2,
+\qquad
+X\sim U(0,1).
+$$
+
+O valor da integral é aproximadamente
+
+$$
+I=0{,}965200936.
+$$
 
 ```{r}
 set.seed(1234)
-n <- 1e3
-x <- runif(n)
-h <- (cos(50*x) + sin(20*x))^2
 
-# Estimativas acumuladas (vetorizadas para eficiência no R)
-hbn <- cumsum(h) / (1:n)
-# Variância acumulada do estimador da média
-# Nota: usando a fórmula de soma de quadrados para v_n
-vn  <- (cumsum(h^2) / (1:n) - hbn^2) / (1:n)
+N <- 10000
+x <- runif(N)
 
-# Intervalo de Confiança Assintótico (95%)
-erro_padrao <- sqrt(vn)
-LI <- hbn - 1.96 * erro_padrao
-LS <- hbn + 1.96 * erro_padrao
+y <- (cos(50 * x) + sin(20 * x))^2
 
-# Valor verdadeiro da integral para comparação
-I_true <- 0.965201
+k <- seq_len(N)
 
-# Visualização da Convergência
-plot(hbn, type = "l", lwd = 2, xlab = "Número de iterações (n)",
-     ylab = expression(bar(h)[n]),
-     main = "Convergência de Monte Carlo com Bandas",
-     ylim = range(c(LI, LS), na.rm = TRUE))
+I_hat <- cumsum(y) / k
 
-lines(LI, col = "red", lty = 2)
-lines(LS, col = "red", lty = 2)
-abline(h = I_true, col = "blue", lwd = 2)
+sum_y2 <- cumsum(y^2)
 
-legend("topright", 
-       legend = c("Estimativa Acumulada", "IC 95% (Assintótico)", "Valor Real"),
-       col = c("black", "red", "blue"), lty = c(1, 2, 1), lwd = c(2, 1, 2), bty = "n")
+# variância amostral acumulada para k >= 2
+s2 <- rep(NA_real_, N)
+
+s2[-1] <- (
+  sum_y2[-1] -
+  k[-1] * I_hat[-1]^2
+) / (k[-1] - 1)
+
+se <- sqrt(s2 / k)
+
+LI <- I_hat - 1.96 * se
+LS <- I_hat + 1.96 * se
+
+I_true <- 0.9652009360501453
+
+plot(
+  k,
+  I_hat,
+  type = "l",
+  xlab = "Número de simulações",
+  ylab = expression(hat(I)[k])
+)
+
+lines(k, LI, lty = 2)
+lines(k, LS, lty = 2)
+
+abline(
+  h = I_true,
+  lwd = 2
+)
 ```
 
-## Simulações de Monte Carlo em Inferência
+A fórmula usada no código emprega a variância amostral com denominador $k-1$, em concordância com a estimativa apresentada em @voss2014statistical [Eq. 3.9, pp. 80--81].
 
-Simulações de Monte Carlo têm como objetivo estudar as propriedades de técnicas de inferência estatística. No essencial, uma simulação de Monte Carlo funciona aplicando essas técnicas a amostras repetidamente geradas a partir de um processo de geração de dados previamente especificado.
+## Estudos de simulação em Estatística
+
+Monte Carlo também é usado para responder uma pergunta diferente: **como um procedimento estatístico se comportaria se o experimento amostral fosse repetido muitas vezes sob um modelo conhecido?**
+
+Esse uso exige distinguir dois tamanhos:
+
+- $n$: tamanho da amostra estatística em cada conjunto de dados;
+- $R$: número de repetições do estudo de simulação.
+
+::: {.callout-note title="Definição"}
+Um **estudo de simulação Monte Carlo** especifica um processo gerador de dados, gera repetidamente conjuntos de dados desse processo, aplica um método estatístico em cada conjunto e resume numericamente seu desempenho.
+
+*Base bibliográfica:* @voss2014statistical [Seção 3.4, pp. 96--106] e @thulin2025modern [Seção 7.2, pp. 256--263].
+:::
+
+### Estrutura geral
+
+Para cada cenário $\psi$:
+
+1. especifique o mecanismo gerador e os parâmetros;
+2. para $r=1,\ldots,R$:
+   - gere uma amostra de tamanho $n$;
+   - calcule o estimador, intervalo ou teste;
+   - armazene as medidas de interesse;
+3. resuma o desempenho;
+4. quantifique o próprio erro de Monte Carlo das medidas estimadas.
+
+> **Base bibliográfica:** @thulin2025modern [Seções 7.2.1--7.2.5, pp. 256--263].
+
+## Avaliação de estimadores por simulação
+
+Se
+
+$$
+\hat\theta_1,\ldots,\hat\theta_R
+$$
+
+são estimativas obtidas em $R$ amostras simuladas e o parâmetro verdadeiro é $\theta$, pode-se estimar:
+
+### Viés
+
+$$
+\widehat{\operatorname{bias}}
+=
+\frac{1}{R}
+\sum_{r=1}^R
+\hat\theta_r
+-
+\theta.
+$$
+
+### Variância
+
+$$
+\widehat{\operatorname{Var}}
+=
+\frac{1}{R-1}
+\sum_{r=1}^R
+\left(
+\hat\theta_r
+-
+\bar{\hat\theta}
+\right)^2.
+$$
+
+### Erro quadrático médio
+
+$$
+\widehat{\operatorname{MSE}}
+=
+\frac{1}{R}
+\sum_{r=1}^R
+(\hat\theta_r-\theta)^2.
+$$
+
+::: {.callout-tip title="Interpretação"}
+Viés e variância medem aspectos diferentes. Um estimador pode ter viés pequeno e variabilidade elevada. O MSE combina os dois efeitos:
+
+$$
+\operatorname{MSE}
+=
+\operatorname{Var}
++
+\operatorname{bias}^2.
+$$
+
+*Base bibliográfica:* @voss2014statistical [Definições 3.9--3.11 e Lema 3.12, pp. 76--78] e @thulin2025modern [Seção 7.2.1, pp. 256--258].
+:::
+
+### Exemplo: média e mediana sob normalidade
+
+@thulin2025modern [Seção 7.2.1, pp. 256--258] compara estimadores da média normal por simulação. Uma versão compacta em R é:
+
+```{r}
+set.seed(2026)
+
+R <- 10000
+n <- 25
+
+mu <- 0
+sigma <- 1
+
+res <- replicate(R, {
+  x <- rnorm(n, mean = mu, sd = sigma)
+
+  c(
+    mean = mean(x),
+    median = median(x),
+    midrange = (min(x) + max(x)) / 2
+  )
+})
+
+res <- t(res)
+
+bias <- colMeans(res) - mu
+variance <- apply(res, 2, var)
+
+mse <- colMeans(
+  sweep(res, 2, mu, "-")^2
+)
+
+rbind(
+  bias = bias,
+  variance = variance,
+  mse = mse
+)
+```
+
+Esse tipo de simulação permite avaliar o desempenho dos estimadores no cenário especificado. A conclusão não deve ser extrapolada automaticamente para distribuições diferentes.
+
+## Cobertura de intervalos de confiança
+
+Suponha que, na repetição $r$, um procedimento produza
+
+$$
+[L_r,U_r].
+$$
+
+A cobertura é
+
+$$
+C
+=
+P_\theta(
+L\leq\theta\leq U
+).
+$$
+
+A estimativa Monte Carlo é
+
+$$
+\widehat C_R
+=
+\frac{1}{R}
+\sum_{r=1}^R
+I(L_r\leq\theta\leq U_r).
+$$
+
+> **Base bibliográfica:** @voss2014statistical [Seção 3.4.2, pp. 100--103].
+
+Como cada indicador é Bernoulli, o erro padrão Monte Carlo da cobertura estimada é aproximadamente
+
+$$
+\widehat{ep}_{MC}
+(\widehat C_R)
+=
+\sqrt{
+\frac{
+\widehat C_R
+(1-\widehat C_R)
+}{
+R
+}
+}.
+$$
+
+::: {.callout-important title="Exemplo bibliográfico"}
+@voss2014statistical [Exemplo 3.38, pp. 102--103] usa simulação para avaliar a cobertura de um intervalo construído para médias quando os dados são Poisson. A simulação mostra que o nível de cobertura pode ficar muito abaixo do nominal em certos valores do parâmetro, revelando uma inadequação que não é evidente pela simples aplicação mecânica da fórmula.
+:::
+
+## Erro tipo I e poder
+
+Para um teste de nível nominal $\alpha$, a taxa de erro tipo I é
+
+$$
+P(\text{rejeitar }H_0\mid H_0\text{ verdadeira}).
+$$
+
+Em simulação, gere dados **sob $H_0$** e calcule
+
+$$
+\widehat\alpha_R
+=
+\frac{
+\#\{\text{rejeições}\}
+}{
+R
+}.
+$$
+
+Sob uma alternativa, a mesma proporção estima o poder:
+
+$$
+\widehat\pi_R
+=
+\frac{
+\#\{\text{rejeições}\}
+}{
+R
+}.
+$$
+
+> **Base bibliográfica:** @thulin2025modern [Seções 7.2.2--7.2.4, pp. 258--262] e @voss2014statistical [Seção 3.4.3, pp. 103--106].
+
+O erro padrão Monte Carlo dessas proporções é
+
+$$
+\sqrt{
+\frac{
+\widehat p_R
+(1-\widehat p_R)
+}{
+R
+}
+}.
+$$
+
+::: {.callout-tip title="Interpretação"}
+Um estudo com $R=1000$ repetições não estima exatamente uma taxa de 5%. Ele próprio produz uma estimativa aleatória. Por exemplo, se $\widehat p=0{,}05$ e $R=1000$,
+
+$$
+ep_{MC}
+\approx
+\sqrt{
+\frac{0{,}05(0{,}95)}{1000}
+}
+\approx
+0{,}0069.
+$$
+
+Esse erro deve ser levado em conta ao comparar procedimentos.
+:::
+
+## Quantas repetições usar em um estudo de simulação?
+
+A quantidade $R$ deve ser escolhida com base na precisão desejada das medidas de desempenho e no custo de cada repetição.
+
+@thulin2025modern [Seção 7.2.5, pp. 262--263] recomenda distinguir:
+
+- número de **cenários** estudados;
+- número de **iterações** por cenário.
+
+Um estudo amplo precisa variar cenários relevantes — tamanho amostral, distribuição, nível de ruído, efeito, grau de assimetria ou outros parâmetros — e também usar $R$ suficiente para controlar a incerteza de Monte Carlo.
+
+::: {.callout-note title="Erro de Monte Carlo de uma média de desempenho"}
+Se cada repetição produz uma quantidade $T_r$, então
+
+$$
+\bar T_R
+=
+\frac{1}{R}
+\sum_{r=1}^R T_r
+$$
+
+tem erro padrão Monte Carlo estimado por
+
+$$
+\widehat{ep}_{MC}
+(\bar T_R)
+=
+\frac{
+s_T
+}{
+\sqrt R
+},
+$$
+
+onde $s_T$ é o desvio padrão dos $T_r$.
+
+Esse princípio vale para estimativas de viés, erro, comprimento de intervalo e muitas outras medidas representadas como médias de repetições.
+:::
+
+## Planejamento de um estudo de simulação
+
+Uma estrutura didática útil é separar cinco elementos.
+
+### Objetivo
+
+Defina a pergunta antes de simular. Exemplos:
+
+- comparar dois estimadores;
+- verificar cobertura de um intervalo;
+- avaliar robustez a não normalidade;
+- estimar poder;
+- determinar um tamanho amostral.
+
+### Processo gerador de dados
+
+O mecanismo deve ser suficientemente explícito para que outra pessoa possa reproduzi-lo:
+
+$$
+X\sim F_\psi.
+$$
+
+Indique todos os parâmetros e relações de dependência.
+
+### Cenários
+
+Escolha valores de $\psi$ que cubram situações relevantes. Uma conclusão baseada em um único cenário é uma conclusão sobre **aquele cenário**, e não uma validação universal do método.
+
+### Medidas de desempenho
+
+Decida previamente quais medidas serão usadas:
+
+- viés;
+- variância;
+- RMSE;
+- cobertura;
+- comprimento médio do intervalo;
+- taxa de erro tipo I;
+- poder;
+- taxa de falha numérica.
+
+### Precisão de Monte Carlo
+
+Reporte $R$ e, quando relevante, o erro padrão Monte Carlo das medidas.
+
+> **Base bibliográfica:** a importância de cenários e de quantificar incerteza de simulação é discutida em @thulin2025modern [Seção 7.2.5, pp. 262--263].
+
+## Implementação reprodutível em R
+
+### Uma função para uma única repetição
+
+Uma prática segura é escrever primeiro uma função que represente **uma repetição** do experimento.
+
+```{r}
+#| eval: true
+
+uma_repeticao <- function(
+    n,
+    mu = 0,
+    sigma = 1
+) {
+  x <- rnorm(
+    n,
+    mean = mu,
+    sd = sigma
+  )
+
+  c(
+    media = mean(x),
+    mediana = median(x)
+  )
+}
+```
+
+### Repetindo o experimento
+
+```{r}
+#| eval: true
+
+set.seed(2026)
+
+R <- 10000
+
+res <- replicate(
+  R,
+  uma_repeticao(
+    n = 25,
+    mu = 0,
+    sigma = 1
+  )
+)
+
+res <- t(res)
+```
+
+### Resumindo resultados
+
+```{r}
+#| eval: true
+
+theta <- 0
+
+bias <- colMeans(res) - theta
+
+variance <- apply(
+  res,
+  2,
+  var
+)
+
+mse <- colMeans(
+  (res - theta)^2
+)
+
+data.frame(
+  estimator = colnames(res),
+  bias = bias,
+  variance = variance,
+  mse = mse
+)
+```
+
+::: {.callout-tip title="Interpretação"}
+Separar geração, análise e resumo torna a simulação mais fácil de testar. Se a função de uma única repetição estiver correta, o restante do estudo é principalmente repetição e agregação.
+:::
+
+
+
+## Erros comuns em Monte Carlo
+
+### Confundir erro de Monte Carlo com erro do modelo
+
+Uma simulação pode ter erro de Monte Carlo muito pequeno e ainda responder a uma pergunta mal especificada. A precisão computacional não corrige um modelo incorreto.
+
+### Aumentar $N$ sem examinar a variância
+
+Se $\operatorname{Var}[h(X)]$ é enorme, simplesmente aumentar $N$ pode ser muito menos eficiente do que reformular o estimador.
+
+### Ignorar variância infinita
+
+A taxa $N^{-1/2}$ e os intervalos baseados no TCL exigem variância finita na formulação usada aqui.
+
+### Usar Monte Carlo direto em eventos raros
+
+Quando $p$ é muito pequeno, o número de ocorrências é aproximadamente $Np$. A simulação pode precisar de um valor impraticavelmente grande de $N$.
+
+### Misturar dependência com independência
+
+As fórmulas
+
+$$
+\operatorname{Var}(\bar Y)
+=
+\frac{\sigma^2}{N}
+$$
+
+pressupõem independência. Em MCMC ou em simulações com dependência, o erro padrão precisa incorporar autocorrelação.
+
+### Confundir erro de discretização e erro de Monte Carlo
+
+Em modelos nos quais cada realização já resulta de uma aproximação numérica, o erro total pode combinar dois componentes:
+
+$$
+\text{erro de Monte Carlo}
++
+\text{erro de discretização}.
+$$
+
+@voss2014statistical [Seção 6.5, pp. 243--250] mostra explicitamente essa decomposição para simulações de equações diferenciais estocásticas.
+
+## Monte Carlo IID e MCMC
+
+O Monte Carlo desenvolvido neste capítulo usa amostras independentes:
+
+$$
+X_1,\ldots,X_N
+\stackrel{iid}{\sim}
+\pi.
+$$
+
+Em problemas nos quais gerar amostras independentes de $\pi$ é difícil, pode-se construir uma cadeia de Markov cuja distribuição estacionária é $\pi$. Isso conduz aos métodos **Markov Chain Monte Carlo**.
+
+::: {.callout-note title="Definição conceitual"}
+No Monte Carlo IID,
+
+$$
+\widehat I_N
+=
+\frac{1}{N}
+\sum h(X_j)
+$$
+
+usa amostras independentes.
+
+Em MCMC, a mesma forma de média é usada, mas
+
+$$
+X_1,X_2,\ldots
+$$
+
+formam uma cadeia de Markov e são dependentes.
+
+*Base bibliográfica:* @voss2014statistical [Capítulo 4, pp. 109--180] e @kroese2011handbook [Capítulo 6].
+:::
+
+::: {.callout-warning title="Observação"}
+As fórmulas de erro padrão do Monte Carlo IID não podem ser transportadas sem modificação para MCMC, pois a autocorrelação altera a variância efetiva da média.
+
+MCMC merece um capítulo próprio: Metropolis--Hastings, Gibbs, diagnóstico de convergência, autocorrelação e tamanho efetivo de amostra não são desenvolvidos aqui.
+:::
+
+
+## Síntese do capítulo
+
+::: {.callout-note title="Síntese"}
+O método básico de Monte Carlo aproxima
+
+$$
+I=E[h(X)]
+$$
+
+por
+
+$$
+\widehat I_N
+=
+\frac1N
+\sum_{j=1}^Nh(X_j).
+$$
+
+Sob independência e variância finita,
+
+$$
+E(\widehat I_N)=I
+$$
+
+e
+
+$$
+\operatorname{Var}(\widehat I_N)
+=
+\frac{
+\operatorname{Var}[h(X)]
+}{
+N
+}.
+$$
+
+Consequentemente,
+
+$$
+RMSE(\widehat I_N)
+=
+O(N^{-1/2}).
+$$
+
+Essa taxa explica por que reduzir variância pode ser mais eficiente do que apenas aumentar o número de simulações.
+
+Em estudos de simulação estatística, Monte Carlo é usado em um segundo nível: conjuntos de dados são repetidamente gerados para estimar propriedades de procedimentos, como viés, MSE, cobertura e poder. Essas estimativas também têm erro de Monte Carlo e devem ser reportadas com uma precisão compatível com o objetivo do estudo.
+:::
+
+
+## Simulações de Monte Carlo com o pacote `tidyMC`
+
 
 O pacote `tidyMC` busca contemplar e simplificar todo o fluxo de trabalho necessário para executar uma simulação de Monte Carlo, seja em um contexto acadêmico ou profissional. Assim, o `tidyMC` fornece funções para as seguintes tarefas:
 
@@ -282,7 +1921,7 @@ library(ggplot2)
 library(kableExtra)
 ```
 
-## Execute sua primeira Simulação de Monte Carlo com `future_mc()`
+### Execute sua primeira Simulação de Monte Carlo com `future_mc()`
 
 A função `future_mc()` permite executar uma simulação de Monte Carlo para uma função definida pelo usuário e para um conjunto especificado de parâmetros.
 
@@ -372,3 +2011,279 @@ tidy_mc_latex(
   print()
 
 ```
+
+
+
+## Exercícios
+
+::: {.callout-caution title="Exercício 1 — gerador congruencial linear"}
+Considere
+
+$$
+X_0=5
+$$
+
+e
+
+$$
+X_n
+=
+3X_{n-1}
+\bmod 150.
+$$
+
+1. Calcule $X_1,\ldots,X_{30}$.
+2. Converta os valores em $U_n=X_n/150$.
+3. Determine empiricamente o período observado da sequência.
+4. Discuta por que um período curto é inadequado em Monte Carlo.
+
+*Exercício contextualizado com @voss2014statistical [Seção 1.1.1, pp. 2--4].*
+:::
+
+::: {.callout-caution title="Exercício 2 — gerador congruencial misto"}
+Considere
+
+$$
+X_0=3
+$$
+
+e
+
+$$
+X_n
+=
+(5X_{n-1}+7)
+\bmod 200.
+$$
+
+Obtenha $X_1,\ldots,X_{10}$ e os correspondentes pseudo-uniformes $U_n=X_n/200$.
+
+*Base conceitual:* @voss2014statistical [Seção 1.1.1].
+:::
+
+::: {.callout-caution title="Exercício 3 — integração"}
+Para cada integral a seguir:
+
+1. escreva-a como uma esperança;
+2. implemente um estimador de Monte Carlo;
+3. reporte estimativa, erro padrão Monte Carlo e intervalo assintótico de 95%;
+4. compare com `integrate()` quando essa função puder fornecer uma referência numérica.
+
+$$
+\int_0^1
+\exp(e^x)\,dx,
+$$
+
+$$
+\int_0^1
+(1-x^2)^{3/2}\,dx,
+$$
+
+$$
+\int_{-2}^2
+\exp(x+x^2)\,dx,
+$$
+
+$$
+\int_0^\infty
+x(1+x^2)^{-2}\,dx,
+$$
+
+$$
+\int_{-\infty}^{\infty}
+e^{-x^2}\,dx.
+$$
+:::
+
+::: {.callout-caution title="Exercício 4 — integral bidimensional"}
+Estime
+
+$$
+I
+=
+\int_0^1
+\int_0^1
+\exp\{(x+y)^2\}
+\,dy\,dx.
+$$
+
+1. Use $N=10^3$, $10^4$ e $10^5$.
+2. Compare os erros padrão estimados.
+3. Verifique empiricamente a relação aproximada $ep\propto N^{-1/2}$.
+:::
+
+::: {.callout-caution title="Exercício 5 — covariância por simulação"}
+Se
+
+$$
+U\sim U(0,1),
+$$
+
+use Monte Carlo para estimar
+
+$$
+\operatorname{Cov}(U,e^U).
+$$
+
+Compare com o valor obtido por integração analítica das esperanças necessárias.
+:::
+
+::: {.callout-caution title="Exercício 6 — probabilidade rara"}
+Considere
+
+$$
+X\sim N(0,1).
+$$
+
+Estime
+
+$$
+P(X>4)
+$$
+
+por Monte Carlo direto para
+
+$$
+N=10^4,\;10^5,\;10^6.
+$$
+
+Para cada $N$, reporte:
+
+- número de ocorrências;
+- estimativa;
+- erro padrão absoluto;
+- erro padrão relativo.
+
+Explique por que o erro relativo é o diagnóstico mais importante nesse problema.
+:::
+
+::: {.callout-caution title="Exercício 7 — amostragem por importância"}
+Repita o exercício anterior usando
+
+$$
+Y\sim N(\mu,1)
+$$
+
+como distribuição de importância para
+
+$$
+\mu\in\{2,3,4,5\}.
+$$
+
+Use pesos
+
+$$
+w(y)
+=
+\frac{
+\phi(y)
+}{
+\phi(y-\mu)
+},
+$$
+
+com as densidades escritas corretamente na implementação.
+
+Compare os erros padrão e determine qual escolha de $\mu$ foi mais eficiente no experimento.
+
+*Base de leitura:* @voss2014statistical [Exercício 3.6 e Seção 3.3.1, pp. 84--88].
+:::
+
+::: {.callout-caution title="Exercício 8 — variáveis antitéticas"}
+Estime
+
+$$
+\int_0^1 e^x\,dx
+$$
+
+de duas formas:
+
+1. Monte Carlo com amostras independentes;
+2. pares antitéticos $(U,1-U)$.
+
+Use o mesmo número de avaliações da função nos dois métodos e compare as variâncias.
+:::
+
+::: {.callout-caution title="Exercício 9 — variável de controle"}
+Para
+
+$$
+I
+=
+E(e^U),
+\qquad
+U\sim U(0,1),
+$$
+
+use $U$ como variável de controle, sabendo que
+
+$$
+E(U)=\frac12.
+$$
+
+Estime o coeficiente $\beta$ por uma execução piloto e compare o erro padrão com Monte Carlo direto.
+:::
+
+::: {.callout-caution title="Exercício 10 — estudo de simulação de estimadores"}
+Considere amostras de tamanho $n=25$ de:
+
+1. $N(0,1)$;
+2. $t_3$.
+
+Compare média e mediana usando $R=20\,000$ repetições e estime:
+
+- viés;
+- variância;
+- MSE.
+
+Explique por que a conclusão depende do processo gerador de dados.
+
+*Base de leitura:* @thulin2025modern [Seção 7.2.1, pp. 256--258].
+:::
+
+::: {.callout-caution title="Exercício 11 — cobertura"}
+Considere
+
+$$
+X_1,\ldots,X_n
+\sim
+\operatorname{Pois}(\lambda).
+$$
+
+Aplique o intervalo $t$ usual para a média e estime por Monte Carlo sua cobertura para diferentes valores de $\lambda$.
+
+Repita para
+
+$$
+n=10,\;30,\;100.
+$$
+
+Construa um gráfico da cobertura estimada em função de $\lambda$.
+
+*Exercício baseado em @voss2014statistical [Exemplo 3.38 e Exercício 3.8, pp. 102--108].*
+:::
+
+::: {.callout-caution title="Exercício 12 — poder e erro de Monte Carlo"}
+Simule o poder de um teste para diferentes tamanhos de amostra usando $R=1000$, $5000$ e $20000$.
+
+Para cada estimativa de poder $\widehat\pi$, calcule
+
+$$
+\widehat{ep}_{MC}
+=
+\sqrt{
+\frac{
+\widehat\pi(1-\widehat\pi)
+}{
+R
+}
+}.
+$$
+
+Discuta quantas repetições seriam necessárias para reportar poder com duas casas decimais de forma estável.
+
+*Base de leitura:* @thulin2025modern [Seções 7.2.3--7.2.5, pp. 260--263].
+:::
+
+
+# Referências {.unnumbered}

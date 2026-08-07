@@ -54,7 +54,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 1em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -221,19 +241,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./em.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Algoritmo EM</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./metodosadicionais.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Aplicações Modernas em Estatística Computacional</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Referências</span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Algoritmo EM: máxima verossimilhança com dados incompletos e variáveis latentes</span></span></a>
   </div>
 </li>
     </ul>
@@ -246,7 +254,87 @@ window.Quarto = {
     <h2 id="toc-title">Índice</h2>
    
   <ul>
-  <li><a href="#método-de-newton" id="toc-método-de-newton" class="nav-link active" data-scroll-target="#método-de-newton"><span class="header-section-number">6.1</span> Método de Newton</a></li>
+  <li><a href="#objetivos-de-aprendizagem" id="toc-objetivos-de-aprendizagem" class="nav-link active" data-scroll-target="#objetivos-de-aprendizagem"><span class="header-section-number">6.1</span> Objetivos de aprendizagem</a></li>
+  <li><a href="#problemas-de-otimização-e-pontos-estacionários" id="toc-problemas-de-otimização-e-pontos-estacionários" class="nav-link" data-scroll-target="#problemas-de-otimização-e-pontos-estacionários"><span class="header-section-number">6.2</span> Problemas de otimização e pontos estacionários</a>
+  <ul class="collapse">
+  <li><a href="#mínimos-e-máximos-locais" id="toc-mínimos-e-máximos-locais" class="nav-link" data-scroll-target="#mínimos-e-máximos-locais"><span class="header-section-number">6.2.1</span> Mínimos e máximos locais</a></li>
+  </ul></li>
+  <li><a href="#informação-de-segunda-ordem" id="toc-informação-de-segunda-ordem" class="nav-link" data-scroll-target="#informação-de-segunda-ordem"><span class="header-section-number">6.3</span> Informação de segunda ordem</a></li>
+  <li><a href="#método-de-newton-para-equações-não-lineares" id="toc-método-de-newton-para-equações-não-lineares" class="nav-link" data-scroll-target="#método-de-newton-para-equações-não-lineares"><span class="header-section-number">6.4</span> Método de Newton para equações não lineares</a>
+  <ul class="collapse">
+  <li><a href="#interpretação-geométrica" id="toc-interpretação-geométrica" class="nav-link" data-scroll-target="#interpretação-geométrica"><span class="header-section-number">6.4.1</span> Interpretação geométrica</a></li>
+  <li><a href="#forma-multivariada" id="toc-forma-multivariada" class="nav-link" data-scroll-target="#forma-multivariada"><span class="header-section-number">6.4.2</span> Forma multivariada</a></li>
+  </ul></li>
+  <li><a href="#método-de-newton-para-otimização" id="toc-método-de-newton-para-otimização" class="nav-link" data-scroll-target="#método-de-newton-para-otimização"><span class="header-section-number">6.5</span> Método de Newton para otimização</a>
+  <ul class="collapse">
+  <li><a href="#caso-unidimensional" id="toc-caso-unidimensional" class="nav-link" data-scroll-target="#caso-unidimensional"><span class="header-section-number">6.5.1</span> Caso unidimensional</a></li>
+  <li><a href="#maximização" id="toc-maximização" class="nav-link" data-scroll-target="#maximização"><span class="header-section-number">6.5.2</span> Maximização</a></li>
+  </ul></li>
+  <li><a href="#convergência-local-do-método-de-newton" id="toc-convergência-local-do-método-de-newton" class="nav-link" data-scroll-target="#convergência-local-do-método-de-newton"><span class="header-section-number">6.6</span> Convergência local do método de Newton</a></li>
+  <li><a href="#critérios-de-convergência-e-parada" id="toc-critérios-de-convergência-e-parada" class="nav-link" data-scroll-target="#critérios-de-convergência-e-parada"><span class="header-section-number">6.7</span> Critérios de convergência e parada</a></li>
+  <li><a href="#sensibilidade-aos-valores-iniciais" id="toc-sensibilidade-aos-valores-iniciais" class="nav-link" data-scroll-target="#sensibilidade-aos-valores-iniciais"><span class="header-section-number">6.8</span> Sensibilidade aos valores iniciais</a></li>
+  <li><a href="#hessiana-singular-indefinida-e-problemas-de-condicionamento" id="toc-hessiana-singular-indefinida-e-problemas-de-condicionamento" class="nav-link" data-scroll-target="#hessiana-singular-indefinida-e-problemas-de-condicionamento"><span class="header-section-number">6.9</span> Hessiana singular, indefinida e problemas de condicionamento</a>
+  <ul class="collapse">
+  <li><a href="#derivada-pequena-no-caso-escalar" id="toc-derivada-pequena-no-caso-escalar" class="nav-link" data-scroll-target="#derivada-pequena-no-caso-escalar"><span class="header-section-number">6.9.1</span> Derivada pequena no caso escalar</a></li>
+  <li><a href="#hessiana-indefinida" id="toc-hessiana-indefinida" class="nav-link" data-scroll-target="#hessiana-indefinida"><span class="header-section-number">6.9.2</span> Hessiana indefinida</a></li>
+  <li><a href="#custo-computacional" id="toc-custo-computacional" class="nav-link" data-scroll-target="#custo-computacional"><span class="header-section-number">6.9.3</span> Custo computacional</a></li>
+  </ul></li>
+  <li><a href="#globalização-do-método-de-newton" id="toc-globalização-do-método-de-newton" class="nav-link" data-scroll-target="#globalização-do-método-de-newton"><span class="header-section-number">6.10</span> Globalização do método de Newton</a>
+  <ul class="collapse">
+  <li><a href="#newton-amortecido" id="toc-newton-amortecido" class="nav-link" data-scroll-target="#newton-amortecido"><span class="header-section-number">6.10.1</span> Newton amortecido</a></li>
+  <li><a href="#busca-linear" id="toc-busca-linear" class="nav-link" data-scroll-target="#busca-linear"><span class="header-section-number">6.10.2</span> Busca linear</a></li>
+  <li><a href="#regiões-de-confiança" id="toc-regiões-de-confiança" class="nav-link" data-scroll-target="#regiões-de-confiança"><span class="header-section-number">6.10.3</span> Regiões de confiança</a></li>
+  </ul></li>
+  <li><a href="#métodos-quasi-newton" id="toc-métodos-quasi-newton" class="nav-link" data-scroll-target="#métodos-quasi-newton"><span class="header-section-number">6.11</span> Métodos quasi-Newton</a>
+  <ul class="collapse">
+  <li><a href="#bfgs" id="toc-bfgs" class="nav-link" data-scroll-target="#bfgs"><span class="header-section-number">6.11.1</span> BFGS</a></li>
+  <li><a href="#l-bfgs-e-problemas-de-grande-dimensão" id="toc-l-bfgs-e-problemas-de-grande-dimensão" class="nav-link" data-scroll-target="#l-bfgs-e-problemas-de-grande-dimensão"><span class="header-section-number">6.11.2</span> L-BFGS e problemas de grande dimensão</a></li>
+  </ul></li>
+  <li><a href="#cálculo-de-derivadas" id="toc-cálculo-de-derivadas" class="nav-link" data-scroll-target="#cálculo-de-derivadas"><span class="header-section-number">6.12</span> Cálculo de derivadas</a>
+  <ul class="collapse">
+  <li><a href="#derivação-analítica" id="toc-derivação-analítica" class="nav-link" data-scroll-target="#derivação-analítica"><span class="header-section-number">6.12.1</span> Derivação analítica</a></li>
+  <li><a href="#diferenças-finitas" id="toc-diferenças-finitas" class="nav-link" data-scroll-target="#diferenças-finitas"><span class="header-section-number">6.12.2</span> Diferenças finitas</a></li>
+  <li><a href="#diferenciação-automática" id="toc-diferenciação-automática" class="nav-link" data-scroll-target="#diferenciação-automática"><span class="header-section-number">6.12.3</span> Diferenciação automática</a></li>
+  <li><a href="#a-função-d-do-r" id="toc-a-função-d-do-r" class="nav-link" data-scroll-target="#a-função-d-do-r"><span class="header-section-number">6.12.4</span> A função <code>D()</code> do R</a></li>
+  </ul></li>
+  <li><a href="#newtonraphson-em-máxima-verossimilhança" id="toc-newtonraphson-em-máxima-verossimilhança" class="nav-link" data-scroll-target="#newtonraphson-em-máxima-verossimilhança"><span class="header-section-number">6.13</span> Newton–Raphson em máxima verossimilhança</a>
+  <ul class="collapse">
+  <li><a href="#informação-observada" id="toc-informação-observada" class="nav-link" data-scroll-target="#informação-observada"><span class="header-section-number">6.13.1</span> Informação observada</a></li>
+  <li><a href="#escore-de-fisher" id="toc-escore-de-fisher" class="nav-link" data-scroll-target="#escore-de-fisher"><span class="header-section-number">6.13.2</span> Escore de Fisher</a></li>
+  </ul></li>
+  <li><a href="#implementação-do-método-de-newton-em-r" id="toc-implementação-do-método-de-newton-em-r" class="nav-link" data-scroll-target="#implementação-do-método-de-newton-em-r"><span class="header-section-number">6.14</span> Implementação do método de Newton em R</a>
+  <ul class="collapse">
+  <li><a href="#função-genérica-para-localização-de-raízes" id="toc-função-genérica-para-localização-de-raízes" class="nav-link" data-scroll-target="#função-genérica-para-localização-de-raízes"><span class="header-section-number">6.14.1</span> Função genérica para localização de raízes</a></li>
+  </ul></li>
+  <li><a href="#exemplo-estatístico-máxima-verossimilhança-para-localização-cauchy" id="toc-exemplo-estatístico-máxima-verossimilhança-para-localização-cauchy" class="nav-link" data-scroll-target="#exemplo-estatístico-máxima-verossimilhança-para-localização-cauchy"><span class="header-section-number">6.15</span> Exemplo estatístico: máxima verossimilhança para localização Cauchy</a>
+  <ul class="collapse">
+  <li><a href="#usando-optimize" id="toc-usando-optimize" class="nav-link" data-scroll-target="#usando-optimize"><span class="header-section-number">6.15.1</span> Usando <code>optimize()</code></a></li>
+  <li><a href="#usando-uniroot" id="toc-usando-uniroot" class="nav-link" data-scroll-target="#usando-uniroot"><span class="header-section-number">6.15.2</span> Usando <code>uniroot()</code></a></li>
+  </ul></li>
+  <li><a href="#exemplo" id="toc-exemplo" class="nav-link" data-scroll-target="#exemplo"><span class="header-section-number">6.16</span> Exemplo</a>
+  <ul class="collapse">
+  <li><a href="#gráfico-da-função" id="toc-gráfico-da-função" class="nav-link" data-scroll-target="#gráfico-da-função"><span class="header-section-number">6.16.1</span> Gráfico da função</a></li>
+  <li><a href="#maximização-direta-com-optimize" id="toc-maximização-direta-com-optimize" class="nav-link" data-scroll-target="#maximização-direta-com-optimize"><span class="header-section-number">6.16.2</span> Maximização direta com <code>optimize()</code></a></li>
+  <li><a href="#resolvendo-ftheta0-com-uniroot" id="toc-resolvendo-ftheta0-com-uniroot" class="nav-link" data-scroll-target="#resolvendo-ftheta0-com-uniroot"><span class="header-section-number">6.16.3</span> Resolvendo <span class="math inline">\(f'(\theta)=0\)</span> com <code>uniroot()</code></a></li>
+  <li><a href="#implementando-newton-manualmente" id="toc-implementando-newton-manualmente" class="nav-link" data-scroll-target="#implementando-newton-manualmente"><span class="header-section-number">6.16.4</span> Implementando Newton manualmente</a></li>
+  </ul></li>
+  <li><a href="#máximos-locais-fronteiras-e-restrições" id="toc-máximos-locais-fronteiras-e-restrições" class="nav-link" data-scroll-target="#máximos-locais-fronteiras-e-restrições"><span class="header-section-number">6.17</span> Máximos locais, fronteiras e restrições</a>
+  <ul class="collapse">
+  <li><a href="#múltiplos-pontos-estacionários" id="toc-múltiplos-pontos-estacionários" class="nav-link" data-scroll-target="#múltiplos-pontos-estacionários"><span class="header-section-number">6.17.1</span> Múltiplos pontos estacionários</a></li>
+  <li><a href="#soluções-na-fronteira" id="toc-soluções-na-fronteira" class="nav-link" data-scroll-target="#soluções-na-fronteira"><span class="header-section-number">6.17.2</span> Soluções na fronteira</a></li>
+  </ul></li>
+  <li><a href="#interpretação-e-diagnóstico-dos-resultados" id="toc-interpretação-e-diagnóstico-dos-resultados" class="nav-link" data-scroll-target="#interpretação-e-diagnóstico-dos-resultados"><span class="header-section-number">6.18</span> Interpretação e diagnóstico dos resultados</a>
+  <ul class="collapse">
+  <li><a href="#gradiente-ou-escore" id="toc-gradiente-ou-escore" class="nav-link" data-scroll-target="#gradiente-ou-escore"><span class="header-section-number">6.18.1</span> Gradiente ou escore</a></li>
+  <li><a href="#curvatura" id="toc-curvatura" class="nav-link" data-scroll-target="#curvatura"><span class="header-section-number">6.18.2</span> Curvatura</a></li>
+  <li><a href="#trajetória-das-iterações" id="toc-trajetória-das-iterações" class="nav-link" data-scroll-target="#trajetória-das-iterações"><span class="header-section-number">6.18.3</span> Trajetória das iterações</a></li>
+  <li><a href="#sensibilidade-à-inicialização" id="toc-sensibilidade-à-inicialização" class="nav-link" data-scroll-target="#sensibilidade-à-inicialização"><span class="header-section-number">6.18.4</span> Sensibilidade à inicialização</a></li>
+  <li><a href="#comparação-com-método-alternativo" id="toc-comparação-com-método-alternativo" class="nav-link" data-scroll-target="#comparação-com-método-alternativo"><span class="header-section-number">6.18.5</span> Comparação com método alternativo</a></li>
+  </ul></li>
+  <li><a href="#comparação-resumida-de-métodos" id="toc-comparação-resumida-de-métodos" class="nav-link" data-scroll-target="#comparação-resumida-de-métodos"><span class="header-section-number">6.19</span> Comparação resumida de métodos</a></li>
+  <li><a href="#síntese-do-capítulo" id="toc-síntese-do-capítulo" class="nav-link" data-scroll-target="#síntese-do-capítulo"><span class="header-section-number">6.20</span> Síntese do capítulo</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">6.21</span> Exercícios</a></li>
+  <li><a href="#referências" id="toc-referências" class="nav-link" data-scroll-target="#referências">Referências</a></li>
   </ul>
 </nav>
     </div>
@@ -272,91 +360,1234 @@ window.Quarto = {
 </header>
 
 
-<section id="método-de-newton" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="método-de-newton"><span class="header-section-number">6.1</span> Método de Newton</h2>
-<p><strong>Propósito:</strong> maximizar ou minimizar a função <span class="math inline">\(f(\theta)\)</span> ou, de forma equivalente, encontrar a raiz da equação <span class="math inline">\(g(\theta)=0\)</span>, em que <span class="math inline">\(g(\theta)=f'(\theta)\)</span>.</p>
-<p>Considere um valor inicial <span class="math inline">\(\theta_0\)</span>, próximo de <span class="math inline">\(\hat{\theta}\)</span>. A expansão de Taylor de <span class="math inline">\(g(\theta)\)</span> em torno de <span class="math inline">\(\theta_0\)</span> é:</p>
-<p><span class="math display">\[g(\theta)
-=
-g(\theta_0)
-+
-g'(\theta_0)(\theta - \theta_0)
-+
-\frac{g''(\theta_0)(\theta-\theta_0)^2}{2!}
-+
-\cdots\]</span></p>
-<p>Para <span class="math inline">\(|\theta - \theta_0|\)</span> pequeno, desprezamos termos quadráticos ou superiores:</p>
-<p><span class="math display">\[g(\theta) \approx g(\theta_0) + g'(\theta_0)(\theta - \theta_0).\]</span></p>
-<p>Estamos aproximando <span class="math inline">\(g(\theta)\)</span> por uma função linear de <span class="math inline">\(\theta\)</span> que tem o mesmo valor e inclinação de <span class="math inline">\(g(\theta)\)</span> no ponto <span class="math inline">\(\theta=\theta_0\)</span>.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="grafico_newton_1.jpeg" class="img-fluid figure-img" style="width:80.0%"></p>
-<figcaption>Aproximação de g(θ) por uma função linear</figcaption>
-</figure>
-</div>
-<p>O método de Newton trata com a equação da reta que passa pelo ponto <span class="math inline">\((\theta_i,g(\theta_i))\)</span> e é tangente à curva nesse ponto:</p>
-<p><span class="math display">\[g(\theta)-g(\theta_i)=g'(\theta_i)(\theta-\theta_i),\quad i=0,1,2,\ldots\]</span></p>
-<p>em que <span class="math inline">\(g'(\theta_i)\)</span> é a inclinação da reta (derivada). Essa reta passa pelo ponto <span class="math inline">\((\theta_{i+1},0)\)</span>. Assim,</p>
-<p><span class="math display">\[0-g(\theta_i) =  g'(\theta_i)(\theta_{i+1}-\theta_i) \Rightarrow
-\theta_{i+1}  =  \theta_i - \dfrac{g(\theta_i)}{g'(\theta_i)}\]</span></p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="grafico_newton_2.jpeg" class="img-fluid figure-img" style="width:80.0%"></p>
-<figcaption>Método de Newton - Ilustração</figcaption>
-</figure>
-</div>
-<p>Note que <span class="math inline">\(\theta_0\)</span> é apenas uma “estimativa qualquer” para a raiz <span class="math inline">\(\hat\theta\)</span> da equação <span class="math inline">\(g(\theta)\)</span>. A proposta do método é atualizar esse valor proposto da seguinte forma:</p>
+<p>A otimização numérica ocupa uma posição central na Estatística Computacional. Estimadores de máxima verossimilhança, ajustes por mínimos quadrados, modelos de mistura, procedimentos de inferência com parâmetros de alta dimensão e diversos algoritmos iterativos podem exigir a solução numérica de um problema de maximização ou minimização. Mesmo quando a formulação estatística é analítica, frequentemente não existe uma expressão fechada para o estimador, de modo que a inferência depende de um algoritmo de otimização.</p>
+<p>Em problemas sem restrições, a tarefa pode ser escrita como</p>
+<p><span class="math display">\[
+\min_{\theta\in\mathbb{R}^p} f(\theta),
+\]</span></p>
+<p>ou, para uma maximização,</p>
+<p><span class="math display">\[
+\max_{\theta\in\mathbb{R}^p} \ell(\theta).
+\]</span></p>
+<p>Maximizar <span class="math inline">\(\ell(\theta)\)</span> equivale a minimizar <span class="math inline">\(-\ell(\theta)\)</span>, mas <strong>não é, em geral, equivalente simplesmente a encontrar uma raiz de sua derivada sem verificar a natureza do ponto estacionário</strong>. Uma raiz de <span class="math inline">\(\nabla f(\theta)=0\)</span> pode corresponder a mínimo, máximo ou ponto de sela; a informação de segunda ordem é necessária para classificá-la em problemas suaves.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> a formulação geral de otimização e a distinção entre soluções locais e globais seguem <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>)</span> [Capítulo 1, pp.&nbsp;1–9; Seção 2.1, pp.&nbsp;12–17]. A relação entre localização de raízes e otimização, bem como a necessidade de classificar pontos estacionários, é discutida por <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2, aproximadamente pp.&nbsp;688–692)</span>.</p>
+</blockquote>
+<section id="objetivos-de-aprendizagem" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="objetivos-de-aprendizagem"><span class="header-section-number">6.1</span> Objetivos de aprendizagem</h2>
+<p>Ao final deste capítulo, espera-se que o leitor seja capaz de:</p>
 <ul>
-<li>determinar <span class="math inline">\(\theta_1=\theta_0 - \dfrac{g(\theta_0)}{g'(\theta_0)}\)</span></li>
-<li>determinar <span class="math inline">\(\theta_2=\theta_1 - \dfrac{g(\theta_1)}{g'(\theta_1)}\)</span></li>
-<li>repetir esse processo até que <span class="math inline">\(\theta_{i+1}\approx\theta_i\)</span></li>
-<li><span class="math inline">\(\theta_i\)</span> será a raiz da equação.</li>
+<li>distinguir um problema de otimização de um problema de localização de raízes;</li>
+<li>interpretar condições de primeira e segunda ordem para extremos locais;</li>
+<li>derivar o método de Newton a partir de aproximações de Taylor;</li>
+<li>aplicar Newton tanto a equações não lineares quanto à otimização;</li>
+<li>reconhecer as condições que explicam sua convergência quadrática local;</li>
+<li>diagnosticar problemas decorrentes de valores iniciais inadequados, derivadas pequenas, Hessianas singulares ou indefinidas e soluções na fronteira;</li>
+<li>compreender o papel de amortecimento, busca linear e regiões de confiança;</li>
+<li>distinguir Newton–Raphson de <em>escore de Fisher</em> em máxima verossimilhança;</li>
+<li>implementar e diagnosticar algoritmos de Newton em R;</li>
+<li>usar <code>optimize()</code> e <code>uniroot()</code> em problemas estatísticos unidimensionais;</li>
+<li>compreender por que métodos quasi-Newton, como BFGS, são alternativas importantes quando a Hessiana exata é cara.</li>
 </ul>
-<p>O método de Newton está implementado na função <code>maxNR</code> do pacote <code>maxLik</code> do programa <code>R</code>.</p>
-<p><strong>Exemplo:</strong> Seja <span class="math inline">\(f(\theta) = 100\log(\theta)-50\theta -50\log(1-\exp(-\theta))\)</span>.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> organização didática baseada principalmente em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, cap. 2–4, 6–8</a> e 11)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndices B e C)</span>. O uso de <code>optimize()</code> e <code>uniroot()</code> em máxima verossimilhança é baseado em <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022, seç. 6.1.2</a>, pp.&nbsp;150–155)</span>.</p>
+</blockquote>
+</section>
+<section id="problemas-de-otimização-e-pontos-estacionários" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="problemas-de-otimização-e-pontos-estacionários"><span class="header-section-number">6.2</span> Problemas de otimização e pontos estacionários</h2>
+<section id="mínimos-e-máximos-locais" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="mínimos-e-máximos-locais"><span class="header-section-number">6.2.1</span> Mínimos e máximos locais</h3>
+<div class="callout callout-style-default callout-note callout-titled" title="Definição">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Definição
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Um ponto <span class="math inline">\(\theta^\star\)</span> é um <strong>mínimo local</strong> de <span class="math inline">\(f\)</span> se existe uma vizinhança de <span class="math inline">\(\theta^\star\)</span> tal que</p>
+<p><span class="math display">\[
+f(\theta^\star)\leq f(\theta)
+\]</span></p>
+<p>para todo <span class="math inline">\(\theta\)</span> nessa vizinhança. Analogamente, <span class="math inline">\(\theta^\star\)</span> é um <strong>máximo local</strong> se</p>
+<p><span class="math display">\[
+f(\theta^\star)\geq f(\theta)
+\]</span></p>
+<p>na vizinhança considerada.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 2.1</a>, pp.&nbsp;12–17)</span>.</p>
+</div>
+</div>
+<p>Se <span class="math inline">\(f:\mathbb{R}\to\mathbb{R}\)</span> é diferenciável e <span class="math inline">\(\theta^\star\)</span> é uma solução interior, uma condição necessária de primeira ordem é</p>
+<p><span class="math display">\[
+f'(\theta^\star)=0.
+\]</span></p>
+<p>Em dimensão <span class="math inline">\(p\)</span>, a condição correspondente é</p>
+<p><span class="math display">\[
+\nabla f(\theta^\star)=0.
+\]</span></p>
+<p>Um ponto que satisfaz essa equação é chamado de <strong>ponto estacionário</strong>.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 2.1</a>, especialmente pp.&nbsp;14–16)</span>.</p>
+</blockquote>
+</section>
+</section>
+<section id="informação-de-segunda-ordem" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="informação-de-segunda-ordem"><span class="header-section-number">6.3</span> Informação de segunda ordem</h2>
+<p>No caso unidimensional, se</p>
+<p><span class="math display">\[
+f'(\theta^\star)=0
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+f''(\theta^\star)&gt;0,
+\]</span></p>
+<p>então, sob condições regulares, <span class="math inline">\(\theta^\star\)</span> é um mínimo local estrito. Se</p>
+<p><span class="math display">\[
+f''(\theta^\star)&lt;0,
+\]</span></p>
+<p>o ponto é um máximo local estrito.</p>
+<p>Em dimensão maior, a Hessiana</p>
+<p><span class="math display">\[
+H(\theta)
+=
+\nabla^2 f(\theta)
+\]</span></p>
+<p>substitui a segunda derivada. Em um ponto estacionário, uma Hessiana positiva definida caracteriza um mínimo local estrito pelas condições suficientes de segunda ordem. Para maximização, aplica-se o resultado a <span class="math inline">\(-f\)</span>: equivalentemente, uma Hessiana negativa definida caracteriza um máximo local estrito.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 2.1</a>, pp.&nbsp;14–16)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Resolver <span class="math inline">\(\nabla f(\theta)=0\)</span> e otimizar <span class="math inline">\(f\)</span> são problemas relacionados, mas não idênticos. Um algoritmo de localização de raízes procura apenas zerar o gradiente. Um algoritmo de otimização deve também lidar com a geometria da função e, em implementações robustas, procurar passos que melhorem a função objetivo.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2, aproximadamente pp.&nbsp;688–692)</span> e <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 2.1–2.2</a>, pp.&nbsp;12–27)</span>.</p>
+</div>
+</div>
+</section>
+<section id="método-de-newton-para-equações-não-lineares" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="método-de-newton-para-equações-não-lineares"><span class="header-section-number">6.4</span> Método de Newton para equações não lineares</h2>
+<p>Considere inicialmente o problema escalar</p>
+<p><span class="math display">\[
+g(\theta)=0.
+\]</span></p>
+<p>Seja <span class="math inline">\(\theta_k\)</span> uma aproximação corrente da raiz. A expansão de Taylor de primeira ordem em torno de <span class="math inline">\(\theta_k\)</span> fornece</p>
+<p><span class="math display">\[
+g(\theta)
+=
+g(\theta_k)
++
+g'(\theta_k)(\theta-\theta_k)
++
+O\left((\theta-\theta_k)^2\right).
+\]</span></p>
+<p>Para <span class="math inline">\(\theta\)</span> suficientemente próximo de <span class="math inline">\(\theta_k\)</span>, utiliza-se o modelo linear</p>
+<p><span class="math display">\[
+g(\theta)
+\approx
+g(\theta_k)
++
+g'(\theta_k)(\theta-\theta_k).
+\]</span></p>
+<p>A nova aproximação é escolhida como a raiz desse modelo linear. Fazendo o lado direito igual a zero,</p>
+<p><span class="math display">\[
+0
+=
+g(\theta_k)
++
+g'(\theta_k)(\theta_{k+1}-\theta_k),
+\]</span></p>
+<p>e, se <span class="math inline">\(g'(\theta_k)\neq 0\)</span>,</p>
+<p><span class="math display">\[
+\boxed{
+\theta_{k+1}
+=
+\theta_k
+-
+\frac{g(\theta_k)}
+     {g'(\theta_k)}
+}.
+\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.1, aproximadamente pp.&nbsp;688–689)</span> e <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 11.1</a>, pp.&nbsp;274–277)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-note callout-titled" title="Definição">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Definição
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O <strong>método de Newton</strong> ou <strong>Newton–Raphson</strong> para uma equação escalar <span class="math inline">\(g(\theta)=0\)</span> constrói uma sequência <span class="math inline">\(\{\theta_k\}\)</span> pela recorrência</p>
+<p><span class="math display">\[
+\theta_{k+1}
+=
+\theta_k
+-
+\frac{g(\theta_k)}
+     {g'(\theta_k)},
+\]</span></p>
+<p>sempre que o denominador seja não nulo.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.1, pp.&nbsp;688–689)</span>.</p>
+</div>
+</div>
+<section id="interpretação-geométrica" class="level3" data-number="6.4.1">
+<h3 data-number="6.4.1" class="anchored" data-anchor-id="interpretação-geométrica"><span class="header-section-number">6.4.1</span> Interpretação geométrica</h3>
+<p>O modelo</p>
+<p><span class="math display">\[
+m_k(\theta)
+=
+g(\theta_k)
++
+g'(\theta_k)(\theta-\theta_k)
+\]</span></p>
+<p>é a reta tangente a <span class="math inline">\(g\)</span> no ponto <span class="math inline">\((\theta_k,g(\theta_k))\)</span>. A próxima aproximação <span class="math inline">\(\theta_{k+1}\)</span> é o ponto em que essa reta intercepta o eixo horizontal.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Newton substitui localmente uma função não linear por um modelo linear cuja raiz é fácil de calcular. Se a aproximação local for boa e a derivada não estiver próxima de zero, a nova aproximação tende a ficar muito mais próxima da raiz.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 11.1</a>, pp.&nbsp;274–277)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.1, pp.&nbsp;688–689)</span>.</p>
+</div>
+</div>
+<section id="animação-do-método-de-newton" class="level4" data-number="6.4.1.1">
+<h4 data-number="6.4.1.1" class="anchored" data-anchor-id="animação-do-método-de-newton"><span class="header-section-number">6.4.1.1</span> Animação do método de Newton</h4>
+<p>A animação a seguir ilustra o método de Newton aplicado à equação <span class="math inline">\(g(\theta)=\theta^2-2=0\)</span>. A raiz positiva é <span class="math inline">\(\sqrt{2}\)</span>.</p>
+<div class="cell">
+<div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="grafico_newton_3.jpeg" class="img-fluid figure-img" style="width:80.0%"></p>
-<figcaption>Curva da função <span class="math inline">\(f(\theta)\)</span></figcaption>
+<p><img src="otimizaca_files/figure-html/unnamed-chunk-1-1.gif" class="img-fluid figure-img"></p>
+<figcaption>Aproximação linear usada pelo método de Newton.</figcaption>
 </figure>
 </div>
-<p>Determinando o ponto de máximo da função <span class="math inline">\(f(\theta):\)</span></p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maxLik)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(u) (<span class="dv">100</span><span class="sc">*</span><span class="fu">log</span>(u) <span class="sc">-</span> <span class="dv">50</span><span class="sc">*</span>u<span class="dv">-50</span><span class="sc">*</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">exp</span>(<span class="sc">-</span>u)))</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">maxNR</span>(f, <span class="at">star =</span> <span class="dv">1</span>)<span class="sc">$</span>estimate <span class="co"># 1.593624</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.593624</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">maxNR</span>(f, <span class="at">star =</span> <span class="dv">1</span>)<span class="sc">$</span>maximum  <span class="co"># -21.72331</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> construção gráfica baseada na interpretação geométrica do método de Newton em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.1, pp.&nbsp;688–689)</span>.</p>
+</blockquote>
+</section>
+</section>
+<section id="forma-multivariada" class="level3" data-number="6.4.2">
+<h3 data-number="6.4.2" class="anchored" data-anchor-id="forma-multivariada"><span class="header-section-number">6.4.2</span> Forma multivariada</h3>
+<p>Para um sistema</p>
+<p><span class="math display">\[
+r(\theta)=0,
+\qquad
+r:\mathbb{R}^p\to\mathbb{R}^p,
+\]</span></p>
+<p>seja <span class="math inline">\(J(\theta)\)</span> a matriz Jacobiana. O modelo linear em torno de <span class="math inline">\(\theta_k\)</span> é</p>
+<p><span class="math display">\[
+r(\theta_k+p)
+\approx
+r(\theta_k)
++
+J(\theta_k)p.
+\]</span></p>
+<p>O passo de Newton <span class="math inline">\(p_k\)</span> é obtido resolvendo</p>
+<p><span class="math display">\[
+J(\theta_k)p_k
+=
+-r(\theta_k),
+\]</span></p>
+<p>e a atualização é</p>
+<p><span class="math display">\[
+\theta_{k+1}
+=
+\theta_k+p_k.
+\]</span></p>
+<p>Do ponto de vista numérico, é preferível <strong>resolver o sistema linear</strong> para <span class="math inline">\(p_k\)</span> em vez de calcular explicitamente <span class="math inline">\(J(\theta_k)^{-1}\)</span>.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>, Algoritmo 11.1, pp.&nbsp;274–275)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.1, pp.&nbsp;688–689)</span>.</p>
+</blockquote>
+</section>
+</section>
+<section id="método-de-newton-para-otimização" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="método-de-newton-para-otimização"><span class="header-section-number">6.5</span> Método de Newton para otimização</h2>
+<p>Para minimizar uma função suave <span class="math inline">\(f:\mathbb{R}^p\to\mathbb{R}\)</span>, utiliza-se o modelo quadrático de Taylor</p>
+<p><span class="math display">\[
+m_k(p)
+=
+f(\theta_k)
++
+\nabla f(\theta_k)^\top p
++
+\frac{1}{2}
+p^\top
+\nabla^2 f(\theta_k)
+p.
+\]</span></p>
+<p>Se a Hessiana <span class="math inline">\(\nabla^2 f(\theta_k)\)</span> é positiva definida, o mínimo desse modelo é obtido pela condição</p>
+<p><span class="math display">\[
+\nabla f(\theta_k)
++
+\nabla^2 f(\theta_k)p_k
+=
+0.
+\]</span></p>
+<p>Portanto, o passo de Newton satisfaz</p>
+<p><span class="math display">\[
+\boxed{
+\nabla^2 f(\theta_k)p_k
+=
+-\nabla f(\theta_k)
+}
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+\boxed{
+\theta_{k+1}
+=
+\theta_k+p_k.
+}
+\]</span></p>
+<p>Quando se escreve formalmente a inversa,</p>
+<p><span class="math display">\[
+p_k
+=
+-
+\left[
+\nabla^2 f(\theta_k)
+\right]^{-1}
+\nabla f(\theta_k),
+\]</span></p>
+<p>mas uma implementação numérica deve, em geral, resolver o sistema linear anterior.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 2.2</a>, Eq. 2.14–2.15, pp.&nbsp;22–23)</span>.</p>
+</blockquote>
+<section id="caso-unidimensional" class="level3" data-number="6.5.1">
+<h3 data-number="6.5.1" class="anchored" data-anchor-id="caso-unidimensional"><span class="header-section-number">6.5.1</span> Caso unidimensional</h3>
+<p>Se <span class="math inline">\(p=1\)</span>, a fórmula reduz-se a</p>
+<p><span class="math display">\[
+\boxed{
+\theta_{k+1}
+=
+\theta_k
+-
+\frac{f'(\theta_k)}
+     {f''(\theta_k)}
+}.
+\]</span></p>
+<p>Isso também pode ser obtido aplicando o método de Newton para raízes à equação</p>
+<p><span class="math display">\[
+g(\theta)=f'(\theta)=0.
+\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> relação entre Newton para raízes do gradiente e Newton para otimização em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 11.1</a>, pp.&nbsp;274–275)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.1, pp.&nbsp;688–689)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A fórmula de Newton define uma direção de descida para minimização quando a Hessiana é positiva definida. Se a Hessiana for singular, o passo pode não estar definido. Se for indefinida, o passo pode existir e ainda assim <strong>não ser uma direção de descida</strong>.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>)</span> [Seção 2.2, pp.&nbsp;22–23; Seção 3.4, pp.&nbsp;48–56].</p>
+</div>
+</div>
+</section>
+<section id="maximização" class="level3" data-number="6.5.2">
+<h3 data-number="6.5.2" class="anchored" data-anchor-id="maximização"><span class="header-section-number">6.5.2</span> Maximização</h3>
+<p>Para maximizar uma função <span class="math inline">\(\ell(\theta)\)</span>, pode-se minimizar <span class="math inline">\(-\ell(\theta)\)</span>. A atualização de Newton escrita diretamente para <span class="math inline">\(\ell\)</span> mantém a forma</p>
+<p><span class="math display">\[
+\theta_{k+1}
+=
+\theta_k
+-
+\left[
+\nabla^2\ell(\theta_k)
+\right]^{-1}
+\nabla\ell(\theta_k).
+\]</span></p>
+<p>Perto de um máximo local estrito, espera-se que</p>
+<p><span class="math display">\[
+\nabla^2\ell(\theta^\star)
+\]</span></p>
+<p>seja negativa definida. Nesse caso, a Hessiana de <span class="math inline">\(-\ell\)</span> é positiva definida.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> condições de segunda ordem em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 2.1</a>, pp.&nbsp;14–16)</span> e passo de Newton em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 2.2</a>, pp.&nbsp;22–23)</span>.</p>
+</blockquote>
+</section>
+</section>
+<section id="convergência-local-do-método-de-newton" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="convergência-local-do-método-de-newton"><span class="header-section-number">6.6</span> Convergência local do método de Newton</h2>
+<p>Uma das principais vantagens do método de Newton é sua taxa de convergência local. Sob hipóteses de regularidade, quando o ponto inicial está suficientemente próximo de um mínimo <span class="math inline">\(\theta^\star\)</span>, a Hessiana é não singular e suficientemente suave, e passos completos são aceitos, a sequência converge <strong>quadraticamente</strong>.</p>
+<p>De maneira simplificada, convergência quadrática significa que, para <span class="math inline">\(k\)</span> suficientemente grande,</p>
+<p><span class="math display">\[
+\|\theta_{k+1}-\theta^\star\|
+\leq
+C
+\|\theta_k-\theta^\star\|^2
+\]</span></p>
+<p>para alguma constante <span class="math inline">\(C&gt;0\)</span>.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>, Teorema 3.5, pp.&nbsp;44–46)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Quando o algoritmo já entrou na vizinhança em que a aproximação quadrática é precisa, o número de algarismos corretos pode crescer muito rapidamente. Essa é a razão para a conhecida eficiência local de Newton.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>)</span> [Seção 2.2, pp.&nbsp;22–23; Teorema 3.5, pp.&nbsp;44–46].</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A convergência quadrática é uma propriedade <strong>local</strong>, não uma garantia de que qualquer valor inicial produzirá convergência. Longe da solução, o método puro pode produzir passos ruins ou até divergir.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 11.1</a>, pp.&nbsp;274–277)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.1, pp.&nbsp;688–689)</span>.</p>
+</div>
+</div>
+</section>
+<section id="critérios-de-convergência-e-parada" class="level2" data-number="6.7">
+<h2 data-number="6.7" class="anchored" data-anchor-id="critérios-de-convergência-e-parada"><span class="header-section-number">6.7</span> Critérios de convergência e parada</h2>
+<p>Em otimização, um critério natural é verificar se o gradiente está próximo de zero:</p>
+<p><span class="math display">\[
+\|\nabla f(\theta_k)\|
+\leq
+\varepsilon_g.
+\]</span></p>
+<p>O Algoritmo BFGS apresentado por <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>)</span>, por exemplo, utiliza a norma do gradiente como critério de terminação. Em um problema de raízes, o critério análogo é</p>
+<p><span class="math display">\[
+\|g(\theta_k)\|
+\leq
+\varepsilon_g.
+\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>, Algoritmo 6.1, pp.&nbsp;140–141)</span> e, para equações não lineares, <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice B, Algoritmo B.1, aproximadamente pp.&nbsp;670–671)</span>.</p>
+</blockquote>
+<p>Uma implementação pode também monitorar o tamanho relativo do passo,</p>
+<p><span class="math display">\[
+\frac{
+\|\theta_{k+1}-\theta_k\|
+}{
+1+\|\theta_{k+1}\|
+}
+\leq
+\varepsilon_\theta,
+\]</span></p>
+<p>e a mudança relativa na função objetivo,</p>
+<p><span class="math display">\[
+\frac{
+|f(\theta_{k+1})-f(\theta_k)|
+}{
+1+|f(\theta_{k+1})|
+}
+\leq
+\varepsilon_f.
+\]</span></p>
+<p>Além disso, deve-se impor um número máximo de iterações.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Observação computacional">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação computacional
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A combinação simultânea de critérios baseados em gradiente, tamanho do passo, mudança da função objetivo e número máximo de iterações é uma recomendação de implementação adotada neste capítulo. As fontes sustentam o uso de testes de convergência, mas esta combinação específica deve ser entendida como uma estratégia computacional, e não como um teorema universal.</p>
+</div>
+</div>
+</section>
+<section id="sensibilidade-aos-valores-iniciais" class="level2" data-number="6.8">
+<h2 data-number="6.8" class="anchored" data-anchor-id="sensibilidade-aos-valores-iniciais"><span class="header-section-number">6.8</span> Sensibilidade aos valores iniciais</h2>
+<p>O desempenho de Newton depende fortemente do valor inicial. Em problemas de raízes, um ponto inicial distante pode conduzir a comportamento errático; em otimização, pode levar a uma região associada a outro ponto estacionário ou produzir passos que não melhoram a função.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 11.1</a>, pp.&nbsp;274–277)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.1, pp.&nbsp;688–689)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O valor inicial define a região do espaço paramétrico a partir da qual o modelo local é construído. Newton não “vê” toda a função; em cada iteração, ele usa apenas informação local de primeira e segunda ordem.</p>
+<p><em>Base bibliográfica:</em> interpretação baseada na construção local de Taylor em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 2.2</a> e 11.1)</span>.</p>
+</div>
+</div>
+<p>Em máxima verossimilhança, <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> sugere que estimativas de momentos podem fornecer valores iniciais naturais em alguns modelos. Essa estratégia é particularmente útil quando o escore e a Hessiana são complicados.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice B, discussão após o Algoritmo B.1, aproximadamente pp.&nbsp;670–671)</span>.</p>
+</blockquote>
+</section>
+<section id="hessiana-singular-indefinida-e-problemas-de-condicionamento" class="level2" data-number="6.9">
+<h2 data-number="6.9" class="anchored" data-anchor-id="hessiana-singular-indefinida-e-problemas-de-condicionamento"><span class="header-section-number">6.9</span> Hessiana singular, indefinida e problemas de condicionamento</h2>
+<section id="derivada-pequena-no-caso-escalar" class="level3" data-number="6.9.1">
+<h3 data-number="6.9.1" class="anchored" data-anchor-id="derivada-pequena-no-caso-escalar"><span class="header-section-number">6.9.1</span> Derivada pequena no caso escalar</h3>
+<p>Na atualização</p>
+<p><span class="math display">\[
+\theta_{k+1}
+=
+\theta_k
+-
+\frac{g(\theta_k)}{g'(\theta_k)},
+\]</span></p>
+<p>um valor de <span class="math inline">\(g'(\theta_k)\)</span> próximo de zero pode gerar um passo de grande magnitude. A mesma dificuldade aparece em dimensão maior quando a Jacobiana ou Hessiana é singular ou quase singular.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 11.1</a>, pp.&nbsp;274–277)</span>.</p>
+</blockquote>
+</section>
+<section id="hessiana-indefinida" class="level3" data-number="6.9.2">
+<h3 data-number="6.9.2" class="anchored" data-anchor-id="hessiana-indefinida"><span class="header-section-number">6.9.2</span> Hessiana indefinida</h3>
+<p>Em minimização, se</p>
+<p><span class="math display">\[
+\nabla^2 f(\theta_k)
+\]</span></p>
+<p>não é positiva definida, o passo de Newton pode não ser de descida. Uma abordagem clássica é modificar a Hessiana de forma a obter uma matriz positiva definida antes de calcular a direção.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 3.4</a>, pp.&nbsp;48–56)</span>.</p>
+</blockquote>
+</section>
+<section id="custo-computacional" class="level3" data-number="6.9.3">
+<h3 data-number="6.9.3" class="anchored" data-anchor-id="custo-computacional"><span class="header-section-number">6.9.3</span> Custo computacional</h3>
+<p>Em dimensão elevada, calcular, armazenar e fatorar a Hessiana pode ser caro. O custo pode tornar o Newton exato impraticável, motivando métodos de Newton inexato, Newton–CG, métodos sem formação explícita da Hessiana e métodos de memória limitada.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, cap. 7</a>, especialmente pp.&nbsp;164–180)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Não se deve implementar o passo multivariado calculando explicitamente</p>
+<p><span class="math display">\[
+\left[\nabla^2 f(\theta_k)\right]^{-1}.
+\]</span></p>
+<p>O problema numericamente apropriado é resolver</p>
+<p><span class="math display">\[
+\nabla^2 f(\theta_k)p_k=-\nabla f(\theta_k).
+\]</span></p>
+<p><em>Base bibliográfica:</em> formulação dos passos de Newton como sistemas lineares em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>)</span> [Seção 7.1, pp.&nbsp;165–166; Seção 11.1, pp.&nbsp;274–275].</p>
+</div>
+</div>
+</section>
+</section>
+<section id="globalização-do-método-de-newton" class="level2" data-number="6.10">
+<h2 data-number="6.10" class="anchored" data-anchor-id="globalização-do-método-de-newton"><span class="header-section-number">6.10</span> Globalização do método de Newton</h2>
+<p>A excelente convergência local de Newton não garante bom comportamento a partir de pontos iniciais remotos. Métodos práticos incorporam mecanismos de <strong>globalização</strong>, cujo objetivo é produzir progresso confiável antes de a iteração entrar na região em que o passo de Newton completo é apropriado.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, cap. 3</a> e 4)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2)</span>.</p>
+</blockquote>
+<section id="newton-amortecido" class="level3" data-number="6.10.1">
+<h3 data-number="6.10.1" class="anchored" data-anchor-id="newton-amortecido"><span class="header-section-number">6.10.1</span> Newton amortecido</h3>
+<p>Em vez de usar sempre</p>
+<p><span class="math display">\[
+\theta_{k+1}
+=
+\theta_k+p_k,
+\]</span></p>
+<p>pode-se introduzir um comprimento de passo</p>
+<p><span class="math display">\[
+\alpha_k\in(0,1]
+\]</span></p>
+<p>e escrever</p>
+<p><span class="math display">\[
+\theta_{k+1}
+=
+\theta_k+\alpha_k p_k.
+\]</span></p>
+<p>Para o Newton puro, <span class="math inline">\(\alpha_k=1\)</span>. Quando o passo completo não produz comportamento satisfatório, <span class="math inline">\(\alpha_k\)</span> pode ser reduzido.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.1, pp.&nbsp;688–689)</span> e <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, cap. 3</a>, pp.&nbsp;30–65)</span>.</p>
+</blockquote>
+</section>
+<section id="busca-linear" class="level3" data-number="6.10.2">
+<h3 data-number="6.10.2" class="anchored" data-anchor-id="busca-linear"><span class="header-section-number">6.10.2</span> Busca linear</h3>
+<p>Uma busca linear escolhe <span class="math inline">\(\alpha_k\)</span> ao longo de uma direção <span class="math inline">\(p_k\)</span>. Define-se</p>
+<p><span class="math display">\[
+\phi(\alpha)
+=
+f(\theta_k+\alpha p_k)
+\]</span></p>
+<p>e busca-se um valor de <span class="math inline">\(\alpha\)</span> que produza diminuição suficiente sem gastar um número excessivo de avaliações da função.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 3.1</a>, pp.&nbsp;31–37)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.5, aproximadamente p.&nbsp;691)</span>.</p>
+</blockquote>
+<section id="backtracking" class="level4" data-number="6.10.2.1">
+<h4 data-number="6.10.2.1" class="anchored" data-anchor-id="backtracking"><span class="header-section-number">6.10.2.1</span> Backtracking</h4>
+<p>Uma forma simples começa com <span class="math inline">\(\alpha=1\)</span> e reduz progressivamente esse valor até obter redução suficiente. Em métodos de Newton, essa estratégia permite usar o passo completo sempre que ele já for adequado.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 3.1</a>, especialmente pp.&nbsp;37–38)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Perto de uma solução regular, condições usuais de busca linear acabam aceitando <span class="math inline">\(\alpha_k=1\)</span>. Assim, a globalização pode proteger a fase inicial sem destruir a rápida convergência local de Newton.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 3.3</a>, pp.&nbsp;44–47)</span>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="regiões-de-confiança" class="level3" data-number="6.10.3">
+<h3 data-number="6.10.3" class="anchored" data-anchor-id="regiões-de-confiança"><span class="header-section-number">6.10.3</span> Regiões de confiança</h3>
+<p>Em métodos de região de confiança, o modelo quadrático é considerado confiável somente em uma vizinhança do ponto corrente:</p>
+<p><span class="math display">\[
+\|p\|
+\leq
+\Delta_k.
+\]</span></p>
+<p>O algoritmo decide o passo comparando a redução efetivamente observada com a redução prevista pelo modelo. Quando o modelo é preciso, a região pode ser ampliada; quando é pouco confiável, ela é reduzida.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, cap. 4</a>, pp.&nbsp;66–100)</span>.</p>
+</blockquote>
+</section>
+</section>
+<section id="métodos-quasi-newton" class="level2" data-number="6.11">
+<h2 data-number="6.11" class="anchored" data-anchor-id="métodos-quasi-newton"><span class="header-section-number">6.11</span> Métodos quasi-Newton</h2>
+<p>A principal desvantagem do Newton exato é a necessidade da Hessiana. Métodos <strong>quasi-Newton</strong> substituem <span class="math inline">\(\nabla^2 f(\theta_k)\)</span> ou sua inversa por aproximações construídas a partir da evolução dos gradientes.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, cap. 6</a>, pp.&nbsp;135–163)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.3, aproximadamente pp.&nbsp;689–691)</span>.</p>
+</blockquote>
+<section id="bfgs" class="level3" data-number="6.11.1">
+<h3 data-number="6.11.1" class="anchored" data-anchor-id="bfgs"><span class="header-section-number">6.11.1</span> BFGS</h3>
+<p>Defina</p>
+<p><span class="math display">\[
+s_k
+=
+\theta_{k+1}-\theta_k
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+y_k
+=
+\nabla f(\theta_{k+1})
+-
+\nabla f(\theta_k).
+\]</span></p>
+<p>O BFGS atualiza uma aproximação da Hessiana ou de sua inversa usando esses vetores e uma condição secante. Em sua forma baseada na aproximação da inversa <span class="math inline">\(H_k\)</span>, o passo é</p>
+<p><span class="math display">\[
+p_k
+=
+-H_k\nabla f(\theta_k).
+\]</span></p>
+<p>Com busca linear apropriada, o método apresenta convergência superlinear em condições regulares e evita o cálculo explícito de segundas derivadas.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 6.1</a>, especialmente pp.&nbsp;136–142)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Newton investe mais informação de segunda ordem em cada iteração e pode atingir convergência quadrática local. BFGS economiza a Hessiana exata, usando a mudança dos gradientes para aprender progressivamente a curvatura da função.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 6.1</a>, pp.&nbsp;140–142)</span>.</p>
+</div>
+</div>
+</section>
+<section id="l-bfgs-e-problemas-de-grande-dimensão" class="level3" data-number="6.11.2">
+<h3 data-number="6.11.2" class="anchored" data-anchor-id="l-bfgs-e-problemas-de-grande-dimensão"><span class="header-section-number">6.11.2</span> L-BFGS e problemas de grande dimensão</h3>
+<p>Quando o número de parâmetros é grande, armazenar uma matriz densa <span class="math inline">\(p\times p\)</span> pode ser proibitivo. O L-BFGS mantém apenas um número limitado de pares recentes <span class="math inline">\((s_k,y_k)\)</span> e representa implicitamente a aproximação da Hessiana inversa.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 7.2</a>, pp.&nbsp;176–184)</span>.</p>
+</blockquote>
+</section>
+</section>
+<section id="cálculo-de-derivadas" class="level2" data-number="6.12">
+<h2 data-number="6.12" class="anchored" data-anchor-id="cálculo-de-derivadas"><span class="header-section-number">6.12</span> Cálculo de derivadas</h2>
+<p>O método de Newton depende de derivadas. Erros de derivação podem alterar completamente a direção de busca, como ocorre no exemplo revisado mais adiante.</p>
+<section id="derivação-analítica" class="level3" data-number="6.12.1">
+<h3 data-number="6.12.1" class="anchored" data-anchor-id="derivação-analítica"><span class="header-section-number">6.12.1</span> Derivação analítica</h3>
+<p>Quando expressões fechadas são disponíveis, gradientes e Hessianas analíticas são uma opção natural. Entretanto, em modelos grandes, sua obtenção manual pode ser trabalhosa e sujeita a erros.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>)</span> [Seção 2.2, pp.&nbsp;22–23; Capítulo 8, pp.&nbsp;193–219].</p>
+</blockquote>
+</section>
+<section id="diferenças-finitas" class="level3" data-number="6.12.2">
+<h3 data-number="6.12.2" class="anchored" data-anchor-id="diferenças-finitas"><span class="header-section-number">6.12.2</span> Diferenças finitas</h3>
+<p>Uma derivada pode ser aproximada por diferença central:</p>
+<p><span class="math display">\[
+f'(\theta)
+\approx
+\frac{
+f(\theta+h)-f(\theta-h)
+}{
+2h
+}.
+\]</span></p>
+<p>Sob condições de suavidade, o erro de truncamento dessa fórmula é de ordem <span class="math inline">\(O(h^2)\)</span>, embora a escolha de <span class="math inline">\(h\)</span> também precise considerar erros de arredondamento.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 8.1</a>, pp.&nbsp;194–197)</span>.</p>
+</blockquote>
+<section id="implementação-simples-em-r" class="level4" data-number="6.12.2.1">
+<h4 data-number="6.12.2.1" class="anchored" data-anchor-id="implementação-simples-em-r"><span class="header-section-number">6.12.2.1</span> Implementação simples em R</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>derivada_central <span class="ot">&lt;-</span> <span class="cf">function</span>(f, x, <span class="at">h =</span> <span class="fl">1e-5</span>) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  (<span class="fu">f</span>(x <span class="sc">+</span> h) <span class="sc">-</span> <span class="fu">f</span>(x <span class="sc">-</span> h)) <span class="sc">/</span> (<span class="dv">2</span> <span class="sc">*</span> h)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> fórmula baseada em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 8.1</a>, pp.&nbsp;196–197)</span>.</p>
+</blockquote>
+</section>
+</section>
+<section id="diferenciação-automática" class="level3" data-number="6.12.3">
+<h3 data-number="6.12.3" class="anchored" data-anchor-id="diferenciação-automática"><span class="header-section-number">6.12.3</span> Diferenciação automática</h3>
+<p>A diferenciação automática aplica sistematicamente a regra da cadeia às operações usadas na avaliação de uma função, permitindo obter derivadas com custo controlado e sem recorrer diretamente à diferença entre valores muito próximos.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 8.2</a>, pp.&nbsp;204–217)</span>.</p>
+</blockquote>
+</section>
+<section id="a-função-d-do-r" class="level3" data-number="6.12.4">
+<h3 data-number="6.12.4" class="anchored" data-anchor-id="a-função-d-do-r"><span class="header-section-number">6.12.4</span> A função <code>D()</code> do R</h3>
+<p>É possível realizar diferenciação simbólica no <code>R</code> usando a função <code>D()</code>. Veja o exemplo abaixo:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">expression</span>(x<span class="sc">^</span><span class="dv">4</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> <span class="fu">D</span>(f, <span class="st">"x"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> <span class="fu">D</span>(d1, <span class="st">"x"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>d1</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>4 * x^3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>d2</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>4 * (3 * x^2)</code></pre>
+</div>
+</div>
+<p>Uma função recursiva para derivadas de ordem arbitrária pode ser escrita como:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>Dn <span class="ot">&lt;-</span> <span class="cf">function</span>(expressao, variavel, <span class="at">ordem =</span> <span class="dv">1</span>) {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (ordem <span class="sc">&lt;</span> <span class="dv">1</span>) {</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">"ordem deve ser &gt;= 1"</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (ordem <span class="sc">==</span> <span class="dv">1</span>) {</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">D</span>(expressao, variavel))</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">Dn</span>(</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">D</span>(expressao, variavel),</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    variavel,</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    ordem <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="fu">Dn</span>(<span class="fu">expression</span>(x<span class="sc">^</span><span class="dv">4</span>), <span class="st">"x"</span>, <span class="dv">1</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>4 * x^3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Dn</span>(<span class="fu">expression</span>(x<span class="sc">^</span><span class="dv">4</span>), <span class="st">"x"</span>, <span class="dv">2</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>4 * (3 * x^2)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Dn</span>(<span class="fu">expression</span>(x<span class="sc">^</span><span class="dv">4</span>), <span class="st">"x"</span>, <span class="dv">3</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>4 * (3 * (2 * x))</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="newtonraphson-em-máxima-verossimilhança" class="level2" data-number="6.13">
+<h2 data-number="6.13" class="anchored" data-anchor-id="newtonraphson-em-máxima-verossimilhança"><span class="header-section-number">6.13</span> Newton–Raphson em máxima verossimilhança</h2>
+<p>Seja</p>
+<p><span class="math display">\[
+\ell(\theta)
+\]</span></p>
+<p>a log-verossimilhança e defina o <strong>escore</strong></p>
+<p><span class="math display">\[
+U(\theta)
+=
+\frac{\partial \ell(\theta)}
+     {\partial\theta}.
+\]</span></p>
+<p>Um estimador de máxima verossimilhança interior <span class="math inline">\(\widehat{\theta}\)</span>, sob condições regulares, satisfaz</p>
+<p><span class="math display">\[
+U(\widehat{\theta})=0.
+\]</span></p>
+<p>Aplicando Newton à equação de escore,</p>
+<p><span class="math display">\[
+\theta_{k+1}
+=
+\theta_k
+-
+\frac{
+U(\theta_k)
+}{
+U'(\theta_k)
+}.
+\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice B, Algoritmo B.1, aproximadamente pp.&nbsp;670–671)</span>.</p>
+</blockquote>
+<section id="informação-observada" class="level3" data-number="6.13.1">
+<h3 data-number="6.13.1" class="anchored" data-anchor-id="informação-observada"><span class="header-section-number">6.13.1</span> Informação observada</h3>
+<p>Defina a informação observada escalar por</p>
+<p><span class="math display">\[
+j(\theta)
+=
+-
+\frac{\partial^2\ell(\theta)}
+     {\partial\theta^2}
+=
+-U'(\theta).
+\]</span></p>
+<p>Então Newton–Raphson pode ser escrito como</p>
+<p><span class="math display">\[
+\boxed{
+\theta_{k+1}
+=
+\theta_k
++
+\frac{
+U(\theta_k)
+}{
+j(\theta_k)
+}
+}.
+\]</span></p>
+<p>Em dimensão <span class="math inline">\(p\)</span>,</p>
+<p><span class="math display">\[
+\boxed{
+\theta_{k+1}
+=
+\theta_k
++
+j(\theta_k)^{-1}
+U(\theta_k),
+}
+\]</span></p>
+<p>onde, em implementação, deve-se resolver o sistema linear correspondente em vez de formar a inversa explicitamente.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice B, Eq. B.24 e discussão associada, aproximadamente pp.&nbsp;670–671)</span>.</p>
+</blockquote>
+</section>
+<section id="escore-de-fisher" class="level3" data-number="6.13.2">
+<h3 data-number="6.13.2" class="anchored" data-anchor-id="escore-de-fisher"><span class="header-section-number">6.13.2</span> Escore de Fisher</h3>
+<p>A <strong>informação de Fisher esperada</strong> é</p>
+<p><span class="math display">\[
+I(\theta)
+=
+E_\theta\left[
+j(\theta;X)
+\right].
+\]</span></p>
+<p>Quando a informação observada <span class="math inline">\(j(\theta_k)\)</span> é substituída pela informação esperada <span class="math inline">\(I(\theta_k)\)</span>, a atualização torna-se</p>
+<p><span class="math display">\[
+\boxed{
+\theta_{k+1}
+=
+\theta_k
++
+I(\theta_k)^{-1}
+U(\theta_k).
+}
+\]</span></p>
+<p>Essa iteração é conhecida como <strong>Escore de Fisher</strong>.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice B, Eq. B.25 e discussão associada, aproximadamente pp.&nbsp;670–671)</span>.</p>
+</blockquote>
+</section>
+</section>
+<section id="implementação-do-método-de-newton-em-r" class="level2" data-number="6.14">
+<h2 data-number="6.14" class="anchored" data-anchor-id="implementação-do-método-de-newton-em-r"><span class="header-section-number">6.14</span> Implementação do método de Newton em R</h2>
+<section id="função-genérica-para-localização-de-raízes" class="level3" data-number="6.14.1">
+<h3 data-number="6.14.1" class="anchored" data-anchor-id="função-genérica-para-localização-de-raízes"><span class="header-section-number">6.14.1</span> Função genérica para localização de raízes</h3>
+<p>A implementação abaixo registra o histórico das iterações e inclui verificações elementares para derivadas muito pequenas e valores não finitos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>newton_raiz <span class="ot">&lt;-</span> <span class="cf">function</span>(g, gp, theta0,</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">tol_g =</span> <span class="fl">1e-8</span>,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">tol_theta =</span> <span class="fl">1e-10</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">maxit =</span> <span class="dv">100</span>) {</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  theta <span class="ot">&lt;-</span> theta0</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  historico <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">iter =</span> <span class="dv">0</span>,</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">theta =</span> theta,</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">g =</span> <span class="fu">g</span>(theta)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (iter <span class="cf">in</span> <span class="fu">seq_len</span>(maxit)) {</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    valor_g <span class="ot">&lt;-</span> <span class="fu">g</span>(theta)</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    valor_gp <span class="ot">&lt;-</span> <span class="fu">gp</span>(theta)</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.finite</span>(valor_g) <span class="sc">||</span> <span class="sc">!</span><span class="fu">is.finite</span>(valor_gp)) {</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stop</span>(<span class="st">"g(theta) ou g'(theta) não é finito."</span>)</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">abs</span>(valor_gp) <span class="sc">&lt;</span> <span class="fu">sqrt</span>(.Machine<span class="sc">$</span>double.eps)) {</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stop</span>(<span class="st">"Derivada muito próxima de zero."</span>)</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>    passo <span class="ot">&lt;-</span> <span class="sc">-</span>valor_g <span class="sc">/</span> valor_gp</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>    theta_new <span class="ot">&lt;-</span> theta <span class="sc">+</span> passo</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>    g_new <span class="ot">&lt;-</span> <span class="fu">g</span>(theta_new)</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>    historico <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>      historico,</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>      <span class="fu">data.frame</span>(</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>        <span class="at">iter =</span> iter,</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>        <span class="at">theta =</span> theta_new,</span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>        <span class="at">g =</span> g_new</span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>    erro_theta <span class="ot">&lt;-</span> <span class="fu">abs</span>(theta_new <span class="sc">-</span> theta) <span class="sc">/</span></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>      (<span class="dv">1</span> <span class="sc">+</span> <span class="fu">abs</span>(theta_new))</span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>    theta <span class="ot">&lt;-</span> theta_new</span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">abs</span>(g_new) <span class="sc">&lt;=</span> tol_g <span class="sc">||</span></span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>        erro_theta <span class="sc">&lt;=</span> tol_theta) {</span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return</span>(<span class="fu">list</span>(</span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>        <span class="at">root =</span> theta,</span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a>        <span class="at">iter =</span> iter,</span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a>        <span class="at">convergiu =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a>        <span class="at">historico =</span> historico</span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a>      ))</span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>    <span class="at">root =</span> theta,</span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a>    <span class="at">iter =</span> maxit,</span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a>    <span class="at">convergiu =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>    <span class="at">historico =</span> historico</span>
+<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> recorrência de Newton baseada em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.1, pp.&nbsp;688–689)</span> e <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 11.1</a>, pp.&nbsp;274–277)</span>. As verificações e a estrutura do código são autorais.</p>
+</blockquote>
+<div class="callout callout-style-default callout-important callout-titled" title="Exemplo: raiz de $g(\theta)=\theta^2-2$">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exemplo: raiz de <span class="math inline">\(g(\theta)=\theta^2-2\)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>g  <span class="ot">&lt;-</span> <span class="cf">function</span>(theta) theta<span class="sc">^</span><span class="dv">2</span> <span class="sc">-</span> <span class="dv">2</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>gp <span class="ot">&lt;-</span> <span class="cf">function</span>(theta) <span class="dv">2</span> <span class="sc">*</span> theta</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>ajuste <span class="ot">&lt;-</span> <span class="fu">newton_raiz</span>(</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  g,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  gp,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">theta0 =</span> <span class="dv">2</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>ajuste<span class="sc">$</span>root</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.414214</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ajuste<span class="sc">$</span>iter</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>ajuste<span class="sc">$</span>convergiu</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>ajuste<span class="sc">$</span>historico</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  iter    theta            g
+1    0 2.000000 2.000000e+00
+2    1 1.500000 2.500000e-01
+3    2 1.416667 6.944444e-03
+4    3 1.414216 6.007305e-06
+5    4 1.414214 4.510614e-12</code></pre>
+</div>
+</div>
+<p>A raiz positiva é <span class="math inline">\(\sqrt{2}\)</span>. O exemplo tem finalidade exclusivamente didática.</p>
+<p><em>Base conceitual:</em> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.1, pp.&nbsp;688–689)</span>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="exemplo-estatístico-máxima-verossimilhança-para-localização-cauchy" class="level2" data-number="6.15">
+<h2 data-number="6.15" class="anchored" data-anchor-id="exemplo-estatístico-máxima-verossimilhança-para-localização-cauchy"><span class="header-section-number">6.15</span> Exemplo estatístico: máxima verossimilhança para localização Cauchy</h2>
+<p><span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022</a>)</span> apresenta um exemplo no qual</p>
+<p><span class="math display">\[
+X_1=1,\qquad
+X_2=2,\qquad
+X_3=2,\qquad
+X_4=3
+\]</span></p>
+<p>são modelados por uma distribuição de Cauchy com parâmetro de localização <span class="math inline">\(\theta\)</span> e escala unitária.</p>
+<p>A log-verossimilhança, exceto por uma constante, é</p>
+<p><span class="math display">\[
+\ell(\theta)
+=
+-
+\sum_{i=1}^{n}
+\log
+\left[
+1+(x_i-\theta)^2
+\right].
+\]</span></p>
+<p>A solução não requer que se obtenha uma expressão fechada para o estimador; pode-se maximizar numericamente a log-verossimilhança.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> exemplo de <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022</a>, Exemplo 6.7 e nota de R, pp.&nbsp;154–155)</span>.</p>
+</blockquote>
+<section id="usando-optimize" class="level3" data-number="6.15.1">
+<h3 data-number="6.15.1" class="anchored" data-anchor-id="usando-optimize"><span class="header-section-number">6.15.1</span> Usando <code>optimize()</code></h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>logL <span class="ot">&lt;-</span> <span class="cf">function</span>(theta) {</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(<span class="fu">log</span>(<span class="fu">dcauchy</span>(x, <span class="at">location =</span> theta)))</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="fu">optimize</span>(</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  logL,</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">interval =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">4</span>),</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">maximum =</span> <span class="cn">TRUE</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$maximum
+[1] 2
+
+$objective
+[1] -5.965214</code></pre>
+</div>
+</div>
+<p>O máximo ocorre em</p>
+<p><span class="math display">\[
+\widehat{\theta}=2.
+\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> código adaptado da nota de R em <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022, p. 155</a>)</span>.</p>
+</blockquote>
+</section>
+<section id="usando-uniroot" class="level3" data-number="6.15.2">
+<h3 data-number="6.15.2" class="anchored" data-anchor-id="usando-uniroot"><span class="header-section-number">6.15.2</span> Usando <code>uniroot()</code></h3>
+<p>O escore é</p>
+<p><span class="math display">\[
+U(\theta)
+=
+2
+\sum_{i=1}^n
+\frac{
+x_i-\theta
+}{
+1+(x_i-\theta)^2
+}.
+\]</span></p>
+<p>Assim, pode-se localizar numericamente a raiz de <span class="math inline">\(U(\theta)=0\)</span>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>score <span class="ot">&lt;-</span> <span class="cf">function</span>(theta) {</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span> <span class="sc">*</span> <span class="fu">sum</span>(</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    (x <span class="sc">-</span> theta) <span class="sc">/</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>      (<span class="dv">1</span> <span class="sc">+</span> (x <span class="sc">-</span> theta)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="fu">uniroot</span>(</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  score,</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">interval =</span> <span class="fu">c</span>(<span class="fl">1.5</span>, <span class="fl">2.5</span>)</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$root
+[1] 2
+
+$f.root
+[1] 0
+
+$iter
+[1] 1
+
+$init.it
+[1] NA
+
+$estim.prec
+[1] 0.5</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022, p. 155</a>)</span> recomenda explicitamente as duas abordagens: otimizar a log-verossimilhança com <code>optimize()</code> ou resolver numericamente a equação da derivada com <code>uniroot()</code>. A expressão do escore acima foi derivada para este capítulo a partir da log-verossimilhança do exemplo.</p>
+</blockquote>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Esse exemplo ilustra a diferença entre as duas tarefas computacionais:</p>
+<ul>
+<li><code>optimize()</code> trabalha diretamente com a função objetivo;</li>
+<li><code>uniroot()</code> trabalha com a equação de escore.</li>
+</ul>
+<p>As duas abordagens coincidem aqui porque a raiz encontrada corresponde ao máximo relevante da log-verossimilhança no intervalo considerado.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022, p. 155</a>)</span>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="exemplo" class="level2" data-number="6.16">
+<h2 data-number="6.16" class="anchored" data-anchor-id="exemplo"><span class="header-section-number">6.16</span> Exemplo</h2>
+<p>Considere</p>
+<p><span class="math display">\[
+f(\theta)
+=
+100\log(\theta)
+-
+50\theta
+-
+50\log
+\left(
+1-e^{-\theta}
+\right),
+\qquad
+\theta&gt;0.
+\]</span></p>
+<p>As derivadas são</p>
+<p><span class="math display">\[
+f'(\theta)
+=
+\frac{100}{\theta}
+-
+50
+-
+\frac{50}{e^\theta-1}
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+f''(\theta)
+=
+-
+\frac{100}{\theta^2}
++
+\frac{
+50e^\theta
+}{
+(e^\theta-1)^2
+}.
+\]</span></p>
+<section id="gráfico-da-função" class="level3" data-number="6.16.1">
+<h3 data-number="6.16.1" class="anchored" data-anchor-id="gráfico-da-função"><span class="header-section-number">6.16.1</span> Gráfico da função</h3>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="otimizaca_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>Função objetivo.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="maximização-direta-com-optimize" class="level3" data-number="6.16.2">
+<h3 data-number="6.16.2" class="anchored" data-anchor-id="maximização-direta-com-optimize"><span class="header-section-number">6.16.2</span> Maximização direta com <code>optimize()</code></h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(theta) {</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="dv">100</span> <span class="sc">*</span> <span class="fu">log</span>(theta) <span class="sc">-</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="dv">50</span> <span class="sc">*</span> theta <span class="sc">-</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="dv">50</span> <span class="sc">*</span> <span class="fu">log1p</span>(<span class="sc">-</span><span class="fu">exp</span>(<span class="sc">-</span>theta))</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>resultado <span class="ot">&lt;-</span> <span class="fu">optimize</span>(</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  f,</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">interval =</span> <span class="fu">c</span>(<span class="fl">0.001</span>, <span class="dv">5</span>),</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">maximum =</span> <span class="cn">TRUE</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>resultado<span class="sc">$</span>maximum</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.593607</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>resultado<span class="sc">$</span>objective</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -21.72331</code></pre>
 </div>
 </div>
-<p>Outras funções relacionadas a otimização:</p>
-<ol type="1">
-<li><code>optimize</code>: determinar o ponto de máximo (mínimo) da função <span class="math inline">\(f(\theta)\)</span>:</li>
-</ol>
+<p>A solução numérica é aproximadamente</p>
+<p><span class="math display">\[
+\widehat{\theta}
+\approx
+1.593624,
+\]</span></p>
+<p>com</p>
+<p><span class="math display">\[
+f(\widehat{\theta})
+\approx
+-21.72331.
+\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica para o uso de <code>optimize()</code>:</strong> <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022, p. 155</a>)</span>.</p>
+</blockquote>
+<p><strong>Origem do exemplo:</strong> a função objetivo foi preservada do manuscrito fornecido pelo autor. Ela <strong>não foi localizada nos livros da pasta <code>Fontes_Computacionais</code> durante esta revisão</strong>. Caso se deseje atribuir a função a uma referência bibliográfica, é necessária verificação adicional.</p>
+</section>
+<section id="resolvendo-ftheta0-com-uniroot" class="level3" data-number="6.16.3">
+<h3 data-number="6.16.3" class="anchored" data-anchor-id="resolvendo-ftheta0-com-uniroot"><span class="header-section-number">6.16.3</span> Resolvendo <span class="math inline">\(f'(\theta)=0\)</span> com <code>uniroot()</code></h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(u) (<span class="dv">100</span><span class="sc">*</span><span class="fu">log</span>(u) <span class="sc">-</span> <span class="dv">50</span><span class="sc">*</span>u<span class="dv">-50</span><span class="sc">*</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">exp</span>(<span class="sc">-</span>u)))</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">optimize</span>(f, <span class="at">lower =</span> <span class="dv">0</span>, <span class="at">upper =</span> <span class="dv">5</span>, <span class="at">maximum =</span> <span class="cn">TRUE</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>$maximum
-[1] 1.593607
-
-$objective
-[1] -21.72331</code></pre>
-</div>
-</div>
-<ol start="2" type="1">
-<li><code>uniroot</code>: determinar a raiz da equação <span class="math inline">\(\dfrac{\partial{f}}{\partial\theta}=0\)</span>.</li>
-</ol>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(u) <span class="dv">100</span><span class="sc">*</span>(<span class="dv">1</span><span class="sc">/</span>u)<span class="sc">-</span><span class="dv">50-50</span><span class="sc">*</span>(<span class="fu">exp</span>(<span class="sc">-</span>u)<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">exp</span>(<span class="sc">-</span>u)))</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">uniroot</span>(f, <span class="at">interval =</span> <span class="fu">c</span>(<span class="fl">0.001</span>, <span class="dv">5</span>))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> <span class="cf">function</span>(theta) {</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="dv">100</span> <span class="sc">/</span> theta <span class="sc">-</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="dv">50</span> <span class="sc">-</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="dv">50</span> <span class="sc">/</span> <span class="fu">expm1</span>(theta)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="fu">uniroot</span>(</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  d1,</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">interval =</span> <span class="fu">c</span>(<span class="fl">0.001</span>, <span class="dv">5</span>)</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$root
 [1] 1.593632
@@ -374,87 +1605,468 @@ $estim.prec
 [1] 6.103516e-05</code></pre>
 </div>
 </div>
-<p>A função <code>D</code> é usada para a obtenção de <em>derivadas</em>.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica para o uso de <code>uniroot()</code>:</strong> <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022, p. 155</a>)</span>.</p>
+</blockquote>
+</section>
+<section id="implementando-newton-manualmente" class="level3" data-number="6.16.4">
+<h3 data-number="6.16.4" class="anchored" data-anchor-id="implementando-newton-manualmente"><span class="header-section-number">6.16.4</span> Implementando Newton manualmente</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemplo 1</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">expression</span>(x<span class="sc">^</span><span class="dv">4</span>, <span class="st">"x"</span>)   </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> <span class="fu">D</span>(f, <span class="st">"x"</span>);d1  <span class="co"># primeira derivada</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(theta) {</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="dv">100</span> <span class="sc">*</span> <span class="fu">log</span>(theta) <span class="sc">-</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="dv">50</span> <span class="sc">*</span> theta <span class="sc">-</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="dv">50</span> <span class="sc">*</span> <span class="fu">log1p</span>(<span class="sc">-</span><span class="fu">exp</span>(<span class="sc">-</span>theta))</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> <span class="cf">function</span>(theta) {</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  <span class="dv">100</span> <span class="sc">/</span> theta <span class="sc">-</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    <span class="dv">50</span> <span class="sc">-</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>    <span class="dv">50</span> <span class="sc">/</span> <span class="fu">expm1</span>(theta)</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> <span class="cf">function</span>(theta) {</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>  <span class="sc">-</span><span class="dv">100</span> <span class="sc">/</span> theta<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span></span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>    <span class="dv">50</span> <span class="sc">*</span> <span class="fu">exp</span>(theta) <span class="sc">/</span> <span class="fu">expm1</span>(theta)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>tol <span class="ot">&lt;-</span> <span class="fl">1e-10</span></span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>maxit <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a>historico <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">iter =</span> <span class="dv">0</span>,</span>
+<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">theta =</span> theta,</span>
+<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">f =</span> <span class="fu">f</span>(theta),</span>
+<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">grad =</span> <span class="fu">d1</span>(theta)</span>
+<span id="cb31-27"><a href="#cb31-27" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb31-28"><a href="#cb31-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-29"><a href="#cb31-29" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (iter <span class="cf">in</span> <span class="fu">seq_len</span>(maxit)) {</span>
+<span id="cb31-30"><a href="#cb31-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-31"><a href="#cb31-31" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">abs</span>(<span class="fu">d2</span>(theta)) <span class="sc">&lt;</span> <span class="fu">sqrt</span>(.Machine<span class="sc">$</span>double.eps)) {</span>
+<span id="cb31-32"><a href="#cb31-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">"Segunda derivada muito próxima de zero."</span>)</span>
+<span id="cb31-33"><a href="#cb31-33" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb31-34"><a href="#cb31-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-35"><a href="#cb31-35" aria-hidden="true" tabindex="-1"></a>  theta_new <span class="ot">&lt;-</span> theta <span class="sc">-</span> <span class="fu">d1</span>(theta) <span class="sc">/</span> <span class="fu">d2</span>(theta)</span>
+<span id="cb31-36"><a href="#cb31-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-37"><a href="#cb31-37" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (theta_new <span class="sc">&lt;=</span> <span class="dv">0</span> <span class="sc">||</span> <span class="sc">!</span><span class="fu">is.finite</span>(theta_new)) {</span>
+<span id="cb31-38"><a href="#cb31-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">"O passo saiu do domínio theta &gt; 0."</span>)</span>
+<span id="cb31-39"><a href="#cb31-39" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb31-40"><a href="#cb31-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-41"><a href="#cb31-41" aria-hidden="true" tabindex="-1"></a>  historico <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb31-42"><a href="#cb31-42" aria-hidden="true" tabindex="-1"></a>    historico,</span>
+<span id="cb31-43"><a href="#cb31-43" aria-hidden="true" tabindex="-1"></a>    <span class="fu">data.frame</span>(</span>
+<span id="cb31-44"><a href="#cb31-44" aria-hidden="true" tabindex="-1"></a>      <span class="at">iter =</span> iter,</span>
+<span id="cb31-45"><a href="#cb31-45" aria-hidden="true" tabindex="-1"></a>      <span class="at">theta =</span> theta_new,</span>
+<span id="cb31-46"><a href="#cb31-46" aria-hidden="true" tabindex="-1"></a>      <span class="at">f =</span> <span class="fu">f</span>(theta_new),</span>
+<span id="cb31-47"><a href="#cb31-47" aria-hidden="true" tabindex="-1"></a>      <span class="at">grad =</span> <span class="fu">d1</span>(theta_new)</span>
+<span id="cb31-48"><a href="#cb31-48" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb31-49"><a href="#cb31-49" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb31-50"><a href="#cb31-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-51"><a href="#cb31-51" aria-hidden="true" tabindex="-1"></a>  erro <span class="ot">&lt;-</span> <span class="fu">abs</span>(theta_new <span class="sc">-</span> theta) <span class="sc">/</span></span>
+<span id="cb31-52"><a href="#cb31-52" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">1</span> <span class="sc">+</span> <span class="fu">abs</span>(theta_new))</span>
+<span id="cb31-53"><a href="#cb31-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-54"><a href="#cb31-54" aria-hidden="true" tabindex="-1"></a>  theta <span class="ot">&lt;-</span> theta_new</span>
+<span id="cb31-55"><a href="#cb31-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-56"><a href="#cb31-56" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">abs</span>(<span class="fu">d1</span>(theta)) <span class="sc">&lt;</span> tol <span class="sc">||</span> erro <span class="sc">&lt;</span> tol) {</span>
+<span id="cb31-57"><a href="#cb31-57" aria-hidden="true" tabindex="-1"></a>    <span class="cf">break</span></span>
+<span id="cb31-58"><a href="#cb31-58" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb31-59"><a href="#cb31-59" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb31-60"><a href="#cb31-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-61"><a href="#cb31-61" aria-hidden="true" tabindex="-1"></a>theta</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>4 * x^3</code></pre>
+<pre><code>[1] 1.593624</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> <span class="fu">D</span>(d1, <span class="st">"x"</span>);d2 <span class="co"># segunda derivada</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>4 * (3 * x^2)</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemplo 2 </span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>f  <span class="ot">&lt;-</span> <span class="fu">expression</span>(<span class="dv">100</span><span class="sc">*</span><span class="fu">log</span>(u) <span class="sc">-</span> <span class="dv">50</span><span class="sc">*</span>u<span class="dv">-50</span><span class="sc">*</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">exp</span>(<span class="sc">-</span>u)))</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> <span class="fu">D</span>(f, <span class="st">"u"</span>);d1  <span class="co"># primeira derivada</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>100 * (1/u) - 50 - 50 * (exp(-u)/(1 - exp(-u)))</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> <span class="fu">D</span>(d1, <span class="st">"u"</span>);d2 <span class="co"># segunda derivada</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>-(100 * (1/u^2) - 50 * (exp(-u)/(1 - exp(-u)) + exp(-u) * exp(-u)/(1 - 
-    exp(-u))^2))</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemplo 3: função para derivadas de ordem n</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>Dn <span class="ot">&lt;-</span> <span class="cf">function</span>(expressao, variavel, <span class="at">ordem =</span> <span class="dv">1</span>) {</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(ordem <span class="sc">&lt;</span> <span class="dv">1</span>) <span class="fu">stop</span>(<span class="st">"ordem deve ser &gt;= 1"</span>)</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> <span class="cf">if</span>(ordem <span class="sc">==</span> <span class="dv">1</span>) <span class="fu">D</span>(expressao, variavel)</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> <span class="fu">Dn</span>(<span class="fu">D</span>(expressao, variavel), variavel, ordem <span class="sc">-</span> <span class="dv">1</span>)</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="fu">Dn</span>(<span class="fu">expression</span>(x<span class="sc">^</span><span class="dv">4</span>), <span class="st">"x"</span>, <span class="dv">1</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>4 * x^3</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Dn</span>(<span class="fu">expression</span>(x<span class="sc">^</span><span class="dv">4</span>), <span class="st">"x"</span>, <span class="dv">2</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>4 * (3 * x^2)</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Dn</span>(<span class="fu">expression</span>(x<span class="sc">^</span><span class="dv">4</span>), <span class="st">"x"</span>, <span class="dv">3</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>4 * (3 * (2 * x))</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemplo 4: implementando o método de Newton</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>f  <span class="ot">&lt;-</span> <span class="cf">function</span>(u) <span class="dv">100</span><span class="sc">*</span><span class="fu">log</span>(u)<span class="sc">-</span><span class="dv">50</span><span class="sc">*</span>u<span class="dv">-50</span><span class="sc">*</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">exp</span>(<span class="sc">-</span>u))</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>d1 <span class="ot">&lt;-</span> <span class="cf">function</span>(u) (<span class="dv">100</span><span class="sc">/</span>u)<span class="sc">-</span><span class="dv">50</span><span class="sc">-</span>(<span class="dv">50</span><span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span>u))<span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">exp</span>(<span class="sc">-</span>u))</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> <span class="cf">function</span>(u) <span class="sc">-</span>(<span class="dv">100</span><span class="sc">/</span>u<span class="sc">^</span><span class="dv">2</span>)<span class="sc">-</span>(<span class="dv">50</span><span class="sc">*</span><span class="fu">exp</span>(u))<span class="sc">/</span>(<span class="fu">exp</span>(u)<span class="sc">-</span><span class="dv">1</span>)<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># estimativa/chute inicial </span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>dif <span class="ot">&lt;-</span> <span class="dv">1</span>; i <span class="ot">&lt;-</span> <span class="dv">2</span>; f.max <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (dif <span class="sc">&gt;</span> <span class="fl">0.00001</span>) {</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  u[i] <span class="ot">&lt;-</span> u[i<span class="dv">-1</span>] <span class="sc">-</span> <span class="fu">d1</span>(u[i<span class="dv">-1</span>])<span class="sc">/</span><span class="fu">d2</span>(u[i<span class="dv">-1</span>])</span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  dif <span class="ot">&lt;-</span> <span class="fu">abs</span>(u[i] <span class="sc">-</span> u[i<span class="dv">-1</span>])</span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  f.max <span class="ot">&lt;-</span> <span class="fu">f</span>(u[i])</span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  i <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>u[i<span class="dv">-1</span>]</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.593615</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>f.max</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">f</span>(theta)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -21.72331</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>historico</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  iter    theta         f         grad
+1    0 1.000000 -27.06624 2.090116e+01
+2    1 1.387300 -22.26170 5.438120e+00
+3    2 1.569948 -21.72992 5.605988e-01
+4    3 1.593320 -21.72331 7.103339e-03
+5    4 1.593624 -21.72331 1.165817e-06
+6    5 1.593624 -21.72331 2.842171e-14</code></pre>
 </div>
-<p>Considere que <span class="math inline">\(\hat\theta\)</span>, o estimador de máxima verossimilhança do parâmetro <span class="math inline">\(\theta\)</span>, pode ser obtido de <span class="math inline">\(U(\theta)=0\)</span>, ou seja, <span class="math inline">\(\hat\theta\)</span> é a raiz dessa equação. Portanto, o procedimento de Newton se estabelece fazendo <span class="math inline">\(g(\theta)=U(\theta)\)</span> e <span class="math inline">\(g'(\theta)=U'(\theta)=-I(\theta)\)</span> e é dado por</p>
-<p><span class="math display">\[\theta_{i+1}  =  \theta_i + \dfrac{U(\theta_i)}{I(\theta_i)},\quad i=0,1,2,\ldots \]</span> Quando <span class="math inline">\(\theta_{i+1}\approx\theta_i\)</span>, o estimador de máxima verossimilhança será <span class="math inline">\(\hat\theta=\theta_{i}\)</span>.</p>
-<p>Observações:</p>
+</div>
+<p>A implementação é intencionalmente explícita para mostrar cada parte do método. Em um algoritmo de uso geral, seria recomendável acrescentar uma estratégia de amortecimento ou busca linear para reduzir a dependência do ponto inicial.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> Newton em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>)</span> [Seção 2.2, pp.&nbsp;22–23; Seção 3.3, pp.&nbsp;44–46] e estratégias de globalização em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, cap. 3</a>)</span>.</p>
+</blockquote>
+</section>
+</section>
+<section id="máximos-locais-fronteiras-e-restrições" class="level2" data-number="6.17">
+<h2 data-number="6.17" class="anchored" data-anchor-id="máximos-locais-fronteiras-e-restrições"><span class="header-section-number">6.17</span> Máximos locais, fronteiras e restrições</h2>
+<section id="múltiplos-pontos-estacionários" class="level3" data-number="6.17.1">
+<h3 data-number="6.17.1" class="anchored" data-anchor-id="múltiplos-pontos-estacionários"><span class="header-section-number">6.17.1</span> Múltiplos pontos estacionários</h3>
+<p>Se a equação</p>
+<p><span class="math display">\[
+\nabla f(\theta)=0
+\]</span></p>
+<p>possui múltiplas soluções, Newton pode convergir para soluções diferentes dependendo do ponto inicial. Além disso, uma dessas soluções pode ser um máximo, outra um mínimo e outra um ponto de sela.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> distinção entre soluções locais e globais em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>)</span> [Capítulo 1, pp.&nbsp;6–9; Seção 2.1, pp.&nbsp;12–17] e dependência do ponto inicial para Newton em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 11.1</a>, pp.&nbsp;274–277)</span>.</p>
+</blockquote>
+</section>
+<section id="soluções-na-fronteira" class="level3" data-number="6.17.2">
+<h3 data-number="6.17.2" class="anchored" data-anchor-id="soluções-na-fronteira"><span class="header-section-number">6.17.2</span> Soluções na fronteira</h3>
+<p>Se o parâmetro é restrito a um conjunto</p>
+<p><span class="math display">\[
+\Theta\subsetneq\mathbb{R}^p,
+\]</span></p>
+<p>um máximo pode ocorrer na fronteira mesmo que o gradiente não seja zero. Nesse caso, a condição <span class="math inline">\(\nabla f(\theta)=0\)</span> não caracteriza adequadamente a solução, e métodos de otimização restrita ou reparametrizações podem ser necessários.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> teoria de otimização restrita em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, cap. 12</a>, pp.&nbsp;304–354)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-important callout-titled" title="Exemplo conceitual">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exemplo conceitual
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para maximizar uma função em <span class="math inline">\(\theta\geq 0\)</span>, é possível que o máximo esteja em <span class="math inline">\(\theta=0\)</span>. Nesse ponto, uma condição de primeira ordem baseada apenas em <span class="math inline">\(f'(\theta)=0\)</span> pode falhar porque o ótimo está na fronteira do espaço paramétrico.</p>
+<p><em>Base bibliográfica:</em> interpretação baseada nas condições de otimalidade para problemas restritos em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, cap. 12</a>)</span>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="interpretação-e-diagnóstico-dos-resultados" class="level2" data-number="6.18">
+<h2 data-number="6.18" class="anchored" data-anchor-id="interpretação-e-diagnóstico-dos-resultados"><span class="header-section-number">6.18</span> Interpretação e diagnóstico dos resultados</h2>
+<p>Um algoritmo de otimização não deve ser avaliado apenas pelo último valor retornado. O diagnóstico deve considerar a trajetória numérica e as propriedades do ponto final.</p>
+<section id="gradiente-ou-escore" class="level3" data-number="6.18.1">
+<h3 data-number="6.18.1" class="anchored" data-anchor-id="gradiente-ou-escore"><span class="header-section-number">6.18.1</span> Gradiente ou escore</h3>
+<p>Em uma solução interior suave, verifique se</p>
+<p><span class="math display">\[
+\|\nabla f(\widehat{\theta})\|
+\]</span></p>
+<p>é pequeno. Em máxima verossimilhança, examine</p>
+<p><span class="math display">\[
+\|U(\widehat{\theta})\|.
+\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>)</span> [Seção 2.1, pp.&nbsp;14–16; Algoritmo 6.1, pp.&nbsp;140–141] e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice B, Algoritmo B.1)</span>.</p>
+</blockquote>
+</section>
+<section id="curvatura" class="level3" data-number="6.18.2">
+<h3 data-number="6.18.2" class="anchored" data-anchor-id="curvatura"><span class="header-section-number">6.18.2</span> Curvatura</h3>
+<p>Para minimização unidimensional, verifique se</p>
+<p><span class="math display">\[
+f''(\widehat{\theta})&gt;0.
+\]</span></p>
+<p>Para maximização,</p>
+<p><span class="math display">\[
+\ell''(\widehat{\theta})&lt;0.
+\]</span></p>
+<p>Em múltiplas dimensões, examine a definitude da Hessiana.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 2.1</a>, pp.&nbsp;14–16)</span>.</p>
+</blockquote>
+</section>
+<section id="trajetória-das-iterações" class="level3" data-number="6.18.3">
+<h3 data-number="6.18.3" class="anchored" data-anchor-id="trajetória-das-iterações"><span class="header-section-number">6.18.3</span> Trajetória das iterações</h3>
+<p>Registre:</p>
+<ul>
+<li>os valores <span class="math inline">\(\theta_k\)</span>;</li>
+<li>o valor da função objetivo;</li>
+<li>a norma do gradiente ou escore;</li>
+<li>o tamanho do passo;</li>
+<li>o número de iterações;</li>
+<li>a razão de parada.</li>
+</ul>
+<p>Essa informação permite distinguir convergência efetiva de uma interrupção provocada por limite de iterações ou por uma falha numérica.</p>
+</section>
+<section id="sensibilidade-à-inicialização" class="level3" data-number="6.18.4">
+<h3 data-number="6.18.4" class="anchored" data-anchor-id="sensibilidade-à-inicialização"><span class="header-section-number">6.18.4</span> Sensibilidade à inicialização</h3>
+<p>Execute o algoritmo a partir de valores iniciais distintos quando houver evidência de múltiplos extremos ou quando a função for pouco conhecida. Compare os pontos finais e os valores da função objetivo.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> dependência do valor inicial em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.1)</span> e <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 11.1</a>)</span>.</p>
+</blockquote>
+</section>
+<section id="comparação-com-método-alternativo" class="level3" data-number="6.18.5">
+<h3 data-number="6.18.5" class="anchored" data-anchor-id="comparação-com-método-alternativo"><span class="header-section-number">6.18.5</span> Comparação com método alternativo</h3>
+<p>Em uma dimensão, comparar Newton com <code>optimize()</code> ou <code>uniroot()</code> pode ser uma forma útil de verificar uma implementação didática. O fato de métodos distintos chegarem à mesma solução aumenta a confiança no cálculo, embora não constitua uma prova de ótimo global.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica para <code>optimize()</code> e <code>uniroot()</code>:</strong> <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022, p. 155</a>)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-tip callout-titled" title="Checklist de diagnóstico">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Checklist de diagnóstico
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Antes de aceitar uma solução numérica, verifique:</p>
 <ol type="1">
-<li>Com bons chutes iniciais, 3 ou 4 iterações são suficientes para a convergência. Isso se deve ao fato de que para grandes amostras, <span class="math inline">\(U(\theta)\)</span> é próxima da linearidade em <span class="math inline">\(\theta\)</span>.</li>
-<li>Se <span class="math inline">\(U(\theta)\)</span> é exatamente linear em <span class="math inline">\(\theta\)</span>, o método produz <span class="math inline">\(\hat\theta\)</span> em uma única iteração.</li>
-<li>Se <span class="math inline">\(U(\theta)=0\)</span> tem mais de uma raiz, o método não necessariamente converge para a raiz desejada. Dificuldades também surgem se o máximo ocorre no limite ou próximo a um limite do espaço paramétrico. Sugere-se examinar o gráfico de <span class="math inline">\(l(\theta)\)</span> antes de aplicar o método de Newton.</li>
+<li>se o algoritmo declarou convergência;</li>
+<li>se o gradiente ou escore é suficientemente pequeno;</li>
+<li>se a curvatura é compatível com máximo ou mínimo;</li>
+<li>se o ponto pertence ao domínio e respeita as restrições;</li>
+<li>se a solução é estável em relação a valores iniciais plausíveis;</li>
+<li>se a função objetivo evoluiu de forma coerente;</li>
+<li>se derivadas analíticas foram verificadas numericamente quando houver dúvida;</li>
+<li>se uma solução de fronteira exige tratamento de otimização restrita.</li>
 </ol>
+<p><em>Base bibliográfica:</em> síntese didática baseada em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, cap. 2–4, 8, 11</a> e 12)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndices B e C)</span>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="comparação-resumida-de-métodos" class="level2" data-number="6.19">
+<h2 data-number="6.19" class="anchored" data-anchor-id="comparação-resumida-de-métodos"><span class="header-section-number">6.19</span> Comparação resumida de métodos</h2>
+<table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Método</th>
+<th>Informação usada</th>
+<th>Vantagem principal</th>
+<th>Limitação principal</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Newton</td>
+<td>gradiente + Hessiana</td>
+<td>convergência local quadrática</td>
+<td>Hessiana pode ser cara, singular ou indefinida</td>
+</tr>
+<tr class="even">
+<td>Newton amortecido</td>
+<td>gradiente + Hessiana + busca de passo</td>
+<td>maior robustez longe da solução</td>
+<td>mais avaliações da função</td>
+</tr>
+<tr class="odd">
+<td>BFGS</td>
+<td>função + gradiente</td>
+<td>evita Hessiana exata; convergência superlinear</td>
+<td>requer boa estratégia de busca linear</td>
+</tr>
+<tr class="even">
+<td>L-BFGS</td>
+<td>função + gradiente + memória limitada</td>
+<td>adequado a grande dimensão</td>
+<td>pode convergir mais lentamente em problemas mal condicionados</td>
+</tr>
+<tr class="odd">
+<td><code>optimize()</code></td>
+<td>função unidimensional</td>
+<td>simples para otimização escalar</td>
+<td>restrito a uma dimensão</td>
+</tr>
+<tr class="even">
+<td><code>uniroot()</code></td>
+<td>função escalar cuja raiz se procura</td>
+<td>robusto quando há intervalo com mudança de sinal</td>
+<td>exige formular uma equação de raiz e um intervalo apropriado</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> Newton, BFGS e L-BFGS em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 2.2, 6.1</a> e 7.2)</span>; relação entre Newton e busca linear em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2)</span>; <code>optimize()</code> e <code>uniroot()</code> em <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022, p. 155</a>)</span>.</p>
+</blockquote>
+</section>
+<section id="síntese-do-capítulo" class="level2" data-number="6.20">
+<h2 data-number="6.20" class="anchored" data-anchor-id="síntese-do-capítulo"><span class="header-section-number">6.20</span> Síntese do capítulo</h2>
+<p>A otimização numérica fornece a infraestrutura computacional para numerosos procedimentos estatísticos. O método de Newton é obtido a partir de uma aproximação local: linear quando se procura a raiz de uma equação e quadrática quando se minimiza uma função. Em uma dimensão,</p>
+<p><span class="math display">\[
+\theta_{k+1}
+=
+\theta_k
+-
+\frac{f'(\theta_k)}
+     {f''(\theta_k)}
+\]</span></p>
+<p>é simultaneamente a aplicação de Newton à equação <span class="math inline">\(f'(\theta)=0\)</span> e a minimização local do modelo quadrático.</p>
+<p>Sua principal vantagem é a convergência quadrática local sob condições apropriadas. Suas limitações são igualmente importantes: sensibilidade à inicialização, possibilidade de Jacobianas ou Hessianas singulares, direções inadequadas quando a Hessiana é indefinida, custo de segunda ordem em alta dimensão e ausência de garantia global no método puro. Busca linear, amortecimento, regiões de confiança e métodos quasi-Newton são respostas computacionais a essas dificuldades.</p>
+<p>Na máxima verossimilhança, Newton–Raphson aplica-se à equação de escore usando a informação observada, enquanto escore de Fisher substitui essa curvatura pela informação de Fisher esperada. Essa distinção é essencial tanto conceitualmente quanto na implementação.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> síntese baseada em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, cap. 2–4, 6–8</a> e 11)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndices B e C)</span>.</p>
+</blockquote>
+</section>
+<section id="exercícios" class="level2" data-number="6.21">
+<h2 data-number="6.21" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">6.21</span> Exercícios</h2>
+<div class="callout callout-style-default callout-warning callout-titled" title="Exercício 1 — Newton para uma função quadrática">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 1 — Newton para uma função quadrática
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Considere</p>
+<p><span class="math display">\[
+f(\theta)
+=
+a\theta^2+b\theta+c,
+\qquad
+a&gt;0.
+\]</span></p>
+<ol type="1">
+<li>Derive <span class="math inline">\(f'(\theta)\)</span> e <span class="math inline">\(f''(\theta)\)</span>.</li>
+<li>Aplique uma iteração de Newton a partir de um valor inicial arbitrário <span class="math inline">\(\theta_0\)</span>.</li>
+<li>Mostre que o algoritmo atinge o minimizador exato em uma única iteração.</li>
+</ol>
+<p><em>Exercício baseado na construção quadrática do método de Newton em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 2.2</a>, pp.&nbsp;22–23)</span>.</em></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="Exercício 2 — Cauchy e máxima verossimilhança">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 2 — Cauchy e máxima verossimilhança
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Reproduza o Exemplo 6.7 de <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022</a>, pp.&nbsp;154–155)</span> para</p>
+<p><span class="math display">\[
+x=(1,2,2,3).
+\]</span></p>
+<ol type="1">
+<li>Maximize a log-verossimilhança com <code>optimize()</code>.</li>
+<li>Derive o escore.</li>
+<li>Encontre uma raiz do escore com <code>uniroot()</code>.</li>
+<li>Implemente Newton–Raphson para o mesmo escore.</li>
+<li>Compare os resultados numéricos.</li>
+</ol>
+<p><em>Exercício adaptado de <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022</a>, Exemplo 6.7, pp.&nbsp;154–155)</span>.</em></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="Exercício 3 — sensibilidade ao valor inicial">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 3 — sensibilidade ao valor inicial
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para a função</p>
+<p><span class="math display">\[
+g(\theta)
+=
+\theta^3-2\theta+2,
+\]</span></p>
+<p>implemente Newton para diferentes valores iniciais em uma grade. Registre quais execuções convergem e para qual raiz.</p>
+<p>Explique por que uma fórmula de atualização local não garante comportamento uniforme em todo o domínio.</p>
+<p><em>Exercício baseado na discussão de sensibilidade do método de Newton em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 11.1</a>, pp.&nbsp;274–277)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.1)</span>.</em></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="Exercício 4 — verificação de derivadas">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 4 — verificação de derivadas
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para a função do exemplo preservado do manuscrito,</p>
+<p><span class="math display">\[
+f(\theta)
+=
+100\log(\theta)
+-
+50\theta
+-
+50\log(1-e^{-\theta}),
+\]</span></p>
+<ol type="1">
+<li>derive analiticamente <span class="math inline">\(f'(\theta)\)</span> e <span class="math inline">\(f''(\theta)\)</span>;</li>
+<li>implemente uma aproximação de diferença central para <span class="math inline">\(f'(\theta)\)</span>;</li>
+<li>compare a derivada analítica e a numérica em uma grade de valores de <span class="math inline">\(\theta\)</span>;</li>
+<li>explique o efeito de escolher <span class="math inline">\(h\)</span> muito grande ou muito pequeno.</li>
+</ol>
+<p><em>Exercício baseado nas diferenças finitas de <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 8.1</a>, pp.&nbsp;194–197)</span>.</em></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="Exercício 5 — Newton com backtracking">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 5 — Newton com backtracking
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Implemente um método de Newton para minimização que:</p>
+<ol type="1">
+<li>resolva o sistema de Newton para obter <span class="math inline">\(p_k\)</span>;</li>
+<li>tente inicialmente <span class="math inline">\(\alpha_k=1\)</span>;</li>
+<li>reduza <span class="math inline">\(\alpha_k\)</span> por backtracking se o passo não produzir redução suficiente;</li>
+<li>interrompa quando a norma do gradiente for menor que uma tolerância.</li>
+</ol>
+<p>Aplique o método à função de Rosenbrock a partir de</p>
+<p><span class="math display">\[
+(-1.2,1)^\top.
+\]</span></p>
+<p><em>Exercício adaptado do Exercício 3.1 de <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>, pp.&nbsp;63–64)</span>, que propõe comparar descida íngreme e Newton com busca linear por backtracking na função de Rosenbrock.</em></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="Exercício 6 — Newton--Raphson versus escore de Fisher">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 6 — Newton–Raphson versus escore de Fisher
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Considere uma log-verossimilhança para a qual seja possível calcular:</p>
+<p><span class="math display">\[
+U(\theta),
+\qquad
+j(\theta)=-\ell''(\theta),
+\qquad
+I(\theta)=E_\theta[j(\theta;X)].
+\]</span></p>
+<ol type="1">
+<li>escreva a iteração de Newton–Raphson;</li>
+<li>escreva a iteração de escore de Fisher;</li>
+<li>identifique exatamente em qual termo os métodos diferem;</li>
+<li>discuta situações em que <span class="math inline">\(I(\theta)\)</span> possa ser mais simples de calcular que <span class="math inline">\(j(\theta)\)</span>.</li>
+</ol>
+<p><em>Exercício baseado em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice B, Eqs. B.24–B.25, aproximadamente pp.&nbsp;670–671)</span>.</em></p>
+</div>
+</div>
+</section>
+<section id="referências" class="level1 unnumbered">
+<h1 class="unnumbered">Referências</h1>
 
 
+<div id="refs" class="references csl-bib-body" data-entry-spacing="1" role="list">
+<div id="ref-chihara2022resampling" class="csl-entry" role="listitem">
+CHIHARA, Laura M.; HESTERBERG, Tim C. <strong>Mathematical Statistics with Resampling and R</strong>. 3. ed. Hoboken: John Wiley &amp; Sons, 2022.
+</div>
+<div id="ref-kroese2011handbook" class="csl-entry" role="listitem">
+KROESE, Dirk P.; TAIMRE, Thomas; BOTEV, Zdravko I. <strong>Handbook of Monte Carlo Methods</strong>. Hoboken: John Wiley &amp; Sons, 2011.
+</div>
+<div id="ref-nocedal2006numerical" class="csl-entry" role="listitem">
+NOCEDAL, Jorge; WRIGHT, Stephen J. <strong>Numerical Optimization</strong>. 2. ed. New York: Springer Science+Business Media, 2006.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->
@@ -1018,8 +2630,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./em.html" class="pagination-link" aria-label="Algoritmo EM">
-        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Algoritmo EM</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./em.html" class="pagination-link" aria-label="Algoritmo EM: máxima verossimilhança com dados incompletos e variáveis latentes">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Algoritmo EM: máxima verossimilhança com dados incompletos e variáveis latentes</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

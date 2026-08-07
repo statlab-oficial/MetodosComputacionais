@@ -54,7 +54,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 1em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -221,19 +241,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./em.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Algoritmo EM</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./metodosadicionais.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Aplicações Modernas em Estatística Computacional</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Referências</span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Algoritmo EM: máxima verossimilhança com dados incompletos e variáveis latentes</span></span></a>
   </div>
 </li>
     </ul>
@@ -246,16 +254,91 @@ window.Quarto = {
     <h2 id="toc-title">Índice</h2>
    
   <ul>
-  <li><a href="#uso-de-números-aleatórios-na-avaliação-de-integrais" id="toc-uso-de-números-aleatórios-na-avaliação-de-integrais" class="nav-link active" data-scroll-target="#uso-de-números-aleatórios-na-avaliação-de-integrais"><span class="header-section-number">4.1</span> Uso de Números Aleatórios na Avaliação de Integrais</a>
+  <li><a href="#objetivos-de-aprendizagem" id="toc-objetivos-de-aprendizagem" class="nav-link active" data-scroll-target="#objetivos-de-aprendizagem"><span class="header-section-number">4.1</span> Objetivos de aprendizagem</a></li>
+  <li><a href="#números-aleatórios-e-pseudoaleatórios" id="toc-números-aleatórios-e-pseudoaleatórios" class="nav-link" data-scroll-target="#números-aleatórios-e-pseudoaleatórios"><span class="header-section-number">4.2</span> Números aleatórios e pseudoaleatórios</a>
   <ul class="collapse">
-  <li><a href="#estimativa-de-probabilidades-via-monte-carlo" id="toc-estimativa-de-probabilidades-via-monte-carlo" class="nav-link" data-scroll-target="#estimativa-de-probabilidades-via-monte-carlo">Estimativa de Probabilidades via Monte Carlo</a></li>
-  <li><a href="#erro-e-convergência-de-monte-carlo" id="toc-erro-e-convergência-de-monte-carlo" class="nav-link" data-scroll-target="#erro-e-convergência-de-monte-carlo"><span class="header-section-number">4.1.1</span> Erro e Convergência de Monte Carlo</a></li>
+  <li><a href="#gerador-congruencial-linear" id="toc-gerador-congruencial-linear" class="nav-link" data-scroll-target="#gerador-congruencial-linear"><span class="header-section-number">4.2.1</span> Gerador congruencial linear</a></li>
+  <li><a href="#sementes-e-reprodutibilidade-em-r" id="toc-sementes-e-reprodutibilidade-em-r" class="nav-link" data-scroll-target="#sementes-e-reprodutibilidade-em-r"><span class="header-section-number">4.2.2</span> Sementes e reprodutibilidade em R</a></li>
   </ul></li>
-  <li><a href="#simulações-de-monte-carlo-em-inferência" id="toc-simulações-de-monte-carlo-em-inferência" class="nav-link" data-scroll-target="#simulações-de-monte-carlo-em-inferência"><span class="header-section-number">4.2</span> Simulações de Monte Carlo em Inferência</a>
+  <li><a href="#o-estimador-básico-de-monte-carlo" id="toc-o-estimador-básico-de-monte-carlo" class="nav-link" data-scroll-target="#o-estimador-básico-de-monte-carlo"><span class="header-section-number">4.3</span> O estimador básico de Monte Carlo</a></li>
+  <li><a href="#integração-de-monte-carlo" id="toc-integração-de-monte-carlo" class="nav-link" data-scroll-target="#integração-de-monte-carlo"><span class="header-section-number">4.4</span> Integração de Monte Carlo</a>
   <ul class="collapse">
-  <li><a href="#instalação" id="toc-instalação" class="nav-link" data-scroll-target="#instalação"><span class="header-section-number">4.2.1</span> Instalação</a></li>
+  <li><a href="#integral-em-01" id="toc-integral-em-01" class="nav-link" data-scroll-target="#integral-em-01"><span class="header-section-number">4.4.1</span> Integral em <span class="math inline">\([0,1]\)</span></a></li>
+  <li><a href="#integral-em-um-intervalo-ab" id="toc-integral-em-um-intervalo-ab" class="nav-link" data-scroll-target="#integral-em-um-intervalo-ab"><span class="header-section-number">4.4.2</span> Integral em um intervalo <span class="math inline">\((a,b)\)</span></a></li>
+  <li><a href="#integral-em-0infty" id="toc-integral-em-0infty" class="nav-link" data-scroll-target="#integral-em-0infty"><span class="header-section-number">4.4.3</span> Integral em <span class="math inline">\((0,\infty)\)</span></a></li>
+  <li><a href="#integrais-multidimensionais" id="toc-integrais-multidimensionais" class="nav-link" data-scroll-target="#integrais-multidimensionais"><span class="header-section-number">4.4.4</span> Integrais multidimensionais</a></li>
+  <li><a href="#integração-por-área" id="toc-integração-por-área" class="nav-link" data-scroll-target="#integração-por-área"><span class="header-section-number">4.4.5</span> Integração por área</a></li>
   </ul></li>
-  <li><a href="#execute-sua-primeira-simulação-de-monte-carlo-com-future_mc" id="toc-execute-sua-primeira-simulação-de-monte-carlo-com-future_mc" class="nav-link" data-scroll-target="#execute-sua-primeira-simulação-de-monte-carlo-com-future_mc"><span class="header-section-number">4.3</span> Execute sua primeira Simulação de Monte Carlo com <code>future_mc()</code></a></li>
+  <li><a href="#estimação-de-probabilidades" id="toc-estimação-de-probabilidades" class="nav-link" data-scroll-target="#estimação-de-probabilidades"><span class="header-section-number">4.5</span> Estimação de probabilidades</a></li>
+  <li><a href="#erro-de-monte-carlo" id="toc-erro-de-monte-carlo" class="nav-link" data-scroll-target="#erro-de-monte-carlo"><span class="header-section-number">4.6</span> Erro de Monte Carlo</a>
+  <ul class="collapse">
+  <li><a href="#viés-variância-e-mse" id="toc-viés-variância-e-mse" class="nav-link" data-scroll-target="#viés-variância-e-mse"><span class="header-section-number">4.6.1</span> Viés, variância e MSE</a></li>
+  <li><a href="#estimativa-do-erro-padrão" id="toc-estimativa-do-erro-padrão" class="nav-link" data-scroll-target="#estimativa-do-erro-padrão"><span class="header-section-number">4.6.2</span> Estimativa do erro padrão</a></li>
+  <li><a href="#teorema-central-do-limite" id="toc-teorema-central-do-limite" class="nav-link" data-scroll-target="#teorema-central-do-limite"><span class="header-section-number">4.6.3</span> Teorema Central do Limite</a></li>
+  </ul></li>
+  <li><a href="#escolha-do-número-de-simulações" id="toc-escolha-do-número-de-simulações" class="nav-link" data-scroll-target="#escolha-do-número-de-simulações"><span class="header-section-number">4.7</span> Escolha do número de simulações</a>
+  <ul class="collapse">
+  <li><a href="#critério-baseado-no-mse" id="toc-critério-baseado-no-mse" class="nav-link" data-scroll-target="#critério-baseado-no-mse"><span class="header-section-number">4.7.1</span> Critério baseado no MSE</a></li>
+  <li><a href="#critério-baseado-em-probabilidade-aproximada" id="toc-critério-baseado-em-probabilidade-aproximada" class="nav-link" data-scroll-target="#critério-baseado-em-probabilidade-aproximada"><span class="header-section-number">4.7.2</span> Critério baseado em probabilidade aproximada</a></li>
+  </ul></li>
+  <li><a href="#erro-relativo-e-eventos-raros" id="toc-erro-relativo-e-eventos-raros" class="nav-link" data-scroll-target="#erro-relativo-e-eventos-raros"><span class="header-section-number">4.8</span> Erro relativo e eventos raros</a></li>
+  <li><a href="#redução-de-variância" id="toc-redução-de-variância" class="nav-link" data-scroll-target="#redução-de-variância"><span class="header-section-number">4.9</span> Redução de variância</a>
+  <ul class="collapse">
+  <li><a href="#amostragem-por-importância" id="toc-amostragem-por-importância" class="nav-link" data-scroll-target="#amostragem-por-importância"><span class="header-section-number">4.9.1</span> Amostragem por importância</a></li>
+  <li><a href="#variáveis-antitéticas" id="toc-variáveis-antitéticas" class="nav-link" data-scroll-target="#variáveis-antitéticas"><span class="header-section-number">4.9.2</span> Variáveis antitéticas</a></li>
+  <li><a href="#variáveis-de-controle" id="toc-variáveis-de-controle" class="nav-link" data-scroll-target="#variáveis-de-controle"><span class="header-section-number">4.9.3</span> Variáveis de controle</a></li>
+  <li><a href="#outras-técnicas-importantes" id="toc-outras-técnicas-importantes" class="nav-link" data-scroll-target="#outras-técnicas-importantes"><span class="header-section-number">4.9.4</span> Outras técnicas importantes</a></li>
+  </ul></li>
+  <li><a href="#monitoramento-da-convergência" id="toc-monitoramento-da-convergência" class="nav-link" data-scroll-target="#monitoramento-da-convergência"><span class="header-section-number">4.10</span> Monitoramento da convergência</a>
+  <ul class="collapse">
+  <li><a href="#exemplo" id="toc-exemplo" class="nav-link" data-scroll-target="#exemplo"><span class="header-section-number">4.10.1</span> Exemplo</a></li>
+  </ul></li>
+  <li><a href="#estudos-de-simulação-em-estatística" id="toc-estudos-de-simulação-em-estatística" class="nav-link" data-scroll-target="#estudos-de-simulação-em-estatística"><span class="header-section-number">4.11</span> Estudos de simulação em Estatística</a>
+  <ul class="collapse">
+  <li><a href="#estrutura-geral" id="toc-estrutura-geral" class="nav-link" data-scroll-target="#estrutura-geral"><span class="header-section-number">4.11.1</span> Estrutura geral</a></li>
+  </ul></li>
+  <li><a href="#avaliação-de-estimadores-por-simulação" id="toc-avaliação-de-estimadores-por-simulação" class="nav-link" data-scroll-target="#avaliação-de-estimadores-por-simulação"><span class="header-section-number">4.12</span> Avaliação de estimadores por simulação</a>
+  <ul class="collapse">
+  <li><a href="#viés" id="toc-viés" class="nav-link" data-scroll-target="#viés"><span class="header-section-number">4.12.1</span> Viés</a></li>
+  <li><a href="#variância" id="toc-variância" class="nav-link" data-scroll-target="#variância"><span class="header-section-number">4.12.2</span> Variância</a></li>
+  <li><a href="#erro-quadrático-médio" id="toc-erro-quadrático-médio" class="nav-link" data-scroll-target="#erro-quadrático-médio"><span class="header-section-number">4.12.3</span> Erro quadrático médio</a></li>
+  <li><a href="#exemplo-média-e-mediana-sob-normalidade" id="toc-exemplo-média-e-mediana-sob-normalidade" class="nav-link" data-scroll-target="#exemplo-média-e-mediana-sob-normalidade"><span class="header-section-number">4.12.4</span> Exemplo: média e mediana sob normalidade</a></li>
+  </ul></li>
+  <li><a href="#cobertura-de-intervalos-de-confiança" id="toc-cobertura-de-intervalos-de-confiança" class="nav-link" data-scroll-target="#cobertura-de-intervalos-de-confiança"><span class="header-section-number">4.13</span> Cobertura de intervalos de confiança</a></li>
+  <li><a href="#erro-tipo-i-e-poder" id="toc-erro-tipo-i-e-poder" class="nav-link" data-scroll-target="#erro-tipo-i-e-poder"><span class="header-section-number">4.14</span> Erro tipo I e poder</a></li>
+  <li><a href="#quantas-repetições-usar-em-um-estudo-de-simulação" id="toc-quantas-repetições-usar-em-um-estudo-de-simulação" class="nav-link" data-scroll-target="#quantas-repetições-usar-em-um-estudo-de-simulação"><span class="header-section-number">4.15</span> Quantas repetições usar em um estudo de simulação?</a></li>
+  <li><a href="#planejamento-de-um-estudo-de-simulação" id="toc-planejamento-de-um-estudo-de-simulação" class="nav-link" data-scroll-target="#planejamento-de-um-estudo-de-simulação"><span class="header-section-number">4.16</span> Planejamento de um estudo de simulação</a>
+  <ul class="collapse">
+  <li><a href="#objetivo" id="toc-objetivo" class="nav-link" data-scroll-target="#objetivo"><span class="header-section-number">4.16.1</span> Objetivo</a></li>
+  <li><a href="#processo-gerador-de-dados" id="toc-processo-gerador-de-dados" class="nav-link" data-scroll-target="#processo-gerador-de-dados"><span class="header-section-number">4.16.2</span> Processo gerador de dados</a></li>
+  <li><a href="#cenários" id="toc-cenários" class="nav-link" data-scroll-target="#cenários"><span class="header-section-number">4.16.3</span> Cenários</a></li>
+  <li><a href="#medidas-de-desempenho" id="toc-medidas-de-desempenho" class="nav-link" data-scroll-target="#medidas-de-desempenho"><span class="header-section-number">4.16.4</span> Medidas de desempenho</a></li>
+  <li><a href="#precisão-de-monte-carlo" id="toc-precisão-de-monte-carlo" class="nav-link" data-scroll-target="#precisão-de-monte-carlo"><span class="header-section-number">4.16.5</span> Precisão de Monte Carlo</a></li>
+  </ul></li>
+  <li><a href="#implementação-reprodutível-em-r" id="toc-implementação-reprodutível-em-r" class="nav-link" data-scroll-target="#implementação-reprodutível-em-r"><span class="header-section-number">4.17</span> Implementação reprodutível em R</a>
+  <ul class="collapse">
+  <li><a href="#uma-função-para-uma-única-repetição" id="toc-uma-função-para-uma-única-repetição" class="nav-link" data-scroll-target="#uma-função-para-uma-única-repetição"><span class="header-section-number">4.17.1</span> Uma função para uma única repetição</a></li>
+  <li><a href="#repetindo-o-experimento" id="toc-repetindo-o-experimento" class="nav-link" data-scroll-target="#repetindo-o-experimento"><span class="header-section-number">4.17.2</span> Repetindo o experimento</a></li>
+  <li><a href="#resumindo-resultados" id="toc-resumindo-resultados" class="nav-link" data-scroll-target="#resumindo-resultados"><span class="header-section-number">4.17.3</span> Resumindo resultados</a></li>
+  </ul></li>
+  <li><a href="#erros-comuns-em-monte-carlo" id="toc-erros-comuns-em-monte-carlo" class="nav-link" data-scroll-target="#erros-comuns-em-monte-carlo"><span class="header-section-number">4.18</span> Erros comuns em Monte Carlo</a>
+  <ul class="collapse">
+  <li><a href="#confundir-erro-de-monte-carlo-com-erro-do-modelo" id="toc-confundir-erro-de-monte-carlo-com-erro-do-modelo" class="nav-link" data-scroll-target="#confundir-erro-de-monte-carlo-com-erro-do-modelo"><span class="header-section-number">4.18.1</span> Confundir erro de Monte Carlo com erro do modelo</a></li>
+  <li><a href="#aumentar-n-sem-examinar-a-variância" id="toc-aumentar-n-sem-examinar-a-variância" class="nav-link" data-scroll-target="#aumentar-n-sem-examinar-a-variância"><span class="header-section-number">4.18.2</span> Aumentar <span class="math inline">\(N\)</span> sem examinar a variância</a></li>
+  <li><a href="#ignorar-variância-infinita" id="toc-ignorar-variância-infinita" class="nav-link" data-scroll-target="#ignorar-variância-infinita"><span class="header-section-number">4.18.3</span> Ignorar variância infinita</a></li>
+  <li><a href="#usar-monte-carlo-direto-em-eventos-raros" id="toc-usar-monte-carlo-direto-em-eventos-raros" class="nav-link" data-scroll-target="#usar-monte-carlo-direto-em-eventos-raros"><span class="header-section-number">4.18.4</span> Usar Monte Carlo direto em eventos raros</a></li>
+  <li><a href="#misturar-dependência-com-independência" id="toc-misturar-dependência-com-independência" class="nav-link" data-scroll-target="#misturar-dependência-com-independência"><span class="header-section-number">4.18.5</span> Misturar dependência com independência</a></li>
+  <li><a href="#confundir-erro-de-discretização-e-erro-de-monte-carlo" id="toc-confundir-erro-de-discretização-e-erro-de-monte-carlo" class="nav-link" data-scroll-target="#confundir-erro-de-discretização-e-erro-de-monte-carlo"><span class="header-section-number">4.18.6</span> Confundir erro de discretização e erro de Monte Carlo</a></li>
+  </ul></li>
+  <li><a href="#monte-carlo-iid-e-mcmc" id="toc-monte-carlo-iid-e-mcmc" class="nav-link" data-scroll-target="#monte-carlo-iid-e-mcmc"><span class="header-section-number">4.19</span> Monte Carlo IID e MCMC</a></li>
+  <li><a href="#síntese-do-capítulo" id="toc-síntese-do-capítulo" class="nav-link" data-scroll-target="#síntese-do-capítulo"><span class="header-section-number">4.20</span> Síntese do capítulo</a></li>
+  <li><a href="#simulações-de-monte-carlo-com-o-pacote-tidymc" id="toc-simulações-de-monte-carlo-com-o-pacote-tidymc" class="nav-link" data-scroll-target="#simulações-de-monte-carlo-com-o-pacote-tidymc"><span class="header-section-number">4.21</span> Simulações de Monte Carlo com o pacote <code>tidyMC</code></a>
+  <ul class="collapse">
+  <li><a href="#instalação" id="toc-instalação" class="nav-link" data-scroll-target="#instalação"><span class="header-section-number">4.21.1</span> Instalação</a></li>
+  <li><a href="#execute-sua-primeira-simulação-de-monte-carlo-com-future_mc" id="toc-execute-sua-primeira-simulação-de-monte-carlo-com-future_mc" class="nav-link" data-scroll-target="#execute-sua-primeira-simulação-de-monte-carlo-com-future_mc"><span class="header-section-number">4.21.2</span> Execute sua primeira Simulação de Monte Carlo com <code>future_mc()</code></a></li>
+  </ul></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">4.22</span> Exercícios</a></li>
+  <li><a href="#referências" id="toc-referências" class="nav-link" data-scroll-target="#referências">Referências</a></li>
   </ul>
 </nav>
     </div>
@@ -305,197 +388,1919 @@ Figura&nbsp;4.1: Cassino — Aleatoriedade como metáfora
 <li><p>estimar o nível descritivo de um teste de hipóteses;</p></li>
 <li><p>estimar poder de testes de hipóteses.</p></li>
 </ul>
-<section id="uso-de-números-aleatórios-na-avaliação-de-integrais" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="uso-de-números-aleatórios-na-avaliação-de-integrais"><span class="header-section-number">4.1</span> Uso de Números Aleatórios na Avaliação de Integrais</h2>
-<p>Uma das primeiras aplicações do uso de números aleatórios foi na resolução de integrais. Considere uma função <span class="math inline">\(g(x)\)</span> e suponha que desejamos calcular uma integral de interesse.</p>
-<p><span class="math display">\[\theta = \int\limits_{0}^{1}g(x) dx.\]</span></p>
-<p>Para calcular o valor da integral, observe que, se <span class="math inline">\(U\)</span> é uma variável aleatória com distribuição uniforme no intervalo <span class="math inline">\((0, 1)\)</span>, então podemos reescrever a integral da seguinte forma:</p>
-<p><span class="math display">\[\theta = E[g(U)].\]</span> Se <span class="math inline">\(U_1, U_2, \dots,  U_n\)</span> são variáveis aleatórias independentes e uniformes em <span class="math inline">\((0, 1)\)</span>, então as variáveis <span class="math inline">\(g(U_1), g(U_2), \dots,  g(U_n)\)</span> são indepedentes e identicamente distribuídas, todas com esperança igual <span class="math inline">\(\theta\)</span> (o valor da integral). Assim, pelo <strong>Teorema da Lei Forte dos Grandes Números</strong>, temos que, com probabilidade 1,</p>
-<p><span class="math display">\[\frac{1}{n}\sum\limits_{i=1}^{n}g(U_i) \to \theta \quad \text{quando} \quad n \to \infty.\]</span></p>
-<p>Assim, podemos aproximar o valor da integral gerando um grande número de pontos aleatórios <span class="math inline">\(u_i\)</span> no intervalo <span class="math inline">\((0, 1)\)</span> e tomando como estimativa a média dos valores <span class="math inline">\(g(u_i)\)</span>. Esse procedimento de aproximação de integrais é conhecido como método de <strong>Monte Carlo</strong>.</p>
-<p>Se quisermos calcular uma integral mais geral, podemos aplicar a mesma ideia: transformar o problema em uma esperança matemática e, em seguida, aproximá-la por meio de médias amostrais obtidas a partir de números aleatórios. Considere:</p>
-<p><span class="math display">\[\theta = \int\limits_{a}^{b}g(x) dx.\]</span></p>
-<p>Se quisermos calcular a integral em um intervalo genérico <span class="math inline">\((a, b)\)</span>, fazemos a substituição</p>
-<p><span class="math display">\[u = \frac{x - a}{b-a}, \quad du = \frac{dx}{b-a},\]</span></p>
-<p>o que nos permite reescrevê-la como</p>
-<p><span class="math display">\[\theta = \int\limits_{a}^{b}g(x) dx = (b-a)\int\limits_{0}^{1}g(a + (b-a)u) du.\]</span></p>
-<p>Definindo</p>
-<p><span class="math display">\[h(u) = (b-a)g(a + (b-a)u),\]</span></p>
-<p>temos</p>
-<p><span class="math display">\[\theta = \int\limits_{0}^{1}h(u) du.\]</span></p>
-<p>Assim, podemos aproximar <span class="math inline">\(\theta\)</span> gerando números aleatórios <span class="math inline">\(u_1, u_2, \dots, u_n \sim U(0, 1)\)</span> e tomando como estimativa a média</p>
-<p><span class="math display">\[\frac{1}{n}\sum\limits_{i=1}^{n}h(u_i).\]</span> Agora, se nosso objetivo é calcular a integral:</p>
-<p><span class="math display">\[\theta = \int\limits_{0}^{\infty}g(x) dx.\]</span></p>
-<p>Fazendo a mudança de variável</p>
-<p><span class="math display">\[u = \frac{1}{x+1}, \quad du = \frac{-dx}{(x+1)^2} = -u^2 dx.\]</span></p>
-<p>Logo,</p>
-<p><span class="math display">\[dx = -\frac{du}{u^2},\]</span></p>
-<p>e a integral resultante é</p>
-<p><span class="math display">\[\theta = \int\limits_{0}^{1}h(u) du,\]</span></p>
-<p>com</p>
-<p><span class="math display">\[h(u) = \frac{g\left(\frac{1}{u} - 1\right)}{u^2}.\]</span></p>
-<p>A utilidade de empregar números aleatórios para aproximar integrais torna-se ainda mais evidente no caso de integrais multidimensionais. Suponha que <span class="math inline">\(g\)</span> seja uma função com argumento <span class="math inline">\(n\)</span>-dimensional e que estejamos interessados em calcular:</p>
-<p><span class="math display">\[\theta = \int\limits_{0}^{1}\int\limits_{0}^{1}\dots\int\limits_{0}^{1} g(x_1, x_2, \dots, x_n)dx_1 dx_2 \dots dx_n.\]</span></p>
-<p>Observe que <span class="math inline">\(\theta\)</span> pode ser expresso como o seguinte valor esperado:</p>
-<p><span class="math display">\[\theta = E[g(U_1, U_2, \dots, U_n)],\]</span></p>
-<p>em que <span class="math inline">\(U_1, U_2, \dots, U_n\)</span> são variáveis aleatória independentes uniformente distribuídas no intervalo <span class="math inline">\((0, 1)\)</span>. Assim, se gerarmos <span class="math inline">\(k\)</span> conjuntos independentes, cada um formado por <span class="math inline">\(n\)</span> variáveis aleatórias independentes com distribuição uniforme em <span class="math inline">\((0, 1)\)</span>, então as variáveis</p>
-<p><span class="math display">\[g(U_{i1}, U_{i2}, \dots, U_{in}), \quad i = 1, 2, \dots, k,\]</span> serão independentes e identicamente distribuídas, todas com esperança igual a <span class="math inline">\(\theta\)</span> (o valor da integral). Portanto, podemos estimar <span class="math inline">\(\theta\)</span> por meio da média amostral:</p>
-<p><span class="math display">\[\hat{\theta} = \frac{1}{k}\sum\limits_{i=1}^{k}g(U_{i1}, U_{i2}, \dots, U_{in}).\]</span></p>
-<section id="exemplo" class="level4 unnumbered">
-<h4 class="unnumbered anchored" data-anchor-id="exemplo">Exemplo</h4>
-<p>Nosso objetivo é encontrar o valor aproximado da integral: <span class="math inline">\(\int_{0}^{1} x^3 dx = 0.25.\)</span></p>
+<p>A ideia fundamental, dos métodos de Monte Carlo, é simples: quando uma quantidade pode ser escrita como uma esperança,</p>
+<p><span class="math display">\[
+I = E[h(X)],
+\]</span></p>
+<p>podemos gerar realizações independentes</p>
+<p><span class="math display">\[
+X_1,\ldots,X_N
+\]</span></p>
+<p>com a mesma distribuição de <span class="math inline">\(X\)</span> e aproximar <span class="math inline">\(I\)</span> pela média</p>
+<p><span class="math display">\[
+\widehat I_N
+=
+\frac{1}{N}
+\sum_{j=1}^N h(X_j).
+\]</span></p>
+<p>A simplicidade dessa construção esconde uma grande generalidade. A mesma estrutura permite aproximar integrais, probabilidades, momentos, funções de risco e outras quantidades difíceis de calcular analiticamente. Além disso, simulações repetidas de conjuntos de dados permitem estudar viés, variância, erro quadrático médio, cobertura de intervalos, nível e poder de procedimentos estatísticos.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> a estrutura conceitual principal deste capítulo segue <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, cap. 3</a>, pp.&nbsp;69–108)</span>, <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, especialmente Capítulos 1, 8–10)</span>, <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, cap. 2, 4</a> e 5)</span>, <span class="citation" data-cites="ross2006simulation">Ross (<a href="#ref-ross2006simulation" role="doc-biblioref">2006, cap. 3, 7</a> e 8)</span> e <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, cap. 7</a>, pp.&nbsp;248–273)</span>.</p>
+</blockquote>
+<section id="objetivos-de-aprendizagem" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="objetivos-de-aprendizagem"><span class="header-section-number">4.1</span> Objetivos de aprendizagem</h2>
+<p>Ao final deste capítulo, espera-se que o leitor seja capaz de:</p>
+<ul>
+<li>distinguir números aleatórios de números pseudoaleatórios;</li>
+<li>explicar o papel de uma semente e de um gerador pseudoaleatório;</li>
+<li>construir um estimador de Monte Carlo para uma esperança;</li>
+<li>reescrever integrais e probabilidades como esperanças;</li>
+<li>demonstrar a ausência de viés e calcular a variância do estimador básico de Monte Carlo;</li>
+<li>estimar o erro padrão de Monte Carlo e construir intervalos de incerteza para a aproximação;</li>
+<li>determinar aproximadamente o número de simulações necessário para uma precisão desejada;</li>
+<li>reconhecer a taxa de convergência <span class="math inline">\(O(N^{-1/2})\)</span>;</li>
+<li>diagnosticar a ineficiência do Monte Carlo direto para eventos raros;</li>
+<li>aplicar amostragem por importância, variáveis antitéticas e variáveis de controle;</li>
+<li>planejar estudos de simulação para avaliar estimadores, intervalos e testes estatísticos;</li>
+<li>calcular o erro de Monte Carlo de medidas como viés, cobertura, nível e poder;</li>
+<li>implementar procedimentos reprodutíveis em R;</li>
+<li>distinguir Monte Carlo com amostras independentes de métodos MCMC.</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> organização didática baseada em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, cap. 1</a> e 3)</span>, <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.1–7.3</a>, pp.&nbsp;248–265)</span>, <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 1, 8–10</a>)</span> e <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, cap. 2, 4–6</a>)</span>.</p>
+</blockquote>
+</section>
+<section id="números-aleatórios-e-pseudoaleatórios" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="números-aleatórios-e-pseudoaleatórios"><span class="header-section-number">4.2</span> Números aleatórios e pseudoaleatórios</h2>
+<p>Métodos de Monte Carlo dependem da capacidade de gerar grandes sequências de valores que se comportem, para os fins computacionais desejados, como realizações de variáveis aleatórias. Em computadores digitais, essas sequências são normalmente geradas por algoritmos determinísticos.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Definição">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Definição
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Um <strong>gerador de números pseudoaleatórios</strong> é um algoritmo determinístico que, a partir de um estado inicial ou <strong>semente</strong>, produz uma sequência de números concebida para apresentar propriedades estatísticas semelhantes às de uma sequência aleatória.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1</a>, pp.&nbsp;2–8)</span>, <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 1</a>)</span> e <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, seç. 2.2</a>, a partir da p.&nbsp;49)</span>.</p>
+</div>
+</div>
+<section id="gerador-congruencial-linear" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="gerador-congruencial-linear"><span class="header-section-number">4.2.1</span> Gerador congruencial linear</h3>
+<p>Um modelo histórico e didático de gerador é o <strong>gerador congruencial linear</strong>:</p>
+<p><span class="math display">\[
+X_{j+1}
+=
+(aX_j+c)\bmod m,
+\]</span></p>
+<p>em que</p>
+<ul>
+<li><span class="math inline">\(m\)</span> é o módulo;</li>
+<li><span class="math inline">\(a\)</span> é o multiplicador;</li>
+<li><span class="math inline">\(c\)</span> é o incremento;</li>
+<li><span class="math inline">\(X_0\)</span> é a semente.</li>
+</ul>
+<p>Uma sequência em <span class="math inline">\([0,1)\)</span> pode ser obtida por</p>
+<p><span class="math display">\[
+U_j=\frac{X_j}{m}.
+\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.1</a>, pp.&nbsp;2–4)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O gerador é determinístico: a mesma semente produz exatamente a mesma sequência. A aleatoriedade é uma propriedade operacional da sequência para fins estatísticos, não uma indeterminação física do algoritmo.</p>
+</div>
+</div>
+<section id="implementação-didática-em-r" class="level4" data-number="4.2.1.1">
+<h4 data-number="4.2.1.1" class="anchored" data-anchor-id="implementação-didática-em-r"><span class="header-section-number">4.2.1.1</span> Implementação didática em R</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2025</span>) <span class="co">#fixando a semente</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">100000</span> <span class="co">#quantidade de valores uniformes gerados</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">runif</span>(n) <span class="co">#numeros uniformes (0,1)</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(u<span class="sc">^</span><span class="dv">3</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>lcg <span class="ot">&lt;-</span> <span class="cf">function</span>(n, x0, a, c, m) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  x[<span class="dv">1</span>] <span class="ot">&lt;-</span> x0</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="fu">seq_len</span>(n)) {</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    x[j <span class="sc">+</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> (a <span class="sc">*</span> x[j] <span class="sc">+</span> c) <span class="sc">%%</span> m</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">iter =</span> <span class="dv">0</span><span class="sc">:</span>n,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> x,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">u =</span> x <span class="sc">/</span> m</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">lcg</span>(</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="dv">10</span>,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">x0 =</span> <span class="dv">3</span>,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">a =</span> <span class="dv">5</span>,</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">c =</span> <span class="dv">7</span>,</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">m =</span> <span class="dv">200</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   iter   x     u
+1     0   3 0.015
+2     1  22 0.110
+3     2 117 0.585
+4     3 192 0.960
+5     4 167 0.835
+6     5  42 0.210
+7     6  17 0.085
+8     7  92 0.460
+9     8  67 0.335
+10    9 142 0.710
+11   10 117 0.585</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> algoritmo baseado em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Algoritmo 1.2 e Seção 1.1.1, pp.&nbsp;2–4)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Geradores congruenciais simples são úteis para compreender os princípios de geração pseudoaleatória, mas não devem ser adotados automaticamente em aplicações científicas modernas. Qualidade de período, dependência serial e comportamento multidimensional são aspectos importantes de um gerador.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.2–1.1.3</a>, pp.&nbsp;4–8)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 1</a>)</span>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sementes-e-reprodutibilidade-em-r" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="sementes-e-reprodutibilidade-em-r"><span class="header-section-number">4.2.2</span> Sementes e reprodutibilidade em R</h3>
+<p>Em R, uma semente pode ser fixada com:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">runif</span>(<span class="dv">5</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6986735 0.5565305 0.1401400 0.2857233 0.5553690</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">5</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -1.9577250  1.0848713  0.2039567  0.5011464  1.0301596</code></pre>
+</div>
+</div>
+<p>Se o código for executado novamente com a mesma semente e o mesmo ambiente de geração, a sequência produzida será reproduzível.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.1.1</a>, pp.&nbsp;248–249)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Fixar a semente não melhora a precisão estatística. Sua função é permitir que um experimento computacional seja reproduzido.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="o-estimador-básico-de-monte-carlo" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="o-estimador-básico-de-monte-carlo"><span class="header-section-number">4.3</span> O estimador básico de Monte Carlo</h2>
+<p>Seja <span class="math inline">\(X\)</span> uma variável ou vetor aleatório e seja <span class="math inline">\(h\)</span> uma função real tal que</p>
+<p><span class="math display">\[
+E[|h(X)|]&lt;\infty.
+\]</span></p>
+<p>Queremos estimar</p>
+<p><span class="math display">\[
+I=E[h(X)].
+\]</span></p>
+<p>Se</p>
+<p><span class="math display">\[
+X_1,\ldots,X_N
+\]</span></p>
+<p>são cópias independentes de <span class="math inline">\(X\)</span>, define-se</p>
+<p><span class="math display">\[
+\boxed{
+\widehat I_N
+=
+\frac{1}{N}
+\sum_{j=1}^N h(X_j)
+}.
+\]</span></p>
+<div class="callout callout-style-default callout-note callout-titled" title="Definição">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Definição
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O <strong>estimador básico de Monte Carlo</strong> para <span class="math inline">\(E[h(X)]\)</span> é a média amostral das avaliações <span class="math inline">\(h(X_j)\)</span> em realizações independentes da distribuição de <span class="math inline">\(X\)</span>.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Definição 3.7 e Algoritmo 3.8, pp.&nbsp;74–76)</span>.</p>
+</div>
+</div>
+<p>A Lei Forte dos Grandes Números fornece, sob condições usuais,</p>
+<p><span class="math display">\[
+\widehat I_N
+\overset{q.c.}{\longrightarrow}
+I
+\qquad
+\text{quando }
+N\to\infty.
+\]</span></p>
+<p>Esse resultado justifica a consistência da aproximação.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.1–3.2</a>, pp.&nbsp;69–76)</span>.</p>
+</blockquote>
+</section>
+<section id="integração-de-monte-carlo" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="integração-de-monte-carlo"><span class="header-section-number">4.4</span> Integração de Monte Carlo</h2>
+<p>Uma integral pode muitas vezes ser reescrita como uma esperança. Essa transformação é o ponto de partida da integração de Monte Carlo.</p>
+<section id="integral-em-01" class="level3" data-number="4.4.1">
+<h3 data-number="4.4.1" class="anchored" data-anchor-id="integral-em-01"><span class="header-section-number">4.4.1</span> Integral em <span class="math inline">\([0,1]\)</span></h3>
+<p>Considere</p>
+<p><span class="math display">\[
+I
+=
+\int_0^1 g(x)\,dx.
+\]</span></p>
+<p>Se</p>
+<p><span class="math display">\[
+U\sim U(0,1),
+\]</span></p>
+<p>então</p>
+<p><span class="math display">\[
+I
+=
+E[g(U)].
+\]</span></p>
+<p>Logo,</p>
+<p><span class="math display">\[
+\widehat I_N
+=
+\frac{1}{N}
+\sum_{j=1}^N
+g(U_j),
+\qquad
+U_j\stackrel{iid}{\sim}U(0,1).
+\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> a representação de integrais como esperanças é uma aplicação padrão de Monte Carlo desenvolvida em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.1–3.2</a>)</span> e ilustrada em R por <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.1.4</a>, pp.&nbsp;254–256)</span>. <span class="citation" data-cites="ross2006simulation">Ross (<a href="#ref-ross2006simulation" role="doc-biblioref">2006, cap. 3</a>, pp.&nbsp;41–48)</span> também apresenta o uso de números aleatórios na avaliação de integrais.</p>
+</blockquote>
+<div class="callout callout-style-default callout-important callout-titled" title="Exemplo: $\int_0^1 x^3,dx$">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exemplo: <span class="math inline">\(\int_0^1 x^3,dx\)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O valor exato é</p>
+<p><span class="math display">\[
+I
+=
+\int_0^1x^3\,dx
+=
+\frac14.
+\]</span></p>
+<p>Uma aproximação de Monte Carlo é:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2025</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">100000</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">runif</span>(N)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>I_hat <span class="ot">&lt;-</span> <span class="fu">mean</span>(u<span class="sc">^</span><span class="dv">3</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>I_hat</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.2503221</code></pre>
 </div>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">2025</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">100000</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> np.random.uniform(<span class="dv">0</span>, <span class="dv">1</span>, n)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>resultado <span class="op">=</span> np.mean(u<span class="op">**</span><span class="dv">3</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(resultado)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>0.2508972398766188</code></pre>
+<p>A estimativa tende a se aproximar de <span class="math inline">\(0{,}25\)</span> quando <span class="math inline">\(N\)</span> cresce.</p>
+<p><em>Base bibliográfica:</em> exemplo computacional baseado na formulação de <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, cap. 3</a>)</span>.</p>
 </div>
 </div>
 </section>
-<section id="exercícios" class="level4 unnumbered">
-<h4 class="unnumbered anchored" data-anchor-id="exercícios">Exercícios</h4>
-<ol type="1">
-<li><p>Se <span class="math inline">\(x_0 = 5\)</span> e <span class="math inline">\(x_n = 3x_{n-1}\, \text{mod}\, 150\)</span>, encontre <span class="math inline">\(x_1, x_2, \dots, x_{30}\)</span>.</p></li>
-<li><p>Se <span class="math inline">\(x_0 = 3\)</span> e <span class="math inline">\(x_n = (5x_{n-1} + 7)\, \text{mod}\, 200\)</span>, encontre <span class="math inline">\(x_1, x_2, \dots, x_{10}\)</span>.</p></li>
-<li><p>Compare sua estimativa com o valor exato:</p></li>
-</ol>
+<section id="integral-em-um-intervalo-ab" class="level3" data-number="4.4.2">
+<h3 data-number="4.4.2" class="anchored" data-anchor-id="integral-em-um-intervalo-ab"><span class="header-section-number">4.4.2</span> Integral em um intervalo <span class="math inline">\((a,b)\)</span></h3>
+<p>Para</p>
+<p><span class="math display">\[
+I
+=
+\int_a^b g(x)\,dx,
+\]</span></p>
+<p>faça</p>
+<p><span class="math display">\[
+x
+=
+a+(b-a)u,
+\qquad
+u\in(0,1).
+\]</span></p>
+<p>Então</p>
+<p><span class="math display">\[
+dx
+=
+(b-a)\,du
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+I
+=
+(b-a)
+\int_0^1
+g(a+(b-a)u)\,du.
+\]</span></p>
+<p>Portanto,</p>
+<p><span class="math display">\[
+I
+=
+E[h(U)],
+\]</span></p>
+<p>onde</p>
+<p><span class="math display">\[
+h(U)
+=
+(b-a)
+g(a+(b-a)U).
+\]</span></p>
+<p>O estimador é</p>
+<p><span class="math display">\[
+\widehat I_N
+=
+\frac{b-a}{N}
+\sum_{j=1}^N
+g(a+(b-a)U_j).
+\]</span></p>
+</section>
+<section id="integral-em-0infty" class="level3" data-number="4.4.3">
+<h3 data-number="4.4.3" class="anchored" data-anchor-id="integral-em-0infty"><span class="header-section-number">4.4.3</span> Integral em <span class="math inline">\((0,\infty)\)</span></h3>
+<p>Para</p>
+<p><span class="math display">\[
+I
+=
+\int_0^\infty g(x)\,dx,
+\]</span></p>
+<p>uma possibilidade é usar</p>
+<p><span class="math display">\[
+u
+=
+\frac{1}{x+1},
+\]</span></p>
+<p>o que implica</p>
+<p><span class="math display">\[
+x
+=
+\frac{1}{u}-1
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+dx
+=
+-\frac{1}{u^2}\,du.
+\]</span></p>
+<p>Assim,</p>
+<p><span class="math display">\[
+I
+=
+\int_0^1
+\frac{
+g\left(\frac{1}{u}-1\right)
+}{
+u^2
+}\,du.
+\]</span></p>
+<p>Logo,</p>
+<p><span class="math display">\[
+h(u)
+=
+\frac{
+g\left(\frac{1}{u}-1\right)
+}{
+u^2
+}.
+\]</span></p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Uma transformação matematicamente correta pode gerar um integrando com variância muito elevada. A eficiência de Monte Carlo depende de</p>
+<p><span class="math display">\[
+\operatorname{Var}[h(U)],
+\]</span></p>
+<p>e não apenas da existência da identidade integral. Para integrais de cauda, uma escolha probabilística por amostragem de importância pode ser muito mais eficiente.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.2–3.3</a>, pp.&nbsp;74–96)</span>.</p>
+</div>
+</div>
+</section>
+<section id="integrais-multidimensionais" class="level3" data-number="4.4.4">
+<h3 data-number="4.4.4" class="anchored" data-anchor-id="integrais-multidimensionais"><span class="header-section-number">4.4.4</span> Integrais multidimensionais</h3>
+<p>Para</p>
+<p><span class="math display">\[
+I
+=
+\int_{[0,1]^d}
+g(x_1,\ldots,x_d)
+\,dx_1\cdots dx_d,
+\]</span></p>
+<p>se</p>
+<p><span class="math display">\[
+U
+=
+(U_1,\ldots,U_d)
+\]</span></p>
+<p>tem componentes independentes <span class="math inline">\(U(0,1)\)</span>, então</p>
+<p><span class="math display">\[
+I=E[g(U)].
+\]</span></p>
+<p>Com vetores independentes</p>
+<p><span class="math display">\[
+U^{(1)},\ldots,U^{(N)},
+\]</span></p>
+<p>temos</p>
+<p><span class="math display">\[
+\widehat I_N
+=
+\frac{1}{N}
+\sum_{j=1}^N
+g(U^{(j)}).
+\]</span></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A taxa básica de erro de Monte Carlo continua sendo da ordem <span class="math inline">\(N^{-1/2}\)</span>. Ela não exibe explicitamente uma potência dependente da dimensão como ocorre em muitas regras determinísticas de quadratura. Entretanto, isso não significa que a dimensão seja irrelevante: a variância de <span class="math inline">\(g(U)\)</span>, o custo de gerar vetores e a geometria do integrando podem piorar com <span class="math inline">\(d\)</span>.</p>
+<p><span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025</a>, pp.&nbsp;254–256)</span> observa que Monte Carlo é particularmente atraente para integrais de dimensão elevada, enquanto métodos determinísticos podem ser superiores em problemas simples de baixa dimensão.</p>
+</div>
+</div>
+</section>
+<section id="integração-por-área" class="level3" data-number="4.4.5">
+<h3 data-number="4.4.5" class="anchored" data-anchor-id="integração-por-área"><span class="header-section-number">4.4.5</span> Integração por área</h3>
+<p>Outra construção é interpretar uma área como probabilidade. Para o quarto de círculo unitário,</p>
+<p><span class="math display">\[
+x^2+y^2\leq 1,
+\qquad
+0\leq x,y\leq1,
+\]</span></p>
+<p>temos</p>
+<p><span class="math display">\[
+P(X^2+Y^2\leq1)
+=
+\frac{\pi}{4},
+\]</span></p>
+<p>quando <span class="math inline">\(X,Y\stackrel{iid}{\sim}U(0,1)\)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(N)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">runif</span>(N)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> y<span class="sc">^</span><span class="dv">2</span> <span class="sc">&lt;=</span> <span class="dv">1</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.7816</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pi <span class="sc">/</span> <span class="dv">4</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.7853982</code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> exemplo baseado na Seção 7.1.4 de <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025</a>, pp.&nbsp;254–256)</span>.</p>
+</blockquote>
+</section>
+</section>
+<section id="estimação-de-probabilidades" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="estimação-de-probabilidades"><span class="header-section-number">4.5</span> Estimação de probabilidades</h2>
+<p>Se <span class="math inline">\(A\)</span> é um evento, sua função indicadora é</p>
+<p><span class="math display">\[
+I_A(X)
+=
+\begin{cases}
+1, &amp; X\in A,\\
+0, &amp; X\notin A.
+\end{cases}
+\]</span></p>
+<p>Como</p>
+<p><span class="math display">\[
+P(X\in A)
+=
+E[I_A(X)],
+\]</span></p>
+<p>a probabilidade pode ser estimada por</p>
+<p><span class="math display">\[
+\widehat p_N
+=
+\frac{1}{N}
+\sum_{j=1}^N
+I_A(X_j).
+\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.1</a> e Exemplo 3.18, pp.&nbsp;71–72 e 81)</span>.</p>
+</blockquote>
+<p>Como as indicadoras são Bernoulli,</p>
+<p><span class="math display">\[
+E(\widehat p_N)=p
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+\operatorname{Var}(\widehat p_N)
+=
+\frac{p(1-p)}{N}.
+\]</span></p>
+<p>Uma estimativa do erro padrão é</p>
+<p><span class="math display">\[
+\widehat{ep}_{MC}(\widehat p_N)
+=
+\sqrt{
+\frac{
+\widehat p_N(1-\widehat p_N)
+}{
+N
+}
+}.
+\]</span></p>
+<div class="callout callout-style-default callout-important callout-titled" title="Exemplo: probabilidade de cauda normal">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exemplo: probabilidade de cauda normal
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Considere</p>
+<p><span class="math display">\[
+X\sim N(0,1)
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+p=P(X&gt;2{,}5).
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">20262</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="fl">1e6</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(N)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>p_hat <span class="ot">&lt;-</span> <span class="fu">mean</span>(x <span class="sc">&gt;</span> <span class="fl">2.5</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>se_mc <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  p_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat) <span class="sc">/</span> N</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimate =</span> p_hat,</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">mc_se =</span> se_mc,</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">exact =</span> <span class="fu">pnorm</span>(<span class="fl">2.5</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    estimate        mc_se        exact 
+6.225000e-03 7.865271e-05 6.209665e-03 </code></pre>
+</div>
+</div>
+<p>Um intervalo assintótico de Monte Carlo é</p>
+<p><span class="math display">\[
+\widehat p_N
+\pm
+1{,}96
+\widehat{ep}_{MC}.
+\]</span></p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Exemplo 3.18 e Seção 3.2.4, pp.&nbsp;81–84)</span>.</p>
+</div>
+</div>
+</section>
+<section id="erro-de-monte-carlo" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="erro-de-monte-carlo"><span class="header-section-number">4.6</span> Erro de Monte Carlo</h2>
+<p>Defina</p>
+<p><span class="math display">\[
+Y_j=h(X_j)
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+\sigma^2
+=
+\operatorname{Var}[h(X)]&lt;\infty.
+\]</span></p>
+<p>O estimador é</p>
+<p><span class="math display">\[
+\widehat I_N
+=
+\bar Y_N.
+\]</span></p>
+<section id="viés-variância-e-mse" class="level3" data-number="4.6.1">
+<h3 data-number="4.6.1" class="anchored" data-anchor-id="viés-variância-e-mse"><span class="header-section-number">4.6.1</span> Viés, variância e MSE</h3>
+<p>Como</p>
+<p><span class="math display">\[
+E(\widehat I_N)
+=
+I,
+\]</span></p>
+<p>o estimador básico é não viesado:</p>
+<p><span class="math display">\[
+\operatorname{bias}(\widehat I_N)=0.
+\]</span></p>
+<p>Por independência,</p>
+<p><span class="math display">\[
+\operatorname{Var}(\widehat I_N)
+=
+\frac{\sigma^2}{N}.
+\]</span></p>
+<p>Portanto,</p>
+<p><span class="math display">\[
+\operatorname{MSE}(\widehat I_N)
+=
+\frac{\sigma^2}{N}
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+\operatorname{RMSE}(\widehat I_N)
+=
+\frac{\sigma}{\sqrt N}.
+\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Proposição 3.14, pp.&nbsp;77–80)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-note callout-titled" title="Resultado central">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Resultado central
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A precisão do Monte Carlo básico melhora à taxa</p>
+<p><span class="math display">\[
+O(N^{-1/2}).
+\]</span></p>
+<p>Assim, para reduzir aproximadamente o erro pela metade, é necessário multiplicar <span class="math inline">\(N\)</span> por quatro.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, pp.&nbsp;79–80)</span>.</p>
+</div>
+</div>
+</section>
+<section id="estimativa-do-erro-padrão" class="level3" data-number="4.6.2">
+<h3 data-number="4.6.2" class="anchored" data-anchor-id="estimativa-do-erro-padrão"><span class="header-section-number">4.6.2</span> Estimativa do erro padrão</h3>
+<p>A variância de <span class="math inline">\(Y=h(X)\)</span> é estimada por</p>
+<p><span class="math display">\[
+\widehat\sigma^2
+=
+\frac{1}{N-1}
+\sum_{j=1}^N
+\left(
+Y_j-\bar Y_N
+\right)^2.
+\]</span></p>
+<p>Consequentemente,</p>
+<p><span class="math display">\[
+\widehat{\operatorname{Var}}
+(\widehat I_N)
+=
+\frac{\widehat\sigma^2}{N}
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+\boxed{
+\widehat{ep}_{MC}
+=
+\frac{\widehat\sigma}{\sqrt N}
+}.
+\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Eq. 3.9, pp.&nbsp;80–81)</span>.</p>
+</blockquote>
+</section>
+<section id="teorema-central-do-limite" class="level3" data-number="4.6.3">
+<h3 data-number="4.6.3" class="anchored" data-anchor-id="teorema-central-do-limite"><span class="header-section-number">4.6.3</span> Teorema Central do Limite</h3>
+<p>Se</p>
+<p><span class="math display">\[
+0&lt;\sigma^2&lt;\infty,
+\]</span></p>
+<p>o Teorema Central do Limite fornece</p>
+<p><span class="math display">\[
+\frac{
+\sqrt N
+(\widehat I_N-I)
+}{
+\sigma
+}
+\overset{d}{\longrightarrow}
+N(0,1).
+\]</span></p>
+<p>Assim, para <span class="math inline">\(N\)</span> suficientemente grande,</p>
+<p><span class="math display">\[
+I
+\approx
+\widehat I_N
+\pm
+z_{1-\alpha/2}
+\frac{\widehat\sigma}{\sqrt N}.
+\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.2.4</a>, pp.&nbsp;82–84)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A Lei Forte dos Grandes Números e o Teorema Central do Limite têm papéis distintos.</p>
 <ul>
-<li><p><span class="math inline">\(\int_{0}^{1} \exp\{{e^x}\} dx\)</span>.</p></li>
-<li><p><span class="math inline">\(\int_{0}^{1} (1 - x^2)^{3/2} dx\)</span>.</p></li>
-<li><p><span class="math inline">\(\int_{-2}^{2} \exp\{x + x^2\} dx\)</span>.</p></li>
-<li><p><span class="math inline">\(\int_{0}^{\infty} x(1 + x^2)^{-2} dx\)</span>.</p></li>
-<li><p><span class="math inline">\(\int_{-\infty}^{\infty} \exp\{-x^2\} dx\)</span>.</p></li>
-<li><p><span class="math inline">\(\int_{0}^{1}\int_{0}^{1} \exp\{(x+y)^2\} dy dx\)</span>.</p></li>
-<li><p><span class="math inline">\(\int_{0}^{\infty}\int_{0}^{x} \exp\{-(x+y)\} dydx\)</span>.</p></li>
+<li>A Lei dos Grandes Números justifica a convergência da média para a esperança.</li>
+<li>O TCL fornece a aproximação normal usada para quantificar o erro em escala <span class="math inline">\(N^{-1/2}\)</span> e requer condições adicionais, em particular variância finita na forma usada aqui.</li>
 </ul>
-<ol start="4" type="1">
-<li>Use simulação para encontrar o valor aproximado de <span class="math inline">\(Cov(U, e^U)\)</span>, em que <span class="math inline">\(U\)</span> é uniforme em <span class="math inline">\((0,1)\)</span>. Compare seu resultado com o valor exato.</li>
-</ol>
+<p>Se <span class="math inline">\(\operatorname{Var}[h(X)]=\infty\)</span>, a média ainda pode convergir sob condições mais fracas, mas os intervalos normais e a taxa usual podem deixar de ser úteis.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, pp.&nbsp;82–84)</span>.</p>
+</div>
+</div>
 </section>
-<section id="estimativa-de-probabilidades-via-monte-carlo" class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="estimativa-de-probabilidades-via-monte-carlo">Estimativa de Probabilidades via Monte Carlo</h3>
-<p>O método de Monte Carlo permite aproximar integrais complexas e, consequentemente, probabilidades, ao tratar o problema como o cálculo de uma esperança matemática.</p>
-<p>Para qualquer evento <span class="math inline">\(A\)</span>, a probabilidade <span class="math inline">\(P(X \in A)\)</span> pode ser expressa como a esperança da função indicadora <span class="math inline">\(I_A(X)\)</span>, em que <span class="math inline">\(I_A(X) = 1\)</span> se <span class="math inline">\(x \in A\)</span> e <span class="math inline">\(0\)</span> caso contrário. Pela Lei Forte dos Grandes Números, a média aritmética de uma amostra independente e identicamente distribuída (i.i.d.) converge para o valor real da esperança conforme o tamanho da amostra, <span class="math inline">\(n\)</span>, aumenta</p>
-<p><span class="math display">\[\hat{P}_n = \frac{1}{n}\sum\limits_{i=1}^{n}I_A(X_i) \to  P(X \in A).\]</span></p>
-<section id="precisão-e-erro-padrão" class="level4 unnumbered">
-<h4 class="unnumbered anchored" data-anchor-id="precisão-e-erro-padrão">Precisão e Erro Padrão</h4>
-<p>Como <span class="math inline">\(\hat P\)</span> é a média de variáveis Bernoulli, sua variância teórica é dada por <span class="math inline">\(Var(\hat P) = \frac{P(1-P)}{n}\)</span>. De acordo com o Teorema Central do Limite, para um <span class="math inline">\(n\)</span> suficientemente grande, o erro da estimativa distribui-se aproximadamente como uma distribuição Normal, permitindo calcular o erro padrão da simulação.</p>
-<section id="exemplo-px2.5-com-xsim-n01" class="level5 unnumbered">
-<h5 class="unnumbered anchored" data-anchor-id="exemplo-px2.5-com-xsim-n01">Exemplo: <span class="math inline">\(P(X&gt;2.5)\)</span>, com <span class="math inline">\(X\sim N(0,1)\)</span></h5>
-<p>No <code>R</code>, a estimativa é realizada de forma eficiente através da vetorização, evitando laços lentos. Para eventos nas caudas (eventos raros), é essencial monitorar a estabilidade da estimativa.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">20262</span>) <span class="co"># Garante a reprodutibilidade</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fl">1e6</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimativa de Monte Carlo</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>indicadora <span class="ot">&lt;-</span> x <span class="sc">&gt;</span> <span class="fl">2.5</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>p_hat <span class="ot">&lt;-</span> <span class="fu">mean</span>(indicadora)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Cálculo do Erro Padrão</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>erro_padrao <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(p_hat <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_hat) <span class="sc">/</span> n)</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Resultados</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Estimativa:"</span>, p_hat, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Estimativa: 0.006225 </code></pre>
+</section>
+<section id="escolha-do-número-de-simulações" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="escolha-do-número-de-simulações"><span class="header-section-number">4.7</span> Escolha do número de simulações</h2>
+<p>A escolha de <span class="math inline">\(N\)</span> deve refletir a precisão desejada e o custo computacional.</p>
+<section id="critério-baseado-no-mse" class="level3" data-number="4.7.1">
+<h3 data-number="4.7.1" class="anchored" data-anchor-id="critério-baseado-no-mse"><span class="header-section-number">4.7.1</span> Critério baseado no MSE</h3>
+<p>Como</p>
+<p><span class="math display">\[
+\operatorname{MSE}(\widehat I_N)
+=
+\frac{\sigma^2}{N},
+\]</span></p>
+<p>para obter</p>
+<p><span class="math display">\[
+\operatorname{RMSE}
+\leq
+\varepsilon,
+\]</span></p>
+<p>é suficiente escolher</p>
+<p><span class="math display">\[
+N
+\geq
+\frac{\sigma^2}{\varepsilon^2}.
+\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.2.3</a> e Eq. 3.10, pp.&nbsp;80–82)</span>.</p>
+</blockquote>
+</section>
+<section id="critério-baseado-em-probabilidade-aproximada" class="level3" data-number="4.7.2">
+<h3 data-number="4.7.2" class="anchored" data-anchor-id="critério-baseado-em-probabilidade-aproximada"><span class="header-section-number">4.7.2</span> Critério baseado em probabilidade aproximada</h3>
+<p>Pelo TCL, para desejar aproximadamente</p>
+<p><span class="math display">\[
+P(
+|\widehat I_N-I|
+\leq
+\varepsilon
+)
+\geq
+1-\alpha,
+\]</span></p>
+<p>uma escolha aproximada é</p>
+<p><span class="math display">\[
+N
+\gtrsim
+\frac{
+z_{1-\alpha/2}^2\sigma^2
+}{
+\varepsilon^2
+}.
+\]</span></p>
+<p>Se <span class="math inline">\(\sigma^2\)</span> for desconhecida, uma execução piloto pode ser usada para estimá-la antes da simulação principal.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Lema 3.19 e Exemplo 3.20, pp.&nbsp;82–84)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-warning callout-titled" title="Observação sobre parada sequencial">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Erro Padrão:"</span>, erro_padrao, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Erro Padrão: 7.865271e-05 </code></pre>
+<div class="callout-title-container flex-fill">
+Observação sobre parada sequencial
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Intervalo de Confiança (95%): ["</span>, p_hat <span class="sc">-</span> <span class="fl">1.96</span><span class="sc">*</span>erro_padrao, <span class="st">","</span>, p_hat <span class="sc">+</span> <span class="fl">1.96</span><span class="sc">*</span>erro_padrao, <span class="st">"]</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Intervalo de Confiança (95%): [ 0.006070841 , 0.006379159 ]</code></pre>
+</div>
+<div class="callout-body-container callout-body">
+<p>Interromper automaticamente a simulação assim que um erro padrão estimado fica abaixo de um limiar parece natural, mas deve ser feito com cuidado: se o próprio <span class="math inline">\(N\)</span> depende das realizações observadas, propriedades do estimador podem ser alteradas.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.2.3</a>, pp.&nbsp;81–82)</span>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="erro-relativo-e-eventos-raros" class="level2" data-number="4.8">
+<h2 data-number="4.8" class="anchored" data-anchor-id="erro-relativo-e-eventos-raros"><span class="header-section-number">4.8</span> Erro relativo e eventos raros</h2>
+<p>Quando <span class="math inline">\(p\)</span> é pequeno, um erro absoluto aparentemente pequeno pode representar grande incerteza relativa.</p>
+<p>Para o estimador direto</p>
+<p><span class="math display">\[
+\widehat p_N
+=
+\frac{1}{N}
+\sum_{j=1}^N I_A(X_j),
+\]</span></p>
+<p>temos aproximadamente</p>
+<p><span class="math display">\[
+ep(\widehat p_N)
+=
+\sqrt{
+\frac{p(1-p)}{N}
+}.
+\]</span></p>
+<p>O erro padrão relativo é</p>
+<p><span class="math display">\[
+\frac{
+ep(\widehat p_N)
+}{
+p
+}
+=
+\sqrt{
+\frac{1-p}{Np}
+}.
+\]</span></p>
+<p>Se <span class="math inline">\(p\)</span> é muito pequeno,</p>
+<p><span class="math display">\[
+\frac{
+ep(\widehat p_N)
+}{
+p
+}
+\approx
+\frac{1}{\sqrt{Np}}.
+\]</span></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O produto <span class="math inline">\(Np\)</span> é aproximadamente o número esperado de ocorrências do evento raro. Se <span class="math inline">\(Np\)</span> é pequeno, a estimativa direta será altamente instável; pode inclusive resultar em zero simplesmente porque nenhum evento ocorreu na simulação.</p>
 </div>
 </div>
 <blockquote class="blockquote">
-<p>Embora o método de Monte Carlo direto seja robusto, ele pode ser ineficiente para probabilidades muito pequenas, exigindo um <span class="math inline">\(n\)</span> astronômico para obter precisão relativa. Nesses casos, técnicas como a Amostragem de Importância podem ser utilizadas para reduzir a variância, simulando de uma distribuição que enfatize a região de interesse (neste caso, valores <span class="math inline">\(&gt; 2{,}5\)</span>)</p>
+<p><strong>Base bibliográfica:</strong> a ineficiência do Monte Carlo direto para eventos raros e métodos específicos para esse problema são tratados em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 10</a>)</span> e <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, cap. 5</a>)</span>.</p>
 </blockquote>
 </section>
-</section>
-</section>
-<section id="erro-e-convergência-de-monte-carlo" class="level3" data-number="4.1.1">
-<h3 data-number="4.1.1" class="anchored" data-anchor-id="erro-e-convergência-de-monte-carlo"><span class="header-section-number">4.1.1</span> Erro e Convergência de Monte Carlo</h3>
-<p>O objetivo fundamental da integração de Monte Carlo é estimar a esperança matemática <span class="math inline">\(I = E_f[h(X)] = \int_{\mathcal{X}} h(x)f(x)dx\)</span>. O estimador de Monte Carlo, <span class="math inline">\(\bar h_n\)</span>, é a média aritmética de uma amostra <span class="math inline">\(X_1, \dots, X_n\)</span> gerada a partir da densidade <span class="math inline">\(f\)</span>:</p>
-<p><span class="math display">\[\bar h_n = \frac{1}{n} \sum\limits_{i=1}^{n} h(X_j).\]</span></p>
-<p>Note que a validade desta aproximação possui pilares da teoria das probabilidades.</p>
-<ol type="1">
-<li><p>Lei Forte dos Grandes Números: garante que <span class="math inline">\(\bar h_n\)</span> converge quase certamente para o valor real <span class="math inline">\(I\)</span> conforme <span class="math inline">\(n \to \infty\)</span>.</p></li>
-<li><p>Teorema Central do Limite (TCL): Afirma que, para <span class="math inline">\(n\)</span> grande, o erro de integração <span class="math inline">\(\bar h_n - I\)</span> possui distribuição aproximadamente normal com média <span class="math inline">\(0\)</span> e variância <span class="math inline">\(\sigma^2/n\)</span>.</p></li>
-</ol>
-<p>Como a variância populacional <span class="math inline">\(\sigma^2 = Var(h(X))\)</span> é geralmente desconhecida, nós estimamos a partir da amostra para avaliar a precisão do método:</p>
-<p>com estimador de Monte Carlo: <span class="math inline">\(\bar h_n\)</span>. A Variância do estimador de Monte Carlo é dada por:</p>
-<p><span class="math display">\[\widehat{\operatorname{Var}}(h(X))
-= \frac{1}{n}\sum_{j=1}^n \bigl(h(x_j) - \bar h_n\bigr)^2.\]</span></p>
-<p>Consequentemente, a variância do estimador da média, <span class="math inline">\(Var(\bar h_n)\)</span> é estimada por:</p>
-<p><span class="math display">\[v_n = \frac{\widehat{\operatorname{Var}}(\bar h_n)}{n}
-= \frac{1}{n^2}\sum_{j=1}^n \bigl(h(x_j) - \bar h_n\bigr)^2.\]</span></p>
-<p>O erro padrão, <span class="math inline">\(\sqrt{v_n}\)</span>, é a medida padrão da variabilidade do estimador. É importante notar que a precisão de Monte Carlo melhora a uma taxa de <span class="math inline">\(O(n^{-1/2})\)</span>, o que significa que para reduzir o erro pela metade, é necessário quadruplicar o número de simulações.</p>
-<p>Uma prática recomendada é monitorar a evolução da estimativa e das bandas de erro conforme <span class="math inline">\(n\)</span> aumenta. As bandas baseadas em <span class="math inline">\(\pm1.96 \sqrt{v_n}\)</span> representam um intervalo de confiança de 95% para a estimativa em cada ponto da iteração.</p>
+<section id="redução-de-variância" class="level2" data-number="4.9">
+<h2 data-number="4.9" class="anchored" data-anchor-id="redução-de-variância"><span class="header-section-number">4.9</span> Redução de variância</h2>
+<p>Aumentar <span class="math inline">\(N\)</span> reduz o erro, mas pode ser caro. Outra estratégia é construir um estimador com a mesma esperança e variância menor.</p>
 <blockquote class="blockquote">
-<p><em>Nota de cautela:</em> Estas bandas indicam a confiança na estimativa se a simulação fosse interrompida naquele valor de <span class="math inline">\(n\)</span>. Elas não garantem que a trajetória inteira do estimador permanecerá dentro desses limites em uma nova execução.</p>
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.3</a>, pp.&nbsp;84–96)</span>, <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 9</a>, pp.&nbsp;347–379)</span>, <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, cap. 5</a>)</span> e <span class="citation" data-cites="ross2006simulation">Ross (<a href="#ref-ross2006simulation" role="doc-biblioref">2006, cap. 8</a>)</span>.</p>
 </blockquote>
+<section id="amostragem-por-importância" class="level3" data-number="4.9.1">
+<h3 data-number="4.9.1" class="anchored" data-anchor-id="amostragem-por-importância"><span class="header-section-number">4.9.1</span> Amostragem por importância</h3>
+<p>Suponha que</p>
+<p><span class="math display">\[
+I
+=
+E_f[h(X)]
+=
+\int
+h(x)f(x)\,dx.
+\]</span></p>
+<p>Escolha uma densidade auxiliar <span class="math inline">\(q\)</span> tal que</p>
+<p><span class="math display">\[
+q(x)&gt;0
+\]</span></p>
+<p>sempre que</p>
+<p><span class="math display">\[
+h(x)f(x)\neq0.
+\]</span></p>
+<p>Então</p>
+<p><span class="math display">\[
+I
+=
+\int
+h(x)
+\frac{f(x)}{q(x)}
+q(x)\,dx
+=
+E_q
+\left[
+h(Y)
+\frac{f(Y)}{q(Y)}
+\right],
+\]</span></p>
+<p>onde</p>
+<p><span class="math display">\[
+Y\sim q.
+\]</span></p>
+<p>O estimador é</p>
+<p><span class="math display">\[
+\boxed{
+\widehat I_{IS}
+=
+\frac{1}{N}
+\sum_{j=1}^N
+h(Y_j)
+\frac{
+f(Y_j)
+}{
+q(Y_j)
+}
+}.
+\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.3.1</a> e Algoritmo 3.22, pp.&nbsp;84–88)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A densidade <span class="math inline">\(q\)</span> deve gerar mais observações nas regiões que contribuem fortemente para a integral. Os pesos</p>
+<p><span class="math display">\[
+w(y)
+=
+\frac{f(y)}{q(y)}
+\]</span></p>
+<p>corrigem a mudança da distribuição de amostragem.</p>
+</div>
+</div>
+<section id="exemplo-cauda-normal-rara" class="level4" data-number="4.9.1.1">
+<h4 data-number="4.9.1.1" class="anchored" data-anchor-id="exemplo-cauda-normal-rara"><span class="header-section-number">4.9.1.1</span> Exemplo: cauda normal rara</h4>
+<p>Considere</p>
+<p><span class="math display">\[
+p=P(X&gt;4),
+\qquad
+X\sim N(0,1).
+\]</span></p>
+<p>No Monte Carlo direto, simulam-se valores de <span class="math inline">\(N(0,1)\)</span>. Em amostragem por importância, podemos gerar</p>
+<p><span class="math display">\[
+Y\sim N(4,1)
+\]</span></p>
+<p>e usar o peso de verossimilhança.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fl">1e3</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(n)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>h <span class="ot">&lt;-</span> (<span class="fu">cos</span>(<span class="dv">50</span><span class="sc">*</span>x) <span class="sc">+</span> <span class="fu">sin</span>(<span class="dv">20</span><span class="sc">*</span>x))<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimativas acumuladas (vetorizadas para eficiência no R)</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>hbn <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(h) <span class="sc">/</span> (<span class="dv">1</span><span class="sc">:</span>n)</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Variância acumulada do estimador da média</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Nota: usando a fórmula de soma de quadrados para v_n</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>vn  <span class="ot">&lt;-</span> (<span class="fu">cumsum</span>(h<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (<span class="dv">1</span><span class="sc">:</span>n) <span class="sc">-</span> hbn<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (<span class="dv">1</span><span class="sc">:</span>n)</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Intervalo de Confiança Assintótico (95%)</span></span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>erro_padrao <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(vn)</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>LI <span class="ot">&lt;-</span> hbn <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> erro_padrao</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>LS <span class="ot">&lt;-</span> hbn <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> erro_padrao</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Valor verdadeiro da integral para comparação</span></span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>I_true <span class="ot">&lt;-</span> <span class="fl">0.965201</span></span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualização da Convergência</span></span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hbn, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">xlab =</span> <span class="st">"Número de iterações (n)"</span>,</span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="fu">expression</span>(<span class="fu">bar</span>(h)[n]),</span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Convergência de Monte Carlo com Bandas"</span>,</span>
-<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">range</span>(<span class="fu">c</span>(LI, LS), <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(LI, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
-<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(LS, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
-<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> I_true, <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, </span>
-<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Estimativa Acumulada"</span>, <span class="st">"IC 95% (Assintótico)"</span>, <span class="st">"Valor Real"</span>),</span>
-<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"black"</span>, <span class="st">"red"</span>, <span class="st">"blue"</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>), <span class="at">lwd =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>), <span class="at">bty =</span> <span class="st">"n"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">100000</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Monte Carlo direto</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(N)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>direct <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(x <span class="sc">&gt;</span> <span class="dv">4</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>p_direct <span class="ot">&lt;-</span> <span class="fu">mean</span>(direct)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>se_direct <span class="ot">&lt;-</span> <span class="fu">sd</span>(direct) <span class="sc">/</span> <span class="fu">sqrt</span>(N)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Importance sampling</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(N, <span class="at">mean =</span> <span class="dv">4</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>w <span class="ot">&lt;-</span> <span class="fu">dnorm</span>(y, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>) <span class="sc">/</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>     <span class="fu">dnorm</span>(y, <span class="at">mean =</span> <span class="dv">4</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(y <span class="sc">&gt;</span> <span class="dv">4</span>) <span class="sc">*</span> w</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>p_is <span class="ot">&lt;-</span> <span class="fu">mean</span>(z)</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>se_is <span class="ot">&lt;-</span> <span class="fu">sd</span>(z) <span class="sc">/</span> <span class="fu">sqrt</span>(N)</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">direct =</span> <span class="fu">c</span>(<span class="at">estimate =</span> p_direct, <span class="at">se =</span> se_direct),</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">importance =</span> <span class="fu">c</span>(<span class="at">estimate =</span> p_is, <span class="at">se =</span> se_is),</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">exact =</span> <span class="fu">c</span>(</span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate =</span> <span class="fu">pnorm</span>(<span class="dv">4</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>),</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">se =</span> <span class="cn">NA</span></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               estimate           se
+direct     4.000000e-05 1.999970e-05
+importance 3.203063e-05 2.145872e-07
+exact      3.167124e-05           NA</code></pre>
+</div>
+</div>
+<p>A comparação relevante é entre os erros padrão obtidos para o mesmo <span class="math inline">\(N\)</span>.</p>
+<p><em>Base bibliográfica:</em> construção baseada em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.3.1</a>, pp.&nbsp;84–88)</span> e na discussão de eventos raros de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 10</a>)</span>. :::</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Uma escolha ruim de <span class="math inline">\(q\)</span> pode aumentar a variância e, em casos extremos, produzir pesos altamente instáveis ou variância infinita. Amostragem por importância não é automaticamente superior ao Monte Carlo direto.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 9–10</a>)</span>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="variáveis-antitéticas" class="level3" data-number="4.9.2">
+<h3 data-number="4.9.2" class="anchored" data-anchor-id="variáveis-antitéticas"><span class="header-section-number">4.9.2</span> Variáveis antitéticas</h3>
+<p>O método de variáveis antitéticas cria amostras marginalmente corretas, mas negativamente correlacionadas.</p>
+<p>Se</p>
+<p><span class="math display">\[
+U\sim U(0,1),
+\]</span></p>
+<p>então</p>
+<p><span class="math display">\[
+1-U\sim U(0,1).
+\]</span></p>
+<p>Para uma função monotônica <span class="math inline">\(h\)</span>, os valores</p>
+<p><span class="math display">\[
+h(U)
+\qquad\text{e}\qquad
+h(1-U)
+\]</span></p>
+<p>podem apresentar covariância negativa.</p>
+<p>O estimador por pares é</p>
+<p><span class="math display">\[
+\widehat I_A
+=
+\frac{1}{M}
+\sum_{j=1}^M
+\frac{
+h(U_j)+h(1-U_j)
+}{2}.
+\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.3.2</a> e Algoritmo 3.26, pp.&nbsp;88–93)</span>.</p>
+</blockquote>
+<section id="exemplo-com-huu3" class="level4" data-number="4.9.2.1">
+<h4 data-number="4.9.2.1" class="anchored" data-anchor-id="exemplo-com-huu3"><span class="header-section-number">4.9.2.1</span> Exemplo com <span class="math inline">\(h(u)=u^3\)</span></h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="dv">50000</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">runif</span>(M)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>mc_pair <span class="ot">&lt;-</span> (u<span class="sc">^</span><span class="dv">3</span> <span class="sc">+</span> <span class="fu">runif</span>(M)<span class="sc">^</span><span class="dv">3</span>) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>anti_pair <span class="ot">&lt;-</span> (u<span class="sc">^</span><span class="dv">3</span> <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">-</span> u)<span class="sc">^</span><span class="dv">3</span>) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">se_independent_pairs =</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sd</span>(mc_pair) <span class="sc">/</span> <span class="fu">sqrt</span>(M),</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">se_antithetic_pairs =</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sd</span>(anti_pair) <span class="sc">/</span> <span class="fu">sqrt</span>(M)</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>se_independent_pairs  se_antithetic_pairs 
+        0.0008994420         0.0004995891 </code></pre>
+</div>
+</div>
+<p>Como <span class="math inline">\(u^3\)</span> é crescente, o pareamento <span class="math inline">\(u\)</span> e <span class="math inline">\(1-u\)</span> induz uma forte compensação entre valores altos e baixos.</p>
+</section>
+</section>
+<section id="variáveis-de-controle" class="level3" data-number="4.9.3">
+<h3 data-number="4.9.3" class="anchored" data-anchor-id="variáveis-de-controle"><span class="header-section-number">4.9.3</span> Variáveis de controle</h3>
+<p>Suponha que queremos estimar</p>
+<p><span class="math display">\[
+I=E[Y]
+\]</span></p>
+<p>e dispomos de uma variável <span class="math inline">\(C\)</span> correlacionada com <span class="math inline">\(Y\)</span> cuja esperança</p>
+<p><span class="math display">\[
+\mu_C=E[C]
+\]</span></p>
+<p>é conhecida.</p>
+<p>Considere</p>
+<p><span class="math display">\[
+Y_\beta
+=
+Y
+-
+\beta(C-\mu_C).
+\]</span></p>
+<p>Como</p>
+<p><span class="math display">\[
+E(C-\mu_C)=0,
+\]</span></p>
+<p>temos</p>
+<p><span class="math display">\[
+E(Y_\beta)=E(Y)=I.
+\]</span></p>
+<p>A escolha ótima, quando as covariâncias são conhecidas, é</p>
+<p><span class="math display">\[
+\beta^\star
+=
+\frac{
+\operatorname{Cov}(Y,C)
+}{
+\operatorname{Var}(C)
+}.
+\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.3.3</a>, pp.&nbsp;93–96)</span>.</p>
+</blockquote>
+<section id="exemplo-novamente-int_01u3du" class="level4" data-number="4.9.3.1">
+<h4 data-number="4.9.3.1" class="anchored" data-anchor-id="exemplo-novamente-int_01u3du"><span class="header-section-number">4.9.3.1</span> Exemplo: novamente <span class="math inline">\(\int_0^1u^3\,du\)</span></h4>
+<p>Tome</p>
+<p><span class="math display">\[
+Y=U^3
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+C=U.
+\]</span></p>
+<p>Sabemos que</p>
+<p><span class="math display">\[
+E(U)=\frac12.
+\]</span></p>
+<p>Além disso,</p>
+<p><span class="math display">\[
+\beta^\star
+=
+\frac{
+\operatorname{Cov}(U^3,U)
+}{
+\operatorname{Var}(U)
+}
+=
+0{,}9.
+\]</span></p>
+<p>Logo,</p>
+<p><span class="math display">\[
+\widehat I_{CV}
+=
+\frac{1}{N}
+\sum_{j=1}^N
+\left[
+U_j^3
+-
+0{,}9
+\left(U_j-\frac12\right)
+\right].
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">100000</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">runif</span>(N)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> u<span class="sc">^</span><span class="dv">3</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>y_cv <span class="ot">&lt;-</span> u<span class="sc">^</span><span class="dv">3</span> <span class="sc">-</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fl">0.9</span> <span class="sc">*</span> (u <span class="sc">-</span> <span class="fl">0.5</span>)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimate_mc =</span> <span class="fu">mean</span>(y),</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">se_mc =</span> <span class="fu">sd</span>(y) <span class="sc">/</span> <span class="fu">sqrt</span>(N),</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimate_cv =</span> <span class="fu">mean</span>(y_cv),</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">se_cv =</span> <span class="fu">sd</span>(y_cv) <span class="sc">/</span> <span class="fu">sqrt</span>(N),</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">exact =</span> <span class="dv">1</span> <span class="sc">/</span> <span class="dv">4</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> estimate_mc        se_mc  estimate_cv        se_cv        exact 
+0.2515836563 0.0008998442 0.2505637448 0.0003592166 0.2500000000 </code></pre>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> exemplo baseado no método de variáveis de controle de <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.3.3</a>)</span>.</p>
+</blockquote>
+</section>
+</section>
+<section id="outras-técnicas-importantes" class="level3" data-number="4.9.4">
+<h3 data-number="4.9.4" class="anchored" data-anchor-id="outras-técnicas-importantes"><span class="header-section-number">4.9.4</span> Outras técnicas importantes</h3>
+<p><span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 9</a>)</span> apresenta, além das três técnicas anteriores:</p>
+<ul>
+<li>Monte Carlo condicional;</li>
+<li>estratificação;</li>
+<li>amostragem por hipercubo latino;</li>
+<li>Quasi-Monte Carlo.</li>
+</ul>
+<p><span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, cap. 5</a>)</span> discute também o uso de números aleatórios comuns para comparar sistemas ou configurações.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Essas técnicas não são desenvolvidas em detalhe neste capítulo introdutório. Para um curso de mestrado, <strong>estratificação, Monte Carlo condicional e Quasi-Monte Carlo</strong> são extensões naturais após as três técnicas básicas.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="monitoramento-da-convergência" class="level2" data-number="4.10">
+<h2 data-number="4.10" class="anchored" data-anchor-id="monitoramento-da-convergência"><span class="header-section-number">4.10</span> Monitoramento da convergência</h2>
+<p>Considere, para <span class="math inline">\(k=1,\ldots,N\)</span>,</p>
+<p><span class="math display">\[
+\widehat I_k
+=
+\frac{1}{k}
+\sum_{j=1}^kY_j.
+\]</span></p>
+<p>Traçar <span class="math inline">\(\widehat I_k\)</span> ao longo de <span class="math inline">\(k\)</span> é uma forma útil de visualizar o comportamento da simulação.</p>
+<p>Para cada <span class="math inline">\(k\)</span>, uma banda aproximada pontual é</p>
+<p><span class="math display">\[
+\widehat I_k
+\pm
+1{,}96
+\frac{
+\widehat\sigma_k
+}{
+\sqrt{k}
+}.
+\]</span></p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Essas bandas são <strong>pontuais</strong>. Elas quantificam a incerteza de uma estimativa se a simulação fosse interrompida naquele <span class="math inline">\(k\)</span>. Não constituem uma banda simultânea que deva conter toda a trajetória com probabilidade 95%.</p>
+</div>
+</div>
+<section id="exemplo" class="level3" data-number="4.10.1">
+<h3 data-number="4.10.1" class="anchored" data-anchor-id="exemplo"><span class="header-section-number">4.10.1</span> Exemplo</h3>
+<p>Considere</p>
+<p><span class="math display">\[
+h(x)
+=
+(\cos(50x)+\sin(20x))^2,
+\qquad
+X\sim U(0,1).
+\]</span></p>
+<p>O valor da integral é aproximadamente</p>
+<p><span class="math display">\[
+I=0{,}965200936.
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">runif</span>(N)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> (<span class="fu">cos</span>(<span class="dv">50</span> <span class="sc">*</span> x) <span class="sc">+</span> <span class="fu">sin</span>(<span class="dv">20</span> <span class="sc">*</span> x))<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="fu">seq_len</span>(N)</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>I_hat <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(y) <span class="sc">/</span> k</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>sum_y2 <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(y<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="co"># variância amostral acumulada para k &gt;= 2</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>s2 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA_real_</span>, N)</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>s2[<span class="sc">-</span><span class="dv">1</span>] <span class="ot">&lt;-</span> (</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>  sum_y2[<span class="sc">-</span><span class="dv">1</span>] <span class="sc">-</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>  k[<span class="sc">-</span><span class="dv">1</span>] <span class="sc">*</span> I_hat[<span class="sc">-</span><span class="dv">1</span>]<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>) <span class="sc">/</span> (k[<span class="sc">-</span><span class="dv">1</span>] <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(s2 <span class="sc">/</span> k)</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>LI <span class="ot">&lt;-</span> I_hat <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> se</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>LS <span class="ot">&lt;-</span> I_hat <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> se</span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>I_true <span class="ot">&lt;-</span> <span class="fl">0.9652009360501453</span></span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>  k,</span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>  I_hat,</span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"l"</span>,</span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Número de simulações"</span>,</span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="fu">expression</span>(<span class="fu">hat</span>(I)[k])</span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(k, LI, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(k, LS, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(</span>
+<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a>  <span class="at">h =</span> I_true,</span>
+<span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a>  <span class="at">lwd =</span> <span class="dv">2</span></span>
+<span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="mc_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="mc_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
+<p>A fórmula usada no código emprega a variância amostral com denominador <span class="math inline">\(k-1\)</span>, em concordância com a estimativa apresentada em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Eq. 3.9, pp.&nbsp;80–81)</span>.</p>
 </section>
 </section>
-<section id="simulações-de-monte-carlo-em-inferência" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="simulações-de-monte-carlo-em-inferência"><span class="header-section-number">4.2</span> Simulações de Monte Carlo em Inferência</h2>
-<p>Simulações de Monte Carlo têm como objetivo estudar as propriedades de técnicas de inferência estatística. No essencial, uma simulação de Monte Carlo funciona aplicando essas técnicas a amostras repetidamente geradas a partir de um processo de geração de dados previamente especificado.</p>
+<section id="estudos-de-simulação-em-estatística" class="level2" data-number="4.11">
+<h2 data-number="4.11" class="anchored" data-anchor-id="estudos-de-simulação-em-estatística"><span class="header-section-number">4.11</span> Estudos de simulação em Estatística</h2>
+<p>Monte Carlo também é usado para responder uma pergunta diferente: <strong>como um procedimento estatístico se comportaria se o experimento amostral fosse repetido muitas vezes sob um modelo conhecido?</strong></p>
+<p>Esse uso exige distinguir dois tamanhos:</p>
+<ul>
+<li><span class="math inline">\(n\)</span>: tamanho da amostra estatística em cada conjunto de dados;</li>
+<li><span class="math inline">\(R\)</span>: número de repetições do estudo de simulação.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled" title="Definição">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Definição
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Um <strong>estudo de simulação Monte Carlo</strong> especifica um processo gerador de dados, gera repetidamente conjuntos de dados desse processo, aplica um método estatístico em cada conjunto e resume numericamente seu desempenho.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.4</a>, pp.&nbsp;96–106)</span> e <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.2</a>, pp.&nbsp;256–263)</span>.</p>
+</div>
+</div>
+<section id="estrutura-geral" class="level3" data-number="4.11.1">
+<h3 data-number="4.11.1" class="anchored" data-anchor-id="estrutura-geral"><span class="header-section-number">4.11.1</span> Estrutura geral</h3>
+<p>Para cada cenário <span class="math inline">\(\psi\)</span>:</p>
+<ol type="1">
+<li>especifique o mecanismo gerador e os parâmetros;</li>
+<li>para <span class="math inline">\(r=1,\ldots,R\)</span>:
+<ul>
+<li>gere uma amostra de tamanho <span class="math inline">\(n\)</span>;</li>
+<li>calcule o estimador, intervalo ou teste;</li>
+<li>armazene as medidas de interesse;</li>
+</ul></li>
+<li>resuma o desempenho;</li>
+<li>quantifique o próprio erro de Monte Carlo das medidas estimadas.</li>
+</ol>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.2.1–7.2.5</a>, pp.&nbsp;256–263)</span>.</p>
+</blockquote>
+</section>
+</section>
+<section id="avaliação-de-estimadores-por-simulação" class="level2" data-number="4.12">
+<h2 data-number="4.12" class="anchored" data-anchor-id="avaliação-de-estimadores-por-simulação"><span class="header-section-number">4.12</span> Avaliação de estimadores por simulação</h2>
+<p>Se</p>
+<p><span class="math display">\[
+\hat\theta_1,\ldots,\hat\theta_R
+\]</span></p>
+<p>são estimativas obtidas em <span class="math inline">\(R\)</span> amostras simuladas e o parâmetro verdadeiro é <span class="math inline">\(\theta\)</span>, pode-se estimar:</p>
+<section id="viés" class="level3" data-number="4.12.1">
+<h3 data-number="4.12.1" class="anchored" data-anchor-id="viés"><span class="header-section-number">4.12.1</span> Viés</h3>
+<p><span class="math display">\[
+\widehat{\operatorname{bias}}
+=
+\frac{1}{R}
+\sum_{r=1}^R
+\hat\theta_r
+-
+\theta.
+\]</span></p>
+</section>
+<section id="variância" class="level3" data-number="4.12.2">
+<h3 data-number="4.12.2" class="anchored" data-anchor-id="variância"><span class="header-section-number">4.12.2</span> Variância</h3>
+<p><span class="math display">\[
+\widehat{\operatorname{Var}}
+=
+\frac{1}{R-1}
+\sum_{r=1}^R
+\left(
+\hat\theta_r
+-
+\bar{\hat\theta}
+\right)^2.
+\]</span></p>
+</section>
+<section id="erro-quadrático-médio" class="level3" data-number="4.12.3">
+<h3 data-number="4.12.3" class="anchored" data-anchor-id="erro-quadrático-médio"><span class="header-section-number">4.12.3</span> Erro quadrático médio</h3>
+<p><span class="math display">\[
+\widehat{\operatorname{MSE}}
+=
+\frac{1}{R}
+\sum_{r=1}^R
+(\hat\theta_r-\theta)^2.
+\]</span></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Viés e variância medem aspectos diferentes. Um estimador pode ter viés pequeno e variabilidade elevada. O MSE combina os dois efeitos:</p>
+<p><span class="math display">\[
+\operatorname{MSE}
+=
+\operatorname{Var}
++
+\operatorname{bias}^2.
+\]</span></p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Definições 3.9–3.11 e Lema 3.12, pp.&nbsp;76–78)</span> e <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.2.1</a>, pp.&nbsp;256–258)</span>.</p>
+</div>
+</div>
+</section>
+<section id="exemplo-média-e-mediana-sob-normalidade" class="level3" data-number="4.12.4">
+<h3 data-number="4.12.4" class="anchored" data-anchor-id="exemplo-média-e-mediana-sob-normalidade"><span class="header-section-number">4.12.4</span> Exemplo: média e mediana sob normalidade</h3>
+<p><span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.2.1</a>, pp.&nbsp;256–258)</span> compara estimadores da média normal por simulação. Uma versão compacta em R é:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">25</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">replicate</span>(R, {</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean =</span> <span class="fu">mean</span>(x),</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">median =</span> <span class="fu">median</span>(x),</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">midrange =</span> (<span class="fu">min</span>(x) <span class="sc">+</span> <span class="fu">max</span>(x)) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">t</span>(res)</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>bias <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(res) <span class="sc">-</span> mu</span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>variance <span class="ot">&lt;-</span> <span class="fu">apply</span>(res, <span class="dv">2</span>, var)</span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>mse <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(</span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sweep</span>(res, <span class="dv">2</span>, mu, <span class="st">"-"</span>)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(</span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">bias =</span> bias,</span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">variance =</span> variance,</span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">mse =</span> mse</span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                mean       median      midrange
+bias     0.002189375 0.0005272098 -0.0003437428
+variance 0.040132544 0.0617177284  0.1342129415
+mse      0.040133324 0.0617118346  0.1341996384</code></pre>
+</div>
+</div>
+<p>Esse tipo de simulação permite avaliar o desempenho dos estimadores no cenário especificado. A conclusão não deve ser extrapolada automaticamente para distribuições diferentes.</p>
+</section>
+</section>
+<section id="cobertura-de-intervalos-de-confiança" class="level2" data-number="4.13">
+<h2 data-number="4.13" class="anchored" data-anchor-id="cobertura-de-intervalos-de-confiança"><span class="header-section-number">4.13</span> Cobertura de intervalos de confiança</h2>
+<p>Suponha que, na repetição <span class="math inline">\(r\)</span>, um procedimento produza</p>
+<p><span class="math display">\[
+[L_r,U_r].
+\]</span></p>
+<p>A cobertura é</p>
+<p><span class="math display">\[
+C
+=
+P_\theta(
+L\leq\theta\leq U
+).
+\]</span></p>
+<p>A estimativa Monte Carlo é</p>
+<p><span class="math display">\[
+\widehat C_R
+=
+\frac{1}{R}
+\sum_{r=1}^R
+I(L_r\leq\theta\leq U_r).
+\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.4.2</a>, pp.&nbsp;100–103)</span>.</p>
+</blockquote>
+<p>Como cada indicador é Bernoulli, o erro padrão Monte Carlo da cobertura estimada é aproximadamente</p>
+<p><span class="math display">\[
+\widehat{ep}_{MC}
+(\widehat C_R)
+=
+\sqrt{
+\frac{
+\widehat C_R
+(1-\widehat C_R)
+}{
+R
+}
+}.
+\]</span></p>
+<div class="callout callout-style-default callout-important callout-titled" title="Exemplo bibliográfico">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exemplo bibliográfico
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Exemplo 3.38, pp.&nbsp;102–103)</span> usa simulação para avaliar a cobertura de um intervalo construído para médias quando os dados são Poisson. A simulação mostra que o nível de cobertura pode ficar muito abaixo do nominal em certos valores do parâmetro, revelando uma inadequação que não é evidente pela simples aplicação mecânica da fórmula.</p>
+</div>
+</div>
+</section>
+<section id="erro-tipo-i-e-poder" class="level2" data-number="4.14">
+<h2 data-number="4.14" class="anchored" data-anchor-id="erro-tipo-i-e-poder"><span class="header-section-number">4.14</span> Erro tipo I e poder</h2>
+<p>Para um teste de nível nominal <span class="math inline">\(\alpha\)</span>, a taxa de erro tipo I é</p>
+<p><span class="math display">\[
+P(\text{rejeitar }H_0\mid H_0\text{ verdadeira}).
+\]</span></p>
+<p>Em simulação, gere dados <strong>sob <span class="math inline">\(H_0\)</span></strong> e calcule</p>
+<p><span class="math display">\[
+\widehat\alpha_R
+=
+\frac{
+\#\{\text{rejeições}\}
+}{
+R
+}.
+\]</span></p>
+<p>Sob uma alternativa, a mesma proporção estima o poder:</p>
+<p><span class="math display">\[
+\widehat\pi_R
+=
+\frac{
+\#\{\text{rejeições}\}
+}{
+R
+}.
+\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.2.2–7.2.4</a>, pp.&nbsp;258–262)</span> e <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.4.3</a>, pp.&nbsp;103–106)</span>.</p>
+</blockquote>
+<p>O erro padrão Monte Carlo dessas proporções é</p>
+<p><span class="math display">\[
+\sqrt{
+\frac{
+\widehat p_R
+(1-\widehat p_R)
+}{
+R
+}
+}.
+\]</span></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Um estudo com <span class="math inline">\(R=1000\)</span> repetições não estima exatamente uma taxa de 5%. Ele próprio produz uma estimativa aleatória. Por exemplo, se <span class="math inline">\(\widehat p=0{,}05\)</span> e <span class="math inline">\(R=1000\)</span>,</p>
+<p><span class="math display">\[
+ep_{MC}
+\approx
+\sqrt{
+\frac{0{,}05(0{,}95)}{1000}
+}
+\approx
+0{,}0069.
+\]</span></p>
+<p>Esse erro deve ser levado em conta ao comparar procedimentos.</p>
+</div>
+</div>
+</section>
+<section id="quantas-repetições-usar-em-um-estudo-de-simulação" class="level2" data-number="4.15">
+<h2 data-number="4.15" class="anchored" data-anchor-id="quantas-repetições-usar-em-um-estudo-de-simulação"><span class="header-section-number">4.15</span> Quantas repetições usar em um estudo de simulação?</h2>
+<p>A quantidade <span class="math inline">\(R\)</span> deve ser escolhida com base na precisão desejada das medidas de desempenho e no custo de cada repetição.</p>
+<p><span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.2.5</a>, pp.&nbsp;262–263)</span> recomenda distinguir:</p>
+<ul>
+<li>número de <strong>cenários</strong> estudados;</li>
+<li>número de <strong>iterações</strong> por cenário.</li>
+</ul>
+<p>Um estudo amplo precisa variar cenários relevantes — tamanho amostral, distribuição, nível de ruído, efeito, grau de assimetria ou outros parâmetros — e também usar <span class="math inline">\(R\)</span> suficiente para controlar a incerteza de Monte Carlo.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Erro de Monte Carlo de uma média de desempenho">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Erro de Monte Carlo de uma média de desempenho
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Se cada repetição produz uma quantidade <span class="math inline">\(T_r\)</span>, então</p>
+<p><span class="math display">\[
+\bar T_R
+=
+\frac{1}{R}
+\sum_{r=1}^R T_r
+\]</span></p>
+<p>tem erro padrão Monte Carlo estimado por</p>
+<p><span class="math display">\[
+\widehat{ep}_{MC}
+(\bar T_R)
+=
+\frac{
+s_T
+}{
+\sqrt R
+},
+\]</span></p>
+<p>onde <span class="math inline">\(s_T\)</span> é o desvio padrão dos <span class="math inline">\(T_r\)</span>.</p>
+<p>Esse princípio vale para estimativas de viés, erro, comprimento de intervalo e muitas outras medidas representadas como médias de repetições.</p>
+</div>
+</div>
+</section>
+<section id="planejamento-de-um-estudo-de-simulação" class="level2" data-number="4.16">
+<h2 data-number="4.16" class="anchored" data-anchor-id="planejamento-de-um-estudo-de-simulação"><span class="header-section-number">4.16</span> Planejamento de um estudo de simulação</h2>
+<p>Uma estrutura didática útil é separar cinco elementos.</p>
+<section id="objetivo" class="level3" data-number="4.16.1">
+<h3 data-number="4.16.1" class="anchored" data-anchor-id="objetivo"><span class="header-section-number">4.16.1</span> Objetivo</h3>
+<p>Defina a pergunta antes de simular. Exemplos:</p>
+<ul>
+<li>comparar dois estimadores;</li>
+<li>verificar cobertura de um intervalo;</li>
+<li>avaliar robustez a não normalidade;</li>
+<li>estimar poder;</li>
+<li>determinar um tamanho amostral.</li>
+</ul>
+</section>
+<section id="processo-gerador-de-dados" class="level3" data-number="4.16.2">
+<h3 data-number="4.16.2" class="anchored" data-anchor-id="processo-gerador-de-dados"><span class="header-section-number">4.16.2</span> Processo gerador de dados</h3>
+<p>O mecanismo deve ser suficientemente explícito para que outra pessoa possa reproduzi-lo:</p>
+<p><span class="math display">\[
+X\sim F_\psi.
+\]</span></p>
+<p>Indique todos os parâmetros e relações de dependência.</p>
+</section>
+<section id="cenários" class="level3" data-number="4.16.3">
+<h3 data-number="4.16.3" class="anchored" data-anchor-id="cenários"><span class="header-section-number">4.16.3</span> Cenários</h3>
+<p>Escolha valores de <span class="math inline">\(\psi\)</span> que cubram situações relevantes. Uma conclusão baseada em um único cenário é uma conclusão sobre <strong>aquele cenário</strong>, e não uma validação universal do método.</p>
+</section>
+<section id="medidas-de-desempenho" class="level3" data-number="4.16.4">
+<h3 data-number="4.16.4" class="anchored" data-anchor-id="medidas-de-desempenho"><span class="header-section-number">4.16.4</span> Medidas de desempenho</h3>
+<p>Decida previamente quais medidas serão usadas:</p>
+<ul>
+<li>viés;</li>
+<li>variância;</li>
+<li>RMSE;</li>
+<li>cobertura;</li>
+<li>comprimento médio do intervalo;</li>
+<li>taxa de erro tipo I;</li>
+<li>poder;</li>
+<li>taxa de falha numérica.</li>
+</ul>
+</section>
+<section id="precisão-de-monte-carlo" class="level3" data-number="4.16.5">
+<h3 data-number="4.16.5" class="anchored" data-anchor-id="precisão-de-monte-carlo"><span class="header-section-number">4.16.5</span> Precisão de Monte Carlo</h3>
+<p>Reporte <span class="math inline">\(R\)</span> e, quando relevante, o erro padrão Monte Carlo das medidas.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> a importância de cenários e de quantificar incerteza de simulação é discutida em <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.2.5</a>, pp.&nbsp;262–263)</span>.</p>
+</blockquote>
+</section>
+</section>
+<section id="implementação-reprodutível-em-r" class="level2" data-number="4.17">
+<h2 data-number="4.17" class="anchored" data-anchor-id="implementação-reprodutível-em-r"><span class="header-section-number">4.17</span> Implementação reprodutível em R</h2>
+<section id="uma-função-para-uma-única-repetição" class="level3" data-number="4.17.1">
+<h3 data-number="4.17.1" class="anchored" data-anchor-id="uma-função-para-uma-única-repetição"><span class="header-section-number">4.17.1</span> Uma função para uma única repetição</h3>
+<p>Uma prática segura é escrever primeiro uma função que represente <strong>uma repetição</strong> do experimento.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>uma_repeticao <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    n,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">mu =</span> <span class="dv">0</span>,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sigma =</span> <span class="dv">1</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>) {</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    n,</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean =</span> mu,</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd =</span> sigma</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">media =</span> <span class="fu">mean</span>(x),</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">mediana =</span> <span class="fu">median</span>(x)</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="repetindo-o-experimento" class="level3" data-number="4.17.2">
+<h3 data-number="4.17.2" class="anchored" data-anchor-id="repetindo-o-experimento"><span class="header-section-number">4.17.2</span> Repetindo o experimento</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>R <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">replicate</span>(</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  R,</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">uma_repeticao</span>(</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="dv">25</span>,</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">mu =</span> <span class="dv">0</span>,</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">sigma =</span> <span class="dv">1</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">t</span>(res)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="resumindo-resultados" class="level3" data-number="4.17.3">
+<h3 data-number="4.17.3" class="anchored" data-anchor-id="resumindo-resultados"><span class="header-section-number">4.17.3</span> Resumindo resultados</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>bias <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(res) <span class="sc">-</span> theta</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>variance <span class="ot">&lt;-</span> <span class="fu">apply</span>(</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  res,</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span>,</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  var</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>mse <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>  (res <span class="sc">-</span> theta)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimator =</span> <span class="fu">colnames</span>(res),</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">bias =</span> bias,</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">variance =</span> variance,</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">mse =</span> mse</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        estimator         bias   variance        mse
+media       media 0.0021893745 0.04013254 0.04013332
+mediana   mediana 0.0005272098 0.06171773 0.06171183</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Separar geração, análise e resumo torna a simulação mais fácil de testar. Se a função de uma única repetição estiver correta, o restante do estudo é principalmente repetição e agregação.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="erros-comuns-em-monte-carlo" class="level2" data-number="4.18">
+<h2 data-number="4.18" class="anchored" data-anchor-id="erros-comuns-em-monte-carlo"><span class="header-section-number">4.18</span> Erros comuns em Monte Carlo</h2>
+<section id="confundir-erro-de-monte-carlo-com-erro-do-modelo" class="level3" data-number="4.18.1">
+<h3 data-number="4.18.1" class="anchored" data-anchor-id="confundir-erro-de-monte-carlo-com-erro-do-modelo"><span class="header-section-number">4.18.1</span> Confundir erro de Monte Carlo com erro do modelo</h3>
+<p>Uma simulação pode ter erro de Monte Carlo muito pequeno e ainda responder a uma pergunta mal especificada. A precisão computacional não corrige um modelo incorreto.</p>
+</section>
+<section id="aumentar-n-sem-examinar-a-variância" class="level3" data-number="4.18.2">
+<h3 data-number="4.18.2" class="anchored" data-anchor-id="aumentar-n-sem-examinar-a-variância"><span class="header-section-number">4.18.2</span> Aumentar <span class="math inline">\(N\)</span> sem examinar a variância</h3>
+<p>Se <span class="math inline">\(\operatorname{Var}[h(X)]\)</span> é enorme, simplesmente aumentar <span class="math inline">\(N\)</span> pode ser muito menos eficiente do que reformular o estimador.</p>
+</section>
+<section id="ignorar-variância-infinita" class="level3" data-number="4.18.3">
+<h3 data-number="4.18.3" class="anchored" data-anchor-id="ignorar-variância-infinita"><span class="header-section-number">4.18.3</span> Ignorar variância infinita</h3>
+<p>A taxa <span class="math inline">\(N^{-1/2}\)</span> e os intervalos baseados no TCL exigem variância finita na formulação usada aqui.</p>
+</section>
+<section id="usar-monte-carlo-direto-em-eventos-raros" class="level3" data-number="4.18.4">
+<h3 data-number="4.18.4" class="anchored" data-anchor-id="usar-monte-carlo-direto-em-eventos-raros"><span class="header-section-number">4.18.4</span> Usar Monte Carlo direto em eventos raros</h3>
+<p>Quando <span class="math inline">\(p\)</span> é muito pequeno, o número de ocorrências é aproximadamente <span class="math inline">\(Np\)</span>. A simulação pode precisar de um valor impraticavelmente grande de <span class="math inline">\(N\)</span>.</p>
+</section>
+<section id="misturar-dependência-com-independência" class="level3" data-number="4.18.5">
+<h3 data-number="4.18.5" class="anchored" data-anchor-id="misturar-dependência-com-independência"><span class="header-section-number">4.18.5</span> Misturar dependência com independência</h3>
+<p>As fórmulas</p>
+<p><span class="math display">\[
+\operatorname{Var}(\bar Y)
+=
+\frac{\sigma^2}{N}
+\]</span></p>
+<p>pressupõem independência. Em MCMC ou em simulações com dependência, o erro padrão precisa incorporar autocorrelação.</p>
+</section>
+<section id="confundir-erro-de-discretização-e-erro-de-monte-carlo" class="level3" data-number="4.18.6">
+<h3 data-number="4.18.6" class="anchored" data-anchor-id="confundir-erro-de-discretização-e-erro-de-monte-carlo"><span class="header-section-number">4.18.6</span> Confundir erro de discretização e erro de Monte Carlo</h3>
+<p>Em modelos nos quais cada realização já resulta de uma aproximação numérica, o erro total pode combinar dois componentes:</p>
+<p><span class="math display">\[
+\text{erro de Monte Carlo}
++
+\text{erro de discretização}.
+\]</span></p>
+<p><span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 6.5</a>, pp.&nbsp;243–250)</span> mostra explicitamente essa decomposição para simulações de equações diferenciais estocásticas.</p>
+</section>
+</section>
+<section id="monte-carlo-iid-e-mcmc" class="level2" data-number="4.19">
+<h2 data-number="4.19" class="anchored" data-anchor-id="monte-carlo-iid-e-mcmc"><span class="header-section-number">4.19</span> Monte Carlo IID e MCMC</h2>
+<p>O Monte Carlo desenvolvido neste capítulo usa amostras independentes:</p>
+<p><span class="math display">\[
+X_1,\ldots,X_N
+\stackrel{iid}{\sim}
+\pi.
+\]</span></p>
+<p>Em problemas nos quais gerar amostras independentes de <span class="math inline">\(\pi\)</span> é difícil, pode-se construir uma cadeia de Markov cuja distribuição estacionária é <span class="math inline">\(\pi\)</span>. Isso conduz aos métodos <strong>Markov Chain Monte Carlo</strong>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Definição conceitual">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Definição conceitual
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>No Monte Carlo IID,</p>
+<p><span class="math display">\[
+\widehat I_N
+=
+\frac{1}{N}
+\sum h(X_j)
+\]</span></p>
+<p>usa amostras independentes.</p>
+<p>Em MCMC, a mesma forma de média é usada, mas</p>
+<p><span class="math display">\[
+X_1,X_2,\ldots
+\]</span></p>
+<p>formam uma cadeia de Markov e são dependentes.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, cap. 4</a>, pp.&nbsp;109–180)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 6</a>)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>As fórmulas de erro padrão do Monte Carlo IID não podem ser transportadas sem modificação para MCMC, pois a autocorrelação altera a variância efetiva da média.</p>
+<p>MCMC merece um capítulo próprio: Metropolis–Hastings, Gibbs, diagnóstico de convergência, autocorrelação e tamanho efetivo de amostra não são desenvolvidos aqui.</p>
+</div>
+</div>
+</section>
+<section id="síntese-do-capítulo" class="level2" data-number="4.20">
+<h2 data-number="4.20" class="anchored" data-anchor-id="síntese-do-capítulo"><span class="header-section-number">4.20</span> Síntese do capítulo</h2>
+<div class="callout callout-style-default callout-note callout-titled" title="Síntese">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Síntese
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O método básico de Monte Carlo aproxima</p>
+<p><span class="math display">\[
+I=E[h(X)]
+\]</span></p>
+<p>por</p>
+<p><span class="math display">\[
+\widehat I_N
+=
+\frac1N
+\sum_{j=1}^Nh(X_j).
+\]</span></p>
+<p>Sob independência e variância finita,</p>
+<p><span class="math display">\[
+E(\widehat I_N)=I
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+\operatorname{Var}(\widehat I_N)
+=
+\frac{
+\operatorname{Var}[h(X)]
+}{
+N
+}.
+\]</span></p>
+<p>Consequentemente,</p>
+<p><span class="math display">\[
+RMSE(\widehat I_N)
+=
+O(N^{-1/2}).
+\]</span></p>
+<p>Essa taxa explica por que reduzir variância pode ser mais eficiente do que apenas aumentar o número de simulações.</p>
+<p>Em estudos de simulação estatística, Monte Carlo é usado em um segundo nível: conjuntos de dados são repetidamente gerados para estimar propriedades de procedimentos, como viés, MSE, cobertura e poder. Essas estimativas também têm erro de Monte Carlo e devem ser reportadas com uma precisão compatível com o objetivo do estudo.</p>
+</div>
+</div>
+</section>
+<section id="simulações-de-monte-carlo-com-o-pacote-tidymc" class="level2" data-number="4.21">
+<h2 data-number="4.21" class="anchored" data-anchor-id="simulações-de-monte-carlo-com-o-pacote-tidymc"><span class="header-section-number">4.21</span> Simulações de Monte Carlo com o pacote <code>tidyMC</code></h2>
 <p>O pacote <code>tidyMC</code> busca contemplar e simplificar todo o fluxo de trabalho necessário para executar uma simulação de Monte Carlo, seja em um contexto acadêmico ou profissional. Assim, o <code>tidyMC</code> fornece funções para as seguintes tarefas:</p>
 <ul>
 <li><p>Executar uma simulação de Monte Carlo para uma função definida pelo usuário sobre uma grade de parâmetros, utilizando <code>future_mc()</code>.</p></li>
@@ -503,26 +2308,25 @@ Figura&nbsp;4.1: Cassino — Aleatoriedade como metáfora
 <li><p>Criar gráficos dos resultados da simulação de Monte Carlo, que podem ser modificados pelo usuário, por meio de <code>plot.mc()</code> e <code>plot.summary.mc()</code>.</p></li>
 <li><p>Gerar uma tabela em LaTeX resumindo os resultados da simulação de Monte Carlo usando <code>tidy_mc_latex()</code>.</p></li>
 </ul>
-<section id="instalação" class="level3" data-number="4.2.1">
-<h3 data-number="4.2.1" class="anchored" data-anchor-id="instalação"><span class="header-section-number">4.2.1</span> Instalação</h3>
+<section id="instalação" class="level3" data-number="4.21.1">
+<h3 data-number="4.21.1" class="anchored" data-anchor-id="instalação"><span class="header-section-number">4.21.1</span> Instalação</h3>
 <p>O pacote <code>tidyMC</code> está disponível no CRAN. Para baixar a versão do CRAN basta:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyMC"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyMC"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Em seguida, o pacote pode ser carregado com:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyMC)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyMC)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Além disso, os seguintes pacotes serão utilizados:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-</section>
-<section id="execute-sua-primeira-simulação-de-monte-carlo-com-future_mc" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="execute-sua-primeira-simulação-de-monte-carlo-com-future_mc"><span class="header-section-number">4.3</span> Execute sua primeira Simulação de Monte Carlo com <code>future_mc()</code></h2>
+<section id="execute-sua-primeira-simulação-de-monte-carlo-com-future_mc" class="level3" data-number="4.21.2">
+<h3 data-number="4.21.2" class="anchored" data-anchor-id="execute-sua-primeira-simulação-de-monte-carlo-com-future_mc"><span class="header-section-number">4.21.2</span> Execute sua primeira Simulação de Monte Carlo com <code>future_mc()</code></h3>
 <p>A função <code>future_mc()</code> permite executar uma simulação de Monte Carlo para uma função definida pelo usuário e para um conjunto especificado de parâmetros.</p>
 <p>O primeiro argumento de <code>future_mc()</code> é <code>fun</code>, que deve ser uma função capaz de realizar três tarefas para uma única repetição e uma única combinação de parâmetros:</p>
 <ul>
@@ -533,26 +2337,26 @@ Figura&nbsp;4.1: Cassino — Aleatoriedade como metáfora
 <p>A função <code>future_mc()</code> se encarrega de gerar automaticamente os laços sobre as grades de parâmetros desejadas, bem como repetir o experimento de Monte Carlo para cada combinação de parâmetros.</p>
 <p>Considere o seguinte exemplo de função <code>fun</code>, que realiza exatamente as tarefas necessárias: geração dos dados, aplicação do método e avaliação dos resultados.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>test_func <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">param1 =</span> <span class="dv">10</span>, <span class="at">param2 =</span> <span class="dv">2</span>, <span class="at">n =</span> <span class="dv">100</span>) {</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> param1, <span class="at">sd =</span> param2)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  stat <span class="ot">&lt;-</span> <span class="fu">mean</span>(data)</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  stat_2 <span class="ot">&lt;-</span> <span class="fu">sum</span>((data<span class="sc">-</span> <span class="fu">mean</span>(data))<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span><span class="fu">length</span>(data)</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  dev_mu <span class="ot">&lt;-</span> stat <span class="sc">-</span> param1</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  dev_sigma2 <span class="ot">&lt;-</span> stat_2 <span class="sc">-</span> param2<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  dev_eqm_mu <span class="ot">&lt;-</span> (stat <span class="sc">-</span> param1)<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  dev_eqm_sigma2 <span class="ot">&lt;-</span> (stat_2 <span class="sc">-</span> param2<span class="sc">^</span><span class="dv">2</span>)<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">mean =</span> stat, <span class="at">var =</span> stat_2, <span class="at">bmu =</span> dev_mu, <span class="at">bsig2 =</span> dev_sigma2, </span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">eqmmu =</span> dev_eqm_mu, </span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">eqmsigma2 =</span> dev_eqm_sigma2))</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>test_func <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">param1 =</span> <span class="dv">10</span>, <span class="at">param2 =</span> <span class="dv">2</span>, <span class="at">n =</span> <span class="dv">100</span>) {</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> param1, <span class="at">sd =</span> param2)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  stat <span class="ot">&lt;-</span> <span class="fu">mean</span>(data)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  stat_2 <span class="ot">&lt;-</span> <span class="fu">sum</span>((data<span class="sc">-</span> <span class="fu">mean</span>(data))<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span><span class="fu">length</span>(data)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  dev_mu <span class="ot">&lt;-</span> stat <span class="sc">-</span> param1</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  dev_sigma2 <span class="ot">&lt;-</span> stat_2 <span class="sc">-</span> param2<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  dev_eqm_mu <span class="ot">&lt;-</span> (stat <span class="sc">-</span> param1)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  dev_eqm_sigma2 <span class="ot">&lt;-</span> (stat_2 <span class="sc">-</span> param2<span class="sc">^</span><span class="dv">2</span>)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">mean =</span> stat, <span class="at">var =</span> stat_2, <span class="at">bmu =</span> dev_mu, <span class="at">bsig2 =</span> dev_sigma2, </span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">eqmmu =</span> dev_eqm_mu, </span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">eqmsigma2 =</span> dev_eqm_sigma2))</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>O segundo argumento de <code>future_mc()</code> é <code>repetitions</code>, que deve ser um número inteiro especificando o total de iterações da simulação de Monte Carlo.</p>
 <p>O terceiro argumento, <code>param_list</code>, deve ser uma lista cujos componentes têm nomes correspondentes aos parâmetros da função fun que deverão variar ao longo da simulação. Cada componente dessa lista é um vetor contendo os valores desejados da grade para aquele parâmetro.</p>
 <p>Considere o exemplo a seguir para <code>param_list</code>. Observe que seus componentes recebem nomes que correspondem exatamente aos parâmetros da função <code>test_func()</code>: <code>param</code> e <code>x1</code>, respectivamente:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>param_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a> <span class="at">n =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">50</span>, <span class="dv">90</span>)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>param_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a> <span class="at">n =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">50</span>, <span class="dv">90</span>)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>A função <code>future_mc()</code> cria automaticamente todas as combinações possíveis de parâmetros especificadas em param_list e executa a simulação de Monte Carlo para cada uma dessas combinações. Se você preferir não rodar a simulação para todas as combinações possíveis, pode fornecer <code>param_table</code>, que deve ser um <em>data.frame</em> ou <em>data.table</em> contendo apenas as combinações de parâmetros de interesse.</p>
 <p>O argumento <code>...</code> permite especificar outros argumentos da função <code>fun</code> que não estão em <code>param_list</code>. Esses argumentos permanecerão fixos ao longo de todas as combinações de parâmetros.</p>
@@ -565,14 +2369,14 @@ Figura&nbsp;4.1: Cassino — Aleatoriedade como metáfora
 </ol>
 <p>Se a função <code>fun</code> retorna uma lista nomeada de escalares, o usuário pode utilizar <code>summary()</code> para resumir todos os resultados da simulação de Monte Carlo.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>test_mc <span class="ot">&lt;-</span> <span class="fu">future_mc</span>(</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">fun =</span> test_func,</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">repetitions =</span> <span class="dv">1000</span>,</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">param_list =</span> param_list,</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">param1 =</span> <span class="dv">10</span>,</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">param2 =</span> <span class="dv">2</span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>test_mc <span class="ot">&lt;-</span> <span class="fu">future_mc</span>(</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">fun =</span> test_func,</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">repetitions =</span> <span class="dv">1000</span>,</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">param_list =</span> param_list,</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">param1 =</span> <span class="dv">10</span>,</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">param2 =</span> <span class="dv">2</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Running single test-iteration for each parameter combination...</code></pre>
 </div>
@@ -586,9 +2390,9 @@ Figura&nbsp;4.1: Cassino — Aleatoriedade como metáfora
 <div class="cell-output cell-output-stderr">
 <pre><code>
  Simulation was successfull!
- Running time: 00:00:00.859476</code></pre>
+ Running time: 00:00:00.728335</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test_mc)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test_mc)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Results for the output mean: 
    n=10: 9.991484 
@@ -630,17 +2434,371 @@ Results for the output eqmsigma2:
 </div>
 <p>A função <code>plot()</code> retorna uma lista de objetos das classes <code>gg</code> e <code>ggplot2</code>. Essa lista conterá um gráfico de linhas para cada saída produzida pela função <code>fun</code>, representando as trajetórias dos resultados para os diferentes cenários da simulação.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">summary</span>(test_mc))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">summary</span>(test_mc))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Para gerar uma tabela em LaTeX basta:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy_mc_latex</span>(</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">summary</span>(test_mc)</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy_mc_latex</span>(</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">summary</span>(test_mc)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+</section>
+<section id="exercícios" class="level2" data-number="4.22">
+<h2 data-number="4.22" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">4.22</span> Exercícios</h2>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 1 — gerador congruencial linear">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 1 — gerador congruencial linear
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Considere</p>
+<p><span class="math display">\[
+X_0=5
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+X_n
+=
+3X_{n-1}
+\bmod 150.
+\]</span></p>
+<ol type="1">
+<li>Calcule <span class="math inline">\(X_1,\ldots,X_{30}\)</span>.</li>
+<li>Converta os valores em <span class="math inline">\(U_n=X_n/150\)</span>.</li>
+<li>Determine empiricamente o período observado da sequência.</li>
+<li>Discuta por que um período curto é inadequado em Monte Carlo.</li>
+</ol>
+<p><em>Exercício contextualizado com <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.1</a>, pp.&nbsp;2–4)</span>.</em></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 2 — gerador congruencial misto">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 2 — gerador congruencial misto
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Considere</p>
+<p><span class="math display">\[
+X_0=3
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+X_n
+=
+(5X_{n-1}+7)
+\bmod 200.
+\]</span></p>
+<p>Obtenha <span class="math inline">\(X_1,\ldots,X_{10}\)</span> e os correspondentes pseudo-uniformes <span class="math inline">\(U_n=X_n/200\)</span>.</p>
+<p><em>Base conceitual:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.1</a>)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 3 — integração">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 3 — integração
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para cada integral a seguir:</p>
+<ol type="1">
+<li>escreva-a como uma esperança;</li>
+<li>implemente um estimador de Monte Carlo;</li>
+<li>reporte estimativa, erro padrão Monte Carlo e intervalo assintótico de 95%;</li>
+<li>compare com <code>integrate()</code> quando essa função puder fornecer uma referência numérica.</li>
+</ol>
+<p><span class="math display">\[
+\int_0^1
+\exp(e^x)\,dx,
+\]</span></p>
+<p><span class="math display">\[
+\int_0^1
+(1-x^2)^{3/2}\,dx,
+\]</span></p>
+<p><span class="math display">\[
+\int_{-2}^2
+\exp(x+x^2)\,dx,
+\]</span></p>
+<p><span class="math display">\[
+\int_0^\infty
+x(1+x^2)^{-2}\,dx,
+\]</span></p>
+<p><span class="math display">\[
+\int_{-\infty}^{\infty}
+e^{-x^2}\,dx.
+\]</span></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 4 — integral bidimensional">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 4 — integral bidimensional
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Estime</p>
+<p><span class="math display">\[
+I
+=
+\int_0^1
+\int_0^1
+\exp\{(x+y)^2\}
+\,dy\,dx.
+\]</span></p>
+<ol type="1">
+<li>Use <span class="math inline">\(N=10^3\)</span>, <span class="math inline">\(10^4\)</span> e <span class="math inline">\(10^5\)</span>.</li>
+<li>Compare os erros padrão estimados.</li>
+<li>Verifique empiricamente a relação aproximada <span class="math inline">\(ep\propto N^{-1/2}\)</span>.</li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 5 — covariância por simulação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 5 — covariância por simulação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Se</p>
+<p><span class="math display">\[
+U\sim U(0,1),
+\]</span></p>
+<p>use Monte Carlo para estimar</p>
+<p><span class="math display">\[
+\operatorname{Cov}(U,e^U).
+\]</span></p>
+<p>Compare com o valor obtido por integração analítica das esperanças necessárias.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 6 — probabilidade rara">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 6 — probabilidade rara
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Considere</p>
+<p><span class="math display">\[
+X\sim N(0,1).
+\]</span></p>
+<p>Estime</p>
+<p><span class="math display">\[
+P(X&gt;4)
+\]</span></p>
+<p>por Monte Carlo direto para</p>
+<p><span class="math display">\[
+N=10^4,\;10^5,\;10^6.
+\]</span></p>
+<p>Para cada <span class="math inline">\(N\)</span>, reporte:</p>
+<ul>
+<li>número de ocorrências;</li>
+<li>estimativa;</li>
+<li>erro padrão absoluto;</li>
+<li>erro padrão relativo.</li>
+</ul>
+<p>Explique por que o erro relativo é o diagnóstico mais importante nesse problema.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 7 — amostragem por importância">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 7 — amostragem por importância
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Repita o exercício anterior usando</p>
+<p><span class="math display">\[
+Y\sim N(\mu,1)
+\]</span></p>
+<p>como distribuição de importância para</p>
+<p><span class="math display">\[
+\mu\in\{2,3,4,5\}.
+\]</span></p>
+<p>Use pesos</p>
+<p><span class="math display">\[
+w(y)
+=
+\frac{
+\phi(y)
+}{
+\phi(y-\mu)
+},
+\]</span></p>
+<p>com as densidades escritas corretamente na implementação.</p>
+<p>Compare os erros padrão e determine qual escolha de <span class="math inline">\(\mu\)</span> foi mais eficiente no experimento.</p>
+<p><em>Base de leitura:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Exercício 3.6 e Seção 3.3.1, pp.&nbsp;84–88)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 8 — variáveis antitéticas">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 8 — variáveis antitéticas
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Estime</p>
+<p><span class="math display">\[
+\int_0^1 e^x\,dx
+\]</span></p>
+<p>de duas formas:</p>
+<ol type="1">
+<li>Monte Carlo com amostras independentes;</li>
+<li>pares antitéticos <span class="math inline">\((U,1-U)\)</span>.</li>
+</ol>
+<p>Use o mesmo número de avaliações da função nos dois métodos e compare as variâncias.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 9 — variável de controle">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 9 — variável de controle
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para</p>
+<p><span class="math display">\[
+I
+=
+E(e^U),
+\qquad
+U\sim U(0,1),
+\]</span></p>
+<p>use <span class="math inline">\(U\)</span> como variável de controle, sabendo que</p>
+<p><span class="math display">\[
+E(U)=\frac12.
+\]</span></p>
+<p>Estime o coeficiente <span class="math inline">\(\beta\)</span> por uma execução piloto e compare o erro padrão com Monte Carlo direto.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 10 — estudo de simulação de estimadores">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 10 — estudo de simulação de estimadores
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Considere amostras de tamanho <span class="math inline">\(n=25\)</span> de:</p>
+<ol type="1">
+<li><span class="math inline">\(N(0,1)\)</span>;</li>
+<li><span class="math inline">\(t_3\)</span>.</li>
+</ol>
+<p>Compare média e mediana usando <span class="math inline">\(R=20\,000\)</span> repetições e estime:</p>
+<ul>
+<li>viés;</li>
+<li>variância;</li>
+<li>MSE.</li>
+</ul>
+<p>Explique por que a conclusão depende do processo gerador de dados.</p>
+<p><em>Base de leitura:</em> <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.2.1</a>, pp.&nbsp;256–258)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 11 — cobertura">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 11 — cobertura
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Considere</p>
+<p><span class="math display">\[
+X_1,\ldots,X_n
+\sim
+\operatorname{Pois}(\lambda).
+\]</span></p>
+<p>Aplique o intervalo <span class="math inline">\(t\)</span> usual para a média e estime por Monte Carlo sua cobertura para diferentes valores de <span class="math inline">\(\lambda\)</span>.</p>
+<p>Repita para</p>
+<p><span class="math display">\[
+n=10,\;30,\;100.
+\]</span></p>
+<p>Construa um gráfico da cobertura estimada em função de <span class="math inline">\(\lambda\)</span>.</p>
+<p><em>Exercício baseado em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Exemplo 3.38 e Exercício 3.8, pp.&nbsp;102–108)</span>.</em></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 12 — poder e erro de Monte Carlo">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 12 — poder e erro de Monte Carlo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Simule o poder de um teste para diferentes tamanhos de amostra usando <span class="math inline">\(R=1000\)</span>, <span class="math inline">\(5000\)</span> e <span class="math inline">\(20000\)</span>.</p>
+<p>Para cada estimativa de poder <span class="math inline">\(\widehat\pi\)</span>, calcule</p>
+<p><span class="math display">\[
+\widehat{ep}_{MC}
+=
+\sqrt{
+\frac{
+\widehat\pi(1-\widehat\pi)
+}{
+R
+}
+}.
+\]</span></p>
+<p>Discuta quantas repetições seriam necessárias para reportar poder com duas casas decimais de forma estável.</p>
+<p><em>Base de leitura:</em> <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.2.3–7.2.5</a>, pp.&nbsp;260–263)</span>.</p>
+</div>
+</div>
+</section>
+<section id="referências" class="level1 unnumbered">
+<h1 class="unnumbered">Referências</h1>
 
 
+<div id="refs" class="references csl-bib-body" data-entry-spacing="1" role="list">
+<div id="ref-kroese2011handbook" class="csl-entry" role="listitem">
+KROESE, Dirk P.; TAIMRE, Thomas; BOTEV, Zdravko I. <strong>Handbook of Monte Carlo Methods</strong>. Hoboken: John Wiley &amp; Sons, 2011.
+</div>
+<div id="ref-ross2006simulation" class="csl-entry" role="listitem">
+ROSS, Sheldon M. <strong>Simulation</strong>. 4. ed. Burlington: Academic Press, 2006.
+</div>
+<div id="ref-rubinstein2008simulation" class="csl-entry" role="listitem">
+RUBINSTEIN, Reuven Y.; KROESE, Dirk P. <strong>Simulation and the Monte Carlo Method</strong>. 2. ed. Hoboken: John Wiley &amp; Sons, 2008.
+</div>
+<div id="ref-thulin2025modern" class="csl-entry" role="listitem">
+THULIN, Måns. <strong>Modern Statistics with R: From Wrangling and Exploring Data to Inference and Predictive Modelling</strong>. 2. ed. Boca Raton: CRC Press, 2025.
+</div>
+<div id="ref-voss2014statistical" class="csl-entry" role="listitem">
+VOSS, Jochen. <strong>An Introduction to Statistical Computing: A Simulation-Based Approach</strong>. 1. ed. Chichester: John Wiley &amp; Sons, 2014.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->

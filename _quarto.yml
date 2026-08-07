@@ -25,12 +25,12 @@ book:
     - boot.qmd
     - otimizaca.qmd
     - em.qmd
-    - metodosadicionais.qmd
+    #- metodosadicionais.qmd
     
     
     #- em.qmd
     #- metodosadicionais.qmd
-    - references.qmd
+    #- references.qmd
 
 bibliography: BOOK.bib
 csl: https://www.zotero.org/styles/associacao-brasileira-de-normas-tecnicas # Opcional: para normas ABNT
@@ -42,12 +42,7 @@ format:
       light: flatly
       dark: darkly
     css: styles.css
-  pdf:
-    documentclass: scrreprt
-    pdf-engine: xelatex
-    lang: pt-br
-    include-in-header: macros.tex
-    include-before-body: cover.tex
+
     
 editor: visual
 

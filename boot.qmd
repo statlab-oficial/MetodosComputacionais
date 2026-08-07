@@ -1,498 +1,1476 @@
 # Bootstrap e Jackknife
 
-## Bootstrap
+O *bootstrap* e o *jackknife* são métodos de reamostragem usados para estudar a variabilidade de estimadores quando a distribuição amostral de interesse é desconhecida, difícil de obter analiticamente ou pouco conveniente para cálculo direto. Em ambos os casos, a ideia central é reutilizar a informação contida na amostra observada para aproximar propriedades que, conceitualmente, seriam definidas por repetição do processo amostral.
 
-Ao longo deste material, utilizamos simulações de Monte Carlo para demonstrar propriedades estatísticas de estimadores. Simulamos processos de geração de dados no computador e, em seguida, examinamos diretamente os resultados.
+No *bootstrap* não paramétrico, a distribuição populacional desconhecida é substituída pela distribuição empírica dos dados; novas amostras são então geradas com reposição e a estatística de interesse é recalculada em cada reamostra. No *jackknife*, por sua vez, constrói-se sistematicamente uma coleção de amostras deixando uma observação de fora a cada vez. Esses procedimentos permitem estimar erros padrão e viés e, no caso do *bootstrap*, construir diferentes tipos de intervalos de confiança e procedimentos inferenciais.
 
-Este capítulo explica como técnicas de simulação intensivas em computação podem ser aplicadas a **uma única amostra** para estimar a distribuição amostral de uma estatística. Esses procedimentos, cada vez mais populares, são conhecidos como **métodos bootstrap**. Eles podem ser usados para corroborar resultados baseados na teoria padrão ou fornecer respostas quando métodos convencionais falham.
+> **Base bibliográfica:** a organização conceitual deste capítulo segue principalmente @chihara2022resampling \[Capítulo 5, pp. 103--141; Seção 7.5, pp. 216--224; Seções 13.1--13.2, pp. 444--452\], @voss2014statistical [Seção 5.2, pp. 192--208], @chernick2008bootstrap \[Capítulos 1, 3, 6 e 9\] e @chernick2011introduction [Capítulos 1--3, 6 e 8]. A implementação em R e a apresentação de aplicações modernas são complementadas por @thulin2025modern \[Seção 7.4, pp. 266--273\], @zieffler2011comparing [especialmente a discussão de intervalos bootstrap ajustados] e @ramachandran2021mathematical [Seções 13.2--13.3, pp. 532--540].
 
-A expressão inglesa *“pull yourself up by your bootstraps”* descreve a situação de alguém que consegue superar dificuldades **sozinho**, apesar de recursos limitados. A frase vem do livro *The Surprising Adventures of Baron Munchausen*, de Rudolph Erich Raspe. O barão conta uma série de histórias fantásticas sobre suas viagens, incluindo feitos impossíveis e fugas ousadas. Bradley Efron escolheu o termo “bootstrap” para descrever um esquema de reamostragem que estava desenvolvendo porque “o uso do termo bootstrap deriva da expressão *to pull oneself up by one’s own bootstrap…* (O Barão havia caído no fundo de um lago profundo. Quando tudo parecia perdido, ele teve a ideia de se erguer puxando as próprias alças das botas.)” (Efron e Tibshirani (1993), p. 5).
+## Objetivos de aprendizagem
 
-Em estatística e em outras áreas, **bootstrapping** passou a significar **reamostrar repetida e aleatoriamente a partir de uma amostra original**, usando cada amostra reamostrada para calcular uma estatística. A distribuição empírica resultante dessa estatística é então examinada e interpretada como uma aproximação da verdadeira distribuição amostral.
+Ao final deste capítulo, espera-se que o leitor seja capaz de:
 
-::: callout-note
-O vínculo entre bootstrap e Monte Carlo é evidente: ambos se baseiam em amostragem repetitiva e exame direto dos resultados. A grande diferença, porém, é que o *bootstrap* usa a **amostra original** como população da qual se reamostra, enquanto as simulações de Monte Carlo partem de um **processo de geração de dados especificado** (com valores conhecidos dos parâmetros). Enquanto Monte Carlo serve para testar estimadores, os métodos *bootstrap* podem ser usados para estimar a variabilidade de uma estatística e o formato de sua distribuição amostral.
+- distinguir distribuição amostral, distribuição bootstrap e distribuição de Monte Carlo;
+- formular o princípio *plug-in* que fundamenta o bootstrap não paramétrico;
+- implementar o algoritmo bootstrap para estimar viés e erro padrão;
+- explicar a diferença entre bootstrap não paramétrico e paramétrico;
+- escolher corretamente a unidade de reamostragem em amostras simples, grupos independentes, dados pareados e dados dependentes;
+- reconhecer que aumentar o número de réplicas $B$ reduz o erro de Monte Carlo, mas não corrige uma amostra original pouco informativa;
+- construir e comparar intervalos normal, básico, percentil, bootstrap-$t$ e $BC_a$;
+- distinguir testes bootstrap de testes de permutação;
+- reconhecer situações em que o bootstrap ordinário pode falhar;
+- implementar o jackknife para estimar viés e variância;
+- interpretar pseudovalores jackknife e sua relação com a constante de aceleração do intervalo $BC_a$;
+- desenvolver implementações reprodutíveis em R e diagnosticar instabilidade computacional.
+
+> **Base bibliográfica:** estrutura didática baseada nos tópicos presentes em @chihara2022resampling \[Capítulos 5 e 7\], @voss2014statistical [Seção 5.2], @chernick2008bootstrap \[Capítulos 2, 3, 6, 7 e 9\], @chernick2011introduction [Capítulos 2, 3, 6 e 8] e @thulin2025modern [Seção 7.4].
+
+## Distribuição amostral e erro padrão
+
+Considere uma amostra aleatória
+
+$$X_1,\ldots,X_n \stackrel{\text{iid}}{\sim} F$$
+
+e uma estatística
+
+$$\hat{\Theta}=s(X_1,\ldots,X_n)$$
+
+usada para estimar um parâmetro
+
+$$\Theta=t(F).$$
+
+A variabilidade de $\hat{\Theta}$ é determinada pela repetição conceitual do processo amostral: novas amostras de tamanho $n$ seriam extraídas de $F$ e a estatística seria recalculada em cada amostra. A distribuição probabilística resultante é a **distribuição amostral** de $\hat{\Theta}$.
+
+::: {.callout-note title="Definição"}
+A **distribuição amostral** de uma estatística é a distribuição de probabilidade dessa estatística sob repetidas amostras geradas pelo mecanismo probabilístico que define a população ou o desenho amostral.
+
+O **erro padrão** de um estimador é o desvio padrão de sua distribuição amostral:
+
+$$ep_F(\hat{\Theta})
+=
+\sqrt{
+\operatorname{Var}_F(\hat{\Theta})
+}.$$
+
+*Base bibliográfica:* @chihara2022resampling \[Seção 4.1, pp. 77--82\] e @voss2014statistical [Seção 3.2.2, pp. 76--80; Seção 5.2.2, pp. 201--203].
 :::
 
-O Bootstrap pode ser utilizado com o propósito de estimar erros padrão, viés de estimadores, construir intervalos de confiança, testes de hipóteses, entre outros. Pode ser utilizando sob duas abordagens: **paramétrica** e **não paramétrica**. A abordagem paramétrica exige um modelo estatística, enquanto que na abordagem não paramétrica não há suposição de modelo estatístico; toma-se por base uma distribuição empírica que atribui probabilidade $1/n$ para cada um dos $n$ elementos da amostra. Algumas referências importantes neste tema são: Efron (1979), Wu (1986), Fisher $\&$ Hall (1989), Fredman (1986), Efron $\&$ Tibshirani (1993), Horowitz (1997), Davison $\&$ Hinkley (1997).
+::: {.callout-tip title="Interpretação"}
+O erro padrão mede **variabilidade amostral**, não o erro observado em relação ao parâmetro, que é desconhecido. Um erro padrão pequeno indica que, sob repetição do mesmo procedimento amostral, o estimador tende a variar pouco.
 
-### Acurária da média amostral
+Quando a distribuição amostral é aproximadamente normal, as regras de aproximadamente um e dois erros padrão em torno do centro são úteis. Fora desse contexto, porém, não se deve interpretar automaticamente “um erro padrão” como aproximadamente 68% de probabilidade, nem “dois erros padrão” como aproximadamente 95%.
 
-Experimento com 16 ratos, divididos em dois grupos: um grupo recebeu o tratamento e um outro grupo não recebeu o tratamento (controle). O tempo de sobrevivência (dias) é apresentado para cada um dos ratos. O tratamento prolonga a vida?
+*Base bibliográfica:* @chihara2022resampling [Seções 4.1--4.3, pp. 77--93].
+:::
 
-| grupo          | tempo 1 | tempo 2 | tempo 3 | n   | média | $\widehat{ep}$(média) |
-|----------------|---------|---------|---------|-----|-------|-----------------------|
-| tratamento (X) | 94      | 197     | 16      | 7   | 86,86 | 25,24                 |
-|                | 38      | 99      | 141     |     |       |                       |
-|                | 23      |         |         |     |       |                       |
-| controle (Y)   | 52      | 104     | 146     | 9   | 56,22 | 14,14                 |
-|                | 10      | 51      | 30      |     |       |                       |
-|                | 40      | 27      | 46      |     |       |                       |
-| diferença      |         |         |         |     | 30,63 | 28,93                 |
+Para a média amostral, sob independência e variância populacional finita,
 
-Alguns pontos importantes são:
+$$ep_F(\bar X)
+=
+\frac{\sigma}{\sqrt{n}},$$
 
-- A resposta à pergunta dependerá de quão acurado(s) é(são) o(s) estimador(es).
+e a estimativa usual é
 
-- O erro padrão é uma medida (muito usual) de acurácia de estimador.
+$$\widehat{ep}(\bar X)
+=
+\frac{s}{\sqrt{n}},$$
 
-- erro padrão estimado para a média amostral $\bar{X}$ $$\widehat{ep}(\bar{X})=\sqrt{\dfrac{s^2}{n}},$$ em que $s^2=\sum_{i=1}^n(x_i-\bar{x})^2/(n-1)$.
+em que
 
-- erro padrão de qualquer estimador é definido pela raiz quadrada de sua variância
+$$s^2
+=
+\frac{1}{n-1}
+\sum_{i=1}^n(X_i-\bar X)^2.$$
 
-Além disso, temos que:
+A dificuldade surge quando $s(\cdot)$ é uma estatística complexa — uma mediana, razão, quantil, medida de associação, parâmetro estimado por algoritmo iterativo ou outra função não linear — para a qual uma expressão analítica simples para o erro padrão pode não estar disponível. É nesse contexto que métodos de reamostragem se tornam especialmente úteis.
 
-- erro padrão pequeno $\longrightarrow$ acurácia alta
+## O princípio bootstrap
 
-- erro padrão grande $\longrightarrow$ acurácia baixa
+### A distribuição empírica como estimativa da população
 
-- acurácia alta (baixa) indica que o estimador apresenta valores próximos (distantes) ao seu valor esperado
+Se a distribuição $F$ é desconhecida, o bootstrap não paramétrico a substitui pela distribuição empírica
 
-- espera-se que 68$\%$ dos valores do estimador estejam a menos de um erro padrão do seu valor esperado, e 95$\%$, a menos de dois erros padrões
+$$\widehat F_n(x)
+=
+\frac{1}{n}
+\sum_{i=1}^n
+I(X_i\leq x).$$
 
-- erro padrão da diferença $(\bar{X}-\bar{Y})$: $$28.93=\sqrt{25.24^2+14.14^2}.$$
+Condicionalmente aos valores observados $x_1,\ldots,x_n$, $\widehat F_n$ atribui massa $1/n$ a cada posição amostral.
 
-**Resposta à pergunta:** a diferença observada 30.63 é somente 30.63/28.93=1.05 erros padrões (estimados) maior que zero, indicando um resultado não significativo, ou seja, o tratamento não aumenta o tempo médio de vida (considerando a teoria dos testes de hipóteses).
+::: {.callout-note title="Definição: amostra bootstrap"}
+Uma **amostra bootstrap não paramétrica** é uma amostra
 
-O erro padrão para o estimador média amostral apresenta fórmula conhecida, mas há casos em que não dispomos de fórmulas. Suponha que haja interesse em comparar os dois grupos de ratos em relação aos tempos medianos. Temos: md(X)=94 e md(Y)=46. A diferença é 48, maior que a diferença para as médias. Com base na mediana, o tratamento prolonga a vida?
+$$X_1^*,\ldots,X_n^*
+\stackrel{\text{iid}}{\sim}
+\widehat F_n.$$
+
+Na prática, isso equivale a sortear $n$ índices com reposição do conjunto $\{1,\ldots,n\}$ e selecionar os valores correspondentes da amostra original.
+
+A estatística
+
+$$\hat{\Theta}^*
+=
+s(X_1^*,\ldots,X_n^*)$$
+
+é chamada de **réplica bootstrap**.
+
+*Base bibliográfica:* @chihara2022resampling \[Seções 5.1--5.2, pp. 103--114\], @voss2014statistical [Seção 5.2.1, pp. 192--197] e @thulin2025modern [Seção 7.4.1, pp. 266--268].
+:::
+
+A ideia pode ser expressa como uma substituição *plug-in*:
+
+$$F
+\quad\longrightarrow\quad
+\widehat F_n,$$
+
+de modo que uma quantidade definida sob a população,
+
+$$\mathcal T(F),$$
+
+é aproximada por
+
+$$\mathcal T(\widehat F_n).$$
+
+No caso do erro padrão,
+
+$$ep_F(\hat{\Theta})
+\quad\longrightarrow\quad
+ep_{\widehat F_n}(\hat{\Theta}^*).$$
+
+> **Base bibliográfica:** o princípio *plug-in* e a interpretação do bootstrap como substituição da distribuição desconhecida pela distribuição empírica são desenvolvidos em @chihara2022resampling \[Seção 5.2, pp. 109--114\] e @voss2014statistical [Seção 5.2.1, pp. 192--201].
+
+### Bootstrap e Monte Carlo não são a mesma coisa
+
+O bootstrap é implementado computacionalmente por simulação de Monte Carlo, mas os dois conceitos não devem ser confundidos.
+
+::: {.callout-tip title="Interpretação"}
+Em um estudo de **Monte Carlo**, o pesquisador especifica um mecanismo de geração de dados, por exemplo
+
+$$X_i\sim N(\mu,\sigma^2),$$
+
+com parâmetros conhecidos no experimento computacional. Repetindo o experimento, pode-se avaliar viés, erro quadrático médio, cobertura ou potência de um procedimento.
+
+No **bootstrap não paramétrico**, o mecanismo gerador original $F$ permanece desconhecido. Condicionalmente à amostra observada, usa-se $\widehat F_n$ como aproximação de $F$ e simula-se a partir dessa distribuição empírica.
+
+Portanto, há dois níveis distintos:
+
+$$\text{erro devido à amostra original}
+\qquad\text{e}\qquad
+\text{erro de Monte Carlo devido ao número finito de réplicas }B.$$
+
+Aumentar $B$ reduz apenas o segundo componente.
+
+*Base bibliográfica:* @voss2014statistical \[Seções 3.2 e 5.2\] e @chihara2022resampling [Seções 5.7--5.9, pp. 130--137].
+:::
+
+## Algoritmo bootstrap não paramétrico
+
+Suponha que a amostra observada seja
+
+$$\mathbf{x}=(x_1,\ldots,x_n)$$
+
+e que a estatística de interesse seja
+
+$$\hat\theta=s(\mathbf{x}).$$
+
+::: {.callout-note title="Algoritmo bootstrap"}
+Para $b=1,\ldots,B$:
+
+1.  sorteie, com reposição, $n$ observações da amostra original e obtenha
+
+    $$\mathbf{x}^{*(b)}
+    =
+    \left(
+    x_1^{*(b)},\ldots,x_n^{*(b)}
+    \right);$$
+
+2.  calcule a réplica
+
+    $$\hat\theta^{*(b)}
+    =
+    s\!\left(\mathbf{x}^{*(b)}\right).$$
+
+Ao final, use a coleção
+
+$$\hat\theta^{*(1)},\ldots,\hat\theta^{*(B)}$$
+
+para aproximar a distribuição bootstrap de $\hat\Theta^*$.
+
+*Base bibliográfica:* @voss2014statistical \[Algoritmos 5.11, 5.15 e 5.18, pp. 196--203\], @chihara2022resampling [Seção 5.1, pp. 103--109] e @ramachandran2021mathematical [Seção 13.3, pp. 535--540].
+:::
+
+### Estimativa bootstrap do viés
+
+Defina
+
+$$\overline{\theta^*}
+=
+\frac{1}{B}
+\sum_{b=1}^B
+\hat\theta^{*(b)}.$$
+
+A estimativa bootstrap de viés é
+
+$$\widehat{\operatorname{bias}}_{\text{boot}}
+=
+\overline{\theta^*}
+-
+\hat\theta.$$
+
+::: {.callout-tip title="Interpretação"}
+O bootstrap procura reproduzir, sob $\widehat F_n$, a relação entre o estimador e o parâmetro que existiria sob $F$. Assim, a diferença entre a média das réplicas e a estimativa original é usada como aproximação do viés de $\hat\Theta$.
+
+*Base bibliográfica:* @voss2014statistical \[Algoritmo 5.15, pp. 199--201\] e @chihara2022resampling [Seção 5.6, pp. 126--129].
+:::
+
+Uma estimativa corrigida por viés pode ser escrita como
+
+$$\hat\theta_{\text{corr}}
+=
+\hat\theta
+-
+\widehat{\operatorname{bias}}_{\text{boot}}
+=
+2\hat\theta-\overline{\theta^*}.$$
+
+Essa correção não deve ser aplicada mecanicamente: reduzir viés pode aumentar variância, e o desempenho deve ser avaliado no contexto da estatística e do objetivo inferencial.
 
 ### Estimativa bootstrap do erro padrão
 
-Considerações:
+A estimativa Monte Carlo do erro padrão bootstrap é o desvio padrão das réplicas:
 
-- $\underset{\sim}{x} = (x_1,\,x_2\,\ldots,\,x_n)$: vetor de dados observado (amostra original de tamanho $n$)
+$$\widehat{ep}_{\text{boot}}
+=
+\sqrt{
+\frac{1}{B-1}
+\sum_{b=1}^B
+\left(
+\hat\theta^{*(b)}
+-
+\overline{\theta^*}
+\right)^2
+}.$$
 
-- $s(\underset{\sim}{x})$: estatística de interesse (por exemplo, média amostral)
+> **Base bibliográfica:** @voss2014statistical \[Algoritmo 5.18, pp. 201--203\] e @ramachandran2021mathematical [Seção 13.3, pp. 537--538].
 
-- Uma amostra bootstrap $\underset{\sim}{x}^*=(x_1^*, x_2^*, \ldots, x_n^*)$ é obtida pela amostragem aleatória de tamanho $n$, com reposição, de $\underset{\sim}{x}$. Por exemplo, com $n=7$, poderíamos obter $\underset{\sim}{x}^*=(x_1^*, x_2^*, \ldots, x_n^*)=(x_5, x_7, x_5, x_4, x_7, x_3, x_1)$.
-
-**O algoritmo bootstrap**
-
-- gerar $B$ amostras bootstrap independentes: $\underset{\sim}{x}^{*^{1}}, \underset{\sim}{x}^{*^{2}}, \ldots, \underset{\sim}{x}^{*^{B}},$ cada uma de tamanho $n$ e $50 \leq B \leq 200$.
-
-- calcular $s(\underset{\sim}{x}^{*^{b}})$, $b=1, 2, \ldots, B$. $s(\underset{\sim}{x}^{*^{b}})$ é denominada réplica bootstrap de $s(\underset{\sim}{x})$
-
-- calcular $\hat{ep}_{boot}=\hat{ep}_{B}=\sqrt{ \dfrac{\sum_{b=1}^{B}[s(\underset{\sim}{x}^{*^{b}})-s(.)]^2}{B-1}},$em que $s(.)=\frac{\sum_{b=1}^{B}s(\underset{\sim}{x}^{*^{b}})}{B}$
-
-Sintaxe do `R` para calcular a estimativa bootstrap do erro padrão da média do tempo de sobrevida dos ratos do grupo tratamento.
+#### Implementação básica em R
 
 ```{r}
-set.seed(1234)
-# grupo tratamento (amostra original)
-x <- c(94, 197, 16, 38, 99, 141, 23) 
-n <- length(x)
-s <- 0  # estatística de interesse
-B <- 50 # no. de amostras bootstrap 
+#| eval: false
 
-for(i in 1:B){
-   # réplica bootstrap para o estimador média
-   s[i] <- mean(sample(x,n,replace=TRUE)) 
- }
-# estimativa bootstrap para o erro padrão da média
-ep <-  sd(s); ep
+bootstrap_se <- function(x, stat = mean, B = 9999, seed = 1234) {
+  set.seed(seed)
+
+  n <- length(x)
+
+  theta_star <- replicate(
+    B,
+    stat(sample(x, size = n, replace = TRUE))
+  )
+
+  list(
+    estimate = stat(x),
+    bootstrap_mean = mean(theta_star),
+    bias = mean(theta_star) - stat(x),
+    se = sd(theta_star),
+    replicates = theta_star
+  )
+}
 ```
 
-Estimativas bootstrap do erro padrão da média e da mediana do tempo de sobrevivência dos ratos do grupo tratamento. A mediana é menos acurada (erros padrões maiores) que a média para esse conjunto de dados.
+::: {.callout-observation title="Observação computacional"}
+A função `replicate()` é conveniente para fins didáticos, mas o princípio é mais importante que a sintaxe. Em aplicações maiores, pode-se usar o pacote `boot`, paralelização ou código vetorizado, desde que a estrutura de reamostragem permaneça correta.
 
-| $B$     | 50    | 100   | 250   | 500   | 1000  | $\infty$ |
-|---------|-------|-------|-------|-------|-------|----------|
-| média   | 19.72 | 23.63 | 22.32 | 23.79 | 23.02 | 23.36    |
-| mediana | 32.21 | 36.35 | 34.46 | 36.72 | 36.48 | 37.83    |
-
-Formalização:
-
-- $\underset{\sim}{X} = X_1, X_2,\dots, X_n$: amostra aleatória de uma f.d.a. $F$
-
-- $\underset{\sim}{x} = (x_1, x_2,\ldots, x_n)$: amostra aleatória observada de $F$
-
-- $\Theta=t(F)$: parâmetro ($\Theta$ uma função de $F$)
-
-- $\hat{\Theta}=s(\underset{\sim}{X})$: estimador para $\Theta$
-
-- $\hat{\theta}=s(\underset{\sim}{x})$: estimativa para $\Theta$
-
-- Quão acurado é o estimador $\hat{\Theta}$?
-
-- Seja $\hat{F}$ a distribuição empírica que atribui a probabilidade $1/n$ para cada valor observado $x_i$, $i=1,2,\ldots, n$. A amostra bootstrap $\underset{\sim}{x}^*$ é definida como a amostra aleatória com reposição de tamanho $n$ extraída de $\hat{F}$. $$\underset{\sim}{x}^*=(x_1^*,\,x_2^*\,\ldots,\,x_n^*)$$ $$\hat{F}\longrightarrow (x_1^*,\,x_2^*\,\ldots,\,x_n^*)$$ **Nota:**
-
-- $\underset{\sim}{x}^*$: o símbolo $*$ indica que a amostra não é a original $\underset{\sim}{x}$, mas uma versão aleatorizada(reamostrada) de $\underset{\sim}{x}$
-
-- a cada amostra bootstrap corresponde uma réplica bootstrap de $\hat\theta$, $\hat\theta^* =s(\underset{\sim}{x}^*)$
-
-- $ep_F(\hat\Theta)$ é estimado por $ep_{\hat{F}}(\hat\Theta^*)$, chamado \textbf{estimador bootstrap ideal} para o erro padrão $\hat\Theta$
-
-- Raramente faz-se necessário $B\geq 200$ para estimar erro padrão; valores (muito) maiores são necessários, por exemplo, para IC bootstrap.
-
-- $\displaystyle\lim_{B \to \infty} \hat{ep}_B=ep_{\hat{F}}=ep_{\hat{F}}(\hat\Theta^*)$
-
-- O estimador bootstrap ideal $ep_{\hat{F}}(\hat\Theta^*)$ e sua aproximação $\hat{ep}_B$ são chamados **estimadores bootstrap não-paramétricos**, pois baseiam-se em $\hat{F}$, o estimador não-paramétrico de $F$.
-
-- total de amostras bootstrap distintas (combinação com repetição): $$\binom{2n -1}{n}.$$
-
-- No `R`: ver as funções `factorial()`, `choose()`, `combn()`, `combinations()`.
-
-#### Exemplo {.unnumbered}
-
-Dados de faculdades americanas de direito. População: $N=82$ faculdades. Amostra aleatória: $n=15$ faculdades. Variáveis analisadas: LSAT (escore médio em um teste), GPA (pontuação média na faculdade).
-
-| escola | LSAT | GPA  | escola | LSAT | GPA  |
-|--------|------|------|--------|------|------|
-| 1      | 576  | 3,39 | 9      | 651  | 3,36 |
-| 2      | 635  | 3,30 | 10     | 605  | 3,13 |
-| 3      | 558  | 2,81 | 11     | 653  | 3,12 |
-| 4      | 578  | 3,03 | 12     | 575  | 2,74 |
-| 5      | 666  | 3,44 | 13     | 545  | 2,76 |
-| 6      | 580  | 3,07 | 14     | 572  | 2,88 |
-| 7      | 555  | 3,00 | 15     | 594  | 2,96 |
-| 8      | 661  | 3,43 |        |      |      |
-
-- Façamos $Y$=LSAT e $Z$=GPA. A estatística (estimador) de interesse é o coeficiente de correlação amostral entre as variáveis $Y$ e $Z$: $$\hat{\Theta}=corr(Y,Z)=\dfrac{Cov(Y,Z)}{DP(Y).DP(Z)}=\dfrac{\sum_{i=1}^n(Y_i-\bar{Y})(Z_i-\bar{Z})/n}{DP(Y).DP(Z)}$$
-
-- Para os dados observados, a estimativa do coeficiente de correlação amostral é 0.776. Quão acurado é o estimador?
-
-| $B$          | 25    | 50    | 100   | 200   | 400   | 800   | 1600  | 3200  |
-|--------------|-------|-------|-------|-------|-------|-------|-------|-------|
-| $\hat{ep}_B$ | 0,140 | 0,142 | 0,151 | 0,143 | 0,141 | 0,137 | 0,133 | 0,132 |
-
-: **Estimativas bootstrap do erro padrão para** $\hat{\Theta} = corr(Y,Z)$
-
-::: callout-note
-No caso de valores extremos inflacionarem fortemente $\hat{ep}_B$, uma medida mais robusta para o estimador bootstrap do erro padrão é desejável. (ver Efron $\&$ Tibshirani (1993)).
+*Base bibliográfica:* a implementação conceitual por reamostragem em R é consistente com @thulin2025modern \[Seção 7.4.1, pp. 266--268\], @chernick2011introduction [Capítulos 1--3] e @ramachandran2021mathematical [Seção 13.7.1].
 :::
 
-::: callout-note
-Inferências baseadas na distribuição normal são "questionáveis" quando o histograma das réplicas bootstrap indica forte assimetria.
+## Quantas réplicas bootstrap usar?
+
+O número de réplicas, denotado por $B$, controla a precisão da **aproximação de Monte Carlo** da distribuição bootstrap. Ele não controla a qualidade da amostra original como representação da população.
+
+@chihara2022resampling \[Seção 5.9, pp. 136--137\] observa que cerca de $1000$ reamostras podem ser suficientes para respostas aproximadas, enquanto recomenda números maiores, como $10\,000$ ou mais, quando se deseja boa precisão. @thulin2025modern [Seção 7.4, p. 266] recomenda, como regra prática moderna, $B=9\,999$ ou mais em análises em que o custo computacional permita. @voss2014statistical [pp. 205--206] também ressalta que alguns milhares de réplicas ainda podem produzir variação perceptível nos limites de intervalos.
+
+::: {.callout-important title="Princípio prático"}
+Não existe um valor universal de $B$ adequado para todos os objetivos.
+
+- Para uma exploração didática ou estimativa preliminar de erro padrão, alguns milhares de réplicas podem ser suficientes.
+- Para quantis de cauda usados em intervalos de confiança, é prudente usar um valor maior.
+- O critério mais informativo é verificar a **estabilidade do resultado** quando $B$ aumenta.
+
+Uma estratégia simples é comparar, por exemplo,
+
+$$B=1\,000,\quad 5\,000,\quad 10\,000,\quad 20\,000$$
+
+e examinar se erro padrão, viés e limites do intervalo permanecem praticamente inalterados.
 :::
 
-#### Exercícios: {.unnumbered}
+```{r}
+#| eval: false
 
-(1) Considere $B = 3200$. Para cada uma das 3200 amostras bootstrap, obtenha a réplica bootstrap $\hat{\theta}^*=corr(y^*,z^*)$. Faça o histograma das réplicas.
+B_grid <- c(1000, 5000, 10000, 20000)
 
-(2) A Tabela 3.2, p. 21 do livro texto, apresenta os dados populacionais das 82 faculdades. Selecione 3200 amostras aleatórias de tamanho $n = 15$. Para cada uma dessas amostra calcule o coeficiente de correlação e faça o histograma.
+se_grid <- sapply(B_grid, function(B) {
+  bootstrap_se(x, stat = mean, B = B, seed = 1234)$se
+})
 
-### Bootstrap Paramétrico
+data.frame(B = B_grid, bootstrap_se = se_grid)
+```
 
-O estimador bootstrap paramétrico do erro padrão é definido por $$ep_{\hat{F}_{par}}(\hat\Theta^*),$$ em que $\hat{F}_{par}$ é um estimador de $F$ derivado do modelo paramétrico para os dados.
+::: {.callout-caution title="Erro de Monte Carlo não é erro estatístico"}
+Mesmo com $B\to\infty$, a distribuição bootstrap continua condicionada à amostra original. Se $n$ é pequeno, se a amostra não representa adequadamente a população ou se o esquema de reamostragem não reproduz a estrutura dos dados, aumentar $B$ apenas fornece uma aproximação mais precisa de um alvo bootstrap inadequado.
 
-Para os dados das faculdades: Vamos supor que a população (LSAT, GPA) possa ser descrita por um modelo paramétrico normal bivariado $F$. Estimamos $F$ por $\hat{F}_{normal}$, que denota a f.d.a. de uma normal bivariada com vetor de médias e matriz de covariâncias $(\bar{y},\bar{z})$ e $\dfrac{1}{14}\left(
-\begin{array}{ll}
-\sum(y_i-\bar{y})^2            &  \sum(y_i-\bar{y})(z_i-\bar{z}) \\
-\sum(y_i-\bar{y})(z_i-\bar{z}) &  \sum(z_i-\bar{z})^2  \\
-\end{array}
-\right)$.
-
-O estimador bootstrap paramétrico do erro padrão da correlação $\hat{\Theta}$ será dado por $ep_{\hat{F}_{normal}}(\hat\Theta^*)$. Esse estimador bootstrap ideal será aproximado por $\hat{ep}_{B}$ (conforme algoritmo a seguir).
-
-**O algoritmo bootstrap:**
-
-- extrair $B$ amostras de tamanho $n$ de $\hat{F}_{par}$: $\underset{\sim}{x}^{*^{1}}, \underset{\sim}{x}^{*^{2}}, \ldots, \underset{\sim}{x}^{*^{B}}$
-- calcular $s(\underset{\sim}{x}^{*^{b}})$, $b=1, 2, \ldots, B$. $s(\underset{\sim}{x}^{*^{b}})$ é a réplica bootstrap de $s(\underset{\sim}{x})$
-- calcular $\hat{ep}_{boot}=\hat{ep}_{B}=\sqrt{ \dfrac{\sum_{b=1}^{B}[s(\underset{\sim}{x}^{*^{b}})-s(.)]^2}{B-1}},$em que $s(.)=\frac{\sum_{b=1}^{B}s(\underset{\sim}{x}^{*^{b}})}{B}$
-
-No exemplo das faculdades, assumindo o modelo normal bivariado, extraímos $B$ amostras de tamanho $n=15$ de $\hat{F}_{normal}$, calculamos o coeficiente de correlação para cada amostra e, por fim, calculamos o desvio padrão desses coeficientes de correlação. Usando $B=3200$ encontramos $\hat{ep}_{B}=0.124$, que é próximo ao valor 0.131 obtido com o bootstrap não-paramétrico.
-
-A fórmula teórica para o erro padrão do coeficiente de correlação é $\dfrac{1-\hat{\Theta}^2}{\sqrt{n-3}}$, com $\hat{\Theta}=corr(Y,Z)$. Vimos que $\hat{\theta}=0.776$, o que resulta a estimativa 0.115 para o erro padrão do coeficiente de correlação entre as variáveis $Y$=LSAT e $Z$=GPA.
-
-Transformação de Fisher para o coeficiente de correlação $\hat{\Theta}$: $\hat{\zeta}=0.5\log\left(\dfrac{1+\hat{\Theta}}{1-\hat{\Theta}}\right)$. Assim, $\hat{\zeta}$ tem distribuição aproximadamente normal com média $0.5\log\left(\dfrac{1+\Theta}{1-\Theta}\right)$ e variância $\dfrac{1}{n-3}$. O erro padrão para $\hat{\zeta}$ é $\sqrt{\dfrac{1}{n-3}}$. Para o exemplo das faculdades, o valor é $\dfrac{1}{\sqrt{12}}=0.289$.
-
-A título de comparação com o procedimento bootstrap, a estatística (estimador) $\hat{\zeta}$ foi estimado em cada uma das $B=3200$ amostras bootstrap. O desvio padrão das réplicas bootstrap resultou 0.290 (muito próximo ao valor teórico 0.289). Histogramas para as correlações $\hat{\theta}^*$e para os $\hat{\zeta}^*$.
-
-::: callout-important
-Muitas fórmulas para os erros padrões são aproximações baseadas na teoria normal e isso "explica" os resultados próximos obtidos com o uso do bootstrap paramétrico que extrai amostras a partir da distribuição normal.
+*Base bibliográfica:* @chihara2022resampling \[Seções 5.8--5.9, pp. 131--137\], @voss2014statistical [pp. 205--206] e @chernick2008bootstrap [Capítulo 9, pp. 172--185].
 :::
 
-Vantagens do bootstrap sobre os métodos tradicionais:
+## Exemplo do manuscrito: tempos de sobrevivência de ratos
 
-- **bootstrap não-paramétrico:** não é necessário fazer suposições de modelos paramétricos para a população;
-- **bootstrap paramétrico:** possibilita estimar erros padrões em problemas para os quais não há fórmulas para os erros padrões.
+Considere os dados do manuscrito original:
 
+```{r}
+#| eval: true
 
-### Intervalos de Confiança
+tratamento <- c(94, 197, 16, 38, 99, 141, 23)
+controle   <- c(52, 104, 146, 10, 51, 30, 40, 27, 46)
 
-::: {.callout-warning title="Notação"}
-- $\underset{\sim}{X} = (X_1, x_2, \dots, X_n)$: amostra aleatória de uma f.d.a. $F$
+mean(tratamento)
+mean(controle)
 
-- $\underset{\sim}{x} = (x_1, x_2, \dots, x_n)$: amostra aleatória observada de $F$
+sd(tratamento) / sqrt(length(tratamento))
+sd(controle) / sqrt(length(controle))
+```
 
-- $\Theta=t(F)$: parâmetro ($\Theta$ uma função de $F$)
+As médias observadas são aproximadamente
 
-- $\hat{\Theta}=s(\underset{\sim}{X})$: estimador para $\Theta$
+$$\bar x = 86{,}86
+\qquad\text{e}\qquad
+\bar y = 56{,}22,$$
 
-- $\hat{\theta}=s(\underset{\sim}{x})$: estimativa para $\Theta$
+de modo que
+
+$$\bar x-\bar y
+=
+30{,}63.$$
+
+Sob independência entre os grupos, a estimativa usual do erro padrão da diferença de médias é
+
+$$\widehat{ep}(\bar X-\bar Y)
+=
+\sqrt{
+\frac{s_X^2}{n_X}
++
+\frac{s_Y^2}{n_Y}
+}
+\approx
+28{,}94.$$
+
+Portanto,
+
+$$\frac{30{,}63}{28{,}94}
+\approx
+1{,}06.$$
+
+::: {.callout-tip title="Interpretação corrigida"}
+A diferença observada está a pouco mais de um erro padrão estimado de zero. Isso **não autoriza concluir que o tratamento não aumenta a sobrevivência**. A formulação apropriada é mais modesta: com base apenas nesse resumo aproximado, os dados não fornecem evidência forte de um aumento da média.
+
+Ausência de evidência estatística contra uma hipótese nula não é equivalente a evidência de ausência de efeito. Essa distinção é enfatizada por @chihara2022resampling [Capítulos 3 e 8].
 :::
 
-#### Intervalos de Confiança Normal Padrão
+As medianas são
 
-Suponha que $\hat{\Theta}\sim N(\Theta, ep(\hat{\Theta})^2)$. Portanto, se $ep(\hat{\Theta})$ é conhecido temos que:
+$$\operatorname{med}(X)=94
+\qquad\text{e}\qquad
+\operatorname{med}(Y)=46,$$
 
-$$Z=\dfrac{\hat{\Theta} - \Theta}{ep(\hat\Theta)} \sim N(0,1),$$ e $$IC_z\left(100(1-\alpha)\%,\Theta\right)=\hat{\Theta} \pm z_{\frac{\alpha}{2}}ep(\hat{\Theta}).$$
+com diferença observada igual a $48$. Para essa estatística, a obtenção de uma expressão fechada simples para o erro padrão é menos direta, e o bootstrap fornece uma abordagem natural.
 
-#### Intervalo de Confiança t-Student
+```{r}
+#| eval: true
 
-Suponha que $\hat{\Theta}\sim N(\Theta, ep(\hat{\Theta})^2)$ e se $ep(\hat{\Theta})$ é desconhecido, portanto
+set.seed(1234)
+B <- 9999
 
-$$Z=\dfrac{\hat{\Theta} - \Theta}{\hat{ep}(\hat\Theta)} \sim \mbox{t-Student}(n-1),$$
+median_diff_star <- replicate(B, {
+  x_star <- sample(tratamento,
+                   length(tratamento),
+                   replace = TRUE)
+
+  y_star <- sample(controle,
+                   length(controle),
+                   replace = TRUE)
+
+  median(x_star) - median(y_star)
+})
+
+sd(median_diff_star)
+quantile(median_diff_star, c(0.025, 0.975))
+```
+
+## Bootstrap não paramétrico e bootstrap paramétrico
+
+### Bootstrap não paramétrico
+
+No bootstrap não paramétrico, o modelo gerador é
+
+$$X_i^*\sim\widehat F_n.$$
+
+Não se especifica uma família como normal, gamma ou Poisson para $F$. Contudo, o método ainda depende de pressupostos sobre **como as observações foram obtidas**.
+
+::: {.callout-caution title="O que 'não paramétrico' não significa"}
+Em sua forma IID elementar, o bootstrap não paramétrico pressupõe que reamostrar observações individualmente com reposição seja uma representação razoável do processo amostral. Esse esquema pode ser inadequado para séries temporais, dados agrupados, amostragem complexa, observações pareadas ou outras estruturas de dependência.
+
+*Base bibliográfica:* @chernick2008bootstrap \[Capítulos 5, 8 e 9\], @chernick2011introduction [Capítulos 5 e 8] e @chihara2022resampling [Seção 5.8].
+:::
+
+### Bootstrap paramétrico
+
+No bootstrap paramétrico, assume-se que
+
+$$F=F_\eta$$
+
+pertence a uma família paramétrica. Primeiro estima-se $\eta$ a partir da amostra e, em seguida, geram-se reamostras de
+
+$$F_{\hat\eta}.$$
+
+::: {.callout-note title="Algoritmo: bootstrap paramétrico"}
+1.  Ajuste o modelo paramétrico e obtenha $\hat\eta$.
+
+2.  Para $b=1,\ldots,B$, gere
+
+    $$X_1^{*(b)},\ldots,X_n^{*(b)}
+    \sim
+    F_{\hat\eta}.$$
+
+3.  Calcule
+
+    $$\hat\theta^{*(b)}
+    =
+    s(\mathbf X^{*(b)}).$$
+
+4.  Use as réplicas para estimar erro padrão, viés ou a distribuição de uma estatística.
+
+*Base bibliográfica:* @chihara2022resampling \[Seção 13.2, pp. 449--452\], @thulin2025modern [Seção 7.4.4, pp. 272--273] e @chernick2011introduction [Seção 6.3, p. 139].
+:::
+
+::: {.callout-tip title="Interpretação"}
+O bootstrap paramétrico troca flexibilidade por estrutura. Se o modelo paramétrico estiver bem especificado, essa estrutura pode ser vantajosa. Se estiver mal especificado, a distribuição bootstrap reproduzirá sistematicamente as características do modelo ajustado, inclusive aquelas que não representam a população real.
+:::
+
+### Exemplo: correlação e transformação de Fisher
+
+@chernick2008bootstrap [Seção 3.1.3, pp. 59--61] discute o conhecido exemplo de 15 escolas de direito, para o qual a correlação amostral é aproximadamente
+
+$$\hat\rho=0{,}776.$$
+
+O exemplo é útil porque mostra que a distribuição amostral da correlação pode ser assimétrica e que o intervalo percentil simples pode não reproduzir bem a correção necessária. No caso estudado no livro, um intervalo central de 90% obtido sob a formulação normal bivariada é comparado com versões bootstrap, e a correção de viés aproxima os limites do intervalo de referência.
+
+Para dados aproximadamente normais bivariados, a transformação de Fisher
+
+$$Z
+=
+\frac{1}{2}
+\log\left(
+\frac{1+\hat\rho}{1-\hat\rho}
+\right)$$
+
+é aproximadamente normal, com erro padrão aproximadamente
+
+$$\frac{1}{\sqrt{n-3}}.$$
+
+::: {.callout-observation title="Observação"}
+A expressão
+
+$$\frac{1-\hat\rho^2}{\sqrt{n-3}}$$
+
+pode surgir como aproximação, via transformação inversa ou método delta, para a escala da correlação, mas não deve ser apresentada como “o erro padrão teórico exato” de $\hat\rho$ em geral. A transformação de Fisher é a referência mais adequada para explicar a aproximação normal.
+
+*Base bibliográfica:* o exemplo da correlação e a necessidade de correção são discutidos em @chernick2008bootstrap [pp. 59--61].
+:::
+
+## A unidade correta de reamostragem
+
+Uma das decisões mais importantes no bootstrap é definir **o que deve ser reamostrado**. A regra “sortear linhas com reposição” só é correta quando as linhas são unidades amostrais intercambiáveis no desenho em análise.
+
+### Uma amostra IID
+
+Para
+
+$$X_1,\ldots,X_n\stackrel{\text{iid}}{\sim}F,$$
+
+reamostram-se as $n$ observações individualmente, com reposição.
+
+### Dois grupos independentes
+
+Se há dois grupos provenientes de populações distintas,
+
+$$X_1,\ldots,X_{n_X}\sim F_X$$
 
 e
 
-$$IC_t\left(100(1-\alpha)\%,\Theta\right)=\hat{\Theta} \pm t_{(n-1,\frac{\alpha}{2})}\hat{ep}(\hat{\Theta}).$$
+$$Y_1,\ldots,Y_{n_Y}\sim F_Y,$$
 
-#### IC bootstrap-$t$
+a reamostragem deve ser feita **separadamente dentro de cada grupo**, preservando $n_X$ e $n_Y$.
 
-Agora vamos definir
+```{r}
+#| eval: true
 
-$$Z^{*^b}=\dfrac{ \hat{\Theta}^{*^b} - \hat{\Theta} }{\hat{ep}^{*^b}},$$ em que $\hat{\Theta}^{*^b}=s(\underset{\sim}{X}^{*^b})$ e $\hat{ep}^{*^b}$ são obtidos para cada amostra bootstrap $\underset{\sim}{x}^*$. O percentil $100 \cdot \alpha$ de $Z^{*^b}$ é estimado pelo valor $\hat{t}^{(\alpha)}$, tal que $$ \#\{Z^{*^b}\leq \hat{t}^{(\alpha)} \}/B=\alpha.$$
+set.seed(1234)
+B <- 9999
 
-Por exemplo, se $B=100$ e a confiança para o intervalo é de 90$\%$, a estimativa $\hat{t}^{(0.05)}$ será o quinto maior valor de $Z^{*^b}$ e a estimativa $\hat{t}^{(0.95)}$ será o nonagésimo quinto maior valor de $Z^{*^b}$.
+diff_star <- replicate(B, {
+  x_star <- sample(tratamento,
+                   length(tratamento),
+                   replace = TRUE)
 
-Este procedimento estima a distribuição de $Z$ (quantidade pivotal) diretamente dos dados. Não é necessário a suposição teórica de normalidade e sua distribuição é a mesma para qualquer $\theta$. O intervalo (bilateral) bootstrap-t de confiança $100\times(1-2\alpha)\%$ para o parâmetro $\Theta$, denotado por $IC_t^*\left(100(1-2\alpha)\%,\Theta\right)$, é definido por:
+  y_star <- sample(controle,
+                   length(controle),
+                   replace = TRUE)
 
-$$\left[\hat{\Theta} - \hat{t}^{(1-\alpha)}\hat{ep}(\hat{\Theta}), \hat{\Theta} - \hat{t}^{(\alpha)}\hat{ep}(\hat{\Theta})\right].$$ Emprega-se estimativas \textit{plug-in} para $\hat{\Theta}$ e $\hat{ep}(\hat{\Theta})$; não sendo possível, o erro padrão é estimado usando bootstrap ou jackknife.
+  mean(x_star) - mean(y_star)
+})
+```
 
-::: callout-important
-Se $B\cdot\alpha$ não resultar um número inteiro?
+@thulin2025modern [Seção 7.4.2, pp. 269--270] usa esse princípio em problemas de duas amostras e mostra que o argumento `strata` do pacote `boot` pode preservar os tamanhos dos grupos.
 
-1.  Efron $\&$ Tibshirani (1993): supondo $\alpha \leq 0.5$, faça $k=\mbox{Int}[(B+1)\cdot\alpha]$ (o maior inteiro $\leq (B+1)\cdot\alpha$ ) e defina os percentis empíricos de ordem $100\cdot\alpha$ e $100\cdot(1-\alpha)$, respectivamente, pelo $k$-ésimo e $(B+1-k)$-ésimo maiores valores de $Z^{*^b}$.
+### Dados pareados
 
-2.  Davidson $\&$ Hinkley (1997): interpolação dos percentis.
+Se cada unidade produz um par $(X_i,Y_i)$, reamostrar $X$ e $Y$ independentemente destruiria a associação dentro do par. Há duas estratégias equivalentes em muitos problemas simples:
+
+- reamostrar os pares $(X_i,Y_i)$;
+- formar as diferenças $D_i=X_i-Y_i$ e reamostrar os $D_i$.
+
+::: {.callout-important title="Princípio"}
+A unidade de reamostragem deve preservar a unidade de independência do desenho amostral. Reamostrar no nível errado altera a estrutura probabilística que se pretende aproximar.
 :::
 
-::: {.callout-note title="Considerações"}
-- Este intervalo pode ser fortemente influenciado por poucos valores discrepantes.
+### Dados dependentes
 
-- Em geral, é necessário um valor de $B$ muito superior a 200.
+Para séries temporais ou sequências dependentes, o bootstrap IID que reamostra pontos isoladamente destrói a autocorrelação. Métodos como *moving block bootstrap*, *non-overlapping block bootstrap* e *sieve bootstrap* foram desenvolvidos para preservar aspectos da dependência.
 
-- Para grandes amostras, o IC bootstrap-t pode estar mais próximo do nível de cobertura desejado do que os IC Normal ou t-Student.
+> **Base bibliográfica:** @chernick2008bootstrap \[Capítulo 5, pp. 97--113; Capítulo 9, pp. 180--185\] e @chernick2011introduction [Capítulo 5, pp. 113--135].
 
-- Abaixo, percentis da distribuição $t$-Student com 8 gl, normal padrão e distribuição bootstrap de $Z^{*^b}$ (para o grupo controle no experimento com os ratos; $B=1000$).
+### Regressão
+
+Em regressão, diferentes esquemas correspondem a diferentes pressupostos:
+
+- reamostragem de pares $(x_i,y_i)$;
+- reamostragem de resíduos sob certas condições;
+- *wild bootstrap* para lidar com heterocedasticidade;
+- procedimentos específicos para modelos não lineares.
+
+> **Base bibliográfica:** @chernick2008bootstrap \[Capítulo 4, pp. 78--96\] e @chernick2011introduction [Seções 2.4--2.6, pp. 56--67].
+
+## Intervalos de confiança: ponto de partida
+
+Antes dos intervalos bootstrap, convém separar dois resultados que muitas vezes são indevidamente generalizados.
+
+### Intervalo normal aproximado
+
+Se
+
+$$\frac{\hat\Theta-\Theta}
+{\widehat{ep}(\hat\Theta)}
+\approx
+N(0,1),$$
+
+então um intervalo aproximado de nível $1-\alpha$ é
+
+$$\hat\theta
+\pm
+z_{1-\alpha/2}
+\widehat{ep}(\hat\Theta).$$
+
+Esse procedimento depende da aproximação normal e pode ser inadequado quando a distribuição do estimador é fortemente assimétrica, enviesada ou limitada pelo espaço paramétrico.
+
+### Intervalo $t$ para a média normal
+
+Se
+
+$$X_1,\ldots,X_n
+\stackrel{\text{iid}}{\sim}
+N(\mu,\sigma^2),$$
+
+com $\sigma$ desconhecido, então
+
+$$T
+=
+\frac{\bar X-\mu}
+{S/\sqrt n}
+\sim
+t_{n-1},$$
+
+e o intervalo exato correspondente é
+
+$$\bar x
+\pm
+t_{n-1,\,1-\alpha/2}
+\frac{s}{\sqrt n}.$$
+
+::: {.callout-caution title="Não generalizar a distribuição t"}
+Para um estimador arbitrário $\hat\Theta$, não é correto afirmar que
+
+$$\frac{\hat\Theta-\Theta}
+{\widehat{ep}(\hat\Theta)}
+\sim t_{n-1}$$
+
+apenas porque o erro padrão é desconhecido. O resultado $t_{n-1}$ depende da estrutura probabilística específica da média normal.
+
+*Base bibliográfica:* @chihara2022resampling \[Seção 7.1.2, pp. 188--195\] e @ramachandran2021mathematical [Capítulo 5].
 :::
 
-| percentil   | 5     | 10    | 90   | 95   |
-|-------------|-------|-------|------|------|
-| $t_8$       | -1.86 | -1.40 | 1.40 | 1.86 |
-| Normal      | -1.65 | -1.28 | 1.28 | 1.65 |
-| bootstrap-t | -4.53 | -2.01 | 1.19 | 1.53 |
+## Intervalos de confiança bootstrap
 
-: Comparação dos percentis de diferentes distribuições.
+Sejam
 
-O IC bootstrap-$t$ para $\Theta$ (média do tempo de sobrevivência de ratos não submetidos ao tratamento (grupo controle)):
+$$\hat\theta^{*(1)},\ldots,\hat\theta^{*(B)}$$
 
-$$\left[ 56.22-1.53 \times 13.33, \ 56.22+4.53  \times 13.33\right]=\left[35.82, \ 116.74\right],$$ usado a estimativa \textit{plug-in} para o erro padrão da média.
+as réplicas bootstrap e seja
 
-::: {.callout-tip title="Considerações Finais"}
-- os valores dos percentis bootstrap-$t$ podem não ser simétricos em relação ao zero.
+$$q_\gamma^*$$
 
-- aplicável para estatísticas de localização (média, mediana etc).
+o quantil de ordem $\gamma$ de sua distribuição empírica.
 
-- Cautela no uso envolvendo pequenas amostras (limites do intervalo fora do espaço paramétrico).
+### Intervalo básico
 
-- o $IC^*_t$ não é *transformation-respecting* (ver próxima seção)
+O intervalo bootstrap **básico**, também chamado de intervalo de reflexão ou *reverse percentile* em algumas apresentações, é
+
+$$\left[
+2\hat\theta-q_{1-\alpha/2}^*,
+\;
+2\hat\theta-q_{\alpha/2}^*
+\right].$$
+
+A construção parte da distribuição bootstrap do erro
+
+$$\hat\Theta^*-\hat\theta$$
+
+e reflete os quantis em torno de $\hat\theta$.
+
+> **Base bibliográfica:** @voss2014statistical \[Algoritmo 5.20, pp. 204--206\] e @thulin2025modern [Seção 7.4.2, pp. 268--270].
+
+### Intervalo percentil
+
+O intervalo percentil é
+
+$$\left[
+q_{\alpha/2}^*,
+q_{1-\alpha/2}^*
+\right].$$
+
+::: {.callout-note title="Definição"}
+Para um intervalo de 95%,
+
+$$IC_{\text{perc}}
+=
+\left[
+q_{0.025}^*,
+q_{0.975}^*
+\right].$$
+
+*Base bibliográfica:* @chihara2022resampling \[Seção 5.3, pp. 115--116\], @chernick2008bootstrap [Seção 3.1.2, pp. 57--58] e @thulin2025modern [Seção 7.4.2].
 :::
 
-#### Intervalos de Confiança bootstrap percentil
+::: {.callout-tip title="Interpretação"}
+A assimetria da distribuição bootstrap aparece diretamente nos limites percentis. Isso é uma vantagem sobre intervalos obrigatoriamente simétricos em torno da estimativa.
 
-O intervalo bootstrap percentil de confiança $100(1-2\alpha)\%$, denotado por $IC_p^*\left(100(1-2\alpha)\%,\Theta \right)$, é definido por
-
-$$\left[ \hat\Theta^{*(\alpha)}, \ \hat\Theta^{*(1-\alpha)}\right],$$ em que $\hat\Theta^{*(\alpha)}$ é o percentil de ordem 100$\alpha$ da distribuição bootstrap de $\hat\Theta^*$. Esta definição refere-se a um número infinito de réplicas.
-
-Em situações práticas, o intervalo é aproximado com base nos resultados de $B$ réplicas bootstrap:
-
-$$\left[ \hat\Theta_B^{*(\alpha)}, \ \hat\Theta_B^{*(1-\alpha)}\right],$$ em que $\hat\Theta_B^{*(\alpha)}$ é dado pelo percentil de ordem 100$\alpha$ dos valores de $\hat\theta_B^{*(b)}$, isto é, o $(B\cdot\alpha)$-ésimo valor ordenado da lista das $B$ réplicas de $\hat\theta_B^{*(b)}$.
-
-::: callout-note
-Se a distribuição de $\hat\Theta^{*}$ é aproximadamente normal, os intervalos percentil e normal padrão são próximos.
+Além disso, para uma transformação estritamente monotônica $g$, os quantis transformam-se de forma coerente. Essa propriedade é frequentemente chamada de *transformation-respecting*.
 :::
 
-#### Exemplo {.unnumbered}
+::: {.callout-caution title="Limitação"}
+O intervalo percentil não é universalmente preciso. Em pequenas amostras, especialmente com assimetria, viés ou estatísticas problemáticas, sua cobertura pode se afastar do nível nominal.
 
-Para uma amostra: \va , $n=10$, de uma distribuição (população) normal padrão, considere o parâmetro de interesse $\Theta$. $\Theta=\exp(\mu)$, sendo $\mu=0$. Sendo a estimativa para $\Theta$: $\hat{\theta}=\exp(\bar{x})$. Além disso, use o bootstrap não paramétrico: $B=1000$ réplicas $\hat{\theta}^*$ usando a amostra observada: (1.669, -0.411, -0.322, 0.746, -0.868, -0.874, 1.011, -0.173, 0.021, 1.482). Resultando na estimativa para $\Theta$: $\hat{\theta}=\exp(\bar{x})=1.256$.
+*Base bibliográfica:* @chernick2008bootstrap \[Seções 3.1.2--3.1.3, pp. 57--61\], @chernick2011introduction [Capítulo 3] e @chihara2022resampling [Seção 5.8].
+:::
 
-| 2.5% |  5%  | 10%  | 16%  | 50%  | 84%  | 90%  | 95%  | 97.5% |
-|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:-----:|
-| 0.74 | 0.81 | 0.89 | 0.95 | 1.25 | 1.65 | 1.77 | 2.00 | 2.13  |
+### Intervalo bootstrap-$t$ ou studentizado
 
-: Percentis de $\hat\theta^*$ com base em 1000 réplicas bootstrap.
+Suponha que seja possível calcular, para a amostra original,
 
-Desta maneira, temos que
+$$\widehat{ep}(\hat\Theta)$$
 
-$$IC_p^*\left(95\%,\Theta\right)=\left[0.74, 2.13\right],$$
+e, para cada reamostra,
+
+$$\widehat{ep}^{*(b)}.$$
+
+Define-se
+
+$$T^{*(b)}
+=
+\frac{
+\hat\theta^{*(b)}-\hat\theta
+}{
+\widehat{ep}^{*(b)}
+}.$$
+
+Se $q_\gamma^{T^*}$ denota o quantil $\gamma$ da distribuição dos $T^{*(b)}$, então o intervalo studentizado bilateral é
+
+$$\left[
+\hat\theta
+-
+q_{1-\alpha/2}^{T^*}
+\widehat{ep}(\hat\Theta),
+\;
+\hat\theta
+-
+q_{\alpha/2}^{T^*}
+\widehat{ep}(\hat\Theta)
+\right].$$
+
+> **Base bibliográfica:** @chihara2022resampling \[Seção 7.5.2, pp. 217--224\], @chernick2008bootstrap [Seção 3.1.5, pp. 64--66] e @chernick2011introduction [Seção 3.2, pp. 79--83].
+
+::: {.callout-observation title="Observação"}
+A studentização pode melhorar a aproximação porque procura construir uma quantidade mais próxima de um pivô. A dificuldade é que $\widehat{ep}^{*(b)}$ precisa ser calculado dentro de cada amostra bootstrap. Quando não há fórmula disponível, isso pode exigir um bootstrap interno, isto é, um **bootstrap duplo ou iterado**, aumentando consideravelmente o custo computacional.
+
+*Base bibliográfica:* @chihara2022resampling \[Seção 7.5.2.2, pp. 221--224\] e @chernick2011introduction [Seções 3.2--3.3, pp. 79--85].
+:::
+
+@thulin2025modern [pp. 268--269] observa que intervalos studentizados são teoricamente atraentes, mas podem ser instáveis em algumas aplicações práticas, motivo pelo qual percentil e $BC_a$ são alternativas importantes.
+
+## Intervalo $BC_a$
+
+O intervalo $BC_a$ (*bias-corrected and accelerated*) modifica os níveis percentuais usados no intervalo percentil para corrigir dois aspectos:
+
+1.  **viés de localização**, representado por $z_0$;
+2.  **mudança da variabilidade do estimador com o parâmetro**, representada pela constante de aceleração $a$.
+
+> **Base bibliográfica:** @voss2014statistical \[Algoritmo 5.21, pp. 206--208\], @chernick2008bootstrap [Seção 3.1.3, pp. 58--61], @chernick2011introduction \[Seções 3.4--3.5, pp. 85--88\] e @zieffler2011comparing [Seção 9.5].
+
+### Correção de viés
+
+A correção de viés é estimada por
+
+$$\hat z_0
+=
+\Phi^{-1}
+\left[
+\frac{
+\#\left\{
+\hat\theta^{*(b)}
+<
+\hat\theta
+\right\}
+}{B}
+\right],$$
+
+em que $\Phi$ é a função de distribuição da normal padrão.
+
+Se aproximadamente metade das réplicas está abaixo de $\hat\theta$, então
+
+$$\hat z_0\approx 0.$$
+
+### Constante de aceleração via jackknife
+
+Calcule as réplicas leave-one-out
+
+$$\hat\theta_{(i)}
+=
+s(\mathbf x_{(i)}),
+\qquad i=1,\ldots,n,$$
+
+e sua média
+
+$$\bar\theta_{(\cdot)}
+=
+\frac{1}{n}
+\sum_{i=1}^n
+\hat\theta_{(i)}.$$
+
+A estimativa usual da aceleração é
+
+$$\hat a
+=
+\frac{
+\sum_{i=1}^n
+\left(
+\bar\theta_{(\cdot)}-\hat\theta_{(i)}
+\right)^3
+}{
+6
+\left[
+\sum_{i=1}^n
+\left(
+\bar\theta_{(\cdot)}-\hat\theta_{(i)}
+\right)^2
+\right]^{3/2}
+}.$$
+
+### Níveis ajustados
+
+Para um nível original $\gamma$, define-se
+
+$$\gamma_{\text{adj}}
+=
+\Phi
+\left[
+\hat z_0
++
+\frac{
+\hat z_0+\Phi^{-1}(\gamma)
+}{
+1-
+\hat a
+\left[
+\hat z_0+\Phi^{-1}(\gamma)
+\right]
+}
+\right].$$
+
+Assim, para um intervalo $1-\alpha$, os limites são os quantis bootstrap nos níveis
+
+$$\gamma_L
+=
+\gamma_{\text{adj}}(\alpha/2)$$
 
 e
 
-$$IC_p^*\left(90\%,\Theta\right)=\left[0.81, 2.00\right].$$\
-Abaixo um código `R` para o exemplo.
+$$\gamma_U
+=
+\gamma_{\text{adj}}(1-\alpha/2).$$
+
+O intervalo é
+
+$$IC_{BC_a}
+=
+\left[
+q_{\gamma_L}^*,
+q_{\gamma_U}^*
+\right].$$
+
+::: {.callout-tip title="Interpretação"}
+O $BC_a$ usa informação da distribuição bootstrap para corrigir viés e informação jackknife para ajustar a assimetria da precisão do estimador. Essa conexão é uma das razões pelas quais bootstrap e jackknife são pedagogicamente úteis no mesmo capítulo.
+:::
+
+#### Implementação com o pacote `boot`
 
 ```{r}
-set.seed(1234)
-n <- 10
-x <- rnorm(n) # amostra observada
-B <- 1000     # no. de réplicas bootstrap
-theta <- 0
-alfa <- c(0.025,0.05,0.10,0.16,0.50,0.84,0.90,0.95,0.975)
+#| eval: true
 
-for(i in 1:B){
-  a <- sample(x,n,replace=TRUE)  # amostra bootstrap
-  theta[i] <- exp(mean(a))       # réplica bootstrap 
+library(boot)
+
+media_boot <- function(data, indices) {
+  mean(data[indices])
 }
 
-exp(mean(x)) # estimativa
-sz <- sort(theta)
-rbind(100*alfa, round(sz[c(B*alfa)],2)) 
+resultado <- boot(
+  data = tratamento,
+  statistic = media_boot,
+  R = 9999
+)
+
+boot.ci(
+  resultado,
+  type = c("basic", "perc", "bca")
+)
 ```
 
-Agora iremos considerar outra abordagem. Seja $\Phi=\log(\Theta)$ e $\hat\Phi=\log(\hat\Theta)=\bar{X}$. Usando $IC_z\left(95\%,\Phi \right)= \hat{\Phi} \pm z_{\frac{\alpha}{2}}\hat{ep}(\hat{\Phi})$, resulta $\left[ 0.228 \pm 1.96 \times 0.28 \right]=\left[-0.32, 0.78\right]$, em que $\hat{ep}(\hat{\Phi})$ é o estimador \textit{plug-in} para o erro padrão de $\hat\Phi$. Fazendo a transformação inversa, o intervalo para $\Theta$ é $\left[0.73, 2.18\right]$. Note que o intervalo percentil para $\Theta$ assemelha-se ao intervalo normal padrão construído para uma transformação apropriada de $\Theta$ e transformado para a escala de $\Theta$.
+> **Base bibliográfica:** o uso do pacote `boot` para obter intervalos percentil e $BC_a$ é ilustrado em @thulin2025modern \[Seção 7.4.2, pp. 268--270\] e @zieffler2011comparing [Seção 9.5].
 
-::: callout-important
-**Vantagem do método percentil:** Não é necessário conhecer a transformação (normalizadora). O método percentil incorpora automaticamente a transformação adequada.
+::: {.callout-observation title="Sobre o intervalo ABC"}
+@chernick2011introduction [Seção 3.5, pp. 85--88] também discute o intervalo **ABC** (*approximate bootstrap confidence*), concebido como aproximação computacionalmente eficiente de correções de ordem superior. Para um capítulo introdutório de Estatística Computacional, recomenda-se apresentar o $BC_a$ como método ajustado principal e deixar ABC, *tilting* e bootstrap iterado como extensões.
 :::
 
-::: {.callout-caution title="Lema"}
-Suponha a transformação $\hat\Phi=m(\hat\Theta)$ e, consequentemente, $\hat\Phi\sim N(\Phi,c^2)$, para algum erro padrão $c$. Então, o intervalo percentil para $\Theta$ será dado por $$\left[ m^{-1}(\hat\Phi -z_{\frac{\alpha}{2}}.c), m^{-1}(\hat\Phi +z_{\frac{\alpha}{2}}.c)\right].$$
+## Comparação entre os principais intervalos
+
+| Intervalo | Ideia central | Vantagem | Limitação principal |
+|------------------|------------------|------------------|------------------|
+| Normal | $\hat\theta \pm z\,\widehat{ep}$ | simples | depende de aproximação aproximadamente normal e simétrica |
+| Básico | reflete quantis do erro bootstrap | simples; usa distribuição bootstrap | não é invariante a transformações como o percentil |
+| Percentil | usa quantis de $\hat\theta^*$ | simples; respeita transformações monotônicas | pode ter cobertura inadequada com viés/assimetria |
+| Bootstrap-$t$ | usa quantis de estatística studentizada | pode ter boa precisão assintótica | exige estimar erro padrão em cada reamostra |
+| $BC_a$ | corrige viés e aceleração | geralmente mais adaptável que o percentil simples | cálculo mais complexo; ainda depende da adequação do bootstrap |
+
+> **Base bibliográfica:** síntese baseada em @chernick2008bootstrap \[Capítulo 3\], @chernick2011introduction [Capítulo 3], @chihara2022resampling \[Seções 5.3 e 7.5\] e @thulin2025modern [Seção 7.4.2].
+
+## Testes bootstrap e testes de permutação
+
+Embora ambos sejam métodos de reamostragem, bootstrap e permutação têm objetivos e mecanismos distintos.
+
+::: {.callout-note title="Definição conceitual"}
+Em um **teste de permutação**, a distribuição nula é produzida por rearranjos dos rótulos ou das observações sob uma hipótese de intercambiabilidade compatível com $H_0$.
+
+Em um **teste bootstrap**, deve-se construir uma distribuição de reamostragem que represente explicitamente a hipótese nula. Reamostrar simplesmente a partir da distribuição empírica não impõe, em geral, $H_0$.
 :::
 
-::: callout-note
-- Em situações nas quais o uso de IC padrão é adequado$^*$, o IC percentil produz resultados próximos ao do IC padrão.
+Por exemplo, em um teste de
 
-- Em situações nas quais o uso do IC padrão é adequado apenas após uma transformação no parâmetro, a aplicaçao do método percentil automaticamente contempla essa transformação.
+$$H_0:\mu_1-\mu_2=0,$$
+
+o bootstrap de dois grupos feito separadamente em torno de suas médias observadas reproduz uma diferença centralizada em
+
+$$\bar x-\bar y,$$
+
+e não necessariamente em zero. Para obter uma distribuição nula, é necessário centralizar, ajustar o modelo sob $H_0$ ou usar outra construção apropriada.
+
+> **Base bibliográfica:** @thulin2025modern \[Seção 7.4.3, pp. 270--272\] discute explicitamente que a reamostragem para testes bootstrap deve ser feita sob a hipótese nula. A distinção entre bootstrap e permutação também aparece em @chihara2022resampling [Capítulos 3, 5 e 8].
+
+::: {.callout-caution title="Não usar automaticamente IC por inversão"}
+A inversão de intervalos de confiança pode fornecer testes correspondentes em muitos problemas contínuos, mas não deve ser aplicada mecanicamente a toda situação. @thulin2025modern [pp. 270--272] alerta para dificuldades importantes em certos problemas com parâmetros de distribuições discretas.
 :::
 
-::: {.callout-tip title="Considerações Finais"}
-- Propriedade \textit{transformation-respecting}: o intervalo percentil para qualquer transformação (monotônica) $\Phi=m(\Theta)$ do parâmetro $\Theta$ é dado por $$\left[ m(\hat\Theta^{*(\alpha)}), \ m(\hat\Theta^{*(1-\alpha)}\right].$$
+## Quando o bootstrap pode falhar
 
-- A propriedade também é válida para o intervalo aproximado com base nos resultados de $B$ réplicas bootstrap: $$\left[ m(\hat\Theta_B^{*(\alpha)}), \ m(\hat\Theta_B^{*(1-\alpha)})\right].$$
+O bootstrap é geral, mas não universal. Uma seção explícita sobre limitações é importante em um curso de Estatística Computacional.
 
-- Propriedade *range-preserving*: produz intervalos com limites dentro do espaço paramétrico.
+@chernick2008bootstrap dedica o Capítulo 9 a situações de inconsistência e a possíveis remédios, incluindo amostras pequenas, distribuições com momentos infinitos, estimação de extremos, amostragem de populações finitas ou desenhos complexos, dados dependentes e processos autorregressivos instáveis. @chernick2011introduction apresenta uma discussão análoga no Capítulo 8.
+
+### Amostra original pequena
+
+O bootstrap não cria informação que não esteja na amostra. Se valores importantes da população não aparecem nos dados, $\widehat F_n$ não pode reproduzi-los.
+
+@chihara2022resampling [Seção 5.8, pp. 131--136] enfatiza que o bootstrap não elimina a fragilidade inferencial associada a amostras pequenas.
+
+### Estatísticas não suaves
+
+Estatísticas baseadas em quantis, extremos ou mudanças discretas podem responder de forma irregular a pequenas alterações nos dados. A mediana, por exemplo, pode produzir distribuições bootstrap muito discretas em amostras pequenas.
+
+@chihara2022resampling [Seção 13.1, pp. 444--449] apresenta o **bootstrap suavizado** como uma possibilidade quando a discreção da distribuição empírica é problemática.
+
+### Extremos
+
+A distribuição empírica não contém observações maiores que o máximo nem menores que o mínimo da amostra. Consequentemente, inferência para parâmetros extremos pode exigir métodos especiais, como $m$-out-of-$n$ bootstrap ou procedimentos baseados em modelos.
+
+> **Base bibliográfica:** @chernick2008bootstrap \[Seções 9.3 e 9.9\] e @chernick2011introduction [Seção 8.3].
+
+### Caudas pesadas e momentos inexistentes
+
+Se o alvo depende de momentos que não existem ou são extremamente instáveis, o bootstrap ordinário pode não reproduzir uma distribuição amostral útil.
+
+> **Base bibliográfica:** @chernick2008bootstrap \[Seção 9.2\] e @chernick2011introduction [Seção 8.2].
+
+### Dependência
+
+Reamostrar observações dependentes como se fossem IID destrói a dependência. Em séries temporais, métodos de blocos ou procedimentos baseados em modelos são necessários.
+
+### Desenhos amostrais complexos
+
+Em dados provenientes de estratificação, conglomerados, probabilidades desiguais de seleção ou populações finitas, a reamostragem deve respeitar o desenho. O bootstrap IID de linhas pode produzir erros padrão incorretos.
+
+::: {.callout-important title="Regra de diagnóstico"}
+Antes de executar um bootstrap, pergunte:
+
+1.  Qual é a unidade independente do meu desenho?
+2.  O esquema de reamostragem preserva a dependência, os estratos ou os pares?
+3.  A estatística é suave ou depende de extremos?
+4.  A amostra original contém informação suficiente sobre a característica de interesse?
+5.  A distribuição das réplicas apresenta degenerescência, massas pontuais ou caudas anômalas?
+
+Essas perguntas são mais importantes que escolher entre $B=9\,999$ e $B=19\,999$.
 :::
 
-#### Intervalos de Confiança bootstrap - versões aprimoradas
+## Variantes importantes do bootstrap
 
-O intervalo bootstrap-$t$ apresenta boa probabilidade de cobertura teórica, mas tende a ser irregular na prática. Já o intervalo bootstrap percentil é menos irregular, mas apresenta probabilidade de cobertura menos satisfatória.
+Para um primeiro curso, não é necessário desenvolver todas as variantes em detalhe, mas é importante saber que o bootstrap IID é apenas um membro de uma família maior.
 
-**Proposta:** intervalo bootstrap $BC_a$ (*bias-corrected and accelerated*) e $ABC$ (*approximate bootstrap confidence*).
+::: {.callout-observation title="Observação: variantes"}
+Entre as extensões discutidas nos livros da pasta encontram-se:
 
-substancial melhoria na prática e na teoria. correção de viés do estimador. o $ABC$ exige menos esforço computacional do que o $BC_a$
+- **bootstrap paramétrico**: simulação de um modelo ajustado;
+- **bootstrap suavizado**: reamostragem de uma estimativa suavizada da distribuição;
+- $m$-out-of-$n$ bootstrap: reamostras menores que a amostra original;
+- **bootstrap duplo ou iterado**: um segundo nível de reamostragem;
+- **wild bootstrap**: útil em certos modelos de regressão com heterocedasticidade;
+- **block bootstrap**: preserva dependência local em sequências;
+- **sieve bootstrap**: usa uma aproximação modelada da dependência temporal.
 
+*Base bibliográfica:* @chernick2008bootstrap \[Seção 6.2 e Capítulos 5 e 9\], @chernick2011introduction [Capítulos 5--6 e 8] e @chihara2022resampling [Seções 13.1--13.2].
+:::
 
-## O Método Jackknife
+## Diagnóstico e reprodutibilidade
 
-O Jackknife é um precursor histórico do Bootstrap, proposto inicialmente por Maurice Quenouille (1949) para estimativa de viés e expandido por John Tukey (1958) para estimativa de variância. Enquanto o Bootstrap utiliza sorteios aleatórios com reposição, o Jackknife adota uma abordagem sistemática, baseada na exclusão de uma observação por vez.
+Uma análise bootstrap deve reportar mais que um único número.
 
-### O Princípio "Leave-One-Out"
-
-Dada uma amostra original $\mathbf{x} = (x_1, x_2, \dots, x_n)$, criamos $n$ subamostras de tamanho $n-1$, onde cada amostra $\mathbf{x}_{(i)}$ é obtida removendo-se a $i$-ésima observação. Para cada subamostra, calculamos o estimador de interesse, gerando as chamadas réplicas jackknife: 
-
-$$\hat \theta_{(i)} = g(\mathbf{x}_{(i)}), \quad i = 1, \dots,n .$$
-
-### Estimativa de Viés e Variância
-
-Diferente do Bootstrap, que trata a distribuição empírica de forma direta, o Jackknife utiliza as réplicas para aproximar a influência de cada ponto na estatística.
-
-1. Estimativa Jackknife do Viés: O viés do estimador original $\hat \theta$  é estimado por:
-
-$$\widehat{\text{vies}}_{\text{jack}} = (n-1)(\bar \theta_{\text{jack}} - \hat \theta),$$
-em que $\bar \theta_{\text{jack}} = \frac{1}{n}\sum\limits_{i=1}^{n}\hat \theta_{(i)}$.
-
-2. Estimativa Jackknife da Variância: A variância de $\hat \theta$ é calculada pela dispersão das réplicas em relação à sua média:
-
-
-$$\widehat{\text{var}}_{\text{jack}} = \frac{(n-1)}{n}\sum\limits_{i=1}^{n}  (\hat \theta_{(i)} - \bar \theta_{\text{jack}})^2.$$
-Algumas considerações importantes:
-
-- Bootstrap: amostragem aleatória com reposição;
-
-- Jackknife: amostras fixas;
-
-- Jackknife requer o cálculo do estimador apenas para $n$ amostras;
-
-- A acurácia do estimador jackknife do erro padrão depende de quão próximo o estimador é da linearidade. Para funções fortemente não lineares, o jackknife pode ser ineficiente;
-
-- Estimador linear: $\hat{\theta}=s(\underset{\sim}{X})=\mu +\frac{1}{n}\sum_{i=1}^n\alpha(X_i).$
-
-#### Exemplo {.unnumbered}
-
-Considere a amostra observada: $\underset{\sim}{x}=(10,26,30,40,48)$ e o estimador: mediana($\hat{\Theta}$). As amostras e réplicas jackknife são dadas, respectivamente, por:
-
-1.  ${\underset{\sim}{x}}_{(1)}=(26,30,40,48)$ e $\hat{\theta}_{(1)}=35;$
-2.  ${\underset{\sim}{x}}_{(2)}=(10,30,40,48)$ e $\hat{\theta}_{(2)}=35;$
-3.  ${\underset{\sim}{x}}_{(3)}=(10,26,40,48)$ e $\hat{\theta}_{(3)}=33;$
-4.  ${\underset{\sim}{x}}_{(4)}=(10,26,30,48)$ e $\hat{\theta}_{(4)}=28;$
-5.  ${\underset{\sim}{x}}_{(5)}=(10,26,30,40)$ e $\hat{\theta}_{(5)}=28.$
-
-Desta forma, a estimativa jackknife do erro padrão de $\hat{\theta}$:
-$$\widehat{ep}_{jack} =\left[ \dfrac{4}{5}\sum_{i=1}^5 (\hat{\theta}_{(i)} - \bar \theta_{\text{jack}})^2\right]^{\frac{1}{2}}\approx 6.38,$$
-em que $\bar \theta_{\text{jack}}=\sum_{i=1}^5\dfrac{\hat{\theta}_{(i)}}{5}=31.8.$
-
-
-
-### Exemplos Computacionais em R
-
-Diferente do Bootstrap, que exige o uso de `sample(..., replace = TRUE)`, o Jackknife é implementado através da exclusão de índices (`data[-i]`). 
-
-
-**Exemplo 1:** Estimando o Viés da Variância Amostral
-
-Sabemos que o estimador da variância que divide pela soma por $n$ (em vez de $n-1$) é viesado. Vamos usar o Jackknife para detectar esse viés.
+### Inspecionar centro, dispersão e forma
 
 ```{r}
-# Dados de exemplo
-set.seed(42)
-dados <- rnorm(20, mean = 10, sd = 2)
-n <- length(dados)
+#| eval: true
 
-# Estimador viesado da variância (divisão por n)
-var_viesada <- function(x) sum((x - mean(x))^2) / length(x)
-theta_hat <- var_viesada(dados)
+hist(
+  diff_star,
+  breaks = 40,
+  main = "Distribuição bootstrap",
+  xlab = "Diferença de médias"
+)
 
-# Réplicas Jackknife
-jack_reps <- numeric(n)
-for(i in 1:n) {
-  jack_reps[i] <- var_viesada(dados[-i])
-}
-
-# Cálculo do Viés Jackknife
-theta_jack_bar <- mean(jack_reps)
-bias_jack <- (n - 1) * (theta_jack_bar - theta_hat)
-
-cat("Estimativa original:", theta_hat, "\n")
-cat("Viés estimado via Jackknife:", bias_jack, "\n")
-cat("Estimativa corrigida (Jackknife):", theta_hat - bias_jack, "\n")
+mean(diff_star)
+sd(diff_star)
+quantile(diff_star, c(0.025, 0.5, 0.975))
 ```
 
+É útil comparar
 
-**Exemplo 2:** Variância da Mediana
+$$\overline{\theta^*}
+\quad\text{com}\quad
+\hat\theta$$
 
-O Jackknife é útil para estimadores onde não temos uma fórmula de variância analítica simples, como a mediana.
+e expressar o viés estimado em unidades do erro padrão:
+
+$$\frac{
+\widehat{\operatorname{bias}}_{\text{boot}}
+}{
+\widehat{ep}_{\text{boot}}
+}.$$
+
+Um viés pequeno em termos absolutos pode ser relevante se o erro padrão também for pequeno.
+
+### Verificar estabilidade em $B$
+
+Repita o cálculo para diferentes sementes ou valores crescentes de $B$. Os limites dos intervalos, particularmente os de cauda, devem apresentar estabilidade adequada ao número de casas decimais que será reportado.
+
+### Fixar semente quando o objetivo é reprodutibilidade
 
 ```{r}
-# Dados originais
-x <- c(56, 101, 78, 67, 93, 87, 64, 72, 80, 69)
-n <- length(x)
-
-# Réplicas para a mediana
-jack_med <- numeric(n)
-for(i in 1:n) {
-  jack_med[i] <- median(x[-i])
-}
-
-# Estimativa da Variância Jackknife
-med_jack_bar <- mean(jack_med)
-var_jack_med <- ((n - 1) / n) * sum((jack_med - med_jack_bar)^2)
-se_jack_med <- sqrt(var_jack_med)
-
-cat("Mediana Amostral:", median(x), "\n")
-cat("Erro Padrão Jackknife da Mediana:", se_jack_med, "\n")
+set.seed(2026)
 ```
 
+A semente não melhora a qualidade estatística do método; ela apenas torna reproduzível a realização pseudoaleatória usada no cálculo.
 
-### Jackknife vs. Bootstrap
+### Reportar o desenho de reamostragem
+
+Em um trabalho científico, registre explicitamente:
+
+- a estatística reamostrada;
+- o valor de $B$;
+- a unidade de reamostragem;
+- se a reamostragem foi estratificada, pareada ou em blocos;
+- o tipo de intervalo;
+- a semente, quando necessária à reprodução exata.
+
+## O método jackknife
+
+O jackknife precede historicamente o bootstrap e usa uma construção determinística baseada na exclusão de uma observação de cada vez. Chernick apresenta o jackknife como método relacionado ao bootstrap e destaca sua utilidade histórica para correção de viés e estimação de variância.
+
+> **Base bibliográfica:** @chernick2008bootstrap \[Seção 6.1.1, pp. 115--116\], @chernick2011introduction [Seção 1.2.1, pp. 6--7] e @ramachandran2021mathematical [Seção 13.2, pp. 532--534].
+
+### Réplicas leave-one-out
+
+Seja
+
+$$\mathbf{x}
+=
+(x_1,\ldots,x_n).$$
+
+Defina
+
+$$\mathbf{x}_{(i)}
+=
+(x_1,\ldots,x_{i-1},x_{i+1},\ldots,x_n),$$
+
+isto é, a amostra com a observação $i$ removida.
+
+::: {.callout-note title="Definição"}
+A $i$-ésima réplica jackknife é
+
+$$\hat\theta_{(i)}
+=
+s(\mathbf{x}_{(i)}),
+\qquad
+i=1,\ldots,n.$$
+
+A média das réplicas é
+
+$$\bar\theta_{(\cdot)}
+=
+\frac{1}{n}
+\sum_{i=1}^n
+\hat\theta_{(i)}.$$
+:::
+
+Ao contrário do bootstrap Monte Carlo, o jackknife leave-one-out produz exatamente $n$ réplicas e não envolve uma escolha de $B$.
+
+### Estimativa jackknife do viés
+
+A estimativa do viés é
+
+$$\widehat{\operatorname{bias}}_{\text{jack}}
+=
+(n-1)
+\left(
+\bar\theta_{(\cdot)}
+-
+\hat\theta
+\right).$$
+
+Uma estimativa corrigida por viés é
+
+$$\hat\theta_{\text{jack,corr}}
+=
+\hat\theta
+-
+\widehat{\operatorname{bias}}_{\text{jack}}.$$
+
+### Estimativa jackknife da variância
+
+A estimativa de variância é
+
+$$\widehat{\operatorname{Var}}_{\text{jack}}(\hat\Theta)
+=
+\frac{n-1}{n}
+\sum_{i=1}^n
+\left(
+\hat\theta_{(i)}
+-
+\bar\theta_{(\cdot)}
+\right)^2,$$
+
+e o erro padrão jackknife é
+
+$$\widehat{ep}_{\text{jack}}
+=
+\sqrt{
+\widehat{\operatorname{Var}}_{\text{jack}}(\hat\Theta)
+}.$$
+
+> **Base bibliográfica:** @chernick2008bootstrap [Seção 6.1.1, pp. 115--116].
+
+## Pseudovalores jackknife
+
+Os pseudovalores fornecem outra forma de representar a informação leave-one-out.
+
+::: {.callout-note title="Definição"}
+O $i$-ésimo pseudovalor é
+
+$$p_i
+=
+n\hat\theta
+-
+(n-1)\hat\theta_{(i)}.$$
+
+A média dos pseudovalores é
+
+$$\bar p
+=
+\frac{1}{n}
+\sum_{i=1}^n p_i.$$
+
+*Base bibliográfica:* @chernick2008bootstrap [Seção 6.1.1, pp. 115--116].
+:::
+
+Em problemas regulares, os pseudovalores ajudam a interpretar a influência de cada observação sobre a estatística. A dispersão das réplicas leave-one-out também é exatamente a informação utilizada na estimativa da aceleração do intervalo $BC_a$.
+
+::: {.callout-tip title="Interpretação"}
+Se remover a observação $i$ altera muito $\hat\theta$, então $\hat\theta_{(i)}$ se afasta das demais réplicas. Isso sinaliza que a observação tem grande influência sobre a estatística.
+
+Essa leitura aproxima o jackknife de ideias de diagnóstico de influência, embora uma análise formal de influência dependa do problema e do estimador.
+:::
+
+## Implementação do jackknife em R
+
+```{r}
+#| eval: true
+
+jackknife <- function(x, stat = mean) {
+  n <- length(x)
+
+  theta_hat <- stat(x)
+
+  theta_loo <- sapply(seq_len(n), function(i) {
+    stat(x[-i])
+  })
+
+  theta_bar <- mean(theta_loo)
+
+  bias <- (n - 1) * (theta_bar - theta_hat)
+
+  variance <- ((n - 1) / n) *
+    sum((theta_loo - theta_bar)^2)
+
+  pseudo <- n * theta_hat -
+    (n - 1) * theta_loo
+
+  list(
+    estimate = theta_hat,
+    leave_one_out = theta_loo,
+    bias = bias,
+    se = sqrt(variance),
+    pseudo_values = pseudo
+  )
+}
+```
+
+### Exemplo didático com a mediana
+
+Considere a amostra
+
+$$\mathbf{x}
+=
+(10,26,30,40,48).$$
+
+As réplicas leave-one-out da mediana são
+
+$$35,\;35,\;33,\;28,\;28.$$
+
+Logo,
+
+$$\bar\theta_{(\cdot)}
+=
+31{,}8.$$
+
+A variância jackknife é
+
+$$\widehat{\operatorname{Var}}_{\text{jack}}
+=
+\frac{4}{5}
+\sum_{i=1}^5
+\left(
+\hat\theta_{(i)}-31{,}8
+\right)^2,$$
+
+e o erro padrão é a raiz quadrada dessa quantidade.
+
+```{r}
+#| eval: true
+
+x <- c(10, 26, 30, 40, 48)
+jackknife(x, median)
+```
+
+## Limitações do jackknife
+
+O jackknife funciona particularmente bem para estatísticas suficientemente suaves, nas quais remover uma observação produz uma perturbação informativa e aproximadamente linear.
+
+Para estatísticas não suaves, como alguns quantis e extremos, as réplicas podem assumir poucos valores distintos e a aproximação da variância pode ser deficiente. O bootstrap costuma oferecer maior flexibilidade nesses casos, embora também possa ter dificuldades com pequenas amostras e estatísticas extremas.
+
+> **Base bibliográfica:** @chernick2008bootstrap \[Seção 6.1.1, pp. 115--116\] discute a relação entre jackknife e bootstrap para estimação de erro padrão e registra que o bootstrap pode apresentar desempenho superior em problemas nos quais a aproximação jackknife é limitada. @chernick2011introduction [Seção 1.2.1] apresenta a relação entre os dois métodos.
+
+## Bootstrap e jackknife: comparação
+
+| Aspecto | Bootstrap | Jackknife |
+|------------------------|------------------------|------------------------|
+| Reamostragem | aleatória, geralmente com reposição | sistemática, deixa uma observação de fora |
+| Número de réplicas | escolhido pelo analista: $B$ | exatamente $n$ no leave-one-out |
+| Erro de Monte Carlo | sim, se implementado por $B<\infty$ | não |
+| Erro padrão | desvio padrão das réplicas bootstrap | fórmula baseada nas réplicas leave-one-out |
+| Viés | $\overline{\theta^*}-\hat\theta$ | $(n-1)(\bar\theta_{(\cdot)}-\hat\theta)$ |
+| Intervalos de confiança | várias famílias: básico, percentil, $t$, $BC_a$ | menos geral como mecanismo direto de IC |
+| Não linearidade | geralmente mais flexível | melhor para estatísticas suficientemente suaves |
+| Relação com $BC_a$ | fornece os quantis bootstrap | jackknife estima a aceleração |
+| Dependência | exige esquema específico | leave-one-out simples também pode ser inadequado |
+
+## Um fluxo de trabalho recomendado em R
+
+Para uma análise bootstrap aplicada, uma sequência didática robusta é:
+
+1.  definir claramente o parâmetro e a estatística;
+2.  identificar a unidade de independência;
+3.  construir a função que calcula a estatística em uma amostra;
+4.  escolher o esquema de reamostragem;
+5.  usar $B$ suficientemente grande para o objetivo;
+6.  inspecionar a distribuição das réplicas;
+7.  estimar viés e erro padrão;
+8.  comparar intervalos percentil e $BC_a$ e, quando apropriado, básico ou studentizado;
+9.  aumentar $B$ e verificar estabilidade;
+10. registrar semente, $B$, desenho e tipo de intervalo.
+
+### Exemplo com `boot`
+
+```{r}
+#| eval: true
+
+library(boot)
+
+estatistica <- function(data, indices) {
+  median(data[indices])
+}
+
+set.seed(2026)
+
+ajuste <- boot(
+  data = tratamento,
+  statistic = estatistica,
+  R = 9999
+)
+
+ajuste$t0
+mean(ajuste$t)
+sd(ajuste$t)
+
+boot.ci(
+  ajuste,
+  type = c("basic", "perc", "bca")
+)
+```
+
+::: {.callout-observation title="Observação"}
+No pacote `boot`, a função fornecida pelo usuário recebe os dados originais e os índices da reamostra. Essa estrutura é útil porque separa a **estatística** da **estratégia de reamostragem**.
+
+*Base bibliográfica:* @thulin2025modern [Seção 7.4.1, pp. 266--268].
+:::
+
+## Resumo
+
+::: {.callout-note title="Síntese"}
+O bootstrap substitui a distribuição populacional desconhecida por uma distribuição estimada e usa reamostragem para aproximar a distribuição de uma estatística. Na versão não paramétrica,
+
+$$F
+\longrightarrow
+\widehat F_n.$$
+
+A partir das réplicas
+
+$$\hat\theta^{*(1)},\ldots,\hat\theta^{*(B)},$$
+
+estimam-se, entre outras quantidades,
+
+$$\widehat{\operatorname{bias}}_{\text{boot}}
+=
+\overline{\theta^*}-\hat\theta$$
+
+e
+
+$$\widehat{ep}_{\text{boot}}
+=
+sd\left(
+\hat\theta^{*(1)},\ldots,\hat\theta^{*(B)}
+\right).$$
+
+O jackknife usa as $n$ amostras leave-one-out e fornece
+
+$$\widehat{\operatorname{bias}}_{\text{jack}}
+=
+(n-1)
+\left(
+\bar\theta_{(\cdot)}-\hat\theta
+\right)$$
+
+e
+
+$$\widehat{\operatorname{Var}}_{\text{jack}}
+=
+\frac{n-1}{n}
+\sum_{i=1}^n
+\left(
+\hat\theta_{(i)}
+-
+\bar\theta_{(\cdot)}
+\right)^2.$$
+
+A qualidade de ambos os métodos depende da relação entre a amostra observada, a estatística e a estrutura probabilística dos dados. Reamostrar incorretamente ou trabalhar com uma amostra pouco informativa não é corrigido por aumentar o esforço computacional.
+:::
+
+## Exercícios
+
+::: {.callout-tip title="Exercício 1 — erro padrão bootstrap"}
+Considere os tempos do grupo tratamento do exemplo do manuscrito.
+
+1.  Estime o erro padrão bootstrap da média usando $B=500$, $2\,000$, $10\,000$ e $50\,000$.
+2.  Repita o cálculo para a mediana.
+3.  Faça um gráfico de $\widehat{ep}_{\text{boot}}$ contra $B$.
+4.  Discuta qual estatística apresenta maior estabilidade para essa amostra.
 
 
-1. Sistemático vs. Aleatório: O Jackknife produz sempre o mesmo resultado para o mesmo dataset, enquanto o Bootstrap depende do número de simulações $B$ e da semente aleatória.
+::: {.callout-tip title="Exercício 2 — viés"}
+Para a mesma amostra:
 
-2. Custo Computacional: O Jackknife exige exatamente $n$ iterações. O Bootstrap geralmente exige $B \geq 1000$ para precisão.
+1.  estime o viés bootstrap da média;
+2.  estime o viés bootstrap da mediana;
+3.  expresse cada viés em unidades do erro padrão bootstrap;
+4.  discuta por que “viés pequeno” deve ser avaliado em relação à escala da incerteza.
+:::
 
-3. Limitação: O Jackknife falha com estatísticas não suaves (como a mediana em amostras muito pequenas), onde o Bootstrap tende a ser mais robusto.
+::: {.callout-tip title="Exercício 3 — intervalos"}
+Construa intervalos de confiança de 95% para a média usando:
+
+1.  o intervalo $t$ clássico;
+2.  o intervalo bootstrap básico;
+3.  o intervalo percentil;
+4.  o intervalo $BC_a$.
+
+Compare centro, comprimento e assimetria dos intervalos. Explique por que os resultados não precisam coincidir.
+:::
+
+::: {.callout-tip title="Exercício 4 — dois grupos independentes"}
+Use os dois grupos do exemplo dos ratos.
+
+1.  Estime a diferença de médias.
+2.  Faça bootstrap reamostrando cada grupo separadamente.
+3.  Construa um intervalo percentil de 95%.
+4.  Explique por que juntar todos os 16 valores e reamostrar sem preservar os grupos não representa o mesmo problema inferencial.
+:::
+
+::: {.callout-tip title="Exercício 5 — dados pareados"}
+Considere pares $(X_i,Y_i)$ observados nos mesmos indivíduos.
+
+1.  Escreva um algoritmo bootstrap que reamostre pares.
+2.  Escreva um algoritmo equivalente baseado nas diferenças $D_i=X_i-Y_i$.
+3.  Mostre, por simulação, o que acontece com o erro padrão se $X$ e $Y$ forem reamostrados independentemente quando existe forte correlação positiva dentro dos pares.
+:::
+
+::: {.callout-tip title="Exercício 6 — escolha de B"}
+Escolha uma estatística e uma amostra. Para cada
+
+$$B\in
+\{500,1000,5000,10000,20000\},$$
+
+repita o bootstrap com dez sementes distintas.
+
+1.  Calcule a variabilidade do erro padrão estimado entre as dez execuções.
+2.  Faça o mesmo para os limites de um intervalo percentil de 95%.
+3.  Explique por que os limites de cauda tendem a exigir mais réplicas que uma medida central da distribuição bootstrap.
+:::
+
+::: {.callout-tip title="Exercício 7 — jackknife"}
+Para
+
+$$x=(10,26,30,40,48),$$
+
+calcule manualmente:
+
+1.  as cinco réplicas jackknife da mediana;
+2.  a média das réplicas;
+3.  a estimativa do viés;
+4.  a variância e o erro padrão jackknife;
+5.  os cinco pseudovalores.
+
+Compare os resultados com a função `jackknife()` apresentada no capítulo.
+:::
+
+::: {.callout-tip title="Exercício 8 — aceleração do BCa"}
+Use as réplicas jackknife do exercício anterior para calcular
+
+$$\hat a
+=
+\frac{
+\sum_i
+(\bar\theta_{(\cdot)}-\hat\theta_{(i)})^3
+}{
+6
+\left[
+\sum_i
+(\bar\theta_{(\cdot)}-\hat\theta_{(i)})^2
+\right]^{3/2}
+}.$$
+
+Interprete o sinal e a magnitude obtidos. Em seguida, compare com o intervalo `boot.ci(..., type = "bca")`.
+:::
+
+::: {.callout-tip title="Exercício 9 — bootstrap versus permutação"}
+Considere um problema de comparação de duas médias.
+
+1.  Explique qual distribuição é aproximada pelo bootstrap de cada grupo separadamente.
+2.  Explique qual distribuição é produzida ao permutar os rótulos sob intercambiabilidade.
+3.  Discuta por que um teste de hipótese exige uma distribuição compatível com $H_0$.
+:::
+
+::: {.callout-tip title="Exercício 10 — situação em que o bootstrap IID é inadequado"}
+Simule uma série AR(1)
+
+$$X_t
+=
+0{,}8X_{t-1}
++
+\varepsilon_t,
+\qquad
+\varepsilon_t\sim N(0,1).$$
+
+Estime o erro padrão da média por:
+
+1.  bootstrap IID de observações;
+2.  simulação Monte Carlo a partir do modelo conhecido.
+
+Compare as estimativas. Explique por que reamostrar pontos isoladamente destrói a dependência temporal. Pesquise, nos livros da pasta, como o *block bootstrap* procura corrigir esse problema.
+
+*Base de leitura:* @chernick2008bootstrap \[Capítulo 5\] e @chernick2011introduction [Capítulo 5].
+:::
 
 
-
-
+# Referências {.unnumbered}

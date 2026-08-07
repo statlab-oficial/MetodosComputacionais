@@ -54,7 +54,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 1em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -221,19 +241,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./em.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Algoritmo EM</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./metodosadicionais.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Aplicações Modernas em Estatística Computacional</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Referências</span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Algoritmo EM: máxima verossimilhança com dados incompletos e variáveis latentes</span></span></a>
   </div>
 </li>
     </ul>
@@ -246,20 +254,80 @@ window.Quarto = {
     <h2 id="toc-title">Índice</h2>
    
   <ul>
-  <li><a href="#geração-de-sequências-u01" id="toc-geração-de-sequências-u01" class="nav-link active" data-scroll-target="#geração-de-sequências-u01"><span class="header-section-number">2.1</span> Geração de sequências <span class="math inline">\(U(0,1)\)</span></a></li>
-  <li><a href="#por-que-pseudoaleatórios" id="toc-por-que-pseudoaleatórios" class="nav-link" data-scroll-target="#por-que-pseudoaleatórios"><span class="header-section-number">2.2</span> Por que “Pseudoaleatórios”?</a></li>
-  <li><a href="#o-gerador-congruencial-linear-gcl" id="toc-o-gerador-congruencial-linear-gcl" class="nav-link" data-scroll-target="#o-gerador-congruencial-linear-gcl"><span class="header-section-number">2.3</span> O Gerador Congruencial Linear (GCL)</a>
+  <li><a href="#objetivos-de-aprendizagem" id="toc-objetivos-de-aprendizagem" class="nav-link active" data-scroll-target="#objetivos-de-aprendizagem"><span class="header-section-number">2.1</span> Objetivos de aprendizagem</a></li>
+  <li><a href="#a-uniformidade-como-base-da-simulação" id="toc-a-uniformidade-como-base-da-simulação" class="nav-link" data-scroll-target="#a-uniformidade-como-base-da-simulação"><span class="header-section-number">2.2</span> A uniformidade como base da simulação</a></li>
+  <li><a href="#aleatoriedade-física-e-pseudoaleatoriedade" id="toc-aleatoriedade-física-e-pseudoaleatoriedade" class="nav-link" data-scroll-target="#aleatoriedade-física-e-pseudoaleatoriedade"><span class="header-section-number">2.3</span> Aleatoriedade física e pseudoaleatoriedade</a></li>
+  <li><a href="#estado-semente-transição-e-saída" id="toc-estado-semente-transição-e-saída" class="nav-link" data-scroll-target="#estado-semente-transição-e-saída"><span class="header-section-number">2.4</span> Estado, semente, transição e saída</a></li>
+  <li><a href="#semente-e-reprodutibilidade" id="toc-semente-e-reprodutibilidade" class="nav-link" data-scroll-target="#semente-e-reprodutibilidade"><span class="header-section-number">2.5</span> Semente e reprodutibilidade</a>
   <ul class="collapse">
-  <li><a href="#escolha-de-parâmetros-e-período" id="toc-escolha-de-parâmetros-e-período" class="nav-link" data-scroll-target="#escolha-de-parâmetros-e-período"><span class="header-section-number">2.3.1</span> Escolha de Parâmetros e Período</a></li>
+  <li><a href="#reprodutibilidade-em-r" id="toc-reprodutibilidade-em-r" class="nav-link" data-scroll-target="#reprodutibilidade-em-r"><span class="header-section-number">2.5.1</span> Reprodutibilidade em R</a></li>
   </ul></li>
-  <li><a href="#implementação-no-r" id="toc-implementação-no-r" class="nav-link" data-scroll-target="#implementação-no-r"><span class="header-section-number">2.4</span> Implementação no R</a>
+  <li><a href="#da-sequência-inteira-à-sequência-pseudo-uniforme" id="toc-da-sequência-inteira-à-sequência-pseudo-uniforme" class="nav-link" data-scroll-target="#da-sequência-inteira-à-sequência-pseudo-uniforme"><span class="header-section-number">2.6</span> Da sequência inteira à sequência pseudo-uniforme</a></li>
+  <li><a href="#gerador-congruencial-linear" id="toc-gerador-congruencial-linear" class="nav-link" data-scroll-target="#gerador-congruencial-linear"><span class="header-section-number">2.7</span> Gerador Congruencial Linear</a>
   <ul class="collapse">
-  <li><a href="#por-que-o-gcl-funciona" id="toc-por-que-o-gcl-funciona" class="nav-link" data-scroll-target="#por-que-o-gcl-funciona">Por que o GCL funciona?</a></li>
+  <li><a href="#algoritmo" id="toc-algoritmo" class="nav-link" data-scroll-target="#algoritmo"><span class="header-section-number">2.7.1</span> Algoritmo</a></li>
+  <li><a href="#exemplo-com-período-pequeno" id="toc-exemplo-com-período-pequeno" class="nav-link" data-scroll-target="#exemplo-com-período-pequeno"><span class="header-section-number">2.7.2</span> Exemplo com período pequeno</a></li>
   </ul></li>
-  <li><a href="#como-validar-um-gerador" id="toc-como-validar-um-gerador" class="nav-link" data-scroll-target="#como-validar-um-gerador"><span class="header-section-number">2.5</span> Como validar um Gerador?</a>
+  <li><a href="#implementação-didática-do-gcl-em-r" id="toc-implementação-didática-do-gcl-em-r" class="nav-link" data-scroll-target="#implementação-didática-do-gcl-em-r"><span class="header-section-number">2.8</span> Implementação didática do GCL em R</a>
   <ul class="collapse">
-  <li><a href="#limitações" id="toc-limitações" class="nav-link" data-scroll-target="#limitações">Limitações</a></li>
+  <li><a href="#exemplo" id="toc-exemplo" class="nav-link" data-scroll-target="#exemplo"><span class="header-section-number">2.8.1</span> Exemplo</a></li>
   </ul></li>
+  <li><a href="#periodicidade" id="toc-periodicidade" class="nav-link" data-scroll-target="#periodicidade"><span class="header-section-number">2.9</span> Periodicidade</a>
+  <ul class="collapse">
+  <li><a href="#encontrando-o-período-em-exemplos-pequenos" id="toc-encontrando-o-período-em-exemplos-pequenos" class="nav-link" data-scroll-target="#encontrando-o-período-em-exemplos-pequenos"><span class="header-section-number">2.9.1</span> Encontrando o período em exemplos pequenos</a></li>
+  </ul></li>
+  <li><a href="#condições-para-período-completo-no-gcl-misto" id="toc-condições-para-período-completo-no-gcl-misto" class="nav-link" data-scroll-target="#condições-para-período-completo-no-gcl-misto"><span class="header-section-number">2.10</span> Condições para período completo no GCL misto</a></li>
+  <li><a href="#o-minimal-standard-lcg" id="toc-o-minimal-standard-lcg" class="nav-link" data-scroll-target="#o-minimal-standard-lcg"><span class="header-section-number">2.11</span> O minimal standard LCG</a>
+  <ul class="collapse">
+  <li><a href="#implementação-didática" id="toc-implementação-didática" class="nav-link" data-scroll-target="#implementação-didática"><span class="header-section-number">2.11.1</span> Implementação didática</a></li>
+  </ul></li>
+  <li><a href="#período-longo-não-é-suficiente" id="toc-período-longo-não-é-suficiente" class="nav-link" data-scroll-target="#período-longo-não-é-suficiente"><span class="header-section-number">2.12</span> Período longo não é suficiente</a></li>
+  <li><a href="#uniformidade-marginal" id="toc-uniformidade-marginal" class="nav-link" data-scroll-target="#uniformidade-marginal"><span class="header-section-number">2.13</span> Uniformidade marginal</a>
+  <ul class="collapse">
+  <li><a href="#histograma" id="toc-histograma" class="nav-link" data-scroll-target="#histograma"><span class="header-section-number">2.13.1</span> Histograma</a></li>
+  </ul></li>
+  <li><a href="#regularidade-excessiva-também-é-um-defeito" id="toc-regularidade-excessiva-também-é-um-defeito" class="nav-link" data-scroll-target="#regularidade-excessiva-também-é-um-defeito"><span class="header-section-number">2.14</span> Regularidade excessiva também é um defeito</a></li>
+  <li><a href="#teste-qui-quadrado-por-blocos" id="toc-teste-qui-quadrado-por-blocos" class="nav-link" data-scroll-target="#teste-qui-quadrado-por-blocos"><span class="header-section-number">2.15</span> Teste qui-quadrado por blocos</a>
+  <ul class="collapse">
+  <li><a href="#implementação-em-r" id="toc-implementação-em-r" class="nav-link" data-scroll-target="#implementação-em-r"><span class="header-section-number">2.15.1</span> Implementação em R</a></li>
+  </ul></li>
+  <li><a href="#dependência-serial" id="toc-dependência-serial" class="nav-link" data-scroll-target="#dependência-serial"><span class="header-section-number">2.16</span> Dependência serial</a>
+  <ul class="collapse">
+  <li><a href="#comparação-em-r" id="toc-comparação-em-r" class="nav-link" data-scroll-target="#comparação-em-r"><span class="header-section-number">2.16.1</span> Comparação em R</a></li>
+  </ul></li>
+  <li><a href="#autocorrelação" id="toc-autocorrelação" class="nav-link" data-scroll-target="#autocorrelação"><span class="header-section-number">2.17</span> Autocorrelação</a></li>
+  <li><a href="#equidistribuição-multidimensional" id="toc-equidistribuição-multidimensional" class="nav-link" data-scroll-target="#equidistribuição-multidimensional"><span class="header-section-number">2.18</span> Equidistribuição multidimensional</a></li>
+  <li><a href="#estrutura-reticular-dos-geradores-lineares" id="toc-estrutura-reticular-dos-geradores-lineares" class="nav-link" data-scroll-target="#estrutura-reticular-dos-geradores-lineares"><span class="header-section-number">2.19</span> Estrutura reticular dos geradores lineares</a>
+  <ul class="collapse">
+  <li><a href="#o-exemplo-randu" id="toc-o-exemplo-randu" class="nav-link" data-scroll-target="#o-exemplo-randu"><span class="header-section-number">2.19.1</span> O exemplo RANDU</a></li>
+  </ul></li>
+  <li><a href="#testes-empíricos-e-baterias-de-testes" id="toc-testes-empíricos-e-baterias-de-testes" class="nav-link" data-scroll-target="#testes-empíricos-e-baterias-de-testes"><span class="header-section-number">2.20</span> Testes empíricos e baterias de testes</a></li>
+  <li><a href="#famílias-de-geradores-além-do-gcl" id="toc-famílias-de-geradores-além-do-gcl" class="nav-link" data-scroll-target="#famílias-de-geradores-além-do-gcl"><span class="header-section-number">2.21</span> Famílias de geradores além do GCL</a></li>
+  <li><a href="#geradores-recursivos-múltiplos" id="toc-geradores-recursivos-múltiplos" class="nav-link" data-scroll-target="#geradores-recursivos-múltiplos"><span class="header-section-number">2.22</span> Geradores recursivos múltiplos</a></li>
+  <li><a href="#geradores-lineares-módulo-2-e-mersenne-twister" id="toc-geradores-lineares-módulo-2-e-mersenne-twister" class="nav-link" data-scroll-target="#geradores-lineares-módulo-2-e-mersenne-twister"><span class="header-section-number">2.23</span> Geradores lineares módulo 2 e Mersenne Twister</a></li>
+  <li><a href="#geradores-combinados" id="toc-geradores-combinados" class="nav-link" data-scroll-target="#geradores-combinados"><span class="header-section-number">2.24</span> Geradores combinados</a></li>
+  <li><a href="#múltiplos-fluxos-e-simulação-paralela" id="toc-múltiplos-fluxos-e-simulação-paralela" class="nav-link" data-scroll-target="#múltiplos-fluxos-e-simulação-paralela"><span class="header-section-number">2.25</span> Múltiplos fluxos e simulação paralela</a></li>
+  <li><a href="#geração-uniforme-em-r" id="toc-geração-uniforme-em-r" class="nav-link" data-scroll-target="#geração-uniforme-em-r"><span class="header-section-number">2.26</span> Geração uniforme em R</a>
+  <ul class="collapse">
+  <li><a href="#exemplo-1" id="toc-exemplo-1" class="nav-link" data-scroll-target="#exemplo-1"><span class="header-section-number">2.26.1</span> Exemplo</a></li>
+  </ul></li>
+  <li><a href="#inspecionando-a-documentação-do-r" id="toc-inspecionando-a-documentação-do-r" class="nav-link" data-scroll-target="#inspecionando-a-documentação-do-r"><span class="header-section-number">2.27</span> Inspecionando a documentação do R</a></li>
+  <li><a href="#comparando-um-gerador-didático-com-runif" id="toc-comparando-um-gerador-didático-com-runif" class="nav-link" data-scroll-target="#comparando-um-gerador-didático-com-runif"><span class="header-section-number">2.28</span> Comparando um gerador didático com <code>runif()</code></a>
+  <ul class="collapse">
+  <li><a href="#função-de-diagnóstico" id="toc-função-de-diagnóstico" class="nav-link" data-scroll-target="#função-de-diagnóstico"><span class="header-section-number">2.28.1</span> Função de diagnóstico</a></li>
+  <li><a href="#um-exemplo-com-parâmetros-maiores" id="toc-um-exemplo-com-parâmetros-maiores" class="nav-link" data-scroll-target="#um-exemplo-com-parâmetros-maiores"><span class="header-section-number">2.28.2</span> Um exemplo com parâmetros maiores</a></li>
+  </ul></li>
+  <li><a href="#geradores-para-simulação-não-são-geradores-criptográficos" id="toc-geradores-para-simulação-não-são-geradores-criptográficos" class="nav-link" data-scroll-target="#geradores-para-simulação-não-são-geradores-criptográficos"><span class="header-section-number">2.29</span> Geradores para simulação não são geradores criptográficos</a></li>
+  <li><a href="#recomendações-práticas" id="toc-recomendações-práticas" class="nav-link" data-scroll-target="#recomendações-práticas"><span class="header-section-number">2.30</span> Recomendações práticas</a></li>
+  <li><a href="#limitações-dos-diagnósticos-simples" id="toc-limitações-dos-diagnósticos-simples" class="nav-link" data-scroll-target="#limitações-dos-diagnósticos-simples"><span class="header-section-number">2.31</span> Limitações dos diagnósticos simples</a>
+  <ul class="collapse">
+  <li><a href="#histograma-1" id="toc-histograma-1" class="nav-link" data-scroll-target="#histograma-1"><span class="header-section-number">2.31.1</span> Histograma</a></li>
+  <li><a href="#gráfico-de-pares" id="toc-gráfico-de-pares" class="nav-link" data-scroll-target="#gráfico-de-pares"><span class="header-section-number">2.31.2</span> Gráfico de pares</a></li>
+  <li><a href="#autocorrelação-1" id="toc-autocorrelação-1" class="nav-link" data-scroll-target="#autocorrelação-1"><span class="header-section-number">2.31.3</span> Autocorrelação</a></li>
+  </ul></li>
+  <li><a href="#síntese-do-capítulo" id="toc-síntese-do-capítulo" class="nav-link" data-scroll-target="#síntese-do-capítulo"><span class="header-section-number">2.32</span> Síntese do capítulo</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">2.33</span> Exercícios</a></li>
+  <li><a href="#referências" id="toc-referências" class="nav-link" data-scroll-target="#referências">Referências</a></li>
   </ul>
 </nav>
     </div>
@@ -285,15 +353,86 @@ window.Quarto = {
 </header>
 
 
-<p>As simulações estatísticas requerem uma base inicial formada por números que imitem a aleatoriedade. Formalmente, buscamos uma sequência <span class="math inline">\(U_1, U_2, \dots\)</span> de variáveis independentes e identicamente distribuídas (iid) seguindo a distribuição uniforme no intervalo <span class="math inline">\((0,1)\)</span>.</p>
-<section id="geração-de-sequências-u01" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="geração-de-sequências-u01"><span class="header-section-number">2.1</span> Geração de sequências <span class="math inline">\(U(0,1)\)</span></h2>
-<p>Uma abordagem é utilizar dispositivos físicos aleatorizadores, como máquinas que sorteiam números de loteria, roletas ou circuitos eletrônicos que produzem “ruído aleatório”. Contudo, tais dispositivos apresentam desvantagens:</p>
+<p>A geração de números pseudoaleatórios é um dos componentes fundamentais da Estatística Computacional. Métodos de Monte Carlo, procedimentos de reamostragem, algoritmos estocásticos e grande parte das rotinas de simulação dependem, em última instância, de uma fonte computacional de números que se comporte de modo suficientemente semelhante a uma sequência de variáveis aleatórias independentes com distribuição uniforme.</p>
+<p>Neste capítulo, o foco será exclusivamente a <strong>geração pseudoaleatória uniforme</strong>. Métodos destinados a transformar números uniformes em observações de outras distribuições — como transformação inversa, aceitação-rejeição e métodos especializados — devem ser tratados em um capítulo posterior sobre geração de variáveis aleatórias.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, cap. 1</a>, especialmente Seção 1.1, pp.&nbsp;1–8)</span>, <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 1</a>, pp.&nbsp;1–21)</span> e <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, cap. 2</a>, Seção 2.2, pp.&nbsp;49–51)</span>.</p>
+</blockquote>
+<section id="objetivos-de-aprendizagem" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="objetivos-de-aprendizagem"><span class="header-section-number">2.1</span> Objetivos de aprendizagem</h2>
+<p>Ao final deste capítulo, espera-se que o leitor seja capaz de:</p>
+<ul>
+<li>explicar por que uma sequência uniforme é o bloco básico de construção de uma simulação;</li>
+<li>distinguir números aleatórios físicos de números pseudoaleatórios;</li>
+<li>definir estado, semente, função de transição, função de saída e período de um gerador;</li>
+<li>implementar e interpretar um gerador congruencial linear;</li>
+<li>explicar por que a escolha dos parâmetros de um gerador congruencial é crítica;</li>
+<li>verificar condições de período completo para um gerador congruencial linear misto;</li>
+<li>distinguir período longo de boa qualidade estatística;</li>
+<li>avaliar uniformidade e dependência serial por diagnósticos gráficos e estatísticos;</li>
+<li>interpretar a equidistribuição multidimensional e a estrutura reticular de geradores lineares;</li>
+<li>reconhecer as principais famílias modernas de geradores uniformes;</li>
+<li>usar <code>set.seed()</code> e <code>runif()</code> de forma reprodutível em R;</li>
+<li>reconhecer as limitações de geradores simples e os cuidados necessários em simulações paralelas.</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> organização didática baseada em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.1–1.1.3</a>, pp.&nbsp;2–8)</span>, <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.1–1.5</a>, pp.&nbsp;1–20)</span> e <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.1.1</a>, pp.&nbsp;248–249)</span>.</p>
+</blockquote>
+</section>
+<section id="a-uniformidade-como-base-da-simulação" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="a-uniformidade-como-base-da-simulação"><span class="header-section-number">2.2</span> A uniformidade como base da simulação</h2>
+<p>Em grande parte dos métodos de simulação, deseja-se conceitualmente uma sequência</p>
+<p><span class="math display">\[
+U_1,U_2,\ldots
+\stackrel{iid}{\sim}
+U(0,1).
+\]</span></p>
+<p>A distribuição uniforme desempenha um papel central porque pode ser utilizada como ponto de partida para construir variáveis aleatórias de outras distribuições. Assim, a geração computacional é frequentemente dividida em duas etapas:</p>
 <ol type="1">
-<li><p><strong>Baixa velocidade</strong> e dificuldade de integração direta com computadores.</p></li>
-<li><p><strong>Necessidade de reprodutibilidade</strong> da sequência. Por exemplo, para verificação de código ou comparação de políticas em um modelo de simulação, usando a mesma sequência para reduzir a variância da diferença entre resultados.</p></li>
+<li>produzir uma sequência que imite observações iid uniformes;</li>
+<li>transformar essas observações na distribuição de interesse.</li>
 </ol>
-<p>Uma forma simples de obter reprodutibilidade é armazenar a sequência em um dispositivo de memória (HD, CD-ROM, livro). De fato, a RAND Corporation publicou <em>A Million Random Digits with 100 000 Random Normal Deviates</em> (1955). Entretanto, acessar armazenamento externo milhares ou milhões de vezes torna a simulação lenta.</p>
+<p>Neste capítulo, tratamos apenas da primeira etapa.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Introdução do Capítulo 1 e Seção 1.1, pp.&nbsp;1–2)</span>, <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 1</a>, p.&nbsp;1)</span> e <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, seç. 2.1</a>, p.&nbsp;49)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-note callout-titled" title="Definição">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Definição
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Um <strong>gerador uniforme ideal</strong> produziria uma sequência infinita</p>
+<p><span class="math display">\[
+U_1,U_2,\ldots
+\]</span></p>
+<p>de variáveis independentes, cada uma com distribuição <span class="math inline">\(U(0,1)\)</span>.</p>
+<p>Em um computador de estado finito, uma sequência infinita de observações genuinamente independentes é uma abstração matemática. Na prática, busca-se uma sequência cujas propriedades relevantes sejam suficientemente semelhantes às de uma sequência iid uniforme.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.1</a>, pp.&nbsp;1–2)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O objetivo prático não é “criar aleatoriedade matemática perfeita”, mas construir uma sequência computacional que, durante o tamanho de simulação utilizado, seja estatisticamente adequada para a finalidade científica em questão.</p>
+</div>
+</div>
+</section>
+<section id="aleatoriedade-física-e-pseudoaleatoriedade" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="aleatoriedade-física-e-pseudoaleatoriedade"><span class="header-section-number">2.3</span> Aleatoriedade física e pseudoaleatoriedade</h2>
+<p>Existem duas estratégias conceitualmente diferentes para produzir números destinados a uma simulação. A primeira utiliza um fenômeno físico considerado aleatório, como ruído eletrônico, processos quânticos ou outros mecanismos físicos. A segunda utiliza um algoritmo determinístico implementado em computador.</p>
+<p>Geradores físicos podem fornecer uma fonte de aleatoriedade externa ao algoritmo, mas sua sequência não pode ser reproduzida novamente a menos que tenha sido registrada. Geradores algorítmicos, em contraste, são rápidos, econômicos em memória e permitem reproduzir exatamente uma sequência quando o estado inicial é conhecido.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -311,197 +450,1779 @@ Nota
 </ul>
 </div>
 </div>
-</section>
-<section id="por-que-pseudoaleatórios" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="por-que-pseudoaleatórios"><span class="header-section-number">2.2</span> Por que “Pseudoaleatórios”?</h2>
-<p>Diferente de dispositivos físicos (como ruído atmosférico ou decaimento quântico), que geram aleatoriedade real mas são lentos e irreprodutíveis, os computadores utilizam algoritmos determinísticos. Esses números são chamados de pseudoaleatórios porque, embora pareçam aleatórios sob testes estatísticos, são gerados por fórmulas matemáticas fixas.</p>
-<p>A abordagem computacional é preferida por três razões fundamentais:</p>
-<ol type="1">
-<li><p><em>Eficiência</em>: Geração extremamente rápida em tempo de execução.</p></li>
-<li><p><em>Economia de Memória</em>: Elimina a necessidade de armazenar tabelas imensas de números.</p></li>
-<li><p><em>Reprodutibilidade</em>: Através do uso de uma semente (<code>seed</code>), é possível replicar exatamente a mesma sequência, o que é vital para depuração de código e redução de variância em comparações de modelos.</p></li>
-</ol>
-<p>Entretanto, a escolha inadequada da recorrência pode gerar sequências com baixa qualidade estatística. Um dos métodos mais antigos e influentes para isso é o <strong>Gerador Congruencial Linear (GCL)</strong>.</p>
-</section>
-<section id="o-gerador-congruencial-linear-gcl" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="o-gerador-congruencial-linear-gcl"><span class="header-section-number">2.3</span> O Gerador Congruencial Linear (GCL)</h2>
-<p>O GCL é um dos métodos mais clássicos para gerar sequências pseudoaleatórias. Ele produz uma sequência de inteiros <span class="math inline">\(x_n\)</span> através da recorrência:</p>
-<p><span class="math display">\[x_n = (a \, x_{n-1} + c) \;\; \text{mod} \;\; m\]</span></p>
-<p>em que, <span class="math inline">\(m &gt; 0\)</span> é o <strong>módulo</strong>, <span class="math inline">\(a\)</span> é o <strong>multiplicador</strong>, <span class="math inline">\(c\)</span> é o <strong>incremento</strong> e <span class="math inline">\(x_0\)</span> é a <strong>semente</strong> (<em>seed</em>), escolhida pelo usuário. O resultado final é obtido normalizando os valores:</p>
-<p><span class="math display">\[u_n = \frac{x_n}{m}, \quad \text{com } u_n \in (0, 1).\]</span></p>
-<section id="escolha-de-parâmetros-e-período" class="level3" data-number="2.3.1">
-<h3 data-number="2.3.1" class="anchored" data-anchor-id="escolha-de-parâmetros-e-período"><span class="header-section-number">2.3.1</span> Escolha de Parâmetros e Período</h3>
-<p>A qualidade do gerador depende criticamente da escolha de <span class="math inline">\(a\)</span>, <span class="math inline">\(c\)</span> e <span class="math inline">\(m\)</span>. Como os valores de <span class="math inline">\(x_n\)</span> estão no conjunto <span class="math inline">\(\{0, 1, \dots, m-1\}\)</span>, a sequência inevitavelmente se repetirá após, no máximo, <span class="math inline">\(m\)</span> sorteios. Esse intervalo antes da repetição é chamado de período.</p>
-<p>Para maximizar o período e a qualidade estatística, seguem-se algumas diretrizes:</p>
-<ul>
-<li><p>Módulo (<span class="math inline">\(m\)</span>): Deve ser um número primo grande, geralmente próximo à capacidade da palavra do computador (ex. <span class="math inline">\(m = 2^{31} - 1\)</span> para máquinas de 32 bits).</p></li>
-<li><p>Multiplicador (<span class="math inline">\(a\)</span>): Para <span class="math inline">\(m = 2^{31} - 1\)</span>, uma escolha comum e testada é <span class="math inline">\(a = 7^5 = 16807\)</span>.</p></li>
-<li><p>Valores históricos:</p>
-<ul>
-<li><p><strong>Park–Miller (1988):</strong> <span class="math inline">\(m = 2^{31} - 1\)</span>, <span class="math inline">\(a = 16807\)</span>, <span class="math inline">\(c = 0\)</span>.<br>
-</p></li>
-<li><p><strong>Numerical Recipes (1992):</strong> <span class="math inline">\(m = 2^{32}\)</span>, <span class="math inline">\(a = 1664525\)</span>, <span class="math inline">\(c = 1013904223\)</span>.</p></li>
-</ul></li>
-</ul>
-</section>
-</section>
-<section id="implementação-no-r" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="implementação-no-r"><span class="header-section-number">2.4</span> Implementação no R</h2>
-<p>No ambiente <code>R</code>, não precisamos implementar esses geradores manualmente para uso cotidiano, pois o <em>software</em> oferece funções otimizadas.</p>
-<ul>
-<li><p><code>runif(n)</code>: Gera <span class="math inline">\(n\)</span> valores uniformes (0,1).</p></li>
-<li><p><code>set.seed(semente)</code>: Define o ponto de partida da sequência. Se não for definida, o <code>R</code> utiliza o relógio do sistema como semente padrão.</p></li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemplo de reprodutibilidade</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">runif</span>(<span class="dv">5</span>)  <span class="co"># Gera 5 números</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2875775 0.7883051 0.4089769 0.8830174 0.9404673</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">runif</span>(<span class="dv">5</span>)  <span class="co"># Gera EXATAMENTE os mesmos 5 números</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.2875775 0.7883051 0.4089769 0.8830174 0.9404673</code></pre>
-</div>
-</div>
-<section id="por-que-o-gcl-funciona" class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="por-que-o-gcl-funciona">Por que o GCL funciona?</h3>
-<ol type="1">
-<li><p><strong>Simplicidade:</strong> apenas uma multiplicação, uma soma e uma operação de módulo.</p></li>
-<li><p><strong>Velocidade:</strong> pode ser implementado de forma extremamente eficiente.</p></li>
-<li><p><strong>Controle:</strong> dependendo da escolha de <span class="math inline">\(a, c, m\)</span>, é possível obter um período longo, ou seja, muitos números gerados antes de a sequência se repetir.</p></li>
-</ol>
-<section id="exemplos" class="level4 unnumbered">
-<h4 class="unnumbered anchored" data-anchor-id="exemplos">Exemplos</h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gerador Congruencial Linear em Python</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gcl(seed, a, c, m, n <span class="op">=</span> <span class="dv">10</span>):</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"Gera n números pseudoaleatórios normalizados em (0,1)."</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> seed</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    seq <span class="op">=</span> []</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n):</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> (a <span class="op">*</span> x <span class="op">+</span> c) <span class="op">%</span> m</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        seq.append(x <span class="op">/</span> m)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> seq</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemplo: Park–Miller (multiplicativo)</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> <span class="dv">2</span><span class="op">**</span><span class="dv">31</span> <span class="op">-</span> <span class="dv">1</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">16807</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>seed <span class="op">=</span> <span class="dv">12345</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>gcl(seed, a, c, m, n<span class="op">=</span><span class="dv">10</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[0.09661652850760917, 0.8339946273872604, 0.9477024976851895, 0.035878594981449935, 0.011545853229028104, 0.051155220275351417, 0.7657871678312249, 0.5849297393974521, 0.9141300529773021, 0.7838003895170057]</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gerador Congruencial Linear em R</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>gcl <span class="ot">&lt;-</span> <span class="cf">function</span>(seed, a, c, m, <span class="at">n=</span><span class="dv">10</span>) {</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> seed</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  seq <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> (a <span class="sc">*</span> x <span class="sc">+</span> c) <span class="sc">%%</span> m</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    seq[i] <span class="ot">&lt;-</span> x <span class="sc">/</span> m</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  seq</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemplo: Park–Miller</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">^</span><span class="dv">31</span> <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">16807</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>seed <span class="ot">&lt;-</span> <span class="dv">12345</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="fu">gcl</span>(seed, a, c, m, <span class="at">n=</span><span class="dv">10</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code> [1] 0.09661653 0.83399463 0.94770250 0.03587859 0.01154585 0.05115522
- [7] 0.76578717 0.58492974 0.91413005 0.78380039</code></pre>
-</div>
-</div>
-</section>
-</section>
-</section>
-<section id="como-validar-um-gerador" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="como-validar-um-gerador"><span class="header-section-number">2.5</span> Como validar um Gerador?</h2>
-<p>Um “bom” gerador deve passar por verificações rápidas para garantir que as propriedades i.i.d. sejam mantidas.</p>
-<ol type="1">
-<li><p>Histograma: Os valores devem se distribuir de forma plana (uniforme) entre 0 e 1.</p></li>
-<li><p>Gráfico de Pares <span class="math inline">\((U_i, U_{i+1})\)</span>: Ajuda a detectar dependências seriais. Os pontos devem preencher o quadrado unitário sem padrões ou linhas visíveis (evitando o “agrupamento” ou <em>clumping</em>).</p></li>
-<li><p>Autocorrelação: A correlação entre valores sucessivos deve ser desprezível.</p></li>
-</ol>
-<section id="limitações" class="level3 unnumbered">
-<h3 class="unnumbered anchored" data-anchor-id="limitações">Limitações</h3>
-<p>Apesar de sua importância histórica, os GCLs apresentam limitações:</p>
-<ul>
-<li><p>O período, mesmo que longo, é finito.</p></li>
-<li><p>Podem apresentar correlações indesejadas em dimensões mais altas.</p></li>
-<li><p>Não são recomendados para aplicações de alta segurança (como criptografia).</p></li>
-</ul>
-<p>Hoje, geradores como o <strong>Mersenne Twister</strong> substituíram o GCL em muitas linguagens (por exemplo, é o padrão no <code>R</code> e no <code>NumPy</code>). Ainda assim, o GCL é fundamental para entender os princípios da geração de números pseudoaleatórios.</p>
-<section id="exercícios" class="level4 unnumbered">
-<h4 class="unnumbered anchored" data-anchor-id="exercícios">Exercícios</h4>
-<ol type="1">
-<li><p>Implemente um GCL (multiplicativo ou misto) em <code>Python</code> ou <code>R</code>.</p></li>
-<li><p>Gere 1000 números pseudoaleatórios e faça:</p></li>
-</ol>
-<ul>
-<li><p>Um histograma para verificar se a distribuição se parece com a uniforme <span class="math inline">\((0, 1)\)</span>.</p></li>
-<li><p>Um gráfico de dispersão de pares consecutivos <span class="math inline">\((u_{n}, u_{n+1})\)</span>.</p></li>
-</ul>
-<ol start="3" type="1">
-<li>Compare o comportamento quando:</li>
-</ol>
-<ul>
-<li><p>Usa os parâmetros clássicos de Park–Miller <span class="math inline">\((m = 2^{31} - 1, a = 16807, c = 0)\)</span>.</p></li>
-<li><p>Usa parâmetros pequenos, por exemplo <span class="math inline">\(m = 17, a = 5, c = 1\)</span>.</p></li>
-</ul>
-<p><strong>Pergunta para reflexão:</strong> O que acontece com a qualidade dos números gerados quando usamos parâmetros pequenos?</p>
-<div class="callout callout-style-default callout-note callout-titled">
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1</a>, p.&nbsp;2)</span> e <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, seç. 2.2</a>, pp.&nbsp;49–50)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-note callout-titled" title="Definição">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Park–Miller hoje: ainda vale a pena?
+Definição
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>O gerador congruencial linear clássico de <strong>Park–Miller</strong> foi proposto em 1988, com parâmetros:</p>
-<p><span class="math display">\[m = 2^{31} - 1 \approx 2,147,483,647, \quad a = 16807, \quad c = 0.\]</span></p>
-<p>Na época, esses valores eram ideais para computadores de <strong>32 bits</strong>, embora a implementação precisasse de alguns cuidados para evitar <strong>overflow</strong>.</p>
-<p>Nos computadores modernos de <strong>64 bits</strong>, esse problema desaparece: o produto <span class="math inline">\(a \times x\)</span> cabe confortavelmente nos registradores, e a implementação é direta e eficiente.</p>
-<p><strong>Vantagens atuais:</strong></p>
-<ul>
-<li><p>Simples e rápido.</p></li>
-<li><p>Fácil de implementar em qualquer linguagem.</p></li>
-<li><p>Período máximo de mais de <strong>2 bilhões</strong> de números.</p></li>
-</ul>
-<p><strong>Limitações:</strong></p>
-<ul>
-<li><p>Hoje, esse período pode ser considerado curto para simulações muito extensas.</p></li>
-<li><p>Geradores modernos, como o <strong>Mersenne Twister</strong> (período <span class="math inline">\(2^{19937}-1\)</span>) ou a família <strong>GCP (Gerador Congruencial Permutado)</strong>, oferecem propriedades estatísticas superiores.</p></li>
-</ul>
-<p>📌 <strong>Em resumo:</strong> O Park–Miller ainda é excelente para fins didáticos e pequenas simulações, mas para aplicações científicas de grande escala recomenda-se usar geradores mais robustos.</p>
+<p>Um <strong>gerador de números pseudoaleatórios</strong> (<em>pseudo-random number generator</em>, PRNG) é um algoritmo determinístico que produz uma sequência numérica destinada a substituir, em uma aplicação computacional, uma sequência de números aleatórios.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Definição 1.1, p.&nbsp;2)</span>.</p>
 </div>
 </div>
-<p>Existem no <code>R</code> vários algoritmos para geradores de números pseudoaleatórios. Para ver quais são, basta:</p>
+<p>A expressão “pseudoaleatório” destaca uma diferença fundamental: depois que o algoritmo, seus parâmetros e seu estado inicial são fixados, toda a sequência está determinada.</p>
+<p>Isso não é uma desvantagem acidental. A determinização da sequência é precisamente o que permite a reprodutibilidade de experimentos computacionais.</p>
+</section>
+<section id="estado-semente-transição-e-saída" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="estado-semente-transição-e-saída"><span class="header-section-number">2.4</span> Estado, semente, transição e saída</h2>
+<p>Uma descrição mais geral de um gerador permite separar o <strong>estado interno</strong> do valor que é apresentado ao usuário.</p>
+<p>Considere:</p>
+<ul>
+<li>um conjunto finito de estados <span class="math inline">\(\mathcal S\)</span>;</li>
+<li>uma função de transição <span class="math inline">\(f:\mathcal S\rightarrow\mathcal S\)</span>;</li>
+<li>uma função de saída <span class="math inline">\(g:\mathcal S\rightarrow(0,1)\)</span>;</li>
+<li>um estado inicial <span class="math inline">\(S_0\)</span>, determinado pela semente.</li>
+</ul>
+<p>A evolução é</p>
+<p><span class="math display">\[
+S_t=f(S_{t-1}),
+\]</span></p>
+<p>e a saída é</p>
+<p><span class="math display">\[
+U_t=g(S_t).
+\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> esta formulação segue o gerador genérico apresentado em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Algoritmo 1.1, p.&nbsp;2)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O estado interno pode conter muito mais informação do que um único número produzido pelo gerador. Geradores modernos exploram essa distinção para obter períodos muito maiores e melhores propriedades multidimensionais.</p>
+</div>
+</div>
+</section>
+<section id="semente-e-reprodutibilidade" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="semente-e-reprodutibilidade"><span class="header-section-number">2.5</span> Semente e reprodutibilidade</h2>
+<p>A <strong>semente</strong> inicializa o estado do gerador. Se o algoritmo e a semente forem mantidos fixos, a sequência resultante também será fixa. Isso é essencial para:</p>
+<ul>
+<li>depuração de código;</li>
+<li>reprodução de resultados científicos;</li>
+<li>comparação de métodos;</li>
+<li>uso de números aleatórios comuns em procedimentos de redução de variância.</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.3</a>, p.&nbsp;8)</span>, <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.1.1</a>, pp.&nbsp;2–3)</span> e <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.1.1</a>, pp.&nbsp;248–249)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A semente não torna o gerador “mais aleatório” nem melhora sua precisão. Ela apenas seleciona um estado inicial e, portanto, uma trajetória determinística dentro do gerador.</p>
+</div>
+</div>
+<section id="reprodutibilidade-em-r" class="level3" data-number="2.5.1">
+<h3 data-number="2.5.1" class="anchored" data-anchor-id="reprodutibilidade-em-r"><span class="header-section-number">2.5.1</span> Reprodutibilidade em R</h3>
+<p>Em R, a função <code>set.seed()</code> permite fixar o estado inicial do gerador usado pelas rotinas de geração pseudoaleatória.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(Random)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>u1 <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">5</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>u2 <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">5</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(u1, u2)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
 </div>
-<div class="quarto-figure quarto-figure-center">
+</div>
+<p>A saída de <code>identical()</code> deve ser <code>TRUE</code>.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.1.1</a>, pp.&nbsp;248–249)</span> e <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Apêndice B.4, pp.&nbsp;292–294)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-warning callout-titled" title="Observação sobre o estado do R">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação sobre o estado do R
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Se <code>set.seed()</code> não for executada novamente, chamadas sucessivas a <code>runif()</code> continuam a sequência a partir do estado corrente do gerador. A forma exata de inicialização do estado em uma sessão e a lista de geradores disponíveis são detalhes dependentes da versão do R.</p>
+<p>Essas informações de software devem ser conferidas na documentação da versão utilizada antes da publicação.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="da-sequência-inteira-à-sequência-pseudo-uniforme" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="da-sequência-inteira-à-sequência-pseudo-uniforme"><span class="header-section-number">2.6</span> Da sequência inteira à sequência pseudo-uniforme</h2>
+<p>Um gerador congruencial produz inicialmente inteiros</p>
+<p><span class="math display">\[
+X_n\in\{0,1,\ldots,m-1\}.
+\]</span></p>
+<p>É necessário transformá-los em valores utilizados como aproximações de uma distribuição uniforme contínua.</p>
+<p>Uma forma direta é</p>
+<p><span class="math display">\[
+U_n=\frac{X_n}{m}.
+\]</span></p>
+<p>Nesse caso,</p>
+<p><span class="math display">\[
+U_n\in
+\left\{
+0,\frac1m,\ldots,\frac{m-1}{m}
+\right\}
+\subset[0,1).
+\]</span></p>
+<p>Portanto, essa transformação <strong>pode produzir zero</strong>.</p>
+<p>Outra transformação apresentada por <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> é</p>
+<p><span class="math display">\[
+\boxed{
+U_n=
+\frac{X_n+1}{m+1}
+},
+\]</span></p>
+<p>para a qual</p>
+<p><span class="math display">\[
+U_n\in
+\left\{
+\frac1{m+1},
+\frac2{m+1},
+\ldots,
+\frac{m}{m+1}
+\right\}
+\subset(0,1).
+\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.3</a>, p.&nbsp;8)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Nenhuma dessas sequências é literalmente contínua. Um computador representa apenas um conjunto finito de estados e um conjunto finito de números de ponto flutuante. A distribuição <span class="math inline">\(U(0,1)\)</span> é, portanto, um modelo matemático para o comportamento desejado da saída.</p>
+</div>
+</div>
+</section>
+<section id="gerador-congruencial-linear" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="gerador-congruencial-linear"><span class="header-section-number">2.7</span> Gerador Congruencial Linear</h2>
+<p>O <strong>Gerador Congruencial Linear</strong> (GCL; em inglês, <em>Linear Congruential Generator</em>, LCG) é uma das construções mais simples e historicamente importantes de geração pseudoaleatória.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Definição">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Definição
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dados inteiros</p>
+<p><span class="math display">\[
+m&gt;1,
+\]</span></p>
+<p><span class="math display">\[
+a\in\{1,\ldots,m-1\},
+\]</span></p>
+<p><span class="math display">\[
+c\in\{0,\ldots,m-1\},
+\]</span></p>
+<p>e uma semente</p>
+<p><span class="math display">\[
+X_0\in\{0,\ldots,m-1\},
+\]</span></p>
+<p>o GCL é definido pela recorrência</p>
+<p><span class="math display">\[
+\boxed{
+X_n=
+(aX_{n-1}+c)\bmod m
+},
+\qquad
+n=1,2,\ldots
+\]</span></p>
+<p>O parâmetro <span class="math inline">\(m\)</span> é o <strong>módulo</strong>, <span class="math inline">\(a\)</span> é o <strong>multiplicador</strong>, <span class="math inline">\(c\)</span> é o <strong>incremento</strong> e <span class="math inline">\(X_0\)</span> é a <strong>semente</strong>.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Algoritmo 1.2, pp.&nbsp;2–3)</span>, <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.2.1</a>, pp.&nbsp;4–5)</span> e <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, seç. 2.2</a>, p.&nbsp;50)</span>.</p>
+</div>
+</div>
+<p>Quando</p>
+<p><span class="math display">\[
+c=0,
+\]</span></p>
+<p>temos o chamado <strong>gerador congruencial multiplicativo</strong>:</p>
+<p><span class="math display">\[
+X_n=aX_{n-1}\bmod m.
+\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.2.1</a>, pp.&nbsp;4–5)</span> e <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, seç. 2.2</a>, p.&nbsp;50)</span>.</p>
+</blockquote>
+<section id="algoritmo" class="level3" data-number="2.7.1">
+<h3 data-number="2.7.1" class="anchored" data-anchor-id="algoritmo"><span class="header-section-number">2.7.1</span> Algoritmo</h3>
+<p>Uma representação do GCL é:</p>
+<ol type="1">
+<li>escolha <span class="math inline">\(m\)</span>, <span class="math inline">\(a\)</span>, <span class="math inline">\(c\)</span> e <span class="math inline">\(X_0\)</span>;</li>
+<li>calcule <span class="math display">\[
+X_n=(aX_{n-1}+c)\bmod m;
+\]</span></li>
+<li>converta o estado inteiro em um pseudo-uniforme;</li>
+<li>use <span class="math inline">\(X_n\)</span> como novo estado;</li>
+<li>repita.</li>
+</ol>
+</section>
+<section id="exemplo-com-período-pequeno" class="level3" data-number="2.7.2">
+<h3 data-number="2.7.2" class="anchored" data-anchor-id="exemplo-com-período-pequeno"><span class="header-section-number">2.7.2</span> Exemplo com período pequeno</h3>
+<p>Considere</p>
+<p><span class="math display">\[
+m=8,
+\qquad
+a=5,
+\qquad
+c=1,
+\qquad
+X_0=0.
+\]</span></p>
+<p>A sequência é</p>
+<p><span class="math display">\[
+1,6,7,4,5,2,3,0,1,6,\ldots
+\]</span></p>
+<p>e retorna ao estado inicial depois de oito atualizações.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> exemplo retirado de <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Exemplo 1.3, p.&nbsp;3)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Visualmente, os primeiros termos não parecem conter um padrão trivial. Entretanto, a sequência é completamente determinística e, após oito passos, repete-se exatamente. Esse exemplo é útil para separar <strong>aparência de aleatoriedade</strong> de <strong>aleatoriedade matemática</strong>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="implementação-didática-do-gcl-em-r" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="implementação-didática-do-gcl-em-r"><span class="header-section-number">2.8</span> Implementação didática do GCL em R</h2>
+<p>A função a seguir implementa o GCL e devolve tanto os estados inteiros quanto uma transformação para <span class="math inline">\((0,1)\)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>gcl <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    n,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    seed,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    a,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    c,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    m,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervalo_aberto =</span> <span class="cn">TRUE</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>) {</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">numeric</span>(n)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  atual <span class="ot">&lt;-</span> seed</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_len</span>(n)) {</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    atual <span class="ot">&lt;-</span> (a <span class="sc">*</span> atual <span class="sc">+</span> c) <span class="sc">%%</span> m</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    x[i] <span class="ot">&lt;-</span> atual</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (intervalo_aberto) {</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    u <span class="ot">&lt;-</span> (x <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">/</span> (m <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    u <span class="ot">&lt;-</span> x <span class="sc">/</span> m</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">iteracao =</span> <span class="fu">seq_len</span>(n),</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">estado =</span> x,</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">u =</span> u</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> algoritmo baseado em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Algoritmo 1.2, pp.&nbsp;2–3)</span>.</p>
+</blockquote>
+<section id="exemplo" class="level3" data-number="2.8.1">
+<h3 data-number="2.8.1" class="anchored" data-anchor-id="exemplo"><span class="header-section-number">2.8.1</span> Exemplo</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gcl</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="dv">10</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> <span class="dv">0</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">a =</span> <span class="dv">5</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">c =</span> <span class="dv">1</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">m =</span> <span class="dv">8</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   iteracao estado         u
+1         1      1 0.2222222
+2         2      6 0.7777778
+3         3      7 0.8888889
+4         4      4 0.5555556
+5         5      5 0.6666667
+6         6      2 0.3333333
+7         7      3 0.4444444
+8         8      0 0.1111111
+9         9      1 0.2222222
+10       10      6 0.7777778</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A função acima tem finalidade didática. Para aplicações científicas reais, <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.3</a>, p.&nbsp;8)</span> recomenda utilizar geradores bem estabelecidos fornecidos por bibliotecas ou pacotes confiáveis, em vez de implementar um PRNG próprio.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="periodicidade" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="periodicidade"><span class="header-section-number">2.9</span> Periodicidade</h2>
+<p>Como o estado do GCL pertence ao conjunto finito</p>
+<p><span class="math display">\[
+\{0,1,\ldots,m-1\},
+\]</span></p>
+<p>existem apenas <span class="math inline">\(m\)</span> estados possíveis.</p>
+<p>Pelo princípio da casa dos pombos, algum estado deverá se repetir depois de, no máximo, <span class="math inline">\(m\)</span> atualizações. Como a transição é determinística, depois que um estado é repetido toda a trajetória subsequente também se repete.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Definição">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Definição
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O <strong>período</strong> de uma sequência pseudoaleatória periódica é o número de passos de seu ciclo antes de a sequência voltar ao mesmo estado e passar a repetir a trajetória.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.1</a>, pp.&nbsp;3–4)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.1</a>, p.&nbsp;2)</span>.</p>
+</div>
+</div>
+<p>Para um GCL simples, o período não pode exceder <span class="math inline">\(m\)</span>.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, pp.&nbsp;3–4)</span> e <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, p. 50</a>)</span>.</p>
+</blockquote>
+<section id="encontrando-o-período-em-exemplos-pequenos" class="level3" data-number="2.9.1">
+<h3 data-number="2.9.1" class="anchored" data-anchor-id="encontrando-o-período-em-exemplos-pequenos"><span class="header-section-number">2.9.1</span> Encontrando o período em exemplos pequenos</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>periodo_gcl <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    seed,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    a,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    c,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    m,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">max_iter =</span> m <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>) {</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  visitado <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA_integer_</span>, m)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> seed</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">0</span><span class="sc">:</span>max_iter) {</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    pos <span class="ot">&lt;-</span> x <span class="sc">+</span> <span class="dv">1</span>L</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.na</span>(visitado[pos])) {</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return</span>(</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>        <span class="fu">list</span>(</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>          <span class="at">primeiro_indice =</span> visitado[pos],</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>          <span class="at">retorno =</span> i,</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>          <span class="at">periodo =</span> i <span class="sc">-</span> visitado[pos],</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>          <span class="at">estado_repetido =</span> x</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    visitado[pos] <span class="ot">&lt;-</span> i</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> (a <span class="sc">*</span> x <span class="sc">+</span> c) <span class="sc">%%</span> m</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"Nenhum ciclo encontrado no limite informado."</span>)</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="fu">periodo_gcl</span>(</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> <span class="dv">0</span>,</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">a =</span> <span class="dv">5</span>,</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">c =</span> <span class="dv">1</span>,</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">m =</span> <span class="dv">8</span></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$primeiro_indice
+[1] 0
+
+$retorno
+[1] 8
+
+$periodo
+[1] 8
+
+$estado_repetido
+[1] 0</code></pre>
+</div>
+</div>
+<p>A função é adequada apenas para módulos pequenos, pois armazena explicitamente informação sobre todos os estados possíveis.</p>
+</section>
+</section>
+<section id="condições-para-período-completo-no-gcl-misto" class="level2" data-number="2.10">
+<h2 data-number="2.10" class="anchored" data-anchor-id="condições-para-período-completo-no-gcl-misto"><span class="header-section-number">2.10</span> Condições para período completo no GCL misto</h2>
+<p>Para um GCL com incremento possivelmente não nulo,</p>
+<p><span class="math display">\[
+X_n=(aX_{n-1}+c)\bmod m,
+\]</span></p>
+<p><span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> apresenta um critério necessário e suficiente para que o período seja exatamente <span class="math inline">\(m\)</span>.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Resultado: período completo">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Resultado: período completo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O GCL possui período <span class="math inline">\(m\)</span> se, e somente se:</p>
+<ol type="1">
+<li><span class="math inline">\(m\)</span> e <span class="math inline">\(c\)</span> são coprimos;</li>
+<li><span class="math inline">\(a-1\)</span> é divisível por todo fator primo de <span class="math inline">\(m\)</span>;</li>
+<li>se <span class="math inline">\(m\)</span> é múltiplo de <span class="math inline">\(4\)</span>, então <span class="math inline">\(a-1\)</span> também é múltiplo de <span class="math inline">\(4\)</span>.</li>
+</ol>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Teorema 1.4, p.&nbsp;4)</span>.</p>
+</div>
+</div>
+<p>Esse resultado mostra por que a recomendação “use sempre um módulo primo” é inadequada como regra geral. Por exemplo, o GCL</p>
+<p><span class="math display">\[
+m=8,\qquad
+a=5,\qquad
+c=1
+\]</span></p>
+<p>tem período completo:</p>
+<ul>
+<li><span class="math inline">\(\gcd(8,1)=1\)</span>;</li>
+<li>o único fator primo de <span class="math inline">\(8\)</span> é <span class="math inline">\(2\)</span>, que divide <span class="math inline">\(a-1=4\)</span>;</li>
+<li>como <span class="math inline">\(8\)</span> é múltiplo de <span class="math inline">\(4\)</span>, <span class="math inline">\(a-1=4\)</span> também é múltiplo de <span class="math inline">\(4\)</span>.</li>
+</ul>
+<p>Logo, o período é</p>
+<p><span class="math display">\[
+P=8.
+\]</span></p>
+</section>
+<section id="o-minimal-standard-lcg" class="level2" data-number="2.11">
+<h2 data-number="2.11" class="anchored" data-anchor-id="o-minimal-standard-lcg"><span class="header-section-number">2.11</span> O minimal standard LCG</h2>
+<p>Um exemplo clássico citado por <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> utiliza</p>
+<p><span class="math display">\[
+m=2^{31}-1=2147483647,
+\]</span></p>
+<p><span class="math display">\[
+a=7^5=16807,
+\]</span></p>
+<p><span class="math display">\[
+c=0.
+\]</span></p>
+<p>Esse gerador é apresentado pelos autores como o <strong>minimal standard LCG</strong>. Seu período é</p>
+<p><span class="math display">\[
+2^{31}-2.
+\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Exemplo 1.1, p.&nbsp;5)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-warning callout-titled" title="Interpretação histórica">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação histórica
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O interesse desse gerador é sobretudo histórico e didático. <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> observa que, apesar de suas boas propriedades para a época, seu período e suas propriedades estatísticas já não satisfazem as exigências de aplicações modernas de Monte Carlo em grande escala.</p>
+<p>Portanto, ele é excelente para ensinar o funcionamento de um GCL, mas não deve ser apresentado como recomendação universal para simulações científicas atuais.</p>
+</div>
+</div>
+<section id="implementação-didática" class="level3" data-number="2.11.1">
+<h3 data-number="2.11.1" class="anchored" data-anchor-id="implementação-didática"><span class="header-section-number">2.11.1</span> Implementação didática</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>gcl_minimal_standard <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    n,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">seed =</span> <span class="dv">12345</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>) {</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  m <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">^</span><span class="dv">31</span> <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  a <span class="ot">&lt;-</span> <span class="dv">16807</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  c <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gcl</span>(</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> n,</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">seed =</span> seed,</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">a =</span> a,</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">c =</span> c,</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">m =</span> m,</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">intervalo_aberto =</span> <span class="cn">TRUE</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="fu">gcl_minimal_standard</span>(<span class="dv">10</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   iteracao     estado          u
+1         1  207482415 0.09661653
+2         2 1790989824 0.83399463
+3         3 2035175616 0.94770250
+4         4   77048696 0.03587860
+5         5   24794531 0.01154585
+6         6  109854999 0.05115522
+7         7 1644515420 0.76578717
+8         8 1256127050 0.58492974
+9         9 1963079340 0.91413005
+10       10 1683198519 0.78380039</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="período-longo-não-é-suficiente" class="level2" data-number="2.12">
+<h2 data-number="2.12" class="anchored" data-anchor-id="período-longo-não-é-suficiente"><span class="header-section-number">2.12</span> Período longo não é suficiente</h2>
+<p>Um erro conceitual frequente é identificar um grande período com um bom gerador. Isso não é suficiente. Um gerador também deve produzir saídas com boa cobertura do espaço, ausência de estruturas sistemáticas relevantes, bom comportamento multidimensional e resultados satisfatórios em baterias de testes.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.1.1–1.1.2</a>, pp.&nbsp;2–4)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-note callout-titled" title="Critérios desejáveis">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Critérios desejáveis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Segundo <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span>, um bom gerador uniforme deve reunir propriedades como:</p>
+<ul>
+<li>bom desempenho em testes estatísticos;</li>
+<li>suporte teórico;</li>
+<li>reprodutibilidade;</li>
+<li>velocidade e baixo custo de memória;</li>
+<li>período suficientemente grande;</li>
+<li>possibilidade de trabalhar com múltiplos fluxos;</li>
+<li>facilidade de implementação e uso;</li>
+<li>tratamento adequado dos extremos <span class="math inline">\(0\)</span> e <span class="math inline">\(1\)</span> quando esses valores podem causar dificuldades numéricas.</li>
+</ul>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.1.1</a>, pp.&nbsp;2–3)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Não existe um único número que resuma completamente a qualidade de um PRNG. O período é apenas um dos critérios.</p>
+</div>
+</div>
+</section>
+<section id="uniformidade-marginal" class="level2" data-number="2.13">
+<h2 data-number="2.13" class="anchored" data-anchor-id="uniformidade-marginal"><span class="header-section-number">2.13</span> Uniformidade marginal</h2>
+<p>Se uma sequência pretende substituir observações de uma distribuição uniforme, os valores produzidos devem ocupar adequadamente o intervalo.</p>
+<p>Para uma sequência discreta de estados</p>
+<p><span class="math display">\[
+X_n\in S,
+\]</span></p>
+<p>uma condição desejável é que, no longo prazo, subconjuntos de mesmo tamanho recebam aproximadamente a mesma proporção de observações.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.2.2</a>, pp.&nbsp;4–6)</span>.</p>
+</blockquote>
+<section id="histograma" class="level3" data-number="2.13.1">
+<h3 data-number="2.13.1" class="anchored" data-anchor-id="histograma"><span class="header-section-number">2.13.1</span> Histograma</h3>
+<p>O histograma é um primeiro diagnóstico visual.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">10000</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  u,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">breaks =</span> <span class="dv">20</span>,</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">probability =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="cn">NULL</span>,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"u"</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">h =</span> <span class="dv">1</span>,</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">lwd =</span> <span class="dv">2</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
 <figure class="figure">
-<p><img src="Captura de tela de 2025-09-07 15-34-20.png" class="img-fluid figure-img"></p>
-<figcaption>Imagem da documentação.</figcaption>
+<p><img src="summary_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
-
-
+</div>
+</div>
+<p>Para uma distribuição <span class="math inline">\(U(0,1)\)</span>, a densidade teórica é</p>
+<p><span class="math display">\[
+f(u)=1,
+\qquad 0&lt;u&lt;1.
+\]</span></p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Um histograma aproximadamente plano é uma condição muito fraca. Sequências determinísticas extremamente regulares podem ter frequências marginais perfeitamente uniformes e ainda assim serem inadequadas para simulação.</p>
+</div>
+</div>
 </section>
 </section>
+<section id="regularidade-excessiva-também-é-um-defeito" class="level2" data-number="2.14">
+<h2 data-number="2.14" class="anchored" data-anchor-id="regularidade-excessiva-também-é-um-defeito"><span class="header-section-number">2.14</span> Regularidade excessiva também é um defeito</h2>
+<p>Considere a sequência</p>
+<p><span class="math display">\[
+X_n=n\bmod m.
+\]</span></p>
+<p>No longo prazo, todos os estados aparecem com a mesma frequência. Entretanto, a ordem é perfeitamente previsível.</p>
+<p>Esse exemplo mostra que a uniformidade marginal não implica independência nem comportamento aleatório adequado.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.2.2</a>, pp.&nbsp;4–6)</span>.</p>
+</blockquote>
+<p>Uma consequência interessante discutida por Voss é que, ao testar a saída de um PRNG, valores de uma estatística de aderência <strong>excessivamente pequenos</strong> também podem ser suspeitos, pois podem indicar regularidade artificial.</p>
+</section>
+<section id="teste-qui-quadrado-por-blocos" class="level2" data-number="2.15">
+<h2 data-number="2.15" class="anchored" data-anchor-id="teste-qui-quadrado-por-blocos"><span class="header-section-number">2.15</span> Teste qui-quadrado por blocos</h2>
+<p>Divida o intervalo <span class="math inline">\((0,1)\)</span> em <span class="math inline">\(k\)</span> subintervalos de mesmo comprimento. Sob uma sequência iid uniforme, o número esperado de observações em cada bloco é</p>
+<p><span class="math display">\[
+E_j=\frac{N}{k}.
+\]</span></p>
+<p>A estatística é</p>
+<p><span class="math display">\[
+Q
+=
+\sum_{j=1}^k
+\frac{
+(O_j-E_j)^2
+}{
+E_j
+}.
+\]</span></p>
+<p>Sob as condições usuais de aproximação,</p>
+<p><span class="math display">\[
+Q
+\approx
+\chi^2_{k-1}.
+\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Exemplo 1.6, pp.&nbsp;5–6)</span>.</p>
+</blockquote>
+<p>Voss destaca que, para avaliar um gerador, é informativo considerar desvios nas duas direções: estatísticas excessivamente grandes podem indicar frequências inadequadas, enquanto estatísticas excessivamente pequenas podem indicar regularidade anormal.</p>
+<section id="implementação-em-r" class="level3" data-number="2.15.1">
+<h3 data-number="2.15.1" class="anchored" data-anchor-id="implementação-em-r"><span class="header-section-number">2.15.1</span> Implementação em R</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>teste_blocos <span class="ot">&lt;-</span> <span class="cf">function</span>(u, <span class="at">k =</span> <span class="dv">16</span>) {</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(u)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  classe <span class="ot">&lt;-</span> <span class="fu">pmin</span>(</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">floor</span>(k <span class="sc">*</span> u) <span class="sc">+</span> <span class="dv">1</span>L,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    k</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  observado <span class="ot">&lt;-</span> <span class="fu">tabulate</span>(</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    classe,</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">nbins =</span> k</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  esperado <span class="ot">&lt;-</span> n <span class="sc">/</span> k</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  Q <span class="ot">&lt;-</span> <span class="fu">sum</span>(</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    (observado <span class="sc">-</span> esperado)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>      esperado</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>  gl <span class="ot">&lt;-</span> k <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>  p_inferior <span class="ot">&lt;-</span> <span class="fu">pchisq</span>(</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>    Q,</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">df =</span> gl</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>  p_superior <span class="ot">&lt;-</span> <span class="fu">pchisq</span>(</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>    Q,</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">df =</span> gl,</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">lower.tail =</span> <span class="cn">FALSE</span></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>  p_bilateral <span class="ot">&lt;-</span> <span class="fu">min</span>(</span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>,</span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>    <span class="dv">2</span> <span class="sc">*</span> <span class="fu">min</span>(</span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>      p_inferior,</span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>      p_superior</span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(</span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">Q =</span> Q,</span>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">gl =</span> gl,</span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_bilateral =</span> p_bilateral</span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a><span class="fu">teste_blocos</span>(</span>
+<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">runif</span>(<span class="dv">100000</span>),</span>
+<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a>  <span class="at">k =</span> <span class="dv">16</span></span>
+<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          Q          gl p_bilateral 
+ 13.1420800  15.0000000   0.8173507 </code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Esse cálculo é um <strong>diagnóstico</strong>, não uma certificação de aleatoriedade. Um bom gerador deve sobreviver a uma bateria de testes que avalie diferentes aspectos de sua saída.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.5.2</a>, pp.&nbsp;14–20)</span>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="dependência-serial" class="level2" data-number="2.16">
+<h2 data-number="2.16" class="anchored" data-anchor-id="dependência-serial"><span class="header-section-number">2.16</span> Dependência serial</h2>
+<p>Mesmo que cada <span class="math inline">\(U_n\)</span> tenha comportamento marginalmente uniforme, pares ou vetores consecutivos podem revelar padrões.</p>
+<p>Um diagnóstico simples é construir os pares</p>
+<p><span class="math display">\[
+(U_i,U_{i+1}),
+\qquad
+i=1,\ldots,N-1.
+\]</span></p>
+<p>Se os valores se comportassem como observações iid uniformes, esperaríamos um preenchimento visualmente homogêneo do quadrado unitário.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.2.3</a> e Figura 1.1, pp.&nbsp;6–7)</span>.</p>
+</blockquote>
+<section id="comparação-em-r" class="level3" data-number="2.16.1">
+<h3 data-number="2.16.1" class="anchored" data-anchor-id="comparação-em-r"><span class="header-section-number">2.16.1</span> Comparação em R</h3>
+<p>O exemplo abaixo reproduz a ideia da Figura 1.1 de <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>u_r <span class="ot">&lt;-</span> <span class="fu">runif</span>(n)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>u_ruim <span class="ot">&lt;-</span> <span class="fu">gcl</span>(</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> n,</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> <span class="dv">0</span>,</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">a =</span> <span class="dv">1</span>,</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">c =</span> <span class="dv">8</span>,</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">m =</span> <span class="dv">81</span>,</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">intervalo_aberto =</span> <span class="cn">FALSE</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>)<span class="sc">$</span>u</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>u_intermediario <span class="ot">&lt;-</span> <span class="fu">gcl</span>(</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> n,</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> <span class="dv">0</span>,</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">a =</span> <span class="dv">401</span>,</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">c =</span> <span class="dv">101</span>,</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">m =</span> <span class="dv">1024</span>,</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">intervalo_aberto =</span> <span class="cn">FALSE</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>)<span class="sc">$</span>u</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>)</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>  u_r[<span class="sc">-</span>n],</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>  u_r[<span class="sc">-</span><span class="dv">1</span>],</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">pch =</span> <span class="dv">16</span>,</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">cex =</span> <span class="fl">0.4</span>,</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="fu">expression</span>(U[i]),</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="fu">expression</span>(U[i<span class="sc">+</span><span class="dv">1</span>]),</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"runif()"</span></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>  u_ruim[<span class="sc">-</span>n],</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>  u_ruim[<span class="sc">-</span><span class="dv">1</span>],</span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>  <span class="at">pch =</span> <span class="dv">16</span>,</span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>  <span class="at">cex =</span> <span class="fl">0.4</span>,</span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="fu">expression</span>(U[i]),</span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="fu">expression</span>(U[i<span class="sc">+</span><span class="dv">1</span>]),</span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"GCL: m = 81"</span></span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>  u_intermediario[<span class="sc">-</span>n],</span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a>  u_intermediario[<span class="sc">-</span><span class="dv">1</span>],</span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a>  <span class="at">pch =</span> <span class="dv">16</span>,</span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>  <span class="at">cex =</span> <span class="fl">0.4</span>,</span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="fu">expression</span>(U[i]),</span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="fu">expression</span>(U[i<span class="sc">+</span><span class="dv">1</span>]),</span>
+<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"GCL: m = 1024"</span></span>
+<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="summary_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> valores dos parâmetros e estratégia gráfica retirados de <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, fig. 1.1</a> e Exercício E1.2, pp.&nbsp;7 e 37–38)</span>. O código foi reorganizado para o capítulo.</p>
+</blockquote>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para o GCL com <span class="math inline">\(m=81\)</span>, a estrutura é facilmente visível. Quando o espaço de estados cresce, a estrutura determinística pode se tornar invisível em um gráfico bidimensional, embora continue existindo matematicamente.</p>
+<p>Esse é um dos motivos pelos quais apenas “olhar o gráfico” não é suficiente para validar um gerador.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="autocorrelação" class="level2" data-number="2.17">
+<h2 data-number="2.17" class="anchored" data-anchor-id="autocorrelação"><span class="header-section-number">2.17</span> Autocorrelação</h2>
+<p>Outra medida de dependência serial é a autocorrelação de defasagem <span class="math inline">\(h\)</span>,</p>
+<p><span class="math display">\[
+\rho(h)
+=
+\operatorname{Corr}
+(U_t,U_{t+h}).
+\]</span></p>
+<p>Para uma sequência iid,</p>
+<p><span class="math display">\[
+\rho(h)=0
+\]</span></p>
+<p>para todo</p>
+<p><span class="math display">\[
+h\neq0.
+\]</span></p>
+<p>A autocorrelação amostral pode ser examinada em R por:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">5000</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  u,</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">lag.max =</span> <span class="dv">30</span>,</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="cn">NULL</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="summary_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Autocorrelações próximas de zero não implicam independência. Dependências não lineares ou estruturas multidimensionais podem permanecer mesmo quando a correlação linear é pequena.</p>
+<p><em>Base bibliográfica:</em> a necessidade de testar independência e estrutura serial é discutida em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.2.3</a>, pp.&nbsp;6–7)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.5</a>, pp.&nbsp;11–20)</span>.</p>
+</div>
+</div>
+</section>
+<section id="equidistribuição-multidimensional" class="level2" data-number="2.18">
+<h2 data-number="2.18" class="anchored" data-anchor-id="equidistribuição-multidimensional"><span class="header-section-number">2.18</span> Equidistribuição multidimensional</h2>
+<p>Um gerador pode ter boa distribuição marginal e ainda falhar quando examinamos vetores consecutivos. Considere vetores</p>
+<p><span class="math display">\[
+(U_i,U_{i+1},\ldots,U_{i+k-1}).
+\]</span></p>
+<p>A qualidade multidimensional está associada à capacidade desses vetores de preencher adequadamente regiões de</p>
+<p><span class="math display">\[
+[0,1]^k.
+\]</span></p>
+<p><span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> formaliza essa ideia por meio de <strong>equidistribuição <span class="math inline">\(k\)</span>-dimensional</strong> para sequências periódicas.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Definição 1.7, pp.&nbsp;7–8)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A dimensão relevante não é apenas a dimensão explícita do dado simulado. Um algoritmo pode consumir sucessivos números uniformes para construir uma única realização de um objeto complexo. Dessa forma, estruturas entre vários valores consecutivos podem contaminar o experimento mesmo quando histogramas univariados parecem perfeitos.</p>
+</div>
+</div>
+</section>
+<section id="estrutura-reticular-dos-geradores-lineares" class="level2" data-number="2.19">
+<h2 data-number="2.19" class="anchored" data-anchor-id="estrutura-reticular-dos-geradores-lineares"><span class="header-section-number">2.19</span> Estrutura reticular dos geradores lineares</h2>
+<p>Geradores baseados em recorrências lineares apresentam uma propriedade geométrica importante: vetores formados por valores sucessivos pertencem a uma estrutura reticular.</p>
+<p>Em determinadas dimensões, esses pontos podem se concentrar em um número relativamente pequeno de hiperplanos.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.5.1</a>, pp.&nbsp;12–14)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-note callout-titled" title="Definição conceitual">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Definição conceitual
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O <strong>teste espectral</strong> avalia a geometria da estrutura reticular de geradores lineares, medindo quão bem os pontos podem preencher o hipercubo unitário em diferentes dimensões.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.5.1</a>, pp.&nbsp;12–14)</span>.</p>
+</div>
+</div>
+<section id="o-exemplo-randu" class="level3" data-number="2.19.1">
+<h3 data-number="2.19.1" class="anchored" data-anchor-id="o-exemplo-randu"><span class="header-section-number">2.19.1</span> O exemplo RANDU</h3>
+<p><span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> apresenta o clássico RANDU como exemplo de gerador que pode parecer razoável em baixa dimensão e apresentar deficiência estrutural marcante em dimensão três.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.5.1</a>, p.&nbsp;14)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A lição não é memorizar os parâmetros de RANDU, mas compreender que um gerador pode passar em diagnósticos simples e ainda produzir estruturas determinísticas problemáticas em dimensões maiores.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="testes-empíricos-e-baterias-de-testes" class="level2" data-number="2.20">
+<h2 data-number="2.20" class="anchored" data-anchor-id="testes-empíricos-e-baterias-de-testes"><span class="header-section-number">2.20</span> Testes empíricos e baterias de testes</h2>
+<p>Uma avaliação séria de um PRNG deve combinar:</p>
+<ul>
+<li>propriedades teóricas do algoritmo;</li>
+<li>estudos da estrutura geométrica;</li>
+<li>testes empíricos de uniformidade;</li>
+<li>testes de dependência;</li>
+<li>avaliações em diferentes dimensões e transformações da sequência.</li>
+</ul>
+<p><span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> descreve testes de segunda ordem nos quais um procedimento estatístico é repetido muitas vezes e, posteriormente, a própria distribuição das estatísticas resultantes é avaliada.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.5.2</a>, pp.&nbsp;14–20)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Não rejeitar” a hipótese de uniformidade em um teste não demonstra que o gerador seja aleatório. Testes estatísticos são capazes de detectar alguns tipos de deficiência; não podem provar independência perfeita de uma sequência determinística.</p>
+</div>
+</div>
+</section>
+<section id="famílias-de-geradores-além-do-gcl" class="level2" data-number="2.21">
+<h2 data-number="2.21" class="anchored" data-anchor-id="famílias-de-geradores-além-do-gcl"><span class="header-section-number">2.21</span> Famílias de geradores além do GCL</h2>
+<p>O GCL é uma excelente ferramenta didática, mas geradores modernos utilizam estados mais ricos e estruturas algorítmicas mais sofisticadas. <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> apresenta, entre outras classes:</p>
+<ul>
+<li>geradores recursivos múltiplos (<em>multiple-recursive generators</em>, MRG);</li>
+<li>geradores congruenciais matriciais;</li>
+<li>geradores lineares módulo <span class="math inline">\(2\)</span>;</li>
+<li>geradores combinados;</li>
+<li>outras construções, como <em>multiply-with-carry</em> e <em>xorshift</em>.</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.2–1.4</a>, pp.&nbsp;4–11)</span>.</p>
+</blockquote>
+</section>
+<section id="geradores-recursivos-múltiplos" class="level2" data-number="2.22">
+<h2 data-number="2.22" class="anchored" data-anchor-id="geradores-recursivos-múltiplos"><span class="header-section-number">2.22</span> Geradores recursivos múltiplos</h2>
+<p>Em um MRG de ordem <span class="math inline">\(k\)</span>, o novo estado depende de vários estados anteriores:</p>
+<p><span class="math display">\[
+X_t
+=
+\left(
+a_1X_{t-1}
++
+\cdots
++
+a_kX_{t-k}
+\right)
+\bmod m.
+\]</span></p>
+<p>A ampliação do estado permite construir períodos da ordem de</p>
+<p><span class="math display">\[
+m^k-1
+\]</span></p>
+<p>sob escolhas apropriadas de parâmetros.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.2.2</a>, p.&nbsp;5)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A ideia central é aumentar o espaço de estados sem exigir que o módulo isoladamente seja gigantesco.</p>
+</div>
+</div>
+</section>
+<section id="geradores-lineares-módulo-2-e-mersenne-twister" class="level2" data-number="2.23">
+<h2 data-number="2.23" class="anchored" data-anchor-id="geradores-lineares-módulo-2-e-mersenne-twister"><span class="header-section-number">2.23</span> Geradores lineares módulo 2 e Mersenne Twister</h2>
+<p>Outra família utiliza operações binárias e recorrências lineares módulo <span class="math inline">\(2\)</span>. O <strong>Mersenne Twister MT19937</strong> é um exemplo importante dessa classe. <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> destaca seu grande período,</p>
+<p><span class="math display">\[
+2^{19937}-1,
+\]</span></p>
+<p>sua velocidade e suas boas propriedades de equidistribuição.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.2.4</a>, pp.&nbsp;6–8)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Período gigantesco não elimina todas as possíveis fraquezas. <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> também discute limitações do MT19937 e menciona desenvolvimentos posteriores destinados a melhorar propriedades específicas.</p>
+<p>O princípio geral permanece: <strong>nenhum gerador deve ser avaliado apenas pelo tamanho do período</strong>.</p>
+</div>
+</div>
+</section>
+<section id="geradores-combinados" class="level2" data-number="2.24">
+<h2 data-number="2.24" class="anchored" data-anchor-id="geradores-combinados"><span class="header-section-number">2.24</span> Geradores combinados</h2>
+<p>Outra estratégia é combinar a saída ou o estado de dois ou mais geradores. A combinação pode produzir período maior e melhorar propriedades estatísticas que seriam insatisfatórias nos componentes isolados. <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> apresenta geradores combinados e destaca a classe dos <strong>combined multiple-recursive generators</strong>.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.3</a>, pp.&nbsp;8–10)</span>.</p>
+</blockquote>
+</section>
+<section id="múltiplos-fluxos-e-simulação-paralela" class="level2" data-number="2.25">
+<h2 data-number="2.25" class="anchored" data-anchor-id="múltiplos-fluxos-e-simulação-paralela"><span class="header-section-number">2.25</span> Múltiplos fluxos e simulação paralela</h2>
+<p>Simulações modernas frequentemente utilizam vários núcleos de processamento ou executam diferentes cenários simultaneamente.</p>
+<p>Nesse contexto, é importante poder dividir a sequência pseudoaleatória em <strong>fluxos</strong> ou <strong>subfluxos</strong> planejados para evitar sobreposição indesejada.</p>
+<p><span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> inclui o suporte a múltiplos fluxos entre as propriedades desejáveis de um bom gerador e cita o MRG32k3a como exemplo de classe com suporte apropriado a esse tipo de aplicação.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.1.1–1.1.2</a>, pp.&nbsp;2–4)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Não se deve presumir que simplesmente escolher sementes numericamente próximas, como <code>1</code>, <code>2</code>, <code>3</code>, …, produza fluxos com propriedades adequadas para paralelização. Em aplicações paralelas, deve-se utilizar uma estratégia de fluxos prevista pelo gerador ou pela biblioteca escolhida.</p>
+<p>A forma específica de configurar esses fluxos no R depende da versão do software e deve ser conferida na documentação correspondente.</p>
+</div>
+</div>
+</section>
+<section id="geração-uniforme-em-r" class="level2" data-number="2.26">
+<h2 data-number="2.26" class="anchored" data-anchor-id="geração-uniforme-em-r"><span class="header-section-number">2.26</span> Geração uniforme em R</h2>
+<p>Para a prática cotidiana, não é necessário programar um PRNG desde o início. A função:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">runif</span>(n)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>gera <span class="math inline">\(n\)</span> números pseudoaleatórios uniformes.</p>
+<p>Também podemos gerar valores em um intervalo</p>
+<p><span class="math display">\[
+(a,b)
+\]</span></p>
+<p>por:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">runif</span>(n, <span class="at">min =</span> a, <span class="at">max =</span> b)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Apêndice B.4, pp.&nbsp;292–294)</span>, <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.1.1</a>, pp.&nbsp;248–249)</span> e <span class="citation" data-cites="dormann2025simulation">Dormann; Ellison (<a href="#ref-dormann2025simulation" role="doc-biblioref">2025</a>, Apêndice sobre geração de dados, p.&nbsp;409)</span>.</p>
+</blockquote>
+<section id="exemplo-1" class="level3" data-number="2.26.1">
+<h3 data-number="2.26.1" class="anchored" data-anchor-id="exemplo-1"><span class="header-section-number">2.26.1</span> Exemplo</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>u <span class="ot">&lt;-</span> <span class="fu">runif</span>(</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="dv">10000</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">min =</span> <span class="dv">0</span>,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">max =</span> <span class="dv">1</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(u)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+9.654e-05 2.504e-01 4.975e-01 4.989e-01 7.461e-01 9.999e-01 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(u)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.4988589</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(u)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.08311991</code></pre>
+</div>
+</div>
+<p>Para uma variável</p>
+<p><span class="math display">\[
+U\sim U(0,1),
+\]</span></p>
+<p>temos</p>
+<p><span class="math display">\[
+E(U)=\frac12
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+\operatorname{Var}(U)=\frac1{12}.
+\]</span></p>
+<p>Portanto, para uma amostra grande, esperamos observar</p>
+<p><span class="math display">\[
+\bar U\approx0{,}5
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+s^2\approx\frac1{12}.
+\]</span></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Essas comparações verificam apenas propriedades marginais simples. Elas são úteis para ensino e depuração, mas são muito fracas como teste de qualidade de um PRNG.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="inspecionando-a-documentação-do-r" class="level2" data-number="2.27">
+<h2 data-number="2.27" class="anchored" data-anchor-id="inspecionando-a-documentação-do-r"><span class="header-section-number">2.27</span> Inspecionando a documentação do R</h2>
+<p>Para consultar a ajuda do <code>R</code> para verificar os geradores disponíveis, basta:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(<span class="st">"Random"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Também é possível consultar a ajuda de funções específicas:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(<span class="st">"set.seed"</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(<span class="st">"runif"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="comparando-um-gerador-didático-com-runif" class="level2" data-number="2.28">
+<h2 data-number="2.28" class="anchored" data-anchor-id="comparando-um-gerador-didático-com-runif"><span class="header-section-number">2.28</span> Comparando um gerador didático com <code>runif()</code></h2>
+<p>Um exercício informativo consiste em comparar:</p>
+<ol type="1">
+<li>um gerador embutido no R;</li>
+<li>um GCL claramente inadequado;</li>
+<li>um GCL com espaço de estados maior.</li>
+</ol>
+<section id="função-de-diagnóstico" class="level3" data-number="2.28.1">
+<h3 data-number="2.28.1" class="anchored" data-anchor-id="função-de-diagnóstico"><span class="header-section-number">2.28.1</span> Função de diagnóstico</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>diagnostico_prng <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    u,</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">lag_max =</span> <span class="dv">20</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>) {</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(u)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">par</span>(</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hist</span>(</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    u,</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="dv">20</span>,</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">probability =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"Histograma"</span>,</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"u"</span></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">abline</span>(</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">h =</span> <span class="dv">1</span>,</span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">lwd =</span> <span class="dv">2</span></span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(</span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>    u[<span class="sc">-</span>n],</span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>    u[<span class="sc">-</span><span class="dv">1</span>],</span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">pch =</span> <span class="dv">16</span>,</span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">cex =</span> <span class="fl">0.4</span>,</span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="fu">expression</span>(U[i]),</span>
+<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="fu">expression</span>(U[i<span class="sc">+</span><span class="dv">1</span>]),</span>
+<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"Pares consecutivos"</span></span>
+<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(</span>
+<span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">seq_len</span>(n),</span>
+<span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a>    u,</span>
+<span id="cb26-37"><a href="#cb26-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"l"</span>,</span>
+<span id="cb26-38"><a href="#cb26-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"Índice"</span>,</span>
+<span id="cb26-39"><a href="#cb26-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"u"</span>,</span>
+<span id="cb26-40"><a href="#cb26-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"Sequência"</span></span>
+<span id="cb26-41"><a href="#cb26-41" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb26-42"><a href="#cb26-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-43"><a href="#cb26-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">acf</span>(</span>
+<span id="cb26-44"><a href="#cb26-44" aria-hidden="true" tabindex="-1"></a>    u,</span>
+<span id="cb26-45"><a href="#cb26-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">lag.max =</span> lag_max,</span>
+<span id="cb26-46"><a href="#cb26-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"Autocorrelação"</span></span>
+<span id="cb26-47"><a href="#cb26-47" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb26-48"><a href="#cb26-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-49"><a href="#cb26-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">par</span>(</span>
+<span id="cb26-50"><a href="#cb26-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb26-51"><a href="#cb26-51" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb26-52"><a href="#cb26-52" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="runif" class="level4" data-number="2.28.1.1">
+<h4 data-number="2.28.1.1" class="anchored" data-anchor-id="runif"><span class="header-section-number">2.28.1.1</span> <code>runif()</code></h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">diagnostico_prng</span>(</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">runif</span>(<span class="dv">2000</span>)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="summary_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="gcl-deliberadamente-fraco" class="level4" data-number="2.28.1.2">
+<h4 data-number="2.28.1.2" class="anchored" data-anchor-id="gcl-deliberadamente-fraco"><span class="header-section-number">2.28.1.2</span> GCL deliberadamente fraco</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>u_fraco <span class="ot">&lt;-</span> <span class="fu">gcl</span>(</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="dv">2000</span>,</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> <span class="dv">0</span>,</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">a =</span> <span class="dv">1</span>,</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">c =</span> <span class="dv">8</span>,</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">m =</span> <span class="dv">81</span>,</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">intervalo_aberto =</span> <span class="cn">FALSE</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>)<span class="sc">$</span>u</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="fu">diagnostico_prng</span>(</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>  u_fraco</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="summary_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> comparação inspirada em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, fig. 1.1</a>, p.&nbsp;7, e Exercício E1.2, pp.&nbsp;37–38)</span>.</p>
+</blockquote>
+</section>
+</section>
+<section id="um-exemplo-com-parâmetros-maiores" class="level3" data-number="2.28.2">
+<h3 data-number="2.28.2" class="anchored" data-anchor-id="um-exemplo-com-parâmetros-maiores"><span class="header-section-number">2.28.2</span> Um exemplo com parâmetros maiores</h3>
+<p><span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> também compara, entre outros, o GCL</p>
+<p><span class="math display">\[
+m=2^{32},
+\]</span></p>
+<p><span class="math display">\[
+a=1664525,
+\]</span></p>
+<p><span class="math display">\[
+c=1013904223.
+\]</span></p>
+<p>Em gráficos bidimensionais, sua estrutura pode ser muito menos evidente do que a de GCLs pequenos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>u_grande <span class="ot">&lt;-</span> <span class="fu">gcl</span>(</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="dv">5000</span>,</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> <span class="dv">12345</span>,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">a =</span> <span class="dv">1664525</span>,</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">c =</span> <span class="dv">1013904223</span>,</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">m =</span> <span class="dv">2</span><span class="sc">^</span><span class="dv">32</span>,</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">intervalo_aberto =</span> <span class="cn">FALSE</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>)<span class="sc">$</span>u</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>  u_grande[<span class="sc">-</span><span class="fu">length</span>(u_grande)],</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>  u_grande[<span class="sc">-</span><span class="dv">1</span>],</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">pch =</span> <span class="dv">16</span>,</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">cex =</span> <span class="fl">0.35</span>,</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="fu">expression</span>(U[i]),</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="fu">expression</span>(U[i<span class="sc">+</span><span class="dv">1</span>])</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="summary_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> parâmetros retirados de <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, fig. 1.1</a>, p.&nbsp;7)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O desaparecimento visual de um padrão em duas dimensões não transforma um GCL em uma sequência iid. Testes multidimensionais e análise teórica continuam necessários.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="geradores-para-simulação-não-são-geradores-criptográficos" class="level2" data-number="2.29">
+<h2 data-number="2.29" class="anchored" data-anchor-id="geradores-para-simulação-não-são-geradores-criptográficos"><span class="header-section-number">2.29</span> Geradores para simulação não são geradores criptográficos</h2>
+<p>A finalidade de um PRNG científico é produzir boas propriedades estatísticas para simulação.</p>
+<p>Na criptografia, além dessas propriedades, a <strong>imprevisibilidade</strong> é central. Geradores lineares simples podem ser inadequados nesse contexto mesmo quando funcionam razoavelmente para certas simulações.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.1.2</a> e 1.4, pp.&nbsp;3 e 10–11)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-note callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Bom para Monte Carlo” e “seguro para criptografia” são critérios diferentes. Este capítulo trata apenas da primeira finalidade.</p>
+</div>
+</div>
+</section>
+<section id="recomendações-práticas" class="level2" data-number="2.30">
+<h2 data-number="2.30" class="anchored" data-anchor-id="recomendações-práticas"><span class="header-section-number">2.30</span> Recomendações práticas</h2>
+<p>Para simulação estatística, uma estratégia segura é:</p>
+<ol type="1">
+<li>usar o gerador fornecido por uma implementação científica consolidada;</li>
+<li>registrar a semente quando a reprodução exata for necessária;</li>
+<li>não escolher um gerador apenas pelo período;</li>
+<li>evitar a implementação caseira de um PRNG em trabalhos aplicados;</li>
+<li>usar múltiplos fluxos planejados em computação paralela;</li>
+<li>realizar diagnósticos quando um algoritmo próprio ou um gerador incomum for indispensável;</li>
+<li>documentar a versão do software quando a reprodução de uma sequência específica for importante.</li>
+</ol>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.3</a>, p.&nbsp;8)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.1.1–1.1.2</a>, pp.&nbsp;2–4)</span>.</p>
+</blockquote>
+</section>
+<section id="limitações-dos-diagnósticos-simples" class="level2" data-number="2.31">
+<h2 data-number="2.31" class="anchored" data-anchor-id="limitações-dos-diagnósticos-simples"><span class="header-section-number">2.31</span> Limitações dos diagnósticos simples</h2>
+<p>Os três diagnósticos mais comuns — histograma, gráfico de pares e autocorrelação — têm utilidade pedagógica, mas possuem limitações.</p>
+<section id="histograma-1" class="level3" data-number="2.31.1">
+<h3 data-number="2.31.1" class="anchored" data-anchor-id="histograma-1"><span class="header-section-number">2.31.1</span> Histograma</h3>
+<p>Pode detectar grandes desvios de uniformidade, mas não detecta bem dependência.</p>
+</section>
+<section id="gráfico-de-pares" class="level3" data-number="2.31.2">
+<h3 data-number="2.31.2" class="anchored" data-anchor-id="gráfico-de-pares"><span class="header-section-number">2.31.2</span> Gráfico de pares</h3>
+<p>Pode revelar padrões bidimensionais, mas não garante bom comportamento em dimensão três, quatro ou superior.</p>
+</section>
+<section id="autocorrelação-1" class="level3" data-number="2.31.3">
+<h3 data-number="2.31.3" class="anchored" data-anchor-id="autocorrelação-1"><span class="header-section-number">2.31.3</span> Autocorrelação</h3>
+<p>Detecta associação linear serial, mas pode deixar passar dependências não lineares.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Conclusão diagnóstica">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Conclusão diagnóstica
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Um PRNG não deve ser validado por uma única estatística ou figura. A avaliação robusta combina conhecimento teórico da construção com uma bateria de testes empíricos.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.5</a>, pp.&nbsp;11–20)</span> e <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.2</a>, pp.&nbsp;4–8)</span>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="síntese-do-capítulo" class="level2" data-number="2.32">
+<h2 data-number="2.32" class="anchored" data-anchor-id="síntese-do-capítulo"><span class="header-section-number">2.32</span> Síntese do capítulo</h2>
+<div class="callout callout-style-default callout-note callout-titled" title="Síntese">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Síntese
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A simulação computacional utiliza números pseudoaleatórios para substituir uma sequência ideal</p>
+<p><span class="math display">\[
+U_1,U_2,\ldots
+\stackrel{iid}{\sim}
+U(0,1).
+\]</span></p>
+<p>Um PRNG é determinístico. Seu estado evolui segundo uma função de transição e a semente determina o estado inicial. Como o espaço de estados é finito, toda sequência pseudoaleatória possui período finito.</p>
+<p>O GCL utiliza</p>
+<p><span class="math display">\[
+X_n
+=
+(aX_{n-1}+c)\bmod m
+\]</span></p>
+<p>e é uma ferramenta particularmente útil para compreender os conceitos de semente, período, dependência e escolha de parâmetros.</p>
+<p>Entretanto, qualidade não significa apenas período longo. Também é necessário examinar uniformidade, dependência, comportamento multidimensional, estrutura reticular, propriedades teóricas e desempenho em baterias de testes.</p>
+<p>Na prática, recomenda-se utilizar geradores consolidados das bibliotecas científicas, reservando implementações manuais do GCL para ensino e experimentação.</p>
+</div>
+</div>
+</section>
+<section id="exercícios" class="level2" data-number="2.33">
+<h2 data-number="2.33" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">2.33</span> Exercícios</h2>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 1 — implementação do GCL">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 1 — implementação do GCL
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Implemente um GCL em R com argumentos <code>n</code>, <code>seed</code>, <code>a</code>, <code>c</code> e <code>m</code>.</p>
+<p>Use</p>
+<p><span class="math display">\[
+m=8,
+\qquad
+a=5,
+\qquad
+c=1,
+\qquad
+X_0=0.
+\]</span></p>
+<ol type="1">
+<li>Gere os primeiros 16 estados.</li>
+<li>Identifique o período.</li>
+<li>Verifique que os primeiros oito estados formam uma permutação de <span class="math inline">\(\{0,\ldots,7\}\)</span>.</li>
+</ol>
+<p><em>Baseado em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Exemplo 1.3 e Exercício E1.1, pp.&nbsp;3 e 37)</span>.</em></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 2 — transformação para o intervalo unitário">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 2 — transformação para o intervalo unitário
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para o GCL do exercício anterior, construa duas sequências:</p>
+<p><span class="math display">\[
+U_n^{(1)}=\frac{X_n}{m}
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+U_n^{(2)}=\frac{X_n+1}{m+1}.
+\]</span></p>
+<ol type="1">
+<li>Determine os conjuntos de valores possíveis.</li>
+<li>Mostre qual transformação pode produzir zero.</li>
+<li>Explique por que nenhuma das duas sequências é literalmente contínua.</li>
+</ol>
+<p><em>Baseado em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.3</a>, p.&nbsp;8)</span>.</em></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 3 — período completo">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 3 — período completo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Verifique as três condições de período completo para</p>
+<p><span class="math display">\[
+m=16,
+\qquad
+a=5,
+\qquad
+c=3.
+\]</span></p>
+<p>Em seguida, use uma implementação em R para confirmar empiricamente o período.</p>
+<p><em>Base de leitura:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Teorema 1.4, p.&nbsp;4)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 4 — parâmetros inadequados">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 4 — parâmetros inadequados
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Considere</p>
+<p><span class="math display">\[
+m=17,
+\qquad
+a=5,
+\qquad
+c=1.
+\]</span></p>
+<ol type="1">
+<li>Gere 100 valores.</li>
+<li>Calcule o período.</li>
+<li>Construa um histograma.</li>
+<li>Construa o gráfico <span class="math inline">\((U_i,U_{i+1})\)</span>.</li>
+<li>Explique por que um histograma aparentemente razoável não garante boa qualidade.</li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 5 — reprodução do experimento de Voss">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 5 — reprodução do experimento de Voss
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Compare os gráficos de pares consecutivos para:</p>
+<ol type="1">
+<li><code>runif(1000)</code>;</li>
+<li><span class="math inline">\(m=81\)</span>, <span class="math inline">\(a=1\)</span>, <span class="math inline">\(c=8\)</span>;</li>
+<li><span class="math inline">\(m=1024\)</span>, <span class="math inline">\(a=401\)</span>, <span class="math inline">\(c=101\)</span>;</li>
+<li><span class="math inline">\(m=2^{32}\)</span>, <span class="math inline">\(a=1664525\)</span>, <span class="math inline">\(c=1013904223\)</span>.</li>
+</ol>
+<p>Explique como a estrutura visual muda com o tamanho do espaço de estados.</p>
+<p><em>Exercício baseado em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Exercício E1.2, pp.&nbsp;37–38)</span>.</em></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 6 — regularidade excessiva">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 6 — regularidade excessiva
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Considere a sequência</p>
+<p><span class="math display">\[
+X_n=n\bmod 1024.
+\]</span></p>
+<ol type="1">
+<li>Divida os valores em 16 blocos iguais.</li>
+<li>Calcule a estatística qui-quadrado de aderência.</li>
+<li>Explique por que a estatística pode ser excessivamente pequena.</li>
+<li>Discuta por que um teste unilateral tradicional pode deixar de detectar o problema.</li>
+</ol>
+<p><em>Baseado em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Exemplo 1.6, pp.&nbsp;5–6)</span>.</em></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 7 — autocorrelação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 7 — autocorrelação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para cada gerador do Exercício 5, estime as autocorrelações para defasagens</p>
+<p><span class="math display">\[
+h=1,\ldots,30.
+\]</span></p>
+<p>Compare os resultados com os gráficos de pares.</p>
+<p>Explique por que autocorrelação próxima de zero não implica independência.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 8 — dimensão maior">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 8 — dimensão maior
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Construa vetores</p>
+<p><span class="math display">\[
+(U_i,U_{i+1},U_{i+2})
+\]</span></p>
+<p>para um GCL pequeno.</p>
+<p>Use uma visualização tridimensional disponível em R ou examine projeções bidimensionais com <code>pairs()</code>.</p>
+<p>Discuta a relação entre o experimento e a ideia de equidistribuição multidimensional.</p>
+<p><em>Base de leitura:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Definição 1.7, pp.&nbsp;7–8)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.5.1</a>, pp.&nbsp;12–14)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 9 — minimal standard LCG">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 9 — minimal standard LCG
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Implemente o gerador</p>
+<p><span class="math display">\[
+m=2^{31}-1,
+\qquad
+a=16807,
+\qquad
+c=0.
+\]</span></p>
+<ol type="1">
+<li>Gere <span class="math inline">\(10^4\)</span> números.</li>
+<li>Examine histograma, pares e autocorrelação.</li>
+<li>Compare com <code>runif(10000)</code>.</li>
+<li>Explique por que bons resultados nesses três diagnósticos não são suficientes para recomendar o gerador em aplicações modernas de grande escala.</li>
+</ol>
+<p><em>Base de leitura:</em> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Exemplo 1.1, p.&nbsp;5)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 10 — semente e reprodutibilidade">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 10 — semente e reprodutibilidade
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Execute:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">314</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>u1 <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">10</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">314</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>u2 <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">10</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol type="1">
+<li>Verifique que <code>u1</code> e <code>u2</code> são idênticos.</li>
+<li>Gere mais cinco valores sem executar novamente <code>set.seed()</code>.</li>
+<li>Explique a diferença entre <strong>reinicializar</strong> o estado e <strong>continuar</strong> o fluxo.</li>
+</ol>
+<p><em>Baseado em <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.1.1</a>, pp.&nbsp;248–249)</span>.</em></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 11 — critérios de qualidade">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 11 — critérios de qualidade
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Explique por que cada uma das afirmações seguintes é insuficiente para concluir que um gerador é bom:</p>
+<ol type="1">
+<li>“O período é enorme.”</li>
+<li>“O histograma é plano.”</li>
+<li>“A autocorrelação de primeira ordem é próxima de zero.”</li>
+<li>“O teste de uniformidade não rejeitou.”</li>
+<li>“O gráfico <span class="math inline">\((U_i,U_{i+1})\)</span> parece aleatório.”</li>
+</ol>
+<p><em>Base de leitura:</em> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.1</a> e 1.5)</span> e <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.2</a>)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 12 — múltiplos fluxos">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 12 — múltiplos fluxos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Explique por que simulações paralelas exigem cuidado adicional com a geração pseudoaleatória.</p>
+<p>Em sua resposta, diferencie:</p>
+<ul>
+<li>uma única sequência longa;</li>
+<li>vários fluxos planejados;</li>
+<li>várias execuções inicializadas com sementes arbitrárias.</li>
+</ul>
+<p><em>Base de leitura:</em> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.1.1</a>, pp.&nbsp;2–3)</span>.</p>
+</div>
+</div>
+</section>
+<section id="referências" class="level1 unnumbered">
+<h1 class="unnumbered">Referências</h1>
+
+
+<div id="refs" class="references csl-bib-body" data-entry-spacing="1" role="list">
+<div id="ref-dormann2025simulation" class="csl-entry" role="listitem">
+DORMANN, Carsten F.; ELLISON, Aaron M. <strong>Statistics by Simulation: A Synthetic Data Approach</strong>. Princeton: Princeton University Press, 2025.
+</div>
+<div id="ref-kroese2011handbook" class="csl-entry" role="listitem">
+KROESE, Dirk P.; TAIMRE, Thomas; BOTEV, Zdravko I. <strong>Handbook of Monte Carlo Methods</strong>. Hoboken: John Wiley &amp; Sons, 2011.
+</div>
+<div id="ref-rubinstein2008simulation" class="csl-entry" role="listitem">
+RUBINSTEIN, Reuven Y.; KROESE, Dirk P. <strong>Simulation and the Monte Carlo Method</strong>. 2. ed. Hoboken: John Wiley &amp; Sons, 2008.
+</div>
+<div id="ref-thulin2025modern" class="csl-entry" role="listitem">
+THULIN, Måns. <strong>Modern Statistics with R: From Wrangling and Exploring Data to Inference and Predictive Modelling</strong>. 2. ed. Boca Raton: CRC Press, 2025.
+</div>
+<div id="ref-voss2014statistical" class="csl-entry" role="listitem">
+VOSS, Jochen. <strong>An Introduction to Statistical Computing: A Simulation-Based Approach</strong>. 1. ed. Chichester: John Wiley &amp; Sons, 2014.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->

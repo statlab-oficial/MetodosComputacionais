@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>7&nbsp; Algoritmo EM</title>
+<title>7&nbsp; Algoritmo EM: máxima verossimilhança com dados incompletos e variáveis latentes</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,7 +20,61 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 1em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -30,7 +84,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./metodosadicionais.html" rel="next">
 <link href="./otimizaca.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -71,6 +124,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -84,7 +166,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./em.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Algoritmo EM</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./em.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Algoritmo EM: máxima verossimilhança com dados incompletos e variáveis latentes</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -158,19 +240,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./em.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Algoritmo EM</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./metodosadicionais.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Aplicações Modernas em Estatística Computacional</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Referências</span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Algoritmo EM: máxima verossimilhança com dados incompletos e variáveis latentes</span></span></a>
   </div>
 </li>
     </ul>
@@ -179,14 +249,61 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Índice</h2>
+   
+  <ul>
+  <li><a href="#objetivos-de-aprendizagem" id="toc-objetivos-de-aprendizagem" class="nav-link active" data-scroll-target="#objetivos-de-aprendizagem"><span class="header-section-number">7.1</span> Objetivos de aprendizagem</a></li>
+  <li><a href="#problemas-estatísticos-envolvendo-informações-incompletas-e-variáveis-latentes" id="toc-problemas-estatísticos-envolvendo-informações-incompletas-e-variáveis-latentes" class="nav-link" data-scroll-target="#problemas-estatísticos-envolvendo-informações-incompletas-e-variáveis-latentes"><span class="header-section-number">7.2</span> Problemas estatísticos envolvendo informações incompletas e variáveis latentes</a></li>
+  <li><a href="#dados-observados-e-dados-completos" id="toc-dados-observados-e-dados-completos" class="nav-link" data-scroll-target="#dados-observados-e-dados-completos"><span class="header-section-number">7.3</span> Dados observados e dados completos</a></li>
+  <li><a href="#estrutura-geral-do-algoritmo-em" id="toc-estrutura-geral-do-algoritmo-em" class="nav-link" data-scroll-target="#estrutura-geral-do-algoritmo-em"><span class="header-section-number">7.4</span> Estrutura geral do algoritmo EM</a></li>
+  <li><a href="#etapa-da-esperança-e" id="toc-etapa-da-esperança-e" class="nav-link" data-scroll-target="#etapa-da-esperança-e"><span class="header-section-number">7.5</span> Etapa da esperança (E)</a>
+  <ul class="collapse">
+  <li><a href="#responsabilidades-em-uma-mistura-finita" id="toc-responsabilidades-em-uma-mistura-finita" class="nav-link" data-scroll-target="#responsabilidades-em-uma-mistura-finita"><span class="header-section-number">7.5.1</span> Responsabilidades em uma mistura finita</a></li>
+  </ul></li>
+  <li><a href="#etapa-da-maximização-m" id="toc-etapa-da-maximização-m" class="nav-link" data-scroll-target="#etapa-da-maximização-m"><span class="header-section-number">7.6</span> Etapa da maximização (M)</a>
+  <ul class="collapse">
+  <li><a href="#etapa-m-para-uma-mistura-normal-univariada" id="toc-etapa-m-para-uma-mistura-normal-univariada" class="nav-link" data-scroll-target="#etapa-m-para-uma-mistura-normal-univariada"><span class="header-section-number">7.6.1</span> Etapa M para uma mistura normal univariada</a></li>
+  </ul></li>
+  <li><a href="#propriedade-de-monotonicidade-da-log-verossimilhança" id="toc-propriedade-de-monotonicidade-da-log-verossimilhança" class="nav-link" data-scroll-target="#propriedade-de-monotonicidade-da-log-verossimilhança"><span class="header-section-number">7.7</span> Propriedade de monotonicidade da log-verossimilhança</a></li>
+  <li><a href="#critérios-de-convergência" id="toc-critérios-de-convergência" class="nav-link" data-scroll-target="#critérios-de-convergência"><span class="header-section-number">7.8</span> Critérios de convergência</a></li>
+  <li><a href="#sensibilidade-aos-valores-iniciais" id="toc-sensibilidade-aos-valores-iniciais" class="nav-link" data-scroll-target="#sensibilidade-aos-valores-iniciais"><span class="header-section-number">7.9</span> Sensibilidade aos valores iniciais</a></li>
+  <li><a href="#máximos-locais-e-limitações-computacionais" id="toc-máximos-locais-e-limitações-computacionais" class="nav-link" data-scroll-target="#máximos-locais-e-limitações-computacionais"><span class="header-section-number">7.10</span> Máximos locais e limitações computacionais</a></li>
+  <li><a href="#implementação-do-algoritmo-em-em-r" id="toc-implementação-do-algoritmo-em-em-r" class="nav-link" data-scroll-target="#implementação-do-algoritmo-em-em-r"><span class="header-section-number">7.11</span> Implementação do algoritmo EM em R</a>
+  <ul class="collapse">
+  <li><a href="#estrutura-computacional-genérica" id="toc-estrutura-computacional-genérica" class="nav-link" data-scroll-target="#estrutura-computacional-genérica"><span class="header-section-number">7.11.1</span> Estrutura computacional genérica</a></li>
+  <li><a href="#exemplo-em-r-normal-com-valores-ausentes" id="toc-exemplo-em-r-normal-com-valores-ausentes" class="nav-link" data-scroll-target="#exemplo-em-r-normal-com-valores-ausentes"><span class="header-section-number">7.11.2</span> Exemplo em R: normal com valores ausentes</a></li>
+  </ul></li>
+  <li><a href="#aplicação-a-modelos-de-mistura-de-distribuições" id="toc-aplicação-a-modelos-de-mistura-de-distribuições" class="nav-link" data-scroll-target="#aplicação-a-modelos-de-mistura-de-distribuições"><span class="header-section-number">7.12</span> Aplicação a modelos de mistura de distribuições</a>
+  <ul class="collapse">
+  <li><a href="#mistura-de-duas-normais-em-r" id="toc-mistura-de-duas-normais-em-r" class="nav-link" data-scroll-target="#mistura-de-duas-normais-em-r"><span class="header-section-number">7.12.1</span> Mistura de duas normais em R</a></li>
+  <li><a href="#dados-simulados" id="toc-dados-simulados" class="nav-link" data-scroll-target="#dados-simulados"><span class="header-section-number">7.12.2</span> Dados simulados</a></li>
+  <li><a href="#visualização-do-ajuste" id="toc-visualização-do-ajuste" class="nav-link" data-scroll-target="#visualização-do-ajuste"><span class="header-section-number">7.12.3</span> Visualização do ajuste</a></li>
+  <li><a href="#trajetória-da-log-verossimilhança" id="toc-trajetória-da-log-verossimilhança" class="nav-link" data-scroll-target="#trajetória-da-log-verossimilhança"><span class="header-section-number">7.12.4</span> Trajetória da log-verossimilhança</a></li>
+  <li><a href="#múltiplos-valores-iniciais" id="toc-múltiplos-valores-iniciais" class="nav-link" data-scroll-target="#múltiplos-valores-iniciais"><span class="header-section-number">7.12.5</span> Múltiplos valores iniciais</a></li>
+  <li><a href="#uso-de-mclust" id="toc-uso-de-mclust" class="nav-link" data-scroll-target="#uso-de-mclust"><span class="header-section-number">7.12.6</span> Uso de <code>mclust</code></a></li>
+  </ul></li>
+  <li><a href="#interpretação-e-diagnóstico-dos-resultados" id="toc-interpretação-e-diagnóstico-dos-resultados" class="nav-link" data-scroll-target="#interpretação-e-diagnóstico-dos-resultados"><span class="header-section-number">7.13</span> Interpretação e diagnóstico dos resultados</a>
+  <ul class="collapse">
+  <li><a href="#log-verossimilhança-final-e-trajetória" id="toc-log-verossimilhança-final-e-trajetória" class="nav-link" data-scroll-target="#log-verossimilhança-final-e-trajetória"><span class="header-section-number">7.13.1</span> Log-verossimilhança final e trajetória</a></li>
+  <li><a href="#convergência-formal-da-implementação" id="toc-convergência-formal-da-implementação" class="nav-link" data-scroll-target="#convergência-formal-da-implementação"><span class="header-section-number">7.13.2</span> Convergência formal da implementação</a></li>
+  <li><a href="#comparação-entre-inicializações" id="toc-comparação-entre-inicializações" class="nav-link" data-scroll-target="#comparação-entre-inicializações"><span class="header-section-number">7.13.3</span> Comparação entre inicializações</a></li>
+  <li><a href="#responsabilidades" id="toc-responsabilidades" class="nav-link" data-scroll-target="#responsabilidades"><span class="header-section-number">7.13.4</span> Responsabilidades</a></li>
+  <li><a href="#rótulos-das-componentes" id="toc-rótulos-das-componentes" class="nav-link" data-scroll-target="#rótulos-das-componentes"><span class="header-section-number">7.13.5</span> Rótulos das componentes</a></li>
+  <li><a href="#número-de-componentes" id="toc-número-de-componentes" class="nav-link" data-scroll-target="#número-de-componentes"><span class="header-section-number">7.13.6</span> Número de componentes</a></li>
+  </ul></li>
+  <li><a href="#síntese-do-capítulo" id="toc-síntese-do-capítulo" class="nav-link" data-scroll-target="#síntese-do-capítulo"><span class="header-section-number">7.14</span> Síntese do capítulo</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">7.15</span> Exercícios</a></li>
+  <li><a href="#referências" id="toc-referências" class="nav-link" data-scroll-target="#referências">Referências</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Algoritmo EM</span></h1>
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Algoritmo EM: máxima verossimilhança com dados incompletos e variáveis latentes</span></h1>
 </div>
 
 
@@ -203,8 +320,1561 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>O algoritmo <strong>EM</strong> (<em>Expectation-Maximization</em>) é um procedimento iterativo para problemas de estimação por máxima verossimilhança nos quais a formulação estatística se torna mais simples se os dados observados forem ampliados por valores ausentes, censurados, não observáveis ou por variáveis latentes. Em vez de maximizar diretamente uma verossimilhança observada potencialmente complicada, o método alterna entre a construção de uma esperança condicional da log-verossimilhança de dados completos e a maximização dessa quantidade em relação aos parâmetros.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> a formulação geral deste capítulo segue principalmente o Apêndice D.7 de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [pp.&nbsp;711–714], a Seção 13.4 de <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>, pp.&nbsp;540–548)</span> e a Seção 13.8 de <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022</a>)</span> [pp.&nbsp;483–488]. As aplicações em misturas e em R são complementadas por <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025</a>)</span> [Seção 4.12.5, pp.&nbsp;156–157; Seção 10.1.3, aproximadamente pp.&nbsp;359–362] e <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008, seç. 8.3</a>, pp.&nbsp;145–148)</span>.</p>
+</blockquote>
+<section id="objetivos-de-aprendizagem" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="objetivos-de-aprendizagem"><span class="header-section-number">7.1</span> Objetivos de aprendizagem</h2>
+<p>Ao final deste capítulo, espera-se que o leitor seja capaz de:</p>
+<ul>
+<li>reconhecer problemas nos quais dados incompletos ou variáveis latentes sugerem uma formulação EM;</li>
+<li>distinguir formalmente dados observados de dados completos;</li>
+<li>construir as etapas E e M a partir de uma log-verossimilhança de dados completos;</li>
+<li>justificar a monotonicidade da log-verossimilhança observada;</li>
+<li>escolher critérios computacionais de parada e avaliar sensibilidade aos valores iniciais;</li>
+<li>implementar o EM em R e aplicá-lo a modelos de mistura;</li>
+<li>interpretar responsabilidades, parâmetros estimados, trajetória da log-verossimilhança e evidências de convergência problemática.</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> organização didática baseada nos tópicos desenvolvidos em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [Apêndice D.7, pp.&nbsp;711–714], <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021, seç. 13.4</a>, pp.&nbsp;540–548)</span> e <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022, seç. 13.8</a>, pp.&nbsp;483–488)</span>.</p>
+</blockquote>
+</section>
+<section id="problemas-estatísticos-envolvendo-informações-incompletas-e-variáveis-latentes" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="problemas-estatísticos-envolvendo-informações-incompletas-e-variáveis-latentes"><span class="header-section-number">7.2</span> Problemas estatísticos envolvendo informações incompletas e variáveis latentes</h2>
+<p>Muitos problemas de inferência podem ser descritos por um modelo probabilístico simples para uma informação que, conceitualmente, seria completa, mas que não é integralmente observada. Há pelo menos duas situações importantes.</p>
+<p>A primeira ocorre quando <strong>parte dos dados existe conceitualmente, mas não é observada</strong>. Isso inclui valores ausentes e observações censuradas. <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021, seç. 13.4</a>, pp.&nbsp;540–544)</span> usa como motivação estudos de sobrevivência nos quais alguns tempos de falha são observados exatamente, enquanto para outras unidades sabe-se apenas que o tempo de vida excedeu um limite de censura. O mesmo texto também apresenta a ausência de respostas em levantamentos como exemplo de informação incompleta.</p>
+<p>A segunda ocorre quando o próprio modelo introduz uma <strong>estrutura latente</strong>. Em uma mistura finita de distribuições, por exemplo, cada observação é gerada por uma de várias componentes, mas o rótulo da componente que gerou cada valor não é observado. A introdução desses rótulos transforma a verossimilhança da mistura em uma forma de dados completos consideravelmente mais simples. Essa estratégia de aumentar os dados com variáveis auxiliares ou latentes é destacada por <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 6.3.5</a> e Apêndice D.7, especialmente pp.&nbsp;259–260 e 711–714)</span>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Definição">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Definição
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Chamaremos de <strong>informação incompleta</strong> uma situação em que a verossimilhança observada resulta da marginalização de uma informação adicional não observada. Essa informação adicional pode corresponder a valores realmente ausentes, tempos censurados, rótulos de componentes de uma mistura ou outras variáveis latentes introduzidas para facilitar a computação.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>)</span> [Seção 13.4, pp.&nbsp;540–541] e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [Seção 6.3.5, pp.&nbsp;259–260; Apêndice D.7, pp.&nbsp;711–712].</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O ponto central não é apenas que existam dados faltantes. O EM é especialmente útil quando <strong>imaginar os dados completos torna a maximização mais fácil</strong>. Em uma mistura normal, por exemplo, a dificuldade da soma dentro da log-verossimilhança observada é substituída por uma log-verossimilhança completa na qual os rótulos latentes aparecem como indicadores.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice D.7, pp.&nbsp;711–714)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="Exemplo: censura em tempos de sobrevivência">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exemplo: censura em tempos de sobrevivência
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Considere tempos de sobrevivência com distribuição exponencial de média <span class="math inline">\(\theta\)</span>. Para algumas unidades observa-se o tempo de falha; para outras, sabe-se apenas que sobreviveram além de um tempo de censura <span class="math inline">\(T\)</span>. Os tempos reais das unidades censuradas podem ser tratados como dados não observados. <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>, Exemplo 13.4.1, pp.&nbsp;542–544)</span> mostra que essa formulação conduz a uma etapa E simples, pois, sob a distribuição exponencial,</p>
+<p><span class="math display">\[E(Y \mid Y&gt;T,\theta^{(t)})=T+\theta^{(t)}.\]</span></p>
+<p>Esse resultado fornece a quantidade que substitui os tempos não observados na esperança da log-verossimilhança completa.</p>
+<p><em>Base bibliográfica:</em> exemplo adaptado de <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>, Exemplo 13.4.1, pp.&nbsp;542–544)</span>.</p>
+</div>
+</div>
+</section>
+<section id="dados-observados-e-dados-completos" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="dados-observados-e-dados-completos"><span class="header-section-number">7.3</span> Dados observados e dados completos</h2>
+<p>Seja <span class="math inline">\(Y\)</span> o vetor de dados efetivamente observados e seja <span class="math inline">\(Z\)</span> um vetor de valores ausentes ou variáveis latentes. O vetor</p>
+<p><span class="math display">\[X_c=(Y,Z)\]</span></p>
+<p>será chamado de <strong>dado completo</strong>. Seja <span class="math inline">\(\theta\in\Theta\)</span> o vetor de parâmetros do modelo.</p>
+<p>A densidade ou função de massa do dado completo será denotada por</p>
+<p><span class="math display">\[p(y,z\mid\theta),\]</span></p>
+<p>e a verossimilhança observada é obtida por marginalização:</p>
+<p><span class="math display">\[L(\theta;y)
+=
+p(y\mid\theta)
+=
+\int p(y,z\mid\theta)\,dz,\]</span></p>
+<p>quando <span class="math inline">\(Z\)</span> é contínua, ou pela soma correspondente quando <span class="math inline">\(Z\)</span> é discreta. A log-verossimilhança observada é</p>
+<p><span class="math display">\[\ell(\theta;y)=\log p(y\mid\theta),\]</span></p>
+<p>enquanto a log-verossimilhança de dados completos é</p>
+<p><span class="math display">\[\ell_c(\theta;y,z)=\log p(y,z\mid\theta).\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [Apêndice D.7, pp.&nbsp;711–712], <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021, seç. 13.4</a>, pp.&nbsp;540–541)</span> e <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022, seç. 13.8.1</a>, pp.&nbsp;485–488)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-note callout-titled" title="Definição">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Definição
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A distinção entre <strong>dados observados</strong> e <strong>dados completos</strong> é relativa à modelagem. O dado completo é uma construção que inclui tudo aquilo que tornaria a inferência mais simples: os valores observados mais a informação não observada necessária para obter uma forma conveniente da verossimilhança.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022</a>)</span> [Seção 13.8.1, pp.&nbsp;485–488] e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, p. 712</a>)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A variável latente <span class="math inline">\(Z\)</span> não precisa representar uma quantidade fisicamente mensurável. Ela pode ser introduzida apenas como dispositivo computacional. Em modelos de mistura, porém, há uma interpretação natural: <span class="math inline">\(Z_i\)</span> identifica a componente da mistura associada à observação <span class="math inline">\(Y_i\)</span>.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [Seção 6.3.5, pp.&nbsp;259–260; Exemplo D.1, pp.&nbsp;713–714].</p>
+</div>
+</div>
+</section>
+<section id="estrutura-geral-do-algoritmo-em" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="estrutura-geral-do-algoritmo-em"><span class="header-section-number">7.4</span> Estrutura geral do algoritmo EM</h2>
+<p>Considere uma aproximação corrente <span class="math inline">\(\theta^{(t)}\)</span>. O algoritmo EM constrói a função</p>
+<p><span class="math display">\[Q(\theta\mid\theta^{(t)})
+=
+E_{\theta^{(t)}}\left[
+\ell_c(\theta;Y,Z)
+\mid Y=y
+\right].\]</span></p>
+<p>A esperança é calculada em relação à distribuição condicional de <span class="math inline">\(Z\)</span> dado o dado observado <span class="math inline">\(Y=y\)</span>, usando os parâmetros correntes <span class="math inline">\(\theta^{(t)}\)</span>.</p>
+<p>A iteração é então formada por duas operações:</p>
+<p><span class="math display">\[\boxed{
+\text{E: }
+Q(\theta\mid\theta^{(t)})
+=
+E\left[
+\ell_c(\theta;Y,Z)
+\mid Y=y,\theta^{(t)}
+\right]
+}\]</span></p>
+<p>e</p>
+<p><span class="math display">\[\boxed{
+\text{M: }
+\theta^{(t+1)}
+=
+\arg\max_{\theta\in\Theta}
+Q(\theta\mid\theta^{(t)})
+}.\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>)</span> [Seção 13.4, pp.&nbsp;541–542], <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Algoritmo D.3, pp.&nbsp;712–713)</span> e <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022, seç. 13.8.1</a>, pp.&nbsp;485–488)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-note callout-titled" title="Algoritmo EM">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Algoritmo EM
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Escolha um valor inicial <span class="math inline">\(\theta^{(0)}\)</span>.</li>
+<li>Para <span class="math inline">\(t=0,1,2,\ldots\)</span>:
+<ul>
+<li><strong>Etapa E:</strong> calcule <span class="math inline">\(Q(\theta\mid\theta^{(t)})\)</span>.</li>
+<li><strong>Etapa M:</strong> determine <span class="math inline">\(\theta^{(t+1)}\)</span> que maximiza <span class="math inline">\(Q(\theta\mid\theta^{(t)})\)</span>.</li>
+<li>calcule a log-verossimilhança observada <span class="math inline">\(\ell(\theta^{(t+1)};y)\)</span>;</li>
+<li>verifique um critério de parada.</li>
+</ul></li>
+<li>Retorne a última estimativa, a trajetória da log-verossimilhança e, quando pertinente, as esperanças ou probabilidades condicionais calculadas na etapa E.</li>
+</ol>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [Algoritmo D.3, pp.&nbsp;712–713] e <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>, pp.&nbsp;541–542)</span>.</p>
+</div>
+</div>
+<p>A escolha da variável latente é parte essencial da construção do algoritmo. O objetivo é obter uma representação de dados completos cuja esperança condicional seja calculável e cuja maximização seja substancialmente mais simples que a maximização direta de <span class="math inline">\(\ell(\theta;y)\)</span>.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, p. 712</a>)</span>.</p>
+</blockquote>
+</section>
+<section id="etapa-da-esperança-e" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="etapa-da-esperança-e"><span class="header-section-number">7.5</span> Etapa da esperança (E)</h2>
+<p>Na etapa E, os parâmetros são mantidos em <span class="math inline">\(\theta^{(t)}\)</span> apenas para definir a distribuição condicional da parte não observada. Em seguida, calcula-se</p>
+<p><span class="math display">\[Q(\theta\mid\theta^{(t)})
+=
+\int
+\ell_c(\theta;y,z)
+p(z\mid y,\theta^{(t)})\,dz.\]</span></p>
+<p>É importante distinguir os papéis de <span class="math inline">\(\theta\)</span> e <span class="math inline">\(\theta^{(t)}\)</span>: o primeiro continua sendo o argumento que será maximizado na etapa M, enquanto o segundo é usado para formar a distribuição condicional que determina a esperança.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>)</span> [p.&nbsp;541] enfatiza explicitamente essa distinção; a mesma construção aparece em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Eq. D.16, pp.&nbsp;712–713)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A etapa E não precisa produzir uma imputação única dos valores ausentes. Em geral, ela produz <strong>esperanças de funções do dado completo</strong>. Em modelos de mistura, por exemplo, não se substitui necessariamente cada rótulo por uma classe definitiva; calculam-se probabilidades condicionais de pertencimento a cada componente.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [Exemplo D.1, pp.&nbsp;713–714] e <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022, seç. 13.8.1</a>, pp.&nbsp;485–488)</span>.</p>
+</div>
+</div>
+<section id="responsabilidades-em-uma-mistura-finita" class="level3" data-number="7.5.1">
+<h3 data-number="7.5.1" class="anchored" data-anchor-id="responsabilidades-em-uma-mistura-finita"><span class="header-section-number">7.5.1</span> Responsabilidades em uma mistura finita</h3>
+<p>Considere</p>
+<p><span class="math display">\[f(y_i\mid\theta)
+=
+\sum_{k=1}^K
+\pi_k f_k(y_i\mid\eta_k),\]</span></p>
+<p>com <span class="math inline">\(\pi_k\geq 0\)</span> e <span class="math inline">\(\sum_{k=1}^K\pi_k=1\)</span>. Introduza indicadores latentes</p>
+<p><span class="math display">\[Z_{ik}
+=
+\begin{cases}
+1, &amp; \text{se }y_i\text{ foi gerado pela componente }k,\\
+0, &amp; \text{caso contrário.}
+\end{cases}\]</span></p>
+<p>Na etapa E, calcula-se</p>
+<p><span class="math display">\[\tau_{ik}^{(t)}
+=
+E(Z_{ik}\mid y_i,\theta^{(t)})
+=
+P(Z_{ik}=1\mid y_i,\theta^{(t)}),\]</span></p>
+<p>com</p>
+<p><span class="math display">\[\tau_{ik}^{(t)}
+=
+\frac{
+\pi_k^{(t)}
+f_k(y_i\mid\eta_k^{(t)})
+}{
+\sum_{j=1}^K
+\pi_j^{(t)}
+f_j(y_i\mid\eta_j^{(t)})
+}.\]</span></p>
+<p>Essas quantidades são frequentemente chamadas de <strong>responsabilidades</strong>: elas medem quanto cada componente contribui, sob os parâmetros correntes, para explicar cada observação.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> a fórmula corresponde às probabilidades condicionais apresentadas no Exemplo D.1 de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [pp.&nbsp;713–714] e às probabilidades <em>a posteriori</em> usadas na discussão de misturas em <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>, pp.&nbsp;145–148)</span>.</p>
+</blockquote>
+</section>
+</section>
+<section id="etapa-da-maximização-m" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="etapa-da-maximização-m"><span class="header-section-number">7.6</span> Etapa da maximização (M)</h2>
+<p>Depois de obter <span class="math inline">\(Q(\theta\mid\theta^{(t)})\)</span>, a etapa M calcula</p>
+<p><span class="math display">\[\theta^{(t+1)}
+=
+\arg\max_{\theta\in\Theta}
+Q(\theta\mid\theta^{(t)}).\]</span></p>
+<p>A vantagem do EM depende de essa maximização ser mais simples que a maximização direta da verossimilhança observada. Em famílias exponenciais, a log-verossimilhança completa frequentemente depende dos dados por estatísticas suficientes simples. Nesse caso, a etapa E calcula esperanças condicionais dessas estatísticas e a etapa M reutiliza a forma das estimativas de máxima verossimilhança dos dados completos.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>)</span> [pp.&nbsp;541–542] e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, p. 713</a>)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-note callout-titled" title="Definição">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Definição
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O EM clássico exige uma <strong>maximização completa</strong> de <span class="math inline">\(Q\)</span> na etapa M. Variantes nas quais apenas se aumenta <span class="math inline">\(Q\)</span> sem necessariamente atingir seu máximo pertencem a uma família mais ampla de métodos de maximização generalizada; essa extensão não é desenvolvida aqui.</p>
+<p><em>Base bibliográfica para o EM clássico:</em> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Algoritmo D.3, pp.&nbsp;712–713)</span>.</p>
+</div>
+</div>
+<section id="etapa-m-para-uma-mistura-normal-univariada" class="level3" data-number="7.6.1">
+<h3 data-number="7.6.1" class="anchored" data-anchor-id="etapa-m-para-uma-mistura-normal-univariada"><span class="header-section-number">7.6.1</span> Etapa M para uma mistura normal univariada</h3>
+<p>Suponha</p>
+<p><span class="math display">\[Y_i\sim
+\sum_{k=1}^K
+\pi_k\,N(\mu_k,\sigma_k^2).\]</span></p>
+<p>Dadas as responsabilidades <span class="math inline">\(\tau_{ik}^{(t)}\)</span>, defina</p>
+<p><span class="math display">\[N_k^{(t)}=\sum_{i=1}^n\tau_{ik}^{(t)}.\]</span></p>
+<p>A maximização da esperança da log-verossimilhança completa fornece</p>
+<p><span class="math display">\[\pi_k^{(t+1)}
+=
+\frac{N_k^{(t)}}{n},\]</span></p>
+<p><span class="math display">\[\mu_k^{(t+1)}
+=
+\frac{
+\sum_{i=1}^n
+\tau_{ik}^{(t)}y_i
+}{
+N_k^{(t)}
+},\]</span></p>
+<p>e</p>
+<p><span class="math display">\[(\sigma_k^2)^{(t+1)}
+=
+\frac{
+\sum_{i=1}^n
+\tau_{ik}^{(t)}
+\left(y_i-\mu_k^{(t+1)}\right)^2
+}{
+N_k^{(t)}
+}.\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Exemplo D.1, Eqs. D.17–D.18, pp.&nbsp;713–714)</span>.</p>
+</blockquote>
+</section>
+</section>
+<section id="propriedade-de-monotonicidade-da-log-verossimilhança" class="level2" data-number="7.7">
+<h2 data-number="7.7" class="anchored" data-anchor-id="propriedade-de-monotonicidade-da-log-verossimilhança"><span class="header-section-number">7.7</span> Propriedade de monotonicidade da log-verossimilhança</h2>
+<p>Uma propriedade central do EM é que a log-verossimilhança observada <strong>não diminui</strong> de uma iteração para a seguinte, desde que as etapas E e M sejam realizadas corretamente.</p>
+<p>Para mostrar essa propriedade, introduza uma densidade arbitrária <span class="math inline">\(q(z)\)</span> e defina o limitante</p>
+<p><span class="math display">\[\mathcal{L}(q,\theta)
+=
+\int
+q(z)
+\log
+\frac{
+p(y,z\mid\theta)
+}{
+q(z)
+}\,dz.\]</span></p>
+<p>A identidade usada por <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Eq. D.15, pp.&nbsp;712–713)</span> pode ser escrita como</p>
+<p><span class="math display">\[\ell(\theta;y)
+=
+\mathcal{L}(q,\theta)
++
+D_{\mathrm{KL}}
+\left(
+q(z)
+\,\Vert\,
+p(z\mid y,\theta)
+\right),\]</span></p>
+<p>onde</p>
+<p><span class="math display">\[D_{\mathrm{KL}}(q\Vert p)\geq 0.\]</span></p>
+<p>Portanto,</p>
+<p><span class="math display">\[\ell(\theta;y)\geq\mathcal{L}(q,\theta).\]</span></p>
+<p>Na etapa E, toma-se</p>
+<p><span class="math display">\[q_t(z)=p(z\mid y,\theta^{(t)}),\]</span></p>
+<p>e o limitante torna-se exato no ponto corrente:</p>
+<p><span class="math display">\[\ell(\theta^{(t)};y)
+=
+\mathcal{L}(q_t,\theta^{(t)}).\]</span></p>
+<p>Na etapa M,</p>
+<p><span class="math display">\[\mathcal{L}(q_t,\theta^{(t+1)})
+\geq
+\mathcal{L}(q_t,\theta^{(t)}).\]</span></p>
+<p>Finalmente,</p>
+<p><span class="math display">\[\ell(\theta^{(t+1)};y)
+\geq
+\mathcal{L}(q_t,\theta^{(t+1)})
+\geq
+\mathcal{L}(q_t,\theta^{(t)})
+=
+\ell(\theta^{(t)};y).\]</span></p>
+<p>Logo,</p>
+<p><span class="math display">\[\boxed{
+\ell(\theta^{(t+1)};y)
+\geq
+\ell(\theta^{(t)};y)
+}.\]</span></p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> demonstração organizada a partir da identidade e do argumento de limite inferior em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [Eq. D.15 e Algoritmo D.3, pp.&nbsp;712–713]. <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>, pp.&nbsp;541–542)</span> também afirma a propriedade de não decréscimo da verossimilhança ao longo das iterações.</p>
+</blockquote>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A monotonicidade fornece um diagnóstico computacional importante. Se uma implementação do EM produz uma queda substantiva da log-verossimilhança observada entre duas iterações, deve-se suspeitar de erro na etapa E, na etapa M ou na avaliação numérica da função objetivo.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, p. 713</a>)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Monotonicidade não significa convergência para o máximo global. A sequência pode convergir para um máximo local ou para outro ponto estacionário permitido pelas condições do problema. Portanto, “a log-verossimilhança sempre aumentou” é uma verificação necessária da implementação, mas não certifica que a melhor solução global foi encontrada.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [p.&nbsp;713] e a distinção geral entre soluções locais e globais em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>)</span> [Capítulo 1, pp.&nbsp;6–9; Seção 2.1, pp.&nbsp;12–16].</p>
+</div>
+</div>
+</section>
+<section id="critérios-de-convergência" class="level2" data-number="7.8">
+<h2 data-number="7.8" class="anchored" data-anchor-id="critérios-de-convergência"><span class="header-section-number">7.8</span> Critérios de convergência</h2>
+<p>Na prática, a sequência EM é interrompida quando a melhora entre iterações se torna pequena. Um critério baseado na log-verossimilhança é</p>
+<p><span class="math display">\[\left|
+\ell(\theta^{(t+1)};y)
+-
+\ell(\theta^{(t)};y)
+\right|
+&lt;
+\varepsilon.\]</span></p>
+<p>Uma versão relativa, mais adequada quando a escala da log-verossimilhança é grande, é</p>
+<p><span class="math display">\[\frac{
+\left|
+\ell(\theta^{(t+1)};y)
+-
+\ell(\theta^{(t)};y)
+\right|
+}{
+1+
+\left|
+\ell(\theta^{(t+1)};y)
+\right|
+}
+&lt;
+\varepsilon.\]</span></p>
+<p>Outro critério possível monitora diretamente os parâmetros:</p>
+<p><span class="math display">\[\left\|
+\theta^{(t+1)}
+-
+\theta^{(t)}
+\right\|
+&lt;
+\varepsilon_\theta.\]</span></p>
+<p><span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>)</span> [pp.&nbsp;541–542] discute tanto a diferença entre valores sucessivos da verossimilhança quanto a distância entre vetores de parâmetros. <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Algoritmo D.3, p.&nbsp;713)</span> apresenta um critério relativo baseado na verossimilhança. Em aplicações reais, é recomendável também impor um número máximo de iterações, pois uma tolerância muito estrita pode produzir uma execução longa sem alteração relevante para a interpretação.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>)</span> [pp.&nbsp;541–542], <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, p. 713</a>)</span> e, para a importância operacional de <code>maxiter</code>, <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 10.1.3</a>, aproximadamente pp.&nbsp;360–362)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-warning callout-titled" title="Observação computacional">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação computacional
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O uso simultâneo de tolerância de log-verossimilhança, tolerância de parâmetros e limite máximo de iterações é uma recomendação de implementação adotada neste capítulo.</p>
+</div>
+</div>
+</section>
+<section id="sensibilidade-aos-valores-iniciais" class="level2" data-number="7.9">
+<h2 data-number="7.9" class="anchored" data-anchor-id="sensibilidade-aos-valores-iniciais"><span class="header-section-number">7.9</span> Sensibilidade aos valores iniciais</h2>
+<p>O EM exige um valor inicial <span class="math inline">\(\theta^{(0)}\)</span>. Em problemas simples, uma escolha heurística pode ser suficiente. <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021, p. 541</a>)</span> sugere, por exemplo, usar estatísticas calculadas com a parte observada dos dados quando isso fizer sentido.</p>
+<p>Em problemas multimodais, contudo, a solução final pode depender fortemente do ponto inicial. <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [p.&nbsp;713] observa que a convergência a um máximo global depende dos valores iniciais e recomenda, na prática, execuções com diferentes pontos iniciais aleatórios. <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 10.1.3</a>, aproximadamente pp.&nbsp;360–362)</span> mostra essa dificuldade em análise de classes latentes com <code>poLCA</code>: atribuições iniciais desfavoráveis podem impedir que o procedimento encontre uma solução satisfatória, e a execução com múltiplas inicializações (<code>nrep</code>) é apresentada como estratégia prática.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Uma única execução do EM informa: “a partir deste ponto inicial, o algoritmo chegou a esta solução”. Várias execuções permitem avaliar se diferentes regiões do espaço de parâmetros conduzem ao mesmo valor final da log-verossimilhança.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [p.&nbsp;713] e <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 10.1.3</a>, aproximadamente pp.&nbsp;360–362)</span>.</p>
+</div>
+</div>
+<p>Uma estratégia simples para misturas é inicializar as médias a partir de quantis distintos ou de uma partição preliminar dos dados e repetir o ajuste com perturbações aleatórias.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica para a necessidade de múltiplas inicializações:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [p.&nbsp;713] e <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025</a>, pp.&nbsp;360–362)</span>.</p>
+</blockquote>
+</section>
+<section id="máximos-locais-e-limitações-computacionais" class="level2" data-number="7.10">
+<h2 data-number="7.10" class="anchored" data-anchor-id="máximos-locais-e-limitações-computacionais"><span class="header-section-number">7.10</span> Máximos locais e limitações computacionais</h2>
+<p>A função de verossimilhança pode ser multimodal. O EM preserva a monotonicidade, mas não possui, em geral, uma propriedade que force a sequência a atingir o melhor máximo global. <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [p.&nbsp;713] afirma que, sob condições de continuidade, a convergência a um máximo local pode ser estabelecida, enquanto a obtenção de um máximo global depende dos valores iniciais. Essa distinção é consistente com a separação entre soluções locais e globais discutida no contexto geral de otimização por <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, cap. 1</a>, pp.&nbsp;6–9)</span>.</p>
+<p>Além da multimodalidade, há três limitações práticas importantes.</p>
+<p>Primeiro, a <strong>etapa E pode ser difícil</strong>. Ela exige uma esperança condicional que nem sempre possui forma analítica simples. <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021, p. 548</a> e discussão subsequente)</span> menciona o Monte Carlo EM (MCEM) como alternativa quando essa esperança precisa ser aproximada por simulação.</p>
+<p>Segundo, a <strong>etapa M pode continuar sendo um problema de otimização não trivial</strong>. A vantagem do EM é maior quando a estrutura de dados completos pertence a uma família que produz maximizações simples, em particular em diversos casos de famílias exponenciais. Isso é observado por <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [p.&nbsp;713] e <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>, pp.&nbsp;541–542)</span>.</p>
+<p>Terceiro, modelos de mistura apresentam <strong>questões de identificabilidade por permutação dos rótulos</strong>. Se duas componentes pertencem à mesma família paramétrica, permutar seus índices não altera a distribuição da mistura. <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>, pp.&nbsp;145–148)</span> discute essa ambiguidade e a necessidade de alguma convenção de ordenação quando se deseja identificar os componentes de forma única.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Em uma mistura, duas soluções que diferem apenas pela troca dos rótulos das componentes podem representar exatamente o mesmo modelo estatístico. Portanto, comparar vetores de parâmetros de duas execuções exige primeiro alinhar os rótulos.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008, seç. 8.3</a>, pp.&nbsp;145–148)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Atingir o número máximo de iterações sem satisfazer o critério de parada deve ser tratado como sinal de ajuste incompleto. <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 10.1.3</a>, aproximadamente pp.&nbsp;360–362)</span> ilustra esse problema com o aviso de que a máxima verossimilhança não foi encontrada em um ajuste de classes latentes e mostra o uso de maior <code>maxiter</code> e de múltiplas repetições.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 10.1.3</a>, aproximadamente pp.&nbsp;360–362)</span>.</p>
+</div>
+</div>
+</section>
+<section id="implementação-do-algoritmo-em-em-r" class="level2" data-number="7.11">
+<h2 data-number="7.11" class="anchored" data-anchor-id="implementação-do-algoritmo-em-em-r"><span class="header-section-number">7.11</span> Implementação do algoritmo EM em R</h2>
+<section id="estrutura-computacional-genérica" class="level3" data-number="7.11.1">
+<h3 data-number="7.11.1" class="anchored" data-anchor-id="estrutura-computacional-genérica"><span class="header-section-number">7.11.1</span> Estrutura computacional genérica</h3>
+<p>Uma implementação conceitual pode ser organizada como segue.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>em_generico <span class="ot">&lt;-</span> <span class="cf">function</span>(theta0, e_step, m_step, loglik,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">tol =</span> <span class="fl">1e-8</span>, <span class="at">maxit =</span> <span class="dv">1000</span>) {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  theta <span class="ot">&lt;-</span> theta0</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  ll_old <span class="ot">&lt;-</span> <span class="fu">loglik</span>(theta)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  historico <span class="ot">&lt;-</span> ll_old</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (iter <span class="cf">in</span> <span class="fu">seq_len</span>(maxit)) {</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Etapa E</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    estatisticas_esperadas <span class="ot">&lt;-</span> <span class="fu">e_step</span>(theta)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Etapa M</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    theta_new <span class="ot">&lt;-</span> <span class="fu">m_step</span>(estatisticas_esperadas)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Log-verossimilhança observada</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    ll_new <span class="ot">&lt;-</span> <span class="fu">loglik</span>(theta_new)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    historico <span class="ot">&lt;-</span> <span class="fu">c</span>(historico, ll_new)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Diagnóstico de monotonicidade</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (ll_new <span class="sc">&lt;</span> ll_old <span class="sc">-</span> <span class="fl">1e-10</span>) {</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>      <span class="fu">warning</span>(<span class="st">"A log-verossimilhanca diminuiu."</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Critério relativo de parada</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    erro <span class="ot">&lt;-</span> <span class="fu">abs</span>(ll_new <span class="sc">-</span> ll_old) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> <span class="fu">abs</span>(ll_new))</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    theta <span class="ot">&lt;-</span> theta_new</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (erro <span class="sc">&lt;</span> tol) {</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>      <span class="fu">return</span>(<span class="fu">list</span>(</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>        <span class="at">par =</span> theta,</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>        <span class="at">logLik =</span> ll_new,</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>        <span class="at">iter =</span> iter,</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>        <span class="at">convergiu =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>        <span class="at">historico =</span> historico</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>      ))</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    ll_old <span class="ot">&lt;-</span> ll_new</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">par =</span> theta,</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">logLik =</span> <span class="fu">tail</span>(historico, <span class="dv">1</span>),</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">iter =</span> maxit,</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">convergiu =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">historico =</span> historico</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> estrutura algorítmica baseada em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [Algoritmo D.3, pp.&nbsp;712–713] e <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>, pp.&nbsp;541–542)</span>.</p>
+</blockquote>
+</section>
+<section id="exemplo-em-r-normal-com-valores-ausentes" class="level3" data-number="7.11.2">
+<h3 data-number="7.11.2" class="anchored" data-anchor-id="exemplo-em-r-normal-com-valores-ausentes"><span class="header-section-number">7.11.2</span> Exemplo em R: normal com valores ausentes</h3>
+<p><span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>)</span> apresenta uma implementação em R do EM para estimação da média e da variância de uma normal com valores ausentes no Exemplo 13.7.4. A implementação abaixo mantém a mesma ideia matemática, mas reorganiza o código para retornar também o histórico das iterações.</p>
+<p>Se <span class="math inline">\(Y_1,\ldots,Y_r\)</span> são observados e há <span class="math inline">\(n-r\)</span> valores ausentes, para uma distribuição <span class="math inline">\(N(\mu,\sigma^2)\)</span> temos</p>
+<p><span class="math display">\[E(Y_{\mathrm{mis}}\mid \mu^{(t)},\sigma^{2(t)})
+=
+\mu^{(t)}\]</span></p>
+<p>e</p>
+<p><span class="math display">\[E(Y_{\mathrm{mis}}^2\mid \mu^{(t)},\sigma^{2(t)})
+=
+(\mu^{(t)})^2+\sigma^{2(t)}.\]</span></p>
+<p>Logo, as estatísticas suficientes completas podem ser substituídas por suas esperanças condicionais.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>)</span> [Exercício 13.4.2, p.&nbsp;548; Exemplo computacional 13.7.4, p.&nbsp;564 e continuação].</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>em_normal_missing <span class="ot">&lt;-</span> <span class="cf">function</span>(y,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">mu0 =</span> <span class="fu">mean</span>(y, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">sigma20 =</span> <span class="fu">var</span>(y, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                              <span class="at">tol =</span> <span class="fl">1e-8</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                              <span class="at">maxit =</span> <span class="dv">1000</span>) {</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  y_obs <span class="ot">&lt;-</span> y[<span class="sc">!</span><span class="fu">is.na</span>(y)]</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(y)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  r <span class="ot">&lt;-</span> <span class="fu">length</span>(y_obs)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  m <span class="ot">&lt;-</span> n <span class="sc">-</span> r</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  mu <span class="ot">&lt;-</span> mu0</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  sigma2 <span class="ot">&lt;-</span> sigma20</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  hist <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">iter =</span> <span class="dv">0</span>,</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">mu =</span> mu,</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">sigma2 =</span> sigma2</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (iter <span class="cf">in</span> <span class="fu">seq_len</span>(maxit)) {</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># E-step: esperanças das estatísticas suficientes completas</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    EY_sum  <span class="ot">&lt;-</span> <span class="fu">sum</span>(y_obs) <span class="sc">+</span> m <span class="sc">*</span> mu</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    EY2_sum <span class="ot">&lt;-</span> <span class="fu">sum</span>(y_obs<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> m <span class="sc">*</span> (mu<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> sigma2)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># M-step</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    mu_new <span class="ot">&lt;-</span> EY_sum <span class="sc">/</span> n</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    sigma2_new <span class="ot">&lt;-</span> EY2_sum <span class="sc">/</span> n <span class="sc">-</span> mu_new<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    hist <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>      hist,</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>      <span class="fu">data.frame</span>(</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>        <span class="at">iter =</span> iter,</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>        <span class="at">mu =</span> mu_new,</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>        <span class="at">sigma2 =</span> sigma2_new</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>    erro <span class="ot">&lt;-</span> <span class="fu">max</span>(</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>      <span class="fu">abs</span>(mu_new <span class="sc">-</span> mu),</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>      <span class="fu">abs</span>(sigma2_new <span class="sc">-</span> sigma2)</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>    mu <span class="ot">&lt;-</span> mu_new</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>    sigma2 <span class="ot">&lt;-</span> sigma2_new</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (erro <span class="sc">&lt;</span> tol) <span class="cf">break</span></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>    <span class="at">mu =</span> mu,</span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>    <span class="at">sigma2 =</span> sigma2,</span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">iter =</span> iter,</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>    <span class="at">convergiu =</span> erro <span class="sc">&lt;</span> tol,</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>    <span class="at">historico =</span> hist</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="Exemplo computacional">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exemplo computacional
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.613</span>, <span class="fl">1.644</span>, <span class="fl">1.663</span>, <span class="fl">1.732</span>, <span class="fl">1.740</span>, <span class="fl">1.763</span>, <span class="fl">1.778</span>,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>       <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>ajuste <span class="ot">&lt;-</span> <span class="fu">em_normal_missing</span>(</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  y,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">mu0 =</span> <span class="fl">1.70</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">sigma20 =</span> <span class="fl">0.02</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>ajuste<span class="sc">$</span>mu</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.704714</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ajuste<span class="sc">$</span>sigma2</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.003513635</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ajuste<span class="sc">$</span>iter</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 13</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(ajuste<span class="sc">$</span>historico)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   iter       mu      sigma2
+9     8 1.704714 0.003514716
+10    9 1.704714 0.003513958
+11   10 1.704714 0.003513730
+12   11 1.704714 0.003513662
+13   12 1.704714 0.003513641
+14   13 1.704714 0.003513635</code></pre>
+</div>
+</div>
+<p>O conjunto de valores observados corresponde ao exercício usado como base para o exemplo computacional de <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>, Exercício 13.4.2(c), p.&nbsp;548)</span>. O código é uma reimplementação didática, e não uma transcrição literal.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="aplicação-a-modelos-de-mistura-de-distribuições" class="level2" data-number="7.12">
+<h2 data-number="7.12" class="anchored" data-anchor-id="aplicação-a-modelos-de-mistura-de-distribuições"><span class="header-section-number">7.12</span> Aplicação a modelos de mistura de distribuições</h2>
+<p>Modelos de mistura são uma das aplicações mais naturais do EM. Considere</p>
+<p><span class="math display">\[f(y\mid\theta)
+=
+\sum_{k=1}^K
+\pi_k f_k(y\mid\eta_k),\]</span></p>
+<p>em que <span class="math inline">\(\pi_k\)</span> são probabilidades de mistura. A maximização direta envolve termos da forma</p>
+<p><span class="math display">\[\log
+\left[
+\sum_{k=1}^K
+\pi_k f_k(y_i\mid\eta_k)
+\right],\]</span></p>
+<p>o que acopla as componentes dentro do logaritmo. A introdução dos indicadores latentes <span class="math inline">\(Z_{ik}\)</span> produz, para o dado completo,</p>
+<p><span class="math display">\[\ell_c(\theta;y,z)
+=
+\sum_{i=1}^n
+\sum_{k=1}^K
+z_{ik}
+\left[
+\log\pi_k
++
+\log f_k(y_i\mid\eta_k)
+\right].\]</span></p>
+<p>Essa forma é separável por componentes e leva diretamente às responsabilidades da etapa E e às atualizações ponderadas da etapa M.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [Exemplo D.1, pp.&nbsp;713–714] e <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008, seç. 8.3</a>, pp.&nbsp;145–148)</span>.</p>
+</blockquote>
+<section id="mistura-de-duas-normais-em-r" class="level3" data-number="7.12.1">
+<h3 data-number="7.12.1" class="anchored" data-anchor-id="mistura-de-duas-normais-em-r"><span class="header-section-number">7.12.1</span> Mistura de duas normais em R</h3>
+<p>A função abaixo implementa o EM para uma mistura normal univariada com <span class="math inline">\(K\)</span> componentes. A implementação segue as equações de responsabilidades e atualizações apresentadas por <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Eqs. D.17–D.18, pp.&nbsp;713–714)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>em_gmm_1d <span class="ot">&lt;-</span> <span class="cf">function</span>(x,</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">K =</span> <span class="dv">2</span>,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">pi0 =</span> <span class="fu">rep</span>(<span class="dv">1</span> <span class="sc">/</span> K, K),</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">mu0 =</span> <span class="fu">as.numeric</span>(<span class="fu">quantile</span>(</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>                        x,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">probs =</span> <span class="fu">seq</span>(<span class="fl">0.2</span>, <span class="fl">0.8</span>, <span class="at">length.out =</span> K)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>                      )),</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>                      <span class="at">sigma0 =</span> <span class="fu">rep</span>(<span class="fu">sd</span>(x), K),</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>                      <span class="at">tol =</span> <span class="fl">1e-8</span>,</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>                      <span class="at">maxit =</span> <span class="dv">1000</span>) {</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  pi_k <span class="ot">&lt;-</span> pi0 <span class="sc">/</span> <span class="fu">sum</span>(pi0)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  mu_k <span class="ot">&lt;-</span> mu0</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  sigma_k <span class="ot">&lt;-</span> sigma0</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>  loglik <span class="ot">&lt;-</span> <span class="cf">function</span>(pi_k, mu_k, sigma_k) {</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    dens <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">seq_len</span>(K), <span class="cf">function</span>(k) {</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>      pi_k[k] <span class="sc">*</span> <span class="fu">dnorm</span>(x, <span class="at">mean =</span> mu_k[k], <span class="at">sd =</span> sigma_k[k])</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(<span class="fu">log</span>(<span class="fu">rowSums</span>(dens)))</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>  ll_old <span class="ot">&lt;-</span> <span class="fu">loglik</span>(pi_k, mu_k, sigma_k)</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>  historico <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">iter =</span> <span class="dv">0</span>,</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">logLik =</span> ll_old</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (iter <span class="cf">in</span> <span class="fu">seq_len</span>(maxit)) {</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ----------------</span></span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>    <span class="co"># E-step</span></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ----------------</span></span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>    numer <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">seq_len</span>(K), <span class="cf">function</span>(k) {</span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>      pi_k[k] <span class="sc">*</span> <span class="fu">dnorm</span>(</span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>        x,</span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>        <span class="at">mean =</span> mu_k[k],</span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>        <span class="at">sd =</span> sigma_k[k]</span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a>    tau <span class="ot">&lt;-</span> numer <span class="sc">/</span> <span class="fu">rowSums</span>(numer)</span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ----------------</span></span>
+<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>    <span class="co"># M-step</span></span>
+<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ----------------</span></span>
+<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a>    Nk <span class="ot">&lt;-</span> <span class="fu">colSums</span>(tau)</span>
+<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a>    pi_new <span class="ot">&lt;-</span> Nk <span class="sc">/</span> n</span>
+<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a>    mu_new <span class="ot">&lt;-</span> <span class="fu">colSums</span>(tau <span class="sc">*</span> x) <span class="sc">/</span> Nk</span>
+<span id="cb11-55"><a href="#cb11-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-56"><a href="#cb11-56" aria-hidden="true" tabindex="-1"></a>    sigma_new <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(</span>
+<span id="cb11-57"><a href="#cb11-57" aria-hidden="true" tabindex="-1"></a>      <span class="fu">sapply</span>(<span class="fu">seq_len</span>(K), <span class="cf">function</span>(k) {</span>
+<span id="cb11-58"><a href="#cb11-58" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sum</span>(tau[, k] <span class="sc">*</span> (x <span class="sc">-</span> mu_new[k])<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> Nk[k]</span>
+<span id="cb11-59"><a href="#cb11-59" aria-hidden="true" tabindex="-1"></a>      })</span>
+<span id="cb11-60"><a href="#cb11-60" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb11-61"><a href="#cb11-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-62"><a href="#cb11-62" aria-hidden="true" tabindex="-1"></a>    ll_new <span class="ot">&lt;-</span> <span class="fu">loglik</span>(pi_new, mu_new, sigma_new)</span>
+<span id="cb11-63"><a href="#cb11-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-64"><a href="#cb11-64" aria-hidden="true" tabindex="-1"></a>    historico <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb11-65"><a href="#cb11-65" aria-hidden="true" tabindex="-1"></a>      historico,</span>
+<span id="cb11-66"><a href="#cb11-66" aria-hidden="true" tabindex="-1"></a>      <span class="fu">data.frame</span>(</span>
+<span id="cb11-67"><a href="#cb11-67" aria-hidden="true" tabindex="-1"></a>        <span class="at">iter =</span> iter,</span>
+<span id="cb11-68"><a href="#cb11-68" aria-hidden="true" tabindex="-1"></a>        <span class="at">logLik =</span> ll_new</span>
+<span id="cb11-69"><a href="#cb11-69" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb11-70"><a href="#cb11-70" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb11-71"><a href="#cb11-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-72"><a href="#cb11-72" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (ll_new <span class="sc">&lt;</span> ll_old <span class="sc">-</span> <span class="fl">1e-10</span>) {</span>
+<span id="cb11-73"><a href="#cb11-73" aria-hidden="true" tabindex="-1"></a>      <span class="fu">warning</span>(<span class="st">"A log-verossimilhanca diminuiu."</span>)</span>
+<span id="cb11-74"><a href="#cb11-74" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb11-75"><a href="#cb11-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-76"><a href="#cb11-76" aria-hidden="true" tabindex="-1"></a>    erro <span class="ot">&lt;-</span> <span class="fu">abs</span>(ll_new <span class="sc">-</span> ll_old) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> <span class="fu">abs</span>(ll_new))</span>
+<span id="cb11-77"><a href="#cb11-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-78"><a href="#cb11-78" aria-hidden="true" tabindex="-1"></a>    pi_k <span class="ot">&lt;-</span> pi_new</span>
+<span id="cb11-79"><a href="#cb11-79" aria-hidden="true" tabindex="-1"></a>    mu_k <span class="ot">&lt;-</span> mu_new</span>
+<span id="cb11-80"><a href="#cb11-80" aria-hidden="true" tabindex="-1"></a>    sigma_k <span class="ot">&lt;-</span> sigma_new</span>
+<span id="cb11-81"><a href="#cb11-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-82"><a href="#cb11-82" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (erro <span class="sc">&lt;</span> tol) <span class="cf">break</span></span>
+<span id="cb11-83"><a href="#cb11-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-84"><a href="#cb11-84" aria-hidden="true" tabindex="-1"></a>    ll_old <span class="ot">&lt;-</span> ll_new</span>
+<span id="cb11-85"><a href="#cb11-85" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb11-86"><a href="#cb11-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-87"><a href="#cb11-87" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Recalcula as responsabilidades com os parâmetros finais.</span></span>
+<span id="cb11-88"><a href="#cb11-88" aria-hidden="true" tabindex="-1"></a>  numer_final <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">seq_len</span>(K), <span class="cf">function</span>(k) {</span>
+<span id="cb11-89"><a href="#cb11-89" aria-hidden="true" tabindex="-1"></a>    pi_k[k] <span class="sc">*</span> <span class="fu">dnorm</span>(</span>
+<span id="cb11-90"><a href="#cb11-90" aria-hidden="true" tabindex="-1"></a>      x,</span>
+<span id="cb11-91"><a href="#cb11-91" aria-hidden="true" tabindex="-1"></a>      <span class="at">mean =</span> mu_k[k],</span>
+<span id="cb11-92"><a href="#cb11-92" aria-hidden="true" tabindex="-1"></a>      <span class="at">sd =</span> sigma_k[k]</span>
+<span id="cb11-93"><a href="#cb11-93" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb11-94"><a href="#cb11-94" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb11-95"><a href="#cb11-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-96"><a href="#cb11-96" aria-hidden="true" tabindex="-1"></a>  tau_final <span class="ot">&lt;-</span> numer_final <span class="sc">/</span> <span class="fu">rowSums</span>(numer_final)</span>
+<span id="cb11-97"><a href="#cb11-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-98"><a href="#cb11-98" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Ordenação apenas para facilitar a leitura dos resultados.</span></span>
+<span id="cb11-99"><a href="#cb11-99" aria-hidden="true" tabindex="-1"></a>  ordem <span class="ot">&lt;-</span> <span class="fu">order</span>(mu_k)</span>
+<span id="cb11-100"><a href="#cb11-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-101"><a href="#cb11-101" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb11-102"><a href="#cb11-102" aria-hidden="true" tabindex="-1"></a>    <span class="at">pi =</span> pi_k[ordem],</span>
+<span id="cb11-103"><a href="#cb11-103" aria-hidden="true" tabindex="-1"></a>    <span class="at">mu =</span> mu_k[ordem],</span>
+<span id="cb11-104"><a href="#cb11-104" aria-hidden="true" tabindex="-1"></a>    <span class="at">sigma =</span> sigma_k[ordem],</span>
+<span id="cb11-105"><a href="#cb11-105" aria-hidden="true" tabindex="-1"></a>    <span class="at">responsabilidade =</span> tau_final[, ordem, <span class="at">drop =</span> <span class="cn">FALSE</span>],</span>
+<span id="cb11-106"><a href="#cb11-106" aria-hidden="true" tabindex="-1"></a>    <span class="at">classificacao =</span> <span class="fu">max.col</span>(tau_final[, ordem, <span class="at">drop =</span> <span class="cn">FALSE</span>]),</span>
+<span id="cb11-107"><a href="#cb11-107" aria-hidden="true" tabindex="-1"></a>    <span class="at">logLik =</span> <span class="fu">tail</span>(historico<span class="sc">$</span>logLik, <span class="dv">1</span>),</span>
+<span id="cb11-108"><a href="#cb11-108" aria-hidden="true" tabindex="-1"></a>    <span class="at">iter =</span> iter,</span>
+<span id="cb11-109"><a href="#cb11-109" aria-hidden="true" tabindex="-1"></a>    <span class="at">convergiu =</span> erro <span class="sc">&lt;</span> tol,</span>
+<span id="cb11-110"><a href="#cb11-110" aria-hidden="true" tabindex="-1"></a>    <span class="at">historico =</span> historico</span>
+<span id="cb11-111"><a href="#cb11-111" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb11-112"><a href="#cb11-112" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="Observação computacional">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação computacional
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A ordenação final das componentes pela média foi incluída somente para estabilizar a apresentação dos rótulos entre execuções. Ela não modifica a densidade ajustada.</p>
+<p><em>Base bibliográfica para a ambiguidade de rótulos:</em> <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>, pp.&nbsp;145–148)</span>.</p>
+</div>
+</div>
+</section>
+<section id="dados-simulados" class="level3" data-number="7.12.2">
+<h3 data-number="7.12.2" class="anchored" data-anchor-id="dados-simulados"><span class="header-section-number">7.12.2</span> Dados simulados</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rnorm</span>(<span class="dv">180</span>, <span class="at">mean =</span> <span class="sc">-</span><span class="fl">2.0</span>, <span class="at">sd =</span> <span class="fl">0.8</span>),</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rnorm</span>(<span class="dv">120</span>, <span class="at">mean =</span>  <span class="fl">2.2</span>, <span class="at">sd =</span> <span class="fl">1.1</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>ajuste <span class="ot">&lt;-</span> <span class="fu">em_gmm_1d</span>(</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  x,</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">K =</span> <span class="dv">2</span>,</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">mu0 =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>),</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">sigma0 =</span> <span class="fu">c</span>(<span class="fl">1.5</span>, <span class="fl">1.5</span>)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>ajuste<span class="sc">$</span>pi</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6039488 0.3960512</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>ajuste<span class="sc">$</span>mu</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -2.000971  2.365560</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>ajuste<span class="sc">$</span>sigma</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.7937686 0.9474857</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ajuste<span class="sc">$</span>logLik</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -573.4913</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>ajuste<span class="sc">$</span>iter</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 15</code></pre>
+</div>
+</div>
+<p>O conjunto de dados é simulado especificamente para este capítulo. A estrutura estatística e as equações do EM seguem o exemplo de mistura gaussiana de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Exemplo D.1, pp.&nbsp;713–714)</span>.</p>
+</section>
+<section id="visualização-do-ajuste" class="level3" data-number="7.12.3">
+<h3 data-number="7.12.3" class="anchored" data-anchor-id="visualização-do-ajuste"><span class="header-section-number">7.12.3</span> Visualização do ajuste</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  x,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probability =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">breaks =</span> <span class="dv">25</span>,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Mistura normal ajustada por EM"</span>,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"x"</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>grade <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">min</span>(x), <span class="fu">max</span>(x), <span class="at">length.out =</span> <span class="dv">500</span>)</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>dens_total <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">length</span>(grade))</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="fu">seq_along</span>(ajuste<span class="sc">$</span>pi)) {</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>  dens_k <span class="ot">&lt;-</span> ajuste<span class="sc">$</span>pi[k] <span class="sc">*</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">dnorm</span>(</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>      grade,</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">mean =</span> ajuste<span class="sc">$</span>mu[k],</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">sd =</span> ajuste<span class="sc">$</span>sigma[k]</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(grade, dens_k, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>  dens_total <span class="ot">&lt;-</span> dens_total <span class="sc">+</span> dens_k</span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(grade, dens_total, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="em_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> a interpretação da mistura e das componentes segue <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, pp.&nbsp;713–714)</span>.</p>
+</blockquote>
+</section>
+<section id="trajetória-da-log-verossimilhança" class="level3" data-number="7.12.4">
+<h3 data-number="7.12.4" class="anchored" data-anchor-id="trajetória-da-log-verossimilhança"><span class="header-section-number">7.12.4</span> Trajetória da log-verossimilhança</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  ajuste<span class="sc">$</span>historico<span class="sc">$</span>iter,</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  ajuste<span class="sc">$</span>historico<span class="sc">$</span>logLik,</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"b"</span>,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Iteração"</span>,</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">"Log-verossimilhança observada"</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="em_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">diff</span>(ajuste<span class="sc">$</span>historico<span class="sc">$</span>logLik)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 5.181175e+01 3.380610e+01 2.233784e+01 6.255112e+00 2.575140e+00
+ [6] 1.095272e+00 3.731377e-01 1.060756e-01 2.711075e-02 6.552984e-03
+[11] 1.540345e-03 3.571639e-04 8.227119e-05 1.889068e-05 4.330971e-06</code></pre>
+</div>
+</div>
+<p>Em uma implementação correta do EM, os incrementos exibidos por <code>diff()</code> devem ser não negativos, exceto por pequenas diferenças de arredondamento numérico.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, p. 713</a>)</span>.</p>
+</blockquote>
+</section>
+<section id="múltiplos-valores-iniciais" class="level3" data-number="7.12.5">
+<h3 data-number="7.12.5" class="anchored" data-anchor-id="múltiplos-valores-iniciais"><span class="header-section-number">7.12.5</span> Múltiplos valores iniciais</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>ajustes <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">seq_len</span>(<span class="dv">20</span>), <span class="cf">function</span>(b) {</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  mu0 <span class="ot">&lt;-</span> <span class="fu">sample</span>(x, <span class="dv">2</span>)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">em_gmm_1d</span>(</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    x,</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">K =</span> <span class="dv">2</span>,</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">mu0 =</span> mu0,</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">sigma0 =</span> <span class="fu">rep</span>(<span class="fu">sd</span>(x), <span class="dv">2</span>),</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">tol =</span> <span class="fl">1e-8</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>loglik_finais <span class="ot">&lt;-</span> <span class="fu">sapply</span>(ajustes, <span class="st">`</span><span class="at">[[</span><span class="st">`</span>, <span class="st">"logLik"</span>)</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(loglik_finais, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] -573.4913 -573.4913 -573.4913 -573.4913 -573.4913 -573.4913 -573.4913
+ [8] -573.4913 -573.4913 -573.4913 -573.4913 -573.4913 -573.4913 -573.4913
+[15] -573.4913 -573.4913 -573.4913 -573.4913 -573.4913 -573.4913</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>melhor <span class="ot">&lt;-</span> ajustes[[<span class="fu">which.max</span>(loglik_finais)]]</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>O uso de várias inicializações é motivado pela dependência do EM em relação ao ponto inicial e pela possibilidade de máximos locais.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [p.&nbsp;713] e <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 10.1.3</a>, aproximadamente pp.&nbsp;360–362)</span>.</p>
+</blockquote>
+</section>
+<section id="uso-de-mclust" class="level3" data-number="7.12.6">
+<h3 data-number="7.12.6" class="anchored" data-anchor-id="uso-de-mclust"><span class="header-section-number">7.12.6</span> Uso de <code>mclust</code></h3>
+<p><span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 4.12.5</a>, pp.&nbsp;156–157)</span> apresenta <code>Mclust()</code> como implementação de modelos de mistura gaussianos com ajuste pelo EM. Para os dados simulados acima:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("mclust")</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mclust)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Package 'mclust' version 6.1.3
+Type 'citation("mclust")' for citing this R package in publications.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>ajuste_mclust <span class="ot">&lt;-</span> <span class="fu">Mclust</span>(x, <span class="at">G =</span> <span class="dv">2</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ajuste_mclust)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>---------------------------------------------------- 
+Gaussian finite mixture model fitted by EM algorithm 
+---------------------------------------------------- 
+
+Mclust E (univariate, equal variance) model with 2 components: 
+
+ log-likelihood   n df       BIC       ICL
+      -574.9567 300  4 -1172.729 -1176.288
+
+Clustering table:
+  1   2 
+183 117 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>ajuste_mclust<span class="sc">$</span>classification</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ [38] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ [75] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[112] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+[149] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2
+[186] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1
+[223] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+[260] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+[297] 2 2 2 2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>ajuste_mclust<span class="sc">$</span>z</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               [,1]         [,2]
+  [1,] 9.999861e-01 1.393875e-05
+  [2,] 1.000000e+00 6.434383e-09
+  [3,] 9.999978e-01 2.235204e-06
+  [4,] 9.999992e-01 7.628262e-07
+  [5,] 1.000000e+00 4.671931e-08
+  [6,] 1.000000e+00 6.522121e-12
+  [7,] 1.000000e+00 3.362759e-08
+  [8,] 1.000000e+00 8.563971e-09
+  [9,] 9.999980e-01 1.975971e-06
+ [10,] 9.999999e-01 1.178914e-07
+ [11,] 9.999998e-01 1.615003e-07
+ [12,] 1.000000e+00 3.439703e-08
+ [13,] 9.999996e-01 3.958268e-07
+ [14,] 9.999996e-01 3.875925e-07
+ [15,] 1.000000e+00 5.626045e-12
+ [16,] 9.992646e-01 7.354208e-04
+ [17,] 9.999779e-01 2.207758e-05
+ [18,] 9.999967e-01 3.255253e-06
+ [19,] 1.000000e+00 2.408105e-08
+ [20,] 9.999686e-01 3.139201e-05
+ [21,] 9.999998e-01 2.365795e-07
+ [22,] 9.999995e-01 5.197671e-07
+ [23,] 1.000000e+00 1.436977e-09
+ [24,] 9.986999e-01 1.300089e-03
+ [25,] 9.999986e-01 1.443997e-06
+ [26,] 9.892425e-01 1.075754e-02
+ [27,] 9.953745e-01 4.625479e-03
+ [28,] 9.999985e-01 1.514550e-06
+ [29,] 9.999746e-01 2.536488e-05
+ [30,] 9.954905e-01 4.509488e-03
+ [31,] 9.999999e-01 9.046278e-08
+ [32,] 9.999975e-01 2.546352e-06
+ [33,] 9.999997e-01 3.373803e-07
+ [34,] 9.999943e-01 5.659152e-06
+ [35,] 9.999972e-01 2.750139e-06
+ [36,] 9.996935e-01 3.065492e-04
+ [37,] 9.999802e-01 1.977819e-05
+ [38,] 1.000000e+00 1.585624e-08
+ [39,] 9.999817e-01 1.829517e-05
+ [40,] 1.000000e+00 2.185732e-08
+ [41,] 1.000000e+00 4.434346e-09
+ [42,] 9.999521e-01 4.794793e-05
+ [43,] 1.000000e+00 3.539376e-09
+ [44,] 9.999950e-01 4.993596e-06
+ [45,] 1.000000e+00 2.095809e-08
+ [46,] 9.989656e-01 1.034413e-03
+ [47,] 9.999651e-01 3.489456e-05
+ [48,] 9.999998e-01 1.659931e-07
+ [49,] 9.999469e-01 5.312499e-05
+ [50,] 9.999911e-01 8.872958e-06
+ [51,] 1.000000e+00 4.173226e-09
+ [52,] 9.999996e-01 4.258581e-07
+ [53,] 1.000000e+00 1.316011e-08
+ [54,] 9.999901e-01 9.904431e-06
+ [55,] 9.999999e-01 5.188082e-08
+ [56,] 9.999996e-01 3.773024e-07
+ [57,] 1.000000e+00 3.033326e-09
+ [58,] 1.000000e+00 1.137644e-08
+ [59,] 9.999978e-01 2.179252e-06
+ [60,] 1.000000e+00 9.475319e-09
+ [61,] 9.999994e-01 5.810199e-07
+ [62,] 9.999974e-01 2.557840e-06
+ [63,] 9.999996e-01 4.412798e-07
+ [64,] 9.999997e-01 2.831855e-07
+ [65,] 1.000000e+00 2.778410e-10
+ [66,] 9.999997e-01 3.094493e-07
+ [67,] 1.000000e+00 2.028600e-10
+ [68,] 9.997104e-01 2.896015e-04
+ [69,] 1.000000e+00 9.283247e-09
+ [70,] 9.999977e-01 2.333559e-06
+ [71,] 9.999861e-01 1.386586e-05
+ [72,] 9.999988e-01 1.176015e-06
+ [73,] 9.992645e-01 7.354890e-04
+ [74,] 1.000000e+00 1.965497e-08
+ [75,] 9.999904e-01 9.623296e-06
+ [76,] 1.000000e+00 1.052568e-08
+ [77,] 9.701901e-01 2.980987e-02
+ [78,] 9.999689e-01 3.108498e-05
+ [79,] 9.999998e-01 2.204669e-07
+ [80,] 9.999504e-01 4.962679e-05
+ [81,] 1.000000e+00 4.470169e-09
+ [82,] 9.984017e-01 1.598329e-03
+ [83,] 1.000000e+00 4.471913e-09
+ [84,] 1.000000e+00 6.515775e-10
+ [85,] 9.999991e-01 8.788585e-07
+ [86,] 9.999325e-01 6.747818e-05
+ [87,] 9.999989e-01 1.086302e-06
+ [88,] 1.000000e+00 2.980136e-08
+ [89,] 9.996765e-01 3.234821e-04
+ [90,] 8.900207e-01 1.099793e-01
+ [91,] 1.000000e+00 9.476229e-11
+ [92,] 9.986506e-01 1.349391e-03
+ [93,] 9.999999e-01 1.172746e-07
+ [94,] 9.998729e-01 1.271277e-04
+ [95,] 1.000000e+00 1.804188e-10
+ [96,] 9.999997e-01 3.279805e-07
+ [97,] 1.000000e+00 1.149224e-08
+ [98,] 9.999999e-01 1.089127e-07
+ [99,] 1.000000e+00 6.508744e-09
+[100,] 9.999933e-01 6.747346e-06
+[101,] 9.996072e-01 3.928010e-04
+[102,] 9.999999e-01 1.070740e-07
+[103,] 9.999996e-01 3.839483e-07
+[104,] 1.000000e+00 5.519394e-09
+[105,] 9.998636e-01 1.363951e-04
+[106,] 9.999830e-01 1.698968e-05
+[107,] 1.000000e+00 6.286398e-10
+[108,] 9.986013e-01 1.398695e-03
+[109,] 1.000000e+00 4.187140e-09
+[110,] 1.000000e+00 7.348505e-09
+[111,] 1.000000e+00 9.796593e-10
+[112,] 1.000000e+00 3.727411e-09
+[113,] 9.999998e-01 2.156411e-07
+[114,] 9.999852e-01 1.478167e-05
+[115,] 1.000000e+00 3.776180e-08
+[116,] 9.999996e-01 4.408552e-07
+[117,] 9.999997e-01 2.968721e-07
+[118,] 9.996840e-01 3.160065e-04
+[119,] 9.366923e-01 6.330770e-02
+[120,] 1.000000e+00 6.777823e-09
+[121,] 9.893380e-01 1.066196e-02
+[122,] 9.691590e-01 3.084101e-02
+[123,] 9.999965e-01 3.479702e-06
+[124,] 9.999151e-01 8.485829e-05
+[125,] 1.000000e+00 2.720406e-10
+[126,] 9.999891e-01 1.087358e-05
+[127,] 9.999999e-01 8.410585e-08
+[128,] 9.999995e-01 5.179428e-07
+[129,] 9.999838e-01 1.621978e-05
+[130,] 9.998367e-01 1.632858e-04
+[131,] 9.999991e-01 9.179588e-07
+[132,] 7.339182e-01 2.660818e-01
+[133,] 9.999806e-01 1.935679e-05
+[134,] 9.999996e-01 4.337440e-07
+[135,] 9.999905e-01 9.538781e-06
+[136,] 9.999993e-01 7.081053e-07
+[137,] 1.000000e+00 6.024516e-09
+[138,] 9.999872e-01 1.282555e-05
+[139,] 9.998909e-01 1.090660e-04
+[140,] 9.999928e-01 7.194736e-06
+[141,] 9.999932e-01 6.817409e-06
+[142,] 9.999976e-01 2.436644e-06
+[143,] 9.999329e-01 6.707353e-05
+[144,] 1.000000e+00 2.420460e-09
+[145,] 9.997026e-01 2.973997e-04
+[146,] 1.000000e+00 1.459096e-08
+[147,] 9.999943e-01 5.719454e-06
+[148,] 9.999525e-01 4.745692e-05
+[149,] 9.999964e-01 3.575936e-06
+[150,] 1.000000e+00 6.420829e-10
+[151,] 9.999987e-01 1.287624e-06
+[152,] 9.999943e-01 5.709703e-06
+[153,] 9.998677e-01 1.322556e-04
+[154,] 9.999874e-01 1.264996e-05
+[155,] 9.999817e-01 1.826486e-05
+[156,] 9.997240e-01 2.759675e-04
+[157,] 1.000000e+00 3.840902e-08
+[158,] 9.999999e-01 5.884605e-08
+[159,] 9.999989e-01 1.100907e-06
+[160,] 9.999942e-01 5.828334e-06
+[161,] 9.990269e-01 9.731396e-04
+[162,] 1.000000e+00 1.800774e-08
+[163,] 1.000000e+00 1.727259e-08
+[164,] 9.999529e-01 4.710838e-05
+[165,] 9.999998e-01 1.664778e-07
+[166,] 9.999996e-01 4.079761e-07
+[167,] 9.999791e-01 2.092696e-05
+[168,] 9.999999e-01 5.998441e-08
+[169,] 1.000000e+00 3.540375e-08
+[170,] 9.999997e-01 3.338060e-07
+[171,] 9.999998e-01 1.745101e-07
+[172,] 1.000000e+00 4.243041e-08
+[173,] 9.999233e-01 7.668394e-05
+[174,] 9.999999e-01 1.138503e-07
+[175,] 9.999984e-01 1.590632e-06
+[176,] 9.999978e-01 2.211586e-06
+[177,] 1.000000e+00 1.529497e-10
+[178,] 9.999940e-01 6.037809e-06
+[179,] 9.984565e-01 1.543511e-03
+[180,] 9.999989e-01 1.072617e-06
+[181,] 1.654741e-03 9.983453e-01
+[182,] 1.735939e-09 1.000000e+00
+[183,] 1.781525e-06 9.999982e-01
+[184,] 1.233619e-08 1.000000e+00
+[185,] 2.396449e-06 9.999976e-01
+[186,] 1.735364e-07 9.999998e-01
+[187,] 7.130046e-10 1.000000e+00
+[188,] 1.292195e-07 9.999999e-01
+[189,] 8.356378e-07 9.999992e-01
+[190,] 8.528428e-04 9.991472e-01
+[191,] 2.156529e-07 9.999998e-01
+[192,] 1.529898e-04 9.998470e-01
+[193,] 5.595917e-12 1.000000e+00
+[194,] 1.034700e-06 9.999990e-01
+[195,] 1.922660e-03 9.980773e-01
+[196,] 1.968154e-10 1.000000e+00
+[197,] 2.069372e-04 9.997931e-01
+[198,] 2.594647e-01 7.405353e-01
+[199,] 9.730050e-03 9.902699e-01
+[200,] 7.552715e-06 9.999924e-01
+[201,] 1.720533e-04 9.998279e-01
+[202,] 4.820663e-07 9.999995e-01
+[203,] 4.516747e-05 9.999548e-01
+[204,] 6.761993e-01 3.238007e-01
+[205,] 6.725239e-05 9.999327e-01
+[206,] 8.562980e-11 1.000000e+00
+[207,] 1.845867e-04 9.998154e-01
+[208,] 4.842240e-04 9.995158e-01
+[209,] 2.203455e-05 9.999780e-01
+[210,] 1.817999e-10 1.000000e+00
+[211,] 3.115707e-03 9.968843e-01
+[212,] 5.754270e-08 9.999999e-01
+[213,] 5.710848e-04 9.994289e-01
+[214,] 8.637241e-05 9.999136e-01
+[215,] 1.036439e-04 9.998964e-01
+[216,] 5.744185e-08 9.999999e-01
+[217,] 1.790441e-07 9.999998e-01
+[218,] 8.184957e-09 1.000000e+00
+[219,] 8.779275e-09 1.000000e+00
+[220,] 6.337524e-12 1.000000e+00
+[221,] 6.245265e-06 9.999938e-01
+[222,] 9.945819e-01 5.418134e-03
+[223,] 3.538953e-04 9.996461e-01
+[224,] 1.662329e-03 9.983377e-01
+[225,] 7.009860e-05 9.999299e-01
+[226,] 4.983110e-09 1.000000e+00
+[227,] 4.244405e-04 9.995756e-01
+[228,] 2.023507e-03 9.979765e-01
+[229,] 3.851682e-07 9.999996e-01
+[230,] 9.750411e-08 9.999999e-01
+[231,] 4.946523e-05 9.999505e-01
+[232,] 6.535279e-07 9.999993e-01
+[233,] 3.712632e-07 9.999996e-01
+[234,] 8.783606e-07 9.999991e-01
+[235,] 4.292696e-04 9.995707e-01
+[236,] 7.584781e-08 9.999999e-01
+[237,] 9.692590e-01 3.074099e-02
+[238,] 1.728090e-07 9.999998e-01
+[239,] 6.928132e-07 9.999993e-01
+[240,] 1.310348e-11 1.000000e+00
+[241,] 1.749826e-06 9.999983e-01
+[242,] 4.797414e-06 9.999952e-01
+[243,] 3.717669e-09 1.000000e+00
+[244,] 7.865510e-08 9.999999e-01
+[245,] 1.024279e-05 9.999898e-01
+[246,] 1.143650e-05 9.999886e-01
+[247,] 3.985887e-06 9.999960e-01
+[248,] 1.147123e-02 9.885288e-01
+[249,] 2.849508e-09 1.000000e+00
+[250,] 3.503549e-04 9.996496e-01
+[251,] 7.022523e-05 9.999298e-01
+[252,] 1.059163e-07 9.999999e-01
+[253,] 1.383695e-04 9.998616e-01
+[254,] 1.968269e-05 9.999803e-01
+[255,] 4.108085e-10 1.000000e+00
+[256,] 6.548791e-04 9.993451e-01
+[257,] 4.442917e-05 9.999556e-01
+[258,] 4.956565e-10 1.000000e+00
+[259,] 9.527892e-05 9.999047e-01
+[260,] 3.840457e-04 9.996160e-01
+[261,] 1.815922e-06 9.999982e-01
+[262,] 1.738606e-07 9.999998e-01
+[263,] 7.357256e-04 9.992643e-01
+[264,] 2.476355e-05 9.999752e-01
+[265,] 2.248252e-05 9.999775e-01
+[266,] 5.753887e-03 9.942461e-01
+[267,] 8.768136e-06 9.999912e-01
+[268,] 1.408872e-10 1.000000e+00
+[269,] 2.875031e-08 1.000000e+00
+[270,] 1.227543e-03 9.987725e-01
+[271,] 9.748589e-07 9.999990e-01
+[272,] 5.085729e-05 9.999491e-01
+[273,] 2.926544e-05 9.999707e-01
+[274,] 3.141866e-08 1.000000e+00
+[275,] 1.823015e-07 9.999998e-01
+[276,] 2.187225e-08 1.000000e+00
+[277,] 4.838088e-07 9.999995e-01
+[278,] 1.962185e-03 9.980378e-01
+[279,] 2.643620e-04 9.997356e-01
+[280,] 2.892507e-02 9.710749e-01
+[281,] 1.664604e-07 9.999998e-01
+[282,] 1.260411e-09 1.000000e+00
+[283,] 3.056681e-01 6.943319e-01
+[284,] 5.881127e-06 9.999941e-01
+[285,] 3.375436e-07 9.999997e-01
+[286,] 4.221327e-05 9.999578e-01
+[287,] 2.310676e-03 9.976893e-01
+[288,] 7.926619e-03 9.920734e-01
+[289,] 2.103370e-09 1.000000e+00
+[290,] 4.031891e-05 9.999597e-01
+[291,] 3.994593e-09 1.000000e+00
+[292,] 7.276437e-04 9.992724e-01
+[293,] 2.031057e-09 1.000000e+00
+[294,] 2.836845e-07 9.999997e-01
+[295,] 8.400112e-06 9.999916e-01
+[296,] 4.586273e-09 1.000000e+00
+[297,] 1.124884e-04 9.998875e-01
+[298,] 1.093731e-04 9.998906e-01
+[299,] 1.039544e-05 9.999896e-01
+[300,] 1.929527e-05 9.999807e-01</code></pre>
+</div>
+</div>
+<p>O objeto <code>z</code> contém probabilidades de classificação e <code>classification</code> fornece uma classificação rígida baseada no ajuste. O uso de <code>Mclust</code> como ferramenta de agrupamento por mistura gaussiana é apresentado em <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 4.12.5</a>, pp.&nbsp;156–157)</span>.</p>
+</section>
+</section>
+<section id="interpretação-e-diagnóstico-dos-resultados" class="level2" data-number="7.13">
+<h2 data-number="7.13" class="anchored" data-anchor-id="interpretação-e-diagnóstico-dos-resultados"><span class="header-section-number">7.13</span> Interpretação e diagnóstico dos resultados</h2>
+<p>A saída de um algoritmo EM deve ser interpretada em mais de um nível. Não basta observar apenas o vetor final de parâmetros.</p>
+<section id="log-verossimilhança-final-e-trajetória" class="level3" data-number="7.13.1">
+<h3 data-number="7.13.1" class="anchored" data-anchor-id="log-verossimilhança-final-e-trajetória"><span class="header-section-number">7.13.1</span> Log-verossimilhança final e trajetória</h3>
+<p>A primeira verificação é a monotonicidade:</p>
+<p><span class="math display">\[\ell^{(0)}
+\leq
+\ell^{(1)}
+\leq
+\cdots
+\leq
+\ell^{(t)}.\]</span></p>
+<p>Uma queda relevante sugere erro computacional. Uma sequência praticamente constante indica que o critério de parada está próximo de ser atingido, mas não prova que o máximo seja global.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, p. 713</a>)</span>.</p>
+</blockquote>
+</section>
+<section id="convergência-formal-da-implementação" class="level3" data-number="7.13.2">
+<h3 data-number="7.13.2" class="anchored" data-anchor-id="convergência-formal-da-implementação"><span class="header-section-number">7.13.2</span> Convergência formal da implementação</h3>
+<p>Registre, no mínimo:</p>
+<ul>
+<li>número de iterações;</li>
+<li>se o critério de parada foi satisfeito;</li>
+<li>valor final da log-verossimilhança;</li>
+<li>valor inicial utilizado.</li>
+</ul>
+<p>Quando o número máximo de iterações é atingido, a execução deve ser marcada como não convergida, mesmo que os parâmetros pareçam plausíveis.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> critérios de parada em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [p.&nbsp;713] e <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>, pp.&nbsp;541–542)</span>; exemplo de falha por limite de iterações em <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 10.1.3</a>, aproximadamente pp.&nbsp;360–362)</span>.</p>
+</blockquote>
+</section>
+<section id="comparação-entre-inicializações" class="level3" data-number="7.13.3">
+<h3 data-number="7.13.3" class="anchored" data-anchor-id="comparação-entre-inicializações"><span class="header-section-number">7.13.3</span> Comparação entre inicializações</h3>
+<p>Se várias execuções produzem valores finais diferentes de log-verossimilhança, isso é evidência prática de dependência do ponto inicial. A solução com maior log-verossimilhança é preferível entre aquelas efetivamente encontradas, mas essa comparação ainda não constitui uma prova matemática de ótimo global.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, p. 713</a>)</span>.</p>
+</blockquote>
+</section>
+<section id="responsabilidades" class="level3" data-number="7.13.4">
+<h3 data-number="7.13.4" class="anchored" data-anchor-id="responsabilidades"><span class="header-section-number">7.13.4</span> Responsabilidades</h3>
+<p>Em misturas, examine</p>
+<p><span class="math display">\[\tau_{ik}=P(Z_{ik}=1\mid y_i,\widehat\theta).\]</span></p>
+<p>Se uma observação possui uma responsabilidade próxima de <span class="math inline">\(1\)</span> para uma componente, sua classificação é pouco ambígua segundo o modelo ajustado. Se duas ou mais responsabilidades são semelhantes, a atribuição da observação é incerta.</p>
+<p>Essa interpretação decorre diretamente da definição das probabilidades condicionais da etapa E.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [Exemplo D.1, pp.&nbsp;713–714] e <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>, pp.&nbsp;145–148)</span>.</p>
+</blockquote>
+</section>
+<section id="rótulos-das-componentes" class="level3" data-number="7.13.5">
+<h3 data-number="7.13.5" class="anchored" data-anchor-id="rótulos-das-componentes"><span class="header-section-number">7.13.5</span> Rótulos das componentes</h3>
+<p>Os números “componente 1”, “componente 2” etc. não carregam significado intrínseco quando as componentes pertencem à mesma família. O significado estatístico deve ser atribuído pelos parâmetros estimados ou por características substantivas, e não pelo número do rótulo.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> problema de identificabilidade por permutação discutido em <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>, pp.&nbsp;145–148)</span>.</p>
+</blockquote>
+</section>
+<section id="número-de-componentes" class="level3" data-number="7.13.6">
+<h3 data-number="7.13.6" class="anchored" data-anchor-id="número-de-componentes"><span class="header-section-number">7.13.6</span> Número de componentes</h3>
+<p>O EM ajusta os parâmetros para uma estrutura de mistura especificada; a escolha do número de componentes constitui um problema adicional. <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>)</span> [pp.&nbsp;145–148] discute a determinação do número de distribuições em uma mistura e observa que problemas de teste nesse contexto não satisfazem automaticamente as condições assintóticas usuais. <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 4.12.5</a>, pp.&nbsp;156–157)</span> mostra uma abordagem de agrupamento baseada em <code>mclust</code>, na qual a seleção do número de grupos é integrada à rotina de modelagem.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>)</span> [Seção 8.3, pp.&nbsp;145–148] e <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 4.12.5</a>, pp.&nbsp;156–157)</span>.</p>
+</blockquote>
+<div class="callout callout-style-default callout-tip callout-titled" title="Checklist de diagnóstico">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Checklist de diagnóstico
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Antes de aceitar um ajuste EM, verifique:</p>
+<ol type="1">
+<li>a log-verossimilhança não diminuiu de forma relevante;</li>
+<li>o critério de convergência foi efetivamente satisfeito;</li>
+<li>o ajuste foi repetido a partir de diferentes valores iniciais quando a verossimilhança é potencialmente multimodal;</li>
+<li>as diferentes execuções foram comparadas por log-verossimilhança final;</li>
+<li>em misturas, as responsabilidades foram examinadas;</li>
+<li>os rótulos das componentes foram alinhados antes de comparar execuções;</li>
+<li>qualquer seleção do número de componentes foi tratada como etapa distinta da simples iteração EM.</li>
+</ol>
+<p><em>Base bibliográfica:</em> síntese didática construída a partir de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [pp.&nbsp;711–714], <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025</a>, pp.&nbsp;156–157 e aproximadamente pp.&nbsp;360–362)</span> e <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>, pp.&nbsp;145–148)</span>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="síntese-do-capítulo" class="level2" data-number="7.14">
+<h2 data-number="7.14" class="anchored" data-anchor-id="síntese-do-capítulo"><span class="header-section-number">7.14</span> Síntese do capítulo</h2>
+<p>O EM transforma um problema de máxima verossimilhança com informação incompleta em uma sequência de problemas associados à informação completa. A etapa E calcula a esperança condicional da log-verossimilhança completa; a etapa M maximiza essa esperança. A estrutura produz uma sequência não decrescente de valores da log-verossimilhança observada. Essa propriedade, porém, não elimina a possibilidade de convergência a máximos locais nem a sensibilidade aos valores iniciais.</p>
+<p>Em modelos de mistura, as variáveis latentes correspondem naturalmente aos rótulos das componentes. A etapa E calcula probabilidades condicionais de pertencimento e a etapa M atualiza pesos, médias, variâncias ou outros parâmetros por meio dessas probabilidades. Computacionalmente, um ajuste confiável deve registrar a trajetória da log-verossimilhança, o critério de parada, o número de iterações e os resultados de múltiplas inicializações quando necessário.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> síntese baseada em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [Apêndice D.7, pp.&nbsp;711–714], <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021, seç. 13.4</a>, pp.&nbsp;540–548)</span>, <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022</a>)</span> [Seção 13.8, pp.&nbsp;483–488] e <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>, pp.&nbsp;145–148)</span>.</p>
+</blockquote>
+</section>
+<section id="exercícios" class="level2" data-number="7.15">
+<h2 data-number="7.15" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">7.15</span> Exercícios</h2>
+<div class="callout callout-style-default callout-warning callout-titled" title="Exercício 1 — dados completos e dados observados">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 1 — dados completos e dados observados
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Considere <span class="math inline">\(Y_1,\ldots,Y_n\)</span> provenientes de uma mistura de duas distribuições de Poisson,</p>
+<p><span class="math display">\[f(y)
+=
+\pi\,\mathrm{Pois}(y;\lambda_1)
++
+(1-\pi)\,\mathrm{Pois}(y;\lambda_2).\]</span></p>
+<ol type="1">
+<li>Defina uma variável latente apropriada.</li>
+<li>Escreva a log-verossimilhança de dados completos.</li>
+<li>Derive as responsabilidades da etapa E.</li>
+<li>Derive as atualizações da etapa M para <span class="math inline">\(\pi\)</span>, <span class="math inline">\(\lambda_1\)</span> e <span class="math inline">\(\lambda_2\)</span>.</li>
+</ol>
+<p><em>Exercício baseado na estratégia de aumento de dados de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice D.7, pp.&nbsp;711–714)</span>.</em></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="Exercício 2 — monotonicidade">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 2 — monotonicidade
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Partindo da decomposição</p>
+<p><span class="math display">\[\ell(\theta;y)
+=
+\mathcal{L}(q,\theta)
++
+D_{\mathrm{KL}}
+\left(
+q
+\Vert
+p(z\mid y,\theta)
+\right),\]</span></p>
+<p>mostre detalhadamente que uma iteração EM não reduz a log-verossimilhança observada.</p>
+<p><em>Exercício baseado na Eq. D.15 e no Algoritmo D.3 de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, pp.&nbsp;712–713)</span>.</em></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="Exercício 3 — sensibilidade aos valores iniciais">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 3 — sensibilidade aos valores iniciais
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use a função <code>em_gmm_1d()</code> deste capítulo para ajustar uma mistura de duas normais a um conjunto simulado. Execute o algoritmo pelo menos 30 vezes com médias iniciais aleatórias. Compare:</p>
+<ul>
+<li>log-verossimilhanças finais;</li>
+<li>número de iterações;</li>
+<li>médias e desvios-padrão estimados;</li>
+<li>classificações das observações.</li>
+</ul>
+<p>Explique por que é necessário alinhar os rótulos antes de comparar os parâmetros.</p>
+<p><em>Exercício baseado na discussão de inicialização de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [p.&nbsp;713], no exemplo prático de <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025</a>, aproximadamente pp.&nbsp;360–362)</span> e na discussão de identificabilidade de <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>, pp.&nbsp;145–148)</span>.</em></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="Exercício 4 — censura exponencial">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 4 — censura exponencial
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Reproduza computacionalmente o problema de tempos de sobrevivência exponenciais censurados em <span class="math inline">\(T\)</span> apresentado por <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>, Exemplo 13.4.1, pp.&nbsp;542–544)</span>. Implemente a recorrência EM em R e compare o resultado para dois valores iniciais distintos.</p>
+<p><em>Exercício adaptado de <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>, Exemplo 13.4.1, pp.&nbsp;542–544)</span>.</em></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="Exercício 5 — diagnóstico">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercício 5 — diagnóstico
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Modifique propositalmente a etapa M da função <code>em_gmm_1d()</code> para atualizar incorretamente uma das médias. Acompanhe a trajetória da log-verossimilhança e verifique se a propriedade de monotonicidade detecta o erro.</p>
+<p><em>Exercício baseado na observação de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, p. 713</a>)</span> de que a monotonicidade pode ser usada como mecanismo de depuração.</em></p>
+</div>
+</div>
+</section>
+<section id="referências" class="level1 unnumbered">
+<h1 class="unnumbered">Referências</h1>
 
 
+<div id="refs" class="references csl-bib-body" data-entry-spacing="1" role="list">
+<div id="ref-chernick2008bootstrap" class="csl-entry" role="listitem">
+CHERNICK, Michael R. <strong>Bootstrap Methods: A Guide for Practitioners and Researchers</strong>. 2. ed. Hoboken: John Wiley &amp; Sons, 2008.
+</div>
+<div id="ref-chihara2022resampling" class="csl-entry" role="listitem">
+CHIHARA, Laura M.; HESTERBERG, Tim C. <strong>Mathematical Statistics with Resampling and R</strong>. 3. ed. Hoboken: John Wiley &amp; Sons, 2022.
+</div>
+<div id="ref-kroese2011handbook" class="csl-entry" role="listitem">
+KROESE, Dirk P.; TAIMRE, Thomas; BOTEV, Zdravko I. <strong>Handbook of Monte Carlo Methods</strong>. Hoboken: John Wiley &amp; Sons, 2011.
+</div>
+<div id="ref-nocedal2006numerical" class="csl-entry" role="listitem">
+NOCEDAL, Jorge; WRIGHT, Stephen J. <strong>Numerical Optimization</strong>. 2. ed. New York: Springer Science+Business Media, 2006.
+</div>
+<div id="ref-ramachandran2021mathematical" class="csl-entry" role="listitem">
+RAMACHANDRAN, Kandethody M.; TSOKOS, Chris P. <strong>Mathematical Statistics with Applications in R</strong>. 3. ed. London: Academic Press, 2021.
+</div>
+<div id="ref-thulin2025modern" class="csl-entry" role="listitem">
+THULIN, Måns. <strong>Modern Statistics with R: From Wrangling and Exploring Data to Inference and Predictive Modelling</strong>. 2. ed. Boca Raton: CRC Press, 2025.
+</div>
+</div>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -767,9 +2437,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./metodosadicionais.html" class="pagination-link" aria-label="Aplicações Modernas em Estatística Computacional">
-        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Aplicações Modernas em Estatística Computacional</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

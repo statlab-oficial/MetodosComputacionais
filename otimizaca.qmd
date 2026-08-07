@@ -1,107 +1,855 @@
 # Otimização Numérica
 
-## Método de Newton
+A otimização numérica ocupa uma posição central na Estatística Computacional. Estimadores de máxima verossimilhança, ajustes por mínimos quadrados, modelos de mistura, procedimentos de inferência com parâmetros de alta dimensão e diversos algoritmos iterativos podem exigir a solução numérica de um problema de maximização ou minimização. Mesmo quando a formulação estatística é analítica, frequentemente não existe uma expressão fechada para o estimador, de modo que a inferência depende de um algoritmo de otimização.
 
-**Propósito:** maximizar ou minimizar a função $f(\theta)$ ou, de forma equivalente, encontrar a raiz da equação $g(\theta)=0$, em que $g(\theta)=f'(\theta)$.
+Em problemas sem restrições, a tarefa pode ser escrita como
 
-Considere um valor inicial $\theta_0$, próximo de $\hat{\theta}$. A expansão de Taylor de $g(\theta)$ em torno de $\theta_0$ é:
+$$
+\min_{\theta\in\mathbb{R}^p} f(\theta),
+$$
 
-$$g(\theta)
+ou, para uma maximização,
+
+$$
+\max_{\theta\in\mathbb{R}^p} \ell(\theta).
+$$
+
+Maximizar $\ell(\theta)$ equivale a minimizar $-\ell(\theta)$, mas **não é, em geral, equivalente simplesmente a encontrar uma raiz de sua derivada sem verificar a natureza do ponto estacionário**. Uma raiz de $\nabla f(\theta)=0$ pode corresponder a mínimo, máximo ou ponto de sela; a informação de segunda ordem é necessária para classificá-la em problemas suaves.
+
+> **Base bibliográfica:** a formulação geral de otimização e a distinção entre soluções locais e globais seguem @nocedal2006numerical [Capítulo 1, pp. 1--9; Seção 2.1, pp. 12--17]. A relação entre localização de raízes e otimização, bem como a necessidade de classificar pontos estacionários, é discutida por @kroese2011handbook [Apêndice C.2.2, aproximadamente pp. 688--692].
+
+## Objetivos de aprendizagem
+
+Ao final deste capítulo, espera-se que o leitor seja capaz de:
+
+- distinguir um problema de otimização de um problema de localização de raízes;
+- interpretar condições de primeira e segunda ordem para extremos locais;
+- derivar o método de Newton a partir de aproximações de Taylor;
+- aplicar Newton tanto a equações não lineares quanto à otimização;
+- reconhecer as condições que explicam sua convergência quadrática local;
+- diagnosticar problemas decorrentes de valores iniciais inadequados, derivadas pequenas, Hessianas singulares ou indefinidas e soluções na fronteira;
+- compreender o papel de amortecimento, busca linear e regiões de confiança;
+- distinguir Newton--Raphson de *escore de Fisher* em máxima verossimilhança;
+- implementar e diagnosticar algoritmos de Newton em R;
+- usar `optimize()` e `uniroot()` em problemas estatísticos unidimensionais;
+- compreender por que métodos quasi-Newton, como BFGS, são alternativas importantes quando a Hessiana exata é cara.
+
+> **Base bibliográfica:** organização didática baseada principalmente em @nocedal2006numerical [Capítulos 2--4, 6--8 e 11] e @kroese2011handbook [Apêndices B e C]. O uso de `optimize()` e `uniroot()` em máxima verossimilhança é baseado em @chihara2022resampling [Seção 6.1.2, pp. 150--155].
+
+## Problemas de otimização e pontos estacionários
+
+### Mínimos e máximos locais
+
+::: {.callout-note title="Definição"}
+Um ponto $\theta^\star$ é um **mínimo local** de $f$ se existe uma vizinhança de $\theta^\star$ tal que
+
+$$
+f(\theta^\star)\leq f(\theta)
+$$
+
+para todo $\theta$ nessa vizinhança. Analogamente, $\theta^\star$ é um **máximo local** se
+
+$$
+f(\theta^\star)\geq f(\theta)
+$$
+
+na vizinhança considerada.
+
+*Base bibliográfica:* @nocedal2006numerical [Seção 2.1, pp. 12--17].
+:::
+
+Se $f:\mathbb{R}\to\mathbb{R}$ é diferenciável e $\theta^\star$ é uma solução interior, uma condição necessária de primeira ordem é
+
+$$
+f'(\theta^\star)=0.
+$$
+
+Em dimensão $p$, a condição correspondente é
+
+$$
+\nabla f(\theta^\star)=0.
+$$
+
+Um ponto que satisfaz essa equação é chamado de **ponto estacionário**.
+
+> **Base bibliográfica:** @nocedal2006numerical [Seção 2.1, especialmente pp. 14--16].
+
+## Informação de segunda ordem
+
+No caso unidimensional, se
+
+$$
+f'(\theta^\star)=0
+$$
+
+e
+
+$$
+f''(\theta^\star)>0,
+$$
+
+então, sob condições regulares, $\theta^\star$ é um mínimo local estrito. Se
+
+$$
+f''(\theta^\star)<0,
+$$
+
+o ponto é um máximo local estrito.
+
+Em dimensão maior, a Hessiana
+
+$$
+H(\theta)
 =
-g(\theta_0)
+\nabla^2 f(\theta)
+$$
+
+substitui a segunda derivada. Em um ponto estacionário, uma Hessiana positiva definida caracteriza um mínimo local estrito pelas condições suficientes de segunda ordem. Para maximização, aplica-se o resultado a $-f$: equivalentemente, uma Hessiana negativa definida caracteriza um máximo local estrito.
+
+> **Base bibliográfica:** @nocedal2006numerical [Seção 2.1, pp. 14--16].
+
+::: {.callout-tip title="Interpretação"}
+Resolver $\nabla f(\theta)=0$ e otimizar $f$ são problemas relacionados, mas não idênticos. Um algoritmo de localização de raízes procura apenas zerar o gradiente. Um algoritmo de otimização deve também lidar com a geometria da função e, em implementações robustas, procurar passos que melhorem a função objetivo.
+
+*Base bibliográfica:* @kroese2011handbook [Apêndice C.2.2, aproximadamente pp. 688--692] e @nocedal2006numerical [Seções 2.1--2.2, pp. 12--27].
+:::
+
+## Método de Newton para equações não lineares
+
+Considere inicialmente o problema escalar
+
+$$
+g(\theta)=0.
+$$
+
+Seja $\theta_k$ uma aproximação corrente da raiz. A expansão de Taylor de primeira ordem em torno de $\theta_k$ fornece
+
+$$
+g(\theta)
+=
+g(\theta_k)
 +
-g'(\theta_0)(\theta - \theta_0)
+g'(\theta_k)(\theta-\theta_k)
 +
-\frac{g''(\theta_0)(\theta-\theta_0)^2}{2!}
+O\left((\theta-\theta_k)^2\right).
+$$
+
+Para $\theta$ suficientemente próximo de $\theta_k$, utiliza-se o modelo linear
+
+$$
+g(\theta)
+\approx
+g(\theta_k)
 +
-\cdots$$
+g'(\theta_k)(\theta-\theta_k).
+$$
 
-Para $|\theta - \theta_0|$ pequeno, desprezamos termos quadráticos ou superiores:
+A nova aproximação é escolhida como a raiz desse modelo linear. Fazendo o lado direito igual a zero,
 
-$$g(\theta) \approx g(\theta_0) + g'(\theta_0)(\theta - \theta_0).$$
+$$
+0
+=
+g(\theta_k)
++
+g'(\theta_k)(\theta_{k+1}-\theta_k),
+$$
 
-Estamos aproximando $g(\theta)$ por uma função linear de $\theta$ que tem o mesmo valor e inclinação de $g(\theta)$ no ponto $\theta=\theta_0$.
+e, se $g'(\theta_k)\neq 0$,
 
-![Aproximação de g(θ) por uma função linear](grafico_newton_1.jpeg){width="80%"}
+$$
+\boxed{
+\theta_{k+1}
+=
+\theta_k
+-
+\frac{g(\theta_k)}
+     {g'(\theta_k)}
+}.
+$$
 
-O método de Newton trata com a equação da reta que passa pelo ponto $(\theta_i,g(\theta_i))$ e é tangente à curva nesse ponto:
+> **Base bibliográfica:** @kroese2011handbook [Apêndice C.2.2.1, aproximadamente pp. 688--689] e @nocedal2006numerical [Seção 11.1, pp. 274--277].
 
-$$g(\theta)-g(\theta_i)=g'(\theta_i)(\theta-\theta_i),\quad i=0,1,2,\ldots$$
+::: {.callout-note title="Definição"}
+O **método de Newton** ou **Newton--Raphson** para uma equação escalar $g(\theta)=0$ constrói uma sequência $\{\theta_k\}$ pela recorrência
 
-em que $g'(\theta_i)$ é a inclinação da reta (derivada). Essa reta passa pelo ponto $(\theta_{i+1},0)$. Assim,
+$$
+\theta_{k+1}
+=
+\theta_k
+-
+\frac{g(\theta_k)}
+     {g'(\theta_k)},
+$$
 
-$$0-g(\theta_i) =  g'(\theta_i)(\theta_{i+1}-\theta_i) \Rightarrow
-\theta_{i+1}  =  \theta_i - \dfrac{g(\theta_i)}{g'(\theta_i)}$$
+sempre que o denominador seja não nulo.
 
-![Método de Newton - Ilustração](grafico_newton_2.jpeg){width="80%"}
+*Base bibliográfica:* @kroese2011handbook [Apêndice C.2.2.1, pp. 688--689].
+:::
 
-Note que $\theta_0$ é apenas uma "estimativa qualquer" para a raiz $\hat\theta$ da equação $g(\theta)$. A proposta do método é atualizar esse valor proposto da seguinte forma:
+### Interpretação geométrica
 
-- determinar $\theta_1=\theta_0 - \dfrac{g(\theta_0)}{g'(\theta_0)}$
-- determinar $\theta_2=\theta_1 - \dfrac{g(\theta_1)}{g'(\theta_1)}$
-- repetir esse processo até que $\theta_{i+1}\approx\theta_i$
-- $\theta_i$ será a raiz da equação.
+O modelo
 
-O método de Newton está implementado na função `maxNR` do pacote `maxLik` do programa `R`.
+$$
+m_k(\theta)
+=
+g(\theta_k)
++
+g'(\theta_k)(\theta-\theta_k)
+$$
 
-**Exemplo:** Seja $f(\theta) = 100\log(\theta)-50\theta -50\log(1-\exp(-\theta))$.
+é a reta tangente a $g$ no ponto $(\theta_k,g(\theta_k))$. A próxima aproximação $\theta_{k+1}$ é o ponto em que essa reta intercepta o eixo horizontal.
 
-![Curva da função $f(\theta)$](grafico_newton_3.jpeg){width="80%"}
+::: {.callout-tip title="Interpretação"}
+Newton substitui localmente uma função não linear por um modelo linear cuja raiz é fácil de calcular. Se a aproximação local for boa e a derivada não estiver próxima de zero, a nova aproximação tende a ficar muito mais próxima da raiz.
 
-Determinando o ponto de máximo da função $f(\theta):$
+*Base bibliográfica:* @nocedal2006numerical [Seção 11.1, pp. 274--277] e @kroese2011handbook [Apêndice C.2.2.1, pp. 688--689].
+:::
+
+#### Animação do método de Newton
+
+A animação a seguir ilustra o método de Newton aplicado à equação $g(\theta)=\theta^2-2=0$. A raiz positiva é $\sqrt{2}$.
+
 
 ```{r}
+#| echo: false
+#| fig-cap: "Aproximação linear usada pelo método de Newton."
+#| fig-width: 7
+#| fig-height: 5
 #| message: false
 #| warning: false
 
-library(maxLik)
-		
-f <- function(u) (100*log(u) - 50*u-50*log(1-exp(-u)))
+# Instale, se necessário:
+# install.packages(c("ggplot2", "gganimate", "gifski", "transformr"))
+
+library(ggplot2)
+library(gganimate)
+library(gifski)
+library(transformr)
 
 
-maxNR(f, star = 1)$estimate # 1.593624
+# Função e derivada
+g <- function(theta) theta^2 - 2
+gp <- function(theta) 2 * theta
 
-maxNR(f, star = 1)$maximum  # -21.72331
+# Função para gerar as iterações de Newton
+newton_steps <- function(theta0, n_iter = 6) {
+  
+  theta <- numeric(n_iter + 1)
+  theta[1] <- theta0
+  
+  for (k in 1:n_iter) {
+    theta[k + 1] <- theta[k] - g(theta[k]) / gp(theta[k])
+  }
+  
+  data.frame(
+    iter = 0:n_iter,
+    theta = theta,
+    gtheta = g(theta)
+  )
+}
+
+# Gerando iterações
+steps <- newton_steps(theta0 = 2, n_iter = 6)
+
+# Grade para desenhar a curva
+x_grid <- seq(0.5, 2.2, length.out = 500)
+curve_df <- data.frame(
+  x = x_grid,
+  y = g(x_grid)
+)
+
+# Construção das tangentes para cada iteração
+tangent_list <- lapply(seq_len(nrow(steps) - 1), function(i) {
+  
+  x0 <- steps$theta[i]
+  y0 <- steps$gtheta[i]
+  slope <- gp(x0)
+  
+  data.frame(
+    iter = i - 1,
+    x = x_grid,
+    y = y0 + slope * (x_grid - x0),
+    x0 = x0,
+    y0 = y0,
+    x1 = steps$theta[i + 1]
+  )
+})
+
+tangent_df <- do.call(rbind, tangent_list)
+
+# Pontos relevantes por quadro
+point_df <- data.frame(
+  iter = 0:(nrow(steps) - 2),
+  x_atual = steps$theta[1:(nrow(steps) - 1)],
+  y_atual = steps$gtheta[1:(nrow(steps) - 1)],
+  x_next = steps$theta[2:nrow(steps)]
+)
+
+p <- ggplot() +
+  geom_hline(yintercept = 0, linetype = 2, color = "gray50") +
+  geom_line(data = curve_df, aes(x = x, y = y), linewidth = 1) +
+  geom_line(
+    data = tangent_df,
+    aes(x = x, y = y, group = iter),
+    linetype = 2
+  ) +
+  geom_point(
+    data = point_df,
+    aes(x = x_atual, y = y_atual),
+    size = 3
+  ) +
+  geom_point(
+    data = point_df,
+    aes(x = x_next, y = 0),
+    shape = 17,
+    size = 3
+  ) +
+  geom_segment(
+    data = point_df,
+    aes(
+      x = x_atual, y = y_atual,
+      xend = x_next, yend = 0
+    ),
+    linetype = 3
+  ) +
+  labs(
+    title = "Método de Newton: iteração {closest_state}",
+    subtitle = expression(g(theta) == theta^2 - 2),
+    x = expression(theta),
+    y = expression(g(theta))
+  ) +
+  coord_cartesian(xlim = c(0.5, 2.2), ylim = c(-2, 2.5)) +
+  transition_states(iter, state_length = 1, transition_length = 1) +
+  ease_aes("linear")
+
+anim <- animate(
+  p,
+  nframes = 120,
+  fps = 12,
+  width = 700,
+  height = 500,
+  units = "px",
+  res = 96
+)
+
+anim
+
 ```
 
-Outras funções relacionadas a otimização:
+> **Base bibliográfica:** construção gráfica baseada na interpretação geométrica do método de Newton em @kroese2011handbook [Apêndice C.2.2.1, pp. 688--689].
 
-1.  `optimize`: determinar o ponto de máximo (mínimo) da função $f(\theta)$:
+### Forma multivariada
+
+Para um sistema
+
+$$
+r(\theta)=0,
+\qquad
+r:\mathbb{R}^p\to\mathbb{R}^p,
+$$
+
+seja $J(\theta)$ a matriz Jacobiana. O modelo linear em torno de $\theta_k$ é
+
+$$
+r(\theta_k+p)
+\approx
+r(\theta_k)
++
+J(\theta_k)p.
+$$
+
+O passo de Newton $p_k$ é obtido resolvendo
+
+$$
+J(\theta_k)p_k
+=
+-r(\theta_k),
+$$
+
+e a atualização é
+
+$$
+\theta_{k+1}
+=
+\theta_k+p_k.
+$$
+
+Do ponto de vista numérico, é preferível **resolver o sistema linear** para $p_k$ em vez de calcular explicitamente $J(\theta_k)^{-1}$.
+
+> **Base bibliográfica:** @nocedal2006numerical [Algoritmo 11.1, pp. 274--275] e @kroese2011handbook [Apêndice C.2.2.1, pp. 688--689].
+
+## Método de Newton para otimização
+
+Para minimizar uma função suave $f:\mathbb{R}^p\to\mathbb{R}$, utiliza-se o modelo quadrático de Taylor
+
+$$
+m_k(p)
+=
+f(\theta_k)
++
+\nabla f(\theta_k)^\top p
++
+\frac{1}{2}
+p^\top
+\nabla^2 f(\theta_k)
+p.
+$$
+
+Se a Hessiana $\nabla^2 f(\theta_k)$ é positiva definida, o mínimo desse modelo é obtido pela condição
+
+$$
+\nabla f(\theta_k)
++
+\nabla^2 f(\theta_k)p_k
+=
+0.
+$$
+
+Portanto, o passo de Newton satisfaz
+
+$$
+\boxed{
+\nabla^2 f(\theta_k)p_k
+=
+-\nabla f(\theta_k)
+}
+$$
+
+e
+
+$$
+\boxed{
+\theta_{k+1}
+=
+\theta_k+p_k.
+}
+$$
+
+Quando se escreve formalmente a inversa,
+
+$$
+p_k
+=
+-
+\left[
+\nabla^2 f(\theta_k)
+\right]^{-1}
+\nabla f(\theta_k),
+$$
+
+mas uma implementação numérica deve, em geral, resolver o sistema linear anterior.
+
+> **Base bibliográfica:** @nocedal2006numerical [Seção 2.2, Eq. 2.14--2.15, pp. 22--23].
+
+### Caso unidimensional
+
+Se $p=1$, a fórmula reduz-se a
+
+$$
+\boxed{
+\theta_{k+1}
+=
+\theta_k
+-
+\frac{f'(\theta_k)}
+     {f''(\theta_k)}
+}.
+$$
+
+Isso também pode ser obtido aplicando o método de Newton para raízes à equação
+
+$$
+g(\theta)=f'(\theta)=0.
+$$
+
+> **Base bibliográfica:** relação entre Newton para raízes do gradiente e Newton para otimização em @nocedal2006numerical [Seção 11.1, pp. 274--275] e @kroese2011handbook [Apêndice C.2.2.1, pp. 688--689].
+
+::: {.callout-warning title="Observação"}
+A fórmula de Newton define uma direção de descida para minimização quando a Hessiana é positiva definida. Se a Hessiana for singular, o passo pode não estar definido. Se for indefinida, o passo pode existir e ainda assim **não ser uma direção de descida**.
+
+*Base bibliográfica:* @nocedal2006numerical [Seção 2.2, pp. 22--23; Seção 3.4, pp. 48--56].
+:::
+
+### Maximização
+
+Para maximizar uma função $\ell(\theta)$, pode-se minimizar $-\ell(\theta)$. A atualização de Newton escrita diretamente para $\ell$ mantém a forma
+
+$$
+\theta_{k+1}
+=
+\theta_k
+-
+\left[
+\nabla^2\ell(\theta_k)
+\right]^{-1}
+\nabla\ell(\theta_k).
+$$
+
+Perto de um máximo local estrito, espera-se que
+
+$$
+\nabla^2\ell(\theta^\star)
+$$
+
+seja negativa definida. Nesse caso, a Hessiana de $-\ell$ é positiva definida.
+
+> **Base bibliográfica:** condições de segunda ordem em @nocedal2006numerical [Seção 2.1, pp. 14--16] e passo de Newton em @nocedal2006numerical [Seção 2.2, pp. 22--23].
+
+## Convergência local do método de Newton
+
+Uma das principais vantagens do método de Newton é sua taxa de convergência local. Sob hipóteses de regularidade, quando o ponto inicial está suficientemente próximo de um mínimo $\theta^\star$, a Hessiana é não singular e suficientemente suave, e passos completos são aceitos, a sequência converge **quadraticamente**.
+
+De maneira simplificada, convergência quadrática significa que, para $k$ suficientemente grande,
+
+$$
+\|\theta_{k+1}-\theta^\star\|
+\leq
+C
+\|\theta_k-\theta^\star\|^2
+$$
+
+para alguma constante $C>0$.
+
+> **Base bibliográfica:** @nocedal2006numerical [Teorema 3.5, pp. 44--46].
+
+::: {.callout-tip title="Interpretação"}
+Quando o algoritmo já entrou na vizinhança em que a aproximação quadrática é precisa, o número de algarismos corretos pode crescer muito rapidamente. Essa é a razão para a conhecida eficiência local de Newton.
+
+*Base bibliográfica:* @nocedal2006numerical [Seção 2.2, pp. 22--23; Teorema 3.5, pp. 44--46].
+:::
+
+::: {.callout-warning title="Observação"}
+A convergência quadrática é uma propriedade **local**, não uma garantia de que qualquer valor inicial produzirá convergência. Longe da solução, o método puro pode produzir passos ruins ou até divergir.
+
+*Base bibliográfica:* @nocedal2006numerical [Seção 11.1, pp. 274--277] e @kroese2011handbook [Apêndice C.2.2.1, pp. 688--689].
+:::
+
+## Critérios de convergência e parada
+
+Em otimização, um critério natural é verificar se o gradiente está próximo de zero:
+
+$$
+\|\nabla f(\theta_k)\|
+\leq
+\varepsilon_g.
+$$
+
+O Algoritmo BFGS apresentado por @nocedal2006numerical, por exemplo, utiliza a norma do gradiente como critério de terminação. Em um problema de raízes, o critério análogo é
+
+$$
+\|g(\theta_k)\|
+\leq
+\varepsilon_g.
+$$
+
+> **Base bibliográfica:** @nocedal2006numerical [Algoritmo 6.1, pp. 140--141] e, para equações não lineares, @kroese2011handbook [Apêndice B, Algoritmo B.1, aproximadamente pp. 670--671].
+
+Uma implementação pode também monitorar o tamanho relativo do passo,
+
+$$
+\frac{
+\|\theta_{k+1}-\theta_k\|
+}{
+1+\|\theta_{k+1}\|
+}
+\leq
+\varepsilon_\theta,
+$$
+
+e a mudança relativa na função objetivo,
+
+$$
+\frac{
+|f(\theta_{k+1})-f(\theta_k)|
+}{
+1+|f(\theta_{k+1})|
+}
+\leq
+\varepsilon_f.
+$$
+
+Além disso, deve-se impor um número máximo de iterações.
+
+::: {.callout-warning title="Observação computacional"}
+A combinação simultânea de critérios baseados em gradiente, tamanho do passo, mudança da função objetivo e número máximo de iterações é uma recomendação de implementação adotada neste capítulo. As fontes sustentam o uso de testes de convergência, mas esta combinação específica deve ser entendida como uma estratégia computacional, e não como um teorema universal.
+:::
+
+## Sensibilidade aos valores iniciais
+
+O desempenho de Newton depende fortemente do valor inicial. Em problemas de raízes, um ponto inicial distante pode conduzir a comportamento errático; em otimização, pode levar a uma região associada a outro ponto estacionário ou produzir passos que não melhoram a função.
+
+> **Base bibliográfica:** @nocedal2006numerical [Seção 11.1, pp. 274--277] e @kroese2011handbook [Apêndice C.2.2.1, pp. 688--689].
+
+::: {.callout-tip title="Interpretação"}
+O valor inicial define a região do espaço paramétrico a partir da qual o modelo local é construído. Newton não “vê” toda a função; em cada iteração, ele usa apenas informação local de primeira e segunda ordem.
+
+*Base bibliográfica:* interpretação baseada na construção local de Taylor em @nocedal2006numerical [Seções 2.2 e 11.1].
+:::
+
+Em máxima verossimilhança, @kroese2011handbook sugere que estimativas de momentos podem fornecer valores iniciais naturais em alguns modelos. Essa estratégia é particularmente útil quando o escore e a Hessiana são complicados.
+
+> **Base bibliográfica:** @kroese2011handbook [Apêndice B, discussão após o Algoritmo B.1, aproximadamente pp. 670--671].
+
+## Hessiana singular, indefinida e problemas de condicionamento
+
+### Derivada pequena no caso escalar
+
+Na atualização
+
+$$
+\theta_{k+1}
+=
+\theta_k
+-
+\frac{g(\theta_k)}{g'(\theta_k)},
+$$
+
+um valor de $g'(\theta_k)$ próximo de zero pode gerar um passo de grande magnitude. A mesma dificuldade aparece em dimensão maior quando a Jacobiana ou Hessiana é singular ou quase singular.
+
+> **Base bibliográfica:** @nocedal2006numerical [Seção 11.1, pp. 274--277].
+
+### Hessiana indefinida
+
+Em minimização, se
+
+$$
+\nabla^2 f(\theta_k)
+$$
+
+não é positiva definida, o passo de Newton pode não ser de descida. Uma abordagem clássica é modificar a Hessiana de forma a obter uma matriz positiva definida antes de calcular a direção.
+
+> **Base bibliográfica:** @nocedal2006numerical [Seção 3.4, pp. 48--56].
+
+### Custo computacional
+
+Em dimensão elevada, calcular, armazenar e fatorar a Hessiana pode ser caro. O custo pode tornar o Newton exato impraticável, motivando métodos de Newton inexato, Newton--CG, métodos sem formação explícita da Hessiana e métodos de memória limitada.
+
+> **Base bibliográfica:** @nocedal2006numerical [Capítulo 7, especialmente pp. 164--180].
+
+::: {.callout-warning title="Observação"}
+Não se deve implementar o passo multivariado calculando explicitamente
+
+$$
+\left[\nabla^2 f(\theta_k)\right]^{-1}.
+$$
+
+O problema numericamente apropriado é resolver
+
+$$
+\nabla^2 f(\theta_k)p_k=-\nabla f(\theta_k).
+$$
+
+*Base bibliográfica:* formulação dos passos de Newton como sistemas lineares em @nocedal2006numerical [Seção 7.1, pp. 165--166; Seção 11.1, pp. 274--275].
+:::
+
+## Globalização do método de Newton
+
+A excelente convergência local de Newton não garante bom comportamento a partir de pontos iniciais remotos. Métodos práticos incorporam mecanismos de **globalização**, cujo objetivo é produzir progresso confiável antes de a iteração entrar na região em que o passo de Newton completo é apropriado.
+
+> **Base bibliográfica:** @nocedal2006numerical [Capítulos 3 e 4] e @kroese2011handbook [Apêndice C.2.2].
+
+### Newton amortecido
+
+Em vez de usar sempre
+
+$$
+\theta_{k+1}
+=
+\theta_k+p_k,
+$$
+
+pode-se introduzir um comprimento de passo
+
+$$
+\alpha_k\in(0,1]
+$$
+
+e escrever
+
+$$
+\theta_{k+1}
+=
+\theta_k+\alpha_k p_k.
+$$
+
+Para o Newton puro, $\alpha_k=1$. Quando o passo completo não produz comportamento satisfatório, $\alpha_k$ pode ser reduzido.
+
+> **Base bibliográfica:** @kroese2011handbook [Apêndice C.2.2.1, pp. 688--689] e @nocedal2006numerical [Capítulo 3, pp. 30--65].
+
+### Busca linear
+
+Uma busca linear escolhe $\alpha_k$ ao longo de uma direção $p_k$. Define-se
+
+$$
+\phi(\alpha)
+=
+f(\theta_k+\alpha p_k)
+$$
+
+e busca-se um valor de $\alpha$ que produza diminuição suficiente sem gastar um número excessivo de avaliações da função.
+
+> **Base bibliográfica:** @nocedal2006numerical [Seção 3.1, pp. 31--37] e @kroese2011handbook [Apêndice C.2.2.5, aproximadamente p. 691].
+
+#### Backtracking
+
+Uma forma simples começa com $\alpha=1$ e reduz progressivamente esse valor até obter redução suficiente. Em métodos de Newton, essa estratégia permite usar o passo completo sempre que ele já for adequado.
+
+> **Base bibliográfica:** @nocedal2006numerical [Seção 3.1, especialmente pp. 37--38].
+
+::: {.callout-tip title="Interpretação"}
+Perto de uma solução regular, condições usuais de busca linear acabam aceitando $\alpha_k=1$. Assim, a globalização pode proteger a fase inicial sem destruir a rápida convergência local de Newton.
+
+*Base bibliográfica:* @nocedal2006numerical [Seção 3.3, pp. 44--47].
+:::
+
+### Regiões de confiança
+
+Em métodos de região de confiança, o modelo quadrático é considerado confiável somente em uma vizinhança do ponto corrente:
+
+$$
+\|p\|
+\leq
+\Delta_k.
+$$
+
+O algoritmo decide o passo comparando a redução efetivamente observada com a redução prevista pelo modelo. Quando o modelo é preciso, a região pode ser ampliada; quando é pouco confiável, ela é reduzida.
+
+> **Base bibliográfica:** @nocedal2006numerical [Capítulo 4, pp. 66--100].
+
+## Métodos quasi-Newton
+
+A principal desvantagem do Newton exato é a necessidade da Hessiana. Métodos **quasi-Newton** substituem $\nabla^2 f(\theta_k)$ ou sua inversa por aproximações construídas a partir da evolução dos gradientes.
+
+> **Base bibliográfica:** @nocedal2006numerical [Capítulo 6, pp. 135--163] e @kroese2011handbook [Apêndice C.2.2.3, aproximadamente pp. 689--691].
+
+### BFGS
+
+Defina
+
+$$
+s_k
+=
+\theta_{k+1}-\theta_k
+$$
+
+e
+
+$$
+y_k
+=
+\nabla f(\theta_{k+1})
+-
+\nabla f(\theta_k).
+$$
+
+O BFGS atualiza uma aproximação da Hessiana ou de sua inversa usando esses vetores e uma condição secante. Em sua forma baseada na aproximação da inversa $H_k$, o passo é
+
+$$
+p_k
+=
+-H_k\nabla f(\theta_k).
+$$
+
+Com busca linear apropriada, o método apresenta convergência superlinear em condições regulares e evita o cálculo explícito de segundas derivadas.
+
+> **Base bibliográfica:** @nocedal2006numerical [Seção 6.1, especialmente pp. 136--142].
+
+::: {.callout-tip title="Interpretação"}
+Newton investe mais informação de segunda ordem em cada iteração e pode atingir convergência quadrática local. BFGS economiza a Hessiana exata, usando a mudança dos gradientes para aprender progressivamente a curvatura da função.
+
+*Base bibliográfica:* @nocedal2006numerical [Seção 6.1, pp. 140--142].
+:::
+
+### L-BFGS e problemas de grande dimensão
+
+Quando o número de parâmetros é grande, armazenar uma matriz densa $p\times p$ pode ser proibitivo. O L-BFGS mantém apenas um número limitado de pares recentes $(s_k,y_k)$ e representa implicitamente a aproximação da Hessiana inversa.
+
+> **Base bibliográfica:** @nocedal2006numerical [Seção 7.2, pp. 176--184].
+
+## Cálculo de derivadas
+
+O método de Newton depende de derivadas. Erros de derivação podem alterar completamente a direção de busca, como ocorre no exemplo revisado mais adiante.
+
+### Derivação analítica
+
+Quando expressões fechadas são disponíveis, gradientes e Hessianas analíticas são uma opção natural. Entretanto, em modelos grandes, sua obtenção manual pode ser trabalhosa e sujeita a erros.
+
+> **Base bibliográfica:** @nocedal2006numerical [Seção 2.2, pp. 22--23; Capítulo 8, pp. 193--219].
+
+### Diferenças finitas
+
+Uma derivada pode ser aproximada por diferença central:
+
+$$
+f'(\theta)
+\approx
+\frac{
+f(\theta+h)-f(\theta-h)
+}{
+2h
+}.
+$$
+
+Sob condições de suavidade, o erro de truncamento dessa fórmula é de ordem $O(h^2)$, embora a escolha de $h$ também precise considerar erros de arredondamento.
+
+> **Base bibliográfica:** @nocedal2006numerical [Seção 8.1, pp. 194--197].
+
+#### Implementação simples em R
 
 ```{r}
-f <- function(u) (100*log(u) - 50*u-50*log(1-exp(-u)))
-optimize(f, lower = 0, upper = 5, maximum = TRUE)
+#| eval: true
+
+derivada_central <- function(f, x, h = 1e-5) {
+  (f(x + h) - f(x - h)) / (2 * h)
+}
 ```
 
-2.  `uniroot`: determinar a raiz da equação $\dfrac{\partial{f}}{\partial\theta}=0$.
+> **Base bibliográfica:** fórmula baseada em @nocedal2006numerical [Seção 8.1, pp. 196--197]. 
+
+### Diferenciação automática
+
+A diferenciação automática aplica sistematicamente a regra da cadeia às operações usadas na avaliação de uma função, permitindo obter derivadas com custo controlado e sem recorrer diretamente à diferença entre valores muito próximos.
+
+> **Base bibliográfica:** @nocedal2006numerical [Seção 8.2, pp. 204--217].
+
+### A função `D()` do R
+
+É possível realizar diferenciação simbólica no `R` usando a função `D()`. Veja o exemplo abaixo: 
+
 
 ```{r}
-f <- function(u) 100*(1/u)-50-50*(exp(-u)/(1-exp(-u)))
-uniroot(f, interval = c(0.001, 5))
+#| eval: true
+
+f <- expression(x^4)
+
+d1 <- D(f, "x")
+d2 <- D(d1, "x")
+
+d1
+d2
 ```
 
-A função `D` é usada para a obtenção de *derivadas*.
+Uma função recursiva para derivadas de ordem arbitrária pode ser escrita como:
 
 ```{r}
-# Exemplo 1
-f <- expression(x^4, "x")	
-d1 <- D(f, "x");d1  # primeira derivada
-d2 <- D(d1, "x");d2 # segunda derivada
-```
+#| eval: true
 
-```{r}
-# Exemplo 2	
-f  <- expression(100*log(u) - 50*u-50*log(1-exp(-u)))
-d1 <- D(f, "u");d1  # primeira derivada
-d2 <- D(d1, "u");d2 # segunda derivada
-```
-
-```{r}
-# Exemplo 3: função para derivadas de ordem n
 Dn <- function(expressao, variavel, ordem = 1) {
-  if(ordem < 1) stop("ordem deve ser >= 1")
-  else if(ordem == 1) D(expressao, variavel)
-  else Dn(D(expressao, variavel), variavel, ordem - 1)
+
+  if (ordem < 1) {
+    stop("ordem deve ser >= 1")
+  }
+
+  if (ordem == 1) {
+    return(D(expressao, variavel))
+  }
+
+  Dn(
+    D(expressao, variavel),
+    variavel,
+    ordem - 1
+  )
 }
 
 Dn(expression(x^4), "x", 1)
@@ -109,32 +857,784 @@ Dn(expression(x^4), "x", 2)
 Dn(expression(x^4), "x", 3)
 ```
 
-```{r}
-# Exemplo 4: implementando o método de Newton
-f  <- function(u) 100*log(u)-50*u-50*log(1-exp(-u))
-d1 <- function(u) (100/u)-50-(50*exp(-u))/(1-exp(-u))
-d2 <- function(u) -(100/u^2)-(50*exp(u))/(exp(u)-1)^2
 
-u <- 1 # estimativa/chute inicial 
-dif <- 1; i <- 2; f.max <- 0
-while (dif > 0.00001) {
-  u[i] <- u[i-1] - d1(u[i-1])/d2(u[i-1])
-  dif <- abs(u[i] - u[i-1])
-  f.max <- f(u[i])
-  i <- i + 1
+## Newton--Raphson em máxima verossimilhança
+
+Seja
+
+$$
+\ell(\theta)
+$$
+
+a log-verossimilhança e defina o **escore**
+
+$$
+U(\theta)
+=
+\frac{\partial \ell(\theta)}
+     {\partial\theta}.
+$$
+
+Um estimador de máxima verossimilhança interior $\widehat{\theta}$, sob condições regulares, satisfaz
+
+$$
+U(\widehat{\theta})=0.
+$$
+
+Aplicando Newton à equação de escore,
+
+$$
+\theta_{k+1}
+=
+\theta_k
+-
+\frac{
+U(\theta_k)
+}{
+U'(\theta_k)
+}.
+$$
+
+> **Base bibliográfica:** @kroese2011handbook [Apêndice B, Algoritmo B.1, aproximadamente pp. 670--671].
+
+### Informação observada
+
+Defina a informação observada escalar por
+
+$$
+j(\theta)
+=
+-
+\frac{\partial^2\ell(\theta)}
+     {\partial\theta^2}
+=
+-U'(\theta).
+$$
+
+Então Newton--Raphson pode ser escrito como
+
+$$
+\boxed{
+\theta_{k+1}
+=
+\theta_k
++
+\frac{
+U(\theta_k)
+}{
+j(\theta_k)
 }
+}.
+$$
 
-u[i-1]
+Em dimensão $p$,
 
-f.max
+$$
+\boxed{
+\theta_{k+1}
+=
+\theta_k
++
+j(\theta_k)^{-1}
+U(\theta_k),
+}
+$$
+
+onde, em implementação, deve-se resolver o sistema linear correspondente em vez de formar a inversa explicitamente.
+
+> **Base bibliográfica:** @kroese2011handbook [Apêndice B, Eq. B.24 e discussão associada, aproximadamente pp. 670--671].
+
+### Escore de Fisher
+
+A **informação de Fisher esperada** é
+
+$$
+I(\theta)
+=
+E_\theta\left[
+j(\theta;X)
+\right].
+$$
+
+Quando a informação observada $j(\theta_k)$ é substituída pela informação esperada $I(\theta_k)$, a atualização torna-se
+
+$$
+\boxed{
+\theta_{k+1}
+=
+\theta_k
++
+I(\theta_k)^{-1}
+U(\theta_k).
+}
+$$
+
+Essa iteração é conhecida como **Escore de Fisher**.
+
+> **Base bibliográfica:** @kroese2011handbook [Apêndice B, Eq. B.25 e discussão associada, aproximadamente pp. 670--671].
+
+
+## Implementação do método de Newton em R
+
+### Função genérica para localização de raízes
+
+A implementação abaixo registra o histórico das iterações e inclui verificações elementares para derivadas muito pequenas e valores não finitos.
+
+```{r}
+#| eval: true
+
+newton_raiz <- function(g, gp, theta0,
+                        tol_g = 1e-8,
+                        tol_theta = 1e-10,
+                        maxit = 100) {
+
+  theta <- theta0
+
+  historico <- data.frame(
+    iter = 0,
+    theta = theta,
+    g = g(theta)
+  )
+
+  for (iter in seq_len(maxit)) {
+
+    valor_g <- g(theta)
+    valor_gp <- gp(theta)
+
+    if (!is.finite(valor_g) || !is.finite(valor_gp)) {
+      stop("g(theta) ou g'(theta) não é finito.")
+    }
+
+    if (abs(valor_gp) < sqrt(.Machine$double.eps)) {
+      stop("Derivada muito próxima de zero.")
+    }
+
+    passo <- -valor_g / valor_gp
+    theta_new <- theta + passo
+    g_new <- g(theta_new)
+
+    historico <- rbind(
+      historico,
+      data.frame(
+        iter = iter,
+        theta = theta_new,
+        g = g_new
+      )
+    )
+
+    erro_theta <- abs(theta_new - theta) /
+      (1 + abs(theta_new))
+
+    theta <- theta_new
+
+    if (abs(g_new) <= tol_g ||
+        erro_theta <= tol_theta) {
+
+      return(list(
+        root = theta,
+        iter = iter,
+        convergiu = TRUE,
+        historico = historico
+      ))
+    }
+  }
+
+  list(
+    root = theta,
+    iter = maxit,
+    convergiu = FALSE,
+    historico = historico
+  )
+}
 ```
 
-Considere que $\hat\theta$, o estimador de máxima verossimilhança do parâmetro $\theta$, pode ser obtido de $U(\theta)=0$, ou seja, $\hat\theta$ é a raiz dessa equação. Portanto, o procedimento de Newton se estabelece fazendo $g(\theta)=U(\theta)$ e $g'(\theta)=U'(\theta)=-I(\theta)$ e é dado por
+> **Base bibliográfica:** recorrência de Newton baseada em @kroese2011handbook [Apêndice C.2.2.1, pp. 688--689] e @nocedal2006numerical [Seção 11.1, pp. 274--277]. As verificações e a estrutura do código são autorais.
 
-$$\theta_{i+1}  =  \theta_i + \dfrac{U(\theta_i)}{I(\theta_i)},\quad i=0,1,2,\ldots $$ Quando $\theta_{i+1}\approx\theta_i$, o estimador de máxima verossimilhança será $\hat\theta=\theta_{i}$.
+::: {.callout-important title="Exemplo: raiz de $g(\theta)=\theta^2-2$"}
+```{r}
+#| eval: true
 
-Observações:
+g  <- function(theta) theta^2 - 2
+gp <- function(theta) 2 * theta
 
-1.  Com bons chutes iniciais, 3 ou 4 iterações são suficientes para a convergência. Isso se deve ao fato de que para grandes amostras, $U(\theta)$ é próxima da linearidade em $\theta$.
-2.  Se $U(\theta)$ é exatamente linear em $\theta$, o método produz $\hat\theta$ em uma única iteração.
-3.  Se $U(\theta)=0$ tem mais de uma raiz, o método não necessariamente converge para a raiz desejada. Dificuldades também surgem se o máximo ocorre no limite ou próximo a um limite do espaço paramétrico. Sugere-se examinar o gráfico de $l(\theta)$ antes de aplicar o método de Newton.
+ajuste <- newton_raiz(
+  g,
+  gp,
+  theta0 = 2
+)
+
+ajuste$root
+ajuste$iter
+ajuste$convergiu
+ajuste$historico
+```
+
+A raiz positiva é $\sqrt{2}$. O exemplo tem finalidade exclusivamente didática.
+
+*Base conceitual:* @kroese2011handbook [Apêndice C.2.2.1, pp. 688--689].
+:::
+
+## Exemplo estatístico: máxima verossimilhança para localização Cauchy
+
+@chihara2022resampling apresenta um exemplo no qual
+
+$$
+X_1=1,\qquad
+X_2=2,\qquad
+X_3=2,\qquad
+X_4=3
+$$
+
+são modelados por uma distribuição de Cauchy com parâmetro de localização $\theta$ e escala unitária.
+
+A log-verossimilhança, exceto por uma constante, é
+
+$$
+\ell(\theta)
+=
+-
+\sum_{i=1}^{n}
+\log
+\left[
+1+(x_i-\theta)^2
+\right].
+$$
+
+A solução não requer que se obtenha uma expressão fechada para o estimador; pode-se maximizar numericamente a log-verossimilhança.
+
+> **Base bibliográfica:** exemplo de @chihara2022resampling [Exemplo 6.7 e nota de R, pp. 154--155].
+
+### Usando `optimize()`
+
+```{r}
+#| eval: true
+
+x <- c(1, 2, 2, 3)
+
+logL <- function(theta) {
+  sum(log(dcauchy(x, location = theta)))
+}
+
+optimize(
+  logL,
+  interval = c(0, 4),
+  maximum = TRUE
+)
+```
+
+O máximo ocorre em
+
+$$
+\widehat{\theta}=2.
+$$
+
+> **Base bibliográfica:** código adaptado da nota de R em @chihara2022resampling [p. 155].
+
+### Usando `uniroot()`
+
+O escore é
+
+$$
+U(\theta)
+=
+2
+\sum_{i=1}^n
+\frac{
+x_i-\theta
+}{
+1+(x_i-\theta)^2
+}.
+$$
+
+Assim, pode-se localizar numericamente a raiz de $U(\theta)=0$:
+
+```{r}
+#| eval: true
+
+score <- function(theta) {
+  2 * sum(
+    (x - theta) /
+      (1 + (x - theta)^2)
+  )
+}
+
+uniroot(
+  score,
+  interval = c(1.5, 2.5)
+)
+```
+
+> **Base bibliográfica:** @chihara2022resampling [p. 155] recomenda explicitamente as duas abordagens: otimizar a log-verossimilhança com `optimize()` ou resolver numericamente a equação da derivada com `uniroot()`. A expressão do escore acima foi derivada para este capítulo a partir da log-verossimilhança do exemplo.
+
+::: {.callout-tip title="Interpretação"}
+Esse exemplo ilustra a diferença entre as duas tarefas computacionais:
+
+- `optimize()` trabalha diretamente com a função objetivo;
+- `uniroot()` trabalha com a equação de escore.
+
+As duas abordagens coincidem aqui porque a raiz encontrada corresponde ao máximo relevante da log-verossimilhança no intervalo considerado.
+
+*Base bibliográfica:* @chihara2022resampling [p. 155].
+:::
+
+## Exemplo 
+
+Considere
+
+$$
+f(\theta)
+=
+100\log(\theta)
+-
+50\theta
+-
+50\log
+\left(
+1-e^{-\theta}
+\right),
+\qquad
+\theta>0.
+$$
+
+As derivadas são
+
+$$
+f'(\theta)
+=
+\frac{100}{\theta}
+-
+50
+-
+\frac{50}{e^\theta-1}
+$$
+
+e
+
+$$
+f''(\theta)
+=
+-
+\frac{100}{\theta^2}
++
+\frac{
+50e^\theta
+}{
+(e^\theta-1)^2
+}.
+$$
+
+
+### Gráfico da função
+
+```{r}
+#| echo: false
+#| fig-cap: "Função objetivo."
+#| fig-width: 7
+#| fig-height: 5
+
+f_exemplo <- function(theta) {
+  100 * log(theta) -
+    50 * theta -
+    50 * log1p(-exp(-theta))
+}
+
+curve(
+  f_exemplo,
+  from = 0.05,
+  to = 5,
+  xlab = expression(theta),
+  ylab = expression(f(theta))
+)
+```
+
+### Maximização direta com `optimize()`
+
+```{r}
+#| eval: true
+
+f <- function(theta) {
+  100 * log(theta) -
+    50 * theta -
+    50 * log1p(-exp(-theta))
+}
+
+resultado <- optimize(
+  f,
+  interval = c(0.001, 5),
+  maximum = TRUE
+)
+
+resultado$maximum
+resultado$objective
+```
+
+A solução numérica é aproximadamente
+
+$$
+\widehat{\theta}
+\approx
+1.593624,
+$$
+
+com
+
+$$
+f(\widehat{\theta})
+\approx
+-21.72331.
+$$
+
+> **Base bibliográfica para o uso de `optimize()`:** @chihara2022resampling [p. 155].
+
+**Origem do exemplo:** a função objetivo foi preservada do manuscrito fornecido pelo autor. Ela **não foi localizada nos livros da pasta `Fontes_Computacionais` durante esta revisão**. Caso se deseje atribuir a função a uma referência bibliográfica, é necessária verificação adicional.
+
+### Resolvendo $f'(\theta)=0$ com `uniroot()`
+
+```{r}
+#| eval: true
+
+d1 <- function(theta) {
+  100 / theta -
+    50 -
+    50 / expm1(theta)
+}
+
+uniroot(
+  d1,
+  interval = c(0.001, 5)
+)
+```
+
+> **Base bibliográfica para o uso de `uniroot()`:** @chihara2022resampling [p. 155].
+
+### Implementando Newton manualmente
+
+```{r}
+#| eval: true
+
+f <- function(theta) {
+  100 * log(theta) -
+    50 * theta -
+    50 * log1p(-exp(-theta))
+}
+
+d1 <- function(theta) {
+  100 / theta -
+    50 -
+    50 / expm1(theta)
+}
+
+d2 <- function(theta) {
+  -100 / theta^2 +
+    50 * exp(theta) / expm1(theta)^2
+}
+
+theta <- 1
+tol <- 1e-10
+maxit <- 100
+
+historico <- data.frame(
+  iter = 0,
+  theta = theta,
+  f = f(theta),
+  grad = d1(theta)
+)
+
+for (iter in seq_len(maxit)) {
+
+  if (abs(d2(theta)) < sqrt(.Machine$double.eps)) {
+    stop("Segunda derivada muito próxima de zero.")
+  }
+
+  theta_new <- theta - d1(theta) / d2(theta)
+
+  if (theta_new <= 0 || !is.finite(theta_new)) {
+    stop("O passo saiu do domínio theta > 0.")
+  }
+
+  historico <- rbind(
+    historico,
+    data.frame(
+      iter = iter,
+      theta = theta_new,
+      f = f(theta_new),
+      grad = d1(theta_new)
+    )
+  )
+
+  erro <- abs(theta_new - theta) /
+    (1 + abs(theta_new))
+
+  theta <- theta_new
+
+  if (abs(d1(theta)) < tol || erro < tol) {
+    break
+  }
+}
+
+theta
+f(theta)
+historico
+```
+
+A implementação é intencionalmente explícita para mostrar cada parte do método. Em um algoritmo de uso geral, seria recomendável acrescentar uma estratégia de amortecimento ou busca linear para reduzir a dependência do ponto inicial.
+
+> **Base bibliográfica:** Newton em @nocedal2006numerical [Seção 2.2, pp. 22--23; Seção 3.3, pp. 44--46] e estratégias de globalização em @nocedal2006numerical [Capítulo 3].
+
+
+## Máximos locais, fronteiras e restrições
+
+### Múltiplos pontos estacionários
+
+Se a equação
+
+$$
+\nabla f(\theta)=0
+$$
+
+possui múltiplas soluções, Newton pode convergir para soluções diferentes dependendo do ponto inicial. Além disso, uma dessas soluções pode ser um máximo, outra um mínimo e outra um ponto de sela.
+
+> **Base bibliográfica:** distinção entre soluções locais e globais em @nocedal2006numerical [Capítulo 1, pp. 6--9; Seção 2.1, pp. 12--17] e dependência do ponto inicial para Newton em @nocedal2006numerical [Seção 11.1, pp. 274--277].
+
+### Soluções na fronteira
+
+Se o parâmetro é restrito a um conjunto
+
+$$
+\Theta\subsetneq\mathbb{R}^p,
+$$
+
+um máximo pode ocorrer na fronteira mesmo que o gradiente não seja zero. Nesse caso, a condição $\nabla f(\theta)=0$ não caracteriza adequadamente a solução, e métodos de otimização restrita ou reparametrizações podem ser necessários.
+
+> **Base bibliográfica:** teoria de otimização restrita em @nocedal2006numerical [Capítulo 12, pp. 304--354].
+
+::: {.callout-important title="Exemplo conceitual"}
+Para maximizar uma função em $\theta\geq 0$, é possível que o máximo esteja em $\theta=0$. Nesse ponto, uma condição de primeira ordem baseada apenas em $f'(\theta)=0$ pode falhar porque o ótimo está na fronteira do espaço paramétrico.
+
+*Base bibliográfica:* interpretação baseada nas condições de otimalidade para problemas restritos em @nocedal2006numerical [Capítulo 12].
+:::
+
+## Interpretação e diagnóstico dos resultados
+
+Um algoritmo de otimização não deve ser avaliado apenas pelo último valor retornado. O diagnóstico deve considerar a trajetória numérica e as propriedades do ponto final.
+
+### Gradiente ou escore
+
+Em uma solução interior suave, verifique se
+
+$$
+\|\nabla f(\widehat{\theta})\|
+$$
+
+é pequeno. Em máxima verossimilhança, examine
+
+$$
+\|U(\widehat{\theta})\|.
+$$
+
+> **Base bibliográfica:** @nocedal2006numerical [Seção 2.1, pp. 14--16; Algoritmo 6.1, pp. 140--141] e @kroese2011handbook [Apêndice B, Algoritmo B.1].
+
+### Curvatura
+
+Para minimização unidimensional, verifique se
+
+$$
+f''(\widehat{\theta})>0.
+$$
+
+Para maximização,
+
+$$
+\ell''(\widehat{\theta})<0.
+$$
+
+Em múltiplas dimensões, examine a definitude da Hessiana.
+
+> **Base bibliográfica:** @nocedal2006numerical [Seção 2.1, pp. 14--16].
+
+### Trajetória das iterações
+
+Registre:
+
+- os valores $\theta_k$;
+- o valor da função objetivo;
+- a norma do gradiente ou escore;
+- o tamanho do passo;
+- o número de iterações;
+- a razão de parada.
+
+Essa informação permite distinguir convergência efetiva de uma interrupção provocada por limite de iterações ou por uma falha numérica.
+
+
+### Sensibilidade à inicialização
+
+Execute o algoritmo a partir de valores iniciais distintos quando houver evidência de múltiplos extremos ou quando a função for pouco conhecida. Compare os pontos finais e os valores da função objetivo.
+
+> **Base bibliográfica:** dependência do valor inicial em @kroese2011handbook [Apêndice C.2.2.1] e @nocedal2006numerical [Seção 11.1].
+
+### Comparação com método alternativo
+
+Em uma dimensão, comparar Newton com `optimize()` ou `uniroot()` pode ser uma forma útil de verificar uma implementação didática. O fato de métodos distintos chegarem à mesma solução aumenta a confiança no cálculo, embora não constitua uma prova de ótimo global.
+
+> **Base bibliográfica para `optimize()` e `uniroot()`:** @chihara2022resampling [p. 155]. 
+
+::: {.callout-tip title="Checklist de diagnóstico"}
+Antes de aceitar uma solução numérica, verifique:
+
+1. se o algoritmo declarou convergência;
+2. se o gradiente ou escore é suficientemente pequeno;
+3. se a curvatura é compatível com máximo ou mínimo;
+4. se o ponto pertence ao domínio e respeita as restrições;
+5. se a solução é estável em relação a valores iniciais plausíveis;
+6. se a função objetivo evoluiu de forma coerente;
+7. se derivadas analíticas foram verificadas numericamente quando houver dúvida;
+8. se uma solução de fronteira exige tratamento de otimização restrita.
+
+*Base bibliográfica:* síntese didática baseada em @nocedal2006numerical [Capítulos 2--4, 8, 11 e 12] e @kroese2011handbook [Apêndices B e C].
+:::
+
+## Comparação resumida de métodos
+
+| Método | Informação usada | Vantagem principal | Limitação principal |
+|---|---|---|---|
+| Newton | gradiente + Hessiana | convergência local quadrática | Hessiana pode ser cara, singular ou indefinida |
+| Newton amortecido | gradiente + Hessiana + busca de passo | maior robustez longe da solução | mais avaliações da função |
+| BFGS | função + gradiente | evita Hessiana exata; convergência superlinear | requer boa estratégia de busca linear |
+| L-BFGS | função + gradiente + memória limitada | adequado a grande dimensão | pode convergir mais lentamente em problemas mal condicionados |
+| `optimize()` | função unidimensional | simples para otimização escalar | restrito a uma dimensão |
+| `uniroot()` | função escalar cuja raiz se procura | robusto quando há intervalo com mudança de sinal | exige formular uma equação de raiz e um intervalo apropriado |
+
+> **Base bibliográfica:** Newton, BFGS e L-BFGS em @nocedal2006numerical [Seções 2.2, 6.1 e 7.2]; relação entre Newton e busca linear em @kroese2011handbook [Apêndice C.2.2]; `optimize()` e `uniroot()` em @chihara2022resampling [p. 155]. 
+
+## Síntese do capítulo
+
+A otimização numérica fornece a infraestrutura computacional para numerosos procedimentos estatísticos. O método de Newton é obtido a partir de uma aproximação local: linear quando se procura a raiz de uma equação e quadrática quando se minimiza uma função. Em uma dimensão,
+
+$$
+\theta_{k+1}
+=
+\theta_k
+-
+\frac{f'(\theta_k)}
+     {f''(\theta_k)}
+$$
+
+é simultaneamente a aplicação de Newton à equação $f'(\theta)=0$ e a minimização local do modelo quadrático.
+
+Sua principal vantagem é a convergência quadrática local sob condições apropriadas. Suas limitações são igualmente importantes: sensibilidade à inicialização, possibilidade de Jacobianas ou Hessianas singulares, direções inadequadas quando a Hessiana é indefinida, custo de segunda ordem em alta dimensão e ausência de garantia global no método puro. Busca linear, amortecimento, regiões de confiança e métodos quasi-Newton são respostas computacionais a essas dificuldades.
+
+Na máxima verossimilhança, Newton--Raphson aplica-se à equação de escore usando a informação observada, enquanto escore de Fisher substitui essa curvatura pela informação de Fisher esperada. Essa distinção é essencial tanto conceitualmente quanto na implementação.
+
+> **Base bibliográfica:** síntese baseada em @nocedal2006numerical [Capítulos 2--4, 6--8 e 11] e @kroese2011handbook [Apêndices B e C].
+
+## Exercícios
+
+::: {.callout-warning title="Exercício 1 — Newton para uma função quadrática"}
+Considere
+
+$$
+f(\theta)
+=
+a\theta^2+b\theta+c,
+\qquad
+a>0.
+$$
+
+1. Derive $f'(\theta)$ e $f''(\theta)$.
+2. Aplique uma iteração de Newton a partir de um valor inicial arbitrário $\theta_0$.
+3. Mostre que o algoritmo atinge o minimizador exato em uma única iteração.
+
+*Exercício baseado na construção quadrática do método de Newton em @nocedal2006numerical [Seção 2.2, pp. 22--23].*
+:::
+
+::: {.callout-warning title="Exercício 2 — Cauchy e máxima verossimilhança"}
+Reproduza o Exemplo 6.7 de @chihara2022resampling [pp. 154--155] para
+
+$$
+x=(1,2,2,3).
+$$
+
+1. Maximize a log-verossimilhança com `optimize()`.
+2. Derive o escore.
+3. Encontre uma raiz do escore com `uniroot()`.
+4. Implemente Newton--Raphson para o mesmo escore.
+5. Compare os resultados numéricos.
+
+*Exercício adaptado de @chihara2022resampling [Exemplo 6.7, pp. 154--155].*
+:::
+
+::: {.callout-warning title="Exercício 3 — sensibilidade ao valor inicial"}
+Para a função
+
+$$
+g(\theta)
+=
+\theta^3-2\theta+2,
+$$
+
+implemente Newton para diferentes valores iniciais em uma grade. Registre quais execuções convergem e para qual raiz.
+
+Explique por que uma fórmula de atualização local não garante comportamento uniforme em todo o domínio.
+
+*Exercício baseado na discussão de sensibilidade do método de Newton em @nocedal2006numerical [Seção 11.1, pp. 274--277] e @kroese2011handbook [Apêndice C.2.2.1].*
+:::
+
+::: {.callout-warning title="Exercício 4 — verificação de derivadas"}
+Para a função do exemplo preservado do manuscrito,
+
+$$
+f(\theta)
+=
+100\log(\theta)
+-
+50\theta
+-
+50\log(1-e^{-\theta}),
+$$
+
+1. derive analiticamente $f'(\theta)$ e $f''(\theta)$;
+2. implemente uma aproximação de diferença central para $f'(\theta)$;
+3. compare a derivada analítica e a numérica em uma grade de valores de $\theta$;
+4. explique o efeito de escolher $h$ muito grande ou muito pequeno.
+
+*Exercício baseado nas diferenças finitas de @nocedal2006numerical [Seção 8.1, pp. 194--197].*
+:::
+
+::: {.callout-warning title="Exercício 5 — Newton com backtracking"}
+Implemente um método de Newton para minimização que:
+
+1. resolva o sistema de Newton para obter $p_k$;
+2. tente inicialmente $\alpha_k=1$;
+3. reduza $\alpha_k$ por backtracking se o passo não produzir redução suficiente;
+4. interrompa quando a norma do gradiente for menor que uma tolerância.
+
+Aplique o método à função de Rosenbrock a partir de
+
+$$
+(-1.2,1)^\top.
+$$
+
+*Exercício adaptado do Exercício 3.1 de @nocedal2006numerical [pp. 63--64], que propõe comparar descida íngreme e Newton com busca linear por backtracking na função de Rosenbrock.*
+:::
+
+::: {.callout-warning title="Exercício 6 — Newton--Raphson versus escore de Fisher"}
+Considere uma log-verossimilhança para a qual seja possível calcular:
+
+$$
+U(\theta),
+\qquad
+j(\theta)=-\ell''(\theta),
+\qquad
+I(\theta)=E_\theta[j(\theta;X)].
+$$
+
+1. escreva a iteração de Newton--Raphson;
+2. escreva a iteração de escore de Fisher;
+3. identifique exatamente em qual termo os métodos diferem;
+4. discuta situações em que $I(\theta)$ possa ser mais simples de calcular que $j(\theta)$.
+
+*Exercício baseado em @kroese2011handbook [Apêndice B, Eqs. B.24--B.25, aproximadamente pp. 670--671].*
+:::
+
+# Referências {.unnumbered}
+
