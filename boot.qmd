@@ -1473,4 +1473,4 @@ Compare as estimativas. Explique por que reamostrar pontos isoladamente destrói
 :::
 
 # Referências {.unnumbered}
-::::::::::::
+
