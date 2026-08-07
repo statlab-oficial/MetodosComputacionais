@@ -1467,7 +1467,7 @@ Estime o erro padrão da média por:
 1.  bootstrap IID de observações;
 2.  simulação Monte Carlo a partir do modelo conhecido.
 
-Compare as estimativas. Explique por que reamostrar pontos isoladamente destrói a dependência temporal. Pesquise, nos livros da pasta, como o *block bootstrap* procura corrigir esse problema.
+Compare as estimativas. Explique por que reamostrar pontos isoladamente destrói a dependência temporal. Pesquise como o *block bootstrap* procura corrigir esse problema.
 
 *Base de leitura:* @chernick2008bootstrap \[Capítulo 5\] e @chernick2011introduction [Capítulo 5].
 :::
