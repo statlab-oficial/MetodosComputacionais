@@ -1,4 +1,4 @@
-# Projeto final computacional
+# Projeto Final Computacional
 
 O projeto final corresponde a **30% da nota da disciplina** e tem como objetivo integrar os conteúdos em um estudo computacional completo.
 
@@ -124,15 +124,5 @@ As análises devem poder ser reproduzidas a partir dos códigos, dados e informa
 A avaliação da disciplina busca verificar se o estudante é capaz de **formular, implementar, diagnosticar e interpretar** procedimentos de Estatística Computacional. O domínio de comandos isolados não constitui, por si só, evidência suficiente de aprendizagem.
 :::
 
-## Síntese do sistema de avaliação
 
-| Dimensão | Evidência principal |
-|:------------------------------------|:----------------------------------------------------|
-| Domínio conceitual | Avaliações individuais |
-| Implementação | Atividades computacionais e projeto |
-| Raciocínio estatístico-computacional | Todos os componentes |
-| Interpretação | Atividades, avaliações e projeto |
-| Diagnóstico de algoritmos | Atividades, avaliações e projeto |
-| Reprodutibilidade | Atividades e projeto |
-| Integração dos conteúdos | Projeto final |
-| Desempenho individual | Avaliações e arguição do projeto |
+# Referências {.unnumbered}
