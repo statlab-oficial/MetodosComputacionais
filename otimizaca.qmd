@@ -14,9 +14,9 @@ $$
 \max_{\theta\in\mathbb{R}^p} \ell(\theta).
 $$
 
-Maximizar $\ell(\theta)$ equivale a minimizar $-\ell(\theta)$, mas **não é, em geral, equivalente simplesmente a encontrar uma raiz de sua derivada sem verificar a natureza do ponto estacionário**. Uma raiz de $\nabla f(\theta)=0$ pode corresponder a mínimo, máximo ou ponto de sela; a informação de segunda ordem é necessária para classificá-la em problemas suaves.
+Maximizar $\ell(\theta)$ equivale a minimizar $-\ell(\theta)$, mas **não é, em geral, equivalente simplesmente a encontrar uma raiz de sua derivada sem verificar a natureza do ponto estacionário**. Uma raiz de $\nabla f(\theta)=0$ pode corresponder a mínimo, máximo ou ponto de sela. A informação de segunda ordem fornece critérios naturais de classificação quando a Hessiana é definida positiva ou negativa; em pontos degenerados ou com Hessiana semidefinida, porém, o teste de segunda ordem pode ser inconclusivo.
 
-> **Base bibliográfica:** a formulação geral de otimização e a distinção entre soluções locais e globais seguem @nocedal2006numerical [Capítulo 1, pp. 1--9; Seção 2.1, pp. 12--17]. A relação entre localização de raízes e otimização, bem como a necessidade de classificar pontos estacionários, é discutida por @kroese2011handbook [Apêndice C.2.2, aproximadamente pp. 688--692].
+> **Base bibliográfica:** a formulação geral de otimização e a distinção entre soluções locais e globais seguem @nocedal2006numerical [Capítulo 1, especialmente pp. 6--7; Seção 2.1, pp. 12--16]. A relação entre localização de raízes e otimização, bem como a necessidade de classificar pontos estacionários, é discutida por @kroese2011handbook [Apêndice C.2.2, pp. 687--688].
 
 ## Objetivos de aprendizagem
 
@@ -34,7 +34,7 @@ Ao final deste capítulo, espera-se que o leitor seja capaz de:
 - usar `optimize()` e `uniroot()` em problemas estatísticos unidimensionais;
 - compreender por que métodos quasi-Newton, como BFGS, são alternativas importantes quando a Hessiana exata é cara.
 
-> **Base bibliográfica:** organização didática baseada principalmente em @nocedal2006numerical [Capítulos 2--4, 6--8 e 11] e @kroese2011handbook [Apêndices B e C]. O uso de `optimize()` e `uniroot()` em máxima verossimilhança é baseado em @chihara2022resampling [Seção 6.1.2, pp. 150--155].
+> **Base bibliográfica:** organização didática baseada principalmente em @nocedal2006numerical [Capítulos 2--4, 6--8 e 11] e @kroese2011handbook [Apêndices B e C]. O uso de `optimize()` e `uniroot()` em máxima verossimilhança é baseado em @chihara2022resampling [Exemplo 6.7 e nota de R, pp. 154--155].
 
 ## Problemas de otimização e pontos estacionários
 
@@ -55,7 +55,7 @@ $$
 
 na vizinhança considerada.
 
-*Base bibliográfica:* @nocedal2006numerical [Seção 2.1, pp. 12--17].
+*Base bibliográfica:* @nocedal2006numerical [Seção 2.1, pp. 12--13].
 :::
 
 Se $f:\mathbb{R}\to\mathbb{R}$ é diferenciável e $\theta^\star$ é uma solução interior, uma condição necessária de primeira ordem é
@@ -104,14 +104,14 @@ H(\theta)
 \nabla^2 f(\theta)
 $$
 
-substitui a segunda derivada. Em um ponto estacionário, uma Hessiana positiva definida caracteriza um mínimo local estrito pelas condições suficientes de segunda ordem. Para maximização, aplica-se o resultado a $-f$: equivalentemente, uma Hessiana negativa definida caracteriza um máximo local estrito.
+substitui a segunda derivada. Em um ponto estacionário, uma Hessiana positiva definida é uma **condição suficiente** para um mínimo local estrito. Para maximização, aplica-se o resultado a $-f$: equivalentemente, uma Hessiana negativa definida é uma condição suficiente para um máximo local estrito. Essas condições não são necessárias; se a Hessiana for apenas semidefinida ou degenerada, o teste de segunda ordem pode não determinar a natureza do ponto.
 
-> **Base bibliográfica:** @nocedal2006numerical [Seção 2.1, pp. 14--16].
+> **Base bibliográfica:** @nocedal2006numerical [Teoremas 2.3--2.4, pp. 15--16].
 
 ::: {.callout-tip title="Interpretação"}
 Resolver $\nabla f(\theta)=0$ e otimizar $f$ são problemas relacionados, mas não idênticos. Um algoritmo de localização de raízes procura apenas zerar o gradiente. Um algoritmo de otimização deve também lidar com a geometria da função e, em implementações robustas, procurar passos que melhorem a função objetivo.
 
-*Base bibliográfica:* @kroese2011handbook [Apêndice C.2.2, aproximadamente pp. 688--692] e @nocedal2006numerical [Seções 2.1--2.2, pp. 12--27].
+*Base bibliográfica:* @kroese2011handbook [Apêndice C.2.2, pp. 687--693] e @nocedal2006numerical [Seções 2.1--2.2, pp. 12--23].
 :::
 
 ## Método de Newton para equações não lineares
@@ -167,7 +167,7 @@ $$
 }.
 $$
 
-> **Base bibliográfica:** @kroese2011handbook [Apêndice C.2.2.1, aproximadamente pp. 688--689] e @nocedal2006numerical [Seção 11.1, pp. 274--277].
+> **Base bibliográfica:** @kroese2011handbook [Apêndice C.2.2.1, pp. 688--689] e @nocedal2006numerical [Seção 11.1, pp. 275--276].
 
 ::: {.callout-note title="Definição"}
 O **método de Newton** ou **Newton--Raphson** para uma equação escalar $g(\theta)=0$ constrói uma sequência $\{\theta_k\}$ pela recorrência
@@ -203,7 +203,7 @@ $$
 ::: {.callout-tip title="Interpretação"}
 Newton substitui localmente uma função não linear por um modelo linear cuja raiz é fácil de calcular. Se a aproximação local for boa e a derivada não estiver próxima de zero, a nova aproximação tende a ficar muito mais próxima da raiz.
 
-*Base bibliográfica:* @nocedal2006numerical [Seção 11.1, pp. 274--277] e @kroese2011handbook [Apêndice C.2.2.1, pp. 688--689].
+*Base bibliográfica:* @nocedal2006numerical [Seção 11.1, pp. 275--276] e @kroese2011handbook [Apêndice C.2.2.1, pp. 688--689].
 :::
 
 #### Animação do método de Newton
@@ -463,7 +463,7 @@ $$
 g(\theta)=f'(\theta)=0.
 $$
 
-> **Base bibliográfica:** relação entre Newton para raízes do gradiente e Newton para otimização em @nocedal2006numerical [Seção 11.1, pp. 274--275] e @kroese2011handbook [Apêndice C.2.2.1, pp. 688--689].
+> **Base bibliográfica:** relação entre Newton para raízes do gradiente e Newton para otimização em @nocedal2006numerical [Seção 11.1, pp. 275--276] e @kroese2011handbook [Apêndice C.2.2.1, pp. 688--689].
 
 ::: {.callout-warning title="Observação"}
 A fórmula de Newton define uma direção de descida para minimização quando a Hessiana é positiva definida. Se a Hessiana for singular, o passo pode não estar definido. Se for indefinida, o passo pode existir e ainda assim **não ser uma direção de descida**.
@@ -498,7 +498,7 @@ seja negativa definida. Nesse caso, a Hessiana de $-\ell$ é positiva definida.
 
 ## Convergência local do método de Newton
 
-Uma das principais vantagens do método de Newton é sua taxa de convergência local. Sob hipóteses de regularidade, quando o ponto inicial está suficientemente próximo de um mínimo $\theta^\star$, a Hessiana é não singular e suficientemente suave, e passos completos são aceitos, a sequência converge **quadraticamente**.
+Uma das principais vantagens do método de Newton é sua taxa de convergência local. Se o ponto inicial está suficientemente próximo de uma solução $\theta^\star$ que satisfaz as condições suficientes de segunda ordem, a Hessiana é Lipschitz-contínua em uma vizinhança da solução e são tomados passos completos de Newton, a sequência converge **quadraticamente**.
 
 De maneira simplificada, convergência quadrática significa que, para $k$ suficientemente grande,
 
@@ -511,18 +511,18 @@ $$
 
 para alguma constante $C>0$.
 
-> **Base bibliográfica:** @nocedal2006numerical [Teorema 3.5, pp. 44--46].
+> **Base bibliográfica:** @nocedal2006numerical [Teorema 3.5, pp. 44--45].
 
 ::: {.callout-tip title="Interpretação"}
 Quando o algoritmo já entrou na vizinhança em que a aproximação quadrática é precisa, o número de algarismos corretos pode crescer muito rapidamente. Essa é a razão para a conhecida eficiência local de Newton.
 
-*Base bibliográfica:* @nocedal2006numerical [Seção 2.2, pp. 22--23; Teorema 3.5, pp. 44--46].
+*Base bibliográfica:* @nocedal2006numerical [Seção 2.2, pp. 22--23; Teorema 3.5, pp. 44--45].
 :::
 
 ::: {.callout-warning title="Observação"}
 A convergência quadrática é uma propriedade **local**, não uma garantia de que qualquer valor inicial produzirá convergência. Longe da solução, o método puro pode produzir passos ruins ou até divergir.
 
-*Base bibliográfica:* @nocedal2006numerical [Seção 11.1, pp. 274--277] e @kroese2011handbook [Apêndice C.2.2.1, pp. 688--689].
+*Base bibliográfica:* @nocedal2006numerical [Seção 11.1, pp. 275--276] e @kroese2011handbook [Apêndice C.2.2.1, pp. 688--689].
 :::
 
 ## Critérios de convergência e parada
@@ -535,7 +535,7 @@ $$
 \varepsilon_g.
 $$
 
-O Algoritmo BFGS apresentado por @nocedal2006numerical, por exemplo, utiliza a norma do gradiente como critério de terminação. Em um problema de raízes, o critério análogo é
+O Algoritmo BFGS apresentado por @nocedal2006numerical, por exemplo, utiliza a norma do gradiente como critério de terminação. Em um problema de raízes, neste capítulo adotaremos analogamente o critério
 
 $$
 \|g(\theta_k)\|
@@ -543,7 +543,7 @@ $$
 \varepsilon_g.
 $$
 
-> **Base bibliográfica:** @nocedal2006numerical [Algoritmo 6.1, pp. 140--141] e, para equações não lineares, @kroese2011handbook [Apêndice B, Algoritmo B.1, aproximadamente pp. 670--671].
+> **Base bibliográfica:** o critério de norma do gradiente aparece em @nocedal2006numerical [Algoritmo 6.1, pp. 140--141]. A recorrência de Newton para equações não lineares é apresentada por @kroese2011handbook [Apêndice C.2.2.1, pp. 688--689] e @nocedal2006numerical [Algoritmo 11.1, pp. 275--276]; o critério de resíduo acima é uma escolha de implementação adotada neste capítulo.
 
 Uma implementação pode também monitorar o tamanho relativo do passo,
 
@@ -579,7 +579,7 @@ A combinação simultânea de critérios baseados em gradiente, tamanho do passo
 
 O desempenho de Newton depende fortemente do valor inicial. Em problemas de raízes, um ponto inicial distante pode conduzir a comportamento errático; em otimização, pode levar a uma região associada a outro ponto estacionário ou produzir passos que não melhoram a função.
 
-> **Base bibliográfica:** @nocedal2006numerical [Seção 11.1, pp. 274--277] e @kroese2011handbook [Apêndice C.2.2.1, pp. 688--689].
+> **Base bibliográfica:** @nocedal2006numerical [Seção 11.1, pp. 275--276] e @kroese2011handbook [Apêndice C.2.2.1, pp. 688--689].
 
 ::: {.callout-tip title="Interpretação"}
 O valor inicial define a região do espaço paramétrico a partir da qual o modelo local é construído. Newton não “vê” toda a função; em cada iteração, ele usa apenas informação local de primeira e segunda ordem.
@@ -589,7 +589,7 @@ O valor inicial define a região do espaço paramétrico a partir da qual o mode
 
 Em máxima verossimilhança, @kroese2011handbook sugere que estimativas de momentos podem fornecer valores iniciais naturais em alguns modelos. Essa estratégia é particularmente útil quando o escore e a Hessiana são complicados.
 
-> **Base bibliográfica:** @kroese2011handbook [Apêndice B, discussão após o Algoritmo B.1, aproximadamente pp. 670--671].
+> **Base bibliográfica:** @kroese2011handbook [Seção B.2.2, p. 670].
 
 ## Hessiana singular, indefinida e problemas de condicionamento
 
@@ -607,7 +607,7 @@ $$
 
 um valor de $g'(\theta_k)$ próximo de zero pode gerar um passo de grande magnitude. A mesma dificuldade aparece em dimensão maior quando a Jacobiana ou Hessiana é singular ou quase singular.
 
-> **Base bibliográfica:** @nocedal2006numerical [Seção 11.1, pp. 274--277].
+> **Base bibliográfica:** @nocedal2006numerical [Seção 11.1, pp. 275--276].
 
 ### Hessiana indefinida
 
@@ -625,7 +625,7 @@ não é positiva definida, o passo de Newton pode não ser de descida. Uma abord
 
 Em dimensão elevada, calcular, armazenar e fatorar a Hessiana pode ser caro. O custo pode tornar o Newton exato impraticável, motivando métodos de Newton inexato, Newton--CG, métodos sem formação explícita da Hessiana e métodos de memória limitada.
 
-> **Base bibliográfica:** @nocedal2006numerical [Capítulo 7, especialmente pp. 164--180].
+> **Base bibliográfica:** @nocedal2006numerical [Capítulo 7, especialmente Seções 7.1--7.2, pp. 164--184].
 
 ::: {.callout-warning title="Observação"}
 Não se deve implementar o passo multivariado calculando explicitamente
@@ -640,14 +640,14 @@ $$
 \nabla^2 f(\theta_k)p_k=-\nabla f(\theta_k).
 $$
 
-*Base bibliográfica:* formulação dos passos de Newton como sistemas lineares em @nocedal2006numerical [Seção 7.1, pp. 165--166; Seção 11.1, pp. 274--275].
+*Base bibliográfica:* formulação dos passos de Newton como sistemas lineares em @nocedal2006numerical [Seção 7.1, pp. 164--168; Algoritmo 11.1, pp. 275--276].
 :::
 
 ## Globalização do método de Newton
 
 A excelente convergência local de Newton não garante bom comportamento a partir de pontos iniciais remotos. Métodos práticos incorporam mecanismos de **globalização**, cujo objetivo é produzir progresso confiável antes de a iteração entrar na região em que o passo de Newton completo é apropriado.
 
-> **Base bibliográfica:** @nocedal2006numerical [Capítulos 3 e 4] e @kroese2011handbook [Apêndice C.2.2].
+> **Base bibliográfica:** @nocedal2006numerical [Capítulos 3 e 4] e @kroese2011handbook [Apêndice C.2.2, pp. 687--693].
 
 ### Newton amortecido
 
@@ -689,7 +689,7 @@ $$
 
 e busca-se um valor de $\alpha$ que produza diminuição suficiente sem gastar um número excessivo de avaliações da função.
 
-> **Base bibliográfica:** @nocedal2006numerical [Seção 3.1, pp. 31--37] e @kroese2011handbook [Apêndice C.2.2.5, aproximadamente p. 691].
+> **Base bibliográfica:** @nocedal2006numerical [Seção 3.1, pp. 31--37] e @kroese2011handbook [Apêndice C.2.2.5, pp. 691--692].
 
 #### Backtracking
 
@@ -721,7 +721,7 @@ O algoritmo decide o passo comparando a redução efetivamente observada com a r
 
 A principal desvantagem do Newton exato é a necessidade da Hessiana. Métodos **quasi-Newton** substituem $\nabla^2 f(\theta_k)$ ou sua inversa por aproximações construídas a partir da evolução dos gradientes.
 
-> **Base bibliográfica:** @nocedal2006numerical [Capítulo 6, pp. 135--163] e @kroese2011handbook [Apêndice C.2.2.3, aproximadamente pp. 689--691].
+> **Base bibliográfica:** @nocedal2006numerical [Capítulo 6, pp. 135--163] e @kroese2011handbook [Apêndice C.2.2.3, p. 690].
 
 ### BFGS
 
@@ -895,7 +895,7 @@ U'(\theta_k)
 }.
 $$
 
-> **Base bibliográfica:** @kroese2011handbook [Apêndice B, Algoritmo B.1, aproximadamente pp. 670--671].
+> **Base bibliográfica:** @kroese2011handbook [Seção B.2.2, Algoritmo B.1, p. 670].
 
 ### Informação observada
 
@@ -942,7 +942,7 @@ $$
 
 onde, em implementação, deve-se resolver o sistema linear correspondente em vez de formar a inversa explicitamente.
 
-> **Base bibliográfica:** @kroese2011handbook [Apêndice B, Eq. B.24 e discussão associada, aproximadamente pp. 670--671].
+> **Base bibliográfica:** @kroese2011handbook [Seção B.2.2, Eq. B.24, p. 670].
 
 ### Escore de Fisher
 
@@ -969,9 +969,9 @@ U(\theta_k).
 }
 $$
 
-Essa iteração é conhecida como **Escore de Fisher**.
+Neste capítulo, essa atualização por informação esperada será denominada **escore de Fisher** (*Fisher scoring*).
 
-> **Base bibliográfica:** @kroese2011handbook [Apêndice B, Eq. B.25 e discussão associada, aproximadamente pp. 670--671].
+> **Base bibliográfica para a atualização:** @kroese2011handbook [Seção B.2.2, Eq. B.25, p. 670].
 
 
 ## Implementação do método de Newton em R
@@ -1048,7 +1048,7 @@ newton_raiz <- function(g, gp, theta0,
 }
 ```
 
-> **Base bibliográfica:** recorrência de Newton baseada em @kroese2011handbook [Apêndice C.2.2.1, pp. 688--689] e @nocedal2006numerical [Seção 11.1, pp. 274--277]. As verificações e a estrutura do código são autorais.
+> **Base bibliográfica:** recorrência de Newton baseada em @kroese2011handbook [Apêndice C.2.2.1, pp. 688--689] e @nocedal2006numerical [Algoritmo 11.1, pp. 275--276]. As verificações e a estrutura do código são autorais.
 
 ::: {.callout-important title="Exemplo: raiz de $g(\theta)=\theta^2-2$"}
 ```{r}
@@ -1379,7 +1379,7 @@ historico
 
 A implementação é intencionalmente explícita para mostrar cada parte do método. Em um algoritmo de uso geral, seria recomendável acrescentar uma estratégia de amortecimento ou busca linear para reduzir a dependência do ponto inicial.
 
-> **Base bibliográfica:** Newton em @nocedal2006numerical [Seção 2.2, pp. 22--23; Seção 3.3, pp. 44--46] e estratégias de globalização em @nocedal2006numerical [Capítulo 3].
+> **Base bibliográfica:** Newton em @nocedal2006numerical [Seção 2.2, pp. 22--23; Teorema 3.5, pp. 44--45] e estratégias de globalização em @nocedal2006numerical [Capítulo 3].
 
 
 ## Máximos locais, fronteiras e restrições
@@ -1394,7 +1394,7 @@ $$
 
 possui múltiplas soluções, Newton pode convergir para soluções diferentes dependendo do ponto inicial. Além disso, uma dessas soluções pode ser um máximo, outra um mínimo e outra um ponto de sela.
 
-> **Base bibliográfica:** distinção entre soluções locais e globais em @nocedal2006numerical [Capítulo 1, pp. 6--9; Seção 2.1, pp. 12--17] e dependência do ponto inicial para Newton em @nocedal2006numerical [Seção 11.1, pp. 274--277].
+> **Base bibliográfica:** distinção entre soluções locais e globais em @nocedal2006numerical [Capítulo 1, pp. 6--7; Seção 2.1, pp. 12--16] e dependência do ponto inicial para Newton em @nocedal2006numerical [Seção 11.1, pp. 275--276].
 
 ### Soluções na fronteira
 
@@ -1432,7 +1432,7 @@ $$
 \|U(\widehat{\theta})\|.
 $$
 
-> **Base bibliográfica:** @nocedal2006numerical [Seção 2.1, pp. 14--16; Algoritmo 6.1, pp. 140--141] e @kroese2011handbook [Apêndice B, Algoritmo B.1].
+> **Base bibliográfica:** @nocedal2006numerical [Seção 2.1, pp. 14--16; Algoritmo 6.1, pp. 140--141] e, para o escore de máxima verossimilhança, @kroese2011handbook [Seção B.2.2, Algoritmo B.1, p. 670].
 
 ### Curvatura
 
@@ -1470,7 +1470,7 @@ Essa informação permite distinguir convergência efetiva de uma interrupção 
 
 Execute o algoritmo a partir de valores iniciais distintos quando houver evidência de múltiplos extremos ou quando a função for pouco conhecida. Compare os pontos finais e os valores da função objetivo.
 
-> **Base bibliográfica:** dependência do valor inicial em @kroese2011handbook [Apêndice C.2.2.1] e @nocedal2006numerical [Seção 11.1].
+> **Base bibliográfica:** dependência do valor inicial em @kroese2011handbook [Apêndice C.2.2.1, pp. 688--689] e @nocedal2006numerical [Seção 11.1, pp. 275--276].
 
 ### Comparação com método alternativo
 
@@ -1500,11 +1500,11 @@ Antes de aceitar uma solução numérica, verifique:
 | Newton | gradiente + Hessiana | convergência local quadrática | Hessiana pode ser cara, singular ou indefinida |
 | Newton amortecido | gradiente + Hessiana + busca de passo | maior robustez longe da solução | mais avaliações da função |
 | BFGS | função + gradiente | evita Hessiana exata; convergência superlinear | requer boa estratégia de busca linear |
-| L-BFGS | função + gradiente + memória limitada | adequado a grande dimensão | pode convergir mais lentamente em problemas mal condicionados |
+| L-BFGS | função + gradiente + memória limitada | adequado a grande dimensão | pode convergir menos rapidamente que métodos com informação de curvatura mais completa |
 | `optimize()` | função unidimensional | simples para otimização escalar | restrito a uma dimensão |
-| `uniroot()` | função escalar cuja raiz se procura | robusto quando há intervalo com mudança de sinal | exige formular uma equação de raiz e um intervalo apropriado |
+| `uniroot()` | função escalar cuja raiz se procura | localiza raízes em um intervalo apropriado | exige formular uma equação de raiz e fornecer um intervalo adequado |
 
-> **Base bibliográfica:** Newton, BFGS e L-BFGS em @nocedal2006numerical [Seções 2.2, 6.1 e 7.2]; relação entre Newton e busca linear em @kroese2011handbook [Apêndice C.2.2]; `optimize()` e `uniroot()` em @chihara2022resampling [p. 155]. 
+> **Base bibliográfica:** Newton, BFGS e L-BFGS em @nocedal2006numerical [Seções 2.2, 6.1 e 7.2]; relação entre Newton e busca linear em @kroese2011handbook [Apêndice C.2.2, pp. 687--693]; `optimize()` e `uniroot()` em @chihara2022resampling [p. 155]. 
 
 ## Síntese do capítulo
 
@@ -1576,7 +1576,7 @@ implemente Newton para diferentes valores iniciais em uma grade. Registre quais 
 
 Explique por que uma fórmula de atualização local não garante comportamento uniforme em todo o domínio.
 
-*Exercício baseado na discussão de sensibilidade do método de Newton em @nocedal2006numerical [Seção 11.1, pp. 274--277] e @kroese2011handbook [Apêndice C.2.2.1].*
+*Exercício baseado na discussão de sensibilidade do método de Newton em @nocedal2006numerical [Seção 11.1, pp. 275--276] e @kroese2011handbook [Apêndice C.2.2.1, pp. 688--689].*
 :::
 
 ::: {.callout-warning title="Exercício 4 — verificação de derivadas"}
@@ -1614,7 +1614,7 @@ $$
 (-1.2,1)^\top.
 $$
 
-*Exercício adaptado do Exercício 3.1 de @nocedal2006numerical [pp. 63--64], que propõe comparar descida íngreme e Newton com busca linear por backtracking na função de Rosenbrock.*
+*Exercício adaptado do Exercício 3.1 de @nocedal2006numerical, que propõe comparar descida íngreme e Newton com busca linear por backtracking na função de Rosenbrock.*
 :::
 
 ::: {.callout-warning title="Exercício 6 — Newton--Raphson versus escore de Fisher"}
@@ -1633,7 +1633,7 @@ $$
 3. identifique exatamente em qual termo os métodos diferem;
 4. discuta situações em que $I(\theta)$ possa ser mais simples de calcular que $j(\theta)$.
 
-*Exercício baseado em @kroese2011handbook [Apêndice B, Eqs. B.24--B.25, aproximadamente pp. 670--671].*
+*Exercício baseado em @kroese2011handbook [Seção B.2.2, Eqs. B.24--B.25, p. 670].*
 :::
 
 # Referências {.unnumbered}

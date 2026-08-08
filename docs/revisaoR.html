@@ -260,107 +260,43 @@ window.Quarto = {
   <li><a href="#o-papel-da-simulação" id="toc-o-papel-da-simulação" class="nav-link" data-scroll-target="#o-papel-da-simulação">O papel da simulação</a></li>
   <li><a href="#atividade-problema-do-aniversário-22-jogadores" id="toc-atividade-problema-do-aniversário-22-jogadores" class="nav-link" data-scroll-target="#atividade-problema-do-aniversário-22-jogadores">Atividade: Problema do Aniversário (22 jogadores)</a></li>
   <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
-  <li><a href="#revisão-de-r-para-estatística-computacional" id="toc-revisão-de-r-para-estatística-computacional" class="nav-link" data-scroll-target="#revisão-de-r-para-estatística-computacional"><span class="header-section-number">2</span> Revisão de R para Estatística Computacional</a>
+  <li><a href="#revisão-de-r-para-estatística-computacional" id="toc-revisão-de-r-para-estatística-computacional" class="nav-link" data-scroll-target="#revisão-de-r-para-estatística-computacional"><span class="header-section-number">1.2</span> Revisão de R para Estatística Computacional</a>
   <ul class="collapse">
-  <li><a href="#objetivos-de-aprendizagem" id="toc-objetivos-de-aprendizagem" class="nav-link" data-scroll-target="#objetivos-de-aprendizagem"><span class="header-section-number">2.1</span> Objetivos de aprendizagem</a></li>
-  <li><a href="#r-como-linguagem-para-computação-estatística" id="toc-r-como-linguagem-para-computação-estatística" class="nav-link" data-scroll-target="#r-como-linguagem-para-computação-estatística"><span class="header-section-number">2.2</span> R como linguagem para computação estatística</a></li>
-  <li><a href="#instalação-e-ambiente-de-desenvolvimento" id="toc-instalação-e-ambiente-de-desenvolvimento" class="nav-link" data-scroll-target="#instalação-e-ambiente-de-desenvolvimento"><span class="header-section-number">2.3</span> Instalação e ambiente de desenvolvimento</a></li>
-  <li><a href="#console-e-scripts" id="toc-console-e-scripts" class="nav-link" data-scroll-target="#console-e-scripts"><span class="header-section-number">2.4</span> Console e scripts</a></li>
-  <li><a href="#comentários-e-legibilidade" id="toc-comentários-e-legibilidade" class="nav-link" data-scroll-target="#comentários-e-legibilidade"><span class="header-section-number">2.5</span> Comentários e legibilidade</a></li>
-  <li><a href="#objetos-e-atribuição" id="toc-objetos-e-atribuição" class="nav-link" data-scroll-target="#objetos-e-atribuição"><span class="header-section-number">2.6</span> Objetos e atribuição</a>
-  <ul class="collapse">
-  <li><a href="#inspeção" id="toc-inspeção" class="nav-link" data-scroll-target="#inspeção"><span class="header-section-number">2.6.1</span> Inspeção</a></li>
-  </ul></li>
-  <li><a href="#tipos-atômicos" id="toc-tipos-atômicos" class="nav-link" data-scroll-target="#tipos-atômicos"><span class="header-section-number">2.7</span> Tipos atômicos</a></li>
-  <li><a href="#valores-especiais" id="toc-valores-especiais" class="nav-link" data-scroll-target="#valores-especiais"><span class="header-section-number">2.8</span> Valores especiais</a>
-  <ul class="collapse">
-  <li><a href="#infinito-e-nan" id="toc-infinito-e-nan" class="nav-link" data-scroll-target="#infinito-e-nan"><span class="header-section-number">2.8.1</span> Infinito e NaN</a></li>
-  <li><a href="#na" id="toc-na" class="nav-link" data-scroll-target="#na"><span class="header-section-number">2.8.2</span> NA</a></li>
-  <li><a href="#null" id="toc-null" class="nav-link" data-scroll-target="#null"><span class="header-section-number">2.8.3</span> NULL</a></li>
-  </ul></li>
-  <li><a href="#precisão-numérica" id="toc-precisão-numérica" class="nav-link" data-scroll-target="#precisão-numérica"><span class="header-section-number">2.9</span> Precisão numérica</a></li>
-  <li><a href="#aritmética" id="toc-aritmética" class="nav-link" data-scroll-target="#aritmética"><span class="header-section-number">2.10</span> Aritmética</a></li>
-  <li><a href="#vetores" id="toc-vetores" class="nav-link" data-scroll-target="#vetores"><span class="header-section-number">2.11</span> Vetores</a>
-  <ul class="collapse">
-  <li><a href="#sequências-e-repetições" id="toc-sequências-e-repetições" class="nav-link" data-scroll-target="#sequências-e-repetições"><span class="header-section-number">2.11.1</span> Sequências e repetições</a></li>
-  <li><a href="#indexação" id="toc-indexação" class="nav-link" data-scroll-target="#indexação"><span class="header-section-number">2.11.2</span> Indexação</a></li>
-  <li><a href="#indexação-lógica" id="toc-indexação-lógica" class="nav-link" data-scroll-target="#indexação-lógica"><span class="header-section-number">2.11.3</span> Indexação lógica</a></li>
-  <li><a href="#nomes" id="toc-nomes" class="nav-link" data-scroll-target="#nomes"><span class="header-section-number">2.11.4</span> Nomes</a></li>
-  </ul></li>
-  <li><a href="#coerção" id="toc-coerção" class="nav-link" data-scroll-target="#coerção"><span class="header-section-number">2.12</span> Coerção</a></li>
-  <li><a href="#vetorização-e-reciclagem" id="toc-vetorização-e-reciclagem" class="nav-link" data-scroll-target="#vetorização-e-reciclagem"><span class="header-section-number">2.13</span> Vetorização e reciclagem</a></li>
-  <li><a href="#matrizes" id="toc-matrizes" class="nav-link" data-scroll-target="#matrizes"><span class="header-section-number">2.14</span> Matrizes</a>
-  <ul class="collapse">
-  <li><a href="#dimensões-e-indexação" id="toc-dimensões-e-indexação" class="nav-link" data-scroll-target="#dimensões-e-indexação"><span class="header-section-number">2.14.1</span> Dimensões e indexação</a></li>
-  </ul></li>
-  <li><a href="#operações-matriciais" id="toc-operações-matriciais" class="nav-link" data-scroll-target="#operações-matriciais"><span class="header-section-number">2.15</span> Operações matriciais</a></li>
-  <li><a href="#sistemas-lineares" id="toc-sistemas-lineares" class="nav-link" data-scroll-target="#sistemas-lineares"><span class="header-section-number">2.16</span> Sistemas lineares</a></li>
-  <li><a href="#listas" id="toc-listas" class="nav-link" data-scroll-target="#listas"><span class="header-section-number">2.17</span> Listas</a>
-  <ul class="collapse">
-  <li><a href="#e" id="toc-e" class="nav-link" data-scroll-target="#e"><span class="header-section-number">2.17.1</span> <code>[</code>, <code>[[</code> e <code>$</code></a></li>
-  </ul></li>
-  <li><a href="#data-frames" id="toc-data-frames" class="nav-link" data-scroll-target="#data-frames"><span class="header-section-number">2.18</span> Data frames</a>
-  <ul class="collapse">
-  <li><a href="#inspeção-1" id="toc-inspeção-1" class="nav-link" data-scroll-target="#inspeção-1"><span class="header-section-number">2.18.1</span> Inspeção</a></li>
-  <li><a href="#seleção" id="toc-seleção" class="nav-link" data-scroll-target="#seleção"><span class="header-section-number">2.18.2</span> Seleção</a></li>
-  </ul></li>
-  <li><a href="#fatores" id="toc-fatores" class="nav-link" data-scroll-target="#fatores"><span class="header-section-number">2.19</span> Fatores</a>
-  <ul class="collapse">
-  <li><a href="#fatores-ordenados" id="toc-fatores-ordenados" class="nav-link" data-scroll-target="#fatores-ordenados"><span class="header-section-number">2.19.1</span> Fatores ordenados</a></li>
-  </ul></li>
-  <li><a href="#estruturas-condicionais" id="toc-estruturas-condicionais" class="nav-link" data-scroll-target="#estruturas-condicionais"><span class="header-section-number">2.20</span> Estruturas condicionais</a>
-  <ul class="collapse">
-  <li><a href="#if-e-else" id="toc-if-e-else" class="nav-link" data-scroll-target="#if-e-else"><span class="header-section-number">2.20.1</span> <code>if</code> e <code>else</code></a></li>
-  <li><a href="#operadores-lógicos" id="toc-operadores-lógicos" class="nav-link" data-scroll-target="#operadores-lógicos"><span class="header-section-number">2.20.2</span> Operadores lógicos</a></li>
-  <li><a href="#ifelse" id="toc-ifelse" class="nav-link" data-scroll-target="#ifelse"><span class="header-section-number">2.20.3</span> <code>ifelse()</code></a></li>
-  </ul></li>
-  <li><a href="#laços" id="toc-laços" class="nav-link" data-scroll-target="#laços"><span class="header-section-number">2.21</span> Laços</a>
-  <ul class="collapse">
-  <li><a href="#for" id="toc-for" class="nav-link" data-scroll-target="#for"><span class="header-section-number">2.21.1</span> <code>for</code></a></li>
-  <li><a href="#while" id="toc-while" class="nav-link" data-scroll-target="#while"><span class="header-section-number">2.21.2</span> <code>while</code></a></li>
-  <li><a href="#repeat" id="toc-repeat" class="nav-link" data-scroll-target="#repeat"><span class="header-section-number">2.21.3</span> <code>repeat</code></a></li>
-  <li><a href="#break-e-next" id="toc-break-e-next" class="nav-link" data-scroll-target="#break-e-next"><span class="header-section-number">2.21.4</span> <code>break</code> e <code>next</code></a></li>
-  </ul></li>
-  <li><a href="#laços-e-vetorização-são-complementares" id="toc-laços-e-vetorização-são-complementares" class="nav-link" data-scroll-target="#laços-e-vetorização-são-complementares"><span class="header-section-number">2.22</span> Laços e vetorização são complementares</a></li>
-  <li><a href="#família-apply" id="toc-família-apply" class="nav-link" data-scroll-target="#família-apply"><span class="header-section-number">2.23</span> Família apply</a>
-  <ul class="collapse">
-  <li><a href="#apply" id="toc-apply" class="nav-link" data-scroll-target="#apply"><span class="header-section-number">2.23.1</span> <code>apply()</code></a></li>
-  <li><a href="#lapply" id="toc-lapply" class="nav-link" data-scroll-target="#lapply"><span class="header-section-number">2.23.2</span> <code>lapply()</code></a></li>
-  <li><a href="#sapply" id="toc-sapply" class="nav-link" data-scroll-target="#sapply"><span class="header-section-number">2.23.3</span> <code>sapply()</code></a></li>
-  <li><a href="#vapply" id="toc-vapply" class="nav-link" data-scroll-target="#vapply"><span class="header-section-number">2.23.4</span> <code>vapply()</code></a></li>
-  </ul></li>
-  <li><a href="#escrevendo-funções" id="toc-escrevendo-funções" class="nav-link" data-scroll-target="#escrevendo-funções"><span class="header-section-number">2.24</span> Escrevendo funções</a>
-  <ul class="collapse">
-  <li><a href="#argumentos-com-valor-padrão" id="toc-argumentos-com-valor-padrão" class="nav-link" data-scroll-target="#argumentos-com-valor-padrão"><span class="header-section-number">2.24.1</span> Argumentos com valor padrão</a></li>
-  <li><a href="#escopo-local" id="toc-escopo-local" class="nav-link" data-scroll-target="#escopo-local"><span class="header-section-number">2.24.2</span> Escopo local</a></li>
-  </ul></li>
-  <li><a href="#validação-de-argumentos" id="toc-validação-de-argumentos" class="nav-link" data-scroll-target="#validação-de-argumentos"><span class="header-section-number">2.25</span> Validação de argumentos</a></li>
-  <li><a href="#exemplo-mediana-programada-manualmente" id="toc-exemplo-mediana-programada-manualmente" class="nav-link" data-scroll-target="#exemplo-mediana-programada-manualmente"><span class="header-section-number">2.26</span> Exemplo: mediana programada manualmente</a></li>
-  <li><a href="#pacotes" id="toc-pacotes" class="nav-link" data-scroll-target="#pacotes"><span class="header-section-number">2.27</span> Pacotes</a>
-  <ul class="collapse">
-  <li><a href="#instalação" id="toc-instalação" class="nav-link" data-scroll-target="#instalação"><span class="header-section-number">2.27.1</span> Instalação</a></li>
-  <li><a href="#carregamento" id="toc-carregamento" class="nav-link" data-scroll-target="#carregamento"><span class="header-section-number">2.27.2</span> Carregamento</a></li>
-  </ul></li>
-  <li><a href="#sistema-de-ajuda" id="toc-sistema-de-ajuda" class="nav-link" data-scroll-target="#sistema-de-ajuda"><span class="header-section-number">2.28</span> Sistema de ajuda</a></li>
-  <li><a href="#diretório-de-trabalho-e-projetos" id="toc-diretório-de-trabalho-e-projetos" class="nav-link" data-scroll-target="#diretório-de-trabalho-e-projetos"><span class="header-section-number">2.29</span> Diretório de trabalho e projetos</a></li>
-  <li><a href="#distribuições-de-probabilidade-padrão-dpqr" id="toc-distribuições-de-probabilidade-padrão-dpqr" class="nav-link" data-scroll-target="#distribuições-de-probabilidade-padrão-dpqr"><span class="header-section-number">2.30</span> Distribuições de probabilidade: padrão d/p/q/r</a>
-  <ul class="collapse">
-  <li><a href="#normal" id="toc-normal" class="nav-link" data-scroll-target="#normal"><span class="header-section-number">2.30.1</span> Normal</a></li>
-  <li><a href="#poisson" id="toc-poisson" class="nav-link" data-scroll-target="#poisson"><span class="header-section-number">2.30.2</span> Poisson</a></li>
-  </ul></li>
-  <li><a href="#números-pseudoaleatórios-e-semente" id="toc-números-pseudoaleatórios-e-semente" class="nav-link" data-scroll-target="#números-pseudoaleatórios-e-semente"><span class="header-section-number">2.31</span> Números pseudoaleatórios e semente</a></li>
-  <li><a href="#testando-e-depurando-código" id="toc-testando-e-depurando-código" class="nav-link" data-scroll-target="#testando-e-depurando-código"><span class="header-section-number">2.32</span> Testando e depurando código</a>
-  <ul class="collapse">
-  <li><a href="#casos-com-resposta-conhecida" id="toc-casos-com-resposta-conhecida" class="nav-link" data-scroll-target="#casos-com-resposta-conhecida"><span class="header-section-number">2.32.1</span> Casos com resposta conhecida</a></li>
-  <li><a href="#valores-intermediários" id="toc-valores-intermediários" class="nav-link" data-scroll-target="#valores-intermediários"><span class="header-section-number">2.32.2</span> Valores intermediários</a></li>
-  </ul></li>
-  <li><a href="#dry-e-dividir-para-conquistar" id="toc-dry-e-dividir-para-conquistar" class="nav-link" data-scroll-target="#dry-e-dividir-para-conquistar"><span class="header-section-number">2.33</span> DRY e dividir para conquistar</a>
-  <ul class="collapse">
-  <li><a href="#dry" id="toc-dry" class="nav-link" data-scroll-target="#dry"><span class="header-section-number">2.33.1</span> DRY</a></li>
-  <li><a href="#dividir-e-conquistar" id="toc-dividir-e-conquistar" class="nav-link" data-scroll-target="#dividir-e-conquistar"><span class="header-section-number">2.33.2</span> Dividir e conquistar</a></li>
-  </ul></li>
-  <li><a href="#síntese" id="toc-síntese" class="nav-link" data-scroll-target="#síntese"><span class="header-section-number">2.34</span> Síntese</a></li>
-  <li><a href="#exercícios-1" id="toc-exercícios-1" class="nav-link" data-scroll-target="#exercícios-1"><span class="header-section-number">2.35</span> Exercícios</a></li>
+  <li><a href="#objetivos-de-aprendizagem" id="toc-objetivos-de-aprendizagem" class="nav-link" data-scroll-target="#objetivos-de-aprendizagem"><span class="header-section-number">1.2.1</span> Objetivos de aprendizagem</a></li>
+  <li><a href="#r-como-linguagem-para-computação-estatística" id="toc-r-como-linguagem-para-computação-estatística" class="nav-link" data-scroll-target="#r-como-linguagem-para-computação-estatística"><span class="header-section-number">1.2.2</span> R como linguagem para computação estatística</a></li>
+  <li><a href="#instalação-e-ambiente-de-desenvolvimento" id="toc-instalação-e-ambiente-de-desenvolvimento" class="nav-link" data-scroll-target="#instalação-e-ambiente-de-desenvolvimento"><span class="header-section-number">1.2.3</span> Instalação e ambiente de desenvolvimento</a></li>
+  <li><a href="#console-e-scripts" id="toc-console-e-scripts" class="nav-link" data-scroll-target="#console-e-scripts"><span class="header-section-number">1.2.4</span> Console e scripts</a></li>
+  <li><a href="#comentários-e-legibilidade" id="toc-comentários-e-legibilidade" class="nav-link" data-scroll-target="#comentários-e-legibilidade"><span class="header-section-number">1.2.5</span> Comentários e legibilidade</a></li>
+  <li><a href="#objetos-e-atribuição" id="toc-objetos-e-atribuição" class="nav-link" data-scroll-target="#objetos-e-atribuição"><span class="header-section-number">1.2.6</span> Objetos e atribuição</a></li>
+  <li><a href="#tipos-atômicos" id="toc-tipos-atômicos" class="nav-link" data-scroll-target="#tipos-atômicos"><span class="header-section-number">1.2.7</span> Tipos atômicos</a></li>
+  <li><a href="#valores-especiais" id="toc-valores-especiais" class="nav-link" data-scroll-target="#valores-especiais"><span class="header-section-number">1.2.8</span> Valores especiais</a></li>
+  <li><a href="#precisão-numérica" id="toc-precisão-numérica" class="nav-link" data-scroll-target="#precisão-numérica"><span class="header-section-number">1.2.9</span> Precisão numérica</a></li>
+  <li><a href="#aritmética" id="toc-aritmética" class="nav-link" data-scroll-target="#aritmética"><span class="header-section-number">1.2.10</span> Aritmética</a></li>
+  <li><a href="#vetores" id="toc-vetores" class="nav-link" data-scroll-target="#vetores"><span class="header-section-number">1.2.11</span> Vetores</a></li>
+  <li><a href="#coerção" id="toc-coerção" class="nav-link" data-scroll-target="#coerção"><span class="header-section-number">1.2.12</span> Coerção</a></li>
+  <li><a href="#vetorização-e-reciclagem" id="toc-vetorização-e-reciclagem" class="nav-link" data-scroll-target="#vetorização-e-reciclagem"><span class="header-section-number">1.2.13</span> Vetorização e reciclagem</a></li>
+  <li><a href="#matrizes" id="toc-matrizes" class="nav-link" data-scroll-target="#matrizes"><span class="header-section-number">1.2.14</span> Matrizes</a></li>
+  <li><a href="#operações-matriciais" id="toc-operações-matriciais" class="nav-link" data-scroll-target="#operações-matriciais"><span class="header-section-number">1.2.15</span> Operações matriciais</a></li>
+  <li><a href="#sistemas-lineares" id="toc-sistemas-lineares" class="nav-link" data-scroll-target="#sistemas-lineares"><span class="header-section-number">1.2.16</span> Sistemas lineares</a></li>
+  <li><a href="#listas" id="toc-listas" class="nav-link" data-scroll-target="#listas"><span class="header-section-number">1.2.17</span> Listas</a></li>
+  <li><a href="#data-frames" id="toc-data-frames" class="nav-link" data-scroll-target="#data-frames"><span class="header-section-number">1.2.18</span> Data frames</a></li>
+  <li><a href="#fatores" id="toc-fatores" class="nav-link" data-scroll-target="#fatores"><span class="header-section-number">1.2.19</span> Fatores</a></li>
+  <li><a href="#estruturas-condicionais" id="toc-estruturas-condicionais" class="nav-link" data-scroll-target="#estruturas-condicionais"><span class="header-section-number">1.2.20</span> Estruturas condicionais</a></li>
+  <li><a href="#laços" id="toc-laços" class="nav-link" data-scroll-target="#laços"><span class="header-section-number">1.2.21</span> Laços</a></li>
+  <li><a href="#laços-e-vetorização-são-complementares" id="toc-laços-e-vetorização-são-complementares" class="nav-link" data-scroll-target="#laços-e-vetorização-são-complementares"><span class="header-section-number">1.2.22</span> Laços e vetorização são complementares</a></li>
+  <li><a href="#família-apply" id="toc-família-apply" class="nav-link" data-scroll-target="#família-apply"><span class="header-section-number">1.2.23</span> Família apply</a></li>
+  <li><a href="#escrevendo-funções" id="toc-escrevendo-funções" class="nav-link" data-scroll-target="#escrevendo-funções"><span class="header-section-number">1.2.24</span> Escrevendo funções</a></li>
+  <li><a href="#validação-de-argumentos" id="toc-validação-de-argumentos" class="nav-link" data-scroll-target="#validação-de-argumentos"><span class="header-section-number">1.2.25</span> Validação de argumentos</a></li>
+  <li><a href="#exemplo-mediana-programada-manualmente" id="toc-exemplo-mediana-programada-manualmente" class="nav-link" data-scroll-target="#exemplo-mediana-programada-manualmente"><span class="header-section-number">1.2.26</span> Exemplo: mediana programada manualmente</a></li>
+  <li><a href="#pacotes" id="toc-pacotes" class="nav-link" data-scroll-target="#pacotes"><span class="header-section-number">1.2.27</span> Pacotes</a></li>
+  <li><a href="#sistema-de-ajuda" id="toc-sistema-de-ajuda" class="nav-link" data-scroll-target="#sistema-de-ajuda"><span class="header-section-number">1.2.28</span> Sistema de ajuda</a></li>
+  <li><a href="#diretório-de-trabalho-e-projetos" id="toc-diretório-de-trabalho-e-projetos" class="nav-link" data-scroll-target="#diretório-de-trabalho-e-projetos"><span class="header-section-number">1.2.29</span> Diretório de trabalho e projetos</a></li>
+  <li><a href="#distribuições-de-probabilidade-padrão-dpqr" id="toc-distribuições-de-probabilidade-padrão-dpqr" class="nav-link" data-scroll-target="#distribuições-de-probabilidade-padrão-dpqr"><span class="header-section-number">1.2.30</span> Distribuições de probabilidade: padrão d/p/q/r</a></li>
+  <li><a href="#números-pseudoaleatórios-e-semente" id="toc-números-pseudoaleatórios-e-semente" class="nav-link" data-scroll-target="#números-pseudoaleatórios-e-semente"><span class="header-section-number">1.2.31</span> Números pseudoaleatórios e semente</a></li>
+  <li><a href="#testando-e-depurando-código" id="toc-testando-e-depurando-código" class="nav-link" data-scroll-target="#testando-e-depurando-código"><span class="header-section-number">1.2.32</span> Testando e depurando código</a></li>
+  <li><a href="#dry-e-dividir-para-conquistar" id="toc-dry-e-dividir-para-conquistar" class="nav-link" data-scroll-target="#dry-e-dividir-para-conquistar"><span class="header-section-number">1.2.33</span> DRY e dividir para conquistar</a></li>
+  <li><a href="#síntese" id="toc-síntese" class="nav-link" data-scroll-target="#síntese"><span class="header-section-number">1.2.34</span> Síntese</a></li>
+  <li><a href="#exercícios-1" id="toc-exercícios-1" class="nav-link" data-scroll-target="#exercícios-1"><span class="header-section-number">1.2.35</span> Exercícios</a></li>
   </ul></li>
   <li><a href="#referências" id="toc-referências" class="nav-link" data-scroll-target="#referências">Referências</a></li>
   </ul>
@@ -388,7 +324,7 @@ window.Quarto = {
 </header>
 
 
-<p>A simulação tem um papel preponderante na estatística moderna, e suas vantagens no ensino de Estatística são conhecidas há muito tempo. Em um de seus primeiros números, o periódico <em>Teaching Statistics</em> publicou artigos que aludem precisamente a isso. <span class="citation" data-cites="thomas_cusum_1980">Thomas; Moore (<a href="#ref-thomas_cusum_1980" role="doc-biblioref">1980</a>)</span> afirmaram que “a introdução do computador na sala de aula escolar trouxe uma nova técnica para o ensino, a técnica da simulação”. <span class="citation" data-cites="ZiefflerGarfield2007">Zieffler; Garfield (<a href="#ref-ZiefflerGarfield2007" role="doc-biblioref">2007</a>)</span> e <span class="citation" data-cites="tintle_combating_2015">Tintle et al. (<a href="#ref-tintle_combating_2015" role="doc-biblioref">2015</a>)</span> discutem o papel e a importância da aprendizagem baseada em simulação no currículo de graduação em Estatística. No entanto, outros autores <span class="citation" data-cites="hodgson_simulation_2000">(por exemplo, <a href="#ref-hodgson_simulation_2000" role="doc-biblioref">Hodgson; Burke, 2000</a>)</span> discutem alguns problemas que podem surgir ao ensinar uma disciplina por meio de simulação, a saber, o desenvolvimento de certos equívocos na mente dos estudantes <span class="citation" data-cites="martins_learning_2018">(<a href="#ref-martins_learning_2018" role="doc-biblioref">Martins, 2018</a>)</span>.</p>
+<p>A simulação ocupa um papel importante na Estatística moderna, tanto como ferramenta científica quanto como recurso didático. Já em 1980, <span class="citation" data-cites="thomas_cusum_1980">Thomas; Moore (<a href="#ref-thomas_cusum_1980" role="doc-biblioref">1980</a>, pp.&nbsp;23–28)</span> mostravam como a simulação computacional podia ser usada para introduzir técnicas CUSUM e, ao mesmo tempo, favorecer a compreensão de inferência estatística e tomada de decisão. Em trabalhos posteriores, <span class="citation" data-cites="ZiefflerGarfield2007">Zieffler; Garfield (<a href="#ref-ZiefflerGarfield2007" role="doc-biblioref">2007</a>)</span> estudam atividades de simulação voltadas ao desenvolvimento do raciocínio estatístico, enquanto <span class="citation" data-cites="tintle_combating_2015">Tintle et al. (<a href="#ref-tintle_combating_2015" role="doc-biblioref">2015</a>, pp.&nbsp;362–370)</span> defendem o uso de métodos baseados em simulação ao longo do currículo de graduação em Estatística. Essa abordagem, contudo, exige planejamento: <span class="citation" data-cites="hodgson_simulation_2000">Hodgson; Burke (<a href="#ref-hodgson_simulation_2000" role="doc-biblioref">2000</a>, pp.&nbsp;91–96)</span> observam que a simulação pode promover compreensão conceitual profunda, mas também produzir interpretações equivocadas quando as atividades não são cuidadosamente estruturadas. O problema do aniversário, explorado por <span class="citation" data-cites="martins_learning_2018">Martins (<a href="#ref-martins_learning_2018" role="doc-biblioref">2018</a>, pp.&nbsp;108–111)</span>, fornece um exemplo particularmente adequado para discutir simultaneamente intuição probabilística, simulação e resultados teóricos.</p>
 <p>Todo estudante da Universidade Federal do Ceará conhece a cena. É hora do almoço no Restaurante Universitário (RU). A fila se alonga pelo pátio, colegas conversam, alguns reclamam da espera, outros aproveitam o tempo para revisar o conteúdo da próxima prova. O tempo parece correr de forma diferente quando estamos na fila. Para alguns, são apenas alguns minutos. Para outros, parece uma eternidade.</p>
 <p>Agora, pense um pouco. Quanto tempo, em média, um aluno passa esperando para se servir? Qual a chance de alguém que chega por volta das 12h30 esperar mais de vinte minutos? Por que em alguns dias a fila anda rápido e em outros parece não ter fim?</p>
 <p>Essas perguntas podem parecer simples, mas abrem caminho para um universo fascinante. Elas revelam como a <strong>Probabilidade e a Estatística</strong> estão presentes em situações que vivemos todos os dias. A fila do RU não é apenas um detalhe da rotina estudantil. Ela é um retrato de como os fenômenos aleatórios acontecem ao nosso redor. Cada chegada de estudante, cada tempo de atendimento, cada variação de um dia para o outro forma um sistema dinâmico que pode ser estudado e compreendido.</p>
@@ -397,13 +333,13 @@ window.Quarto = {
 <section id="motivação" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="motivação"><span class="header-section-number">1.1</span> Motivação</h2>
 <p>A Estatística, além de lidar com modelos matemáticos rigorosos, também é permeada por situações em que a intuição humana falha de maneira sistemática. Um exemplo clássico é o <strong>problema do aniversário</strong>, que há décadas desperta curiosidade entre estudantes e pesquisadores.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Enuciado">
+<div class="callout callout-style-default callout-tip callout-titled" title="Enunciado">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Enuciado
+Enunciado
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -414,17 +350,19 @@ Enuciado
 </section>
 <section id="da-teoria-à-simulação" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="da-teoria-à-simulação">Da teoria à simulação</h2>
-<p>Do ponto de vista teórico, a probabilidade de que todos os aniversários sejam distintos entre <span class="math inline">\(r\)</span> pessoas é</p>
+<p>Sob as hipóteses de 365 dias equiprováveis, ausência de 29 de fevereiro e independência entre datas de aniversário, para <span class="math inline">\(1\leq r\leq365\)</span> a probabilidade de que todos os aniversários sejam distintos entre <span class="math inline">\(r\)</span> pessoas é</p>
 <p><span class="math display">\[\Pr(\text{todos distintos}) \;=\; \prod_{i=1}^{r-1} \frac{365-i}{365}
 \;=\; \left(1 - \frac{1}{365}\right)\!\left(1 - \frac{2}{365}\right)\!\cdots\!\left(1 - \frac{r-1}{365}\right).\]</span></p>
 <p>Logo, a probabilidade de pelo menos uma coincidência é</p>
 <p><span class="math display">\[p_r = 1 - \Pr(\text{todos distintos}).\]</span></p>
+<p>Para <span class="math inline">\(r&gt;365\)</span>, a probabilidade é igual a <span class="math inline">\(1\)</span> pelo princípio da casa dos pombos. Para os tamanhos de grupo considerados aqui, a expressão acima é a forma exata relevante.</p>
 <p>Esse produto é conceitualmente claro, mas fica pouco manejável mentalmente para <span class="math inline">\(r\)</span> moderados. É aqui que a <strong>simulação computacional</strong> pode entrar como aliada didática e científica.</p>
 </section>
 <section id="um-atalho-analítico-útil" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="um-atalho-analítico-útil">Um atalho analítico útil</h2>
-<p>O produto acima admite uma <strong>aproximação exponencial simples e acurada</strong>, obtida tomando logaritmo e usando a expansão para argumentos pequenos:</p>
-<p><span class="math display">\[\ln(1 - x) = -x + o(x), \quad (x \to 0). \]</span> Aplicando ao produto,</p>
+<p>O produto acima admite uma <strong>aproximação exponencial simples</strong>, obtida tomando logaritmo e retendo o termo de primeira ordem da expansão</p>
+<p><span class="math display">\[\log(1-x)=-x+O(x^2), \qquad x\to0.\]</span></p>
+<p>Aplicando essa aproximação ao produto,</p>
 <p><span class="math display">\[\begin{aligned}
 \ln\!\big(1 - p_r\big)
 \;&amp;=\;
@@ -441,7 +379,7 @@ Enuciado
 <ol type="1">
 <li><p><strong>Clareza</strong>: exibe explicitamente o papel do número de pares <span class="math inline">\(\binom{r}{2}\)</span>.</p></li>
 <li><p><strong>Rapidez</strong>: permite cálculos aproximados para valores de <span class="math inline">\(r\)</span> de interesse.</p></li>
-<li><p><strong>Boas aproximações</strong> já para <span class="math inline">\(r\)</span> na casa das dezenas.</p></li>
+<li><p><strong>Boa precisão didática</strong> para grupos moderados, embora a expressão continue sendo uma aproximação e seu erro deva ser distinguido do valor exato.</p></li>
 </ol>
 <div class="callout callout-style-default callout-warning callout-titled" title="Exemplo Rápido">
 <div class="callout-header d-flex align-content-center">
@@ -459,10 +397,14 @@ Exemplo Rápido
 <p><span class="math display">\[p_{23}^{(\text{aprox})}
   \;=\;
   1 - \exp\!\left\{-\frac{23\cdot22}{730}\right\}
-  \;=\;
-  1 - \exp\!\{-0.69315\}
-  \;\approx\; 0.500,\]</span></p>
-<p>alinhando-se ao resultado clássico de que <strong>23</strong> pessoas já superam 50% de chance de coincidência.</p>
+  \;\approx\; 0.5000.\]</span></p>
+<p>O cálculo exato fornece</p>
+<p><span class="math display">\[p_{23}
+=
+1-
+\prod_{i=1}^{22}\frac{365-i}{365}
+\approx 0.5073.\]</span></p>
+<p>Portanto, a aproximação de primeira ordem fica cerca de <span class="math inline">\(0.0073\)</span> abaixo do valor exato, mas já revela corretamente que o limiar de 50% ocorre em torno de <strong>23 pessoas</strong>.</p>
 </div>
 </div>
 </section>
@@ -478,9 +420,9 @@ Exemplo Rápido
 <pre><code>[1] TRUE</code></pre>
 </div>
 </div>
-<p>Ao repetir esse procedimento muitas vezes (por exemplo, 10.000 simulações), podemos estimar a proporção de conjuntos com coincidência. Pela Lei dos Grandes Números, essa estimativa converge para o valor teórico de aproximadamente 0,507 quando <span class="math inline">\(r=23\)</span>.</p>
+<p>Ao repetir esse procedimento muitas vezes (por exemplo, 10.000 simulações independentes), podemos estimar a probabilidade pela frequência relativa de repetições com coincidência. Pela Lei dos Grandes Números aplicada ao indicador desse evento, essa frequência relativa converge para <span class="math inline">\(p_{23}\approx0.5073\)</span> quando o número de repetições tende ao infinito.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>) <span class="co">#reprodutibilidade</span></span>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>) <span class="co"># reprodutibilidade</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="dv">23</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="dv">10000</span></span>
@@ -504,7 +446,8 @@ Exemplo Rápido
 </section>
 <section id="atividade-problema-do-aniversário-22-jogadores" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="atividade-problema-do-aniversário-22-jogadores">Atividade: Problema do Aniversário (22 jogadores)</h2>
-<p>Nesta motivação consideramos um exemplo discutido em <span class="citation" data-cites="martins_learning_2018">Martins (<a href="#ref-martins_learning_2018" role="doc-biblioref">2018</a>)</span> que é o conhecido e amplamente divulgado problema do aniversário <span class="citation" data-cites="falk_closer_2014">(ver, por exemplo, <a href="#ref-falk_closer_2014" role="doc-biblioref">Falk, 2014</a>)</span>. <span class="citation" data-cites="martins_learning_2018">Martins (<a href="#ref-martins_learning_2018" role="doc-biblioref">2018</a>)</span> segue o exemplo de <span class="citation" data-cites="matthews_coincidences_1998">Matthews; Stones (<a href="#ref-matthews_coincidences_1998" role="doc-biblioref">1998</a>)</span>, considerando duas equipes de futebol e, portanto, coincidências de aniversário entre 22 jogadores. <span class="citation" data-cites="martins_learning_2018">Martins (<a href="#ref-martins_learning_2018" role="doc-biblioref">2018</a>)</span> afirma que um resultado positivo importante dessa atividade é a discussão que surgirá naturalmente entre os estudantes, com o professor atuando como mediador. Além disso, os estudantes adoram jogos e a descoberta prática, e a simulação facilita o engajamento nessas atividades, ao mesmo tempo que ilustra resultados que podem ser não intuitivos, bem como teoria geral, como a <strong>Lei dos Grandes Números</strong>.</p>
+<p>A atividade de <span class="citation" data-cites="martins_learning_2018">Martins (<a href="#ref-martins_learning_2018" role="doc-biblioref">2018</a>, pp.&nbsp;108–111)</span> usa o problema do aniversário para introduzir os princípios da simulação por meio de uma abordagem lúdica, destacando justamente a tensão entre intuição e probabilidade. O problema também é discutido por <span class="citation" data-cites="falk_closer_2014">Falk (<a href="#ref-falk_closer_2014" role="doc-biblioref">2014</a>, pp.&nbsp;41–46)</span>. Um antecedente diretamente ligado ao futebol é <span class="citation" data-cites="matthews_coincidences_1998">Matthews; Stones (<a href="#ref-matthews_coincidences_1998" role="doc-biblioref">1998</a>, pp.&nbsp;17–19)</span>, que considera as <strong>23 pessoas em campo</strong> — 22 jogadores e o árbitro — como um teste empírico natural do resultado clássico.</p>
+<p>Na atividade a seguir, adotaremos deliberadamente apenas os <strong>22 jogadores</strong>. Trata-se, portanto, de uma adaptação didática deste capítulo: com 22 pessoas, a probabilidade exata de pelo menos uma coincidência é aproximadamente <span class="math inline">\(0.4757\)</span>, ligeiramente abaixo de 50%. Essa escolha permite comparar um cenário muito próximo do limiar clássico de 23 pessoas e discutir a sensibilidade da probabilidade ao tamanho do grupo.</p>
 <p>Agora iremos considerar o seguinte problema:</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Problema">
 <div class="callout-header d-flex align-content-center">
@@ -519,7 +462,7 @@ Problema
 <p>Em uma partida de futebol, qual é a probabilidade de que pelo menos dois dos 22 jogadores façam aniversário no mesmo dia?</p>
 </div>
 </div>
-<p>Em um pais chamado de país do futebol, o contexto é proposital: o futebol é popular e as probabilidades resultantes são contraintuitivas. Antes de qualquer cálculo, considere as hipóteses: (i) todos os 365 dias do ano são igualmente prováveis para qualquer aniversário; (ii) as datas de aniversário dos jogadores são independentes entre si.</p>
+<p>Em um país frequentemente associado ao futebol, o contexto é proposital: a familiaridade com o jogo contrasta com uma probabilidade que costuma desafiar a intuição. Antes de qualquer cálculo, considere as hipóteses: (i) todos os 365 dias do ano são igualmente prováveis para qualquer aniversário; (ii) as datas de aniversário dos jogadores são independentes entre si.</p>
 <p><strong>Objetivos</strong></p>
 <ul>
 <li><p>Estimar, via simulação, a probabilidade de coincidência de aniversários.</p></li>
@@ -542,15 +485,13 @@ Problema
 <li><p>Determinar o menor número de outras pessoas que deve estar em uma sala com você para que se possa apostar, com mais de 50% de chance de ganhar, que pelo menos uma delas tenha o mesmo aniversário que o seu.</p></li>
 </ol>
 </section>
-<section id="revisão-de-r-para-estatística-computacional" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Revisão de R para Estatística Computacional</h1>
+<section id="revisão-de-r-para-estatística-computacional" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="revisão-de-r-para-estatística-computacional"><span class="header-section-number">1.2</span> Revisão de R para Estatística Computacional</h2>
 <p>Este capítulo revisa os recursos de <code>R</code> que serão utilizados nos capítulos de Estatística Computacional. O objetivo não é cobrir toda a linguagem, mas consolidar a base necessária para implementar simulações, métodos de Monte Carlo, algoritmos iterativos, otimização e reamostragem.</p>
 <p>Programar não consiste apenas em memorizar comandos. É necessário transformar um problema em uma sequência de operações executáveis, decompor tarefas complexas em componentes menores e testar sistematicamente o código. <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> enfatiza essa distinção entre aprender uma linguagem e aprender a programar e destaca que a proficiência exige prática [Apêndice B, pp.&nbsp;271–294].</p>
-<blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> a organização desta revisão utiliza principalmente <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, cap. 1–3</a>, aproximadamente pp.&nbsp;1–117)</span>, <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025</a>)</span> [Capítulo 2, pp.&nbsp;4–55; Capítulo 6, aproximadamente pp.&nbsp;212–240] e <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Apêndice B, pp.&nbsp;271–295)</span>.</p>
-</blockquote>
-<section id="objetivos-de-aprendizagem" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="objetivos-de-aprendizagem"><span class="header-section-number">2.1</span> Objetivos de aprendizagem</h2>
+<p>A organização da revisão apoia-se principalmente na introdução à linguagem e às estruturas de dados de <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025</a>, Caps. 1–3)</span>, na apresentação de fundamentos e programação de <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025</a>, Caps. 2 e 6)</span> e no Apêndice B de <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, pp.&nbsp;271–294)</span>, dedicado à programação em <code>R</code>.</p>
+<section id="objetivos-de-aprendizagem" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="objetivos-de-aprendizagem"><span class="header-section-number">1.2.1</span> Objetivos de aprendizagem</h3>
 <p>Ao final deste capítulo, espera-se que o leitor seja capaz de:</p>
 <ul>
 <li>executar comandos no console e organizar código em scripts;</li>
@@ -568,8 +509,8 @@ Problema
 <li>reconhecer o padrão <code>d/p/q/r</code> das distribuições de probabilidade em <code>R</code>.</li>
 </ul>
 </section>
-<section id="r-como-linguagem-para-computação-estatística" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="r-como-linguagem-para-computação-estatística"><span class="header-section-number">2.2</span> R como linguagem para computação estatística</h2>
+<section id="r-como-linguagem-para-computação-estatística" class="level3" data-number="1.2.2">
+<h3 data-number="1.2.2" class="anchored" data-anchor-id="r-como-linguagem-para-computação-estatística"><span class="header-section-number">1.2.2</span> R como linguagem para computação estatística</h3>
 <p><code>R</code> combina uma linguagem de programação com um ambiente interativo voltado à análise estatística, manipulação de dados e visualização. <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, cap. 2</a>, pp.&nbsp;4–19)</span> apresenta <code>R</code> por meio de objetos, funções, vetores, <code>data.frame</code> e pacotes. <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, cap. 1–3</a>)</span> desenvolve estruturas de dados, programação e operações matriciais.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
 <div class="callout-header d-flex align-content-center">
@@ -591,8 +532,8 @@ Interpretação
 </div>
 </div>
 </section>
-<section id="instalação-e-ambiente-de-desenvolvimento" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="instalação-e-ambiente-de-desenvolvimento"><span class="header-section-number">2.3</span> Instalação e ambiente de desenvolvimento</h2>
+<section id="instalação-e-ambiente-de-desenvolvimento" class="level3" data-number="1.2.3">
+<h3 data-number="1.2.3" class="anchored" data-anchor-id="instalação-e-ambiente-de-desenvolvimento"><span class="header-section-number">1.2.3</span> Instalação e ambiente de desenvolvimento</h3>
 <p><span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 2.1</a>, pp.&nbsp;4–5)</span> e <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, seç. 1.2</a>)</span> descrevem o procedimento geral de instalação de <code>R</code> e de um ambiente integrado, como RStudio.</p>
 <p>Um teste mínimo é:</p>
 <div class="cell">
@@ -650,8 +591,8 @@ loaded via a namespace (and not attached):
 </div>
 </div>
 </section>
-<section id="console-e-scripts" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="console-e-scripts"><span class="header-section-number">2.4</span> Console e scripts</h2>
+<section id="console-e-scripts" class="level3" data-number="1.2.4">
+<h3 data-number="1.2.4" class="anchored" data-anchor-id="console-e-scripts"><span class="header-section-number">1.2.4</span> Console e scripts</h3>
 <p>O console permite executar comandos interativamente:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span> <span class="sc">+</span> <span class="dv">4</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -688,8 +629,8 @@ Observação editorial
 </div>
 </div>
 </section>
-<section id="comentários-e-legibilidade" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="comentários-e-legibilidade"><span class="header-section-number">2.5</span> Comentários e legibilidade</h2>
+<section id="comentários-e-legibilidade" class="level3" data-number="1.2.5">
+<h3 data-number="1.2.5" class="anchored" data-anchor-id="comentários-e-legibilidade"><span class="header-section-number">1.2.5</span> Comentários e legibilidade</h3>
 <p>Comentários começam com <code>#</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># média de uma pequena amostra</span></span>
@@ -699,10 +640,10 @@ Observação editorial
 <pre><code>[1] 5.5</code></pre>
 </div>
 </div>
-<p><span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, pp.&nbsp;285–286)</span> recomenda nomes descritivos, indentação consistente e comentários quando a intenção do código não é evidente.</p>
+<p><span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. B.3.1</a>, p.&nbsp;286)</span> recomenda nomes descritivos, indentação que torne a estrutura do programa fácil de seguir e comentários quando construções não evidentes exigem explicação.</p>
 </section>
-<section id="objetos-e-atribuição" class="level2" data-number="2.6">
-<h2 data-number="2.6" class="anchored" data-anchor-id="objetos-e-atribuição"><span class="header-section-number">2.6</span> Objetos e atribuição</h2>
+<section id="objetos-e-atribuição" class="level3" data-number="1.2.6">
+<h3 data-number="1.2.6" class="anchored" data-anchor-id="objetos-e-atribuição"><span class="header-section-number">1.2.6</span> Objetos e atribuição</h3>
 <p>Resultados podem ser armazenados em objetos:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">10</span></span>
@@ -715,8 +656,8 @@ Observação editorial
 </div>
 </div>
 <p><span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 2.4</a>, pp.&nbsp;8–18)</span> introduz armazenamento, nomes, vetores e funções. <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. B.2.2</a>, pp.&nbsp;273–275)</span> utiliza objetos para guardar resultados intermediários.</p>
-<section id="inspeção" class="level3" data-number="2.6.1">
-<h3 data-number="2.6.1" class="anchored" data-anchor-id="inspeção"><span class="header-section-number">2.6.1</span> Inspeção</h3>
+<section id="inspeção" class="level4" data-number="1.2.6.1">
+<h4 data-number="1.2.6.1" class="anchored" data-anchor-id="inspeção"><span class="header-section-number">1.2.6.1</span> Inspeção</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -757,8 +698,8 @@ Tipo e classe
 </div>
 </section>
 </section>
-<section id="tipos-atômicos" class="level2" data-number="2.7">
-<h2 data-number="2.7" class="anchored" data-anchor-id="tipos-atômicos"><span class="header-section-number">2.7</span> Tipos atômicos</h2>
+<section id="tipos-atômicos" class="level3" data-number="1.2.7">
+<h3 data-number="1.2.7" class="anchored" data-anchor-id="tipos-atômicos"><span class="header-section-number">1.2.7</span> Tipos atômicos</h3>
 <p>Entre os tipos mais importantes estão:</p>
 <ul>
 <li><code>logical</code>;</li>
@@ -815,10 +756,10 @@ Exemplo
 </div>
 </div>
 </section>
-<section id="valores-especiais" class="level2" data-number="2.8">
-<h2 data-number="2.8" class="anchored" data-anchor-id="valores-especiais"><span class="header-section-number">2.8</span> Valores especiais</h2>
-<section id="infinito-e-nan" class="level3" data-number="2.8.1">
-<h3 data-number="2.8.1" class="anchored" data-anchor-id="infinito-e-nan"><span class="header-section-number">2.8.1</span> Infinito e NaN</h3>
+<section id="valores-especiais" class="level3" data-number="1.2.8">
+<h3 data-number="1.2.8" class="anchored" data-anchor-id="valores-especiais"><span class="header-section-number">1.2.8</span> Valores especiais</h3>
+<section id="infinito-e-nan" class="level4" data-number="1.2.8.1">
+<h4 data-number="1.2.8.1" class="anchored" data-anchor-id="infinito-e-nan"><span class="header-section-number">1.2.8.1</span> Infinito e NaN</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">/</span> <span class="dv">0</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -835,8 +776,8 @@ Exemplo
 </div>
 <p><code>Inf</code> e <code>-Inf</code> representam infinitos computacionais; <code>NaN</code> significa <em>not a number</em>. <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, pp.&nbsp;275–277)</span> discute esses valores no contexto de aritmética de ponto flutuante.</p>
 </section>
-<section id="na" class="level3" data-number="2.8.2">
-<h3 data-number="2.8.2" class="anchored" data-anchor-id="na"><span class="header-section-number">2.8.2</span> NA</h3>
+<section id="na" class="level4" data-number="1.2.8.2">
+<h4 data-number="1.2.8.2" class="anchored" data-anchor-id="na"><span class="header-section-number">1.2.8.2</span> NA</h4>
 <p><code>NA</code> representa informação ausente:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="cn">NA</span>, <span class="dv">4</span>)</span>
@@ -869,8 +810,8 @@ Interpretação
 </div>
 </div>
 </section>
-<section id="null" class="level3" data-number="2.8.3">
-<h3 data-number="2.8.3" class="anchored" data-anchor-id="null"><span class="header-section-number">2.8.3</span> NULL</h3>
+<section id="null" class="level4" data-number="1.2.8.3">
+<h4 data-number="1.2.8.3" class="anchored" data-anchor-id="null"><span class="header-section-number">1.2.8.3</span> NULL</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(x)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -878,11 +819,11 @@ Interpretação
 <pre><code>[1] 0</code></pre>
 </div>
 </div>
-<p><code>NULL</code> representa ausência de objeto/componente e não deve ser confundido com um valor ausente armazenado como <code>NA</code>.</p>
+<p><code>NULL</code> é um objeto especial de comprimento zero, frequentemente usado para representar ausência de um componente ou de um resultado. Ele não deve ser confundido com <code>NA</code>, que representa um valor ausente armazenado dentro de um objeto.</p>
 </section>
 </section>
-<section id="precisão-numérica" class="level2" data-number="2.9">
-<h2 data-number="2.9" class="anchored" data-anchor-id="precisão-numérica"><span class="header-section-number">2.9</span> Precisão numérica</h2>
+<section id="precisão-numérica" class="level3" data-number="1.2.9">
+<h3 data-number="1.2.9" class="anchored" data-anchor-id="precisão-numérica"><span class="header-section-number">1.2.9</span> Precisão numérica</h3>
 <p>A representação de números reais no computador tem precisão finita. Assim:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fl">0.1</span> <span class="sc">+</span> <span class="fl">0.2</span></span>
@@ -912,8 +853,8 @@ Interpretação
 </div>
 </div>
 </section>
-<section id="aritmética" class="level2" data-number="2.10">
-<h2 data-number="2.10" class="anchored" data-anchor-id="aritmética"><span class="header-section-number">2.10</span> Aritmética</h2>
+<section id="aritmética" class="level3" data-number="1.2.10">
+<h3 data-number="1.2.10" class="anchored" data-anchor-id="aritmética"><span class="header-section-number">1.2.10</span> Aritmética</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="dv">14</span> <span class="sc">/</span> <span class="dv">6</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -938,13 +879,11 @@ Interpretação
 <li><code>%%</code>: resto;</li>
 <li><code>^</code>: potência.</li>
 </ul>
-<blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 2.4.5</a>, pp.&nbsp;17–18)</span> e <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. B.2.1</a>, pp.&nbsp;273–275)</span>.</p>
-</blockquote>
+<p>Esses operadores e as regras usuais de precedência são apresentados por <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 2.4.5</a>, pp.&nbsp;17–18)</span> e <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. B.2.1</a>, pp.&nbsp;273–275)</span>.</p>
 </section>
-<section id="vetores" class="level2" data-number="2.11">
-<h2 data-number="2.11" class="anchored" data-anchor-id="vetores"><span class="header-section-number">2.11</span> Vetores</h2>
-<p>Vetores são estruturas fundamentais de <code>R</code>. <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, seç. 3.1</a>, pp.&nbsp;63–69)</span> e <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. B.2.3.2</a>, pp.&nbsp;276–279)</span> apresentam construção, indexação e operações com vetores.</p>
+<section id="vetores" class="level3" data-number="1.2.11">
+<h3 data-number="1.2.11" class="anchored" data-anchor-id="vetores"><span class="header-section-number">1.2.11</span> Vetores</h3>
+<p>Vetores são estruturas fundamentais de <code>R</code>. <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, seç. 3.1.1–3.1.4</a>, pp.&nbsp;63–67)</span> e <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. B.2.3.2</a>, pp.&nbsp;276–279)</span> apresentam construção, indexação e operações com vetores.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>)</span>
 <span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -957,8 +896,8 @@ Interpretação
 <pre><code>[1] "double"</code></pre>
 </div>
 </div>
-<section id="sequências-e-repetições" class="level3" data-number="2.11.1">
-<h3 data-number="2.11.1" class="anchored" data-anchor-id="sequências-e-repetições"><span class="header-section-number">2.11.1</span> Sequências e repetições</h3>
+<section id="sequências-e-repetições" class="level4" data-number="1.2.11.1">
+<h4 data-number="1.2.11.1" class="anchored" data-anchor-id="sequências-e-repetições"><span class="header-section-number">1.2.11.1</span> Sequências e repetições</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">:</span><span class="dv">5</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -981,8 +920,8 @@ Interpretação
 </div>
 </div>
 </section>
-<section id="indexação" class="level3" data-number="2.11.2">
-<h3 data-number="2.11.2" class="anchored" data-anchor-id="indexação"><span class="header-section-number">2.11.2</span> Indexação</h3>
+<section id="indexação" class="level4" data-number="1.2.11.2">
+<h4 data-number="1.2.11.2" class="anchored" data-anchor-id="indexação"><span class="header-section-number">1.2.11.2</span> Indexação</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>)</span>
 <span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1000,12 +939,10 @@ Interpretação
 </div>
 </div>
 <p>A indexação começa em <code>1</code>.</p>
-<blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, seç. 3.1.3</a>, pp.&nbsp;64–66)</span>.</p>
-</blockquote>
+<p>A indexação por posição é apresentada por <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, seç. 3.1.3</a>, pp.&nbsp;65–66)</span>.</p>
 </section>
-<section id="indexação-lógica" class="level3" data-number="2.11.3">
-<h3 data-number="2.11.3" class="anchored" data-anchor-id="indexação-lógica"><span class="header-section-number">2.11.3</span> Indexação lógica</h3>
+<section id="indexação-lógica" class="level4" data-number="1.2.11.3">
+<h4 data-number="1.2.11.3" class="anchored" data-anchor-id="indexação-lógica"><span class="header-section-number">1.2.11.3</span> Indexação lógica</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">&gt;</span> <span class="dv">25</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1021,8 +958,8 @@ Interpretação
 </div>
 </div>
 </section>
-<section id="nomes" class="level3" data-number="2.11.4">
-<h3 data-number="2.11.4" class="anchored" data-anchor-id="nomes"><span class="header-section-number">2.11.4</span> Nomes</h3>
+<section id="nomes" class="level4" data-number="1.2.11.4">
+<h4 data-number="1.2.11.4" class="anchored" data-anchor-id="nomes"><span class="header-section-number">1.2.11.4</span> Nomes</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
 <span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">a =</span> <span class="dv">10</span>,</span>
@@ -1038,8 +975,8 @@ Interpretação
 </div>
 </section>
 </section>
-<section id="coerção" class="level2" data-number="2.12">
-<h2 data-number="2.12" class="anchored" data-anchor-id="coerção"><span class="header-section-number">2.12</span> Coerção</h2>
+<section id="coerção" class="level3" data-number="1.2.12">
+<h3 data-number="1.2.12" class="anchored" data-anchor-id="coerção"><span class="header-section-number">1.2.12</span> Coerção</h3>
 <p>Vetores atômicos armazenam um único tipo. Ao misturar tipos, pode ocorrer coerção:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="dv">1</span>, <span class="cn">TRUE</span>, <span class="st">"a"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1047,7 +984,7 @@ Interpretação
 <pre><code>[1] "1"    "TRUE" "a"   </code></pre>
 </div>
 </div>
-<p><span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, cap. 1</a> e 3)</span> discute estruturas homogêneas e coerção.</p>
+<p><span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 5.1</a>, pp.&nbsp;158–159)</span> explicita a hierarquia de coerção entre tipos atômicos e mostra que a combinação de tipos distintos em um vetor pode converter todos os elementos para um tipo comum.</p>
 <div class="callout callout-style-default callout-warning callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1062,8 +999,8 @@ Observação
 </div>
 </div>
 </section>
-<section id="vetorização-e-reciclagem" class="level2" data-number="2.13">
-<h2 data-number="2.13" class="anchored" data-anchor-id="vetorização-e-reciclagem"><span class="header-section-number">2.13</span> Vetorização e reciclagem</h2>
+<section id="vetorização-e-reciclagem" class="level3" data-number="1.2.13">
+<h3 data-number="1.2.13" class="anchored" data-anchor-id="vetorização-e-reciclagem"><span class="header-section-number">1.2.13</span> Vetorização e reciclagem</h3>
 <p>Operações podem agir elemento a elemento:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span></span>
@@ -1102,9 +1039,9 @@ comprimento do objeto menor</code></pre>
 </div>
 <p>deve produzir uma advertência porque o comprimento maior não é múltiplo do menor.</p>
 </section>
-<section id="matrizes" class="level2" data-number="2.14">
-<h2 data-number="2.14" class="anchored" data-anchor-id="matrizes"><span class="header-section-number">2.14</span> Matrizes</h2>
-<p><span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, seç. 3.2</a>, aproximadamente pp.&nbsp;68–76)</span> e <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. B.2.3.3</a>, pp.&nbsp;278–281)</span> apresentam criação, indexação e operações matriciais.</p>
+<section id="matrizes" class="level3" data-number="1.2.14">
+<h3 data-number="1.2.14" class="anchored" data-anchor-id="matrizes"><span class="header-section-number">1.2.14</span> Matrizes</h3>
+<p><span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, seç. 3.2</a>, pp.&nbsp;68–75)</span> apresenta criação, indexação e operações básicas com matrizes; <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. B.2.3.3</a>, pp.&nbsp;279–281)</span> complementa a discussão com operações de álgebra matricial.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(</span>
 <span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>),</span>
@@ -1132,8 +1069,8 @@ comprimento do objeto menor</code></pre>
 [2,]    4    5    6</code></pre>
 </div>
 </div>
-<section id="dimensões-e-indexação" class="level3" data-number="2.14.1">
-<h3 data-number="2.14.1" class="anchored" data-anchor-id="dimensões-e-indexação"><span class="header-section-number">2.14.1</span> Dimensões e indexação</h3>
+<section id="dimensões-e-indexação" class="level4" data-number="1.2.14.1">
+<h4 data-number="1.2.14.1" class="anchored" data-anchor-id="dimensões-e-indexação"><span class="header-section-number">1.2.14.1</span> Dimensões e indexação</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(A)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1184,8 +1121,8 @@ Observação
 </div>
 </section>
 </section>
-<section id="operações-matriciais" class="level2" data-number="2.15">
-<h2 data-number="2.15" class="anchored" data-anchor-id="operações-matriciais"><span class="header-section-number">2.15</span> Operações matriciais</h2>
+<section id="operações-matriciais" class="level3" data-number="1.2.15">
+<h3 data-number="1.2.15" class="anchored" data-anchor-id="operações-matriciais"><span class="header-section-number">1.2.15</span> Operações matriciais</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb122"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">nrow =</span> <span class="dv">2</span>)</span>
 <span id="cb122-2"><a href="#cb122-2" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>, <span class="at">nrow =</span> <span class="dv">2</span>)</span>
@@ -1264,12 +1201,10 @@ Distinção essencial
 <pre><code>[1] 1.5 3.5</code></pre>
 </div>
 </div>
-<blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025</a>, pp.&nbsp;73–75)</span> e <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, pp.&nbsp;279–281)</span>.</p>
-</blockquote>
+<p>Funções como <code>t()</code>, <code>rowSums()</code>, <code>colSums()</code>, <code>rowMeans()</code> e <code>colMeans()</code> aparecem em <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, seç. 3.2.3</a>, pp.&nbsp;70–75)</span> e <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. B.2.3.3</a>, pp.&nbsp;279–281)</span>.</p>
 </section>
-<section id="sistemas-lineares" class="level2" data-number="2.16">
-<h2 data-number="2.16" class="anchored" data-anchor-id="sistemas-lineares"><span class="header-section-number">2.16</span> Sistemas lineares</h2>
+<section id="sistemas-lineares" class="level3" data-number="1.2.16">
+<h3 data-number="1.2.16" class="anchored" data-anchor-id="sistemas-lineares"><span class="header-section-number">1.2.16</span> Sistemas lineares</h3>
 <p>Para</p>
 <p><span class="math display">\[
 Ax=b,
@@ -1315,9 +1250,9 @@ Interpretação
 </div>
 </div>
 </section>
-<section id="listas" class="level2" data-number="2.17">
-<h2 data-number="2.17" class="anchored" data-anchor-id="listas"><span class="header-section-number">2.17</span> Listas</h2>
-<p>Listas podem conter objetos de tipos e estruturas diferentes. <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, cap. 3</a>)</span> apresenta listas como estruturas heterogêneas.</p>
+<section id="listas" class="level3" data-number="1.2.17">
+<h3 data-number="1.2.17" class="anchored" data-anchor-id="listas"><span class="header-section-number">1.2.17</span> Listas</h3>
+<p>Listas podem conter objetos de tipos e estruturas diferentes. <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, seç. 3.4</a>, pp.&nbsp;83–88)</span> apresenta listas como estruturas heterogêneas capazes de armazenar, entre outros objetos, vetores, matrizes, valores lógicos e outras listas.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb148"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb148-1"><a href="#cb148-1" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
 <span id="cb148-2"><a href="#cb148-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">amostra =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">9</span>),</span>
@@ -1343,8 +1278,8 @@ $matriz
 [2,]    0    1</code></pre>
 </div>
 </div>
-<section id="e" class="level3" data-number="2.17.1">
-<h3 data-number="2.17.1" class="anchored" data-anchor-id="e"><span class="header-section-number">2.17.1</span> <code>[</code>, <code>[[</code> e <code>$</code></h3>
+<section id="e" class="level4" data-number="1.2.17.1">
+<h4 data-number="1.2.17.1" class="anchored" data-anchor-id="e"><span class="header-section-number">1.2.17.1</span> <code>[</code>, <code>[[</code> e <code>$</code></h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb150"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb150-1"><a href="#cb150-1" aria-hidden="true" tabindex="-1"></a>L[<span class="dv">1</span>]</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1379,12 +1314,10 @@ Interpretação
 </div>
 </section>
 </section>
-<section id="data-frames" class="level2" data-number="2.18">
-<h2 data-number="2.18" class="anchored" data-anchor-id="data-frames"><span class="header-section-number">2.18</span> Data frames</h2>
+<section id="data-frames" class="level3" data-number="1.2.18">
+<h3 data-number="1.2.18" class="anchored" data-anchor-id="data-frames"><span class="header-section-number">1.2.18</span> Data frames</h3>
 <p>Um <code>data.frame</code> representa dados tabulares e permite que colunas tenham tipos diferentes, desde que tenham comprimentos compatíveis.</p>
-<blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025</a>)</span> [Seção 1.8.5, pp.&nbsp;17–19; Capítulo 3] e <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 2.4.3</a> e 2.11)</span>.</p>
-</blockquote>
+<p>Essa estrutura é apresentada por <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, seç. 1.8.5</a>, pp.&nbsp;17–18)</span> e, no contexto de manipulação e acesso às colunas, por <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 2.4.3</a> e 2.11, pp.&nbsp;12–15 e 38–42)</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb156"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb156-1"><a href="#cb156-1" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
 <span id="cb156-2"><a href="#cb156-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,</span>
@@ -1401,8 +1334,8 @@ Interpretação
 4  4     B     12.4</code></pre>
 </div>
 </div>
-<section id="inspeção-1" class="level3" data-number="2.18.1">
-<h3 data-number="2.18.1" class="anchored" data-anchor-id="inspeção-1"><span class="header-section-number">2.18.1</span> Inspeção</h3>
+<section id="inspeção-1" class="level4" data-number="1.2.18.1">
+<h4 data-number="1.2.18.1" class="anchored" data-anchor-id="inspeção-1"><span class="header-section-number">1.2.18.1</span> Inspeção</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb158"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb158-1"><a href="#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(dados)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1440,8 +1373,8 @@ Interpretação
 </div>
 <p><span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025</a>, pp.&nbsp;20–21)</span> usa <code>head()</code>, <code>tail()</code>, <code>dim()</code>, <code>str()</code> e <code>names()</code> para explorar um <code>data.frame</code>.</p>
 </section>
-<section id="seleção" class="level3" data-number="2.18.2">
-<h3 data-number="2.18.2" class="anchored" data-anchor-id="seleção"><span class="header-section-number">2.18.2</span> Seleção</h3>
+<section id="seleção" class="level4" data-number="1.2.18.2">
+<h4 data-number="1.2.18.2" class="anchored" data-anchor-id="seleção"><span class="header-section-number">1.2.18.2</span> Seleção</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb168"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb168-1"><a href="#cb168-1" aria-hidden="true" tabindex="-1"></a>dados<span class="sc">$</span>resposta</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1463,9 +1396,9 @@ Interpretação
 </div>
 </section>
 </section>
-<section id="fatores" class="level2" data-number="2.19">
-<h2 data-number="2.19" class="anchored" data-anchor-id="fatores"><span class="header-section-number">2.19</span> Fatores</h2>
-<p>Fatores representam variáveis categóricas por meio de níveis. <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, seç. 1.8.6</a>, aproximadamente pp.&nbsp;19–20)</span> apresenta <code>factor()</code>.</p>
+<section id="fatores" class="level3" data-number="1.2.19">
+<h3 data-number="1.2.19" class="anchored" data-anchor-id="fatores"><span class="header-section-number">1.2.19</span> Fatores</h3>
+<p>Fatores representam variáveis categóricas por meio de níveis. <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, seç. 1.8.6</a>, pp.&nbsp;19–20)</span> apresenta <code>factor()</code> e sua utilização para armazenar categorias.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb174"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb174-1"><a href="#cb174-1" aria-hidden="true" tabindex="-1"></a>grupo <span class="ot">&lt;-</span> <span class="fu">factor</span>(</span>
 <span id="cb174-2"><a href="#cb174-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"controle"</span>, <span class="st">"tratamento"</span>, <span class="st">"controle"</span>)</span>
@@ -1476,8 +1409,8 @@ Interpretação
 <pre><code>[1] "controle"   "tratamento"</code></pre>
 </div>
 </div>
-<section id="fatores-ordenados" class="level3" data-number="2.19.1">
-<h3 data-number="2.19.1" class="anchored" data-anchor-id="fatores-ordenados"><span class="header-section-number">2.19.1</span> Fatores ordenados</h3>
+<section id="fatores-ordenados" class="level4" data-number="1.2.19.1">
+<h4 data-number="1.2.19.1" class="anchored" data-anchor-id="fatores-ordenados"><span class="header-section-number">1.2.19.1</span> Fatores ordenados</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb176"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb176-1"><a href="#cb176-1" aria-hidden="true" tabindex="-1"></a>tamanho <span class="ot">&lt;-</span> <span class="fu">factor</span>(</span>
 <span id="cb176-2"><a href="#cb176-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"pequeno"</span>, <span class="st">"grande"</span>, <span class="st">"regular"</span>),</span>
@@ -1510,11 +1443,11 @@ Interpretação
 </div>
 </section>
 </section>
-<section id="estruturas-condicionais" class="level2" data-number="2.20">
-<h2 data-number="2.20" class="anchored" data-anchor-id="estruturas-condicionais"><span class="header-section-number">2.20</span> Estruturas condicionais</h2>
+<section id="estruturas-condicionais" class="level3" data-number="1.2.20">
+<h3 data-number="1.2.20" class="anchored" data-anchor-id="estruturas-condicionais"><span class="header-section-number">1.2.20</span> Estruturas condicionais</h3>
 <p><span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, seç. 2.2</a>, pp.&nbsp;29–33)</span> e <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 6.3</a>, pp.&nbsp;222–227)</span> apresentam estruturas condicionais.</p>
-<section id="if-e-else" class="level3" data-number="2.20.1">
-<h3 data-number="2.20.1" class="anchored" data-anchor-id="if-e-else"><span class="header-section-number">2.20.1</span> <code>if</code> e <code>else</code></h3>
+<section id="if-e-else" class="level4" data-number="1.2.20.1">
+<h4 data-number="1.2.20.1" class="anchored" data-anchor-id="if-e-else"><span class="header-section-number">1.2.20.1</span> <code>if</code> e <code>else</code></h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb178"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb178-1"><a href="#cb178-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">2</span></span>
 <span id="cb178-2"><a href="#cb178-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1530,8 +1463,8 @@ Interpretação
 </div>
 </div>
 </section>
-<section id="operadores-lógicos" class="level3" data-number="2.20.2">
-<h3 data-number="2.20.2" class="anchored" data-anchor-id="operadores-lógicos"><span class="header-section-number">2.20.2</span> Operadores lógicos</h3>
+<section id="operadores-lógicos" class="level4" data-number="1.2.20.2">
+<h4 data-number="1.2.20.2" class="anchored" data-anchor-id="operadores-lógicos"><span class="header-section-number">1.2.20.2</span> Operadores lógicos</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb180"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb180-1"><a href="#cb180-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">3</span></span>
 <span id="cb180-2"><a href="#cb180-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1545,12 +1478,10 @@ Interpretação
 </div>
 </div>
 <p><code>&amp;</code> e <code>|</code> operam elemento a elemento, enquanto <code>&amp;&amp;</code> e <code>||</code> são apropriados a condições escalares.</p>
-<blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 6.3.2</a>, p.&nbsp;223)</span>.</p>
-</blockquote>
+<p>A distinção entre operadores vetorizados (<code>&amp;</code>, <code>|</code>) e operadores de curto-circuito adequados a condições escalares (<code>&amp;&amp;</code>, <code>||</code>) é discutida por <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 6.3.2</a>, pp.&nbsp;223–224)</span>.</p>
 </section>
-<section id="ifelse" class="level3" data-number="2.20.3">
-<h3 data-number="2.20.3" class="anchored" data-anchor-id="ifelse"><span class="header-section-number">2.20.3</span> <code>ifelse()</code></h3>
+<section id="ifelse" class="level4" data-number="1.2.20.3">
+<h4 data-number="1.2.20.3" class="anchored" data-anchor-id="ifelse"><span class="header-section-number">1.2.20.3</span> <code>ifelse()</code></h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb184"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb184-1"><a href="#cb184-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">4</span>)</span>
 <span id="cb184-2"><a href="#cb184-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1563,16 +1494,14 @@ Interpretação
 <pre><code>[1] "negativo"     "não negativo" "não negativo"</code></pre>
 </div>
 </div>
-<blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 6.3.3</a>, p.&nbsp;224)</span>.</p>
-</blockquote>
+<p>O uso vetorizado de <code>ifelse()</code> é apresentado por <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 6.3.3</a>, p.&nbsp;224)</span>.</p>
 </section>
 </section>
-<section id="laços" class="level2" data-number="2.21">
-<h2 data-number="2.21" class="anchored" data-anchor-id="laços"><span class="header-section-number">2.21</span> Laços</h2>
+<section id="laços" class="level3" data-number="1.2.21">
+<h3 data-number="1.2.21" class="anchored" data-anchor-id="laços"><span class="header-section-number">1.2.21</span> Laços</h3>
 <p><span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, seç. 2.3</a>, pp.&nbsp;33–38)</span> apresenta <code>for</code>, <code>while</code>, <code>repeat</code>, <code>break</code> e <code>next</code>. <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 6.4</a>, pp.&nbsp;227–234)</span> trata de iteração por laços.</p>
-<section id="for" class="level3" data-number="2.21.1">
-<h3 data-number="2.21.1" class="anchored" data-anchor-id="for"><span class="header-section-number">2.21.1</span> <code>for</code></h3>
+<section id="for" class="level4" data-number="1.2.21.1">
+<h4 data-number="1.2.21.1" class="anchored" data-anchor-id="for"><span class="header-section-number">1.2.21.1</span> <code>for</code></h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb186"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb186-1"><a href="#cb186-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>) {</span>
 <span id="cb186-2"><a href="#cb186-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(i<span class="sc">^</span><span class="dv">2</span>)</span>
@@ -1586,8 +1515,8 @@ Interpretação
 </div>
 </div>
 </section>
-<section id="while" class="level3" data-number="2.21.2">
-<h3 data-number="2.21.2" class="anchored" data-anchor-id="while"><span class="header-section-number">2.21.2</span> <code>while</code></h3>
+<section id="while" class="level4" data-number="1.2.21.2">
+<h4 data-number="1.2.21.2" class="anchored" data-anchor-id="while"><span class="header-section-number">1.2.21.2</span> <code>while</code></h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb188"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb188-1"><a href="#cb188-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span></span>
 <span id="cb188-2"><a href="#cb188-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1601,8 +1530,8 @@ Interpretação
 </div>
 </div>
 </section>
-<section id="repeat" class="level3" data-number="2.21.3">
-<h3 data-number="2.21.3" class="anchored" data-anchor-id="repeat"><span class="header-section-number">2.21.3</span> <code>repeat</code></h3>
+<section id="repeat" class="level4" data-number="1.2.21.3">
+<h4 data-number="1.2.21.3" class="anchored" data-anchor-id="repeat"><span class="header-section-number">1.2.21.3</span> <code>repeat</code></h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb190"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb190-1"><a href="#cb190-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span></span>
 <span id="cb190-2"><a href="#cb190-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1620,8 +1549,8 @@ Interpretação
 </div>
 </div>
 </section>
-<section id="break-e-next" class="level3" data-number="2.21.4">
-<h3 data-number="2.21.4" class="anchored" data-anchor-id="break-e-next"><span class="header-section-number">2.21.4</span> <code>break</code> e <code>next</code></h3>
+<section id="break-e-next" class="level4" data-number="1.2.21.4">
+<h4 data-number="1.2.21.4" class="anchored" data-anchor-id="break-e-next"><span class="header-section-number">1.2.21.4</span> <code>break</code> e <code>next</code></h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb192"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb192-1"><a href="#cb192-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>) {</span>
 <span id="cb192-2"><a href="#cb192-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (i <span class="sc">==</span> <span class="dv">5</span>) {</span>
@@ -1646,8 +1575,8 @@ Interpretação
 </div>
 </section>
 </section>
-<section id="laços-e-vetorização-são-complementares" class="level2" data-number="2.22">
-<h2 data-number="2.22" class="anchored" data-anchor-id="laços-e-vetorização-são-complementares"><span class="header-section-number">2.22</span> Laços e vetorização são complementares</h2>
+<section id="laços-e-vetorização-são-complementares" class="level3" data-number="1.2.22">
+<h3 data-number="1.2.22" class="anchored" data-anchor-id="laços-e-vetorização-são-complementares"><span class="header-section-number">1.2.22</span> Laços e vetorização são complementares</h3>
 <p>A afirmação “laços devem sempre ser evitados” é forte demais.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Interpretação revisada">
 <div class="callout-header d-flex align-content-center">
@@ -1660,15 +1589,15 @@ Interpretação revisada
 </div>
 <div class="callout-body-container callout-body">
 <p>Use vetorização quando a operação é naturalmente vetorial. Use laços quando há dependência entre iterações ou quando o algoritmo fica mais claro dessa forma.</p>
-<p><span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 6.4–6.5</a>, pp.&nbsp;227–239)</span> apresenta laços, vetorização e funções de iteração como ferramentas complementares.</p>
+<p><span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 6.4–6.5</a>, pp.&nbsp;227–241)</span> apresenta laços, vetorização e <em>functionals</em>. A preferência por uma solução vetorizada é especialmente natural quando existe uma operação vetorial direta e equivalente; laços continuam apropriados em algoritmos sequenciais ou quando as iterações dependem de resultados anteriores.</p>
 </div>
 </div>
 </section>
-<section id="família-apply" class="level2" data-number="2.23">
-<h2 data-number="2.23" class="anchored" data-anchor-id="família-apply"><span class="header-section-number">2.23</span> Família apply</h2>
-<p><span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, cap. 3</a>)</span> discute <code>apply()</code>, <code>lapply()</code>, <code>sapply()</code> e <code>tapply()</code>. <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 6.5</a>, pp.&nbsp;234–239)</span> apresenta vetorização e <em>functionals</em>.</p>
-<section id="apply" class="level3" data-number="2.23.1">
-<h3 data-number="2.23.1" class="anchored" data-anchor-id="apply"><span class="header-section-number">2.23.1</span> <code>apply()</code></h3>
+<section id="família-apply" class="level3" data-number="1.2.23">
+<h3 data-number="1.2.23" class="anchored" data-anchor-id="família-apply"><span class="header-section-number">1.2.23</span> Família apply</h3>
+<p><span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 6.5.1–6.5.2</a>, pp.&nbsp;236–237)</span> apresenta <code>apply()</code> e variantes como <code>lapply()</code>, <code>sapply()</code>, <code>vapply()</code> e <code>tapply()</code>. <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, cap. 3</a>)</span> também utiliza a família <code>apply</code> em operações sobre estruturas de dados.</p>
+<section id="apply" class="level4" data-number="1.2.23.1">
+<h4 data-number="1.2.23.1" class="anchored" data-anchor-id="apply"><span class="header-section-number">1.2.23.1</span> <code>apply()</code></h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb194"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb194-1"><a href="#cb194-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(</span>
 <span id="cb194-2"><a href="#cb194-2" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>,</span>
@@ -1685,8 +1614,8 @@ Interpretação revisada
 </div>
 </div>
 </section>
-<section id="lapply" class="level3" data-number="2.23.2">
-<h3 data-number="2.23.2" class="anchored" data-anchor-id="lapply"><span class="header-section-number">2.23.2</span> <code>lapply()</code></h3>
+<section id="lapply" class="level4" data-number="1.2.23.2">
+<h4 data-number="1.2.23.2" class="anchored" data-anchor-id="lapply"><span class="header-section-number">1.2.23.2</span> <code>lapply()</code></h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb198"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb198-1"><a href="#cb198-1" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
 <span id="cb198-2"><a href="#cb198-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">a =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
@@ -1703,8 +1632,8 @@ $b
 </div>
 </div>
 </section>
-<section id="sapply" class="level3" data-number="2.23.3">
-<h3 data-number="2.23.3" class="anchored" data-anchor-id="sapply"><span class="header-section-number">2.23.3</span> <code>sapply()</code></h3>
+<section id="sapply" class="level4" data-number="1.2.23.3">
+<h4 data-number="1.2.23.3" class="anchored" data-anchor-id="sapply"><span class="header-section-number">1.2.23.3</span> <code>sapply()</code></h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb200"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb200-1"><a href="#cb200-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(L, mean)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1713,8 +1642,8 @@ $b
 </div>
 </div>
 </section>
-<section id="vapply" class="level3" data-number="2.23.4">
-<h3 data-number="2.23.4" class="anchored" data-anchor-id="vapply"><span class="header-section-number">2.23.4</span> <code>vapply()</code></h3>
+<section id="vapply" class="level4" data-number="1.2.23.4">
+<h4 data-number="1.2.23.4" class="anchored" data-anchor-id="vapply"><span class="header-section-number">1.2.23.4</span> <code>vapply()</code></h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb202"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb202-1"><a href="#cb202-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vapply</span>(</span>
 <span id="cb202-2"><a href="#cb202-2" aria-hidden="true" tabindex="-1"></a>  L,</span>
@@ -1728,9 +1657,9 @@ $b
 </div>
 </section>
 </section>
-<section id="escrevendo-funções" class="level2" data-number="2.24">
-<h2 data-number="2.24" class="anchored" data-anchor-id="escrevendo-funções"><span class="header-section-number">2.24</span> Escrevendo funções</h2>
-<p><span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. B.3.2</a>, pp.&nbsp;286–290)</span> relaciona funções aos princípios DRY e <em>divide and conquer</em>. <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, seç. 2.5.2</a>, pp.&nbsp;46–50)</span> apresenta sintaxe, argumentos e retorno.</p>
+<section id="escrevendo-funções" class="level3" data-number="1.2.24">
+<h3 data-number="1.2.24" class="anchored" data-anchor-id="escrevendo-funções"><span class="header-section-number">1.2.24</span> Escrevendo funções</h3>
+<p><span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. B.3.2</a>, pp.&nbsp;286–290)</span> relaciona funções ao princípio de decompor problemas em partes menores; <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, seç. 2.5.2</a>, pp.&nbsp;47–50)</span> apresenta sintaxe, argumentos e valores retornados por funções definidas pelo usuário.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb204"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb204-1"><a href="#cb204-1" aria-hidden="true" tabindex="-1"></a>media_aritmetica <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
 <span id="cb204-2"><a href="#cb204-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(x) <span class="sc">/</span> <span class="fu">length</span>(x)</span>
@@ -1744,8 +1673,8 @@ $b
 <pre><code>[1] 4</code></pre>
 </div>
 </div>
-<section id="argumentos-com-valor-padrão" class="level3" data-number="2.24.1">
-<h3 data-number="2.24.1" class="anchored" data-anchor-id="argumentos-com-valor-padrão"><span class="header-section-number">2.24.1</span> Argumentos com valor padrão</h3>
+<section id="argumentos-com-valor-padrão" class="level4" data-number="1.2.24.1">
+<h4 data-number="1.2.24.1" class="anchored" data-anchor-id="argumentos-com-valor-padrão"><span class="header-section-number">1.2.24.1</span> Argumentos com valor padrão</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb207"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb207-1"><a href="#cb207-1" aria-hidden="true" tabindex="-1"></a>potencia <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
 <span id="cb207-2"><a href="#cb207-2" aria-hidden="true" tabindex="-1"></a>    x,</span>
@@ -1764,8 +1693,8 @@ $b
 </div>
 </div>
 </section>
-<section id="escopo-local" class="level3" data-number="2.24.2">
-<h3 data-number="2.24.2" class="anchored" data-anchor-id="escopo-local"><span class="header-section-number">2.24.2</span> Escopo local</h3>
+<section id="escopo-local" class="level4" data-number="1.2.24.2">
+<h4 data-number="1.2.24.2" class="anchored" data-anchor-id="escopo-local"><span class="header-section-number">1.2.24.2</span> Escopo local</h4>
 <p><span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, pp.&nbsp;287–289)</span> mostra que objetos internos de uma função ficam isolados do chamador em seu exemplo de Fibonacci.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb211"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb211-1"><a href="#cb211-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">10</span></span>
@@ -1786,8 +1715,8 @@ $b
 </div>
 </section>
 </section>
-<section id="validação-de-argumentos" class="level2" data-number="2.25">
-<h2 data-number="2.25" class="anchored" data-anchor-id="validação-de-argumentos"><span class="header-section-number">2.25</span> Validação de argumentos</h2>
+<section id="validação-de-argumentos" class="level3" data-number="1.2.25">
+<h3 data-number="1.2.25" class="anchored" data-anchor-id="validação-de-argumentos"><span class="header-section-number">1.2.25</span> Validação de argumentos</h3>
 <p><span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 6.3.5</a>, pp.&nbsp;225–227)</span> apresenta condicionais e <code>stop()</code> para produzir mensagens de erro informativas.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb215"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb215-1"><a href="#cb215-1" aria-hidden="true" tabindex="-1"></a>media_segura <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
@@ -1820,26 +1749,36 @@ Interpretação
 </div>
 </div>
 </section>
-<section id="exemplo-mediana-programada-manualmente" class="level2" data-number="2.26">
-<h2 data-number="2.26" class="anchored" data-anchor-id="exemplo-mediana-programada-manualmente"><span class="header-section-number">2.26</span> Exemplo: mediana programada manualmente</h2>
+<section id="exemplo-mediana-programada-manualmente" class="level3" data-number="1.2.26">
+<h3 data-number="1.2.26" class="anchored" data-anchor-id="exemplo-mediana-programada-manualmente"><span class="header-section-number">1.2.26</span> Exemplo: mediana programada manualmente</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb216"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb216-1"><a href="#cb216-1" aria-hidden="true" tabindex="-1"></a>mediana_manual <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb216-2"><a href="#cb216-2" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">sort</span>(x)</span>
-<span id="cb216-3"><a href="#cb216-3" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
-<span id="cb216-4"><a href="#cb216-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb216-5"><a href="#cb216-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (n <span class="sc">==</span> <span class="dv">0</span>) {</span>
-<span id="cb216-6"><a href="#cb216-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">"x não pode ser vazio."</span>)</span>
-<span id="cb216-7"><a href="#cb216-7" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb216-8"><a href="#cb216-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb216-9"><a href="#cb216-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (n <span class="sc">%%</span> <span class="dv">2</span> <span class="sc">==</span> <span class="dv">1</span>) {</span>
-<span id="cb216-10"><a href="#cb216-10" aria-hidden="true" tabindex="-1"></a>    x[(n <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">/</span> <span class="dv">2</span>]</span>
-<span id="cb216-11"><a href="#cb216-11" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
-<span id="cb216-12"><a href="#cb216-12" aria-hidden="true" tabindex="-1"></a>    (</span>
-<span id="cb216-13"><a href="#cb216-13" aria-hidden="true" tabindex="-1"></a>      x[n <span class="sc">/</span> <span class="dv">2</span>] <span class="sc">+</span></span>
-<span id="cb216-14"><a href="#cb216-14" aria-hidden="true" tabindex="-1"></a>        x[n <span class="sc">/</span> <span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span>]</span>
-<span id="cb216-15"><a href="#cb216-15" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">/</span> <span class="dv">2</span></span>
-<span id="cb216-16"><a href="#cb216-16" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb216-17"><a href="#cb216-17" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb216-2"><a href="#cb216-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.numeric</span>(x)) {</span>
+<span id="cb216-3"><a href="#cb216-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">"x deve ser um vetor numérico."</span>)</span>
+<span id="cb216-4"><a href="#cb216-4" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb216-5"><a href="#cb216-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb216-6"><a href="#cb216-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(x) <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb216-7"><a href="#cb216-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">"x não pode ser vazio."</span>)</span>
+<span id="cb216-8"><a href="#cb216-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb216-9"><a href="#cb216-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb216-10"><a href="#cb216-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">anyNA</span>(x)) {</span>
+<span id="cb216-11"><a href="#cb216-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(</span>
+<span id="cb216-12"><a href="#cb216-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">"x não pode conter NA neste exemplo."</span></span>
+<span id="cb216-13"><a href="#cb216-13" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb216-14"><a href="#cb216-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb216-15"><a href="#cb216-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb216-16"><a href="#cb216-16" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">sort</span>(x)</span>
+<span id="cb216-17"><a href="#cb216-17" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
+<span id="cb216-18"><a href="#cb216-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb216-19"><a href="#cb216-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (n <span class="sc">%%</span> <span class="dv">2</span> <span class="sc">==</span> <span class="dv">1</span>) {</span>
+<span id="cb216-20"><a href="#cb216-20" aria-hidden="true" tabindex="-1"></a>    x[(n <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">/</span> <span class="dv">2</span>]</span>
+<span id="cb216-21"><a href="#cb216-21" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb216-22"><a href="#cb216-22" aria-hidden="true" tabindex="-1"></a>    (</span>
+<span id="cb216-23"><a href="#cb216-23" aria-hidden="true" tabindex="-1"></a>      x[n <span class="sc">/</span> <span class="dv">2</span>] <span class="sc">+</span></span>
+<span id="cb216-24"><a href="#cb216-24" aria-hidden="true" tabindex="-1"></a>        x[n <span class="sc">/</span> <span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span>]</span>
+<span id="cb216-25"><a href="#cb216-25" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">/</span> <span class="dv">2</span></span>
+<span id="cb216-26"><a href="#cb216-26" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb216-27"><a href="#cb216-27" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
 <div class="callout-header d-flex align-content-center">
@@ -1851,23 +1790,23 @@ Interpretação
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>O objetivo não é substituir <code>median()</code>, mas praticar ordenação, indexação, módulo, condicionais e funções.</p>
+<p>O objetivo não é substituir <code>median()</code>, mas praticar validação, ordenação, indexação, módulo, condicionais e funções. A implementação acima rejeita <code>NA</code> explicitamente para que o comportamento diante de dados ausentes não fique implícito; uma versão mais geral poderia incorporar um argumento <code>na.rm</code>.</p>
 </div>
 </div>
 </section>
-<section id="pacotes" class="level2" data-number="2.27">
-<h2 data-number="2.27" class="anchored" data-anchor-id="pacotes"><span class="header-section-number">2.27</span> Pacotes</h2>
+<section id="pacotes" class="level3" data-number="1.2.27">
+<h3 data-number="1.2.27" class="anchored" data-anchor-id="pacotes"><span class="header-section-number">1.2.27</span> Pacotes</h3>
 <p><span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 2.5</a>, pp.&nbsp;18–19)</span> distingue instalação e carregamento de pacotes. <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, cap. 1</a>)</span> também apresenta <code>install.packages()</code> e <code>library()</code>.</p>
-<section id="instalação" class="level3" data-number="2.27.1">
-<h3 data-number="2.27.1" class="anchored" data-anchor-id="instalação"><span class="header-section-number">2.27.1</span> Instalação</h3>
+<section id="instalação" class="level4" data-number="1.2.27.1">
+<h4 data-number="1.2.27.1" class="anchored" data-anchor-id="instalação"><span class="header-section-number">1.2.27.1</span> Instalação</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb217"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb217-1"><a href="#cb217-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(</span>
 <span id="cb217-2"><a href="#cb217-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ggplot2"</span></span>
 <span id="cb217-3"><a href="#cb217-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="carregamento" class="level3" data-number="2.27.2">
-<h3 data-number="2.27.2" class="anchored" data-anchor-id="carregamento"><span class="header-section-number">2.27.2</span> Carregamento</h3>
+<section id="carregamento" class="level4" data-number="1.2.27.2">
+<h4 data-number="1.2.27.2" class="anchored" data-anchor-id="carregamento"><span class="header-section-number">1.2.27.2</span> Carregamento</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb218"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb218-1"><a href="#cb218-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(</span>
 <span id="cb218-2"><a href="#cb218-2" aria-hidden="true" tabindex="-1"></a>  ggplot2</span>
@@ -1883,13 +1822,13 @@ Observação
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Instalar e carregar são operações diferentes. Um pacote instalado continua disponível no computador, mas precisa ser carregado em cada sessão quando suas funções devem entrar no caminho de busca.</p>
+<p>Instalar e carregar são operações diferentes. Um pacote instalado continua disponível no computador, mas precisa ser carregado em cada sessão quando suas funções devem entrar no caminho de busca. Para usar uma função sem anexar o pacote ao caminho de busca, também é possível empregar a notação explícita <code>pacote::funcao</code>.</p>
 </div>
 </div>
 </section>
 </section>
-<section id="sistema-de-ajuda" class="level2" data-number="2.28">
-<h2 data-number="2.28" class="anchored" data-anchor-id="sistema-de-ajuda"><span class="header-section-number">2.28</span> Sistema de ajuda</h2>
+<section id="sistema-de-ajuda" class="level3" data-number="1.2.28">
+<h3 data-number="1.2.28" class="anchored" data-anchor-id="sistema-de-ajuda"><span class="header-section-number">1.2.28</span> Sistema de ajuda</h3>
 <p><span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, p. 294</a>)</span> recomenda o sistema interno de ajuda.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb219"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb219-1"><a href="#cb219-1" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(mean)</span>
@@ -1916,8 +1855,8 @@ Interpretação
 </div>
 </div>
 </section>
-<section id="diretório-de-trabalho-e-projetos" class="level2" data-number="2.29">
-<h2 data-number="2.29" class="anchored" data-anchor-id="diretório-de-trabalho-e-projetos"><span class="header-section-number">2.29</span> Diretório de trabalho e projetos</h2>
+<section id="diretório-de-trabalho-e-projetos" class="level3" data-number="1.2.29">
+<h3 data-number="1.2.29" class="anchored" data-anchor-id="diretório-de-trabalho-e-projetos"><span class="header-section-number">1.2.29</span> Diretório de trabalho e projetos</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb220"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb220-1"><a href="#cb220-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1930,10 +1869,23 @@ Interpretação
 <span id="cb222-2"><a href="#cb222-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"caminho/do/projeto"</span></span>
 <span id="cb222-3"><a href="#cb222-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025</a>, resumo do Capítulo 2, pp.&nbsp;54–55)</span> apresenta <code>getwd()</code> e <code>setwd()</code>. <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 2.15</a> e subseções)</span> discute caminhos de arquivo, importação e projetos.</p>
+<p><span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, seç. 2.4.2</a>, p.&nbsp;40)</span> apresenta <code>getwd()</code> e <code>setwd()</code>. <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 2.15.2</a>, pp.&nbsp;50–51)</span> discute o diretório de trabalho, enquanto <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 2.17</a>, p.&nbsp;56)</span> recomenda organizar cada análise em um projeto e usar caminhos relativos para facilitar a portabilidade.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Prática recomendada">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Prática recomendada
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Em projetos reproduzíveis, prefira manter código e dados sob uma pasta de projeto e usar caminhos relativos. Um <code>setwd()</code> com caminho absoluto específico de uma máquina tende a dificultar a execução do mesmo código por outra pessoa ou em outro computador.</p>
+</div>
+</div>
 </section>
-<section id="distribuições-de-probabilidade-padrão-dpqr" class="level2" data-number="2.30">
-<h2 data-number="2.30" class="anchored" data-anchor-id="distribuições-de-probabilidade-padrão-dpqr"><span class="header-section-number">2.30</span> Distribuições de probabilidade: padrão d/p/q/r</h2>
+<section id="distribuições-de-probabilidade-padrão-dpqr" class="level3" data-number="1.2.30">
+<h3 data-number="1.2.30" class="anchored" data-anchor-id="distribuições-de-probabilidade-padrão-dpqr"><span class="header-section-number">1.2.30</span> Distribuições de probabilidade: padrão d/p/q/r</h3>
 <p>Para várias distribuições, <code>R</code> utiliza um padrão sistemático. <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. B.4</a>, pp.&nbsp;292–294)</span> descreve:</p>
 <ul>
 <li><code>d</code>: densidade ou função de massa;</li>
@@ -1941,8 +1893,8 @@ Interpretação
 <li><code>q</code>: quantil;</li>
 <li><code>r</code>: geração aleatória.</li>
 </ul>
-<section id="normal" class="level3" data-number="2.30.1">
-<h3 data-number="2.30.1" class="anchored" data-anchor-id="normal"><span class="header-section-number">2.30.1</span> Normal</h3>
+<section id="normal" class="level4" data-number="1.2.30.1">
+<h4 data-number="1.2.30.1" class="anchored" data-anchor-id="normal"><span class="header-section-number">1.2.30.1</span> Normal</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb223"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb223-1"><a href="#cb223-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dnorm</span>(<span class="dv">0</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1962,8 +1914,8 @@ Interpretação
 </div>
 </div>
 </section>
-<section id="poisson" class="level3" data-number="2.30.2">
-<h3 data-number="2.30.2" class="anchored" data-anchor-id="poisson"><span class="header-section-number">2.30.2</span> Poisson</h3>
+<section id="poisson" class="level4" data-number="1.2.30.2">
+<h4 data-number="1.2.30.2" class="anchored" data-anchor-id="poisson"><span class="header-section-number">1.2.30.2</span> Poisson</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb231"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb231-1"><a href="#cb231-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dpois</span>(</span>
 <span id="cb231-2"><a href="#cb231-2" aria-hidden="true" tabindex="-1"></a>  <span class="dv">3</span>,</span>
@@ -2009,8 +1961,8 @@ Interpretação
 </div>
 </section>
 </section>
-<section id="números-pseudoaleatórios-e-semente" class="level2" data-number="2.31">
-<h2 data-number="2.31" class="anchored" data-anchor-id="números-pseudoaleatórios-e-semente"><span class="header-section-number">2.31</span> Números pseudoaleatórios e semente</h2>
+<section id="números-pseudoaleatórios-e-semente" class="level3" data-number="1.2.31">
+<h3 data-number="1.2.31" class="anchored" data-anchor-id="números-pseudoaleatórios-e-semente"><span class="header-section-number">1.2.31</span> Números pseudoaleatórios e semente</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb239"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb239-1"><a href="#cb239-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
 <span id="cb239-2"><a href="#cb239-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -2019,9 +1971,7 @@ Interpretação
 <pre><code>[1]  0.52058907 -1.07969076  0.13923812 -0.08474878 -0.66663962</code></pre>
 </div>
 </div>
-<blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. B.4</a>, pp.&nbsp;292–294)</span> e <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.1.1</a>, pp.&nbsp;248–249)</span>.</p>
-</blockquote>
+<p>A geração pseudoaleatória e o papel de <code>set.seed()</code> na reprodutibilidade são apresentados por <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. B.4</a>, pp.&nbsp;292–294)</span> e <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.1.1</a>, pp.&nbsp;248–249)</span>.</p>
 <div class="callout callout-style-default callout-warning callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2036,8 +1986,8 @@ Observação
 </div>
 </div>
 </section>
-<section id="testando-e-depurando-código" class="level2" data-number="2.32">
-<h2 data-number="2.32" class="anchored" data-anchor-id="testando-e-depurando-código"><span class="header-section-number">2.32</span> Testando e depurando código</h2>
+<section id="testando-e-depurando-código" class="level3" data-number="1.2.32">
+<h3 data-number="1.2.32" class="anchored" data-anchor-id="testando-e-depurando-código"><span class="header-section-number">1.2.32</span> Testando e depurando código</h3>
 <p><span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. B.3.3</a>, pp.&nbsp;290–292)</span> enfatiza que programas não triviais devem ser testados sistematicamente.</p>
 <p>Uma função pode executar sem erro e ainda estar logicamente incorreta:</p>
 <div class="cell">
@@ -2065,8 +2015,8 @@ Princípio
 <p>Ausência de mensagem de erro não significa que o programa está correto.</p>
 </div>
 </div>
-<section id="casos-com-resposta-conhecida" class="level3" data-number="2.32.1">
-<h3 data-number="2.32.1" class="anchored" data-anchor-id="casos-com-resposta-conhecida"><span class="header-section-number">2.32.1</span> Casos com resposta conhecida</h3>
+<section id="casos-com-resposta-conhecida" class="level4" data-number="1.2.32.1">
+<h4 data-number="1.2.32.1" class="anchored" data-anchor-id="casos-com-resposta-conhecida"><span class="header-section-number">1.2.32.1</span> Casos com resposta conhecida</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb243"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb243-1"><a href="#cb243-1" aria-hidden="true" tabindex="-1"></a>media_aritmetica <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
 <span id="cb243-2"><a href="#cb243-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(x) <span class="sc">/</span> <span class="fu">length</span>(x)</span>
@@ -2081,8 +2031,8 @@ Princípio
 </div>
 <p>O resultado deve ser exatamente <code>2</code>.</p>
 </section>
-<section id="valores-intermediários" class="level3" data-number="2.32.2">
-<h3 data-number="2.32.2" class="anchored" data-anchor-id="valores-intermediários"><span class="header-section-number">2.32.2</span> Valores intermediários</h3>
+<section id="valores-intermediários" class="level4" data-number="1.2.32.2">
+<h4 data-number="1.2.32.2" class="anchored" data-anchor-id="valores-intermediários"><span class="header-section-number">1.2.32.2</span> Valores intermediários</h4>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb245"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb245-1"><a href="#cb245-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
 <span id="cb245-2"><a href="#cb245-2" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
@@ -2105,15 +2055,15 @@ Princípio
 </div>
 </section>
 </section>
-<section id="dry-e-dividir-para-conquistar" class="level2" data-number="2.33">
-<h2 data-number="2.33" class="anchored" data-anchor-id="dry-e-dividir-para-conquistar"><span class="header-section-number">2.33</span> DRY e dividir para conquistar</h2>
+<section id="dry-e-dividir-para-conquistar" class="level3" data-number="1.2.33">
+<h3 data-number="1.2.33" class="anchored" data-anchor-id="dry-e-dividir-para-conquistar"><span class="header-section-number">1.2.33</span> DRY e dividir para conquistar</h3>
 <p><span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. B.3.1–B.3.2</a>, pp.&nbsp;283–290)</span> destaca dois princípios de organização.</p>
-<section id="dry" class="level3" data-number="2.33.1">
-<h3 data-number="2.33.1" class="anchored" data-anchor-id="dry"><span class="header-section-number">2.33.1</span> DRY</h3>
+<section id="dry" class="level4" data-number="1.2.33.1">
+<h4 data-number="1.2.33.1" class="anchored" data-anchor-id="dry"><span class="header-section-number">1.2.33.1</span> DRY</h4>
 <p><em>Don’t Repeat Yourself</em>: código repetido é candidato a virar função.</p>
 </section>
-<section id="dividir-e-conquistar" class="level3" data-number="2.33.2">
-<h3 data-number="2.33.2" class="anchored" data-anchor-id="dividir-e-conquistar"><span class="header-section-number">2.33.2</span> Dividir e conquistar</h3>
+<section id="dividir-e-conquistar" class="level4" data-number="1.2.33.2">
+<h4 data-number="1.2.33.2" class="anchored" data-anchor-id="dividir-e-conquistar"><span class="header-section-number">1.2.33.2</span> Dividir e conquistar</h4>
 <p>Um problema complexo pode ser separado em tarefas menores.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Exemplo em Estatística Computacional">
 <div class="callout-header d-flex align-content-center">
@@ -2136,8 +2086,8 @@ Exemplo em Estatística Computacional
 </div>
 </section>
 </section>
-<section id="síntese" class="level2" data-number="2.34">
-<h2 data-number="2.34" class="anchored" data-anchor-id="síntese"><span class="header-section-number">2.34</span> Síntese</h2>
+<section id="síntese" class="level3" data-number="1.2.34">
+<h3 data-number="1.2.34" class="anchored" data-anchor-id="síntese"><span class="header-section-number">1.2.34</span> Síntese</h3>
 <div class="callout callout-style-default callout-note callout-titled" title="Síntese">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2158,8 +2108,8 @@ Síntese
 </div>
 </div>
 </section>
-<section id="exercícios-1" class="level2" data-number="2.35">
-<h2 data-number="2.35" class="anchored" data-anchor-id="exercícios-1"><span class="header-section-number">2.35</span> Exercícios</h2>
+<section id="exercícios-1" class="level3" data-number="1.2.35">
+<h3 data-number="1.2.35" class="anchored" data-anchor-id="exercícios-1"><span class="header-section-number">1.2.35</span> Exercícios</h3>
 <div class="callout callout-style-default callout-caution callout-titled" title="Exercício 1 — tipos e valores especiais">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2216,7 +2166,7 @@ Exercício 3 — vetores
 <li>Crie os números de <code>5</code> a <code>15</code>.</li>
 <li>Calcule a média.</li>
 <li>Gere <span class="math inline">\(0,0{,}5,1,\ldots,5\)</span>.</li>
-<li>Gere uma sequência de <code>5</code> até <code>-11</code> com passo <code>-0.3</code>.</li>
+<li>Use <code>seq()</code> para gerar uma sequência iniciada em <code>5</code>, com passo <code>-0.3</code> e limite inferior <code>-11</code>. Verifique qual é o último valor produzido e explique por que <code>-11</code> não pertence à sequência quando esse passo é mantido.</li>
 <li>Inverta a sequência.</li>
 </ol>
 </div>
@@ -2476,8 +2426,8 @@ Exercício 17 — d/p/q/r
 </div>
 </section>
 </section>
-<section id="referências" class="level1 unnumbered">
-<h1 class="unnumbered">Referências</h1>
+<section id="referências" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="referências">Referências</h2>
 
 
 <div id="refs" class="references csl-bib-body" data-entry-spacing="1" role="list">

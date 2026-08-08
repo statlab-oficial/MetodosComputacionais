@@ -369,9 +369,9 @@ window.Quarto = {
 <p><span class="math display">\[
 \max_{\theta\in\mathbb{R}^p} \ell(\theta).
 \]</span></p>
-<p>Maximizar <span class="math inline">\(\ell(\theta)\)</span> equivale a minimizar <span class="math inline">\(-\ell(\theta)\)</span>, mas <strong>não é, em geral, equivalente simplesmente a encontrar uma raiz de sua derivada sem verificar a natureza do ponto estacionário</strong>. Uma raiz de <span class="math inline">\(\nabla f(\theta)=0\)</span> pode corresponder a mínimo, máximo ou ponto de sela; a informação de segunda ordem é necessária para classificá-la em problemas suaves.</p>
+<p>Maximizar <span class="math inline">\(\ell(\theta)\)</span> equivale a minimizar <span class="math inline">\(-\ell(\theta)\)</span>, mas <strong>não é, em geral, equivalente simplesmente a encontrar uma raiz de sua derivada sem verificar a natureza do ponto estacionário</strong>. Uma raiz de <span class="math inline">\(\nabla f(\theta)=0\)</span> pode corresponder a mínimo, máximo ou ponto de sela. A informação de segunda ordem fornece critérios naturais de classificação quando a Hessiana é definida positiva ou negativa; em pontos degenerados ou com Hessiana semidefinida, porém, o teste de segunda ordem pode ser inconclusivo.</p>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> a formulação geral de otimização e a distinção entre soluções locais e globais seguem <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>)</span> [Capítulo 1, pp.&nbsp;1–9; Seção 2.1, pp.&nbsp;12–17]. A relação entre localização de raízes e otimização, bem como a necessidade de classificar pontos estacionários, é discutida por <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2, aproximadamente pp.&nbsp;688–692)</span>.</p>
+<p><strong>Base bibliográfica:</strong> a formulação geral de otimização e a distinção entre soluções locais e globais seguem <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>)</span> [Capítulo 1, especialmente pp.&nbsp;6–7; Seção 2.1, pp.&nbsp;12–16]. A relação entre localização de raízes e otimização, bem como a necessidade de classificar pontos estacionários, é discutida por <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2, pp.&nbsp;687–688)</span>.</p>
 </blockquote>
 <section id="objetivos-de-aprendizagem" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="objetivos-de-aprendizagem"><span class="header-section-number">6.1</span> Objetivos de aprendizagem</h2>
@@ -390,7 +390,7 @@ window.Quarto = {
 <li>compreender por que métodos quasi-Newton, como BFGS, são alternativas importantes quando a Hessiana exata é cara.</li>
 </ul>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> organização didática baseada principalmente em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, cap. 2–4, 6–8</a> e 11)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndices B e C)</span>. O uso de <code>optimize()</code> e <code>uniroot()</code> em máxima verossimilhança é baseado em <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022, seç. 6.1.2</a>, pp.&nbsp;150–155)</span>.</p>
+<p><strong>Base bibliográfica:</strong> organização didática baseada principalmente em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, cap. 2–4, 6–8</a> e 11)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndices B e C)</span>. O uso de <code>optimize()</code> e <code>uniroot()</code> em máxima verossimilhança é baseado em <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022</a>, Exemplo 6.7 e nota de R, pp.&nbsp;154–155)</span>.</p>
 </blockquote>
 </section>
 <section id="problemas-de-otimização-e-pontos-estacionários" class="level2" data-number="6.2">
@@ -416,7 +416,7 @@ f(\theta^\star)\leq f(\theta)
 f(\theta^\star)\geq f(\theta)
 \]</span></p>
 <p>na vizinhança considerada.</p>
-<p><em>Base bibliográfica:</em> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 2.1</a>, pp.&nbsp;12–17)</span>.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 2.1</a>, pp.&nbsp;12–13)</span>.</p>
 </div>
 </div>
 <p>Se <span class="math inline">\(f:\mathbb{R}\to\mathbb{R}\)</span> é diferenciável e <span class="math inline">\(\theta^\star\)</span> é uma solução interior, uma condição necessária de primeira ordem é</p>
@@ -454,9 +454,9 @@ H(\theta)
 =
 \nabla^2 f(\theta)
 \]</span></p>
-<p>substitui a segunda derivada. Em um ponto estacionário, uma Hessiana positiva definida caracteriza um mínimo local estrito pelas condições suficientes de segunda ordem. Para maximização, aplica-se o resultado a <span class="math inline">\(-f\)</span>: equivalentemente, uma Hessiana negativa definida caracteriza um máximo local estrito.</p>
+<p>substitui a segunda derivada. Em um ponto estacionário, uma Hessiana positiva definida é uma <strong>condição suficiente</strong> para um mínimo local estrito. Para maximização, aplica-se o resultado a <span class="math inline">\(-f\)</span>: equivalentemente, uma Hessiana negativa definida é uma condição suficiente para um máximo local estrito. Essas condições não são necessárias; se a Hessiana for apenas semidefinida ou degenerada, o teste de segunda ordem pode não determinar a natureza do ponto.</p>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 2.1</a>, pp.&nbsp;14–16)</span>.</p>
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>, Teoremas 2.3–2.4, pp.&nbsp;15–16)</span>.</p>
 </blockquote>
 <div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
 <div class="callout-header d-flex align-content-center">
@@ -469,7 +469,7 @@ Interpretação
 </div>
 <div class="callout-body-container callout-body">
 <p>Resolver <span class="math inline">\(\nabla f(\theta)=0\)</span> e otimizar <span class="math inline">\(f\)</span> são problemas relacionados, mas não idênticos. Um algoritmo de localização de raízes procura apenas zerar o gradiente. Um algoritmo de otimização deve também lidar com a geometria da função e, em implementações robustas, procurar passos que melhorem a função objetivo.</p>
-<p><em>Base bibliográfica:</em> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2, aproximadamente pp.&nbsp;688–692)</span> e <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 2.1–2.2</a>, pp.&nbsp;12–27)</span>.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2, pp.&nbsp;687–693)</span> e <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 2.1–2.2</a>, pp.&nbsp;12–23)</span>.</p>
 </div>
 </div>
 </section>
@@ -517,7 +517,7 @@ g'(\theta_k)(\theta_{k+1}-\theta_k),
 }.
 \]</span></p>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.1, aproximadamente pp.&nbsp;688–689)</span> e <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 11.1</a>, pp.&nbsp;274–277)</span>.</p>
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.1, pp.&nbsp;688–689)</span> e <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 11.1</a>, pp.&nbsp;275–276)</span>.</p>
 </blockquote>
 <div class="callout callout-style-default callout-note callout-titled" title="Definição">
 <div class="callout-header d-flex align-content-center">
@@ -564,7 +564,7 @@ Interpretação
 </div>
 <div class="callout-body-container callout-body">
 <p>Newton substitui localmente uma função não linear por um modelo linear cuja raiz é fácil de calcular. Se a aproximação local for boa e a derivada não estiver próxima de zero, a nova aproximação tende a ficar muito mais próxima da raiz.</p>
-<p><em>Base bibliográfica:</em> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 11.1</a>, pp.&nbsp;274–277)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.1, pp.&nbsp;688–689)</span>.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 11.1</a>, pp.&nbsp;275–276)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.1, pp.&nbsp;688–689)</span>.</p>
 </div>
 </div>
 <section id="animação-do-método-de-newton" class="level4" data-number="6.4.1.1">
@@ -690,7 +690,7 @@ p_k
 g(\theta)=f'(\theta)=0.
 \]</span></p>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> relação entre Newton para raízes do gradiente e Newton para otimização em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 11.1</a>, pp.&nbsp;274–275)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.1, pp.&nbsp;688–689)</span>.</p>
+<p><strong>Base bibliográfica:</strong> relação entre Newton para raízes do gradiente e Newton para otimização em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 11.1</a>, pp.&nbsp;275–276)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.1, pp.&nbsp;688–689)</span>.</p>
 </blockquote>
 <div class="callout callout-style-default callout-warning callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
@@ -732,7 +732,7 @@ Observação
 </section>
 <section id="convergência-local-do-método-de-newton" class="level2" data-number="6.6">
 <h2 data-number="6.6" class="anchored" data-anchor-id="convergência-local-do-método-de-newton"><span class="header-section-number">6.6</span> Convergência local do método de Newton</h2>
-<p>Uma das principais vantagens do método de Newton é sua taxa de convergência local. Sob hipóteses de regularidade, quando o ponto inicial está suficientemente próximo de um mínimo <span class="math inline">\(\theta^\star\)</span>, a Hessiana é não singular e suficientemente suave, e passos completos são aceitos, a sequência converge <strong>quadraticamente</strong>.</p>
+<p>Uma das principais vantagens do método de Newton é sua taxa de convergência local. Se o ponto inicial está suficientemente próximo de uma solução <span class="math inline">\(\theta^\star\)</span> que satisfaz as condições suficientes de segunda ordem, a Hessiana é Lipschitz-contínua em uma vizinhança da solução e são tomados passos completos de Newton, a sequência converge <strong>quadraticamente</strong>.</p>
 <p>De maneira simplificada, convergência quadrática significa que, para <span class="math inline">\(k\)</span> suficientemente grande,</p>
 <p><span class="math display">\[
 \|\theta_{k+1}-\theta^\star\|
@@ -742,7 +742,7 @@ C
 \]</span></p>
 <p>para alguma constante <span class="math inline">\(C&gt;0\)</span>.</p>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>, Teorema 3.5, pp.&nbsp;44–46)</span>.</p>
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>, Teorema 3.5, pp.&nbsp;44–45)</span>.</p>
 </blockquote>
 <div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
 <div class="callout-header d-flex align-content-center">
@@ -755,7 +755,7 @@ Interpretação
 </div>
 <div class="callout-body-container callout-body">
 <p>Quando o algoritmo já entrou na vizinhança em que a aproximação quadrática é precisa, o número de algarismos corretos pode crescer muito rapidamente. Essa é a razão para a conhecida eficiência local de Newton.</p>
-<p><em>Base bibliográfica:</em> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>)</span> [Seção 2.2, pp.&nbsp;22–23; Teorema 3.5, pp.&nbsp;44–46].</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>)</span> [Seção 2.2, pp.&nbsp;22–23; Teorema 3.5, pp.&nbsp;44–45].</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning callout-titled" title="Observação">
@@ -769,7 +769,7 @@ Observação
 </div>
 <div class="callout-body-container callout-body">
 <p>A convergência quadrática é uma propriedade <strong>local</strong>, não uma garantia de que qualquer valor inicial produzirá convergência. Longe da solução, o método puro pode produzir passos ruins ou até divergir.</p>
-<p><em>Base bibliográfica:</em> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 11.1</a>, pp.&nbsp;274–277)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.1, pp.&nbsp;688–689)</span>.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 11.1</a>, pp.&nbsp;275–276)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.1, pp.&nbsp;688–689)</span>.</p>
 </div>
 </div>
 </section>
@@ -781,14 +781,14 @@ Observação
 \leq
 \varepsilon_g.
 \]</span></p>
-<p>O Algoritmo BFGS apresentado por <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>)</span>, por exemplo, utiliza a norma do gradiente como critério de terminação. Em um problema de raízes, o critério análogo é</p>
+<p>O Algoritmo BFGS apresentado por <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>)</span>, por exemplo, utiliza a norma do gradiente como critério de terminação. Em um problema de raízes, neste capítulo adotaremos analogamente o critério</p>
 <p><span class="math display">\[
 \|g(\theta_k)\|
 \leq
 \varepsilon_g.
 \]</span></p>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>, Algoritmo 6.1, pp.&nbsp;140–141)</span> e, para equações não lineares, <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice B, Algoritmo B.1, aproximadamente pp.&nbsp;670–671)</span>.</p>
+<p><strong>Base bibliográfica:</strong> o critério de norma do gradiente aparece em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>, Algoritmo 6.1, pp.&nbsp;140–141)</span>. A recorrência de Newton para equações não lineares é apresentada por <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.1, pp.&nbsp;688–689)</span> e <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>, Algoritmo 11.1, pp.&nbsp;275–276)</span>; o critério de resíduo acima é uma escolha de implementação adotada neste capítulo.</p>
 </blockquote>
 <p>Uma implementação pode também monitorar o tamanho relativo do passo,</p>
 <p><span class="math display">\[
@@ -829,7 +829,7 @@ Observação computacional
 <h2 data-number="6.8" class="anchored" data-anchor-id="sensibilidade-aos-valores-iniciais"><span class="header-section-number">6.8</span> Sensibilidade aos valores iniciais</h2>
 <p>O desempenho de Newton depende fortemente do valor inicial. Em problemas de raízes, um ponto inicial distante pode conduzir a comportamento errático; em otimização, pode levar a uma região associada a outro ponto estacionário ou produzir passos que não melhoram a função.</p>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 11.1</a>, pp.&nbsp;274–277)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.1, pp.&nbsp;688–689)</span>.</p>
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 11.1</a>, pp.&nbsp;275–276)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.1, pp.&nbsp;688–689)</span>.</p>
 </blockquote>
 <div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
 <div class="callout-header d-flex align-content-center">
@@ -847,7 +847,7 @@ Interpretação
 </div>
 <p>Em máxima verossimilhança, <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> sugere que estimativas de momentos podem fornecer valores iniciais naturais em alguns modelos. Essa estratégia é particularmente útil quando o escore e a Hessiana são complicados.</p>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice B, discussão após o Algoritmo B.1, aproximadamente pp.&nbsp;670–671)</span>.</p>
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. B.2.2</a>, p.&nbsp;670)</span>.</p>
 </blockquote>
 </section>
 <section id="hessiana-singular-indefinida-e-problemas-de-condicionamento" class="level2" data-number="6.9">
@@ -864,7 +864,7 @@ Interpretação
 \]</span></p>
 <p>um valor de <span class="math inline">\(g'(\theta_k)\)</span> próximo de zero pode gerar um passo de grande magnitude. A mesma dificuldade aparece em dimensão maior quando a Jacobiana ou Hessiana é singular ou quase singular.</p>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 11.1</a>, pp.&nbsp;274–277)</span>.</p>
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 11.1</a>, pp.&nbsp;275–276)</span>.</p>
 </blockquote>
 </section>
 <section id="hessiana-indefinida" class="level3" data-number="6.9.2">
@@ -882,7 +882,7 @@ Interpretação
 <h3 data-number="6.9.3" class="anchored" data-anchor-id="custo-computacional"><span class="header-section-number">6.9.3</span> Custo computacional</h3>
 <p>Em dimensão elevada, calcular, armazenar e fatorar a Hessiana pode ser caro. O custo pode tornar o Newton exato impraticável, motivando métodos de Newton inexato, Newton–CG, métodos sem formação explícita da Hessiana e métodos de memória limitada.</p>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, cap. 7</a>, especialmente pp.&nbsp;164–180)</span>.</p>
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, cap. 7</a>, especialmente Seções 7.1–7.2, pp.&nbsp;164–184)</span>.</p>
 </blockquote>
 <div class="callout callout-style-default callout-warning callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
@@ -902,7 +902,7 @@ Observação
 <p><span class="math display">\[
 \nabla^2 f(\theta_k)p_k=-\nabla f(\theta_k).
 \]</span></p>
-<p><em>Base bibliográfica:</em> formulação dos passos de Newton como sistemas lineares em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>)</span> [Seção 7.1, pp.&nbsp;165–166; Seção 11.1, pp.&nbsp;274–275].</p>
+<p><em>Base bibliográfica:</em> formulação dos passos de Newton como sistemas lineares em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>)</span> [Seção 7.1, pp.&nbsp;164–168; Algoritmo 11.1, pp.&nbsp;275–276].</p>
 </div>
 </div>
 </section>
@@ -911,7 +911,7 @@ Observação
 <h2 data-number="6.10" class="anchored" data-anchor-id="globalização-do-método-de-newton"><span class="header-section-number">6.10</span> Globalização do método de Newton</h2>
 <p>A excelente convergência local de Newton não garante bom comportamento a partir de pontos iniciais remotos. Métodos práticos incorporam mecanismos de <strong>globalização</strong>, cujo objetivo é produzir progresso confiável antes de a iteração entrar na região em que o passo de Newton completo é apropriado.</p>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, cap. 3</a> e 4)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2)</span>.</p>
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, cap. 3</a> e 4)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2, pp.&nbsp;687–693)</span>.</p>
 </blockquote>
 <section id="newton-amortecido" class="level3" data-number="6.10.1">
 <h3 data-number="6.10.1" class="anchored" data-anchor-id="newton-amortecido"><span class="header-section-number">6.10.1</span> Newton amortecido</h3>
@@ -946,7 +946,7 @@ f(\theta_k+\alpha p_k)
 \]</span></p>
 <p>e busca-se um valor de <span class="math inline">\(\alpha\)</span> que produza diminuição suficiente sem gastar um número excessivo de avaliações da função.</p>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 3.1</a>, pp.&nbsp;31–37)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.5, aproximadamente p.&nbsp;691)</span>.</p>
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 3.1</a>, pp.&nbsp;31–37)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.5, pp.&nbsp;691–692)</span>.</p>
 </blockquote>
 <section id="backtracking" class="level4" data-number="6.10.2.1">
 <h4 data-number="6.10.2.1" class="anchored" data-anchor-id="backtracking"><span class="header-section-number">6.10.2.1</span> Backtracking</h4>
@@ -988,7 +988,7 @@ Interpretação
 <h2 data-number="6.11" class="anchored" data-anchor-id="métodos-quasi-newton"><span class="header-section-number">6.11</span> Métodos quasi-Newton</h2>
 <p>A principal desvantagem do Newton exato é a necessidade da Hessiana. Métodos <strong>quasi-Newton</strong> substituem <span class="math inline">\(\nabla^2 f(\theta_k)\)</span> ou sua inversa por aproximações construídas a partir da evolução dos gradientes.</p>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, cap. 6</a>, pp.&nbsp;135–163)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.3, aproximadamente pp.&nbsp;689–691)</span>.</p>
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, cap. 6</a>, pp.&nbsp;135–163)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.3, p.&nbsp;690)</span>.</p>
 </blockquote>
 <section id="bfgs" class="level3" data-number="6.11.1">
 <h3 data-number="6.11.1" class="anchored" data-anchor-id="bfgs"><span class="header-section-number">6.11.1</span> BFGS</h3>
@@ -1166,7 +1166,7 @@ U'(\theta_k)
 }.
 \]</span></p>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice B, Algoritmo B.1, aproximadamente pp.&nbsp;670–671)</span>.</p>
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. B.2.2</a>, Algoritmo B.1, p.&nbsp;670)</span>.</p>
 </blockquote>
 <section id="informação-observada" class="level3" data-number="6.13.1">
 <h3 data-number="6.13.1" class="anchored" data-anchor-id="informação-observada"><span class="header-section-number">6.13.1</span> Informação observada</h3>
@@ -1207,7 +1207,7 @@ U(\theta_k),
 \]</span></p>
 <p>onde, em implementação, deve-se resolver o sistema linear correspondente em vez de formar a inversa explicitamente.</p>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice B, Eq. B.24 e discussão associada, aproximadamente pp.&nbsp;670–671)</span>.</p>
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. B.2.2</a>, Eq. B.24, p.&nbsp;670)</span>.</p>
 </blockquote>
 </section>
 <section id="escore-de-fisher" class="level3" data-number="6.13.2">
@@ -1231,9 +1231,9 @@ I(\theta_k)^{-1}
 U(\theta_k).
 }
 \]</span></p>
-<p>Essa iteração é conhecida como <strong>Escore de Fisher</strong>.</p>
+<p>Neste capítulo, essa atualização por informação esperada será denominada <strong>escore de Fisher</strong> (<em>Fisher scoring</em>).</p>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice B, Eq. B.25 e discussão associada, aproximadamente pp.&nbsp;670–671)</span>.</p>
+<p><strong>Base bibliográfica para a atualização:</strong> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. B.2.2</a>, Eq. B.25, p.&nbsp;670)</span>.</p>
 </blockquote>
 </section>
 </section>
@@ -1308,7 +1308,7 @@ U(\theta_k).
 <span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> recorrência de Newton baseada em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.1, pp.&nbsp;688–689)</span> e <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 11.1</a>, pp.&nbsp;274–277)</span>. As verificações e a estrutura do código são autorais.</p>
+<p><strong>Base bibliográfica:</strong> recorrência de Newton baseada em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.1, pp.&nbsp;688–689)</span> e <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>, Algoritmo 11.1, pp.&nbsp;275–276)</span>. As verificações e a estrutura do código são autorais.</p>
 </blockquote>
 <div class="callout callout-style-default callout-important callout-titled" title="Exemplo: raiz de $g(\theta)=\theta^2-2$">
 <div class="callout-header d-flex align-content-center">
@@ -1693,7 +1693,7 @@ $estim.prec
 </div>
 <p>A implementação é intencionalmente explícita para mostrar cada parte do método. Em um algoritmo de uso geral, seria recomendável acrescentar uma estratégia de amortecimento ou busca linear para reduzir a dependência do ponto inicial.</p>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> Newton em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>)</span> [Seção 2.2, pp.&nbsp;22–23; Seção 3.3, pp.&nbsp;44–46] e estratégias de globalização em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, cap. 3</a>)</span>.</p>
+<p><strong>Base bibliográfica:</strong> Newton em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>)</span> [Seção 2.2, pp.&nbsp;22–23; Teorema 3.5, pp.&nbsp;44–45] e estratégias de globalização em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, cap. 3</a>)</span>.</p>
 </blockquote>
 </section>
 </section>
@@ -1707,7 +1707,7 @@ $estim.prec
 \]</span></p>
 <p>possui múltiplas soluções, Newton pode convergir para soluções diferentes dependendo do ponto inicial. Além disso, uma dessas soluções pode ser um máximo, outra um mínimo e outra um ponto de sela.</p>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> distinção entre soluções locais e globais em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>)</span> [Capítulo 1, pp.&nbsp;6–9; Seção 2.1, pp.&nbsp;12–17] e dependência do ponto inicial para Newton em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 11.1</a>, pp.&nbsp;274–277)</span>.</p>
+<p><strong>Base bibliográfica:</strong> distinção entre soluções locais e globais em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>)</span> [Capítulo 1, pp.&nbsp;6–7; Seção 2.1, pp.&nbsp;12–16] e dependência do ponto inicial para Newton em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 11.1</a>, pp.&nbsp;275–276)</span>.</p>
 </blockquote>
 </section>
 <section id="soluções-na-fronteira" class="level3" data-number="6.17.2">
@@ -1750,7 +1750,7 @@ Exemplo conceitual
 \|U(\widehat{\theta})\|.
 \]</span></p>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>)</span> [Seção 2.1, pp.&nbsp;14–16; Algoritmo 6.1, pp.&nbsp;140–141] e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice B, Algoritmo B.1)</span>.</p>
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>)</span> [Seção 2.1, pp.&nbsp;14–16; Algoritmo 6.1, pp.&nbsp;140–141] e, para o escore de máxima verossimilhança, <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. B.2.2</a>, Algoritmo B.1, p.&nbsp;670)</span>.</p>
 </blockquote>
 </section>
 <section id="curvatura" class="level3" data-number="6.18.2">
@@ -1785,7 +1785,7 @@ f''(\widehat{\theta})&gt;0.
 <h3 data-number="6.18.4" class="anchored" data-anchor-id="sensibilidade-à-inicialização"><span class="header-section-number">6.18.4</span> Sensibilidade à inicialização</h3>
 <p>Execute o algoritmo a partir de valores iniciais distintos quando houver evidência de múltiplos extremos ou quando a função for pouco conhecida. Compare os pontos finais e os valores da função objetivo.</p>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> dependência do valor inicial em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.1)</span> e <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 11.1</a>)</span>.</p>
+<p><strong>Base bibliográfica:</strong> dependência do valor inicial em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.1, pp.&nbsp;688–689)</span> e <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 11.1</a>, pp.&nbsp;275–276)</span>.</p>
 </blockquote>
 </section>
 <section id="comparação-com-método-alternativo" class="level3" data-number="6.18.5">
@@ -1860,7 +1860,7 @@ Checklist de diagnóstico
 <td>L-BFGS</td>
 <td>função + gradiente + memória limitada</td>
 <td>adequado a grande dimensão</td>
-<td>pode convergir mais lentamente em problemas mal condicionados</td>
+<td>pode convergir menos rapidamente que métodos com informação de curvatura mais completa</td>
 </tr>
 <tr class="odd">
 <td><code>optimize()</code></td>
@@ -1871,13 +1871,13 @@ Checklist de diagnóstico
 <tr class="even">
 <td><code>uniroot()</code></td>
 <td>função escalar cuja raiz se procura</td>
-<td>robusto quando há intervalo com mudança de sinal</td>
-<td>exige formular uma equação de raiz e um intervalo apropriado</td>
+<td>localiza raízes em um intervalo apropriado</td>
+<td>exige formular uma equação de raiz e fornecer um intervalo adequado</td>
 </tr>
 </tbody>
 </table>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> Newton, BFGS e L-BFGS em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 2.2, 6.1</a> e 7.2)</span>; relação entre Newton e busca linear em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2)</span>; <code>optimize()</code> e <code>uniroot()</code> em <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022, p. 155</a>)</span>.</p>
+<p><strong>Base bibliográfica:</strong> Newton, BFGS e L-BFGS em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 2.2, 6.1</a> e 7.2)</span>; relação entre Newton e busca linear em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2, pp.&nbsp;687–693)</span>; <code>optimize()</code> e <code>uniroot()</code> em <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022, p. 155</a>)</span>.</p>
 </blockquote>
 </section>
 <section id="síntese-do-capítulo" class="level2" data-number="6.20">
@@ -1968,7 +1968,7 @@ g(\theta)
 \]</span></p>
 <p>implemente Newton para diferentes valores iniciais em uma grade. Registre quais execuções convergem e para qual raiz.</p>
 <p>Explique por que uma fórmula de atualização local não garante comportamento uniforme em todo o domínio.</p>
-<p><em>Exercício baseado na discussão de sensibilidade do método de Newton em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 11.1</a>, pp.&nbsp;274–277)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.1)</span>.</em></p>
+<p><em>Exercício baseado na discussão de sensibilidade do método de Newton em <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, seç. 11.1</a>, pp.&nbsp;275–276)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice C.2.2.1, pp.&nbsp;688–689)</span>.</em></p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning callout-titled" title="Exercício 4 — verificação de derivadas">
@@ -2021,7 +2021,7 @@ Exercício 5 — Newton com backtracking
 <p><span class="math display">\[
 (-1.2,1)^\top.
 \]</span></p>
-<p><em>Exercício adaptado do Exercício 3.1 de <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>, pp.&nbsp;63–64)</span>, que propõe comparar descida íngreme e Newton com busca linear por backtracking na função de Rosenbrock.</em></p>
+<p><em>Exercício adaptado do Exercício 3.1 de <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006</a>)</span>, que propõe comparar descida íngreme e Newton com busca linear por backtracking na função de Rosenbrock.</em></p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning callout-titled" title="Exercício 6 — Newton--Raphson versus escore de Fisher">
@@ -2048,7 +2048,7 @@ I(\theta)=E_\theta[j(\theta;X)].
 <li>identifique exatamente em qual termo os métodos diferem;</li>
 <li>discuta situações em que <span class="math inline">\(I(\theta)\)</span> possa ser mais simples de calcular que <span class="math inline">\(j(\theta)\)</span>.</li>
 </ol>
-<p><em>Exercício baseado em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice B, Eqs. B.24–B.25, aproximadamente pp.&nbsp;670–671)</span>.</em></p>
+<p><em>Exercício baseado em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. B.2.2</a>, Eqs. B.24–B.25, p.&nbsp;670)</span>.</em></p>
 </div>
 </div>
 </section>

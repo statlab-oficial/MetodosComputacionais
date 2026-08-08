@@ -335,7 +335,10 @@ window.Quarto = {
   <li><a href="#simulações-de-monte-carlo-com-o-pacote-tidymc" id="toc-simulações-de-monte-carlo-com-o-pacote-tidymc" class="nav-link" data-scroll-target="#simulações-de-monte-carlo-com-o-pacote-tidymc"><span class="header-section-number">4.21</span> Simulações de Monte Carlo com o pacote <code>tidyMC</code></a>
   <ul class="collapse">
   <li><a href="#instalação" id="toc-instalação" class="nav-link" data-scroll-target="#instalação"><span class="header-section-number">4.21.1</span> Instalação</a></li>
-  <li><a href="#execute-sua-primeira-simulação-de-monte-carlo-com-future_mc" id="toc-execute-sua-primeira-simulação-de-monte-carlo-com-future_mc" class="nav-link" data-scroll-target="#execute-sua-primeira-simulação-de-monte-carlo-com-future_mc"><span class="header-section-number">4.21.2</span> Execute sua primeira Simulação de Monte Carlo com <code>future_mc()</code></a></li>
+  <li><a href="#uma-primeira-simulação-com-future_mc" id="toc-uma-primeira-simulação-com-future_mc" class="nav-link" data-scroll-target="#uma-primeira-simulação-com-future_mc"><span class="header-section-number">4.21.2</span> Uma primeira simulação com <code>future_mc()</code></a></li>
+  <li><a href="#resumindo-os-resultados" id="toc-resumindo-os-resultados" class="nav-link" data-scroll-target="#resumindo-os-resultados"><span class="header-section-number">4.21.3</span> Resumindo os resultados</a></li>
+  <li><a href="#gráficos" id="toc-gráficos" class="nav-link" data-scroll-target="#gráficos"><span class="header-section-number">4.21.4</span> Gráficos</a></li>
+  <li><a href="#tabela-em-latex" id="toc-tabela-em-latex" class="nav-link" data-scroll-target="#tabela-em-latex"><span class="header-section-number">4.21.5</span> Tabela em LaTeX</a></li>
   </ul></li>
   <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">4.22</span> Exercícios</a></li>
   <li><a href="#referências" id="toc-referências" class="nav-link" data-scroll-target="#referências">Referências</a></li>
@@ -364,7 +367,7 @@ window.Quarto = {
 </header>
 
 
-<p>Os métodos de Monte Carlo formam uma classe de algoritmos baseados em simulação aleatória. Eles surgiram no final da década de 1940, especialmente com os trabalhos de John von Neumann, Stanislaw Ulam, Enrico Fermi e Nicholas Metropolis. O nome deriva da cidade famosa por seus cassinos.</p>
+<p>Os métodos de Monte Carlo formam uma classe de algoritmos baseados em simulação aleatória para aproximar quantidades que podem ser difíceis de obter analiticamente. Em sua forma computacional moderna, o desenvolvimento do método está ligado ao trabalho de John von Neumann e Stanislaw Ulam em Los Alamos durante a Segunda Guerra Mundial, em problemas envolvendo a simulação da difusão aleatória de nêutrons. <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, cap. 3</a>, p.&nbsp;83)</span> registra que o termo <em>Monte Carlo</em> foi usado por von Neumann e Ulam como codinome para esse trabalho.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-casino1" class="quarto-figure quarto-figure-center quarto-float anchored">
@@ -381,7 +384,7 @@ Figura&nbsp;4.1: Cassino — Aleatoriedade como metáfora
 </div>
 <p>Na Estatística, os métodos de Monte Carlo são utilizados para:</p>
 <ul>
-<li><p>estimar parâmetros da distribuição amostral;</p></li>
+<li><p>aproximar distribuições amostrais e suas características;</p></li>
 <li><p>calcular EQM (erro quadrático médio);</p></li>
 <li><p>avaliar cobertura de intervalos de confiança;</p></li>
 <li><p>estimar probabilidades de erro tipo I;</p></li>
@@ -658,7 +661,7 @@ g(U_j),
 U_j\stackrel{iid}{\sim}U(0,1).
 \]</span></p>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> a representação de integrais como esperanças é uma aplicação padrão de Monte Carlo desenvolvida em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.1–3.2</a>)</span> e ilustrada em R por <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.1.4</a>, pp.&nbsp;254–256)</span>. <span class="citation" data-cites="ross2006simulation">Ross (<a href="#ref-ross2006simulation" role="doc-biblioref">2006, cap. 3</a>, pp.&nbsp;41–48)</span> também apresenta o uso de números aleatórios na avaliação de integrais.</p>
+<p><strong>Base bibliográfica:</strong> a representação de integrais como esperanças é uma aplicação padrão de Monte Carlo desenvolvida em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.1–3.2</a>)</span> e ilustrada em R por <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.1.4</a>, pp.&nbsp;254–256)</span>.</p>
 </blockquote>
 <div class="callout callout-style-default callout-important callout-titled" title="Exemplo: $\int_0^1 x^3,dx$">
 <div class="callout-header d-flex align-content-center">
@@ -947,6 +950,20 @@ N
 }
 }.
 \]</span></p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Probabilidades muito pequenas">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Probabilidades muito pequenas
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A fórmula acima é uma estimativa <em>plug-in</em> do erro padrão. Se nenhum evento for observado, então <span class="math inline">\(\widehat p_N=0\)</span> e ela devolve numericamente zero. Isso <strong>não</strong> significa ausência de incerteza: pode significar apenas que <span class="math inline">\(N\)</span> foi insuficiente para observar um evento raro. Nesses problemas, erro relativo e técnicas de redução de variância — em particular amostragem por importância — são diagnósticos mais informativos do que o erro padrão <em>plug-in</em> isolado.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Exemplo 3.18, pp.&nbsp;81–82)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 10</a>, pp.&nbsp;381–416)</span>.</p>
+</div>
+</div>
 <div class="callout callout-style-default callout-important callout-titled" title="Exemplo: probabilidade de cauda normal">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1125,6 +1142,7 @@ I
 z_{1-\alpha/2}
 \frac{\widehat\sigma}{\sqrt N}.
 \]</span></p>
+<p>Quando <span class="math inline">\(\sigma\)</span> é desconhecido e substituído por <span class="math inline">\(\widehat\sigma\)</span>, a formulação de amostra finita indicada por <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> usa o quantil da distribuição <span class="math inline">\(t\)</span> de Student com <span class="math inline">\(N-1\)</span> graus de liberdade. Para os valores de <span class="math inline">\(N\)</span> usualmente empregados em Monte Carlo, esse quantil é praticamente igual ao quantil normal; por isso, a expressão com <span class="math inline">\(z_{1-\alpha/2}\)</span> deve ser entendida aqui como uma aproximação assintótica.</p>
 <blockquote class="blockquote">
 <p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.2.4</a>, pp.&nbsp;82–84)</span>.</p>
 </blockquote>
@@ -1334,8 +1352,19 @@ q(Y_j)
 }
 }.
 \]</span></p>
+<p>Para que o estimador tenha variância finita e o erro padrão usual seja aplicável, é necessário ainda que</p>
+<p><span class="math display">\[
+E_q\left[
+\left
+\{
+h(Y)\frac{f(Y)}{q(Y)}
+\right\}^2
+\right]
+&lt;\infty.
+\]</span></p>
+<p>A condição de suporte <span class="math inline">\(q(x)&gt;0\)</span> onde <span class="math inline">\(h(x)f(x)\neq0\)</span> garante que a identidade de mudança de medida esteja bem definida; ela, isoladamente, <strong>não garante</strong> baixa variância nem mesmo variância finita.</p>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.3.1</a> e Algoritmo 3.22, pp.&nbsp;84–88)</span>.</p>
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.3.1</a> e Algoritmo 3.22, pp.&nbsp;84–88)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 9.7</a>, pp.&nbsp;362–375)</span>.</p>
 </blockquote>
 <div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
 <div class="callout-header d-flex align-content-center">
@@ -1356,8 +1385,16 @@ w(y)
 <p>corrigem a mudança da distribuição de amostragem.</p>
 </div>
 </div>
-<section id="exemplo-cauda-normal-rara" class="level4" data-number="4.9.1.1">
-<h4 data-number="4.9.1.1" class="anchored" data-anchor-id="exemplo-cauda-normal-rara"><span class="header-section-number">4.9.1.1</span> Exemplo: cauda normal rara</h4>
+<div class="callout callout-style-default callout-important callout-titled" title="Exemplo: cauda normal rara">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exemplo: cauda normal rara
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>Considere</p>
 <p><span class="math display">\[
 p=P(X&gt;4),
@@ -1408,7 +1445,9 @@ exact      3.167124e-05           NA</code></pre>
 </div>
 </div>
 <p>A comparação relevante é entre os erros padrão obtidos para o mesmo <span class="math inline">\(N\)</span>.</p>
-<p><em>Base bibliográfica:</em> construção baseada em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.3.1</a>, pp.&nbsp;84–88)</span> e na discussão de eventos raros de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 10</a>)</span>. :::</p>
+<p><em>Base bibliográfica:</em> construção baseada em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.3.1</a>, pp.&nbsp;84–88)</span> e na discussão de eventos raros de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 10</a>)</span>.</p>
+</div>
+</div>
 <div class="callout callout-style-default callout-warning callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1423,7 +1462,6 @@ Observação
 <p><em>Base bibliográfica:</em> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 9–10</a>)</span>.</p>
 </div>
 </div>
-</section>
 </section>
 <section id="variáveis-antitéticas" class="level3" data-number="4.9.2">
 <h3 data-number="4.9.2" class="anchored" data-anchor-id="variáveis-antitéticas"><span class="header-section-number">4.9.2</span> Variáveis antitéticas</h3>
@@ -1591,14 +1629,8 @@ U_j^3
 </section>
 <section id="outras-técnicas-importantes" class="level3" data-number="4.9.4">
 <h3 data-number="4.9.4" class="anchored" data-anchor-id="outras-técnicas-importantes"><span class="header-section-number">4.9.4</span> Outras técnicas importantes</h3>
-<p><span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 9</a>)</span> apresenta, além das três técnicas anteriores:</p>
-<ul>
-<li>Monte Carlo condicional;</li>
-<li>estratificação;</li>
-<li>amostragem por hipercubo latino;</li>
-<li>Quasi-Monte Carlo.</li>
-</ul>
-<p><span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, cap. 5</a>)</span> discute também o uso de números aleatórios comuns para comparar sistemas ou configurações.</p>
+<p><span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> apresenta, além das três técnicas anteriores, <strong>Monte Carlo condicional</strong> [Seção 9.4, pp.&nbsp;354–356], <strong>amostragem estratificada</strong> [Seção 9.5, pp.&nbsp;356–360], <strong>amostragem por hipercubo latino</strong> [Seção 9.6, pp.&nbsp;360–362] e <strong>Quasi-Monte Carlo</strong> [Seção 9.8, pp.&nbsp;376–379].</p>
+<p><span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, cap. 5</a>)</span> discute também números aleatórios comuns, Monte Carlo condicional, estratificação e amostragem por importância como técnicas de controle de variância.</p>
 <div class="callout callout-style-default callout-warning callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2192,13 +2224,18 @@ Interpretação
 </section>
 <section id="confundir-erro-de-discretização-e-erro-de-monte-carlo" class="level3" data-number="4.18.6">
 <h3 data-number="4.18.6" class="anchored" data-anchor-id="confundir-erro-de-discretização-e-erro-de-monte-carlo"><span class="header-section-number">4.18.6</span> Confundir erro de discretização e erro de Monte Carlo</h3>
-<p>Em modelos nos quais cada realização já resulta de uma aproximação numérica, o erro total pode combinar dois componentes:</p>
+<p>Em modelos nos quais cada realização já resulta de uma aproximação numérica, aumentar apenas o número de réplicas não elimina o erro introduzido pela discretização. Para o caso de equações diferenciais estocásticas estudado por <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span>, se <span class="math inline">\(Z_{n,N}\)</span> é o estimador baseado em <span class="math inline">\(N\)</span> trajetórias simuladas com parâmetro de discretização <span class="math inline">\(n\)</span>, então</p>
 <p><span class="math display">\[
-\text{erro de Monte Carlo}
+\operatorname{MSE}(Z_{n,N})
+=
+\frac{\sigma_n^2}{N}
 +
-\text{erro de discretização}.
+e_{\mathrm{weak}}(f)^2.
 \]</span></p>
-<p><span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 6.5</a>, pp.&nbsp;243–250)</span> mostra explicitamente essa decomposição para simulações de equações diferenciais estocásticas.</p>
+<p>O primeiro termo é a contribuição do erro de Monte Carlo e diminui quando <span class="math inline">\(N\)</span> cresce; o segundo corresponde ao quadrado do viés de discretização e é controlado pelo refinamento do esquema numérico. Portanto, uma simulação pode ter erro de Monte Carlo muito pequeno e, ainda assim, permanecer inexata por causa da discretização.</p>
+<blockquote class="blockquote">
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 6.5.1</a> e Lema 6.20, pp.&nbsp;243–244)</span>.</p>
+</blockquote>
 </section>
 </section>
 <section id="monte-carlo-iid-e-mcmc" class="level2" data-number="4.19">
@@ -2209,7 +2246,7 @@ X_1,\ldots,X_N
 \stackrel{iid}{\sim}
 \pi.
 \]</span></p>
-<p>Em problemas nos quais gerar amostras independentes de <span class="math inline">\(\pi\)</span> é difícil, pode-se construir uma cadeia de Markov cuja distribuição estacionária é <span class="math inline">\(\pi\)</span>. Isso conduz aos métodos <strong>Markov Chain Monte Carlo</strong>.</p>
+<p>Em problemas nos quais gerar amostras independentes de <span class="math inline">\(\pi\)</span> é difícil, pode-se construir uma cadeia de Markov cuja distribuição estacionária é <span class="math inline">\(\pi\)</span> e que, sob condições apropriadas de ergodicidade, converge para essa distribuição. Isso conduz aos métodos <strong>Markov Chain Monte Carlo</strong>.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Definição conceitual">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2301,82 +2338,87 @@ O(N^{-1/2}).
 </section>
 <section id="simulações-de-monte-carlo-com-o-pacote-tidymc" class="level2" data-number="4.21">
 <h2 data-number="4.21" class="anchored" data-anchor-id="simulações-de-monte-carlo-com-o-pacote-tidymc"><span class="header-section-number">4.21</span> Simulações de Monte Carlo com o pacote <code>tidyMC</code></h2>
-<p>O pacote <code>tidyMC</code> busca contemplar e simplificar todo o fluxo de trabalho necessário para executar uma simulação de Monte Carlo, seja em um contexto acadêmico ou profissional. Assim, o <code>tidyMC</code> fornece funções para as seguintes tarefas:</p>
-<ul>
-<li><p>Executar uma simulação de Monte Carlo para uma função definida pelo usuário sobre uma grade de parâmetros, utilizando <code>future_mc()</code>.</p></li>
-<li><p>Resumir os resultados por meio de funções de resumo (opcionais) definidas pelo usuário, usando <code>summary.mc()</code>.</p></li>
-<li><p>Criar gráficos dos resultados da simulação de Monte Carlo, que podem ser modificados pelo usuário, por meio de <code>plot.mc()</code> e <code>plot.summary.mc()</code>.</p></li>
-<li><p>Gerar uma tabela em LaTeX resumindo os resultados da simulação de Monte Carlo usando <code>tidy_mc_latex()</code>.</p></li>
-</ul>
+<p>O pacote <code>tidyMC</code> organiza estudos de simulação em torno de uma função definida pelo usuário e de uma grade de cenários. A função principal, <code>future_mc()</code>, executa as repetições — por padrão de forma paralela —, enquanto <code>summary.mc()</code>, <code>plot.mc()</code>, <code>plot.summary.mc()</code> e <code>tidy_mc_latex()</code> auxiliam no resumo, diagnóstico gráfico e apresentação dos resultados.</p>
+<blockquote class="blockquote">
+<p><strong>Documentação do pacote:</strong> esta seção foi conferida com a documentação do CRAN para o <code>tidyMC</code> versão 1.0.0: <a href="https://search.r-project.org/CRAN/refmans/tidyMC/html/00Index.html" class="uri">https://search.r-project.org/CRAN/refmans/tidyMC/html/00Index.html</a>.</p>
+</blockquote>
 <section id="instalação" class="level3" data-number="4.21.1">
 <h3 data-number="4.21.1" class="anchored" data-anchor-id="instalação"><span class="header-section-number">4.21.1</span> Instalação</h3>
-<p>O pacote <code>tidyMC</code> está disponível no CRAN. Para baixar a versão do CRAN basta:</p>
+<p>O pacote pode ser instalado do CRAN com:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidyMC"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Em seguida, o pacote pode ser carregado com:</p>
+<p>Em seguida:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyMC)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Além disso, os seguintes pacotes serão utilizados:</p>
+<p>Para os exemplos de apresentação, também podem ser úteis:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="execute-sua-primeira-simulação-de-monte-carlo-com-future_mc" class="level3" data-number="4.21.2">
-<h3 data-number="4.21.2" class="anchored" data-anchor-id="execute-sua-primeira-simulação-de-monte-carlo-com-future_mc"><span class="header-section-number">4.21.2</span> Execute sua primeira Simulação de Monte Carlo com <code>future_mc()</code></h3>
-<p>A função <code>future_mc()</code> permite executar uma simulação de Monte Carlo para uma função definida pelo usuário e para um conjunto especificado de parâmetros.</p>
-<p>O primeiro argumento de <code>future_mc()</code> é <code>fun</code>, que deve ser uma função capaz de realizar três tarefas para uma única repetição e uma única combinação de parâmetros:</p>
-<ul>
-<li><p>gerar os dados,</p></li>
-<li><p>aplicar o método de interesse,</p></li>
-<li><p>avaliar o resultado obtido.</p></li>
-</ul>
-<p>A função <code>future_mc()</code> se encarrega de gerar automaticamente os laços sobre as grades de parâmetros desejadas, bem como repetir o experimento de Monte Carlo para cada combinação de parâmetros.</p>
-<p>Considere o seguinte exemplo de função <code>fun</code>, que realiza exatamente as tarefas necessárias: geração dos dados, aplicação do método e avaliação dos resultados.</p>
+<section id="uma-primeira-simulação-com-future_mc" class="level3" data-number="4.21.2">
+<h3 data-number="4.21.2" class="anchored" data-anchor-id="uma-primeira-simulação-com-future_mc"><span class="header-section-number">4.21.2</span> Uma primeira simulação com <code>future_mc()</code></h3>
+<p>O argumento <code>fun</code> de <code>future_mc()</code> deve ser uma função que executa <strong>uma repetição</strong> para <strong>uma combinação de parâmetros</strong>. Dependendo do estudo, essa função pode gerar os dados, aplicar o método estatístico e calcular as medidas que serão agregadas posteriormente.</p>
+<p>No exemplo a seguir, simulamos observações de <span class="math inline">\(N(\mu,\sigma^2)\)</span> e avaliamos dois estimadores: a média amostral para <span class="math inline">\(\mu\)</span> e o estimador de máxima verossimilhança de <span class="math inline">\(\sigma^2\)</span>,</p>
+<p><span class="math display">\[
+\widehat\sigma^2_{ML}
+=
+\frac{1}{n}
+\sum_{i=1}^n
+(X_i-\bar X)^2.
+\]</span></p>
+<p>Esse estimador da variância usa divisor <span class="math inline">\(n\)</span> e é viesado em amostras finitas; manter essa propriedade no exemplo é útil porque a própria simulação permitirá estimar seu viés e seu MSE.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>test_func <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">param1 =</span> <span class="dv">10</span>, <span class="at">param2 =</span> <span class="dv">2</span>, <span class="at">n =</span> <span class="dv">100</span>) {</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> param1, <span class="at">sd =</span> param2)</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  stat <span class="ot">&lt;-</span> <span class="fu">mean</span>(data)</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  stat_2 <span class="ot">&lt;-</span> <span class="fu">sum</span>((data<span class="sc">-</span> <span class="fu">mean</span>(data))<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span><span class="fu">length</span>(data)</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  dev_mu <span class="ot">&lt;-</span> stat <span class="sc">-</span> param1</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  dev_sigma2 <span class="ot">&lt;-</span> stat_2 <span class="sc">-</span> param2<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  dev_eqm_mu <span class="ot">&lt;-</span> (stat <span class="sc">-</span> param1)<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  dev_eqm_sigma2 <span class="ot">&lt;-</span> (stat_2 <span class="sc">-</span> param2<span class="sc">^</span><span class="dv">2</span>)<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">mean =</span> stat, <span class="at">var =</span> stat_2, <span class="at">bmu =</span> dev_mu, <span class="at">bsig2 =</span> dev_sigma2, </span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">eqmmu =</span> dev_eqm_mu, </span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">eqmsigma2 =</span> dev_eqm_sigma2))</span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>test_func <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">mu =</span> <span class="dv">10</span>, <span class="at">sigma =</span> <span class="dv">2</span>, <span class="at">n =</span> <span class="dv">100</span>) {</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  estimate_mu <span class="ot">&lt;-</span> <span class="fu">mean</span>(data)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  estimate_sigma2 <span class="ot">&lt;-</span> <span class="fu">mean</span>((data <span class="sc">-</span> estimate_mu)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  error_mu <span class="ot">&lt;-</span> estimate_mu <span class="sc">-</span> mu</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  error_sigma2 <span class="ot">&lt;-</span> estimate_sigma2 <span class="sc">-</span> sigma<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate_mu =</span> estimate_mu,</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate_sigma2 =</span> estimate_sigma2,</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">error_mu =</span> error_mu,</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">error_sigma2 =</span> error_sigma2,</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">squared_error_mu =</span> error_mu<span class="sc">^</span><span class="dv">2</span>,</span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">squared_error_sigma2 =</span> error_sigma2<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>O segundo argumento de <code>future_mc()</code> é <code>repetitions</code>, que deve ser um número inteiro especificando o total de iterações da simulação de Monte Carlo.</p>
-<p>O terceiro argumento, <code>param_list</code>, deve ser uma lista cujos componentes têm nomes correspondentes aos parâmetros da função fun que deverão variar ao longo da simulação. Cada componente dessa lista é um vetor contendo os valores desejados da grade para aquele parâmetro.</p>
-<p>Considere o exemplo a seguir para <code>param_list</code>. Observe que seus componentes recebem nomes que correspondem exatamente aos parâmetros da função <code>test_func()</code>: <code>param</code> e <code>x1</code>, respectivamente:</p>
+<p>Observe a distinção entre as quantidades calculadas em <strong>uma repetição</strong> e as propriedades de longo prazo. Por exemplo, <code>squared_error_mu</code> é um erro quadrático realizado; sua média ao longo das repetições é que estima o MSE do estimador de <span class="math inline">\(\mu\)</span>.</p>
+<p>O argumento <code>repetitions</code> especifica o número de repetições de Monte Carlo para cada cenário. O argumento <code>param_list</code>, por sua vez, é uma lista cujos nomes devem coincidir com os argumentos de <code>fun</code> que variam entre os cenários. Cada componente contém os valores da grade correspondente. Por exemplo:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>param_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a> <span class="at">n =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">50</span>, <span class="dv">90</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">50</span>, <span class="dv">90</span>)</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>A função <code>future_mc()</code> cria automaticamente todas as combinações possíveis de parâmetros especificadas em param_list e executa a simulação de Monte Carlo para cada uma dessas combinações. Se você preferir não rodar a simulação para todas as combinações possíveis, pode fornecer <code>param_table</code>, que deve ser um <em>data.frame</em> ou <em>data.table</em> contendo apenas as combinações de parâmetros de interesse.</p>
-<p>O argumento <code>...</code> permite especificar outros argumentos da função <code>fun</code> que não estão em <code>param_list</code>. Esses argumentos permanecerão fixos ao longo de todas as combinações de parâmetros.</p>
-<p>Requisitos formais que <code>fun</code> deve satisfazer:</p>
+<p>Aqui, o único parâmetro que varia é <code>n</code>. Os parâmetros <code>mu</code> e <code>sigma</code> serão mantidos fixos ao serem passados por <code>...</code>.</p>
+<p>A função <code>future_mc()</code> avalia todas as combinações definidas em <code>param_list</code>. Quando apenas determinadas combinações forem de interesse, pode-se usar <code>param_table</code>, um <code>data.frame</code> ou <code>data.table</code> com a grade previamente construída.</p>
+<p>De acordo com a documentação de <code>future_mc()</code>, há quatro requisitos formais para <code>fun</code>:</p>
 <ol type="1">
-<li><p>Os argumentos presentes em <code>param_list</code> devem ser escalares;</p></li>
-<li><p>Toda variável usada dentro de fun deve ser definida internamente ou fornecida via <code>...</code>;</p></li>
-<li><p>O valor retornado por <code>fun</code> deve ser uma lista nomeada;</p></li>
-<li><p>Os nomes dos valores retornados e os nomes dos argumentos presentes em <code>param_list</code> não podem coincidir.</p></li>
+<li>os argumentos presentes em <code>param_list</code> devem assumir valores escalares em cada cenário;</li>
+<li>o retorno de <code>fun</code> deve ser uma <strong>lista nomeada com os mesmos componentes</strong> em todas as repetições e combinações de parâmetros;</li>
+<li>os nomes dos valores retornados não podem coincidir com os nomes dos argumentos presentes em <code>param_list</code> nem com os nomes reservados <code>"params"</code>, <code>"repetitions"</code> e <code>"setup"</code>;</li>
+<li>toda variável usada por <code>fun</code> deve ser definida dentro da própria função ou fornecida como argumento; a função não deve depender apenas de objetos existentes no ambiente global.</li>
 </ol>
-<p>Se a função <code>fun</code> retorna uma lista nomeada de escalares, o usuário pode utilizar <code>summary()</code> para resumir todos os resultados da simulação de Monte Carlo.</p>
+<p>Além disso, para usar diretamente as funções auxiliares <code>plot.mc()</code>, <code>summary.mc()</code>, <code>plot.summary.mc()</code> e <code>tidy_mc_latex()</code>, o retorno de <code>fun</code> deve ser uma lista nomeada de <strong>escalares</strong>.</p>
+<p>Podemos então executar:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>test_mc <span class="ot">&lt;-</span> <span class="fu">future_mc</span>(</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">fun =</span> test_func,</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">repetitions =</span> <span class="dv">1000</span>,</span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">param_list =</span> param_list,</span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">param1 =</span> <span class="dv">10</span>,</span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">param2 =</span> <span class="dv">2</span></span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>test_mc <span class="ot">&lt;-</span> <span class="fu">future_mc</span>(</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">fun =</span> test_func,</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">repetitions =</span> <span class="dv">1000</span>,</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">param_list =</span> param_list,</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">mu =</span> <span class="dv">10</span>,</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">sigma =</span> <span class="dv">2</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Running single test-iteration for each parameter combination...</code></pre>
 </div>
@@ -2390,41 +2432,53 @@ O(N^{-1/2}).
 <div class="cell-output cell-output-stderr">
 <pre><code>
  Simulation was successfull!
- Running time: 00:00:00.672996</code></pre>
+ Running time: 00:00:00.804538</code></pre>
 </div>
+</div>
+</section>
+<section id="resumindo-os-resultados" class="level3" data-number="4.21.3">
+<h3 data-number="4.21.3" class="anchored" data-anchor-id="resumindo-os-resultados"><span class="header-section-number">4.21.3</span> Resumindo os resultados</h3>
+<p>Para saídas numéricas simples, <code>summary()</code> usa <code>mean()</code> como função de resumo padrão. Assim, no exemplo anterior:</p>
+<ul>
+<li>a média de <code>error_mu</code> estima o viés de <span class="math inline">\(\widehat\mu\)</span>;</li>
+<li>a média de <code>error_sigma2</code> estima o viés de <span class="math inline">\(\widehat\sigma^2_{ML}\)</span>;</li>
+<li>a média de <code>squared_error_mu</code> estima o MSE de <span class="math inline">\(\widehat\mu\)</span>;</li>
+<li>a média de <code>squared_error_sigma2</code> estima o MSE de <span class="math inline">\(\widehat\sigma^2_{ML}\)</span>.</li>
+</ul>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(test_mc)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Results for the output mean: 
+<pre><code>Results for the output estimate_mu: 
    n=10: 9.991484 
    n=50: 9.992515 
    n=90: 9.997018 
  
  
-Results for the output var: 
+Results for the output estimate_sigma2: 
    n=10: 3.678279 
    n=50: 3.916758 
    n=90: 3.949042 
  
  
-Results for the output bmu: 
+Results for the output error_mu: 
    n=10: -0.008515738 
    n=50: -0.007484689 
    n=90: -0.002981764 
  
  
-Results for the output bsig2: 
+Results for the output error_sigma2: 
    n=10: -0.3217209 
    n=50: -0.08324241 
    n=90: -0.0509576 
  
  
-Results for the output eqmmu: 
+Results for the output squared_error_mu: 
    n=10: 0.3646171 
    n=50: 0.08530073 
    n=90: 0.04476774 
  
  
-Results for the output eqmsigma2: 
+Results for the output squared_error_sigma2: 
    n=10: 3.350142 
    n=50: 0.5993374 
    n=90: 0.3374168 
@@ -2432,16 +2486,42 @@ Results for the output eqmsigma2:
  </code></pre>
 </div>
 </div>
-<p>A função <code>plot()</code> retorna uma lista de objetos das classes <code>gg</code> e <code>ggplot2</code>. Essa lista conterá um gráfico de linhas para cada saída produzida pela função <code>fun</code>, representando as trajetórias dos resultados para os diferentes cenários da simulação.</p>
+<p>Funções de resumo diferentes podem ser fornecidas pelo argumento <code>sum_funs</code> quando o objetivo do estudo exigir outras medidas.</p>
+</section>
+<section id="gráficos" class="level3" data-number="4.21.4">
+<h3 data-number="4.21.4" class="anchored" data-anchor-id="gráficos"><span class="header-section-number">4.21.4</span> Gráficos</h3>
+<p>Há dois usos distintos do método <code>plot()</code>:</p>
+<ul>
+<li><code>plot(test_mc)</code> produz, para os resultados numéricos, gráficos de densidade das distribuições Monte Carlo; para resultados não numéricos, produz gráficos de barras;</li>
+<li><code>plot(summary(test_mc))</code> produz gráficos de linha das trajetórias das medidas resumidas ao longo das repetições, quando a função de resumo retorna um único valor numérico.</li>
+</ul>
+<p>As funções retornam uma lista cujos componentes são objetos das classes <code>ggplot</code> e <code>gg</code>, podendo ser modificados com <code>ggplot2</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">summary</span>(test_mc))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(test_mc)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">summary</span>(test_mc))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Para gerar uma tabela em LaTeX basta:</p>
+</section>
+<section id="tabela-em-latex" class="level3" data-number="4.21.5">
+<h3 data-number="4.21.5" class="anchored" data-anchor-id="tabela-em-latex"><span class="header-section-number">4.21.5</span> Tabela em LaTeX</h3>
+<p>A função <code>tidy_mc_latex()</code> recebe um objeto de classe <code>summary.mc</code> e retorna um objeto de classe <code>knitr_kable</code>, que pode ser posteriormente personalizado com <code>kableExtra</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy_mc_latex</span>(</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">summary</span>(test_mc)</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
 <span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Reprodutibilidade e paralelização">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Reprodutibilidade e paralelização
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>future_mc()</code> usa paralelização por padrão. A documentação também informa que as opções de <code>furrr</code> utilizam <code>seed = TRUE</code> por padrão, salvo especificação em contrário, para preservar a geração reprodutível de números aleatórios em execução paralela. Ainda assim, registre explicitamente a semente usada no estudo e documente versão do R, versão dos pacotes e configuração computacional relevante.</p>
+</div>
 </div>
 </section>
 </section>

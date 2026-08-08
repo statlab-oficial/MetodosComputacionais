@@ -20,7 +20,7 @@ de modo que $X$ possua a distribuição desejada.
 
 Essa perspectiva unifica métodos aparentemente diferentes, como transformação inversa, composição, aceitação-rejeição, métodos de transformação para a distribuição normal e algoritmos especializados para distribuições discretas.
 
-> **Base bibliográfica:** @kroese2011handbook [Capítulo 3, pp. 43--83] descreve a geração de variáveis aleatórias como a transformação de números uniformes em variáveis de distribuições arbitrárias. @voss2014statistical [Capítulo 1, pp. 8--36] apresenta métodos para distribuições discretas, transformação inversa, aceitação-rejeição e transformações de variáveis. @rubinstein2008simulation [Capítulo 2, especialmente Seções 2.3--2.5, aproximadamente pp. 54--80] apresenta métodos gerais e algoritmos específicos para geração de variáveis e vetores aleatórios.
+Essa formulação é a perspectiva adotada na abertura do Capítulo 3 de @kroese2011handbook [p. 43], que parte de uniformes e os transforma em objetos aleatórios com a distribuição desejada. Métodos de transformação inversa, rejeição e simulação de modelos estatísticos são desenvolvidos em @voss2014statistical [Caps. 1--2], enquanto @rubinstein2008simulation [Cap. 2, Seções 2.3--2.5] apresenta métodos gerais de geração univariada e vetorial.
 
 ## Objetivos de aprendizagem
 
@@ -42,7 +42,7 @@ Ao final deste capítulo, espera-se que o leitor seja capaz de:
 - validar computacionalmente uma implementação de geração;
 - distinguir geração univariada de geração multivariada.
 
-> **Base bibliográfica:** organização didática baseada em @voss2014statistical [Capítulo 1], @kroese2011handbook [Capítulos 3 e 4] e @rubinstein2008simulation [Capítulo 2].
+A organização didática desta unidade segue principalmente @voss2014statistical [Caps. 1--2], @kroese2011handbook [Caps. 3--4] e @rubinstein2008simulation [Cap. 2].
 
 
 ## Da uniforme para outras distribuições
@@ -66,7 +66,7 @@ Em alguns casos, um único uniforme é suficiente. Em outros, usam-se vários un
 ::: {.callout-tip title="Interpretação"}
 O objetivo de um algoritmo de geração não é apenas produzir valores que “pareçam” plausíveis. O algoritmo deve produzir uma variável cuja distribuição possa ser demonstrada matematicamente como sendo a distribuição-alvo, exceto pelas limitações de precisão finita do computador.
 
-*Base bibliográfica:* @kroese2011handbook [Capítulo 3, p. 43].
+Essa é precisamente a formulação introdutória adotada por @kroese2011handbook [Cap. 3, p. 43].
 :::
 
 ## Função quantil e inversa generalizada
@@ -89,7 +89,7 @@ $$
 
 Essa definição funciona mesmo quando $F$ não é estritamente crescente e, em particular, quando $F$ corresponde a uma distribuição discreta.
 
-> **Base bibliográfica:** @voss2014statistical [Seção 1.3, aproximadamente pp. 11--15] utiliza a inversa generalizada para formular o método da transformação inversa em situações contínuas e discretas. @kroese2011handbook [Seção 3.1.1, pp. 45--47] apresenta o mesmo princípio.
+A inversa generalizada e o método da transformação inversa são apresentados por @voss2014statistical [Seção 1.3, pp. 11--15] e por @kroese2011handbook [Seção 3.1.1, pp. 45--47].
 
 ::: {.callout-note title="Definição: método da transformação inversa"}
 Se
@@ -110,7 +110,7 @@ $$
 X\sim F.
 $$
 
-*Base bibliográfica:* @voss2014statistical [Proposição 1.14 e Seção 1.3, aproximadamente pp. 12--15] e @kroese2011handbook [Seção 3.1.1, pp. 45--47].
+O resultado é a Proposição 1.14 de @voss2014statistical [Seção 1.3] e corresponde ao Algoritmo 3.1 de @kroese2011handbook [Seção 3.1.1, p. 45].
 :::
 
 ## Caso discreto
@@ -181,7 +181,7 @@ $$
 F(x_j)\geq U.
 $$
 
-> **Base bibliográfica:** @kroese2011handbook [Algoritmo 3.2, pp. 46--47] e @voss2014statistical [Exemplo 1.18, pp. 14--15].
+A versão discreta corresponde ao Algoritmo 3.2 de @kroese2011handbook [pp. 46--47] e é ilustrada no Exemplo 1.18 de @voss2014statistical [pp. 14--15].
 
 ::: {.callout-note title="Algoritmo: inversa discreta"}
 1. Gere
@@ -273,7 +273,7 @@ prop.table(
 )
 ```
 
-O exemplo numérico foi preservado do manuscrito anexado e reescrito usando diretamente a inversa discreta. A estrutura do algoritmo segue @kroese2011handbook [Algoritmo 3.2, pp. 46--47].
+A implementação segue diretamente a inversão discreta do Algoritmo 3.2 de @kroese2011handbook [pp. 46--47].
 :::
 
 ### Implementação vetorizada
@@ -288,11 +288,13 @@ rdiscreta_inversa <- function(
 ) {
   stopifnot(
     length(valores) == length(prob),
+    all(is.finite(prob)),
     all(prob >= 0),
     abs(sum(prob) - 1) < 1e-12
   )
 
   F <- cumsum(prob)
+  F[length(F)] <- 1
 
   u <- runif(n)
 
@@ -328,12 +330,12 @@ prop.table(
 ::: {.callout-warning title="Observação computacional"}
 Para distribuições com muitos pontos de suporte e muitas gerações, procurar sequencialmente o primeiro ponto acumulado pode ser ineficiente. Métodos como busca binária, *table lookup* e *alias* podem reduzir o custo.
 
-*Base bibliográfica:* @kroese2011handbook [Seções 3.1.3--3.1.4, pp. 55--58].
+@kroese2011handbook [Seções 3.1.3--3.1.4, pp. 55--58] discute *table lookup* e *alias* como alternativas à busca da inversão discreta.
 :::
 
 ## Ordem dos valores e custo da busca
 
-Ordenar os valores possíveis de $X$ pelas probabilidades decrescentes para acelerar a geração. A ideia é válida quando se implementa uma **busca sequencial sobre categorias**, pois categorias de grande probabilidade serão testadas primeiro. Entretanto, após essa reordenação, a sequência já não representa a função de distribuição acumulada em ordem crescente dos valores $x_j$.
+Uma estratégia possível para acelerar uma **busca sequencial sobre categorias** é ordenar as categorias por probabilidades decrescentes, pois as de maior probabilidade tendem a ser examinadas primeiro. Essa reordenação, contudo, deixa de representar a função de distribuição acumulada na ordem natural dos valores $x_j$ e, portanto, não deve ser confundida com a inversão via CDF.
 
 ::: {.callout-important title="Distinção importante"}
 Há dois algoritmos diferentes:
@@ -379,7 +381,7 @@ Em um computador, a saída pseudoaleatória assume valores em um conjunto finito
 
 O *Handbook of Monte Carlo Methods* chama atenção para efeitos de precisão finita em algoritmos de transformação, incluindo a possibilidade de mapeamentos artificiais para massas pontuais.
 
-*Base bibliográfica:* @kroese2011handbook [Remark 3.1.1, pp. 44--45].
+A ressalva decorre da discussão de precisão finita em @kroese2011handbook [Remark 3.1.1, pp. 44--45].
 :::
 
 ## Distribuição Bernoulli
@@ -410,13 +412,17 @@ $$
 
 ```{r}
 rbernoulli <- function(n, p) {
-  as.integer(
-    runif(n) <= p
+  stopifnot(
+    length(p) == 1L,
+    is.finite(p),
+    p >= 0, p <= 1
   )
+
+  as.integer(runif(n) <= p)
 }
 ```
 
-> **Base bibliográfica:** @kroese2011handbook [Seção 4.1.1, pp. 85--86].
+O gerador é o Algoritmo 4.1 de @kroese2011handbook [Seção 4.1.1, p. 86].
 
 ## Uniforme discreta
 
@@ -463,13 +469,20 @@ $$
 \frac{j}{k}.
 $$
 
-> **Base bibliográfica:** a geração uniforme discreta é discutida em @kroese2011handbook [Seção 4.1.8, pp. 101--102].
+A geração uniforme discreta por transformação de uma uniforme contínua aparece no Algoritmo 4.17 de @kroese2011handbook [Seção 4.1.8, p. 102].
 
 ```{r}
 runif_discreta <- function(
     n,
     k
 ) {
+  stopifnot(
+    length(k) == 1L,
+    is.finite(k),
+    k >= 1,
+    k == floor(k)
+  )
+
   floor(k * runif(n)) + 1L
 }
 ```
@@ -520,23 +533,35 @@ $$
 U\sim U(0,1).
 $$
 
-> **Base bibliográfica:** @kroese2011handbook [Seção 4.1.3, Algoritmos 4.7--4.8, pp. 91--92].
+A relação com a exponencial e as formas de geração aparecem nos Algoritmos 4.7--4.8 de @kroese2011handbook [Seção 4.1.3, pp. 92--93].
 
 ```{r}
 rgeom1 <- function(
     n,
     p
 ) {
-  ceiling(
-    log(runif(n)) /
-      log1p(-p)
+  stopifnot(
+    length(p) == 1L,
+    is.finite(p),
+    p > 0, p <= 1
+  )
+
+  if (p == 1) {
+    return(rep.int(1L, n))
+  }
+
+  as.integer(
+    ceiling(
+      log(runif(n)) /
+        log1p(-p)
+    )
   )
 }
 ```
 
 ::: {.callout-warning title="Observação sobre parametrização"}
-O R usa, em `rgeom()`, a parametrização baseada no número de falhas antes do primeiro sucesso, cujo suporte começa em $0$. O algoritmo acima usa suporte $1,2,\ldots$.
-
+O R usa, em `rgeom()`, a parametrização baseada no número de falhas antes do primeiro sucesso, cujo suporte começa em $0$. O algoritmo acima usa suporte $1,2,\ldots$. Além disso, o caso $p=1$ deve ser tratado explicitamente: nessa fronteira, $X=1$ com probabilidade $1$.
+:::
 
 ## Distribuição Poisson
 
@@ -609,13 +634,31 @@ rpois_inversa <- function(
     n,
     lambda
 ) {
+  stopifnot(
+    length(lambda) == 1L,
+    is.finite(lambda),
+    lambda >= 0
+  )
+
+  if (lambda == 0) {
+    return(integer(n))
+  }
+
+  p0 <- exp(-lambda)
+
+  if (p0 == 0) {
+    stop(
+      "lambda é grande demais para esta implementação didática por inversão"
+    )
+  }
+
   out <- integer(n)
 
   for (j in seq_len(n)) {
     u <- runif(1)
 
     i <- 0L
-    pr <- exp(-lambda)
+    pr <- p0
     F <- pr
 
     while (u > F) {
@@ -632,15 +675,9 @@ rpois_inversa <- function(
 ```
 
 ::: {.callout-warning title="Limitação"}
-Para $\lambda$ grande, o termo
+Para $\lambda$ grande, há dois problemas distintos. Primeiro, a busca acumulativa pode exigir muitas iterações. Segundo, em aritmética de ponto flutuante, $e^{-\lambda}$ pode sofrer *underflow* e ser representado por zero; nessa situação, esta implementação deixa de ser numericamente válida e pode não terminar. Por isso, o código acima interrompe explicitamente a execução quando detecta $p_0=0$ e deve ser entendido como um gerador didático para valores moderados de $\lambda$.
 
-$$
-e^{-\lambda}
-$$
-
-pode se tornar numericamente muito pequeno e a busca sequencial pode ser lenta. Portanto, esse algoritmo é didático e apropriado sobretudo para valores moderados de $\lambda$.
-
-@kroese2011handbook [Seção 4.1.7, pp. 98--101] apresenta algoritmos especializados para Poisson e discute explicitamente a necessidade de métodos diferentes quando $\lambda$ é grande.
+@kroese2011handbook [Seção 4.1.7, pp. 98--101] mostra que o gerador elementar baseado em produtos se torna lento quando $\lambda$ cresce e apresenta alternativas específicas para valores grandes.
 :::
 
 ### Outro algoritmo clássico para Poisson
@@ -663,9 +700,13 @@ $$
 e^{-\lambda}.
 $$
 
-O número de fatores antes de ultrapassar o limite produz uma variável Poisson.
+Se $N$ é o primeiro índice para o qual $\prod_{j=1}^{N}U_j<e^{-\lambda}$, então
 
-Esse método também se torna lento quando $\lambda$ cresce.
+$$
+X=N-1
+$$
+
+tem distribuição $\operatorname{Poi}(\lambda)$. Esse método também se torna lento quando $\lambda$ cresce.
 
 ## Distribuição binomial
 
@@ -704,7 +745,7 @@ $$
    $$
 :::
 
-> **Base bibliográfica:** @kroese2011handbook [Algoritmo 4.2, pp. 88--89].
+Essa construção é o Algoritmo 4.2 de @kroese2011handbook [p. 88].
 
 ```{r}
 rbinom_bernoulli <- function(
@@ -712,11 +753,19 @@ rbinom_bernoulli <- function(
     size,
     prob
 ) {
+  stopifnot(
+    length(size) == 1L,
+    is.finite(size),
+    size >= 0,
+    size == floor(size),
+    length(prob) == 1L,
+    is.finite(prob),
+    prob >= 0, prob <= 1
+  )
+
   replicate(
     N,
-    sum(
-      runif(size) <= prob
-    )
+    sum(runif(size) <= prob)
   )
 }
 ```
@@ -759,9 +808,9 @@ deve tratar explicitamente esses casos.
 
 ## *Table lookup*
 
-Se a distribuição discreta é fixa e será usada muitas vezes, uma tabela pode ser construída previamente. O método *table lookup* cria uma tabela de objetos em que a frequência de cada valor representa sua probabilidade e, em seguida, seleciona uma posição uniformemente.
+Se a distribuição discreta é fixa e será usada muitas vezes, uma tabela pode ser construída previamente. O método *table lookup* seleciona uniformemente uma posição de uma tabela em que a multiplicidade de cada objeto determina sua probabilidade. Uma representação finita é exata quando essas probabilidades podem ser expressas pelas multiplicidades da tabela; para probabilidades arbitrárias, uma tabela finita simples pode exigir aproximação ou uma construção mais sofisticada.
 
-> **Base bibliográfica:** @kroese2011handbook [Seção 3.1.3, pp. 55--56].
+O método é apresentado por @kroese2011handbook [Seção 3.1.3, pp. 55--56].
 
 ::: {.callout-tip title="Interpretação"}
 O custo de preparação da tabela é pago apenas uma vez. Depois disso, uma geração pode ser muito rápida. O método é particularmente natural quando as probabilidades são racionais com denominador comum manejável.
@@ -771,7 +820,7 @@ O custo de preparação da tabela é pago apenas uma vez. Depois disso, uma gera
 
 O método *alias* é uma técnica eficiente para geração repetida de distribuições discretas finitas. A ideia consiste em representar uma distribuição arbitrária de $K$ pontos como uma mistura equiprovável de distribuições de dois pontos. Depois de uma etapa de pré-processamento, cada observação pode ser gerada com custo essencialmente constante.
 
-> **Base bibliográfica:** @kroese2011handbook [Seção 3.1.4, pp. 56--58; Algoritmo 3.8].
+A construção e a etapa de geração do método *alias* são dadas em @kroese2011handbook [Seção 3.1.4, Algoritmos 3.7--3.8, pp. 56--58].
 
 ::: {.callout-observation title="Observação"}
 Para uma única geração ou para uma distribuição com poucos pontos, a inversão simples é normalmente suficiente. O método *alias* torna-se atraente quando:
@@ -803,7 +852,7 @@ $$
 
 tem distribuição $F$.
 
-> **Base bibliográfica:** @voss2014statistical [Seção 1.3, pp. 11--15] e @kroese2011handbook [Seção 3.1.1, pp. 45--47].
+O resultado é o método da transformação inversa de @voss2014statistical [Seção 1.3, pp. 11--15] e @kroese2011handbook [Seção 3.1.1, pp. 45--47].
 
 ::: {.callout-tip title="Interpretação"}
 O método transforma posições uniformes na escala acumulada de probabilidade em posições na escala original de $X$.
@@ -871,13 +920,19 @@ X
 }
 $$
 
-> **Base bibliográfica:** @kroese2011handbook [Algoritmo 4.29, pp. 108--109].
+A forma $X=-\log(U)/\lambda$ é o Algoritmo 4.29 de @kroese2011handbook [Seção 4.2.3, p. 109].
 
 ```{r}
 rexp_inversa <- function(
     n,
     lambda
 ) {
+  stopifnot(
+    length(lambda) == 1L,
+    is.finite(lambda),
+    lambda > 0
+  )
+
   -log(runif(n)) / lambda
 }
 ```
@@ -918,7 +973,7 @@ $$
 
 tem a densidade desejada.
 
-> **Base bibliográfica:** exemplo retirado de @voss2014statistical [Exemplo 1.17, aproximadamente p. 14].
+Este é o Exemplo 1.17 de @voss2014statistical [p. 14].
 
 ```{r}
 set.seed(2026)
@@ -980,7 +1035,7 @@ $$
 N(\mu,\sigma^2).
 $$
 
-> **Base bibliográfica:** @kroese2011handbook [Seção 3.1.2, pp. 47--55] discute transformações gerais e famílias localização-escala.
+Famílias de localização e escala e transformações afins são discutidas em @kroese2011handbook [Seções 3.1.2.1--3.1.2.2, pp. 47--49].
 
 ## Método de aceitação-rejeição
 
@@ -1017,7 +1072,7 @@ $$
 \leq c.
 $$
 
-> **Base bibliográfica:** @voss2014statistical [Seção 1.4.2, aproximadamente pp. 18--22] e @kroese2011handbook [Seção 3.1.5, pp. 59--66].
+A formulação de envelope é apresentada no Algoritmo 1.22 de @voss2014statistical [Seção 1.4.2, p. 19] e no Algoritmo 3.9 de @kroese2011handbook [Seção 3.1.5, p. 59].
 
 ::: {.callout-note title="Algoritmo de aceitação-rejeição"}
 1. Gere
@@ -1075,13 +1130,15 @@ Y\in A,\text{ aceitar}
 \int_Af(y)\,dy.
 $$
 
-A probabilidade total de aceitação é
+Como $f$ e $g$ foram definidas aqui como densidades normalizadas, a probabilidade total de aceitação é
 
 $$
 P(\text{aceitar})
 =
 \frac1c.
 $$
+
+Se a função-alvo for conhecida apenas de forma não normalizada, digamos $h$ com constante normalizadora $Z_h=\int h(x)\,dx$, a taxa de aceitação deve ser ajustada para essa normalização. Na formulação de envelope de @voss2014statistical [Proposição 1.23], a probabilidade de aceitação é $Z_h/c$, não simplesmente $1/c$.
 
 Portanto,
 
@@ -1097,7 +1154,7 @@ $$
 
 e a variável aceita possui densidade $f$.
 
-> **Base bibliográfica:** @voss2014statistical [Algoritmos 1.19 e 1.22, pp. 15--21] e @kroese2011handbook [Seção 3.1.5, pp. 59--66].
+A validade do procedimento é formalizada para rejeição básica e por envelope em @voss2014statistical [Algoritmos 1.19 e 1.22, Seção 1.4] e em @kroese2011handbook [Teorema 3.1.1 e Algoritmo 3.9, pp. 59--60].
 
 ## Eficiência da aceitação-rejeição
 
@@ -1182,7 +1239,7 @@ $$
 \frac1c.
 $$
 
-> **Base bibliográfica:** o resultado é a versão discreta do método geral de aceitação-rejeição em @voss2014statistical [Seção 1.4] e @kroese2011handbook [Seção 3.1.5].
+O mesmo argumento de aceitação-rejeição se aplica ao caso discreto; veja @voss2014statistical [Seção 1.4] e @kroese2011handbook [Seção 3.1.5].
 
 ## Exemplo discreto de aceitação-rejeição
 
@@ -1222,7 +1279,7 @@ P(\text{aceitar})
 \approx0{,}8333.
 $$
 
-::: {.callout-important title="Exemplo computacional corrigido"}
+::: {.callout-important title="Exemplo computacional"}
 ```{r}
 set.seed(20252)
 
@@ -1289,14 +1346,17 @@ mean(
 c_envelope
 ```
 
-Espera-se que
+Teoricamente,
 
 $$
 E(N_{\text{prop}})
-\approx1{,}2.
+=
+c
+=
+1{,}2.
 $$
 
-O exemplo numérico foi preservado do manuscrito anexado; a implementação foi corrigida e reorganizada.
+Na simulação, `mean(sim$propostas)` deve oscilar em torno desse valor por erro de Monte Carlo.
 :::
 
 
@@ -1427,7 +1487,7 @@ Uma variável da mistura pode ser gerada em duas etapas.
 3. Retorne $X$.
 :::
 
-> **Base bibliográfica:** @voss2014statistical [Algoritmo 2.9, pp. 47--48] e @kroese2011handbook [Seção 3.1.2.6, aproximadamente p. 53].
+A simulação por seleção de uma componente é o Algoritmo 2.9 de @voss2014statistical e o Algoritmo 3.5 de @kroese2011handbook [Seção 3.1.2.6, pp. 53--54].
 
 ::: {.callout-important title="Interpretação"}
 Uma mistura
@@ -1444,10 +1504,10 @@ $$
 
 Na mistura, seleciona-se **uma componente** ao acaso e, depois, gera-se uma observação dessa componente.
 
-*Base bibliográfica:* @voss2014statistical [Exemplo 2.7 e Algoritmo 2.9, pp. 46--48].
+A distinção entre mistura e soma ponderada é explicitada por @voss2014statistical [Exemplo 2.7 e Algoritmo 2.9].
 :::
 
-## Exemplo de composição corrigido
+## Exemplo de composição
 
 Deseja-se gerar
 
@@ -1527,17 +1587,19 @@ prop.table(
 
 Nem toda geração precisa ser feita por inversão ou rejeição. Relações probabilísticas conhecidas podem ser exploradas diretamente.
 
-@kroese2011handbook [Seção 3.1.2, pp. 47--55] apresenta diversas transformações:
+@kroese2011handbook [Seção 3.1.2, pp. 47--55] organiza, entre outras, as seguintes construções:
 
 - transformações afins;
-- recíprocos;
-- transformações de variáveis;
+- famílias de localização e escala;
+- reciprocidade;
 - truncamento;
-- somas;
+- *wrapping*;
 - composição;
 - método polar;
 - estatísticas de ordem;
 - produtos.
+
+Somas de variáveis independentes e outras identidades distributivas aparecem, por sua vez, entre as propriedades e os geradores especializados do Capítulo 4.
 
 ## Somas e convoluções
 
@@ -1569,7 +1631,7 @@ $$
 
 na parametrização correspondente.
 
-> **Base bibliográfica:** @kroese2011handbook [Capítulo 4] explora extensivamente relações entre distribuições como base de algoritmos de geração.
+Relações desse tipo são usadas sistematicamente por @kroese2011handbook [Cap. 4] para construir geradores especializados.
 
 ## Geração normal pelo método de Box--Muller
 
@@ -1621,7 +1683,7 @@ $$
 N(0,1).
 $$
 
-> **Base bibliográfica:** @kroese2011handbook [Seção 4.2.11, pp. 122--125] e @rubinstein2008simulation [Capítulo 2; o índice identifica o método de Box--Muller na p. 59].
+A transformação acima é o Algoritmo 4.47 de @kroese2011handbook [Seção 4.2.11, p. 123] e o Algoritmo 2.4.2 de @rubinstein2008simulation [Seção 2.4.1.2, p. 59].
 
 ```{r}
 rnorm_box_muller <- function(
@@ -1671,7 +1733,7 @@ curve(
 ::: {.callout-observation title="Observação"}
 O *Handbook* apresenta também o método polar de Marsaglia, que evita avaliações trigonométricas, e outros geradores especializados para a normal.
 
-*Base bibliográfica:* @kroese2011handbook [Algoritmo 4.48, p. 124].
+Veja @kroese2011handbook [Algoritmo 4.48, p. 124].
 :::
 
 ## A normal e o método inverso
@@ -1684,17 +1746,15 @@ $$
 
 Em bibliotecas científicas, funções quantis podem usar aproximações numéricas altamente eficientes.
 
-::: {.callout-warning title="Correção conceitual"}
-A afirmação “a normal não pode ser gerada por inversão” deve ser substituída por:
+::: {.callout-warning title="Precisão conceitual"}
+A ausência de uma expressão elementar simples para $\Phi^{-1}$ não torna a geração por inversão matematicamente impossível. O ponto correto é que a **inversão analítica direta** não é conveniente; implementações podem recorrer a aproximações numéricas da função quantil ou a geradores especializados.
 
-> A função quantil normal não possui uma forma elementar simples; por isso, inversão analítica direta não é conveniente, e algoritmos especializados ou aproximações numéricas são normalmente empregados.
-
-*Base bibliográfica:* @voss2014statistical [p. 15] observa que o método inverso não é diretamente conveniente para distribuições como a normal; @kroese2011handbook [p. 46] ressalta que até uma inversa disponível pode não ser o método computacionalmente mais eficiente.
+@voss2014statistical [Seção 1.3, p. 15] observa que a transformação inversa não é diretamente conveniente para a normal, enquanto @kroese2011handbook [Seção 3.1.1, p. 46] ressalta que uma inversa disponível não implica, por si só, o gerador computacionalmente mais eficiente.
 :::
 
 ## Método da razão de uniformes
 
-O método da razão de uniformes permite gerar de uma densidade conhecida até uma constante de normalização. Se
+O método da razão de uniformes permite gerar de uma densidade conhecida apenas até uma constante de normalização. Se
 
 $$
 f(z)
@@ -1702,15 +1762,31 @@ f(z)
 h(z),
 $$
 
-constrói-se uma região bidimensional associada a $h$. Ao gerar uniformemente nessa região e retornar uma razão de coordenadas, obtém-se a distribuição-alvo.
+defina a região
 
-> **Base bibliográfica:** @kroese2011handbook [Seção 3.1.6, pp. 66--67].
+$$
+\mathcal A
+=
+\left\{
+(u,v):
+ u>0,
+ u^2\leq h(v/u)
+\right\}.
+$$
+
+Se $(U,V)$ é gerado uniformemente em $\mathcal A$, então
+
+$$
+Z=\frac{V}{U}
+$$
+
+possui densidade proporcional a $h$. Na prática, é comum envolver $\mathcal A$ por uma região simples e usar aceitação-rejeição para obter o ponto uniforme necessário. O método e sua derivação são apresentados em @kroese2011handbook [Seção 3.1.6, Algoritmo 3.13, pp. 66--67].
 
 ::: {.callout-observation title="Observação"}
 Esse método é mais avançado que transformação inversa e aceitação-rejeição elementar, mas merece ser apresentado porque:
 
 - pode dispensar a constante normalizadora;
-- é base para algoritmos eficientes de distribuições como normal, Cauchy e outras;
+- conduz a geradores úteis para distribuições como Cauchy e t e, em construções relacionadas, para outras famílias;
 - fornece uma ligação geométrica entre geração uniforme bidimensional e densidades univariadas.
 :::
 
@@ -1752,7 +1828,7 @@ F(b)-F(a^-)
 }
 $$
 
-> **Base bibliográfica:** @kroese2011handbook [Seção 3.1.2.4 e Algoritmo 3.3, pp. 50--51].
+A geração por inversão em intervalo truncado é o Algoritmo 3.3 de @kroese2011handbook [Seção 3.1.2.4, pp. 50--51].
 
 ::: {.callout-tip title="Interpretação"}
 Em vez de gerar em toda a escala de probabilidades $(0,1)$, sorteia-se uniformemente apenas dentro do intervalo de probabilidade correspondente à região de truncamento.
@@ -1784,7 +1860,7 @@ U(1-e^{-2})
 \right].
 $$
 
-> **Base bibliográfica:** exemplo baseado em @kroese2011handbook [Exemplo 3.5, pp. 50--51].
+O exemplo é baseado em @kroese2011handbook [Exemplo 3.5, pp. 50--51].
 
 ## Distribuição t de Student por transformação
 
@@ -1816,11 +1892,11 @@ $$
 
 tem distribuição $t_\nu$.
 
-Essa representação também mostra que a distribuição t pode ser interpretada como uma distribuição normal com escala aleatória.
+Essa representação mostra que a distribuição t pode ser interpretada como uma mistura de escala normal: condicionalmente à variável de escala derivada de $V$, a distribuição é normal.
 
-> **Base bibliográfica:** @kroese2011handbook [Seção 4.2.15, pp. 131--134; para a extensão multivariada, pp. 147--148].
+A representação normal--qui-quadrado e o gerador correspondente aparecem em @kroese2011handbook [Seção 4.2.15, Algoritmo 4.58, pp. 132--133].
 
-::: {.callout-warning title="Correção de linguagem"}
+::: {.callout-warning title="Terminologia"}
 É preferível dizer que a t pode ser vista como uma **mistura de escala normal**, e não simplesmente que “a variância é controlada por uma qui-quadrado”. A representação precisa é dada pela razão acima ou, equivalentemente, pela mistura na escala/precisão apropriada.
 :::
 
@@ -1832,7 +1908,7 @@ A geração multivariada é uma extensão natural e importante.
 
 Se $X_1,\ldots,X_d$ são independentes e sabemos gerar cada marginal $F_j$, então basta gerar cada componente independentemente.
 
-> **Base bibliográfica:** @kroese2011handbook [Algoritmo 3.14, p. 67].
+A geração independente por componentes é o Algoritmo 3.14 de @kroese2011handbook [p. 67].
 
 ### Geração componente a componente
 
@@ -1857,17 +1933,17 @@ Assim:
 3. gere $X_3\mid X_1,X_2$;
 4. continue até $X_d$.
 
-> **Base bibliográfica:** @voss2014statistical [Algoritmo 2.11, pp. 48--49].
+A construção componente a componente é formalizada no Algoritmo 2.11 de @voss2014statistical [p. 49].
 
 ### Normal multivariada
 
-Se $Z\sim N_d(0,I)$ e
+Se $\Sigma$ é uma matriz de covariância simétrica positiva definida, $Z\sim N_d(0,I)$ e
 
 $$
 \Sigma=AA^\top
 $$
 
-é uma decomposição de Cholesky, então
+é sua fatoração de Cholesky, então
 
 $$
 \boxed{
@@ -1883,7 +1959,7 @@ $$
 N_d(\mu,\Sigma).
 $$
 
-> **Base bibliográfica:** @kroese2011handbook [Algoritmo 4.71, pp. 143--147] e @voss2014statistical [Seção 2.1, pp. 41--45].
+A geração por fatoração de Cholesky é o Algoritmo 4.71 de @kroese2011handbook [p. 146] e é também descrita por @voss2014statistical [Seção 2.1, p. 44]. Para matrizes de covariância singulares, a distribuição normal multivariada continua podendo ser construída por uma fatoração $\Sigma=AA^\top$, mas a fatoração de Cholesky positiva definida usada acima requer adaptação.
 
 ::: {.callout-observation title="Observação"}
 Uma exposição completa de simulação multivariada — incluindo cópulas, normais multivariadas, Dirichlet e t multivariada — pode ser organizada em um capítulo próprio. Aqui a seção serve apenas para mostrar que a geração univariada é o primeiro bloco de uma teoria mais ampla.
@@ -1988,7 +2064,7 @@ Compare quantis empíricos com quantis teóricos.
 
 ### Independência
 
-Se o algoritmo pretende produzir observações iid, examine também dependência serial.
+Se o algoritmo pretende produzir observações iid, examine também a dependência serial como diagnóstico. A ausência de autocorrelação detectável em uma amostra simulada não constitui, por si só, prova de independência.
 
 ::: {.callout-important title="Princípio de validação"}
 Um gráfico coerente não prova que o algoritmo está correto. A validação ideal combina:
@@ -1998,7 +2074,7 @@ Um gráfico coerente não prova que o algoritmo está correto. A validação ide
 - comparação numérica com propriedades conhecidas;
 - inspeção de frequência, momentos e quantis.
 
-*Base bibliográfica:* @voss2014statistical [Apêndice B.3.3, pp. 290--292] enfatiza a importância de testar código; o Capítulo 1 fornece a fundamentação matemática dos algoritmos.
+@voss2014statistical [Apêndice B.3.3, pp. 290--292] enfatiza a necessidade de testar sistematicamente implementações; a correção distributiva, porém, deve ser estabelecida matematicamente e não inferida apenas de diagnósticos numéricos.
 :::
 
 ## Funções de geração disponíveis em R
@@ -2019,7 +2095,7 @@ rt()
 
 O propósito de implementar manualmente os algoritmos neste capítulo é **didático**: compreender como números uniformes podem ser transformados em variáveis de outras distribuições.
 
-> **Base bibliográfica:** @voss2014statistical [Apêndice B.4, pp. 292--294] discute geração aleatória em R.
+As funções nativas de geração e a convenção `r*` são discutidas em @voss2014statistical [Apêndice B.4, pp. 292--294].
 
 ::: {.callout-warning title="Observação"}
 Em trabalho aplicado, não se deve substituir automaticamente os geradores consolidados da linguagem por versões didáticas escritas à mão. As implementações de bibliotecas podem selecionar algoritmos diferentes conforme os valores dos parâmetros e lidar com dificuldades numéricas específicas.
@@ -2035,12 +2111,12 @@ Em trabalho aplicado, não se deve substituir automaticamente os geradores conso
 | Alvo dominável por distribuição simples | aceitação-rejeição | eficiência $=1/c$ |
 | Distribuição expressa como mistura | composição | selecionar componente e gerar condicionalmente |
 | Relação conhecida entre distribuições | transformação | pode ser extremamente eficiente |
-| Normal padrão | Box--Muller, polar ou métodos especializados | mais eficiente que inversão analítica direta |
+| Normal padrão | Box--Muller, polar ou métodos especializados | evita depender de uma inversa em forma elementar; bibliotecas podem empregar algoritmos distintos |
 | Distribuição truncada com quantil disponível | inversão restrita | evita rejeições |
 | Densidade conhecida até constante | razão de uniformes ou rejeição | depende da geometria |
-| Vetor normal | Cholesky | preserva covariance desejada |
+| Vetor normal | Cholesky | preserva a covariância desejada |
 
-> **Base bibliográfica:** síntese baseada em @kroese2011handbook [Capítulos 3--4] e @voss2014statistical [Capítulos 1--2].
+A tabela sintetiza os critérios desenvolvidos em @kroese2011handbook [Caps. 3--4] e @voss2014statistical [Caps. 1--2].
 
 
 # Síntese
@@ -2150,7 +2226,7 @@ $$
 E(X)=\frac1p.
 $$
 
-*Base de leitura:* @kroese2011handbook [Seção 4.1.3, pp. 91--92].
+*Base de leitura:* @kroese2011handbook [Seção 4.1.3, Algoritmos 4.7--4.8, pp. 92--93].
 :::
 
 ::: {.callout-caution title="Exercício 4 — Poisson"}
@@ -2187,7 +2263,7 @@ $$
 
 Compare a distribuição simulada com `rbinom()` para diferentes valores de $n$.
 
-*Baseado em @kroese2011handbook [Algoritmo 4.2, pp. 88--89].*
+*Baseado em @kroese2011handbook [Algoritmo 4.2, p. 88].*
 :::
 
 ::: {.callout-caution title="Exercício 6 — aceitação-rejeição discreta"}
@@ -2272,7 +2348,7 @@ Verifique:
 - gráfico quantil-quantil;
 - correlação entre os pares $(Z_1,Z_2)$ produzidos pelo mesmo par de uniformes.
 
-*Base de leitura:* @kroese2011handbook [Seção 4.2.11, pp. 122--125].
+*Base de leitura:* @kroese2011handbook [Seção 4.2.11, Algoritmos 4.47--4.48, pp. 123--124].
 :::
 
 ::: {.callout-caution title="Exercício 11 — exponencial truncada"}
@@ -2333,7 +2409,7 @@ $$
 2. Gere $10^5$ vetores normais.
 3. Compare a média e a matriz de covariâncias empíricas com $\mu$ e $\Sigma$.
 
-*Base de leitura:* @voss2014statistical [Seção 2.1, pp. 41--45] e @kroese2011handbook [Seção 4.3.3, pp. 143--147].
+*Base de leitura:* @voss2014statistical [Seção 2.1, p. 44] e @kroese2011handbook [Algoritmo 4.71, p. 146].
 :::
 
 # Referências {.unnumbered}

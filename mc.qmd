@@ -1,6 +1,6 @@
 # Métodos de Monte Carlo
 
-Os métodos de Monte Carlo formam uma classe de algoritmos baseados em simulação aleatória. Eles surgiram no final da década de 1940, especialmente com os trabalhos de John von Neumann, Stanislaw Ulam, Enrico Fermi e Nicholas Metropolis. O nome deriva da cidade famosa por seus cassinos.
+Os métodos de Monte Carlo formam uma classe de algoritmos baseados em simulação aleatória para aproximar quantidades que podem ser difíceis de obter analiticamente. Em sua forma computacional moderna, o desenvolvimento do método está ligado ao trabalho de John von Neumann e Stanislaw Ulam em Los Alamos durante a Segunda Guerra Mundial, em problemas envolvendo a simulação da difusão aleatória de nêutrons. @rubinstein2008simulation [Capítulo 3, p. 83] registra que o termo *Monte Carlo* foi usado por von Neumann e Ulam como codinome para esse trabalho.
 
 ```{r}
 #| label: fig-casino1
@@ -11,7 +11,7 @@ knitr::include_graphics("Cassino1.jpg")
 
 Na Estatística, os métodos de Monte Carlo são utilizados para:
 
-- estimar parâmetros da distribuição amostral;
+- aproximar distribuições amostrais e suas características;
 
 - calcular EQM (erro quadrático médio);
 
@@ -257,7 +257,7 @@ g(U_j),
 U_j\stackrel{iid}{\sim}U(0,1).
 $$
 
-> **Base bibliográfica:** a representação de integrais como esperanças é uma aplicação padrão de Monte Carlo desenvolvida em @voss2014statistical [Seções 3.1--3.2] e ilustrada em R por @thulin2025modern [Seção 7.1.4, pp. 254--256]. @ross2006simulation [Capítulo 3, pp. 41--48] também apresenta o uso de números aleatórios na avaliação de integrais.
+> **Base bibliográfica:** a representação de integrais como esperanças é uma aplicação padrão de Monte Carlo desenvolvida em @voss2014statistical [Seções 3.1--3.2] e ilustrada em R por @thulin2025modern [Seção 7.1.4, pp. 254--256].
 
 ::: {.callout-important title="Exemplo: $\int_0^1 x^3\,dx$"}
 O valor exato é
@@ -565,6 +565,12 @@ N
 }.
 $$
 
+::: {.callout-warning title="Probabilidades muito pequenas"}
+A fórmula acima é uma estimativa *plug-in* do erro padrão. Se nenhum evento for observado, então $\widehat p_N=0$ e ela devolve numericamente zero. Isso **não** significa ausência de incerteza: pode significar apenas que $N$ foi insuficiente para observar um evento raro. Nesses problemas, erro relativo e técnicas de redução de variância — em particular amostragem por importância — são diagnósticos mais informativos do que o erro padrão *plug-in* isolado.
+
+*Base bibliográfica:* @voss2014statistical [Exemplo 3.18, pp. 81--82] e @kroese2011handbook [Capítulo 10, pp. 381--416].
+:::
+
 ::: {.callout-important title="Exemplo: probabilidade de cauda normal"}
 Considere
 
@@ -753,6 +759,8 @@ I
 z_{1-\alpha/2}
 \frac{\widehat\sigma}{\sqrt N}.
 $$
+
+Quando $\sigma$ é desconhecido e substituído por $\widehat\sigma$, a formulação de amostra finita indicada por @voss2014statistical usa o quantil da distribuição $t$ de Student com $N-1$ graus de liberdade. Para os valores de $N$ usualmente empregados em Monte Carlo, esse quantil é praticamente igual ao quantil normal; por isso, a expressão com $z_{1-\alpha/2}$ deve ser entendida aqui como uma aproximação assintótica.
 
 > **Base bibliográfica:** @voss2014statistical [Seção 3.2.4, pp. 82--84].
 
@@ -961,7 +969,21 @@ q(Y_j)
 }.
 $$
 
-> **Base bibliográfica:** @voss2014statistical [Seção 3.3.1 e Algoritmo 3.22, pp. 84--88].
+Para que o estimador tenha variância finita e o erro padrão usual seja aplicável, é necessário ainda que
+
+$$
+E_q\left[
+\left
+\{
+h(Y)\frac{f(Y)}{q(Y)}
+\right\}^2
+\right]
+<\infty.
+$$
+
+A condição de suporte $q(x)>0$ onde $h(x)f(x)\neq0$ garante que a identidade de mudança de medida esteja bem definida; ela, isoladamente, **não garante** baixa variância nem mesmo variância finita.
+
+> **Base bibliográfica:** @voss2014statistical [Seção 3.3.1 e Algoritmo 3.22, pp. 84--88] e @kroese2011handbook [Seção 9.7, pp. 362--375].
 
 ::: {.callout-tip title="Interpretação"}
 A densidade $q$ deve gerar mais observações nas regiões que contribuem fortemente para a integral. Os pesos
@@ -975,8 +997,7 @@ $$
 corrigem a mudança da distribuição de amostragem.
 :::
 
-#### Exemplo: cauda normal rara
-
+::: {.callout-important title="Exemplo: cauda normal rara"}
 Considere
 
 $$
@@ -1230,14 +1251,9 @@ c(
 
 ### Outras técnicas importantes
 
-@kroese2011handbook [Capítulo 9] apresenta, além das três técnicas anteriores:
+@kroese2011handbook apresenta, além das três técnicas anteriores, **Monte Carlo condicional** [Seção 9.4, pp. 354--356], **amostragem estratificada** [Seção 9.5, pp. 356--360], **amostragem por hipercubo latino** [Seção 9.6, pp. 360--362] e **Quasi-Monte Carlo** [Seção 9.8, pp. 376--379].
 
-- Monte Carlo condicional;
-- estratificação;
-- amostragem por hipercubo latino;
-- Quasi-Monte Carlo.
-
-@rubinstein2008simulation [Capítulo 5] discute também o uso de números aleatórios comuns para comparar sistemas ou configurações.
+@rubinstein2008simulation [Capítulo 5] discute também números aleatórios comuns, Monte Carlo condicional, estratificação e amostragem por importância como técnicas de controle de variância.
 
 ::: {.callout-warning title="Observação"}
 Essas técnicas não são desenvolvidas em detalhe neste capítulo introdutório. Para um curso de mestrado, **estratificação, Monte Carlo condicional e Quasi-Monte Carlo** são extensões naturais após as três técnicas básicas.
@@ -1781,15 +1797,19 @@ pressupõem independência. Em MCMC ou em simulações com dependência, o erro 
 
 ### Confundir erro de discretização e erro de Monte Carlo
 
-Em modelos nos quais cada realização já resulta de uma aproximação numérica, o erro total pode combinar dois componentes:
+Em modelos nos quais cada realização já resulta de uma aproximação numérica, aumentar apenas o número de réplicas não elimina o erro introduzido pela discretização. Para o caso de equações diferenciais estocásticas estudado por @voss2014statistical, se $Z_{n,N}$ é o estimador baseado em $N$ trajetórias simuladas com parâmetro de discretização $n$, então
 
 $$
-\text{erro de Monte Carlo}
+\operatorname{MSE}(Z_{n,N})
+=
+\frac{\sigma_n^2}{N}
 +
-\text{erro de discretização}.
+e_{\mathrm{weak}}(f)^2.
 $$
 
-@voss2014statistical [Seção 6.5, pp. 243--250] mostra explicitamente essa decomposição para simulações de equações diferenciais estocásticas.
+O primeiro termo é a contribuição do erro de Monte Carlo e diminui quando $N$ cresce; o segundo corresponde ao quadrado do viés de discretização e é controlado pelo refinamento do esquema numérico. Portanto, uma simulação pode ter erro de Monte Carlo muito pequeno e, ainda assim, permanecer inexata por causa da discretização.
+
+> **Base bibliográfica:** @voss2014statistical [Seção 6.5.1 e Lema 6.20, pp. 243--244].
 
 ## Monte Carlo IID e MCMC
 
@@ -1801,7 +1821,7 @@ X_1,\ldots,X_N
 \pi.
 $$
 
-Em problemas nos quais gerar amostras independentes de $\pi$ é difícil, pode-se construir uma cadeia de Markov cuja distribuição estacionária é $\pi$. Isso conduz aos métodos **Markov Chain Monte Carlo**.
+Em problemas nos quais gerar amostras independentes de $\pi$ é difícil, pode-se construir uma cadeia de Markov cuja distribuição estacionária é $\pi$ e que, sob condições apropriadas de ergodicidade, converge para essa distribuição. Isso conduz aos métodos **Markov Chain Monte Carlo**.
 
 ::: {.callout-note title="Definição conceitual"}
 No Monte Carlo IID,
@@ -1885,35 +1905,27 @@ Em estudos de simulação estatística, Monte Carlo é usado em um segundo níve
 
 ## Simulações de Monte Carlo com o pacote `tidyMC`
 
+O pacote `tidyMC` organiza estudos de simulação em torno de uma função definida pelo usuário e de uma grade de cenários. A função principal, `future_mc()`, executa as repetições — por padrão de forma paralela —, enquanto `summary.mc()`, `plot.mc()`, `plot.summary.mc()` e `tidy_mc_latex()` auxiliam no resumo, diagnóstico gráfico e apresentação dos resultados.
 
-O pacote `tidyMC` busca contemplar e simplificar todo o fluxo de trabalho necessário para executar uma simulação de Monte Carlo, seja em um contexto acadêmico ou profissional. Assim, o `tidyMC` fornece funções para as seguintes tarefas:
-
-- Executar uma simulação de Monte Carlo para uma função definida pelo usuário sobre uma grade de parâmetros, utilizando `future_mc()`.
-
-- Resumir os resultados por meio de funções de resumo (opcionais) definidas pelo usuário, usando `summary.mc()`.
-
-- Criar gráficos dos resultados da simulação de Monte Carlo, que podem ser modificados pelo usuário, por meio de `plot.mc()` e `plot.summary.mc()`.
-
-- Gerar uma tabela em LaTeX resumindo os resultados da simulação de Monte Carlo usando `tidy_mc_latex()`.
+> **Documentação do pacote:** esta seção foi conferida com a documentação do CRAN para o `tidyMC` versão 1.0.0: <https://search.r-project.org/CRAN/refmans/tidyMC/html/00Index.html>.
 
 ### Instalação
 
-O pacote `tidyMC` está disponível no CRAN. Para baixar a versão do CRAN basta:
+O pacote pode ser instalado do CRAN com:
 
 ```{r}
 #| eval: false
 
 install.packages("tidyMC")
-
 ```
 
-Em seguida, o pacote pode ser carregado com:
+Em seguida:
 
 ```{r}
 library(tidyMC)
 ```
 
-Além disso, os seguintes pacotes serão utilizados:
+Para os exemplos de apresentação, também podem ser úteis:
 
 ```{r}
 library(magrittr)
@@ -1921,97 +1933,127 @@ library(ggplot2)
 library(kableExtra)
 ```
 
-### Execute sua primeira Simulação de Monte Carlo com `future_mc()`
+### Uma primeira simulação com `future_mc()`
 
-A função `future_mc()` permite executar uma simulação de Monte Carlo para uma função definida pelo usuário e para um conjunto especificado de parâmetros.
+O argumento `fun` de `future_mc()` deve ser uma função que executa **uma repetição** para **uma combinação de parâmetros**. Dependendo do estudo, essa função pode gerar os dados, aplicar o método estatístico e calcular as medidas que serão agregadas posteriormente.
 
-O primeiro argumento de `future_mc()` é `fun`, que deve ser uma função capaz de realizar três tarefas para uma única repetição e uma única combinação de parâmetros:
+No exemplo a seguir, simulamos observações de $N(\mu,\sigma^2)$ e avaliamos dois estimadores: a média amostral para $\mu$ e o estimador de máxima verossimilhança de $\sigma^2$,
 
-- gerar os dados,
+$$
+\widehat\sigma^2_{ML}
+=
+\frac{1}{n}
+\sum_{i=1}^n
+(X_i-\bar X)^2.
+$$
 
-- aplicar o método de interesse,
-
-- avaliar o resultado obtido.
-
-A função `future_mc()` se encarrega de gerar automaticamente os laços sobre as grades de parâmetros desejadas, bem como repetir o experimento de Monte Carlo para cada combinação de parâmetros.
-
-Considere o seguinte exemplo de função `fun`, que realiza exatamente as tarefas necessárias: geração dos dados, aplicação do método e avaliação dos resultados.
+Esse estimador da variância usa divisor $n$ e é viesado em amostras finitas; manter essa propriedade no exemplo é útil porque a própria simulação permitirá estimar seu viés e seu MSE.
 
 ```{r}
-test_func <- function(param1 = 10, param2 = 2, n = 100) {
-  data <- rnorm(n, mean = param1, sd = param2)
-  stat <- mean(data)
-  stat_2 <- sum((data- mean(data))^2)/length(data)
-  dev_mu <- stat - param1
-  dev_sigma2 <- stat_2 - param2^2
-  dev_eqm_mu <- (stat - param1)^2
-  dev_eqm_sigma2 <- (stat_2 - param2^2)^2
-  return(list(mean = stat, var = stat_2, bmu = dev_mu, bsig2 = dev_sigma2, 
-         eqmmu = dev_eqm_mu, 
-         eqmsigma2 = dev_eqm_sigma2))
+test_func <- function(mu = 10, sigma = 2, n = 100) {
+  data <- rnorm(n, mean = mu, sd = sigma)
+
+  estimate_mu <- mean(data)
+  estimate_sigma2 <- mean((data - estimate_mu)^2)
+
+  error_mu <- estimate_mu - mu
+  error_sigma2 <- estimate_sigma2 - sigma^2
+
+  return(list(
+    estimate_mu = estimate_mu,
+    estimate_sigma2 = estimate_sigma2,
+    error_mu = error_mu,
+    error_sigma2 = error_sigma2,
+    squared_error_mu = error_mu^2,
+    squared_error_sigma2 = error_sigma2^2
+  ))
 }
 ```
 
-O segundo argumento de `future_mc()` é `repetitions`, que deve ser um número inteiro especificando o total de iterações da simulação de Monte Carlo.
+Observe a distinção entre as quantidades calculadas em **uma repetição** e as propriedades de longo prazo. Por exemplo, `squared_error_mu` é um erro quadrático realizado; sua média ao longo das repetições é que estima o MSE do estimador de $\mu$.
 
-O terceiro argumento, `param_list`, deve ser uma lista cujos componentes têm nomes correspondentes aos parâmetros da função fun que deverão variar ao longo da simulação. Cada componente dessa lista é um vetor contendo os valores desejados da grade para aquele parâmetro.
-
-Considere o exemplo a seguir para `param_list`. Observe que seus componentes recebem nomes que correspondem exatamente aos parâmetros da função `test_func()`: `param` e `x1`, respectivamente:
+O argumento `repetitions` especifica o número de repetições de Monte Carlo para cada cenário. O argumento `param_list`, por sua vez, é uma lista cujos nomes devem coincidir com os argumentos de `fun` que variam entre os cenários. Cada componente contém os valores da grade correspondente. Por exemplo:
 
 ```{r}
 param_list <- list(
- n = c(10, 50, 90)
+  n = c(10, 50, 90)
 )
 ```
 
-A função `future_mc()` cria automaticamente todas as combinações possíveis de parâmetros especificadas em param_list e executa a simulação de Monte Carlo para cada uma dessas combinações. Se você preferir não rodar a simulação para todas as combinações possíveis, pode fornecer `param_table`, que deve ser um *data.frame* ou *data.table* contendo apenas as combinações de parâmetros de interesse.
+Aqui, o único parâmetro que varia é `n`. Os parâmetros `mu` e `sigma` serão mantidos fixos ao serem passados por `...`.
 
-O argumento `...` permite especificar outros argumentos da função `fun` que não estão em `param_list`. Esses argumentos permanecerão fixos ao longo de todas as combinações de parâmetros.
+A função `future_mc()` avalia todas as combinações definidas em `param_list`. Quando apenas determinadas combinações forem de interesse, pode-se usar `param_table`, um `data.frame` ou `data.table` com a grade previamente construída.
 
-Requisitos formais que `fun` deve satisfazer:
+De acordo com a documentação de `future_mc()`, há quatro requisitos formais para `fun`:
 
-1.  Os argumentos presentes em `param_list` devem ser escalares;
+1. os argumentos presentes em `param_list` devem assumir valores escalares em cada cenário;
+2. o retorno de `fun` deve ser uma **lista nomeada com os mesmos componentes** em todas as repetições e combinações de parâmetros;
+3. os nomes dos valores retornados não podem coincidir com os nomes dos argumentos presentes em `param_list` nem com os nomes reservados `"params"`, `"repetitions"` e `"setup"`;
+4. toda variável usada por `fun` deve ser definida dentro da própria função ou fornecida como argumento; a função não deve depender apenas de objetos existentes no ambiente global.
 
-2.  Toda variável usada dentro de fun deve ser definida internamente ou fornecida via `...`;
+Além disso, para usar diretamente as funções auxiliares `plot.mc()`, `summary.mc()`, `plot.summary.mc()` e `tidy_mc_latex()`, o retorno de `fun` deve ser uma lista nomeada de **escalares**.
 
-3.  O valor retornado por `fun` deve ser uma lista nomeada;
-
-4.  Os nomes dos valores retornados e os nomes dos argumentos presentes em `param_list` não podem coincidir.
-
-Se a função `fun` retorna uma lista nomeada de escalares, o usuário pode utilizar `summary()` para resumir todos os resultados da simulação de Monte Carlo.
+Podemos então executar:
 
 ```{r}
 set.seed(1234)
+
 test_mc <- future_mc(
   fun = test_func,
   repetitions = 1000,
   param_list = param_list,
-  param1 = 10,
-  param2 = 2
+  mu = 10,
+  sigma = 2
 )
-
-summary(test_mc)
-
 ```
 
-A função `plot()` retorna uma lista de objetos das classes `gg` e `ggplot2`. Essa lista conterá um gráfico de linhas para cada saída produzida pela função `fun`, representando as trajetórias dos resultados para os diferentes cenários da simulação.
+### Resumindo os resultados
+
+Para saídas numéricas simples, `summary()` usa `mean()` como função de resumo padrão. Assim, no exemplo anterior:
+
+- a média de `error_mu` estima o viés de $\widehat\mu$;
+- a média de `error_sigma2` estima o viés de $\widehat\sigma^2_{ML}$;
+- a média de `squared_error_mu` estima o MSE de $\widehat\mu$;
+- a média de `squared_error_sigma2` estima o MSE de $\widehat\sigma^2_{ML}$.
+
+```{r}
+summary(test_mc)
+```
+
+Funções de resumo diferentes podem ser fornecidas pelo argumento `sum_funs` quando o objetivo do estudo exigir outras medidas.
+
+### Gráficos
+
+Há dois usos distintos do método `plot()`:
+
+- `plot(test_mc)` produz, para os resultados numéricos, gráficos de densidade das distribuições Monte Carlo; para resultados não numéricos, produz gráficos de barras;
+- `plot(summary(test_mc))` produz gráficos de linha das trajetórias das medidas resumidas ao longo das repetições, quando a função de resumo retorna um único valor numérico.
+
+As funções retornam uma lista cujos componentes são objetos das classes `ggplot` e `gg`, podendo ser modificados com `ggplot2`.
 
 ```{r}
 #| eval: false
+
+plot(test_mc)
 plot(summary(test_mc))
 ```
 
-Para gerar uma tabela em LaTeX basta:
+### Tabela em LaTeX
+
+A função `tidy_mc_latex()` recebe um objeto de classe `summary.mc` e retorna um objeto de classe `knitr_kable`, que pode ser posteriormente personalizado com `kableExtra`.
 
 ```{r}
 #| eval: false
+
 tidy_mc_latex(
   x = summary(test_mc)
-) %>% 
+) %>%
   print()
-
 ```
 
+::: {.callout-tip title="Reprodutibilidade e paralelização"}
+`future_mc()` usa paralelização por padrão. A documentação também informa que as opções de `furrr` utilizam `seed = TRUE` por padrão, salvo especificação em contrário, para preservar a geração reprodutível de números aleatórios em execução paralela. Ainda assim, registre explicitamente a semente usada no estudo e documente versão do R, versão dos pacotes e configuração computacional relevante.
+:::
 
 
 ## Exercícios
