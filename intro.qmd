@@ -184,15 +184,15 @@ Desenvolver competências teóricas e computacionais para compreensão, implemen
 
 - interpretação e diagnóstico dos resultados.
 
-
-
 ## METODOLOGIA {.unnumbered}
 
 A disciplina será desenvolvida por meio de aulas teóricas e práticas, integrando fundamentos estatísticos, formulação matemática e implementação computacional em R. Serão utilizados exemplos, exercícios, estudos de simulação e atividades computacionais, com organização didática que favoreça diferentes formas de aprendizagem, preservando o rigor teórico e computacional.
 
 ## AVALIAÇÃO {.unnumbered}
 
-A avaliação será contínua, por meio de avaliações individuais, atividades computacionais, exercícios e/ou projetos. Serão considerados tanto o domínio dos fundamentos teóricos quanto a capacidade de implementar, analisar e interpretar os métodos estudados.
+A avaliação será realizada de forma contínua, contemplando competências conceituais, estatísticas e computacionais. Serão considerados o domínio dos fundamentos dos métodos estudados, a capacidade de implementação em R, a correção dos procedimentos computacionais, a interpretação dos resultados, a análise de convergência e estabilidade quando pertinente, bem como a organização e a reprodutibilidade das análises.
+
+A nota final será composta por atividades computacionais (30%), duas avaliações individuais (40%) e projeto final computacional (30%). O projeto final deverá integrar conteúdos da disciplina por meio de um estudo computacional ou de simulação, com apresentação dos objetivos, metodologia, implementação, resultados, interpretação e limitações.
 
 ## CRITÉRIOS DE AVALIAÇÃO {.unnumbered}
 
