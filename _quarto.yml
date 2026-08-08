@@ -15,22 +15,15 @@ book:
   chapters:
     - index.qmd
     - intro.qmd
-    #- motivacao.qmd
-    #- introducao.qmd
     - revisaoR.qmd
     - summary.qmd
     - pseudo.qmd
     - mc.qmd
-    #- pseudo_cont.qmd
     - boot.qmd
     - otimizaca.qmd
     - em.qmd
-    #- metodosadicionais.qmd
-    
-    
-    #- em.qmd
-    #- metodosadicionais.qmd
-    #- references.qmd
+    - projeto.qmd
+   
 
 bibliography: BOOK.bib
 csl: https://www.zotero.org/styles/associacao-brasileira-de-normas-tecnicas # Opcional: para normas ABNT

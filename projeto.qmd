@@ -1,0 +1,138 @@
+# Projeto final computacional
+
+O projeto final corresponde a **30% da nota da disciplina** e tem como objetivo integrar os conteúdos em um estudo computacional completo.
+
+Recomenda-se que o projeto seja realizado em **duplas**, podendo ser admitidos grupos de três estudantes em função do tamanho da turma. A apresentação deverá incluir uma **arguição individual**, de modo que seja possível avaliar a compreensão de cada integrante.
+
+O projeto deverá investigar uma questão estatística por meio de ferramentas computacionais estudadas na disciplina.
+
+## Exemplos de temas
+
+Entre as possibilidades estão:
+
+- comparação de estimadores por simulação;
+- estudo empírico de viés, variância e erro quadrático médio;
+- análise da cobertura de intervalos de confiança;
+- comparação entre procedimentos bootstrap;
+- comparação de algoritmos de otimização;
+- estudo da sensibilidade do algoritmo EM aos valores iniciais;
+- avaliação do erro de Monte Carlo em função do número de réplicas;
+- comparação de métodos de geração de variáveis aleatórias;
+- estudo de convergência de algoritmos iterativos;
+- comparação do desempenho estatístico e computacional de diferentes métodos.
+
+@thulin2025modern [Seções 7.2--7.3, pp. 256--265] apresenta estudos de simulação como instrumento para comparar estimadores, avaliar taxas de erro, poder e tamanho amostral. Essa perspectiva fundamenta a utilização de um estudo computacional como atividade integradora da disciplina.
+
+## Estrutura esperada do projeto
+
+O relatório final deverá conter, no mínimo:
+
+1. **Introdução e problema de interesse**;
+2. **objetivos**;
+3. **fundamentação metodológica**;
+4. **descrição do experimento computacional**;
+5. **implementação em R**;
+6. **resultados**;
+7. **interpretação**;
+8. **diagnósticos e limitações**;
+9. **conclusões**;
+10. **referências**.
+
+Quando houver simulação, deverão ser explicitados:
+
+- os cenários investigados;
+- os valores dos parâmetros;
+- o tamanho amostral;
+- o número de réplicas;
+- a semente utilizada, quando pertinente;
+- os critérios de comparação;
+- os procedimentos utilizados para avaliar estabilidade ou convergência.
+
+## Critérios de avaliação do projeto final
+
+| Critério | Peso |
+|:----------------------------------------------------|------:|
+| Formulação do problema | 10% |
+| Correção metodológica | 20% |
+| Implementação computacional | 20% |
+| Planejamento do experimento computacional | 15% |
+| Análise e interpretação dos resultados | 20% |
+| Reprodutibilidade e organização do código | 10% |
+| Apresentação e arguição | 5% |
+| **Total** | **100%** |
+
+### Formulação do problema
+
+O problema deve estar claramente definido e possuir uma questão estatística ou computacional passível de investigação.
+
+### Correção metodológica
+
+Os métodos utilizados devem ser adequados ao objetivo do estudo e aplicados sob condições coerentes com suas hipóteses.
+
+### Implementação computacional
+
+O código deve estar correto, organizado e suficientemente documentado para permitir a compreensão das principais etapas do procedimento.
+
+### Planejamento do experimento computacional
+
+Os cenários de simulação, tamanhos amostrais, parâmetros, número de repetições e critérios de comparação devem ser explicitamente justificados.
+
+### Análise e interpretação
+
+Os resultados devem ser discutidos estatística e computacionalmente. A simples apresentação de tabelas ou gráficos não constitui análise suficiente.
+
+### Reprodutibilidade
+
+O projeto deverá ser entregue preferencialmente em **Quarto**, integrando texto, código, tabelas, gráficos e resultados em um único documento reprodutível.
+
+@thulin2025modern [Seção 3.11.3, p. 96] caracteriza uma análise como reprodutível quando outra pessoa consegue reproduzir seus resultados e destaca que a reprodutibilidade torna transparentes as etapas da análise. Em procedimentos envolvendo aleatoriedade, o uso de `set.seed()` permite reproduzir uma sequência pseudoaleatória específica [@thulin2025modern, Seção 7.1.1, pp. 248--249].
+
+## Critérios gerais de desempenho
+
+Independentemente do componente avaliativo, serão considerados os seguintes critérios gerais:
+
+### Correção conceitual
+
+O estudante deve demonstrar compreensão dos fundamentos estatísticos dos métodos utilizados.
+
+### Correção computacional
+
+O código deve implementar corretamente o procedimento proposto.
+
+### Interpretação estatística
+
+Os resultados devem ser interpretados no contexto do problema, distinguindo adequadamente resultados numéricos de conclusões estatísticas.
+
+### Diagnóstico computacional
+
+O estudante deve ser capaz de reconhecer limitações relacionadas a:
+
+- convergência;
+- estabilidade;
+- número de iterações;
+- número de réplicas;
+- escolha de valores iniciais;
+- precisão numérica;
+- sensibilidade do algoritmo;
+- qualidade da simulação.
+
+### Reprodutibilidade
+
+As análises devem poder ser reproduzidas a partir dos códigos, dados e informações fornecidos.
+
+::: {.callout-important title="Síntese"}
+A avaliação da disciplina busca verificar se o estudante é capaz de **formular, implementar, diagnosticar e interpretar** procedimentos de Estatística Computacional. O domínio de comandos isolados não constitui, por si só, evidência suficiente de aprendizagem.
+:::
+
+## Síntese do sistema de avaliação
+
+| Dimensão | Evidência principal |
+|:------------------------------------|:----------------------------------------------------|
+| Domínio conceitual | Avaliações individuais |
+| Implementação | Atividades computacionais e projeto |
+| Raciocínio estatístico-computacional | Todos os componentes |
+| Interpretação | Atividades, avaliações e projeto |
+| Diagnóstico de algoritmos | Atividades, avaliações e projeto |
+| Reprodutibilidade | Atividades e projeto |
+| Integração dos conteúdos | Projeto final |
+| Desempenho individual | Avaliações e arguição do projeto |
