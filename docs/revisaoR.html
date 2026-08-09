@@ -330,7 +330,7 @@ window.Quarto = {
 </header>
 
 
-<p>A simulação ocupa um papel importante na Estatística moderna, tanto como ferramenta científica quanto como recurso didático. Já em 1980, <span class="citation" data-cites="thomas_cusum_1980">Thomas; Moore (<a href="#ref-thomas_cusum_1980" role="doc-biblioref">1980</a>, pp.&nbsp;23–28)</span> mostravam como a simulação computacional podia ser usada para introduzir técnicas CUSUM e, ao mesmo tempo, favorecer a compreensão de inferência estatística e tomada de decisão. Em trabalhos posteriores, <span class="citation" data-cites="ZiefflerGarfield2007">Zieffler; Garfield (<a href="#ref-ZiefflerGarfield2007" role="doc-biblioref">2007</a>)</span> estudam atividades de simulação voltadas ao desenvolvimento do raciocínio estatístico, enquanto <span class="citation" data-cites="tintle_combating_2015">Tintle et al. (<a href="#ref-tintle_combating_2015" role="doc-biblioref">2015</a>, pp.&nbsp;362–370)</span> defendem o uso de métodos baseados em simulação ao longo do currículo de graduação em Estatística. Essa abordagem, contudo, exige planejamento: <span class="citation" data-cites="hodgson_simulation_2000">Hodgson; Burke (<a href="#ref-hodgson_simulation_2000" role="doc-biblioref">2000</a>, pp.&nbsp;91–96)</span> observam que a simulação pode promover compreensão conceitual profunda, mas também produzir interpretações equivocadas quando as atividades não são cuidadosamente estruturadas. O problema do aniversário, explorado por <span class="citation" data-cites="martins_learning_2018">Martins (<a href="#ref-martins_learning_2018" role="doc-biblioref">2018</a>, pp.&nbsp;108–111)</span>, fornece um exemplo particularmente adequado para discutir simultaneamente intuição probabilística, simulação e resultados teóricos.</p>
+<p>A simulação ocupa um papel importante na Estatística moderna, tanto como ferramenta científica quanto como recurso didático. Já em 1980, <span class="citation" data-cites="thomas_cusum_1980">Thomas; Moore (<a href="#ref-thomas_cusum_1980" role="doc-biblioref">1980</a>)</span> [pp.&nbsp;23–28] mostravam como a simulação computacional podia ser usada para introduzir técnicas CUSUM e, ao mesmo tempo, favorecer a compreensão de inferência estatística e tomada de decisão. Em trabalhos posteriores, <span class="citation" data-cites="ZiefflerGarfield2007">Zieffler; Garfield (<a href="#ref-ZiefflerGarfield2007" role="doc-biblioref">2007</a>)</span> estudam atividades de simulação voltadas ao desenvolvimento do raciocínio estatístico, enquanto <span class="citation" data-cites="tintle_combating_2015">Tintle et al. (<a href="#ref-tintle_combating_2015" role="doc-biblioref">2015</a>, pp.&nbsp;362–370)</span> defendem o uso de métodos baseados em simulação ao longo do currículo de graduação em Estatística. Essa abordagem, contudo, exige planejamento: <span class="citation" data-cites="hodgson_simulation_2000">Hodgson; Burke (<a href="#ref-hodgson_simulation_2000" role="doc-biblioref">2000</a>)</span> [pp.&nbsp;91–96] observam que a simulação pode promover compreensão conceitual profunda, mas também produzir interpretações equivocadas quando as atividades não são cuidadosamente estruturadas. O problema do aniversário, explorado por <span class="citation" data-cites="martins_learning_2018">Martins (<a href="#ref-martins_learning_2018" role="doc-biblioref">2018</a>, pp.&nbsp;108–111)</span>, fornece um exemplo particularmente adequado para discutir simultaneamente intuição probabilística, simulação e resultados teóricos.</p>
 <p>Todo estudante da Universidade Federal do Ceará conhece a cena. É hora do almoço no Restaurante Universitário (RU). A fila se alonga pelo pátio, colegas conversam, alguns reclamam da espera, outros aproveitam o tempo para revisar o conteúdo da próxima prova. O tempo parece correr de forma diferente quando estamos na fila. Para alguns, são apenas alguns minutos. Para outros, parece uma eternidade.</p>
 <p>Agora, pense um pouco. Quanto tempo, em média, um aluno passa esperando para se servir? Qual a chance de alguém que chega por volta das 12h30 esperar mais de vinte minutos? Por que em alguns dias a fila anda rápido e em outros parece não ter fim?</p>
 <p>Essas perguntas podem parecer simples, mas abrem caminho para um universo fascinante. Elas revelam como a <strong>Probabilidade e a Estatística</strong> estão presentes em situações que vivemos todos os dias. A fila do RU não é apenas um detalhe da rotina estudantil. Ela é um retrato de como os fenômenos aleatórios acontecem ao nosso redor. Cada chegada de estudante, cada tempo de atendimento, cada variação de um dia para o outro forma um sistema dinâmico que pode ser estudado e compreendido.</p>
@@ -367,7 +367,7 @@ Enunciado
 <section id="um-atalho-analítico-útil" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="um-atalho-analítico-útil">Um atalho analítico útil</h2>
 <p>O produto acima admite uma <strong>aproximação exponencial simples</strong>, obtida tomando logaritmo e retendo o termo de primeira ordem da expansão</p>
-<p><span class="math display">\[\log(1-x)=-x+O(x^2), \qquad x\to0.\]</span></p>
+<p><span class="math display">\[\ln(1-x)=-x+O(x^2), \qquad x\to0.\]</span></p>
 <p>Aplicando essa aproximação ao produto,</p>
 <p><span class="math display">\[\begin{aligned}
 \ln\!\big(1 - p_r\big)
@@ -452,7 +452,7 @@ Exemplo Rápido
 </section>
 <section id="atividade-problema-do-aniversário-22-jogadores" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="atividade-problema-do-aniversário-22-jogadores">Atividade: Problema do Aniversário (22 jogadores)</h2>
-<p>A atividade de <span class="citation" data-cites="martins_learning_2018">Martins (<a href="#ref-martins_learning_2018" role="doc-biblioref">2018</a>, pp.&nbsp;108–111)</span> usa o problema do aniversário para introduzir os princípios da simulação por meio de uma abordagem lúdica, destacando justamente a tensão entre intuição e probabilidade. O problema também é discutido por <span class="citation" data-cites="falk_closer_2014">Falk (<a href="#ref-falk_closer_2014" role="doc-biblioref">2014</a>, pp.&nbsp;41–46)</span>. Um antecedente diretamente ligado ao futebol é <span class="citation" data-cites="matthews_coincidences_1998">Matthews; Stones (<a href="#ref-matthews_coincidences_1998" role="doc-biblioref">1998</a>, pp.&nbsp;17–19)</span>, que considera as <strong>23 pessoas em campo</strong> — 22 jogadores e o árbitro — como um teste empírico natural do resultado clássico.</p>
+<p>A atividade de <span class="citation" data-cites="martins_learning_2018">Martins (<a href="#ref-martins_learning_2018" role="doc-biblioref">2018</a>)</span> [pp.&nbsp;108–111] usa o problema do aniversário para introduzir os princípios da simulação por meio de uma abordagem lúdica, destacando justamente a tensão entre intuição e probabilidade. O problema também é discutido por <span class="citation" data-cites="falk_closer_2014">Falk (<a href="#ref-falk_closer_2014" role="doc-biblioref">2014</a>, pp.&nbsp;41–46)</span>. Um antecedente diretamente ligado ao futebol é <span class="citation" data-cites="matthews_coincidences_1998">Matthews; Stones (<a href="#ref-matthews_coincidences_1998" role="doc-biblioref">1998</a>, pp.&nbsp;17–19)</span>, que considera as <strong>23 pessoas em campo</strong> — 22 jogadores e o árbitro — como um teste empírico natural do resultado clássico.</p>
 <p>Na atividade a seguir, adotaremos deliberadamente apenas os <strong>22 jogadores</strong>. Trata-se, portanto, de uma adaptação didática deste capítulo: com 22 pessoas, a probabilidade exata de pelo menos uma coincidência é aproximadamente <span class="math inline">\(0.4757\)</span>, ligeiramente abaixo de 50%. Essa escolha permite comparar um cenário muito próximo do limiar clássico de 23 pessoas e discutir a sensibilidade da probabilidade ao tamanho do grupo.</p>
 <p>Agora iremos considerar o seguinte problema:</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Problema">
@@ -495,7 +495,7 @@ Problema
 <h2 data-number="1.2" class="anchored" data-anchor-id="revisão-de-r-para-estatística-computacional"><span class="header-section-number">1.2</span> Revisão de R para Estatística Computacional</h2>
 <p>Este capítulo revisa os recursos de <code>R</code> que serão utilizados nos capítulos de Estatística Computacional. O objetivo não é cobrir toda a linguagem, mas consolidar a base necessária para implementar simulações, métodos de Monte Carlo, algoritmos iterativos, otimização e reamostragem.</p>
 <p>Programar não consiste apenas em memorizar comandos. É necessário transformar um problema em uma sequência de operações executáveis, decompor tarefas complexas em componentes menores e testar sistematicamente o código. <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> enfatiza essa distinção entre aprender uma linguagem e aprender a programar e destaca que a proficiência exige prática [Apêndice B, pp.&nbsp;271–294].</p>
-<p>A organização da revisão apoia-se principalmente na introdução à linguagem e às estruturas de dados de <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025</a>, Caps. 1–3)</span>, na apresentação de fundamentos e programação de <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025</a>, Caps. 2 e 6)</span> e no Apêndice B de <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, pp.&nbsp;271–294)</span>, dedicado à programação em <code>R</code>.</p>
+<p>A organização da revisão apoia-se principalmente na introdução à linguagem e às estruturas de dados de <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025</a>)</span> [Caps. 1–3], na apresentação de fundamentos e programação de <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025</a>, Caps. 2 e 6)</span> e no Apêndice B de <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, pp.&nbsp;271–294)</span>, dedicado à programação em <code>R</code>.</p>
 <section id="objetivos-de-aprendizagem" class="level3" data-number="1.2.1">
 <h3 data-number="1.2.1" class="anchored" data-anchor-id="objetivos-de-aprendizagem"><span class="header-section-number">1.2.1</span> Objetivos de aprendizagem</h3>
 <p>Ao final deste capítulo, espera-se que o leitor seja capaz de:</p>
@@ -540,7 +540,7 @@ Interpretação
 </section>
 <section id="instalação-e-ambiente-de-desenvolvimento" class="level3" data-number="1.2.3">
 <h3 data-number="1.2.3" class="anchored" data-anchor-id="instalação-e-ambiente-de-desenvolvimento"><span class="header-section-number">1.2.3</span> Instalação e ambiente de desenvolvimento</h3>
-<p><span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 2.1</a>, pp.&nbsp;4–5)</span> e <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, seç. 1.2</a>)</span> descrevem o procedimento geral de instalação de <code>R</code> e de um ambiente integrado, como RStudio.</p>
+<p><span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025</a>)</span> [Seção 2.1, pp.&nbsp;4–5] e <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, seç. 1.2</a>)</span> descrevem o procedimento geral de instalação de <code>R</code> e de um ambiente integrado, como RStudio.</p>
 <p>Um teste mínimo é:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -606,7 +606,7 @@ loaded via a namespace (and not attached):
 <pre><code>[1] 7</code></pre>
 </div>
 </div>
-<p>Para análises reproduzíveis, os comandos devem ser armazenados em scripts. <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 2.3</a>, pp.&nbsp;6–8)</span> diferencia execução interativa e scripts, e <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, cap. 2</a>)</span> também apresenta scripts como forma de armazenar comandos.</p>
+<p>Para análises reproduzíveis, os comandos devem ser armazenados em scripts. <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025</a>)</span> [Seção 2.3, pp.&nbsp;6–8] diferencia execução interativa e scripts, e <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, cap. 2</a>)</span> também apresenta scripts como forma de armazenar comandos.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Definição">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -661,7 +661,7 @@ Observação editorial
 <pre><code>[1] 15</code></pre>
 </div>
 </div>
-<p><span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 2.4</a>, pp.&nbsp;8–18)</span> introduz armazenamento, nomes, vetores e funções. <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. B.2.2</a>, pp.&nbsp;273–275)</span> utiliza objetos para guardar resultados intermediários.</p>
+<p><span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025</a>)</span> [Seção 2.4, pp.&nbsp;8–18] introduz armazenamento, nomes, vetores e funções. <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. B.2.2</a>, pp.&nbsp;273–275)</span> utiliza objetos para guardar resultados intermediários.</p>
 <section id="inspeção" class="level4" data-number="1.2.6.1">
 <h4 data-number="1.2.6.1" class="anchored" data-anchor-id="inspeção"><span class="header-section-number">1.2.6.1</span> Inspeção</h4>
 <div class="cell">
@@ -714,7 +714,7 @@ Tipo e classe
 <li><code>complex</code>;</li>
 <li><code>character</code>.</li>
 </ul>
-<p><span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, seç. 1.7</a>, pp.&nbsp;12–14)</span> apresenta os principais tipos; <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. B.2.3</a>, pp.&nbsp;275–282)</span> discute números, vetores, matrizes, textos e valores lógicos.</p>
+<p><span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025</a>)</span> [Seção 1.7, pp.&nbsp;12–14] apresenta os principais tipos; <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. B.2.3</a>, pp.&nbsp;275–282)</span> discute números, vetores, matrizes, textos e valores lógicos.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(<span class="cn">TRUE</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -885,11 +885,11 @@ Interpretação
 <li><code>%%</code>: resto;</li>
 <li><code>^</code>: potência.</li>
 </ul>
-<p>Esses operadores e as regras usuais de precedência são apresentados por <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 2.4.5</a>, pp.&nbsp;17–18)</span> e <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. B.2.1</a>, pp.&nbsp;273–275)</span>.</p>
+<p>Esses operadores e as regras usuais de precedência são apresentados por <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025</a>)</span> [Seção 2.4.5, pp.&nbsp;17–18] e <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. B.2.1</a>, pp.&nbsp;273–275)</span>.</p>
 </section>
 <section id="vetores" class="level3" data-number="1.2.11">
 <h3 data-number="1.2.11" class="anchored" data-anchor-id="vetores"><span class="header-section-number">1.2.11</span> Vetores</h3>
-<p>Vetores são estruturas fundamentais de <code>R</code>. <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, seç. 3.1.1–3.1.4</a>, pp.&nbsp;63–67)</span> e <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. B.2.3.2</a>, pp.&nbsp;276–279)</span> apresentam construção, indexação e operações com vetores.</p>
+<p>Vetores são estruturas fundamentais de <code>R</code>. <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025</a>)</span> [Seções 3.1.1–3.1.4, pp.&nbsp;63–67] e <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. B.2.3.2</a>, pp.&nbsp;276–279)</span> apresentam construção, indexação e operações com vetores.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>)</span>
 <span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1047,7 +1047,7 @@ comprimento do objeto menor</code></pre>
 </section>
 <section id="matrizes" class="level3" data-number="1.2.14">
 <h3 data-number="1.2.14" class="anchored" data-anchor-id="matrizes"><span class="header-section-number">1.2.14</span> Matrizes</h3>
-<p><span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, seç. 3.2</a>, pp.&nbsp;68–75)</span> apresenta criação, indexação e operações básicas com matrizes; <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. B.2.3.3</a>, pp.&nbsp;279–281)</span> complementa a discussão com operações de álgebra matricial.</p>
+<p><span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025</a>)</span> [Seção 3.2, pp.&nbsp;68–75] apresenta criação, indexação e operações básicas com matrizes; <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. B.2.3.3</a>, pp.&nbsp;279–281)</span> complementa a discussão com operações de álgebra matricial.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(</span>
 <span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>),</span>
@@ -1207,14 +1207,12 @@ Distinção essencial
 <pre><code>[1] 1.5 3.5</code></pre>
 </div>
 </div>
-<p>Funções como <code>t()</code>, <code>rowSums()</code>, <code>colSums()</code>, <code>rowMeans()</code> e <code>colMeans()</code> aparecem em <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, seç. 3.2.3</a>, pp.&nbsp;70–75)</span> e <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. B.2.3.3</a>, pp.&nbsp;279–281)</span>.</p>
+<p>Funções como <code>t()</code>, <code>rowSums()</code>, <code>colSums()</code>, <code>rowMeans()</code> e <code>colMeans()</code> aparecem em <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025</a>)</span> [Seção 3.2.3, pp.&nbsp;70–75] e <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. B.2.3.3</a>, pp.&nbsp;279–281)</span>.</p>
 </section>
 <section id="sistemas-lineares" class="level3" data-number="1.2.16">
 <h3 data-number="1.2.16" class="anchored" data-anchor-id="sistemas-lineares"><span class="header-section-number">1.2.16</span> Sistemas lineares</h3>
 <p>Para</p>
-<p><span class="math display">\[
-Ax=b,
-\]</span></p>
+<p><span class="math display">\[Ax=b,\]</span></p>
 <p>use:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb144"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb144-1"><a href="#cb144-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(</span>
@@ -1323,7 +1321,7 @@ Interpretação
 <section id="data-frames" class="level3" data-number="1.2.18">
 <h3 data-number="1.2.18" class="anchored" data-anchor-id="data-frames"><span class="header-section-number">1.2.18</span> Data frames</h3>
 <p>Um <code>data.frame</code> representa dados tabulares e permite que colunas tenham tipos diferentes, desde que tenham comprimentos compatíveis.</p>
-<p>Essa estrutura é apresentada por <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, seç. 1.8.5</a>, pp.&nbsp;17–18)</span> e, no contexto de manipulação e acesso às colunas, por <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 2.4.3</a> e 2.11, pp.&nbsp;12–15 e 38–42)</span>.</p>
+<p>Essa estrutura é apresentada por <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025</a>)</span> [Seção 1.8.5, pp.&nbsp;17–18] e, no contexto de manipulação e acesso às colunas, por <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 2.4.3</a> e 2.11, pp.&nbsp;12–15 e 38–42)</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb156"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb156-1"><a href="#cb156-1" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
 <span id="cb156-2"><a href="#cb156-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,</span>
@@ -1451,7 +1449,7 @@ Interpretação
 </section>
 <section id="estruturas-condicionais" class="level3" data-number="1.2.20">
 <h3 data-number="1.2.20" class="anchored" data-anchor-id="estruturas-condicionais"><span class="header-section-number">1.2.20</span> Estruturas condicionais</h3>
-<p><span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, seç. 2.2</a>, pp.&nbsp;29–33)</span> e <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 6.3</a>, pp.&nbsp;222–227)</span> apresentam estruturas condicionais.</p>
+<p><span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025</a>)</span> [Seção 2.2, pp.&nbsp;29–33] e <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 6.3</a>, pp.&nbsp;222–227)</span> apresentam estruturas condicionais.</p>
 <section id="if-e-else" class="level4" data-number="1.2.20.1">
 <h4 data-number="1.2.20.1" class="anchored" data-anchor-id="if-e-else"><span class="header-section-number">1.2.20.1</span> <code>if</code> e <code>else</code></h4>
 <div class="cell">
@@ -1665,7 +1663,7 @@ $b
 </section>
 <section id="escrevendo-funções" class="level3" data-number="1.2.24">
 <h3 data-number="1.2.24" class="anchored" data-anchor-id="escrevendo-funções"><span class="header-section-number">1.2.24</span> Escrevendo funções</h3>
-<p><span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. B.3.2</a>, pp.&nbsp;286–290)</span> relaciona funções ao princípio de decompor problemas em partes menores; <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, seç. 2.5.2</a>, pp.&nbsp;47–50)</span> apresenta sintaxe, argumentos e valores retornados por funções definidas pelo usuário.</p>
+<p><span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Seção B.3.2, pp.&nbsp;286–290] relaciona funções ao princípio de decompor problemas em partes menores; <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, seç. 2.5.2</a>, pp.&nbsp;47–50)</span> apresenta sintaxe, argumentos e valores retornados por funções definidas pelo usuário.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb204"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb204-1"><a href="#cb204-1" aria-hidden="true" tabindex="-1"></a>media_aritmetica <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
 <span id="cb204-2"><a href="#cb204-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(x) <span class="sc">/</span> <span class="fu">length</span>(x)</span>
@@ -1705,14 +1703,22 @@ $b
 <div class="cell">
 <div class="sourceCode cell-code" id="cb211"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb211-1"><a href="#cb211-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">10</span></span>
 <span id="cb211-2"><a href="#cb211-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb211-3"><a href="#cb211-3" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
-<span id="cb211-4"><a href="#cb211-4" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="dv">100</span></span>
-<span id="cb211-5"><a href="#cb211-5" aria-hidden="true" tabindex="-1"></a>  x</span>
-<span id="cb211-6"><a href="#cb211-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb211-3"><a href="#cb211-3" aria-hidden="true" tabindex="-1"></a>fibonacci <span class="ot">&lt;-</span> <span class="cf">function</span>(n) {</span>
+<span id="cb211-4"><a href="#cb211-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb211-5"><a href="#cb211-5" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb211-6"><a href="#cb211-6" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
 <span id="cb211-7"><a href="#cb211-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb211-8"><a href="#cb211-8" aria-hidden="true" tabindex="-1"></a><span class="fu">f</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb211-8"><a href="#cb211-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">3</span><span class="sc">:</span>n){</span>
+<span id="cb211-9"><a href="#cb211-9" aria-hidden="true" tabindex="-1"></a>  x[k] <span class="ot">&lt;-</span> x[k<span class="dv">-1</span>] <span class="sc">+</span> x[k<span class="dv">-2</span>]</span>
+<span id="cb211-10"><a href="#cb211-10" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb211-11"><a href="#cb211-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb211-12"><a href="#cb211-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(x[n])</span>
+<span id="cb211-13"><a href="#cb211-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb211-14"><a href="#cb211-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb211-15"><a href="#cb211-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb211-16"><a href="#cb211-16" aria-hidden="true" tabindex="-1"></a><span class="fu">fibonacci</span>(<span class="dv">5</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 100</code></pre>
+<pre><code>[1] 5</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb213"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb213-1"><a href="#cb213-1" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1802,7 +1808,7 @@ Interpretação
 </section>
 <section id="pacotes" class="level3" data-number="1.2.27">
 <h3 data-number="1.2.27" class="anchored" data-anchor-id="pacotes"><span class="header-section-number">1.2.27</span> Pacotes</h3>
-<p><span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 2.5</a>, pp.&nbsp;18–19)</span> distingue instalação e carregamento de pacotes. <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, cap. 1</a>)</span> também apresenta <code>install.packages()</code> e <code>library()</code>.</p>
+<p><span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025</a>)</span> [Seção 2.5, pp.&nbsp;18–19] distingue instalação e carregamento de pacotes. <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, cap. 1</a>)</span> também apresenta <code>install.packages()</code> e <code>library()</code>.</p>
 <section id="instalação" class="level4" data-number="1.2.27.1">
 <h4 data-number="1.2.27.1" class="anchored" data-anchor-id="instalação"><span class="header-section-number">1.2.27.1</span> Instalação</h4>
 <div class="cell">
@@ -1977,7 +1983,7 @@ Interpretação
 <pre><code>[1]  0.52058907 -1.07969076  0.13923812 -0.08474878 -0.66663962</code></pre>
 </div>
 </div>
-<p>A geração pseudoaleatória e o papel de <code>set.seed()</code> na reprodutibilidade são apresentados por <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. B.4</a>, pp.&nbsp;292–294)</span> e <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.1.1</a>, pp.&nbsp;248–249)</span>.</p>
+<p>A geração pseudoaleatória e o papel de <code>set.seed()</code> na reprodutibilidade são apresentados por <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Seção B.4, pp.&nbsp;292–294] e <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.1.1</a>, pp.&nbsp;248–249)</span>.</p>
 <div class="callout callout-style-default callout-warning callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2226,10 +2232,8 @@ Exercício 6 — matrizes
 </div>
 <div class="callout-body-container callout-body">
 <p>Construa uma matriz <span class="math inline">\(4\times2\)</span>, preenchida por linhas, com</p>
-<p><span class="math display">\[
-4{,}3,\;3{,}1,\;8{,}2,\;8{,}2,\;
-3{,}2,\;0{,}9,\;1{,}6,\;6{,}5.
-\]</span></p>
+<p><span class="math display">\[4{,}3,\;3{,}1,\;8{,}2,\;8{,}2,\;
+3{,}2,\;0{,}9,\;1{,}6,\;6{,}5.\]</span></p>
 <p>Extraia a segunda coluna preservando a estrutura matricial e ordene essa coluna.</p>
 </div>
 </div>
@@ -2244,8 +2248,7 @@ Exercício 7 — produto matricial
 </div>
 <div class="callout-body-container callout-body">
 <p>Construa</p>
-<p><span class="math display">\[
-A=
+<p><span class="math display">\[A=
 \begin{pmatrix}
 1&amp;2\\
 3&amp;4
@@ -2255,8 +2258,7 @@ B=
 \begin{pmatrix}
 5&amp;6\\
 7&amp;8
-\end{pmatrix}.
-\]</span></p>
+\end{pmatrix}.\]</span></p>
 <p>Compare <code>A * B</code> com <code>A %*% B</code>.</p>
 </div>
 </div>
@@ -2271,8 +2273,7 @@ Exercício 8 — sistemas lineares
 </div>
 <div class="callout-body-container callout-body">
 <p>Resolva</p>
-<p><span class="math display">\[
-\begin{pmatrix}
+<p><span class="math display">\[\begin{pmatrix}
 3&amp;1\\
 4&amp;2
 \end{pmatrix}
@@ -2284,8 +2285,7 @@ x_2
 \begin{pmatrix}
 5\\
 6
-\end{pmatrix}
-\]</span></p>
+\end{pmatrix}\]</span></p>
 <p>com <code>solve(A, b)</code> e verifique <span class="math inline">\(Ax-b\)</span>.</p>
 </div>
 </div>

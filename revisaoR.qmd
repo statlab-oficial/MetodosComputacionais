@@ -1,6 +1,6 @@
 # Introdução ao R e Programação Estatística
 
-A simulação ocupa um papel importante na Estatística moderna, tanto como ferramenta científica quanto como recurso didático. Já em 1980, @thomas_cusum_1980 [pp. 23--28] mostravam como a simulação computacional podia ser usada para introduzir técnicas CUSUM e, ao mesmo tempo, favorecer a compreensão de inferência estatística e tomada de decisão. Em trabalhos posteriores, @ZiefflerGarfield2007 estudam atividades de simulação voltadas ao desenvolvimento do raciocínio estatístico, enquanto @tintle_combating_2015 [pp. 362--370] defendem o uso de métodos baseados em simulação ao longo do currículo de graduação em Estatística. Essa abordagem, contudo, exige planejamento: @hodgson_simulation_2000 [pp. 91--96] observam que a simulação pode promover compreensão conceitual profunda, mas também produzir interpretações equivocadas quando as atividades não são cuidadosamente estruturadas. O problema do aniversário, explorado por @martins_learning_2018 [pp. 108--111], fornece um exemplo particularmente adequado para discutir simultaneamente intuição probabilística, simulação e resultados teóricos.
+A simulação ocupa um papel importante na Estatística moderna, tanto como ferramenta científica quanto como recurso didático. Já em 1980, @thomas_cusum_1980 \[pp. 23--28\] mostravam como a simulação computacional podia ser usada para introduzir técnicas CUSUM e, ao mesmo tempo, favorecer a compreensão de inferência estatística e tomada de decisão. Em trabalhos posteriores, @ZiefflerGarfield2007 estudam atividades de simulação voltadas ao desenvolvimento do raciocínio estatístico, enquanto @tintle_combating_2015 [pp. 362--370] defendem o uso de métodos baseados em simulação ao longo do currículo de graduação em Estatística. Essa abordagem, contudo, exige planejamento: @hodgson_simulation_2000 \[pp. 91--96\] observam que a simulação pode promover compreensão conceitual profunda, mas também produzir interpretações equivocadas quando as atividades não são cuidadosamente estruturadas. O problema do aniversário, explorado por @martins_learning_2018 [pp. 108--111], fornece um exemplo particularmente adequado para discutir simultaneamente intuição probabilística, simulação e resultados teóricos.
 
 Todo estudante da Universidade Federal do Ceará conhece a cena. É hora do almoço no Restaurante Universitário (RU). A fila se alonga pelo pátio, colegas conversam, alguns reclamam da espera, outros aproveitam o tempo para revisar o conteúdo da próxima prova. O tempo parece correr de forma diferente quando estamos na fila. Para alguns, são apenas alguns minutos. Para outros, parece uma eternidade.
 
@@ -41,7 +41,7 @@ Esse produto é conceitualmente claro, mas fica pouco manejável mentalmente par
 
 O produto acima admite uma **aproximação exponencial simples**, obtida tomando logaritmo e retendo o termo de primeira ordem da expansão
 
-$$\log(1-x)=-x+O(x^2), \qquad x\to0.$$
+$$\ln(1-x)=-x+O(x^2), \qquad x\to0.$$
 
 Aplicando essa aproximação ao produto,
 
@@ -123,7 +123,7 @@ p_hat
 
 ## Atividade: Problema do Aniversário (22 jogadores) {.unnumbered}
 
-A atividade de @martins_learning_2018 [pp. 108--111] usa o problema do aniversário para introduzir os princípios da simulação por meio de uma abordagem lúdica, destacando justamente a tensão entre intuição e probabilidade. O problema também é discutido por @falk_closer_2014 [pp. 41--46]. Um antecedente diretamente ligado ao futebol é @matthews_coincidences_1998 [pp. 17--19], que considera as **23 pessoas em campo** — 22 jogadores e o árbitro — como um teste empírico natural do resultado clássico.
+A atividade de @martins_learning_2018 \[pp. 108--111\] usa o problema do aniversário para introduzir os princípios da simulação por meio de uma abordagem lúdica, destacando justamente a tensão entre intuição e probabilidade. O problema também é discutido por @falk_closer_2014 [pp. 41--46]. Um antecedente diretamente ligado ao futebol é @matthews_coincidences_1998 [pp. 17--19], que considera as **23 pessoas em campo** — 22 jogadores e o árbitro — como um teste empírico natural do resultado clássico.
 
 Na atividade a seguir, adotaremos deliberadamente apenas os **22 jogadores**. Trata-se, portanto, de uma adaptação didática deste capítulo: com 22 pessoas, a probabilidade exata de pelo menos uma coincidência é aproximadamente $0.4757$, ligeiramente abaixo de 50%. Essa escolha permite comparar um cenário muito próximo do limiar clássico de 23 pessoas e discutir a sensibilidade da probabilidade ao tamanho do grupo.
 
@@ -161,9 +161,9 @@ Em um país frequentemente associado ao futebol, o contexto é proposital: a fam
 
 Este capítulo revisa os recursos de `R` que serão utilizados nos capítulos de Estatística Computacional. O objetivo não é cobrir toda a linguagem, mas consolidar a base necessária para implementar simulações, métodos de Monte Carlo, algoritmos iterativos, otimização e reamostragem.
 
-Programar não consiste apenas em memorizar comandos. É necessário transformar um problema em uma sequência de operações executáveis, decompor tarefas complexas em componentes menores e testar sistematicamente o código. @voss2014statistical enfatiza essa distinção entre aprender uma linguagem e aprender a programar e destaca que a proficiência exige prática [Apêndice B, pp. 271--294].
+Programar não consiste apenas em memorizar comandos. É necessário transformar um problema em uma sequência de operações executáveis, decompor tarefas complexas em componentes menores e testar sistematicamente o código. @voss2014statistical enfatiza essa distinção entre aprender uma linguagem e aprender a programar e destaca que a proficiência exige prática \[Apêndice B, pp. 271--294\].
 
-A organização da revisão apoia-se principalmente na introdução à linguagem e às estruturas de dados de @rathi2025statistical [Caps. 1--3], na apresentação de fundamentos e programação de @thulin2025modern [Caps. 2 e 6] e no Apêndice B de @voss2014statistical [pp. 271--294], dedicado à programação em `R`.
+A organização da revisão apoia-se principalmente na introdução à linguagem e às estruturas de dados de @rathi2025statistical \[Caps. 1--3\], na apresentação de fundamentos e programação de @thulin2025modern [Caps. 2 e 6] e no Apêndice B de @voss2014statistical [pp. 271--294], dedicado à programação em `R`.
 
 ### Objetivos de aprendizagem
 
@@ -183,7 +183,6 @@ Ao final deste capítulo, espera-se que o leitor seja capaz de:
 - testar e depurar código;
 - reconhecer o padrão `d/p/q/r` das distribuições de probabilidade em `R`.
 
-
 ### R como linguagem para computação estatística
 
 `R` combina uma linguagem de programação com um ambiente interativo voltado à análise estatística, manipulação de dados e visualização. @thulin2025modern [Capítulo 2, pp. 4--19] apresenta `R` por meio de objetos, funções, vetores, `data.frame` e pacotes. @rathi2025statistical [Capítulos 1--3] desenvolve estruturas de dados, programação e operações matriciais.
@@ -199,7 +198,7 @@ Para Estatística Computacional, é útil pensar em `R` simultaneamente como:
 
 ### Instalação e ambiente de desenvolvimento
 
-@thulin2025modern [Seção 2.1, pp. 4--5] e @rathi2025statistical [Seção 1.2] descrevem o procedimento geral de instalação de `R` e de um ambiente integrado, como RStudio.
+@thulin2025modern \[Seção 2.1, pp. 4--5\] e @rathi2025statistical [Seção 1.2] descrevem o procedimento geral de instalação de `R` e de um ambiente integrado, como RStudio.
 
 Um teste mínimo é:
 
@@ -209,7 +208,6 @@ version
 sessionInfo()
 ```
 
-
 ### Console e scripts
 
 O console permite executar comandos interativamente:
@@ -218,7 +216,7 @@ O console permite executar comandos interativamente:
 3 + 4
 ```
 
-Para análises reproduzíveis, os comandos devem ser armazenados em scripts. @thulin2025modern [Seção 2.3, pp. 6--8] diferencia execução interativa e scripts, e @rathi2025statistical [Capítulo 2] também apresenta scripts como forma de armazenar comandos.
+Para análises reproduzíveis, os comandos devem ser armazenados em scripts. @thulin2025modern \[Seção 2.3, pp. 6--8\] diferencia execução interativa e scripts, e @rathi2025statistical [Capítulo 2] também apresenta scripts como forma de armazenar comandos.
 
 ::: {.callout-note title="Definição"}
 Um **script** é um arquivo de texto que contém comandos de `R` destinados a serem executados novamente.
@@ -254,7 +252,7 @@ z <- x + y
 z
 ```
 
-@thulin2025modern [Seção 2.4, pp. 8--18] introduz armazenamento, nomes, vetores e funções. @voss2014statistical [Seção B.2.2, pp. 273--275] utiliza objetos para guardar resultados intermediários.
+@thulin2025modern \[Seção 2.4, pp. 8--18\] introduz armazenamento, nomes, vetores e funções. @voss2014statistical [Seção B.2.2, pp. 273--275] utiliza objetos para guardar resultados intermediários.
 
 #### Inspeção
 
@@ -284,7 +282,7 @@ Entre os tipos mais importantes estão:
 - `complex`;
 - `character`.
 
-@rathi2025statistical [Seção 1.7, pp. 12--14] apresenta os principais tipos; @voss2014statistical [Seção B.2.3, pp. 275--282] discute números, vetores, matrizes, textos e valores lógicos.
+@rathi2025statistical \[Seção 1.7, pp. 12--14\] apresenta os principais tipos; @voss2014statistical [Seção B.2.3, pp. 275--282] discute números, vetores, matrizes, textos e valores lógicos.
 
 ```{r}
 typeof(TRUE)
@@ -344,7 +342,6 @@ length(x)
 
 `NULL` é um objeto especial de comprimento zero, frequentemente usado para representar ausência de um componente ou de um resultado. Ele não deve ser confundido com `NA`, que representa um valor ausente armazenado dentro de um objeto.
 
-
 ### Precisão numérica
 
 A representação de números reais no computador tem precisão finita. Assim:
@@ -377,11 +374,11 @@ isTRUE(all.equal(x, y))
 - `%%`: resto;
 - `^`: potência.
 
-Esses operadores e as regras usuais de precedência são apresentados por @thulin2025modern [Seção 2.4.5, pp. 17--18] e @voss2014statistical [Seção B.2.1, pp. 273--275].
+Esses operadores e as regras usuais de precedência são apresentados por @thulin2025modern \[Seção 2.4.5, pp. 17--18\] e @voss2014statistical [Seção B.2.1, pp. 273--275].
 
 ### Vetores
 
-Vetores são estruturas fundamentais de `R`. @rathi2025statistical [Seções 3.1.1--3.1.4, pp. 63--67] e @voss2014statistical [Seção B.2.3.2, pp. 276--279] apresentam construção, indexação e operações com vetores.
+Vetores são estruturas fundamentais de `R`. @rathi2025statistical \[Seções 3.1.1--3.1.4, pp. 63--67\] e @voss2014statistical [Seção B.2.3.2, pp. 276--279] apresentam construção, indexação e operações com vetores.
 
 ```{r}
 v <- c(2, 4, 6, 8)
@@ -485,7 +482,7 @@ deve produzir uma advertência porque o comprimento maior não é múltiplo do m
 
 ### Matrizes
 
-@rathi2025statistical [Seção 3.2, pp. 68--75] apresenta criação, indexação e operações básicas com matrizes; @voss2014statistical [Seção B.2.3.3, pp. 279--281] complementa a discussão com operações de álgebra matricial.
+@rathi2025statistical \[Seção 3.2, pp. 68--75\] apresenta criação, indexação e operações básicas com matrizes; @voss2014statistical [Seção B.2.3.3, pp. 279--281] complementa a discussão com operações de álgebra matricial.
 
 ```{r}
 A <- matrix(
@@ -544,13 +541,13 @@ A %*% B
 @voss2014statistical [pp. 279--281] destaca que `A * B` é produto elemento a elemento, enquanto `%*%` representa multiplicação matricial.
 
 ::: {.callout-warning title="Distinção essencial"}
-```r
+``` r
 A * B
 ```
 
 e
 
-```r
+``` r
 A %*% B
 ```
 
@@ -568,15 +565,13 @@ rowMeans(A)
 colMeans(A)
 ```
 
-Funções como `t()`, `rowSums()`, `colSums()`, `rowMeans()` e `colMeans()` aparecem em @rathi2025statistical [Seção 3.2.3, pp. 70--75] e @voss2014statistical [Seção B.2.3.3, pp. 279--281].
+Funções como `t()`, `rowSums()`, `colSums()`, `rowMeans()` e `colMeans()` aparecem em @rathi2025statistical \[Seção 3.2.3, pp. 70--75\] e @voss2014statistical [Seção B.2.3.3, pp. 279--281].
 
 ### Sistemas lineares
 
 Para
 
-$$
-Ax=b,
-$$
+$$Ax=b,$$
 
 use:
 
@@ -639,7 +634,7 @@ L$amostra
 
 Um `data.frame` representa dados tabulares e permite que colunas tenham tipos diferentes, desde que tenham comprimentos compatíveis.
 
-Essa estrutura é apresentada por @rathi2025statistical [Seção 1.8.5, pp. 17--18] e, no contexto de manipulação e acesso às colunas, por @thulin2025modern [Seções 2.4.3 e 2.11, pp. 12--15 e 38--42].
+Essa estrutura é apresentada por @rathi2025statistical \[Seção 1.8.5, pp. 17--18\] e, no contexto de manipulação e acesso às colunas, por @thulin2025modern [Seções 2.4.3 e 2.11, pp. 12--15 e 38--42].
 
 ```{r}
 dados <- data.frame(
@@ -709,7 +704,7 @@ Fatores são relevantes em modelagem estatística porque os níveis de uma vari�
 
 ### Estruturas condicionais
 
-@rathi2025statistical [Seção 2.2, pp. 29--33] e @thulin2025modern [Seção 6.3, pp. 222--227] apresentam estruturas condicionais.
+@rathi2025statistical \[Seção 2.2, pp. 29--33\] e @thulin2025modern [Seção 6.3, pp. 222--227] apresentam estruturas condicionais.
 
 #### `if` e `else`
 
@@ -861,10 +856,9 @@ vapply(
 )
 ```
 
-
 ### Escrevendo funções
 
-@voss2014statistical [Seção B.3.2, pp. 286--290] relaciona funções ao princípio de decompor problemas em partes menores; @rathi2025statistical [Seção 2.5.2, pp. 47--50] apresenta sintaxe, argumentos e valores retornados por funções definidas pelo usuário.
+@voss2014statistical \[Seção B.3.2, pp. 286--290\] relaciona funções ao princípio de decompor problemas em partes menores; @rathi2025statistical [Seção 2.5.2, pp. 47--50] apresenta sintaxe, argumentos e valores retornados por funções definidas pelo usuário.
 
 ```{r}
 media_aritmetica <- function(x) {
@@ -899,12 +893,21 @@ potencia(3, expoente = 3)
 ```{r}
 x <- 10
 
-f <- function() {
-  x <- 100
-  x
+fibonacci <- function(n) {
+x <- c()
+x[1] <- 1
+x[2] <- 1
+
+for (k in 3:n){
+  x[k] <- x[k-1] + x[k-2]
+    }
+
+  return(x[n])
+
 }
 
-f()
+fibonacci(5)
+
 x
 ```
 
@@ -972,7 +975,7 @@ O objetivo não é substituir `median()`, mas praticar validação, ordenação,
 
 ### Pacotes
 
-@thulin2025modern [Seção 2.5, pp. 18--19] distingue instalação e carregamento de pacotes. @rathi2025statistical [Capítulo 1] também apresenta `install.packages()` e `library()`.
+@thulin2025modern \[Seção 2.5, pp. 18--19\] distingue instalação e carregamento de pacotes. @rathi2025statistical [Capítulo 1] também apresenta `install.packages()` e `library()`.
 
 #### Instalação
 
@@ -1099,7 +1102,7 @@ set.seed(2026)
 rnorm(5)
 ```
 
-A geração pseudoaleatória e o papel de `set.seed()` na reprodutibilidade são apresentados por @voss2014statistical [Seção B.4, pp. 292--294] e @thulin2025modern [Seção 7.1.1, pp. 248--249].
+A geração pseudoaleatória e o papel de `set.seed()` na reprodutibilidade são apresentados por @voss2014statistical \[Seção B.4, pp. 292--294\] e @thulin2025modern [Seção 7.1.1, pp. 248--249].
 
 ::: {.callout-warning title="Observação"}
 A semente permite reproduzir a sequência gerada; ela não melhora a qualidade estatística do procedimento.
@@ -1181,7 +1184,7 @@ Um problema complexo pode ser separado em tarefas menores.
 ::: {.callout-important title="Exemplo em Estatística Computacional"}
 Uma simulação pode ser organizada como:
 
-```r
+``` r
 gerar_dados()
 ajustar_modelo()
 calcular_estatistica()
@@ -1191,7 +1194,6 @@ resumir_resultados()
 
 Isso torna cada componente mais fácil de testar e reutilizar.
 :::
-
 
 ### Síntese
 
@@ -1216,7 +1218,7 @@ O objetivo não é apenas escrever código que execute, mas código que possa se
 ::: {.callout-caution title="Exercício 1 — tipos e valores especiais"}
 Execute e interprete:
 
-```r
+``` r
 typeof(1)
 typeof(1L)
 typeof(TRUE)
@@ -1232,7 +1234,7 @@ Explique `double`, `integer`, `logical`, `character`, `complex`, `Inf` e `NaN`.
 ::: {.callout-caution title="Exercício 2 — precisão numérica"}
 Compare:
 
-```r
+``` r
 0.1 + 0.2 == 0.3
 
 all.equal(
@@ -1247,17 +1249,17 @@ Explique o resultado.
 :::
 
 ::: {.callout-caution title="Exercício 3 — vetores"}
-1. Crie os números de `5` a `15`.
-2. Calcule a média.
-3. Gere $0,0{,}5,1,\ldots,5$.
-4. Use `seq()` para gerar uma sequência iniciada em `5`, com passo `-0.3` e limite inferior `-11`. Verifique qual é o último valor produzido e explique por que `-11` não pertence à sequência quando esse passo é mantido.
-5. Inverta a sequência.
+1.  Crie os números de `5` a `15`.
+2.  Calcule a média.
+3.  Gere $0,0{,}5,1,\ldots,5$.
+4.  Use `seq()` para gerar uma sequência iniciada em `5`, com passo `-0.3` e limite inferior `-11`. Verifique qual é o último valor produzido e explique por que `-11` não pertence à sequência quando esse passo é mantido.
+5.  Inverta a sequência.
 :::
 
 ::: {.callout-caution title="Exercício 4 — indexação"}
 Considere:
 
-```r
+``` r
 x <- c(
   a = 4,
   b = 8,
@@ -1274,7 +1276,7 @@ Obtenha o terceiro elemento, todos menos o primeiro, valores maiores que `15`, p
 ::: {.callout-caution title="Exercício 5 — reciclagem"}
 Explique:
 
-```r
+``` r
 1:4 + c(10, 20)
 
 1:5 + c(10, 20)
@@ -1284,10 +1286,8 @@ Explique:
 ::: {.callout-caution title="Exercício 6 — matrizes"}
 Construa uma matriz $4\times2$, preenchida por linhas, com
 
-$$
-4{,}3,\;3{,}1,\;8{,}2,\;8{,}2,\;
-3{,}2,\;0{,}9,\;1{,}6,\;6{,}5.
-$$
+$$4{,}3,\;3{,}1,\;8{,}2,\;8{,}2,\;
+3{,}2,\;0{,}9,\;1{,}6,\;6{,}5.$$
 
 Extraia a segunda coluna preservando a estrutura matricial e ordene essa coluna.
 :::
@@ -1295,8 +1295,7 @@ Extraia a segunda coluna preservando a estrutura matricial e ordene essa coluna.
 ::: {.callout-caution title="Exercício 7 — produto matricial"}
 Construa
 
-$$
-A=
+$$A=
 \begin{pmatrix}
 1&2\\
 3&4
@@ -1306,8 +1305,7 @@ B=
 \begin{pmatrix}
 5&6\\
 7&8
-\end{pmatrix}.
-$$
+\end{pmatrix}.$$
 
 Compare `A * B` com `A %*% B`.
 :::
@@ -1315,8 +1313,7 @@ Compare `A * B` com `A %*% B`.
 ::: {.callout-caution title="Exercício 8 — sistemas lineares"}
 Resolva
 
-$$
-\begin{pmatrix}
+$$\begin{pmatrix}
 3&1\\
 4&2
 \end{pmatrix}
@@ -1328,8 +1325,7 @@ x_2
 \begin{pmatrix}
 5\\
 6
-\end{pmatrix}
-$$
+\end{pmatrix}$$
 
 com `solve(A, b)` e verifique $Ax-b$.
 :::
@@ -1355,8 +1351,8 @@ Calcule os primeiros 20 números de Fibonacci usando `for` e depois `while`.
 ::: {.callout-caution title="Exercício 13 — vetorização"}
 Para `x <- rnorm(10000)`, substitua valores negativos por zero usando:
 
-1. um `for`;
-2. indexação lógica.
+1.  um `for`;
+2.  indexação lógica.
 
 Verifique que os resultados coincidem.
 :::
@@ -1372,7 +1368,7 @@ Escreva funções próprias para média, variância amostral e desvio padrão. C
 ::: {.callout-caution title="Exercício 16 — depuração"}
 A função abaixo contém um erro:
 
-```r
+``` r
 cor_manual <- function(x, y) {
   mx <- mean(x)
   my <- mean(y)
