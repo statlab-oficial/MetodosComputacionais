@@ -347,7 +347,7 @@ window.Quarto = {
 <p>Muitos problemas de inferência podem ser descritos por um modelo probabilístico simples para uma informação que, conceitualmente, seria completa, mas que não é integralmente observada. Há pelo menos duas situações importantes.</p>
 <p>A primeira ocorre quando <strong>parte dos dados existe conceitualmente, mas não é observada</strong>. Isso inclui valores ausentes e observações censuradas. <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021, seç. 13.4</a>, pp.&nbsp;540–544)</span> usa como motivação estudos de sobrevivência nos quais alguns tempos de falha são observados exatamente, enquanto para outras unidades sabe-se apenas que o tempo de vida excedeu um limite de censura. O mesmo texto também apresenta a ausência de respostas em levantamentos como exemplo de informação incompleta.</p>
 <p>A segunda ocorre quando o próprio modelo introduz uma <strong>estrutura latente</strong>. Em uma mistura finita de distribuições, por exemplo, cada observação é gerada por uma de várias componentes, mas o rótulo da componente que gerou cada valor não é observado. A introdução desses rótulos transforma a verossimilhança da mistura em uma forma de dados completos consideravelmente mais simples. Essa estratégia de aumentar os dados com variáveis auxiliares ou latentes é destacada por <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 6.3.5</a> e Apêndice D.7, especialmente pp.&nbsp;259–260 e 711–714)</span>.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Definição">
+<div class="callout callout-style-default callout-important callout-titled" title="Definição">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -410,7 +410,7 @@ p(y\mid\theta)
 <p>enquanto a log-verossimilhança de dados completos é</p>
 <p><span class="math display">\[\ell_c(\theta;y,z)=\log p(y,z\mid\theta).\]</span></p>
 <p>Essa notação e a distinção entre verossimilhança observada e de dados completos seguem <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [Apêndice D.7, pp.&nbsp;711–712], <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021, seç. 13.4</a>, pp.&nbsp;540–541)</span> e <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022, seç. 13.8.1</a>, pp.&nbsp;485–488)</span>.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Definição">
+<div class="callout callout-style-default callout-important callout-titled" title="Definição">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -468,10 +468,10 @@ E\left[
 Q(\theta\mid\theta^{(t)})
 }.\]</span></p>
 <p>A formulação das etapas E e M segue <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>)</span> [Seção 13.4, pp.&nbsp;541–542], <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Algoritmo D.3, pp.&nbsp;712–713)</span> e <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022, seç. 13.8.1</a>, pp.&nbsp;485–488)</span>.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Algoritmo EM">
+<div class="callout callout-style-simple callout-important no-icon callout-titled" title="Algoritmo EM">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Algoritmo EM
@@ -562,7 +562,7 @@ f_j(y_i\mid\eta_j^{(t)})
 Q(\theta\mid\theta^{(t)}).\]</span></p>
 <p>A vantagem do EM depende de essa maximização ser mais simples que a maximização direta da verossimilhança observada. Em famílias exponenciais, a log-verossimilhança completa frequentemente depende dos dados por estatísticas suficientes simples. Nesse caso, a etapa E calcula esperanças condicionais dessas estatísticas e a etapa M reutiliza a forma das estimativas de máxima verossimilhança dos dados completos.</p>
 <p>Essa simplificação da etapa M é discutida por <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>)</span> [pp.&nbsp;541–542] e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, p. 713</a>)</span>.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Definição">
+<div class="callout callout-style-default callout-important callout-titled" title="Definição">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -676,10 +676,10 @@ Interpretação
 <p>Esse uso da monotonicidade como diagnóstico computacional é destacado por <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, p. 713</a>)</span>.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Observação
@@ -724,10 +724,10 @@ Observação
 &lt;
 \varepsilon_\theta.\]</span></p>
 <p><span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>)</span> [pp.&nbsp;541–542] discute tanto a diferença entre valores sucessivos da verossimilhança quanto a distância entre vetores de parâmetros. <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Algoritmo D.3, p.&nbsp;713)</span> apresenta um critério relativo baseado na verossimilhança; a forma estabilizada acima é uma escolha computacional deste capítulo. Em aplicações reais, é recomendável também impor um número máximo de iterações, pois uma tolerância muito estrita pode produzir uma execução longa sem alteração relevante para a interpretação. A importância operacional de <code>maxiter</code> é ilustrada por <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 10.1.3</a>, pp.&nbsp;361–362)</span>.</p>
-<div class="callout callout-style-default callout-warning callout-titled" title="Observação computacional">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação computacional">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Observação computacional
@@ -766,10 +766,10 @@ Interpretação
 <p>Primeiro, a <strong>etapa E pode ser difícil</strong>. Ela exige uma esperança condicional que nem sempre possui forma analítica simples. <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021, p. 548</a> e discussão subsequente)</span> menciona o Monte Carlo EM (MCEM) como alternativa quando essa esperança precisa ser aproximada por simulação.</p>
 <p>Segundo, a <strong>etapa M pode continuar sendo um problema de otimização não trivial</strong>. A vantagem do EM é maior quando a estrutura de dados completos pertence a uma família que produz maximizações simples, em particular em diversos casos de famílias exponenciais. Isso é observado por <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [p.&nbsp;713] e <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>, pp.&nbsp;541–542)</span>.</p>
 <p>Terceiro, modelos de mistura apresentam <strong>questões de identificabilidade por permutação dos rótulos</strong>. Se duas componentes pertencem à mesma família paramétrica, permutar seus índices não altera a distribuição da mistura. <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>, pp.&nbsp;145–148)</span> discute essa ambiguidade e a necessidade de alguma convenção de ordenação quando se deseja identificar os componentes de forma única.</p>
-<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Observação
@@ -780,10 +780,10 @@ Observação
 <p>A ambiguidade de rótulos e a identificabilidade em misturas são discutidas por <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008, seç. 8.3</a>, pp.&nbsp;145–148)</span>.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Observação
@@ -1119,10 +1119,10 @@ z_{ik}
 <span id="cb11-111"><a href="#cb11-111" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb11-112"><a href="#cb11-112" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="callout callout-style-default callout-warning callout-titled" title="Observação computacional">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação computacional">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Observação computacional

@@ -387,13 +387,13 @@ Enunciado
 <li><p><strong>Rapidez</strong>: permite cálculos aproximados para valores de <span class="math inline">\(r\)</span> de interesse.</p></li>
 <li><p><strong>Boa precisão didática</strong> para grupos moderados, embora a expressão continue sendo uma aproximação e seu erro deva ser distinguido do valor exato.</p></li>
 </ol>
-<div class="callout callout-style-default callout-warning callout-titled" title="Exemplo Rápido">
+<div class="callout callout-style-default callout-note callout-titled" title="Exemplo">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Exemplo Rápido
+Exemplo
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -607,7 +607,7 @@ loaded via a namespace (and not attached):
 </div>
 </div>
 <p>Para análises reproduzíveis, os comandos devem ser armazenados em scripts. <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025</a>)</span> [Seção 2.3, pp.&nbsp;6–8] diferencia execução interativa e scripts, e <span class="citation" data-cites="rathi2025statistical">Rathi (<a href="#ref-rathi2025statistical" role="doc-biblioref">2025, cap. 2</a>)</span> também apresenta scripts como forma de armazenar comandos.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Definição">
+<div class="callout callout-style-default callout-important callout-titled" title="Definição">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -724,7 +724,7 @@ Tipo e classe
 <pre><code>[1] "character"</code></pre>
 </div>
 </div>
-<div class="callout callout-style-default callout-important callout-titled" title="Exemplo">
+<div class="callout callout-style-default callout-note callout-titled" title="Exemplo">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -789,7 +789,7 @@ Exemplo
 </div>
 </div>
 <p><span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025</a>, pp.&nbsp;20–21)</span> apresenta <code>NA</code> como marcador de dados não disponíveis.</p>
-<div class="callout callout-style-default callout-warning callout-titled" title="Interpretação">
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -978,10 +978,10 @@ Interpretação
 </div>
 </div>
 <p><span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 5.1</a>, pp.&nbsp;158–159)</span> explicita a hierarquia de coerção entre tipos atômicos e mostra que a combinação de tipos distintos em um vetor pode converter todos os elementos para um tipo comum.</p>
-<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Observação
@@ -1099,10 +1099,10 @@ comprimento do objeto menor</code></pre>
 [2,]    4</code></pre>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled" title="Observação">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Observação
@@ -1569,18 +1569,17 @@ Interpretação
 <section id="laços-e-vetorização-são-complementares" class="level3" data-number="1.2.22">
 <h3 data-number="1.2.22" class="anchored" data-anchor-id="laços-e-vetorização-são-complementares"><span class="header-section-number">1.2.22</span> Laços e vetorização são complementares</h3>
 <p>A afirmação “laços devem sempre ser evitados” é forte demais.</p>
-<div class="callout callout-style-default callout-important callout-titled" title="Interpretação revisada">
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Interpretação revisada
+Interpretação
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Use vetorização quando a operação é naturalmente vetorial. Use laços quando há dependência entre iterações ou quando o algoritmo fica mais claro dessa forma.</p>
-<p><span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 6.4–6.5</a>, pp.&nbsp;227–241)</span> apresenta laços, vetorização e <em>functionals</em>. A preferência por uma solução vetorizada é especialmente natural quando existe uma operação vetorial direta e equivalente; laços continuam apropriados em algoritmos sequenciais ou quando as iterações dependem de resultados anteriores.</p>
+<p>Use vetorização quando a operação é naturalmente vetorial. Use laços quando há dependência entre iterações ou quando o algoritmo fica mais claro dessa forma. <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 6.4–6.5</a>, pp.&nbsp;227–241)</span> apresenta laços, vetorização e <em>functionals</em>. A preferência por uma solução vetorizada é especialmente natural quando existe uma operação vetorial direta e equivalente; laços continuam apropriados em algoritmos sequenciais ou quando as iterações dependem de resultados anteriores.</p>
 </div>
 </div>
 </section>
@@ -1811,10 +1810,10 @@ Interpretação
 <span id="cb218-2"><a href="#cb218-2" aria-hidden="true" tabindex="-1"></a>  ggplot2</span>
 <span id="cb218-3"><a href="#cb218-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Observação
@@ -1945,7 +1944,7 @@ Prática recomendada
 <pre><code>[1] 3 3 1 1 1</code></pre>
 </div>
 </div>
-<div class="callout callout-style-default callout-important callout-titled" title="Interpretação">
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -1971,10 +1970,10 @@ Interpretação
 </div>
 </div>
 <p>A geração pseudoaleatória e o papel de <code>set.seed()</code> na reprodutibilidade são apresentados por <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Seção B.4, pp.&nbsp;292–294] e <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.1.1</a>, pp.&nbsp;248–249)</span>.</p>
-<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Observação
@@ -2064,13 +2063,13 @@ Princípio
 <section id="dividir-e-conquistar" class="level4" data-number="1.2.33.2">
 <h4 data-number="1.2.33.2" class="anchored" data-anchor-id="dividir-e-conquistar"><span class="header-section-number">1.2.33.2</span> Dividir e conquistar</h4>
 <p>Um problema complexo pode ser separado em tarefas menores.</p>
-<div class="callout callout-style-default callout-important callout-titled" title="Exemplo em Estatística Computacional">
+<div class="callout callout-style-default callout-note callout-titled" title="Exemplo">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Exemplo em Estatística Computacional
+Exemplo
 </div>
 </div>
 <div class="callout-body-container callout-body">

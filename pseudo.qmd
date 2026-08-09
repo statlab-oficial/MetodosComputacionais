@@ -2,25 +2,21 @@
 
 A geração de variáveis aleatórias transforma uma sequência de números pseudoaleatórios uniformes em observações provenientes de distribuições probabilísticas de interesse. Em termos abstratos, grande parte dos algoritmos de geração pode ser descrita da seguinte forma: primeiro produzimos números
 
-$$
-U_1,\ldots,U_k
+$$U_1,\ldots,U_k
 \stackrel{iid}{\sim}
-U(0,1),
-$$
+U(0,1),$$
 
 e, em seguida, aplicamos uma transformação
 
-$$
-X
+$$X
 =
-g(U_1,\ldots,U_k)
-$$
+g(U_1,\ldots,U_k)$$
 
 de modo que $X$ possua a distribuição desejada.
 
 Essa perspectiva unifica métodos aparentemente diferentes, como transformação inversa, composição, aceitação-rejeição, métodos de transformação para a distribuição normal e algoritmos especializados para distribuições discretas.
 
-Essa formulação é a perspectiva adotada na abertura do Capítulo 3 de @kroese2011handbook [p. 43], que parte de uniformes e os transforma em objetos aleatórios com a distribuição desejada. Métodos de transformação inversa, rejeição e simulação de modelos estatísticos são desenvolvidos em @voss2014statistical [Caps. 1--2], enquanto @rubinstein2008simulation [Cap. 2, Seções 2.3--2.5] apresenta métodos gerais de geração univariada e vetorial.
+Essa formulação é a perspectiva adotada na abertura do Capítulo 3 de @kroese2011handbook \[p. 43\], que parte de uniformes e os transforma em objetos aleatórios com a distribuição desejada. Métodos de transformação inversa, rejeição e simulação de modelos estatísticos são desenvolvidos em @voss2014statistical [Caps. 1--2], enquanto @rubinstein2008simulation [Cap. 2, Seções 2.3--2.5] apresenta métodos gerais de geração univariada e vetorial.
 
 ## Objetivos de aprendizagem
 
@@ -42,22 +38,17 @@ Ao final deste capítulo, espera-se que o leitor seja capaz de:
 - validar computacionalmente uma implementação de geração;
 - distinguir geração univariada de geração multivariada.
 
-A organização didática desta unidade segue principalmente @voss2014statistical [Caps. 1--2], @kroese2011handbook [Caps. 3--4] e @rubinstein2008simulation [Cap. 2].
-
+A organização didática desta unidade segue principalmente @voss2014statistical \[Caps. 1--2\], @kroese2011handbook [Caps. 3--4] e @rubinstein2008simulation [Cap. 2].
 
 ## Da uniforme para outras distribuições
 
 Considere uma variável
 
-$$
-U\sim U(0,1).
-$$
+$$U\sim U(0,1).$$
 
 A geração de $X\sim F$ pode ser entendida como a busca de uma função $g$ tal que
 
-$$
-X=g(U)
-$$
+$$X=g(U)$$
 
 tenha distribuição $F$.
 
@@ -73,8 +64,7 @@ Essa é precisamente a formulação introdutória adotada por @kroese2011handboo
 
 Para uma função de distribuição $F$, define-se a função quantil generalizada por
 
-$$
-\boxed{
+$$\boxed{
 F^{-1}(u)
 =
 \inf
@@ -84,33 +74,26 @@ F(x)\geq u
 \right\},
 \qquad
 0<u<1.
-}
-$$
+}$$
 
 Essa definição funciona mesmo quando $F$ não é estritamente crescente e, em particular, quando $F$ corresponde a uma distribuição discreta.
 
-A inversa generalizada e o método da transformação inversa são apresentados por @voss2014statistical [Seção 1.3, pp. 11--15] e por @kroese2011handbook [Seção 3.1.1, pp. 45--47].
+A inversa generalizada e o método da transformação inversa são apresentados por @voss2014statistical \[Seção 1.3, pp. 11--15\] e por @kroese2011handbook [Seção 3.1.1, pp. 45--47].
 
-::: {.callout-note title="Definição: método da transformação inversa"}
+::: {.callout-important title="Definição: método da transformação inversa"}
 Se
 
-$$
-U\sim U(0,1)
-$$
+$$U\sim U(0,1)$$
 
 e
 
-$$
-X=F^{-1}(U),
-$$
+$$X=F^{-1}(U),$$
 
 então
 
-$$
-X\sim F.
-$$
+$$X\sim F.$$
 
-O resultado é a Proposição 1.14 de @voss2014statistical [Seção 1.3] e corresponde ao Algoritmo 3.1 de @kroese2011handbook [Seção 3.1.1, p. 45].
+O resultado é a Proposição 1.14 de @voss2014statistical \[Seção 1.3\] e corresponde ao Algoritmo 3.1 de @kroese2011handbook [Seção 3.1.1, p. 45].
 :::
 
 ## Caso discreto
@@ -119,133 +102,93 @@ O resultado é a Proposição 1.14 de @voss2014statistical [Seção 1.3] e corre
 
 Suponha que
 
-$$
-P(X=x_j)=p_j,
+$$P(X=x_j)=p_j,
 \qquad
-j=0,1,\ldots,
-$$
+j=0,1,\ldots,$$
 
 com
 
-$$
-p_j\geq0
-$$
+$$p_j\geq0$$
 
 e
 
-$$
-\sum_{j=0}^{\infty}p_j=1.
-$$
+$$\sum_{j=0}^{\infty}p_j=1.$$
 
 Assuma inicialmente
 
-$$
-x_0<x_1<x_2<\cdots.
-$$
+$$x_0<x_1<x_2<\cdots.$$
 
 Defina
 
-$$
-F(x_j)
+$$F(x_j)
 =
-\sum_{i=0}^jp_i.
-$$
+\sum_{i=0}^jp_i.$$
 
 Se
 
-$$
-U\sim U(0,1),
-$$
+$$U\sim U(0,1),$$
 
 então
 
-$$
-X=x_j
-$$
+$$X=x_j$$
 
 quando
 
-$$
-F(x_{j-1})<U\leq F(x_j),
-$$
+$$F(x_{j-1})<U\leq F(x_j),$$
 
 com a convenção
 
-$$
-F(x_{-1})=0.
-$$
+$$F(x_{-1})=0.$$
 
 Equivalentemente, escolhe-se o menor índice $j$ tal que
 
-$$
-F(x_j)\geq U.
-$$
+$$F(x_j)\geq U.$$
 
-A versão discreta corresponde ao Algoritmo 3.2 de @kroese2011handbook [pp. 46--47] e é ilustrada no Exemplo 1.18 de @voss2014statistical [pp. 14--15].
+A versão discreta corresponde ao Algoritmo 3.2 de @kroese2011handbook \[pp. 46--47\] e é ilustrada no Exemplo 1.18 de @voss2014statistical [pp. 14--15].
 
 ::: {.callout-note title="Algoritmo: inversa discreta"}
-1. Gere
-   $$
-   U\sim U(0,1).
-   $$
-2. Calcule ou consulte as probabilidades acumuladas
-   $$
-   F_j=\sum_{i=0}^jp_i.
-   $$
-3. Determine o menor $j$ tal que
-   $$
-   F_j\geq U.
-   $$
-4. Retorne
-   $$
-   X=x_j.
-   $$
+1.  Gere
+    $$U\sim U(0,1).$$
+2.  Calcule ou consulte as probabilidades acumuladas
+    $$F_j=\sum_{i=0}^jp_i.$$
+3.  Determine o menor $j$ tal que
+    $$F_j\geq U.$$
+4.  Retorne
+    $$X=x_j.$$
 :::
 
 ### Exemplo: distribuição em quatro pontos
 
 Considere
 
-$$
-P(X=1)=0{,}20,
-$$
+$$P(X=1)=0{,}20,$$
 
-$$
-P(X=2)=0{,}15,
-$$
+$$P(X=2)=0{,}15,$$
 
-$$
-P(X=3)=0{,}25
-$$
+$$P(X=3)=0{,}25$$
 
 e
 
-$$
-P(X=4)=0{,}40.
-$$
+$$P(X=4)=0{,}40.$$
 
 As probabilidades acumuladas são
 
-$$
-0{,}20,\quad
+$$0{,}20,\quad
 0{,}35,\quad
 0{,}60,\quad
-1.
-$$
+1.$$
 
 Assim,
 
-$$
-X=
+$$X=
 \begin{cases}
 1, & 0<U\leq0{,}20,\\
 2, & 0{,}20<U\leq0{,}35,\\
 3, & 0{,}35<U\leq0{,}60,\\
 4, & 0{,}60<U<1.
-\end{cases}
-$$
+\end{cases}$$
 
-::: {.callout-important title="Exemplo computacional"}
+::: {.callout-note title="Exemplo computacional"}
 ```{r}
 set.seed(2026)
 
@@ -327,7 +270,7 @@ prop.table(
 )
 ```
 
-::: {.callout-warning title="Observação computacional"}
+::: {.callout-note appearance="minimal" title="Observação computacional"}
 Para distribuições com muitos pontos de suporte e muitas gerações, procurar sequencialmente o primeiro ponto acumulado pode ser ineficiente. Métodos como busca binária, *table lookup* e *alias* podem reduzir o custo.
 
 @kroese2011handbook [Seções 3.1.3--3.1.4, pp. 55--58] discute *table lookup* e *alias* como alternativas à busca da inversão discreta.
@@ -337,7 +280,7 @@ Para distribuições com muitos pontos de suporte e muitas gerações, procurar 
 
 Uma estratégia possível para acelerar uma **busca sequencial sobre categorias** é ordenar as categorias por probabilidades decrescentes, pois as de maior probabilidade tendem a ser examinadas primeiro. Essa reordenação, contudo, deixa de representar a função de distribuição acumulada na ordem natural dos valores $x_j$ e, portanto, não deve ser confundida com a inversão via CDF.
 
-::: {.callout-important title="Distinção importante"}
+::: {.callout-note appearance="minimal" title="Observação"}
 Há dois algoritmos diferentes:
 
 - **inversão via CDF:** os valores $x_j$ aparecem em ordem crescente e busca-se o primeiro $F(x_j)\geq U$;
@@ -348,35 +291,27 @@ Não se deve chamar a segunda estratégia de “CDF ordenada pelos $p_j$”, poi
 
 Para o exemplo anterior, uma ordem eficiente seria
 
-$$
-4,\;3,\;1,\;2,
-$$
+$$4,\;3,\;1,\;2,$$
 
 associada às probabilidades
 
-$$
-0{,}40,\;0{,}25,\;0{,}20,\;0{,}15.
-$$
+$$0{,}40,\;0{,}25,\;0{,}20,\;0{,}15.$$
 
 ## Desigualdades nos pontos de corte
 
 Em teoria, se
 
-$$
-U\sim U(0,1)
-$$
+$$U\sim U(0,1)$$
 
 for uma variável contínua ideal, então
 
-$$
-P(U=c)=0
-$$
+$$P(U=c)=0$$
 
 para qualquer constante $c$.
 
 Consequentemente, usar $<$ ou $\leq$ nos pontos de corte não altera a distribuição teórica.
 
-::: {.callout-warning title="Observação sobre precisão finita"}
+::: {.callout-note appearance="minimal" title="Observação"}
 Em um computador, a saída pseudoaleatória assume valores em um conjunto finito. Assim, um valor pode coincidir numericamente com um ponto de corte. A implementação deve adotar uma convenção consistente.
 
 O *Handbook of Monte Carlo Methods* chama atenção para efeitos de precisão finita em algoritmos de transformação, incluindo a possibilidade de mapeamentos artificiais para massas pontuais.
@@ -388,27 +323,19 @@ A ressalva decorre da discussão de precisão finita em @kroese2011handbook [Rem
 
 Se
 
-$$
-X\sim\operatorname{Ber}(p),
-$$
+$$X\sim\operatorname{Ber}(p),$$
 
 então
 
-$$
-P(X=1)=p
-$$
+$$P(X=1)=p$$
 
 e
 
-$$
-P(X=0)=1-p.
-$$
+$$P(X=0)=1-p.$$
 
 Uma implementação imediata é
 
-$$
-X=I(U\leq p).
-$$
+$$X=I(U\leq p).$$
 
 ```{r}
 rbernoulli <- function(n, p) {
@@ -428,46 +355,34 @@ O gerador é o Algoritmo 4.1 de @kroese2011handbook [Seção 4.1.1, p. 86].
 
 Queremos gerar
 
-$$
-X\sim DU(1,k),
-$$
+$$X\sim DU(1,k),$$
 
 isto é,
 
-$$
-P(X=j)=\frac1k,
+$$P(X=j)=\frac1k,
 \qquad
-j=1,\ldots,k.
-$$
+j=1,\ldots,k.$$
 
 Se
 
-$$
-U\sim U[0,1),
-$$
+$$U\sim U[0,1),$$
 
 podemos definir
 
-$$
-\boxed{
+$$\boxed{
 X=\lfloor kU\rfloor+1.
-}
-$$
+}$$
 
 De fato,
 
-$$
-X=j
-$$
+$$X=j$$
 
 se, e somente se,
 
-$$
-\frac{j-1}{k}
+$$\frac{j-1}{k}
 \leq U
 <
-\frac{j}{k}.
-$$
+\frac{j}{k}.$$
 
 A geração uniforme discreta por transformação de uma uniforme contínua aparece no Algoritmo 4.17 de @kroese2011handbook [Seção 4.1.8, p. 102].
 
@@ -487,7 +402,7 @@ runif_discreta <- function(
 }
 ```
 
-::: {.callout-warning title="Observação"}
+::: {.callout-note appearance="minimal" title="Observação"}
 A fórmula acima pressupõe que a fonte uniforme utilizada não devolva exatamente $1$. Caso um gerador admita $U=1$, a expressão poderia produzir $k+1$ e seria necessário um tratamento explícito.
 :::
 
@@ -495,26 +410,21 @@ A fórmula acima pressupõe que a fonte uniforme utilizada não devolva exatamen
 
 Considere a parametrização
 
-$$
-P(X=k)
+$$P(X=k)
 =
 p(1-p)^{k-1},
 \qquad
-k=1,2,\ldots.
-$$
+k=1,2,\ldots.$$
 
 A função de sobrevivência é
 
-$$
-P(X>k)
+$$P(X>k)
 =
-(1-p)^k.
-$$
+(1-p)^k.$$
 
 Uma representação por inversão é
 
-$$
-\boxed{
+$$\boxed{
 X
 =
 \left\lceil
@@ -524,14 +434,11 @@ X
 \log(1-p)
 }
 \right\rceil,
-}
-$$
+}$$
 
 para
 
-$$
-U\sim U(0,1).
-$$
+$$U\sim U(0,1).$$
 
 A relação com a exponencial e as formas de geração aparecem nos Algoritmos 4.7--4.8 de @kroese2011handbook [Seção 4.1.3, pp. 92--93].
 
@@ -559,7 +466,7 @@ rgeom1 <- function(
 }
 ```
 
-::: {.callout-warning title="Observação sobre parametrização"}
+::: {.callout-note appearance="minimal" title="Observação"}
 O R usa, em `rgeom()`, a parametrização baseada no número de falhas antes do primeiro sucesso, cujo suporte começa em $0$. O algoritmo acima usa suporte $1,2,\ldots$. Além disso, o caso $p=1$ deve ser tratado explicitamente: nessa fronteira, $X=1$ com probabilidade $1$.
 :::
 
@@ -567,66 +474,49 @@ O R usa, em `rgeom()`, a parametrização baseada no número de falhas antes do 
 
 Para
 
-$$
-X\sim\operatorname{Poi}(\lambda),
-$$
+$$X\sim\operatorname{Poi}(\lambda),$$
 
 a função de massa é
 
-$$
-p_i
+$$p_i
 =
 P(X=i)
 =
 e^{-\lambda}
 \frac{\lambda^i}{i!},
 \qquad
-i=0,1,\ldots.
-$$
+i=0,1,\ldots.$$
 
 As probabilidades satisfazem a recorrência
 
-$$
-\boxed{
+$$\boxed{
 p_{i+1}
 =
 \frac{\lambda}{i+1}p_i.
-}
-$$
+}$$
 
 Isso permite construir a CDF de modo recursivo sem recalcular fatoriais.
 
 ### Inversão por acumulação
 
-::: {.callout-note title="Algoritmo"}
-1. Gere
-   $$
-   U\sim U(0,1).
-   $$
-2. Inicialize
-   $$
-   i=0,\qquad
-   p_0=e^{-\lambda},\qquad
-   F=p_0.
-   $$
-3. Enquanto
-   $$
-   U>F,
-   $$
-   faça
-   $$
-   i\leftarrow i+1,
-   $$
-   $$
-   p_i
-   \leftarrow
-   \frac{\lambda}{i}p_{i-1},
-   $$
-   e
-   $$
-   F\leftarrow F+p_i.
-   $$
-4. Retorne $i$.
+::: {.callout-important appearance="minimal" title="Algoritmo"}
+1.  Gere
+    $$U\sim U(0,1).$$
+2.  Inicialize
+    $$i=0,\qquad
+    p_0=e^{-\lambda},\qquad
+    F=p_0.$$
+3.  Enquanto
+    $$U>F,$$
+    faça
+    $$i\leftarrow i+1,$$
+
+    $$p_i
+    \leftarrow
+    \frac{\lambda}{i}p_{i-1},$$
+    e
+    $$F\leftarrow F+p_i.$$
+4.  Retorne $i$.
 :::
 
 ```{r}
@@ -686,25 +576,19 @@ Para $\lambda$ grande, há dois problemas distintos. Primeiro, a busca acumulati
 
 Se
 
-$$
-U_1,U_2,\ldots
+$$U_1,U_2,\ldots
 \stackrel{iid}{\sim}
-U(0,1),
-$$
+U(0,1),$$
 
 gera-se até que
 
-$$
-\prod_{j=1}^n U_j
+$$\prod_{j=1}^n U_j
 <
-e^{-\lambda}.
-$$
+e^{-\lambda}.$$
 
 Se $N$ é o primeiro índice para o qual $\prod_{j=1}^{N}U_j<e^{-\lambda}$, então
 
-$$
-X=N-1
-$$
+$$X=N-1$$
 
 tem distribuição $\operatorname{Poi}(\lambda)$. Esse método também se torna lento quando $\lambda$ cresce.
 
@@ -712,37 +596,27 @@ tem distribuição $\operatorname{Poi}(\lambda)$. Esse método também se torna 
 
 Se
 
-$$
-X\sim\operatorname{Bin}(n,p),
-$$
+$$X\sim\operatorname{Bin}(n,p),$$
 
 então uma construção fundamental é
 
-$$
-X
+$$X
 =
-B_1+\cdots+B_n,
-$$
+B_1+\cdots+B_n,$$
 
 onde
 
-$$
-B_i
+$$B_i
 \stackrel{iid}{\sim}
-\operatorname{Ber}(p).
-$$
+\operatorname{Ber}(p).$$
 
 ::: {.callout-note title="Algoritmo por soma de Bernoulli"}
-1. Gere
-   $$
-   B_1,\ldots,B_n
-   \stackrel{iid}{\sim}
-   \operatorname{Ber}(p).
-   $$
-2. Retorne
-   $$
-   X=\sum_{i=1}^nB_i.
-   $$
+1.  Gere
+    $$B_1,\ldots,B_n
+    \stackrel{iid}{\sim}
+    \operatorname{Ber}(p).$$
+2.  Retorne
+    $$X=\sum_{i=1}^nB_i.$$
 :::
 
 Essa construção é o Algoritmo 4.2 de @kroese2011handbook [p. 88].
@@ -778,30 +652,24 @@ Esse algoritmo mostra diretamente a origem probabilística da binomial, mas seu 
 
 A função de massa satisfaz
 
-$$
-P(X=i+1)
+$$P(X=i+1)
 =
 \frac{n-i}{i+1}
 \frac{p}{1-p}
-P(X=i).
-$$
+P(X=i).$$
 
 Com
 
-$$
-P(X=0)
+$$P(X=0)
 =
-(1-p)^n,
-$$
+(1-p)^n,$$
 
 essa identidade também pode ser usada em um algoritmo de inversão acumulativa.
 
 ::: {.callout-warning title="Casos de fronteira"}
 Se $p=0$, então $X=0$ com probabilidade $1$. Se $p=1$, então $X=n$ com probabilidade $1$. Um algoritmo que contém
 
-$$
-\frac{p}{1-p}
-$$
+$$\frac{p}{1-p}$$
 
 deve tratar explicitamente esses casos.
 :::
@@ -822,7 +690,7 @@ O método *alias* é uma técnica eficiente para geração repetida de distribui
 
 A construção e a etapa de geração do método *alias* são dadas em @kroese2011handbook [Seção 3.1.4, Algoritmos 3.7--3.8, pp. 56--58].
 
-::: {.callout-observation title="Observação"}
+::: {.callout-note appearance="minimal" title="Observação"}
 Para uma única geração ou para uma distribuição com poucos pontos, a inversão simples é normalmente suficiente. O método *alias* torna-se atraente quando:
 
 - o suporte é grande;
@@ -838,21 +706,17 @@ Essa distinção entre **custo de preparação** e **custo por geração** é im
 
 Se $F$ é a função de distribuição de uma variável contínua e podemos calcular
 
-$$
-F^{-1}(u),
-$$
+$$F^{-1}(u),$$
 
 então
 
-$$
-X=F^{-1}(U),
+$$X=F^{-1}(U),
 \qquad
-U\sim U(0,1),
-$$
+U\sim U(0,1),$$
 
 tem distribuição $F$.
 
-O resultado é o método da transformação inversa de @voss2014statistical [Seção 1.3, pp. 11--15] e @kroese2011handbook [Seção 3.1.1, pp. 45--47].
+O resultado é o método da transformação inversa de @voss2014statistical \[Seção 1.3, pp. 11--15\] e @kroese2011handbook [Seção 3.1.1, pp. 45--47].
 
 ::: {.callout-tip title="Interpretação"}
 O método transforma posições uniformes na escala acumulada de probabilidade em posições na escala original de $X$.
@@ -862,63 +726,49 @@ O método transforma posições uniformes na escala acumulada de probabilidade e
 
 Considere
 
-$$
-X\sim\operatorname{Exp}(\lambda),
-$$
+$$X\sim\operatorname{Exp}(\lambda),$$
 
 com função de distribuição
 
-$$
-F(x)
+$$F(x)
 =
 1-e^{-\lambda x},
 \qquad
-x\geq0.
-$$
+x\geq0.$$
 
 Resolva
 
-$$
-u
+$$u
 =
-1-e^{-\lambda x}.
-$$
+1-e^{-\lambda x}.$$
 
 Temos
 
-$$
-e^{-\lambda x}
+$$e^{-\lambda x}
 =
-1-u
-$$
+1-u$$
 
 e
 
-$$
-\boxed{
+$$\boxed{
 x
 =
 -\frac1\lambda
 \log(1-u).
-}
-$$
+}$$
 
 Como
 
-$$
-1-U\sim U(0,1),
-$$
+$$1-U\sim U(0,1),$$
 
 também podemos escrever
 
-$$
-\boxed{
+$$\boxed{
 X
 =
 -\frac1\lambda
 \log U.
-}
-$$
+}$$
 
 A forma $X=-\log(U)/\lambda$ é o Algoritmo 4.29 de @kroese2011handbook [Seção 4.2.3, p. 109].
 
@@ -941,35 +791,27 @@ rexp_inversa <- function(
 
 Considere
 
-$$
-f(x)
+$$f(x)
 =
 3x^2,
 \qquad
-0\leq x\leq1.
-$$
+0\leq x\leq1.$$
 
 Então
 
-$$
-F(x)
+$$F(x)
 =
-x^3
-$$
+x^3$$
 
 e
 
-$$
-F^{-1}(u)
+$$F^{-1}(u)
 =
-u^{1/3}.
-$$
+u^{1/3}.$$
 
 Logo,
 
-$$
-X=U^{1/3}
-$$
+$$X=U^{1/3}$$
 
 tem a densidade desejada.
 
@@ -1001,39 +843,29 @@ curve(
 
 Muitas distribuições pertencem a famílias de localização e escala. Se
 
-$$
-Z
-$$
+$$Z$$
 
 possui uma distribuição padrão e
 
-$$
-X
+$$X
 =
 \mu+\sigma Z,
 \qquad
-\sigma>0,
-$$
+\sigma>0,$$
 
 então a geração de $X$ pode ser reduzida à geração de $Z$.
 
 Por exemplo, se
 
-$$
-Z\sim N(0,1),
-$$
+$$Z\sim N(0,1),$$
 
 então
 
-$$
-X=\mu+\sigma Z
-$$
+$$X=\mu+\sigma Z$$
 
 tem distribuição
 
-$$
-N(\mu,\sigma^2).
-$$
+$$N(\mu,\sigma^2).$$
 
 Famílias de localização e escala e transformações afins são discutidas em @kroese2011handbook [Seções 3.1.2.1--3.1.2.2, pp. 47--49].
 
@@ -1041,71 +873,54 @@ Famílias de localização e escala e transformações afins são discutidas em 
 
 O método de aceitação-rejeição é útil quando podemos gerar de uma distribuição proposta, mas não diretamente da distribuição-alvo. Considere uma densidade-alvo $f$ e uma densidade proposta $g$. Suponha que:
 
-$$
-g(x)>0
+$$g(x)>0
 \quad
 \text{sempre que}
 \quad
-f(x)>0
-$$
+f(x)>0$$
 
 e exista uma constante finita
 
-$$
-c\geq1
-$$
+$$c\geq1$$
 
 tal que
 
-$$
-f(x)
+$$f(x)
 \leq
-c\,g(x)
-$$
+c\,g(x)$$
 
 para todo $x$.
 
 Equivalentemente,
 
-$$
-\frac{f(x)}{g(x)}
-\leq c.
-$$
+$$\frac{f(x)}{g(x)}
+\leq c.$$
 
-A formulação de envelope é apresentada no Algoritmo 1.22 de @voss2014statistical [Seção 1.4.2, p. 19] e no Algoritmo 3.9 de @kroese2011handbook [Seção 3.1.5, p. 59].
+A formulação de envelope é apresentada no Algoritmo 1.22 de @voss2014statistical \[Seção 1.4.2, p. 19\] e no Algoritmo 3.9 de @kroese2011handbook [Seção 3.1.5, p. 59].
 
 ::: {.callout-note title="Algoritmo de aceitação-rejeição"}
-1. Gere
-   $$
-   Y\sim g.
-   $$
-2. Gere, independentemente,
-   $$
-   U\sim U(0,1).
-   $$
-3. Aceite
-   $$
-   X=Y
-   $$
-   se
-   $$
-   U
-   \leq
-   \frac{
-   f(Y)
-   }{
-   c\,g(Y)
-   }.
-   $$
-4. Se houver rejeição, retorne ao passo 1.
+1.  Gere
+    $$Y\sim g.$$
+2.  Gere, independentemente,
+    $$U\sim U(0,1).$$
+3.  Aceite
+    $$X=Y$$
+    se
+    $$U
+    \leq
+    \frac{
+    f(Y)
+    }{
+    c\,g(Y)
+    }.$$
+4.  Se houver rejeição, retorne ao passo 1.
 :::
 
 ## Por que o método funciona?
 
 Para qualquer conjunto mensurável $A$,
 
-$$
-P(
+$$P(
 Y\in A,\text{ aceitar}
 )
 =
@@ -1116,78 +931,65 @@ f(y)
 }{
 c\,g(y)
 }
-\,dy.
-$$
+\,dy.$$
 
 Logo,
 
-$$
-P(
+$$P(
 Y\in A,\text{ aceitar}
 )
 =
 \frac1c
-\int_Af(y)\,dy.
-$$
+\int_Af(y)\,dy.$$
 
 Como $f$ e $g$ foram definidas aqui como densidades normalizadas, a probabilidade total de aceitação é
 
-$$
-P(\text{aceitar})
+$$P(\text{aceitar})
 =
-\frac1c.
-$$
+\frac1c.$$
 
 Se a função-alvo for conhecida apenas de forma não normalizada, digamos $h$ com constante normalizadora $Z_h=\int h(x)\,dx$, a taxa de aceitação deve ser ajustada para essa normalização. Na formulação de envelope de @voss2014statistical [Proposição 1.23], a probabilidade de aceitação é $Z_h/c$, não simplesmente $1/c$.
 
 Portanto,
 
-$$
-P(
+$$P(
 Y\in A
 \mid
 \text{aceitar}
 )
 =
-\int_Af(y)\,dy,
-$$
+\int_Af(y)\,dy,$$
 
 e a variável aceita possui densidade $f$.
 
-A validade do procedimento é formalizada para rejeição básica e por envelope em @voss2014statistical [Algoritmos 1.19 e 1.22, Seção 1.4] e em @kroese2011handbook [Teorema 3.1.1 e Algoritmo 3.9, pp. 59--60].
+A validade do procedimento é formalizada para rejeição básica e por envelope em @voss2014statistical \[Algoritmos 1.19 e 1.22, Seção 1.4\] e em @kroese2011handbook [Teorema 3.1.1 e Algoritmo 3.9, pp. 59--60].
 
 ## Eficiência da aceitação-rejeição
 
 Como
 
-$$
-P(\text{aceitar})=\frac1c,
-$$
+$$P(\text{aceitar})=\frac1c,$$
 
 o número de propostas necessárias até uma aceitação tem distribuição geométrica com média
 
-$$
-E(N_{\text{prop}})
+$$E(N_{\text{prop}})
 =
-c.
-$$
+c.$$
 
 Assim, desejamos escolher $g$ de modo que
 
-$$
-c
+$$c
 =
 \sup_x
-\frac{f(x)}{g(x)}
-$$
+\frac{f(x)}{g(x)}$$
 
 seja tão pequeno quanto possível, sem tornar difícil a geração de $Y\sim g$.
 
 ::: {.callout-tip title="Interpretação"}
 Uma proposta eficiente deve equilibrar dois objetivos:
 
-1. ser fácil de simular;
-2. acompanhar razoavelmente bem a forma e as caudas da densidade-alvo.
+1.  ser fácil de simular;
+2.  acompanhar razoavelmente bem a forma e as caudas da densidade-alvo.
 
 Uma proposta com pouca massa onde $f$ é relevante pode produzir um valor de $c$ enorme ou até infinito.
 :::
@@ -1196,90 +998,72 @@ Uma proposta com pouca massa onde $f$ é relevante pode produzir um valor de $c$
 
 Se desejamos gerar
 
-$$
-P(X=j)=p_j
-$$
+$$P(X=j)=p_j$$
 
 e conseguimos gerar
 
-$$
-P(Y=j)=q_j,
-$$
+$$P(Y=j)=q_j,$$
 
 precisamos de
 
-$$
-q_j>0
+$$q_j>0
 \quad
 \text{sempre que}
 \quad
-p_j>0.
-$$
+p_j>0.$$
 
 Escolha
 
-$$
-c
+$$c
 \geq
 \sup_j
-\frac{p_j}{q_j}.
-$$
+\frac{p_j}{q_j}.$$
 
 Aceite $Y=j$ se
 
-$$
-U
+$$U
 \leq
-\frac{p_j}{cq_j}.
-$$
+\frac{p_j}{cq_j}.$$
 
 A probabilidade de aceitação continua sendo
 
-$$
-\frac1c.
-$$
+$$\frac1c.$$
 
-O mesmo argumento de aceitação-rejeição se aplica ao caso discreto; veja @voss2014statistical [Seção 1.4] e @kroese2011handbook [Seção 3.1.5].
+O mesmo argumento de aceitação-rejeição se aplica ao caso discreto; veja @voss2014statistical \[Seção 1.4\] e @kroese2011handbook [Seção 3.1.5].
 
 ## Exemplo discreto de aceitação-rejeição
 
 Considere a distribuição-alvo
 
-| $j$ | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
-|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+|   $j$ |    1 |    2 |    3 |    4 |    5 |    6 |    7 |    8 |    9 |   10 |
+|------:|-----:|-----:|-----:|-----:|-----:|-----:|-----:|-----:|-----:|-----:|
 | $p_j$ | 0,11 | 0,12 | 0,09 | 0,08 | 0,12 | 0,10 | 0,09 | 0,09 | 0,10 | 0,10 |
 
 Use como proposta a uniforme discreta em $\{1,\ldots,10\}$:
 
-$$
-q_j=0{,}1.
-$$
+$$q_j=0{,}1.$$
 
 Então
 
-$$
-c
+$$c
 =
 \max_j
 \frac{p_j}{q_j}
 =
 \frac{0{,}12}{0{,}10}
 =
-1{,}2.
-$$
+1{,}2.$$
 
 Assim,
 
-$$
-P(\text{aceitar})
+$$P(\text{aceitar})
 =
 \frac1{1{,}2}
 =
 \frac56
-\approx0{,}8333.
-$$
+\approx0{,}8333.$$
 
-::: {.callout-important title="Exemplo computacional"}
+::: {.callout-note title="Exemplo computacional"}
 ```{r}
 set.seed(20252)
 
@@ -1348,64 +1132,49 @@ c_envelope
 
 Teoricamente,
 
-$$
-E(N_{\text{prop}})
+$$E(N_{\text{prop}})
 =
 c
 =
-1{,}2.
-$$
+1{,}2.$$
 
 Na simulação, `mean(sim$propostas)` deve oscilar em torno desse valor por erro de Monte Carlo.
 :::
-
 
 ## Exemplo contínuo de aceitação-rejeição
 
 Considere a densidade
 
-$$
-f(x)
+$$f(x)
 =
 2x,
 \qquad
-0<x<1.
-$$
+0<x<1.$$
 
 Use como proposta
 
-$$
-g(x)=1,
+$$g(x)=1,
 \qquad
-0<x<1,
-$$
+0<x<1,$$
 
 isto é,
 
-$$
-Y\sim U(0,1).
-$$
+$$Y\sim U(0,1).$$
 
 Como
 
-$$
-\frac{f(x)}{g(x)}
+$$\frac{f(x)}{g(x)}
 =
 2x
-\leq2,
-$$
+\leq2,$$
 
 podemos usar
 
-$$
-c=2.
-$$
+$$c=2.$$
 
 A probabilidade de aceitação é
 
-$$
-\frac12.
-$$
+$$\frac12.$$
 
 ```{r}
 set.seed(2026)
@@ -1447,60 +1216,46 @@ curve(
 )
 ```
 
-O exemplo ilustra o algoritmo geral de @voss2014statistical [Seção 1.4] e @kroese2011handbook [Seção 3.1.5].
+O exemplo ilustra o algoritmo geral de @voss2014statistical \[Seção 1.4\] e @kroese2011handbook [Seção 3.1.5].
 
 ## Método da composição
 
 Suponha que a distribuição-alvo seja uma mistura
 
-$$
-F
+$$F
 =
 \sum_{k=1}^K
-\alpha_kF_k,
-$$
+\alpha_kF_k,$$
 
 com
 
-$$
-\alpha_k\geq0
-$$
+$$\alpha_k\geq0$$
 
 e
 
-$$
-\sum_{k=1}^K
-\alpha_k=1.
-$$
+$$\sum_{k=1}^K
+\alpha_k=1.$$
 
 Uma variável da mistura pode ser gerada em duas etapas.
 
 ::: {.callout-note title="Algoritmo de composição"}
-1. Gere um indicador $I$ tal que
-   $$
-   P(I=k)=\alpha_k.
-   $$
-2. Condicionalmente a $I=k$, gere
-   $$
-   X\sim F_k.
-   $$
-3. Retorne $X$.
+1.  Gere um indicador $I$ tal que
+    $$P(I=k)=\alpha_k.$$
+2.  Condicionalmente a $I=k$, gere
+    $$X\sim F_k.$$
+3.  Retorne $X$.
 :::
 
 A simulação por seleção de uma componente é o Algoritmo 2.9 de @voss2014statistical e o Algoritmo 3.5 de @kroese2011handbook [Seção 3.1.2.6, pp. 53--54].
 
-::: {.callout-important title="Interpretação"}
+::: {.callout-tip title="Interpretação"}
 Uma mistura
 
-$$
-\sum_k\alpha_kF_k
-$$
+$$\sum_k\alpha_kF_k$$
 
 não é a mesma coisa que a distribuição da soma ponderada
 
-$$
-\sum_k\alpha_kX_k.
-$$
+$$\sum_k\alpha_kX_k.$$
 
 Na mistura, seleciona-se **uma componente** ao acaso e, depois, gera-se uma observação dessa componente.
 
@@ -1511,24 +1266,20 @@ A distinção entre mistura e soma ponderada é explicitada por @voss2014statist
 
 Deseja-se gerar
 
-$$
-P(X=j)
+$$P(X=j)
 =
 \begin{cases}
 0{,}05, & j=1,\ldots,5,\\
 0{,}15, & j=6,\ldots,10.
-\end{cases}
-$$
+\end{cases}$$
 
 Podemos escrever
 
-$$
-P
+$$P
 =
 0{,}5P_1
 +
-0{,}5P_2,
-$$
+0{,}5P_2,$$
 
 onde:
 
@@ -1537,31 +1288,23 @@ onde:
 
 Use
 
-$$
-U_1,U_2\stackrel{iid}{\sim}U(0,1).
-$$
+$$U_1,U_2\stackrel{iid}{\sim}U(0,1).$$
 
 Se
 
-$$
-U_1<0{,}5,
-$$
+$$U_1<0{,}5,$$
 
-gere da primeira componente usando **$U_2$**:
+gere da primeira componente usando $U_2$:
 
-$$
-X
+$$X
 =
-\lfloor10U_2\rfloor+1.
-$$
+\lfloor10U_2\rfloor+1.$$
 
 Caso contrário,
 
-$$
-X
+$$X
 =
-\lfloor5U_2\rfloor+6.
-$$
+\lfloor5U_2\rfloor+6.$$
 
 ```{r}
 set.seed(2026)
@@ -1581,7 +1324,6 @@ prop.table(
   table(x)
 )
 ```
-
 
 ## Transformações entre distribuições
 
@@ -1605,29 +1347,23 @@ Somas de variáveis independentes e outras identidades distributivas aparecem, p
 
 Se
 
-$$
-X_1,\ldots,X_n
-$$
+$$X_1,\ldots,X_n$$
 
 são independentes e sabemos gerar cada uma delas, podemos construir distribuições conhecidas por soma.
 
 Exemplos:
 
-$$
-\operatorname{Bin}(n,p)
+$$\operatorname{Bin}(n,p)
 =
 \sum_{i=1}^n
-\operatorname{Ber}(p),
-$$
+\operatorname{Ber}(p),$$
 
 e, para $n$ inteiro,
 
-$$
-\operatorname{Gamma}(n,\lambda)
+$$\operatorname{Gamma}(n,\lambda)
 =
 \sum_{i=1}^n
-\operatorname{Exp}(\lambda)
-$$
+\operatorname{Exp}(\lambda)$$
 
 na parametrização correspondente.
 
@@ -1637,53 +1373,41 @@ Relações desse tipo são usadas sistematicamente por @kroese2011handbook [Cap.
 
 A distribuição normal é um caso importante em que uma transformação de dois uniformes produz duas normais independentes. Se
 
-$$
-U_1,U_2
+$$U_1,U_2
 \stackrel{iid}{\sim}
-U(0,1),
-$$
+U(0,1),$$
 
 defina
 
-$$
-R
+$$R
 =
 \sqrt{
 -2\log U_1
-}
-$$
+}$$
 
 e
 
-$$
-\Theta
+$$\Theta
 =
-2\pi U_2.
-$$
+2\pi U_2.$$
 
 Então
 
-$$
-Z_1
+$$Z_1
 =
-R\cos\Theta
-$$
+R\cos\Theta$$
 
 e
 
-$$
-Z_2
+$$Z_2
 =
-R\sin\Theta
-$$
+R\sin\Theta$$
 
 são independentes com distribuição
 
-$$
-N(0,1).
-$$
+$$N(0,1).$$
 
-A transformação acima é o Algoritmo 4.47 de @kroese2011handbook [Seção 4.2.11, p. 123] e o Algoritmo 2.4.2 de @rubinstein2008simulation [Seção 2.4.1.2, p. 59].
+A transformação acima é o Algoritmo 4.47 de @kroese2011handbook \[Seção 4.2.11, p. 123\] e o Algoritmo 2.4.2 de @rubinstein2008simulation [Seção 2.4.1.2, p. 59].
 
 ```{r}
 rnorm_box_muller <- function(
@@ -1730,7 +1454,7 @@ curve(
 )
 ```
 
-::: {.callout-observation title="Observação"}
+::: {.callout-note appearance="minimal" title="Observação"}
 O *Handbook* apresenta também o método polar de Marsaglia, que evita avaliações trigonométricas, e outros geradores especializados para a normal.
 
 Veja @kroese2011handbook [Algoritmo 4.48, p. 124].
@@ -1740,49 +1464,41 @@ Veja @kroese2011handbook [Algoritmo 4.48, p. 124].
 
 A função quantil normal não possui uma expressão elementar simples. Entretanto, isso não significa que o método inverso seja matematicamente impossível. É possível aproximar numericamente
 
-$$
-\Phi^{-1}(u).
-$$
+$$\Phi^{-1}(u).$$
 
 Em bibliotecas científicas, funções quantis podem usar aproximações numéricas altamente eficientes.
 
 ::: {.callout-warning title="Precisão conceitual"}
 A ausência de uma expressão elementar simples para $\Phi^{-1}$ não torna a geração por inversão matematicamente impossível. O ponto correto é que a **inversão analítica direta** não é conveniente; implementações podem recorrer a aproximações numéricas da função quantil ou a geradores especializados.
 
-@voss2014statistical [Seção 1.3, p. 15] observa que a transformação inversa não é diretamente conveniente para a normal, enquanto @kroese2011handbook [Seção 3.1.1, p. 46] ressalta que uma inversa disponível não implica, por si só, o gerador computacionalmente mais eficiente.
+@voss2014statistical \[Seção 1.3, p. 15\] observa que a transformação inversa não é diretamente conveniente para a normal, enquanto @kroese2011handbook [Seção 3.1.1, p. 46] ressalta que uma inversa disponível não implica, por si só, o gerador computacionalmente mais eficiente.
 :::
 
 ## Método da razão de uniformes
 
 O método da razão de uniformes permite gerar de uma densidade conhecida apenas até uma constante de normalização. Se
 
-$$
-f(z)
+$$f(z)
 \propto
-h(z),
-$$
+h(z),$$
 
 defina a região
 
-$$
-\mathcal A
+$$\mathcal A
 =
 \left\{
 (u,v):
  u>0,
  u^2\leq h(v/u)
-\right\}.
-$$
+\right\}.$$
 
 Se $(U,V)$ é gerado uniformemente em $\mathcal A$, então
 
-$$
-Z=\frac{V}{U}
-$$
+$$Z=\frac{V}{U}$$
 
 possui densidade proporcional a $h$. Na prática, é comum envolver $\mathcal A$ por uma região simples e usar aceitação-rejeição para obter o ponto uniforme necessário. O método e sua derivação são apresentados em @kroese2011handbook [Seção 3.1.6, Algoritmo 3.13, pp. 66--67].
 
-::: {.callout-observation title="Observação"}
+::: {.callout-note appearance="minimal" title="Observação"}
 Esse método é mais avançado que transformação inversa e aceitação-rejeição elementar, mas merece ser apresentado porque:
 
 - pode dispensar a constante normalizadora;
@@ -1794,26 +1510,19 @@ Esse método é mais avançado que transformação inversa e aceitação-rejeiç
 
 Suponha que
 
-$$
-X\sim F
-$$
+$$X\sim F$$
 
 e queremos gerar da distribuição de $X$ condicionada a
 
-$$
-a\leq X\leq b.
-$$
+$$a\leq X\leq b.$$
 
 Se $F^{-1}$ estiver disponível, podemos gerar
 
-$$
-U\sim U(0,1)
-$$
+$$U\sim U(0,1)$$
 
 e definir
 
-$$
-\boxed{
+$$\boxed{
 X
 =
 F^{-1}
@@ -1825,8 +1534,7 @@ U
 F(b)-F(a^-)
 \right)
 \right].
-}
-$$
+}$$
 
 A geração por inversão em intervalo truncado é o Algoritmo 3.3 de @kroese2011handbook [Seção 3.1.2.4, pp. 50--51].
 
@@ -1838,27 +1546,21 @@ Em vez de gerar em toda a escala de probabilidades $(0,1)$, sorteia-se uniformem
 
 Para
 
-$$
-X\sim\operatorname{Exp}(1),
-$$
+$$X\sim\operatorname{Exp}(1),$$
 
 temos
 
-$$
-F(x)=1-e^{-x}.
-$$
+$$F(x)=1-e^{-x}.$$
 
 Então a exponencial truncada em $[0,2]$ pode ser gerada por
 
-$$
-X
+$$X
 =
 -\log
 \left[
 1-
 U(1-e^{-2})
-\right].
-$$
+\right].$$
 
 O exemplo é baseado em @kroese2011handbook [Exemplo 3.5, pp. 50--51].
 
@@ -1866,20 +1568,15 @@ O exemplo é baseado em @kroese2011handbook [Exemplo 3.5, pp. 50--51].
 
 Se
 
-$$
-Z\sim N(0,1)
-$$
+$$Z\sim N(0,1)$$
 
 e
 
-$$
-V\sim\chi_\nu^2
-$$
+$$V\sim\chi_\nu^2$$
 
 são independentes, então
 
-$$
-\boxed{
+$$\boxed{
 T
 =
 \frac{
@@ -1887,8 +1584,7 @@ Z
 }{
 \sqrt{V/\nu}
 }
-}
-$$
+}$$
 
 tem distribuição $t_\nu$.
 
@@ -1914,8 +1610,7 @@ A geração independente por componentes é o Algoritmo 3.14 de @kroese2011handb
 
 Para uma distribuição conjunta, $f(x_1,\ldots,x_d),$ uma decomposição útil é
 
-$$
-f(x_1,\ldots,x_d)
+$$f(x_1,\ldots,x_d)
 =
 f_1(x_1)
 \prod_{j=2}^d
@@ -1923,15 +1618,14 @@ f_j(
 x_j
 \mid
 x_1,\ldots,x_{j-1}
-).
-$$
+).$$
 
 Assim:
 
-1. gere $X_1$ da marginal;
-2. gere $X_2\mid X_1$;
-3. gere $X_3\mid X_1,X_2$;
-4. continue até $X_d$.
+1.  gere $X_1$ da marginal;
+2.  gere $X_2\mid X_1$;
+3.  gere $X_3\mid X_1,X_2$;
+4.  continue até $X_d$.
 
 A construção componente a componente é formalizada no Algoritmo 2.11 de @voss2014statistical [p. 49].
 
@@ -1939,29 +1633,23 @@ A construção componente a componente é formalizada no Algoritmo 2.11 de @voss
 
 Se $\Sigma$ é uma matriz de covariância simétrica positiva definida, $Z\sim N_d(0,I)$ e
 
-$$
-\Sigma=AA^\top
-$$
+$$\Sigma=AA^\top$$
 
 é sua fatoração de Cholesky, então
 
-$$
-\boxed{
+$$\boxed{
 X
 =
 \mu+AZ
-}
-$$
+}$$
 
 tem distribuição
 
-$$
-N_d(\mu,\Sigma).
-$$
+$$N_d(\mu,\Sigma).$$
 
-A geração por fatoração de Cholesky é o Algoritmo 4.71 de @kroese2011handbook [p. 146] e é também descrita por @voss2014statistical [Seção 2.1, p. 44]. Para matrizes de covariância singulares, a distribuição normal multivariada continua podendo ser construída por uma fatoração $\Sigma=AA^\top$, mas a fatoração de Cholesky positiva definida usada acima requer adaptação.
+A geração por fatoração de Cholesky é o Algoritmo 4.71 de @kroese2011handbook \[p. 146\] e é também descrita por @voss2014statistical [Seção 2.1, p. 44]. Para matrizes de covariância singulares, a distribuição normal multivariada continua podendo ser construída por uma fatoração $\Sigma=AA^\top$, mas a fatoração de Cholesky positiva definida usada acima requer adaptação.
 
-::: {.callout-observation title="Observação"}
+::: {.callout-note appearance="minimal" title="Observação"}
 Uma exposição completa de simulação multivariada — incluindo cópulas, normais multivariadas, Dirichlet e t multivariada — pode ser organizada em um capítulo próprio. Aqui a seção serve apenas para mostrar que a geração univariada é o primeiro bloco de uma teoria mais ampla.
 :::
 
@@ -1969,14 +1657,14 @@ Uma exposição completa de simulação multivariada — incluindo cópulas, nor
 
 Os algoritmos deste capítulo são normalmente demonstrados assumindo que:
 
-1. podemos gerar uniformes ideais;
-2. operações reais são realizadas com precisão infinita.
+1.  podemos gerar uniformes ideais;
+2.  operações reais são realizadas com precisão infinita.
 
 Nenhuma dessas condições é literalmente verdadeira em um computador.
 
 @kroese2011handbook [Remark 3.1.1, pp. 44--45] mostra que transformações podem concentrar numericamente muitos valores em um único ponto quando a distribuição possui grande massa em regiões mal representadas em ponto flutuante.
 
-::: {.callout-warning title="Observação"}
+::: {.callout-note appearance="minimal" title="Observação"}
 Um algoritmo matematicamente exato pode não ser numericamente exato em aritmética de ponto flutuante.
 
 Problemas relevantes incluem:
@@ -1992,23 +1680,18 @@ Problemas relevantes incluem:
 
 Em R, funções como
 
-```r
+``` r
 log1p(x)
 expm1(x)
 ```
 
 podem ser úteis quando há cancelamento em expressões envolvendo
 
-$$
-\log(1+x)
-$$
+$$\log(1+x)$$
 
 ou
 
-$$
-e^x-1.
-$$
-
+$$e^x-1.$$
 
 ## Como validar uma implementação de geração
 
@@ -2018,13 +1701,11 @@ Uma implementação deve ser verificada em mais de um nível.
 
 No caso discreto, compare
 
-$$
-\widehat p_j
+$$\widehat p_j
 =
 \frac1N
 \sum_{i=1}^N
-I(X_i=j)
-$$
+I(X_i=j)$$
 
 com $p_j$.
 
@@ -2034,13 +1715,11 @@ No caso contínuo, compare o histograma com a densidade teórica.
 
 A função empírica
 
-$$
-\widehat F_N(x)
+$$\widehat F_N(x)
 =
 \frac1N
 \sum_{i=1}^N
-I(X_i\leq x)
-$$
+I(X_i\leq x)$$
 
 pode ser comparada com $F(x)$.
 
@@ -2048,15 +1727,11 @@ pode ser comparada com $F(x)$.
 
 Se os momentos existem, compare média e variância amostrais com
 
-$$
-E(X)
-$$
+$$E(X)$$
 
 e
 
-$$
-\operatorname{Var}(X).
-$$
+$$\operatorname{Var}(X).$$
 
 ### Quantis
 
@@ -2081,7 +1756,7 @@ Um gráfico coerente não prova que o algoritmo está correto. A validação ide
 
 Para aplicações usuais, o R já fornece geradores para muitas distribuições, por exemplo:
 
-```r
+``` r
 runif()
 rnorm()
 rexp()
@@ -2097,14 +1772,14 @@ O propósito de implementar manualmente os algoritmos neste capítulo é **didá
 
 As funções nativas de geração e a convenção `r*` são discutidas em @voss2014statistical [Apêndice B.4, pp. 292--294].
 
-::: {.callout-warning title="Observação"}
+::: {.callout-note appearance="minimal" title="Observação"}
 Em trabalho aplicado, não se deve substituir automaticamente os geradores consolidados da linguagem por versões didáticas escritas à mão. As implementações de bibliotecas podem selecionar algoritmos diferentes conforme os valores dos parâmetros e lidar com dificuldades numéricas específicas.
 :::
 
 ## Como escolher um método
 
 | Situação | Método natural | Observação |
-|---|---|---|
+|------------------------|------------------------|------------------------|
 | CDF com inversa simples | transformação inversa | conceitualmente simples |
 | Distribuição discreta pequena | inversão acumulativa | fácil de implementar |
 | Distribuição discreta fixa com muitas gerações | *alias* / tabela | custo de pré-processamento |
@@ -2116,56 +1791,43 @@ Em trabalho aplicado, não se deve substituir automaticamente os geradores conso
 | Densidade conhecida até constante | razão de uniformes ou rejeição | depende da geometria |
 | Vetor normal | Cholesky | preserva a covariância desejada |
 
-A tabela sintetiza os critérios desenvolvidos em @kroese2011handbook [Caps. 3--4] e @voss2014statistical [Caps. 1--2].
-
+A tabela sintetiza os critérios desenvolvidos em @kroese2011handbook \[Caps. 3--4\] e @voss2014statistical [Caps. 1--2].
 
 # Síntese
 
 ::: {.callout-note title="Síntese"}
 A geração de variáveis aleatórias parte de uma fonte de números uniformes e constrói uma transformação que produz a distribuição desejada. No método inverso,
 
-$$
-X
+$$X
 =
-F^{-1}(U).
-$$
+F^{-1}(U).$$
 
 No método de aceitação-rejeição,
 
-$$
-Y\sim g
-$$
+$$Y\sim g$$
 
 é aceito com probabilidade
 
-$$
-\frac{
+$$\frac{
 f(Y)
 }{
 c\,g(Y)
-},
-$$
+},$$
 
 e a taxa de aceitação é
 
-$$
-\frac1c.
-$$
+$$\frac1c.$$
 
 No método de composição, primeiro seleciona-se uma componente $I$ com probabilidades $\alpha_i$ e depois se gera
 
-$$
-X\sim F_I.
-$$
+$$X\sim F_I.$$
 
 Métodos especializados exploram relações entre distribuições, como:
 
-$$
-\operatorname{Bin}(n,p)
+$$\operatorname{Bin}(n,p)
 =
 \sum_{i=1}^n
-\operatorname{Ber}(p),
-$$
+\operatorname{Ber}(p),$$
 
 a transformação Box--Muller para a normal e a decomposição de Cholesky para a normal multivariada.
 
@@ -2177,54 +1839,46 @@ A escolha do método depende não apenas da validade matemática, mas também de
 ::: {.callout-caution title="Exercício 1 — inversa discreta"}
 Considere
 
-$$
-P(X=1)=0{,}20,
+$$P(X=1)=0{,}20,
 \quad
 P(X=2)=0{,}15,
 \quad
 P(X=3)=0{,}25,
 \quad
-P(X=4)=0{,}40.
-$$
+P(X=4)=0{,}40.$$
 
-1. Construa a CDF.
-2. Escreva a inversa generalizada.
-3. Implemente o algoritmo em R.
-4. Gere $N=100\,000$ valores e compare as frequências com as probabilidades teóricas.
+1.  Construa a CDF.
+2.  Escreva a inversa generalizada.
+3.  Implemente o algoritmo em R.
+4.  Gere $N=100\,000$ valores e compare as frequências com as probabilidades teóricas.
 :::
 
 ::: {.callout-caution title="Exercício 2 — busca ordenada por probabilidade"}
 Use a mesma distribuição do Exercício 1.
 
-1. Reordene as categorias pelas probabilidades decrescentes.
-2. Implemente uma busca sequencial nessa nova ordem.
-3. Conte o número médio de comparações.
-4. Compare com a ordem natural $1,2,3,4$.
-5. Explique por que o algoritmo reordenado já não deve ser interpretado como uma busca direta na CDF em ordem de $x$.
+1.  Reordene as categorias pelas probabilidades decrescentes.
+2.  Implemente uma busca sequencial nessa nova ordem.
+3.  Conte o número médio de comparações.
+4.  Compare com a ordem natural $1,2,3,4$.
+5.  Explique por que o algoritmo reordenado já não deve ser interpretado como uma busca direta na CDF em ordem de $x$.
 :::
 
 ::: {.callout-caution title="Exercício 3 — geométrica"}
 Derive, usando transformação inversa, um gerador para
 
-$$
-P(X=k)
+$$P(X=k)
 =
 p(1-p)^{k-1},
 \qquad
-k=1,2,\ldots.
-$$
+k=1,2,\ldots.$$
 
 Implemente o método e compare:
 
-$$
-\bar X
-$$
+$$\bar X$$
 
 com
 
-$$
-E(X)=\frac1p.
-$$
+$$E(X)=\frac1p.$$
 
 *Base de leitura:* @kroese2011handbook [Seção 4.1.3, Algoritmos 4.7--4.8, pp. 92--93].
 :::
@@ -2232,18 +1886,16 @@ $$
 ::: {.callout-caution title="Exercício 4 — Poisson"}
 Implemente o algoritmo de inversão recursiva para
 
-$$
-\lambda
+$$\lambda
 \in
-\{0{,}5,\;3,\;10,\;50,\;100\}.
-$$
+\{0{,}5,\;3,\;10,\;50,\;100\}.$$
 
 Para cada valor:
 
-1. gere $10^4$ observações;
-2. registre o tempo;
-3. compare média e variância com $\lambda$;
-4. explique por que o custo cresce.
+1.  gere $10^4$ observações;
+2.  registre o tempo;
+3.  compare média e variância com $\lambda$;
+4.  explique por que o custo cresce.
 
 Compare com `rpois()`.
 
@@ -2253,13 +1905,11 @@ Compare com `rpois()`.
 ::: {.callout-caution title="Exercício 5 — binomial"}
 Implemente
 
-$$
-X
+$$X
 =
 \sum_{i=1}^nB_i,
 \qquad
-B_i\sim\operatorname{Ber}(p).
-$$
+B_i\sim\operatorname{Ber}(p).$$
 
 Compare a distribuição simulada com `rbinom()` para diferentes valores de $n$.
 
@@ -2269,28 +1919,24 @@ Compare a distribuição simulada com `rbinom()` para diferentes valores de $n$.
 ::: {.callout-caution title="Exercício 6 — aceitação-rejeição discreta"}
 Use a distribuição
 
-$$
-p
+$$p
 =
 (0{,}11,0{,}12,0{,}09,0{,}08,0{,}12,
-0{,}10,0{,}09,0{,}09,0{,}10,0{,}10).
-$$
+0{,}10,0{,}09,0{,}09,0{,}10,0{,}10).$$
 
-1. Use proposta uniforme.
-2. Calcule $c$.
-3. Estime empiricamente a taxa de aceitação.
-4. Compare o número médio de propostas com $c$.
-5. Repita artificialmente com $c=2{,}4$ e compare a eficiência.
+1.  Use proposta uniforme.
+2.  Calcule $c$.
+3.  Estime empiricamente a taxa de aceitação.
+4.  Compare o número médio de propostas com $c$.
+5.  Repita artificialmente com $c=2{,}4$ e compare a eficiência.
 :::
 
 ::: {.callout-caution title="Exercício 7 — escolha da proposta"}
 Para a densidade
 
-$$
-f(x)=2x,
+$$f(x)=2x,
 \qquad
-0<x<1,
-$$
+0<x<1,$$
 
 use duas propostas diferentes que satisfaçam a condição de envelope.
 
@@ -2300,41 +1946,33 @@ Calcule $c$ em cada caso e compare as taxas de aceitação.
 ::: {.callout-caution title="Exercício 8 — composição"}
 Reproduza a mistura
 
-$$
-P(X=j)
+$$P(X=j)
 =
 \begin{cases}
 0{,}05, & j=1,\ldots,5,\\
 0{,}15, & j=6,\ldots,10.
-\end{cases}
-$$
+\end{cases}$$
 
-1. Implemente corretamente usando dois uniformes independentes.
-2. Implemente a versão incorreta que reutiliza $U_1$ no primeiro ramo.
-3. Compare graficamente as duas distribuições empíricas.
-4. Explique a origem do erro.
+1.  Implemente corretamente usando dois uniformes independentes.
+2.  Implemente a versão incorreta que reutiliza $U_1$ no primeiro ramo.
+3.  Compare graficamente as duas distribuições empíricas.
+4.  Explique a origem do erro.
 :::
 
 ::: {.callout-caution title="Exercício 9 — exponencial por inversão"}
 Derive e implemente o gerador
 
-$$
-X
+$$X
 =
--\frac1\lambda\log U.
-$$
+-\frac1\lambda\log U.$$
 
 Compare média e variância simuladas com
 
-$$
-E(X)=\frac1\lambda
-$$
+$$E(X)=\frac1\lambda$$
 
 e
 
-$$
-\operatorname{Var}(X)=\frac1{\lambda^2}.
-$$
+$$\operatorname{Var}(X)=\frac1{\lambda^2}.$$
 :::
 
 ::: {.callout-caution title="Exercício 10 — Box--Muller"}
@@ -2354,20 +1992,16 @@ Verifique:
 ::: {.callout-caution title="Exercício 11 — exponencial truncada"}
 Gere valores de
 
-$$
-X\sim\operatorname{Exp}(1)
-$$
+$$X\sim\operatorname{Exp}(1)$$
 
 condicionados a
 
-$$
-0\leq X\leq2
-$$
+$$0\leq X\leq2$$
 
 por:
 
-1. aceitação-rejeição;
-2. transformação inversa da distribuição truncada.
+1.  aceitação-rejeição;
+2.  transformação inversa da distribuição truncada.
 
 Compare o número médio de uniformes utilizados.
 
@@ -2377,39 +2011,35 @@ Compare o número médio de uniformes utilizados.
 ::: {.callout-caution title="Exercício 12 — método alias"}
 Pesquise a Seção 3.1.4 de @kroese2011handbook [pp. 56--58].
 
-1. Explique a etapa de pré-processamento.
-2. Explique por que cada geração exige uma escolha de coluna e uma segunda decisão binária.
-3. Compare conceitualmente sua complexidade por observação com a busca sequencial.
+1.  Explique a etapa de pré-processamento.
+2.  Explique por que cada geração exige uma escolha de coluna e uma segunda decisão binária.
+3.  Compare conceitualmente sua complexidade por observação com a busca sequencial.
 :::
 
 ::: {.callout-caution title="Exercício 13 — normal multivariada"}
 Considere
 
-$$
-\mu
+$$\mu
 =
 \begin{pmatrix}
 0\\
 1
-\end{pmatrix}
-$$
+\end{pmatrix}$$
 
 e
 
-$$
-\Sigma
+$$\Sigma
 =
 \begin{pmatrix}
 1 & 0{,}8\\
 0{,}8 & 2
-\end{pmatrix}.
-$$
+\end{pmatrix}.$$
 
-1. Calcule uma decomposição de Cholesky de $\Sigma$.
-2. Gere $10^5$ vetores normais.
-3. Compare a média e a matriz de covariâncias empíricas com $\mu$ e $\Sigma$.
+1.  Calcule uma decomposição de Cholesky de $\Sigma$.
+2.  Gere $10^5$ vetores normais.
+3.  Compare a média e a matriz de covariâncias empíricas com $\mu$ e $\Sigma$.
 
-*Base de leitura:* @voss2014statistical [Seção 2.1, p. 44] e @kroese2011handbook [Algoritmo 4.71, p. 146].
+*Base de leitura:* @voss2014statistical \[Seção 2.1, p. 44\] e @kroese2011handbook [Algoritmo 4.71, p. 146].
 :::
 
 # Referências {.unnumbered}

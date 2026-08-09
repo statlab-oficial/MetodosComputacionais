@@ -4,7 +4,7 @@ A geração de números pseudoaleatórios é um dos componentes fundamentais da 
 
 Neste capítulo, o foco será exclusivamente a **geração pseudoaleatória uniforme**. Métodos destinados a transformar números uniformes em observações de outras distribuições — como transformação inversa, aceitação-rejeição e métodos especializados — devem ser tratados em um capítulo posterior sobre geração de variáveis aleatórias.
 
-> Ver @voss2014statistical [Capítulo 1, especialmente Seção 1.1, pp. 1--8], @kroese2011handbook [Capítulo 1, pp. 1--21] e @rubinstein2008simulation [Capítulo 2, Seção 2.2, pp. 49--51].
+> Ver @voss2014statistical \[Capítulo 1, especialmente Seção 1.1, pp. 1--8\], @kroese2011handbook [Capítulo 1, pp. 1--21] e @rubinstein2008simulation [Capítulo 2, Seção 2.2, pp. 49--51].
 
 ## Objetivos de aprendizagem
 
@@ -23,34 +23,29 @@ Ao final deste capítulo, espera-se que o leitor seja capaz de:
 - usar `set.seed()` e `runif()` de forma reprodutível em R;
 - reconhecer as limitações de geradores simples e os cuidados necessários em simulações paralelas.
 
-> A organização didática deste capítulo é baseada em @voss2014statistical [Seções 1.1.1--1.1.3, pp. 2--8], @kroese2011handbook [Seções 1.1--1.5, pp. 1--20] e @thulin2025modern [Seções 7.1.1--7.1.2, pp. 248--250].
-
+> A organização didática deste capítulo é baseada em @voss2014statistical \[Seções 1.1.1--1.1.3, pp. 2--8\], @kroese2011handbook [Seções 1.1--1.5, pp. 1--20] e @thulin2025modern [Seções 7.1.1--7.1.2, pp. 248--250].
 
 ## A uniformidade como base da simulação
 
 Em grande parte dos métodos de simulação, deseja-se conceitualmente uma sequência
 
-$$
-U_1,U_2,\ldots
+$$U_1,U_2,\ldots
 \stackrel{iid}{\sim}
-U(0,1).
-$$
+U(0,1).$$
 
 A distribuição uniforme desempenha um papel central porque pode ser utilizada como ponto de partida para construir variáveis aleatórias de outras distribuições. Assim, a geração computacional é frequentemente dividida em duas etapas:
 
-1. produzir uma sequência que imite observações iid uniformes;
-2. transformar essas observações na distribuição de interesse.
+1.  produzir uma sequência que imite observações iid uniformes;
+2.  transformar essas observações na distribuição de interesse.
 
 Neste capítulo, tratamos apenas da primeira etapa.
 
-> Ver @voss2014statistical [Introdução do Capítulo 1 e Seção 1.1, pp. 1--2], @kroese2011handbook [Capítulo 1, p. 1] e @rubinstein2008simulation [Seção 2.1, p. 49].
+> Ver @voss2014statistical \[Introdução do Capítulo 1 e Seção 1.1, pp. 1--2\], @kroese2011handbook [Capítulo 1, p. 1] e @rubinstein2008simulation [Seção 2.1, p. 49].
 
-::: {.callout-note title="Definição"}
+::: {.callout-important title="Definição"}
 Um **gerador uniforme ideal** produziria uma sequência infinita
 
-$$
-U_1,U_2,\ldots
-$$
+$$U_1,U_2,\ldots$$
 
 de variáveis independentes, cada uma com distribuição $U(0,1)$.
 
@@ -69,12 +64,11 @@ Existem duas estratégias conceitualmente diferentes para produzir números dest
 
 Geradores físicos podem fornecer uma fonte de aleatoriedade externa ao algoritmo, mas sua sequência não pode ser reproduzida novamente a menos que tenha sido registrada. Geradores algorítmicos, em contraste, são rápidos, econômicos em memória e permitem reproduzir exatamente uma sequência quando o estado inicial é conhecido.
 
-::: {.callout-note title="Observação"}
+::: {.callout-note appearance="minimal" title="Observação"}
 Fontes físicas de aleatoriedade podem explorar, por exemplo, ruído eletrônico, fenômenos quânticos ou decaimento radioativo. Para simulação computacional, contudo, geradores algorítmicos são particularmente atraentes por serem rápidos e, sobretudo, **reprodutíveis** quando o estado inicial é conhecido [@voss2014statistical, Seção 1.1, p. 2; @rubinstein2008simulation, Seção 2.2, pp. 49--50].
 :::
 
-
-::: {.callout-note title="Definição"}
+::: {.callout-important title="Definição"}
 Um **gerador de números pseudoaleatórios** (*pseudo-random number generator*, PRNG) é um algoritmo determinístico que produz uma sequência numérica destinada a substituir, em uma aplicação computacional, uma sequência de números aleatórios.
 
 Ver @voss2014statistical [Definição 1.1, p. 2].
@@ -97,15 +91,11 @@ Considere:
 
 A evolução é
 
-$$
-S_t=f(S_{t-1}),
-$$
+$$S_t=f(S_{t-1}),$$
 
 e a saída é
 
-$$
-U_t=g(S_t).
-$$
+$$U_t=g(S_t).$$
 
 > Esta formulação determinística é adaptada do gerador genérico apresentado em @kroese2011handbook [Algoritmo 1.1, p. 2].
 
@@ -122,9 +112,9 @@ A **semente** inicializa o estado do gerador. Se o algoritmo e a semente forem m
 - comparação de métodos;
 - uso de números aleatórios comuns em procedimentos de redução de variância.
 
-> Ver @voss2014statistical [Seção 1.1.3, p. 8], @kroese2011handbook [Seção 1.1.1, pp. 2--3] e @thulin2025modern [Seção 7.1.1, pp. 248--249].
+> Ver @voss2014statistical \[Seção 1.1.3, p. 8\], @kroese2011handbook [Seção 1.1.1, pp. 2--3] e @thulin2025modern [Seção 7.1.1, pp. 248--249].
 
-::: {.callout-warning title="Observação"}
+::: {.callout-note appearance="minimal" title="Observação"}
 A semente não torna o gerador “mais aleatório” nem melhora sua precisão. Ela apenas seleciona um estado inicial e, portanto, uma trajetória determinística dentro do gerador.
 :::
 
@@ -144,9 +134,9 @@ identical(u1, u2)
 
 A saída de `identical()` deve ser `TRUE`.
 
-> Ver @thulin2025modern [Seção 7.1.1, pp. 248--249] e @voss2014statistical [Apêndice B.4, pp. 292--293].
+> Ver @thulin2025modern \[Seção 7.1.1, pp. 248--249\] e @voss2014statistical [Apêndice B.4, pp. 292--293].
 
-::: {.callout-warning title="Observação sobre o estado do R"}
+::: {.callout-note appearance="minimal" title="Observação sobre o estado do R"}
 Se `set.seed()` não for executada novamente, chamadas sucessivas a `runif()` continuam a sequência a partir do estado corrente do gerador. A forma exata de inicialização do estado em uma sessão e a lista de geradores disponíveis são detalhes dependentes da versão do R.
 
 Essas informações de software devem ser conferidas na documentação da versão utilizada antes da publicação.
@@ -156,51 +146,41 @@ Essas informações de software devem ser conferidas na documentação da versã
 
 Um gerador congruencial produz inicialmente inteiros
 
-$$
-X_n\in\{0,1,\ldots,m-1\}.
-$$
+$$X_n\in\{0,1,\ldots,m-1\}.$$
 
 É necessário transformá-los em valores utilizados como aproximações de uma distribuição uniforme contínua.
 
 Uma forma direta é
 
-$$
-U_n=\frac{X_n}{m}.
-$$
+$$U_n=\frac{X_n}{m}.$$
 
 Nesse caso,
 
-$$
-U_n\in
+$$U_n\in
 \left\{
 0,\frac1m,\ldots,\frac{m-1}{m}
 \right\}
-\subset[0,1).
-$$
+\subset[0,1).$$
 
 Portanto, essa transformação **pode produzir zero**.
 
 Outra transformação apresentada por @voss2014statistical é
 
-$$
-\boxed{
+$$\boxed{
 U_n=
 \frac{X_n+1}{m+1}
-},
-$$
+},$$
 
 para a qual
 
-$$
-U_n\in
+$$U_n\in
 \left\{
 \frac1{m+1},
 \frac2{m+1},
 \ldots,
 \frac{m}{m+1}
 \right\}
-\subset(0,1).
-$$
+\subset(0,1).$$
 
 > Ver @voss2014statistical [Seção 1.1.3, p. 8].
 
@@ -212,89 +192,69 @@ Nenhuma dessas sequências é literalmente contínua. Um computador representa a
 
 O **Gerador Congruencial Linear** (GCL; em inglês, *Linear Congruential Generator*, LCG) é uma das construções mais simples e historicamente importantes de geração pseudoaleatória.
 
-::: {.callout-note title="Definição"}
+::: {.callout-important title="Definição"}
 Dados inteiros
 
-$$
-m>1,
-$$
+$$m>1,$$
 
-$$
-a\in\{1,\ldots,m-1\},
-$$
+$$a\in\{1,\ldots,m-1\},$$
 
-$$
-c\in\{0,\ldots,m-1\},
-$$
+$$c\in\{0,\ldots,m-1\},$$
 
 e uma semente
 
-$$
-X_0\in\{0,\ldots,m-1\},
-$$
+$$X_0\in\{0,\ldots,m-1\},$$
 
 o GCL é definido pela recorrência
 
-$$
-\boxed{
+$$\boxed{
 X_n=
 (aX_{n-1}+c)\bmod m
 },
 \qquad
-n=1,2,\ldots
-$$
+n=1,2,\ldots$$
 
 O parâmetro $m$ é o **módulo**, $a$ é o **multiplicador**, $c$ é o **incremento** e $X_0$ é a **semente**.
 
-Ver @voss2014statistical [Algoritmo 1.2, pp. 2--3], @kroese2011handbook [Seção 1.2.1, pp. 4--5] e @rubinstein2008simulation [Seção 2.2, p. 50].
+Ver @voss2014statistical \[Algoritmo 1.2, pp. 2--3\], @kroese2011handbook [Seção 1.2.1, pp. 4--5] e @rubinstein2008simulation [Seção 2.2, p. 50].
 :::
 
 Quando
 
-$$
-c=0,
-$$
+$$c=0,$$
 
 temos o chamado **gerador congruencial multiplicativo**:
 
-$$
-X_n=aX_{n-1}\bmod m.
-$$
+$$X_n=aX_{n-1}\bmod m.$$
 
-> Ver @kroese2011handbook [Seção 1.2.1, pp. 4--5] e @rubinstein2008simulation [Seção 2.2, p. 50].
+> Ver @kroese2011handbook \[Seção 1.2.1, pp. 4--5\] e @rubinstein2008simulation [Seção 2.2, p. 50].
 
 ### Algoritmo
 
 Uma representação do GCL é:
 
-1. escolha $m$, $a$, $c$ e $X_0$;
-2. calcule
-   $$
-   X_n=(aX_{n-1}+c)\bmod m;
-   $$
-3. converta o estado inteiro em um pseudo-uniforme;
-4. use $X_n$ como novo estado;
-5. repita.
+1.  escolha $m$, $a$, $c$ e $X_0$;
+2.  calcule
+    $$X_n=(aX_{n-1}+c)\bmod m;$$
+3.  converta o estado inteiro em um pseudo-uniforme;
+4.  use $X_n$ como novo estado;
+5.  repita.
 
 ### Exemplo com período pequeno
 
 Considere
 
-$$
-m=8,
+$$m=8,
 \qquad
 a=5,
 \qquad
 c=1,
 \qquad
-X_0=0.
-$$
+X_0=0.$$
 
 A sequência é
 
-$$
-1,6,7,4,5,2,3,0,1,6,\ldots
-$$
+$$1,6,7,4,5,2,3,0,1,6,\ldots$$
 
 e retorna ao estado inicial depois de oito atualizações.
 
@@ -392,7 +352,7 @@ gcl(
 )
 ```
 
-::: {.callout-warning title="Observação"}
+::: {.callout-note appearance="minimal" title="Observação"}
 A função acima tem finalidade didática. Para aplicações científicas reais, @voss2014statistical [Seção 1.1.3, p. 8] recomenda utilizar geradores bem estabelecidos fornecidos por bibliotecas ou pacotes confiáveis, em vez de implementar um PRNG próprio.
 
 Além disso, a implementação usa o tipo numérico padrão do R. Para módulos e multiplicadores suficientemente grandes, os produtos intermediários podem ultrapassar a faixa de inteiros representáveis exatamente em ponto flutuante; nesse caso, é necessária uma implementação de aritmética modular apropriada.
@@ -402,23 +362,21 @@ Além disso, a implementação usa o tipo numérico padrão do R. Para módulos 
 
 Como o estado do GCL pertence ao conjunto finito
 
-$$
-\{0,1,\ldots,m-1\},
-$$
+$$\{0,1,\ldots,m-1\},$$
 
 existem apenas $m$ estados possíveis.
 
 Pelo princípio da casa dos pombos, algum estado deverá se repetir depois de, no máximo, $m$ atualizações. Como a transição é determinística, depois que um estado é repetido toda a trajetória subsequente também se repete. Em um gerador finito geral, pode existir um trecho inicial **transiente** antes da entrada no ciclo; portanto, a propriedade garantida é a **periodicidade eventual**.
 
-::: {.callout-note title="Definição"}
+::: {.callout-important title="Definição"}
 O **período** é o comprimento do ciclo que se repete. Quando a trajetória entra no ciclo já no estado inicial, a sequência é periódica desde o começo; caso contrário, existe um pré-período ou trecho transiente antes do ciclo.
 
-Ver @voss2014statistical [Seção 1.1.1, pp. 3--4] e @kroese2011handbook [Seção 1.1, p. 2].
+Ver @voss2014statistical \[Seção 1.1.1, pp. 3--4\] e @kroese2011handbook [Seção 1.1, p. 2].
 :::
 
 Para um GCL simples, o período não pode exceder $m$.
 
-> Ver @voss2014statistical [pp. 3--4] e @rubinstein2008simulation [p. 50].
+> Ver @voss2014statistical \[pp. 3--4\] e @rubinstein2008simulation [p. 50].
 
 ### Encontrando o período em exemplos pequenos
 
@@ -468,29 +426,25 @@ A função é adequada apenas para módulos pequenos, pois armazena explicitamen
 
 Para um GCL com incremento possivelmente não nulo,
 
-$$
-X_n=(aX_{n-1}+c)\bmod m,
-$$
+$$X_n=(aX_{n-1}+c)\bmod m,$$
 
 @voss2014statistical apresenta um critério necessário e suficiente para que o período seja exatamente $m$.
 
 ::: {.callout-important title="Resultado: período completo"}
 O GCL possui período $m$ se, e somente se:
 
-1. $m$ e $c$ são coprimos;
-2. $a-1$ é divisível por todo fator primo de $m$;
-3. se $m$ é múltiplo de $4$, então $a-1$ também é múltiplo de $4$.
+1.  $m$ e $c$ são coprimos;
+2.  $a-1$ é divisível por todo fator primo de $m$;
+3.  se $m$ é múltiplo de $4$, então $a-1$ também é múltiplo de $4$.
 
 Ver @voss2014statistical [Teorema 1.4, p. 4].
 :::
 
 Esse resultado mostra por que a recomendação “use sempre um módulo primo” é inadequada como regra geral. Por exemplo, o GCL
 
-$$
-m=8,\qquad
+$$m=8,\qquad
 a=5,\qquad
-c=1
-$$
+c=1$$
 
 tem período completo:
 
@@ -500,43 +454,31 @@ tem período completo:
 
 Logo, o período é
 
-$$
-P=8.
-$$
+$$P=8.$$
 
 ## O minimal standard LCG
 
 Um exemplo clássico citado por @kroese2011handbook utiliza
 
-$$
-m=2^{31}-1=2147483647,
-$$
+$$m=2^{31}-1=2147483647,$$
 
-$$
-a=7^5=16807,
-$$
+$$a=7^5=16807,$$
 
-$$
-c=0.
-$$
+$$c=0.$$
 
 Esse gerador é apresentado pelos autores como o **minimal standard LCG**. Para sementes não nulas, isto é,
 
-$$
-X_0\in\{1,\ldots,m-1\},
-$$
+$$X_0\in\{1,\ldots,m-1\},$$
 
 o ciclo possui período
 
-$$
-2^{31}-2.
-$$
+$$2^{31}-2.$$
 
 A semente $X_0=0$ é um caso degenerado: como $c=0$, o estado zero é absorvente e produz a sequência constante $0,0,\ldots$.
 
 > Ver @kroese2011handbook [Exemplo 1.1, p. 5].
 
-::: {.callout-warning title="Interpretação histórica"}
+::: {.callout-tip title="Interpretação histórica"}
 O interesse desse gerador é sobretudo histórico e didático. @kroese2011handbook observa que, apesar de suas boas propriedades para a época, seu período e suas propriedades estatísticas já não satisfazem as exigências de aplicações modernas de Monte Carlo em grande escala.
 
 Portanto, ele é excelente para ensinar o funcionamento de um GCL, mas não deve ser apresentado como recomendação universal para simulações científicas atuais.
@@ -612,9 +554,7 @@ Se uma sequência pretende substituir observações de uma distribuição unifor
 
 Para uma sequência discreta de estados
 
-$$
-X_n\in S,
-$$
+$$X_n\in S,$$
 
 uma condição desejável é que, no longo prazo, subconjuntos de mesmo tamanho recebam aproximadamente a mesma proporção de observações.
 
@@ -645,12 +585,10 @@ abline(
 
 Para uma distribuição $U(0,1)$, a densidade teórica é
 
-$$
-f(u)=1,
-\qquad 0<u<1.
-$$
+$$f(u)=1,
+\qquad 0<u<1.$$
 
-::: {.callout-warning title="Observação"}
+::: {.callout-note appearance="minimal" title="Observação"}
 Um histograma aproximadamente plano é uma condição muito fraca. Sequências determinísticas extremamente regulares podem ter frequências marginais perfeitamente uniformes e ainda assim serem inadequadas para simulação.
 :::
 
@@ -658,9 +596,7 @@ Um histograma aproximadamente plano é uma condição muito fraca. Sequências d
 
 Considere a sequência
 
-$$
-X_n=n\bmod m.
-$$
+$$X_n=n\bmod m.$$
 
 No longo prazo, todos os estados aparecem com a mesma frequência. Entretanto, a ordem é perfeitamente previsível.
 
@@ -674,30 +610,24 @@ Uma consequência interessante discutida por Voss é que, ao testar a saída de 
 
 Divida o intervalo $(0,1)$ em $k$ subintervalos de mesmo comprimento. Sob uma sequência iid uniforme, o número esperado de observações em cada bloco é
 
-$$
-E_j=\frac{N}{k}.
-$$
+$$E_j=\frac{N}{k}.$$
 
 A estatística é
 
-$$
-Q
+$$Q
 =
 \sum_{j=1}^k
 \frac{
 (O_j-E_j)^2
 }{
 E_j
-}.
-$$
+}.$$
 
 Sob as condições usuais de aproximação,
 
-$$
-Q
+$$Q
 \approx
-\chi^2_{k-1}.
-$$
+\chi^2_{k-1}.$$
 
 > Ver @voss2014statistical [Exemplo 1.6, pp. 5--6].
 
@@ -705,9 +635,7 @@ Voss destaca que, para avaliar um gerador, é informativo considerar desvios nas
 
 No código abaixo, `p_extremos` é uma medida diagnóstica de caudas iguais,
 
-$$
-2\min\{P(\chi^2_{k-1}\leq Q),\;P(\chi^2_{k-1}\geq Q)\},
-$$
+$$2\min\{P(\chi^2_{k-1}\leq Q),\;P(\chi^2_{k-1}\geq Q)\},$$
 
 limitada a $1$. Ela foi adotada neste capítulo para sinalizar valores anormalmente pequenos **ou** grandes de $Q$; não deve ser confundida com o valor-$p$ unilateral usual do teste qui-quadrado de aderência.
 
@@ -798,7 +726,7 @@ teste_blocos(
 )
 ```
 
-::: {.callout-warning title="Interpretação"}
+::: {.callout-tip title="Interpretação"}
 Esse cálculo é um **diagnóstico**, não uma certificação de aleatoriedade. Um bom gerador deve sobreviver a uma bateria de testes que avalie diferentes aspectos de sua saída.
 
 Ver @kroese2011handbook [Seção 1.5.2, pp. 14--20].
@@ -810,11 +738,9 @@ Mesmo que cada $U_n$ tenha comportamento marginalmente uniforme, pares ou vetore
 
 Um diagnóstico simples é construir os pares
 
-$$
-(U_i,U_{i+1}),
+$$(U_i,U_{i+1}),
 \qquad
-i=1,\ldots,N-1.
-$$
+i=1,\ldots,N-1.$$
 
 Se os valores se comportassem como observações iid uniformes, esperaríamos um preenchimento visualmente homogêneo do quadrado unitário.
 
@@ -900,24 +826,18 @@ Esse é um dos motivos pelos quais apenas “olhar o gráfico” não é suficie
 
 Outra medida de dependência serial é a autocorrelação de defasagem $h$,
 
-$$
-\rho(h)
+$$\rho(h)
 =
 \operatorname{Corr}
-(U_t,U_{t+h}).
-$$
+(U_t,U_{t+h}).$$
 
 Para uma sequência iid,
 
-$$
-\rho(h)=0
-$$
+$$\rho(h)=0$$
 
 para todo
 
-$$
-h\neq0.
-$$
+$$h\neq0.$$
 
 A autocorrelação amostral pode ser examinada em R por:
 
@@ -933,27 +853,23 @@ acf(
 )
 ```
 
-::: {.callout-warning title="Observação"}
+::: {.callout-note appearance="minimal" title="Observação"}
 Autocorrelações próximas de zero não implicam independência. Dependências não lineares ou estruturas multidimensionais podem permanecer mesmo quando a correlação linear é pequena.
 
-A necessidade de testar independência e estrutura serial é discutida em @voss2014statistical [Seção 1.1.2.3, pp. 6--7] e @kroese2011handbook [Seção 1.5, pp. 11--20].
+A necessidade de testar independência e estrutura serial é discutida em @voss2014statistical \[Seção 1.1.2.3, pp. 6--7\] e @kroese2011handbook [Seção 1.5, pp. 11--20].
 :::
 
 ## Equidistribuição multidimensional
 
 Um gerador pode ter boa distribuição marginal e ainda falhar quando examinamos vetores consecutivos. Considere vetores
 
-$$
-(U_i,U_{i+1},\ldots,U_{i+k-1}).
-$$
+$$(U_i,U_{i+1},\ldots,U_{i+k-1}).$$
 
 A qualidade multidimensional está associada à capacidade desses vetores de preencher adequadamente regiões de
 
-$$
-[0,1]^k.
-$$
+$$[0,1]^k.$$
 
-@voss2014statistical formaliza essa ideia por meio de **equidistribuição $k$-dimensional** para sequências periódicas.
+@voss2014statistical formaliza essa ideia por meio de **equidistribuição** $k$-dimensional para sequências periódicas.
 
 > Ver @voss2014statistical [Definição 1.7, pp. 7--8].
 
@@ -969,7 +885,7 @@ Em determinadas dimensões, esses pontos podem se concentrar em um número relat
 
 > Ver @kroese2011handbook [Seção 1.5.1, pp. 12--14].
 
-::: {.callout-note title="Definição conceitual"}
+::: {.callout-important title="Definição"}
 O **teste espectral** avalia a geometria da estrutura reticular de geradores lineares, medindo quão bem os pontos podem preencher o hipercubo unitário em diferentes dimensões.
 
 Ver @kroese2011handbook [Seção 1.5.1, pp. 12--14].
@@ -999,7 +915,7 @@ Uma avaliação séria de um PRNG deve combinar:
 
 > Ver @kroese2011handbook [Seção 1.5.2, pp. 14--20].
 
-::: {.callout-warning title="Observação"}
+::: {.callout-note appearance="minimal" title="Observação"}
 “Não rejeitar” a hipótese de uniformidade em um teste não demonstra que o gerador seja aleatório. Testes estatísticos são capazes de detectar alguns tipos de deficiência; não podem provar independência perfeita de uma sequência determinística.
 :::
 
@@ -1019,8 +935,7 @@ O GCL é uma excelente ferramenta didática, mas geradores modernos utilizam est
 
 Em um MRG de ordem $k$, o novo estado depende de vários estados anteriores:
 
-$$
-X_t
+$$X_t
 =
 \left(
 a_1X_{t-1}
@@ -1029,16 +944,13 @@ a_1X_{t-1}
 +
 a_kX_{t-k}
 \right)
-\bmod m.
-$$
+\bmod m.$$
 
 A ampliação do estado permite alcançar o período máximo
 
-$$
-m^k-1,
-$$
+$$m^k-1,$$
 
-sob condições apropriadas: na formulação apresentada por @kroese2011handbook, $m$ deve ser primo e o polinômio característico da recorrência deve ser primitivo módulo $m$ [Seção 1.2.2, p. 5].
+sob condições apropriadas: na formulação apresentada por @kroese2011handbook, $m$ deve ser primo e o polinômio característico da recorrência deve ser primitivo módulo $m$ \[Seção 1.2.2, p. 5\].
 
 ::: {.callout-tip title="Interpretação"}
 A ideia central é aumentar o espaço de estados sem exigir que o módulo isoladamente seja gigantesco.
@@ -1046,18 +958,15 @@ A ideia central é aumentar o espaço de estados sem exigir que o módulo isolad
 
 ## Geradores lineares módulo 2 e Mersenne Twister
 
-Outra família utiliza operações binárias e recorrências lineares módulo $2$.
-O **Mersenne Twister MT19937** é um exemplo importante dessa classe. @kroese2011handbook destaca seu grande período,
+Outra família utiliza operações binárias e recorrências lineares módulo $2$. O **Mersenne Twister MT19937** é um exemplo importante dessa classe. @kroese2011handbook destaca seu grande período,
 
-$$
-2^{19937}-1,
-$$
+$$2^{19937}-1,$$
 
 sua velocidade e suas boas propriedades de equidistribuição.
 
 > Ver @kroese2011handbook [Seção 1.2.4, pp. 6--8].
 
-::: {.callout-warning title="Observação"}
+::: {.callout-note appearance="minimal" title="Observação"}
 Período gigantesco não elimina todas as possíveis fraquezas. @kroese2011handbook também discute limitações do MT19937 e menciona desenvolvimentos posteriores destinados a melhorar propriedades específicas.
 
 O princípio geral permanece: **nenhum gerador deve ser avaliado apenas pelo tamanho do período**.
@@ -1065,8 +974,7 @@ O princípio geral permanece: **nenhum gerador deve ser avaliado apenas pelo tam
 
 ## Geradores combinados
 
-Outra estratégia é combinar a saída ou o estado de dois ou mais geradores.
-A combinação pode produzir período maior e melhorar propriedades estatísticas que seriam insatisfatórias nos componentes isolados. @kroese2011handbook apresenta geradores combinados e destaca a classe dos **combined multiple-recursive generators**.
+Outra estratégia é combinar a saída ou o estado de dois ou mais geradores. A combinação pode produzir período maior e melhorar propriedades estatísticas que seriam insatisfatórias nos componentes isolados. @kroese2011handbook apresenta geradores combinados e destaca a classe dos **combined multiple-recursive generators**.
 
 > Ver @kroese2011handbook [Seção 1.3, pp. 8--10].
 
@@ -1080,7 +988,7 @@ Nesse contexto, é importante poder dividir a sequência pseudoaleatória em **f
 
 > Ver @kroese2011handbook [Seção 1.1.1, p. 3, e Seção 1.3, pp. 8--10].
 
-::: {.callout-warning title="Observação"}
+::: {.callout-note appearance="minimal" title="Observação"}
 A simples escolha de sementes diferentes — próximas ou não — não constitui, por si só, uma justificativa teórica para tratar as sequências resultantes como fluxos independentes adequados à paralelização. Em aplicações paralelas, deve-se utilizar uma estratégia de fluxos prevista pelo gerador ou pela biblioteca escolhida.
 
 A forma específica de configurar esses fluxos no R depende da versão do software e deve ser conferida na documentação correspondente.
@@ -1088,10 +996,9 @@ A forma específica de configurar esses fluxos no R depende da versão do softwa
 
 ## Geração uniforme em R
 
-Para a prática cotidiana, não é necessário programar um PRNG desde o início.
-A função:
+Para a prática cotidiana, não é necessário programar um PRNG desde o início. A função:
 
-```r
+``` r
 runif(n)
 ```
 
@@ -1099,11 +1006,11 @@ gera $n$ números pseudoaleatórios uniformes.
 
 Também podemos gerar valores uniformes entre limites $a$ e $b$ por:
 
-```r
+``` r
 runif(n, min = a, max = b)
 ```
 
-> Ver @voss2014statistical [Apêndice B.4, pp. 292--293], @thulin2025modern [Seções 7.1.1--7.1.2, pp. 248--250] e @dormann2025simulation [Apêndice A.1, p. 409].
+> Ver @voss2014statistical \[Apêndice B.4, pp. 292--293\], @thulin2025modern [Seções 7.1.1--7.1.2, pp. 248--250] e @dormann2025simulation [Apêndice A.1, p. 409].
 
 ### Exemplo
 
@@ -1125,33 +1032,23 @@ var(u)
 
 Para uma variável
 
-$$
-U\sim U(0,1),
-$$
+$$U\sim U(0,1),$$
 
 temos
 
-$$
-E(U)=\frac12
-$$
+$$E(U)=\frac12$$
 
 e
 
-$$
-\operatorname{Var}(U)=\frac1{12}.
-$$
+$$\operatorname{Var}(U)=\frac1{12}.$$
 
 Portanto, para uma amostra grande, esperamos observar
 
-$$
-\bar U\approx0{,}5
-$$
+$$\bar U\approx0{,}5$$
 
 e
 
-$$
-s^2\approx\frac1{12}.
-$$
+$$s^2\approx\frac1{12}.$$
 
 ::: {.callout-tip title="Interpretação"}
 Essas comparações verificam apenas propriedades marginais simples. Elas são úteis para ensino e depuração, mas são muito fracas como teste de qualidade de um PRNG.
@@ -1176,14 +1073,13 @@ help("set.seed")
 help("runif")
 ```
 
-
 ## Comparando um gerador didático com `runif()`
 
 Um exercício informativo consiste em comparar:
 
-1. um gerador embutido no R;
-2. um GCL claramente inadequado;
-3. um GCL com espaço de estados maior.
+1.  um gerador embutido no R;
+2.  um GCL claramente inadequado;
+3.  um GCL com espaço de estados maior.
 
 ### Função de diagnóstico
 
@@ -1294,17 +1190,11 @@ diagnostico_prng(
 
 @voss2014statistical também compara, entre outros, o GCL
 
-$$
-m=2^{32},
-$$
+$$m=2^{32},$$
 
-$$
-a=1664525,
-$$
+$$a=1664525,$$
 
-$$
-c=1013904223.
-$$
+$$c=1013904223.$$
 
 Em gráficos bidimensionais, sua estrutura pode ser muito menos evidente do que a de GCLs pequenos.
 
@@ -1330,7 +1220,7 @@ plot(
 
 > Parâmetros retirados de @voss2014statistical [Figura 1.1, p. 7].
 
-::: {.callout-warning title="Observação"}
+::: {.callout-note appearance="minimal" title="Observação"}
 O desaparecimento visual de um padrão em duas dimensões não transforma um GCL em uma sequência iid. Testes multidimensionais e análise teórica continuam necessários.
 :::
 
@@ -1342,7 +1232,7 @@ Na criptografia, além dessas propriedades, a **imprevisibilidade** é central. 
 
 > Ver @kroese2011handbook [Seções 1.1.2 e 1.4, pp. 3 e 10--11].
 
-::: {.callout-note title="Interpretação"}
+::: {.callout-tip title="Interpretação"}
 “Bom para Monte Carlo” e “seguro para criptografia” são critérios diferentes. Este capítulo trata apenas da primeira finalidade.
 :::
 
@@ -1350,15 +1240,15 @@ Na criptografia, além dessas propriedades, a **imprevisibilidade** é central. 
 
 Para simulação estatística, uma estratégia segura é:
 
-1. usar o gerador fornecido por uma implementação científica consolidada;
-2. registrar a semente quando a reprodução exata for necessária;
-3. não escolher um gerador apenas pelo período;
-4. evitar a implementação caseira de um PRNG em trabalhos aplicados;
-5. usar múltiplos fluxos planejados em computação paralela;
-6. realizar diagnósticos quando um algoritmo próprio ou um gerador incomum for indispensável;
-7. documentar a versão do software quando a reprodução de uma sequência específica for importante.
+1.  usar o gerador fornecido por uma implementação científica consolidada;
+2.  registrar a semente quando a reprodução exata for necessária;
+3.  não escolher um gerador apenas pelo período;
+4.  evitar a implementação caseira de um PRNG em trabalhos aplicados;
+5.  usar múltiplos fluxos planejados em computação paralela;
+6.  realizar diagnósticos quando um algoritmo próprio ou um gerador incomum for indispensável;
+7.  documentar a versão do software quando a reprodução de uma sequência específica for importante.
 
-> Ver @voss2014statistical [Seção 1.1.3, p. 8] e @kroese2011handbook [Seções 1.1.1--1.1.2, pp. 2--4].
+> Ver @voss2014statistical \[Seção 1.1.3, p. 8\] e @kroese2011handbook [Seções 1.1.1--1.1.2, pp. 2--4].
 
 ## Limitações dos diagnósticos simples
 
@@ -1379,30 +1269,25 @@ Detecta associação linear serial, mas pode deixar passar dependências não li
 ::: {.callout-important title="Conclusão diagnóstica"}
 Um PRNG não deve ser validado por uma única estatística ou figura. A avaliação robusta combina conhecimento teórico da construção com uma bateria de testes empíricos.
 
-Ver @kroese2011handbook [Seção 1.5, pp. 11--20] e @voss2014statistical [Seção 1.1.2, pp. 4--8].
+Ver @kroese2011handbook \[Seção 1.5, pp. 11--20\] e @voss2014statistical [Seção 1.1.2, pp. 4--8].
 :::
-
 
 ## Síntese do capítulo
 
 ::: {.callout-note title="Síntese"}
 A simulação computacional utiliza números pseudoaleatórios para substituir uma sequência ideal
 
-$$
-U_1,U_2,\ldots
+$$U_1,U_2,\ldots
 \stackrel{iid}{\sim}
-U(0,1).
-$$
+U(0,1).$$
 
 Um PRNG algorítmico é determinístico. Seu estado evolui segundo uma função de transição e a semente determina o estado inicial. Como o espaço de estados é finito, a trajetória é eventualmente periódica: após um possível trecho transiente, ela entra em um ciclo de período finito.
 
 O GCL utiliza
 
-$$
-X_n
+$$X_n
 =
-(aX_{n-1}+c)\bmod m
-$$
+(aX_{n-1}+c)\bmod m$$
 
 e é uma ferramenta particularmente útil para compreender os conceitos de semente, período, dependência e escolha de parâmetros.
 
@@ -1418,19 +1303,17 @@ Implemente um GCL em R com argumentos `n`, `seed`, `a`, `c` e `m`.
 
 Use
 
-$$
-m=8,
+$$m=8,
 \qquad
 a=5,
 \qquad
 c=1,
 \qquad
-X_0=0.
-$$
+X_0=0.$$
 
-1. Gere os primeiros 16 estados.
-2. Identifique o período.
-3. Verifique que os primeiros oito estados formam uma permutação de $\{0,\ldots,7\}$.
+1.  Gere os primeiros 16 estados.
+2.  Identifique o período.
+3.  Verifique que os primeiros oito estados formam uma permutação de $\{0,\ldots,7\}$.
 
 *Baseado em @voss2014statistical [Exemplo 1.3 e Exercício E1.1, pp. 3 e 37].*
 :::
@@ -1438,19 +1321,15 @@ $$
 ::: {.callout-caution title="Exercício 2 — transformação para o intervalo unitário"}
 Para o GCL do exercício anterior, construa duas sequências:
 
-$$
-U_n^{(1)}=\frac{X_n}{m}
-$$
+$$U_n^{(1)}=\frac{X_n}{m}$$
 
 e
 
-$$
-U_n^{(2)}=\frac{X_n+1}{m+1}.
-$$
+$$U_n^{(2)}=\frac{X_n+1}{m+1}.$$
 
-1. Determine os conjuntos de valores possíveis.
-2. Mostre qual transformação pode produzir zero.
-3. Explique por que nenhuma das duas sequências é literalmente contínua.
+1.  Determine os conjuntos de valores possíveis.
+2.  Mostre qual transformação pode produzir zero.
+3.  Explique por que nenhuma das duas sequências é literalmente contínua.
 
 *Baseado em @voss2014statistical [Seção 1.1.3, p. 8].*
 :::
@@ -1458,13 +1337,11 @@ $$
 ::: {.callout-caution title="Exercício 3 — período completo"}
 Verifique as três condições de período completo para
 
-$$
-m=16,
+$$m=16,
 \qquad
 a=5,
 \qquad
-c=3.
-$$
+c=3.$$
 
 Em seguida, use uma implementação em R para confirmar empiricamente o período.
 
@@ -1474,29 +1351,26 @@ Em seguida, use uma implementação em R para confirmar empiricamente o período
 ::: {.callout-caution title="Exercício 4 — parâmetros inadequados"}
 Considere
 
-$$
-m=17,
+$$m=17,
 \qquad
 a=5,
 \qquad
-c=1.
-$$
+c=1.$$
 
-1. Gere 100 valores.
-2. Calcule o período.
-3. Construa um histograma.
-4. Construa o gráfico $(U_i,U_{i+1})$.
-5. Explique por que um histograma aparentemente razoável não garante boa qualidade.
-
+1.  Gere 100 valores.
+2.  Calcule o período.
+3.  Construa um histograma.
+4.  Construa o gráfico $(U_i,U_{i+1})$.
+5.  Explique por que um histograma aparentemente razoável não garante boa qualidade.
 :::
 
 ::: {.callout-caution title="Exercício 5 — reprodução do experimento de Voss"}
 Compare os gráficos de pares consecutivos para:
 
-1. `runif(1000)`;
-2. $m=81$, $a=1$, $c=8$;
-3. $m=1024$, $a=401$, $c=101$;
-4. $m=2^{32}$, $a=1664525$, $c=1013904223$.
+1.  `runif(1000)`;
+2.  $m=81$, $a=1$, $c=8$;
+3.  $m=1024$, $a=401$, $c=101$;
+4.  $m=2^{32}$, $a=1664525$, $c=1013904223$.
 
 Explique como a estrutura visual muda com o tamanho do espaço de estados.
 
@@ -1506,14 +1380,12 @@ Explique como a estrutura visual muda com o tamanho do espaço de estados.
 ::: {.callout-caution title="Exercício 6 — regularidade excessiva"}
 Considere a sequência
 
-$$
-X_n=n\bmod 1024.
-$$
+$$X_n=n\bmod 1024.$$
 
-1. Divida os valores em 16 blocos iguais.
-2. Calcule a estatística qui-quadrado de aderência.
-3. Explique por que a estatística pode ser excessivamente pequena.
-4. Discuta por que um teste unilateral tradicional pode deixar de detectar o problema.
+1.  Divida os valores em 16 blocos iguais.
+2.  Calcule a estatística qui-quadrado de aderência.
+3.  Explique por que a estatística pode ser excessivamente pequena.
+4.  Discuta por que um teste unilateral tradicional pode deixar de detectar o problema.
 
 *Baseado em @voss2014statistical [Exemplo 1.6, pp. 5--6].*
 :::
@@ -1521,9 +1393,7 @@ $$
 ::: {.callout-caution title="Exercício 7 — autocorrelação"}
 Para cada gerador do Exercício 5, estime as autocorrelações para defasagens
 
-$$
-h=1,\ldots,30.
-$$
+$$h=1,\ldots,30.$$
 
 Compare os resultados com os gráficos de pares.
 
@@ -1533,9 +1403,7 @@ Explique por que autocorrelação próxima de zero não implica independência.
 ::: {.callout-caution title="Exercício 8 — dimensão maior"}
 Construa vetores
 
-$$
-(U_i,U_{i+1},U_{i+2})
-$$
+$$(U_i,U_{i+1},U_{i+2})$$
 
 para um GCL pequeno.
 
@@ -1543,26 +1411,24 @@ Use uma visualização tridimensional disponível em R ou examine projeções bi
 
 Discuta a relação entre o experimento e a ideia de equidistribuição multidimensional.
 
-*Base de leitura:* @voss2014statistical [Definição 1.7, pp. 7--8] e @kroese2011handbook [Seção 1.5.1, pp. 12--14].
+*Base de leitura:* @voss2014statistical \[Definição 1.7, pp. 7--8\] e @kroese2011handbook [Seção 1.5.1, pp. 12--14].
 :::
 
 ::: {.callout-caution title="Exercício 9 — minimal standard LCG"}
 Implemente o gerador
 
-$$
-m=2^{31}-1,
+$$m=2^{31}-1,
 \qquad
 a=16807,
 \qquad
-c=0,
-$$
+c=0,$$
 
 usando uma semente $X_0\in\{1,\ldots,m-1\}$.
 
-1. Gere $10^4$ números.
-2. Examine histograma, pares e autocorrelação.
-3. Compare com `runif(10000)`.
-4. Explique por que bons resultados nesses três diagnósticos não são suficientes para recomendar o gerador em aplicações modernas de grande escala.
+1.  Gere $10^4$ números.
+2.  Examine histograma, pares e autocorrelação.
+3.  Compare com `runif(10000)`.
+4.  Explique por que bons resultados nesses três diagnósticos não são suficientes para recomendar o gerador em aplicações modernas de grande escala.
 
 *Base de leitura:* @kroese2011handbook [Exemplo 1.1, p. 5].
 :::
@@ -1570,7 +1436,7 @@ usando uma semente $X_0\in\{1,\ldots,m-1\}$.
 ::: {.callout-caution title="Exercício 10 — semente e reprodutibilidade"}
 Execute:
 
-```r
+``` r
 set.seed(314)
 u1 <- runif(10)
 
@@ -1578,9 +1444,9 @@ set.seed(314)
 u2 <- runif(10)
 ```
 
-1. Verifique que `u1` e `u2` são idênticos.
-2. Gere mais cinco valores sem executar novamente `set.seed()`.
-3. Explique a diferença entre **reinicializar** o estado e **continuar** o fluxo.
+1.  Verifique que `u1` e `u2` são idênticos.
+2.  Gere mais cinco valores sem executar novamente `set.seed()`.
+3.  Explique a diferença entre **reinicializar** o estado e **continuar** o fluxo.
 
 *Baseado em @thulin2025modern [Seção 7.1.1, pp. 248--249].*
 :::
@@ -1588,13 +1454,13 @@ u2 <- runif(10)
 ::: {.callout-caution title="Exercício 11 — critérios de qualidade"}
 Explique por que cada uma das afirmações seguintes é insuficiente para concluir que um gerador é bom:
 
-1. “O período é enorme.”
-2. “O histograma é plano.”
-3. “A autocorrelação de primeira ordem é próxima de zero.”
-4. “O teste de uniformidade não rejeitou.”
-5. “O gráfico $(U_i,U_{i+1})$ parece aleatório.”
+1.  “O período é enorme.”
+2.  “O histograma é plano.”
+3.  “A autocorrelação de primeira ordem é próxima de zero.”
+4.  “O teste de uniformidade não rejeitou.”
+5.  “O gráfico $(U_i,U_{i+1})$ parece aleatório.”
 
-*Base de leitura:* @kroese2011handbook [Seções 1.1.1--1.1.2 e 1.5, pp. 2--4 e 11--20] e @voss2014statistical [Seção 1.1.2, pp. 4--8].
+*Base de leitura:* @kroese2011handbook \[Seções 1.1.1--1.1.2 e 1.5, pp. 2--4 e 11--20\] e @voss2014statistical [Seção 1.1.2, pp. 4--8].
 :::
 
 ::: {.callout-caution title="Exercício 12 — múltiplos fluxos"}

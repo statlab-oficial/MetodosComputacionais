@@ -398,23 +398,17 @@ Figura&nbsp;4.1: Cassino — Aleatoriedade como metáfora
 <li><p>estimar poder de testes de hipóteses.</p></li>
 </ul>
 <p>A ideia fundamental, dos métodos de Monte Carlo, é simples: quando uma quantidade pode ser escrita como uma esperança,</p>
-<p><span class="math display">\[
-I = E[h(X)],
-\]</span></p>
+<p><span class="math display">\[I = E[h(X)],\]</span></p>
 <p>podemos gerar realizações independentes</p>
-<p><span class="math display">\[
-X_1,\ldots,X_N
-\]</span></p>
+<p><span class="math display">\[X_1,\ldots,X_N\]</span></p>
 <p>com a mesma distribuição de <span class="math inline">\(X\)</span> e aproximar <span class="math inline">\(I\)</span> pela média</p>
-<p><span class="math display">\[
-\widehat I_N
+<p><span class="math display">\[\widehat I_N
 =
 \frac{1}{N}
-\sum_{j=1}^N h(X_j).
-\]</span></p>
+\sum_{j=1}^N h(X_j).\]</span></p>
 <p>A simplicidade dessa construção esconde uma grande generalidade. A mesma estrutura permite aproximar integrais, probabilidades, momentos, funções de risco e outras quantidades difíceis de calcular analiticamente. Além disso, simulações repetidas de conjuntos de dados permitem estudar viés, variância, erro quadrático médio, cobertura de intervalos, nível e poder de procedimentos estatísticos.</p>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> a estrutura conceitual principal deste capítulo segue <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, cap. 3</a>, pp.&nbsp;69–108)</span>, <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, especialmente Capítulos 1, 8–10)</span>, <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, cap. 2, 4</a> e 5)</span>, <span class="citation" data-cites="ross2006simulation">Ross (<a href="#ref-ross2006simulation" role="doc-biblioref">2006, cap. 3, 7</a> e 8)</span> e <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, cap. 7</a>, pp.&nbsp;248–273)</span>.</p>
+<p><strong>Base bibliográfica:</strong> a estrutura conceitual principal deste capítulo segue <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Capítulo 3, pp.&nbsp;69–108], <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, especialmente Capítulos 1, 8–10)</span>, <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008</a>)</span> [Capítulos 2, 4 e 5], <span class="citation" data-cites="ross2006simulation">Ross (<a href="#ref-ross2006simulation" role="doc-biblioref">2006, cap. 3, 7</a> e 8)</span> e <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, cap. 7</a>, pp.&nbsp;248–273)</span>.</p>
 </blockquote>
 <section id="objetivos-de-aprendizagem" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="objetivos-de-aprendizagem"><span class="header-section-number">4.1</span> Objetivos de aprendizagem</h2>
@@ -436,13 +430,13 @@ X_1,\ldots,X_N
 <li>distinguir Monte Carlo com amostras independentes de métodos MCMC.</li>
 </ul>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> organização didática baseada em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, cap. 1</a> e 3)</span>, <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.1–7.3</a>, pp.&nbsp;248–265)</span>, <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 1, 8–10</a>)</span> e <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, cap. 2, 4–6</a>)</span>.</p>
+<p><strong>Base bibliográfica:</strong> organização didática baseada em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Capítulos 1 e 3], <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.1–7.3</a>, pp.&nbsp;248–265)</span>, <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [Capítulos 1, 8–10] e <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, cap. 2, 4–6</a>)</span>.</p>
 </blockquote>
 </section>
 <section id="números-aleatórios-e-pseudoaleatórios" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="números-aleatórios-e-pseudoaleatórios"><span class="header-section-number">4.2</span> Números aleatórios e pseudoaleatórios</h2>
 <p>Métodos de Monte Carlo dependem da capacidade de gerar grandes sequências de valores que se comportem, para os fins computacionais desejados, como realizações de variáveis aleatórias. Em computadores digitais, essas sequências são normalmente geradas por algoritmos determinísticos.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Definição">
+<div class="callout callout-style-default callout-important callout-titled" title="Definição">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -453,17 +447,15 @@ Definição
 </div>
 <div class="callout-body-container callout-body">
 <p>Um <strong>gerador de números pseudoaleatórios</strong> é um algoritmo determinístico que, a partir de um estado inicial ou <strong>semente</strong>, produz uma sequência de números concebida para apresentar propriedades estatísticas semelhantes às de uma sequência aleatória.</p>
-<p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1</a>, pp.&nbsp;2–8)</span>, <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 1</a>)</span> e <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, seç. 2.2</a>, a partir da p.&nbsp;49)</span>.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Seção 1.1, pp.&nbsp;2–8], <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 1</a>)</span> e <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, seç. 2.2</a>, a partir da p.&nbsp;49)</span>.</p>
 </div>
 </div>
 <section id="gerador-congruencial-linear" class="level3" data-number="4.2.1">
 <h3 data-number="4.2.1" class="anchored" data-anchor-id="gerador-congruencial-linear"><span class="header-section-number">4.2.1</span> Gerador congruencial linear</h3>
 <p>Um modelo histórico e didático de gerador é o <strong>gerador congruencial linear</strong>:</p>
-<p><span class="math display">\[
-X_{j+1}
+<p><span class="math display">\[X_{j+1}
 =
-(aX_j+c)\bmod m,
-\]</span></p>
+(aX_j+c)\bmod m,\]</span></p>
 <p>em que</p>
 <ul>
 <li><span class="math inline">\(m\)</span> é o módulo;</li>
@@ -472,9 +464,7 @@ X_{j+1}
 <li><span class="math inline">\(X_0\)</span> é a semente.</li>
 </ul>
 <p>Uma sequência em <span class="math inline">\([0,1)\)</span> pode ser obtida por</p>
-<p><span class="math display">\[
-U_j=\frac{X_j}{m}.
-\]</span></p>
+<p><span class="math display">\[U_j=\frac{X_j}{m}.\]</span></p>
 <blockquote class="blockquote">
 <p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.1</a>, pp.&nbsp;2–4)</span>.</p>
 </blockquote>
@@ -534,10 +524,10 @@ Interpretação
 <blockquote class="blockquote">
 <p><strong>Base bibliográfica:</strong> algoritmo baseado em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Algoritmo 1.2 e Seção 1.1.1, pp.&nbsp;2–4)</span>.</p>
 </blockquote>
-<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Observação
@@ -545,7 +535,7 @@ Observação
 </div>
 <div class="callout-body-container callout-body">
 <p>Geradores congruenciais simples são úteis para compreender os princípios de geração pseudoaleatória, mas não devem ser adotados automaticamente em aplicações científicas modernas. Qualidade de período, dependência serial e comportamento multidimensional são aspectos importantes de um gerador.</p>
-<p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.2–1.1.3</a>, pp.&nbsp;4–8)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 1</a>)</span>.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Seções 1.1.2–1.1.3, pp.&nbsp;4–8] e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 1</a>)</span>.</p>
 </div>
 </div>
 </section>
@@ -587,27 +577,19 @@ Interpretação
 <section id="o-estimador-básico-de-monte-carlo" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="o-estimador-básico-de-monte-carlo"><span class="header-section-number">4.3</span> O estimador básico de Monte Carlo</h2>
 <p>Seja <span class="math inline">\(X\)</span> uma variável ou vetor aleatório e seja <span class="math inline">\(h\)</span> uma função real tal que</p>
-<p><span class="math display">\[
-E[|h(X)|]&lt;\infty.
-\]</span></p>
+<p><span class="math display">\[E[|h(X)|]&lt;\infty.\]</span></p>
 <p>Queremos estimar</p>
-<p><span class="math display">\[
-I=E[h(X)].
-\]</span></p>
+<p><span class="math display">\[I=E[h(X)].\]</span></p>
 <p>Se</p>
-<p><span class="math display">\[
-X_1,\ldots,X_N
-\]</span></p>
+<p><span class="math display">\[X_1,\ldots,X_N\]</span></p>
 <p>são cópias independentes de <span class="math inline">\(X\)</span>, define-se</p>
-<p><span class="math display">\[
-\boxed{
+<p><span class="math display">\[\boxed{
 \widehat I_N
 =
 \frac{1}{N}
 \sum_{j=1}^N h(X_j)
-}.
-\]</span></p>
-<div class="callout callout-style-default callout-note callout-titled" title="Definição">
+}.\]</span></p>
+<div class="callout callout-style-default callout-important callout-titled" title="Definição">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -622,14 +604,12 @@ Definição
 </div>
 </div>
 <p>A Lei Forte dos Grandes Números fornece, sob condições usuais,</p>
-<p><span class="math display">\[
-\widehat I_N
+<p><span class="math display">\[\widehat I_N
 \overset{q.c.}{\longrightarrow}
 I
 \qquad
 \text{quando }
-N\to\infty.
-\]</span></p>
+N\to\infty.\]</span></p>
 <p>Esse resultado justifica a consistência da aproximação.</p>
 <blockquote class="blockquote">
 <p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.1–3.2</a>, pp.&nbsp;69–76)</span>.</p>
@@ -641,35 +621,27 @@ N\to\infty.
 <section id="integral-em-01" class="level3" data-number="4.4.1">
 <h3 data-number="4.4.1" class="anchored" data-anchor-id="integral-em-01"><span class="header-section-number">4.4.1</span> Integral em <span class="math inline">\([0,1]\)</span></h3>
 <p>Considere</p>
-<p><span class="math display">\[
-I
+<p><span class="math display">\[I
 =
-\int_0^1 g(x)\,dx.
-\]</span></p>
+\int_0^1 g(x)\,dx.\]</span></p>
 <p>Se</p>
-<p><span class="math display">\[
-U\sim U(0,1),
-\]</span></p>
+<p><span class="math display">\[U\sim U(0,1),\]</span></p>
 <p>então</p>
-<p><span class="math display">\[
-I
+<p><span class="math display">\[I
 =
-E[g(U)].
-\]</span></p>
+E[g(U)].\]</span></p>
 <p>Logo,</p>
-<p><span class="math display">\[
-\widehat I_N
+<p><span class="math display">\[\widehat I_N
 =
 \frac{1}{N}
 \sum_{j=1}^N
 g(U_j),
 \qquad
-U_j\stackrel{iid}{\sim}U(0,1).
-\]</span></p>
+U_j\stackrel{iid}{\sim}U(0,1).\]</span></p>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> a representação de integrais como esperanças é uma aplicação padrão de Monte Carlo desenvolvida em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.1–3.2</a>)</span> e ilustrada em R por <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.1.4</a>, pp.&nbsp;254–256)</span>.</p>
+<p><strong>Base bibliográfica:</strong> a representação de integrais como esperanças é uma aplicação padrão de Monte Carlo desenvolvida em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Seções 3.1–3.2] e ilustrada em R por <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.1.4</a>, pp.&nbsp;254–256)</span>.</p>
 </blockquote>
-<div class="callout callout-style-default callout-important callout-titled" title="Exemplo: $\int_0^1 x^3,dx$">
+<div class="callout callout-style-default callout-note callout-titled" title="Exemplo: $\int_0^1 x^3,dx$">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -680,13 +652,11 @@ Exemplo: <span class="math inline">\(\int_0^1 x^3,dx\)</span>
 </div>
 <div class="callout-body-container callout-body">
 <p>O valor exato é</p>
-<p><span class="math display">\[
-I
+<p><span class="math display">\[I
 =
 \int_0^1x^3\,dx
 =
-\frac14.
-\]</span></p>
+\frac14.\]</span></p>
 <p>Uma aproximação de Monte Carlo é:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2025</span>)</span>
@@ -708,106 +678,80 @@ I
 <section id="integral-em-um-intervalo-ab" class="level3" data-number="4.4.2">
 <h3 data-number="4.4.2" class="anchored" data-anchor-id="integral-em-um-intervalo-ab"><span class="header-section-number">4.4.2</span> Integral em um intervalo <span class="math inline">\((a,b)\)</span></h3>
 <p>Para</p>
-<p><span class="math display">\[
-I
+<p><span class="math display">\[I
 =
-\int_a^b g(x)\,dx,
-\]</span></p>
+\int_a^b g(x)\,dx,\]</span></p>
 <p>faça</p>
-<p><span class="math display">\[
-x
+<p><span class="math display">\[x
 =
 a+(b-a)u,
 \qquad
-u\in(0,1).
-\]</span></p>
+u\in(0,1).\]</span></p>
 <p>Então</p>
-<p><span class="math display">\[
-dx
+<p><span class="math display">\[dx
 =
-(b-a)\,du
-\]</span></p>
+(b-a)\,du\]</span></p>
 <p>e</p>
-<p><span class="math display">\[
-I
+<p><span class="math display">\[I
 =
 (b-a)
 \int_0^1
-g(a+(b-a)u)\,du.
-\]</span></p>
+g(a+(b-a)u)\,du.\]</span></p>
 <p>Portanto,</p>
-<p><span class="math display">\[
-I
+<p><span class="math display">\[I
 =
-E[h(U)],
-\]</span></p>
+E[h(U)],\]</span></p>
 <p>onde</p>
-<p><span class="math display">\[
-h(U)
+<p><span class="math display">\[h(U)
 =
 (b-a)
-g(a+(b-a)U).
-\]</span></p>
+g(a+(b-a)U).\]</span></p>
 <p>O estimador é</p>
-<p><span class="math display">\[
-\widehat I_N
+<p><span class="math display">\[\widehat I_N
 =
 \frac{b-a}{N}
 \sum_{j=1}^N
-g(a+(b-a)U_j).
-\]</span></p>
+g(a+(b-a)U_j).\]</span></p>
 </section>
 <section id="integral-em-0infty" class="level3" data-number="4.4.3">
 <h3 data-number="4.4.3" class="anchored" data-anchor-id="integral-em-0infty"><span class="header-section-number">4.4.3</span> Integral em <span class="math inline">\((0,\infty)\)</span></h3>
 <p>Para</p>
-<p><span class="math display">\[
-I
+<p><span class="math display">\[I
 =
-\int_0^\infty g(x)\,dx,
-\]</span></p>
+\int_0^\infty g(x)\,dx,\]</span></p>
 <p>uma possibilidade é usar</p>
-<p><span class="math display">\[
-u
+<p><span class="math display">\[u
 =
-\frac{1}{x+1},
-\]</span></p>
+\frac{1}{x+1},\]</span></p>
 <p>o que implica</p>
-<p><span class="math display">\[
-x
+<p><span class="math display">\[x
 =
-\frac{1}{u}-1
-\]</span></p>
+\frac{1}{u}-1\]</span></p>
 <p>e</p>
-<p><span class="math display">\[
-dx
+<p><span class="math display">\[dx
 =
--\frac{1}{u^2}\,du.
-\]</span></p>
+-\frac{1}{u^2}\,du.\]</span></p>
 <p>Assim,</p>
-<p><span class="math display">\[
-I
+<p><span class="math display">\[I
 =
 \int_0^1
 \frac{
 g\left(\frac{1}{u}-1\right)
 }{
 u^2
-}\,du.
-\]</span></p>
+}\,du.\]</span></p>
 <p>Logo,</p>
-<p><span class="math display">\[
-h(u)
+<p><span class="math display">\[h(u)
 =
 \frac{
 g\left(\frac{1}{u}-1\right)
 }{
 u^2
-}.
-\]</span></p>
-<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+}.\]</span></p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Observação
@@ -815,9 +759,7 @@ Observação
 </div>
 <div class="callout-body-container callout-body">
 <p>Uma transformação matematicamente correta pode gerar um integrando com variância muito elevada. A eficiência de Monte Carlo depende de</p>
-<p><span class="math display">\[
-\operatorname{Var}[h(U)],
-\]</span></p>
+<p><span class="math display">\[\operatorname{Var}[h(U)],\]</span></p>
 <p>e não apenas da existência da identidade integral. Para integrais de cauda, uma escolha probabilística por amostragem de importância pode ser muito mais eficiente.</p>
 <p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.2–3.3</a>, pp.&nbsp;74–96)</span>.</p>
 </div>
@@ -826,35 +768,25 @@ Observação
 <section id="integrais-multidimensionais" class="level3" data-number="4.4.4">
 <h3 data-number="4.4.4" class="anchored" data-anchor-id="integrais-multidimensionais"><span class="header-section-number">4.4.4</span> Integrais multidimensionais</h3>
 <p>Para</p>
-<p><span class="math display">\[
-I
+<p><span class="math display">\[I
 =
 \int_{[0,1]^d}
 g(x_1,\ldots,x_d)
-\,dx_1\cdots dx_d,
-\]</span></p>
+\,dx_1\cdots dx_d,\]</span></p>
 <p>se</p>
-<p><span class="math display">\[
-U
+<p><span class="math display">\[U
 =
-(U_1,\ldots,U_d)
-\]</span></p>
+(U_1,\ldots,U_d)\]</span></p>
 <p>tem componentes independentes <span class="math inline">\(U(0,1)\)</span>, então</p>
-<p><span class="math display">\[
-I=E[g(U)].
-\]</span></p>
+<p><span class="math display">\[I=E[g(U)].\]</span></p>
 <p>Com vetores independentes</p>
-<p><span class="math display">\[
-U^{(1)},\ldots,U^{(N)},
-\]</span></p>
+<p><span class="math display">\[U^{(1)},\ldots,U^{(N)},\]</span></p>
 <p>temos</p>
-<p><span class="math display">\[
-\widehat I_N
+<p><span class="math display">\[\widehat I_N
 =
 \frac{1}{N}
 \sum_{j=1}^N
-g(U^{(j)}).
-\]</span></p>
+g(U^{(j)}).\]</span></p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -873,17 +805,13 @@ Interpretação
 <section id="integração-por-área" class="level3" data-number="4.4.5">
 <h3 data-number="4.4.5" class="anchored" data-anchor-id="integração-por-área"><span class="header-section-number">4.4.5</span> Integração por área</h3>
 <p>Outra construção é interpretar uma área como probabilidade. Para o quarto de círculo unitário,</p>
-<p><span class="math display">\[
-x^2+y^2\leq 1,
+<p><span class="math display">\[x^2+y^2\leq 1,
 \qquad
-0\leq x,y\leq1,
-\]</span></p>
+0\leq x,y\leq1,\]</span></p>
 <p>temos</p>
-<p><span class="math display">\[
-P(X^2+Y^2\leq1)
+<p><span class="math display">\[P(X^2+Y^2\leq1)
 =
-\frac{\pi}{4},
-\]</span></p>
+\frac{\pi}{4},\]</span></p>
 <p>quando <span class="math inline">\(X,Y\stackrel{iid}{\sim}U(0,1)\)</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
@@ -909,44 +837,33 @@ P(X^2+Y^2\leq1)
 <section id="estimação-de-probabilidades" class="level2" data-number="4.5">
 <h2 data-number="4.5" class="anchored" data-anchor-id="estimação-de-probabilidades"><span class="header-section-number">4.5</span> Estimação de probabilidades</h2>
 <p>Se <span class="math inline">\(A\)</span> é um evento, sua função indicadora é</p>
-<p><span class="math display">\[
-I_A(X)
+<p><span class="math display">\[I_A(X)
 =
 \begin{cases}
 1, &amp; X\in A,\\
 0, &amp; X\notin A.
-\end{cases}
-\]</span></p>
+\end{cases}\]</span></p>
 <p>Como</p>
-<p><span class="math display">\[
-P(X\in A)
+<p><span class="math display">\[P(X\in A)
 =
-E[I_A(X)],
-\]</span></p>
+E[I_A(X)],\]</span></p>
 <p>a probabilidade pode ser estimada por</p>
-<p><span class="math display">\[
-\widehat p_N
+<p><span class="math display">\[\widehat p_N
 =
 \frac{1}{N}
 \sum_{j=1}^N
-I_A(X_j).
-\]</span></p>
+I_A(X_j).\]</span></p>
 <blockquote class="blockquote">
 <p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.1</a> e Exemplo 3.18, pp.&nbsp;71–72 e 81)</span>.</p>
 </blockquote>
 <p>Como as indicadoras são Bernoulli,</p>
-<p><span class="math display">\[
-E(\widehat p_N)=p
-\]</span></p>
+<p><span class="math display">\[E(\widehat p_N)=p\]</span></p>
 <p>e</p>
-<p><span class="math display">\[
-\operatorname{Var}(\widehat p_N)
+<p><span class="math display">\[\operatorname{Var}(\widehat p_N)
 =
-\frac{p(1-p)}{N}.
-\]</span></p>
+\frac{p(1-p)}{N}.\]</span></p>
 <p>Uma estimativa do erro padrão é</p>
-<p><span class="math display">\[
-\widehat{ep}_{MC}(\widehat p_N)
+<p><span class="math display">\[\widehat{ep}_{MC}(\widehat p_N)
 =
 \sqrt{
 \frac{
@@ -954,8 +871,7 @@ E(\widehat p_N)=p
 }{
 N
 }
-}.
-\]</span></p>
+}.\]</span></p>
 <div class="callout callout-style-default callout-warning callout-titled" title="Probabilidades muito pequenas">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -967,10 +883,10 @@ Probabilidades muito pequenas
 </div>
 <div class="callout-body-container callout-body">
 <p>A fórmula acima é uma estimativa <em>plug-in</em> do erro padrão. Se nenhum evento for observado, então <span class="math inline">\(\widehat p_N=0\)</span> e ela devolve numericamente zero. Isso <strong>não</strong> significa ausência de incerteza: pode significar apenas que <span class="math inline">\(N\)</span> foi insuficiente para observar um evento raro. Nesses problemas, erro relativo e técnicas de redução de variância — em particular amostragem por importância — são diagnósticos mais informativos do que o erro padrão <em>plug-in</em> isolado.</p>
-<p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Exemplo 3.18, pp.&nbsp;81–82)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 10</a>, pp.&nbsp;381–416)</span>.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Exemplo 3.18, pp.&nbsp;81–82] e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 10</a>, pp.&nbsp;381–416)</span>.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-important callout-titled" title="Exemplo: probabilidade de cauda normal">
+<div class="callout callout-style-default callout-note callout-titled" title="Exemplo: probabilidade de cauda normal">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -981,13 +897,9 @@ Exemplo: probabilidade de cauda normal
 </div>
 <div class="callout-body-container callout-body">
 <p>Considere</p>
-<p><span class="math display">\[
-X\sim N(0,1)
-\]</span></p>
+<p><span class="math display">\[X\sim N(0,1)\]</span></p>
 <p>e</p>
-<p><span class="math display">\[
-p=P(X&gt;2{,}5).
-\]</span></p>
+<p><span class="math display">\[p=P(X&gt;2{,}5).\]</span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">20262</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1011,12 +923,10 @@ p=P(X&gt;2{,}5).
 </div>
 </div>
 <p>Um intervalo assintótico de Monte Carlo é</p>
-<p><span class="math display">\[
-\widehat p_N
+<p><span class="math display">\[\widehat p_N
 \pm
 1{,}96
-\widehat{ep}_{MC}.
-\]</span></p>
+\widehat{ep}_{MC}.\]</span></p>
 <p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Exemplo 3.18 e Seção 3.2.4, pp.&nbsp;81–84)</span>.</p>
 </div>
 </div>
@@ -1024,51 +934,35 @@ p=P(X&gt;2{,}5).
 <section id="erro-de-monte-carlo" class="level2" data-number="4.6">
 <h2 data-number="4.6" class="anchored" data-anchor-id="erro-de-monte-carlo"><span class="header-section-number">4.6</span> Erro de Monte Carlo</h2>
 <p>Defina</p>
-<p><span class="math display">\[
-Y_j=h(X_j)
-\]</span></p>
+<p><span class="math display">\[Y_j=h(X_j)\]</span></p>
 <p>e</p>
-<p><span class="math display">\[
-\sigma^2
+<p><span class="math display">\[\sigma^2
 =
-\operatorname{Var}[h(X)]&lt;\infty.
-\]</span></p>
+\operatorname{Var}[h(X)]&lt;\infty.\]</span></p>
 <p>O estimador é</p>
-<p><span class="math display">\[
-\widehat I_N
+<p><span class="math display">\[\widehat I_N
 =
-\bar Y_N.
-\]</span></p>
+\bar Y_N.\]</span></p>
 <section id="viés-variância-e-mse" class="level3" data-number="4.6.1">
 <h3 data-number="4.6.1" class="anchored" data-anchor-id="viés-variância-e-mse"><span class="header-section-number">4.6.1</span> Viés, variância e MSE</h3>
 <p>Como</p>
-<p><span class="math display">\[
-E(\widehat I_N)
+<p><span class="math display">\[E(\widehat I_N)
 =
-I,
-\]</span></p>
+I,\]</span></p>
 <p>o estimador básico é não viesado:</p>
-<p><span class="math display">\[
-\operatorname{bias}(\widehat I_N)=0.
-\]</span></p>
+<p><span class="math display">\[\operatorname{bias}(\widehat I_N)=0.\]</span></p>
 <p>Por independência,</p>
-<p><span class="math display">\[
-\operatorname{Var}(\widehat I_N)
+<p><span class="math display">\[\operatorname{Var}(\widehat I_N)
 =
-\frac{\sigma^2}{N}.
-\]</span></p>
+\frac{\sigma^2}{N}.\]</span></p>
 <p>Portanto,</p>
-<p><span class="math display">\[
-\operatorname{MSE}(\widehat I_N)
+<p><span class="math display">\[\operatorname{MSE}(\widehat I_N)
 =
-\frac{\sigma^2}{N}
-\]</span></p>
+\frac{\sigma^2}{N}\]</span></p>
 <p>e</p>
-<p><span class="math display">\[
-\operatorname{RMSE}(\widehat I_N)
+<p><span class="math display">\[\operatorname{RMSE}(\widehat I_N)
 =
-\frac{\sigma}{\sqrt N}.
-\]</span></p>
+\frac{\sigma}{\sqrt N}.\]</span></p>
 <blockquote class="blockquote">
 <p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Proposição 3.14, pp.&nbsp;77–80)</span>.</p>
 </blockquote>
@@ -1083,9 +977,7 @@ Resultado central
 </div>
 <div class="callout-body-container callout-body">
 <p>A precisão do Monte Carlo básico melhora à taxa</p>
-<p><span class="math display">\[
-O(N^{-1/2}).
-\]</span></p>
+<p><span class="math display">\[O(N^{-1/2}).\]</span></p>
 <p>Assim, para reduzir aproximadamente o erro pela metade, é necessário multiplicar <span class="math inline">\(N\)</span> por quatro.</p>
 <p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, pp.&nbsp;79–80)</span>.</p>
 </div>
@@ -1094,30 +986,24 @@ O(N^{-1/2}).
 <section id="estimativa-do-erro-padrão" class="level3" data-number="4.6.2">
 <h3 data-number="4.6.2" class="anchored" data-anchor-id="estimativa-do-erro-padrão"><span class="header-section-number">4.6.2</span> Estimativa do erro padrão</h3>
 <p>A variância de <span class="math inline">\(Y=h(X)\)</span> é estimada por</p>
-<p><span class="math display">\[
-\widehat\sigma^2
+<p><span class="math display">\[\widehat\sigma^2
 =
 \frac{1}{N-1}
 \sum_{j=1}^N
 \left(
 Y_j-\bar Y_N
-\right)^2.
-\]</span></p>
+\right)^2.\]</span></p>
 <p>Consequentemente,</p>
-<p><span class="math display">\[
-\widehat{\operatorname{Var}}
+<p><span class="math display">\[\widehat{\operatorname{Var}}
 (\widehat I_N)
 =
-\frac{\widehat\sigma^2}{N}
-\]</span></p>
+\frac{\widehat\sigma^2}{N}\]</span></p>
 <p>e</p>
-<p><span class="math display">\[
-\boxed{
+<p><span class="math display">\[\boxed{
 \widehat{ep}_{MC}
 =
 \frac{\widehat\sigma}{\sqrt N}
-}.
-\]</span></p>
+}.\]</span></p>
 <blockquote class="blockquote">
 <p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Eq. 3.9, pp.&nbsp;80–81)</span>.</p>
 </blockquote>
@@ -1125,37 +1011,31 @@ Y_j-\bar Y_N
 <section id="teorema-central-do-limite" class="level3" data-number="4.6.3">
 <h3 data-number="4.6.3" class="anchored" data-anchor-id="teorema-central-do-limite"><span class="header-section-number">4.6.3</span> Teorema Central do Limite</h3>
 <p>Se</p>
-<p><span class="math display">\[
-0&lt;\sigma^2&lt;\infty,
-\]</span></p>
+<p><span class="math display">\[0&lt;\sigma^2&lt;\infty,\]</span></p>
 <p>o Teorema Central do Limite fornece</p>
-<p><span class="math display">\[
-\frac{
+<p><span class="math display">\[\frac{
 \sqrt N
 (\widehat I_N-I)
 }{
 \sigma
 }
 \overset{d}{\longrightarrow}
-N(0,1).
-\]</span></p>
+N(0,1).\]</span></p>
 <p>Assim, para <span class="math inline">\(N\)</span> suficientemente grande,</p>
-<p><span class="math display">\[
-I
+<p><span class="math display">\[I
 \approx
 \widehat I_N
 \pm
 z_{1-\alpha/2}
-\frac{\widehat\sigma}{\sqrt N}.
-\]</span></p>
+\frac{\widehat\sigma}{\sqrt N}.\]</span></p>
 <p>Quando <span class="math inline">\(\sigma\)</span> é desconhecido e substituído por <span class="math inline">\(\widehat\sigma\)</span>, a formulação de amostra finita indicada por <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> usa o quantil da distribuição <span class="math inline">\(t\)</span> de Student com <span class="math inline">\(N-1\)</span> graus de liberdade. Para os valores de <span class="math inline">\(N\)</span> usualmente empregados em Monte Carlo, esse quantil é praticamente igual ao quantil normal; por isso, a expressão com <span class="math inline">\(z_{1-\alpha/2}\)</span> deve ser entendida aqui como uma aproximação assintótica.</p>
 <blockquote class="blockquote">
 <p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.2.4</a>, pp.&nbsp;82–84)</span>.</p>
 </blockquote>
-<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Observação
@@ -1179,23 +1059,17 @@ Observação
 <section id="critério-baseado-no-mse" class="level3" data-number="4.7.1">
 <h3 data-number="4.7.1" class="anchored" data-anchor-id="critério-baseado-no-mse"><span class="header-section-number">4.7.1</span> Critério baseado no MSE</h3>
 <p>Como</p>
-<p><span class="math display">\[
-\operatorname{MSE}(\widehat I_N)
+<p><span class="math display">\[\operatorname{MSE}(\widehat I_N)
 =
-\frac{\sigma^2}{N},
-\]</span></p>
+\frac{\sigma^2}{N},\]</span></p>
 <p>para obter</p>
-<p><span class="math display">\[
-\operatorname{RMSE}
+<p><span class="math display">\[\operatorname{RMSE}
 \leq
-\varepsilon,
-\]</span></p>
+\varepsilon,\]</span></p>
 <p>é suficiente escolher</p>
-<p><span class="math display">\[
-N
+<p><span class="math display">\[N
 \geq
-\frac{\sigma^2}{\varepsilon^2}.
-\]</span></p>
+\frac{\sigma^2}{\varepsilon^2}.\]</span></p>
 <blockquote class="blockquote">
 <p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.2.3</a> e Eq. 3.10, pp.&nbsp;80–82)</span>.</p>
 </blockquote>
@@ -1203,33 +1077,29 @@ N
 <section id="critério-baseado-em-probabilidade-aproximada" class="level3" data-number="4.7.2">
 <h3 data-number="4.7.2" class="anchored" data-anchor-id="critério-baseado-em-probabilidade-aproximada"><span class="header-section-number">4.7.2</span> Critério baseado em probabilidade aproximada</h3>
 <p>Pelo TCL, para desejar aproximadamente</p>
-<p><span class="math display">\[
-P(
+<p><span class="math display">\[P(
 |\widehat I_N-I|
 \leq
 \varepsilon
 )
 \geq
-1-\alpha,
-\]</span></p>
+1-\alpha,\]</span></p>
 <p>uma escolha aproximada é</p>
-<p><span class="math display">\[
-N
+<p><span class="math display">\[N
 \gtrsim
 \frac{
 z_{1-\alpha/2}^2\sigma^2
 }{
 \varepsilon^2
-}.
-\]</span></p>
+}.\]</span></p>
 <p>Se <span class="math inline">\(\sigma^2\)</span> for desconhecida, uma execução piloto pode ser usada para estimá-la antes da simulação principal.</p>
 <blockquote class="blockquote">
 <p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Lema 3.19 e Exemplo 3.20, pp.&nbsp;82–84)</span>.</p>
 </blockquote>
-<div class="callout callout-style-default callout-warning callout-titled" title="Observação sobre parada sequencial">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação sobre parada sequencial">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Observação sobre parada sequencial
@@ -1246,23 +1116,18 @@ Observação sobre parada sequencial
 <h2 data-number="4.8" class="anchored" data-anchor-id="erro-relativo-e-eventos-raros"><span class="header-section-number">4.8</span> Erro relativo e eventos raros</h2>
 <p>Quando <span class="math inline">\(p\)</span> é pequeno, um erro absoluto aparentemente pequeno pode representar grande incerteza relativa.</p>
 <p>Para o estimador direto</p>
-<p><span class="math display">\[
-\widehat p_N
+<p><span class="math display">\[\widehat p_N
 =
 \frac{1}{N}
-\sum_{j=1}^N I_A(X_j),
-\]</span></p>
+\sum_{j=1}^N I_A(X_j),\]</span></p>
 <p>temos aproximadamente</p>
-<p><span class="math display">\[
-ep(\widehat p_N)
+<p><span class="math display">\[ep(\widehat p_N)
 =
 \sqrt{
 \frac{p(1-p)}{N}
-}.
-\]</span></p>
+}.\]</span></p>
 <p>O erro padrão relativo é</p>
-<p><span class="math display">\[
-\frac{
+<p><span class="math display">\[\frac{
 ep(\widehat p_N)
 }{
 p
@@ -1270,18 +1135,15 @@ p
 =
 \sqrt{
 \frac{1-p}{Np}
-}.
-\]</span></p>
+}.\]</span></p>
 <p>Se <span class="math inline">\(p\)</span> é muito pequeno,</p>
-<p><span class="math display">\[
-\frac{
+<p><span class="math display">\[\frac{
 ep(\widehat p_N)
 }{
 p
 }
 \approx
-\frac{1}{\sqrt{Np}}.
-\]</span></p>
+\frac{1}{\sqrt{Np}}.\]</span></p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1296,37 +1158,30 @@ Interpretação
 </div>
 </div>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> a ineficiência do Monte Carlo direto para eventos raros e métodos específicos para esse problema são tratados em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 10</a>)</span> e <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, cap. 5</a>)</span>.</p>
+<p><strong>Base bibliográfica:</strong> a ineficiência do Monte Carlo direto para eventos raros e métodos específicos para esse problema são tratados em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [Capítulo 10] e <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, cap. 5</a>)</span>.</p>
 </blockquote>
 </section>
 <section id="redução-de-variância" class="level2" data-number="4.9">
 <h2 data-number="4.9" class="anchored" data-anchor-id="redução-de-variância"><span class="header-section-number">4.9</span> Redução de variância</h2>
 <p>Aumentar <span class="math inline">\(N\)</span> reduz o erro, mas pode ser caro. Outra estratégia é construir um estimador com a mesma esperança e variância menor.</p>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.3</a>, pp.&nbsp;84–96)</span>, <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 9</a>, pp.&nbsp;347–379)</span>, <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, cap. 5</a>)</span> e <span class="citation" data-cites="ross2006simulation">Ross (<a href="#ref-ross2006simulation" role="doc-biblioref">2006, cap. 8</a>)</span>.</p>
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Seção 3.3, pp.&nbsp;84–96], <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 9</a>, pp.&nbsp;347–379)</span>, <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008</a>)</span> [Capítulo 5] e <span class="citation" data-cites="ross2006simulation">Ross (<a href="#ref-ross2006simulation" role="doc-biblioref">2006, cap. 8</a>)</span>.</p>
 </blockquote>
 <section id="amostragem-por-importância" class="level3" data-number="4.9.1">
 <h3 data-number="4.9.1" class="anchored" data-anchor-id="amostragem-por-importância"><span class="header-section-number">4.9.1</span> Amostragem por importância</h3>
 <p>Suponha que</p>
-<p><span class="math display">\[
-I
+<p><span class="math display">\[I
 =
 E_f[h(X)]
 =
 \int
-h(x)f(x)\,dx.
-\]</span></p>
+h(x)f(x)\,dx.\]</span></p>
 <p>Escolha uma densidade auxiliar <span class="math inline">\(q\)</span> tal que</p>
-<p><span class="math display">\[
-q(x)&gt;0
-\]</span></p>
+<p><span class="math display">\[q(x)&gt;0\]</span></p>
 <p>sempre que</p>
-<p><span class="math display">\[
-h(x)f(x)\neq0.
-\]</span></p>
+<p><span class="math display">\[h(x)f(x)\neq0.\]</span></p>
 <p>Então</p>
-<p><span class="math display">\[
-I
+<p><span class="math display">\[I
 =
 \int
 h(x)
@@ -1337,15 +1192,11 @@ E_q
 \left[
 h(Y)
 \frac{f(Y)}{q(Y)}
-\right],
-\]</span></p>
+\right],\]</span></p>
 <p>onde</p>
-<p><span class="math display">\[
-Y\sim q.
-\]</span></p>
+<p><span class="math display">\[Y\sim q.\]</span></p>
 <p>O estimador é</p>
-<p><span class="math display">\[
-\boxed{
+<p><span class="math display">\[\boxed{
 \widehat I_{IS}
 =
 \frac{1}{N}
@@ -1356,21 +1207,18 @@ f(Y_j)
 }{
 q(Y_j)
 }
-}.
-\]</span></p>
+}.\]</span></p>
 <p>Para que o estimador tenha variância finita e o erro padrão usual seja aplicável, é necessário ainda que</p>
-<p><span class="math display">\[
-E_q\left[
+<p><span class="math display">\[E_q\left[
 \left
 \{
 h(Y)\frac{f(Y)}{q(Y)}
 \right\}^2
 \right]
-&lt;\infty.
-\]</span></p>
+&lt;\infty.\]</span></p>
 <p>A condição de suporte <span class="math inline">\(q(x)&gt;0\)</span> onde <span class="math inline">\(h(x)f(x)\neq0\)</span> garante que a identidade de mudança de medida esteja bem definida; ela, isoladamente, <strong>não garante</strong> baixa variância nem mesmo variância finita.</p>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.3.1</a> e Algoritmo 3.22, pp.&nbsp;84–88)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 9.7</a>, pp.&nbsp;362–375)</span>.</p>
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Seção 3.3.1 e Algoritmo 3.22, pp.&nbsp;84–88] e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 9.7</a>, pp.&nbsp;362–375)</span>.</p>
 </blockquote>
 <div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
 <div class="callout-header d-flex align-content-center">
@@ -1383,15 +1231,13 @@ Interpretação
 </div>
 <div class="callout-body-container callout-body">
 <p>A densidade <span class="math inline">\(q\)</span> deve gerar mais observações nas regiões que contribuem fortemente para a integral. Os pesos</p>
-<p><span class="math display">\[
-w(y)
+<p><span class="math display">\[w(y)
 =
-\frac{f(y)}{q(y)}
-\]</span></p>
+\frac{f(y)}{q(y)}\]</span></p>
 <p>corrigem a mudança da distribuição de amostragem.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-important callout-titled" title="Exemplo: cauda normal rara">
+<div class="callout callout-style-default callout-note callout-titled" title="Exemplo: cauda normal rara">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -1402,15 +1248,11 @@ Exemplo: cauda normal rara
 </div>
 <div class="callout-body-container callout-body">
 <p>Considere</p>
-<p><span class="math display">\[
-p=P(X&gt;4),
+<p><span class="math display">\[p=P(X&gt;4),
 \qquad
-X\sim N(0,1).
-\]</span></p>
+X\sim N(0,1).\]</span></p>
 <p>No Monte Carlo direto, simulam-se valores de <span class="math inline">\(N(0,1)\)</span>. Em amostragem por importância, podemos gerar</p>
-<p><span class="math display">\[
-Y\sim N(4,1)
-\]</span></p>
+<p><span class="math display">\[Y\sim N(4,1)\]</span></p>
 <p>e usar o peso de verossimilhança.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
@@ -1451,13 +1293,13 @@ exact      3.167124e-05           NA</code></pre>
 </div>
 </div>
 <p>A comparação relevante é entre os erros padrão obtidos para o mesmo <span class="math inline">\(N\)</span>.</p>
-<p><em>Base bibliográfica:</em> construção baseada em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.3.1</a>, pp.&nbsp;84–88)</span> e na discussão de eventos raros de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 10</a>)</span>.</p>
+<p><em>Base bibliográfica:</em> construção baseada em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Seção 3.3.1, pp.&nbsp;84–88] e na discussão de eventos raros de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 10</a>)</span>.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Observação
@@ -1473,30 +1315,22 @@ Observação
 <h3 data-number="4.9.2" class="anchored" data-anchor-id="variáveis-antitéticas"><span class="header-section-number">4.9.2</span> Variáveis antitéticas</h3>
 <p>O método de variáveis antitéticas cria amostras marginalmente corretas, mas negativamente correlacionadas.</p>
 <p>Se</p>
-<p><span class="math display">\[
-U\sim U(0,1),
-\]</span></p>
+<p><span class="math display">\[U\sim U(0,1),\]</span></p>
 <p>então</p>
-<p><span class="math display">\[
-1-U\sim U(0,1).
-\]</span></p>
+<p><span class="math display">\[1-U\sim U(0,1).\]</span></p>
 <p>Para uma função monotônica <span class="math inline">\(h\)</span>, os valores</p>
-<p><span class="math display">\[
-h(U)
+<p><span class="math display">\[h(U)
 \qquad\text{e}\qquad
-h(1-U)
-\]</span></p>
+h(1-U)\]</span></p>
 <p>podem apresentar covariância negativa.</p>
 <p>O estimador por pares é</p>
-<p><span class="math display">\[
-\widehat I_A
+<p><span class="math display">\[\widehat I_A
 =
 \frac{1}{M}
 \sum_{j=1}^M
 \frac{
 h(U_j)+h(1-U_j)
-}{2}.
-\]</span></p>
+}{2}.\]</span></p>
 <blockquote class="blockquote">
 <p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.3.2</a> e Algoritmo 3.26, pp.&nbsp;88–93)</span>.</p>
 </blockquote>
@@ -1529,60 +1363,41 @@ h(U_j)+h(1-U_j)
 <section id="variáveis-de-controle" class="level3" data-number="4.9.3">
 <h3 data-number="4.9.3" class="anchored" data-anchor-id="variáveis-de-controle"><span class="header-section-number">4.9.3</span> Variáveis de controle</h3>
 <p>Suponha que queremos estimar</p>
-<p><span class="math display">\[
-I=E[Y]
-\]</span></p>
+<p><span class="math display">\[I=E[Y]\]</span></p>
 <p>e dispomos de uma variável <span class="math inline">\(C\)</span> correlacionada com <span class="math inline">\(Y\)</span> cuja esperança</p>
-<p><span class="math display">\[
-\mu_C=E[C]
-\]</span></p>
+<p><span class="math display">\[\mu_C=E[C]\]</span></p>
 <p>é conhecida.</p>
 <p>Considere</p>
-<p><span class="math display">\[
-Y_\beta
+<p><span class="math display">\[Y_\beta
 =
 Y
 -
-\beta(C-\mu_C).
-\]</span></p>
+\beta(C-\mu_C).\]</span></p>
 <p>Como</p>
-<p><span class="math display">\[
-E(C-\mu_C)=0,
-\]</span></p>
+<p><span class="math display">\[E(C-\mu_C)=0,\]</span></p>
 <p>temos</p>
-<p><span class="math display">\[
-E(Y_\beta)=E(Y)=I.
-\]</span></p>
+<p><span class="math display">\[E(Y_\beta)=E(Y)=I.\]</span></p>
 <p>A escolha ótima, quando as covariâncias são conhecidas, é</p>
-<p><span class="math display">\[
-\beta^\star
+<p><span class="math display">\[\beta^\star
 =
 \frac{
 \operatorname{Cov}(Y,C)
 }{
 \operatorname{Var}(C)
-}.
-\]</span></p>
+}.\]</span></p>
 <blockquote class="blockquote">
 <p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.3.3</a>, pp.&nbsp;93–96)</span>.</p>
 </blockquote>
 <section id="exemplo-novamente-int_01u3du" class="level4" data-number="4.9.3.1">
 <h4 data-number="4.9.3.1" class="anchored" data-anchor-id="exemplo-novamente-int_01u3du"><span class="header-section-number">4.9.3.1</span> Exemplo: novamente <span class="math inline">\(\int_0^1u^3\,du\)</span></h4>
 <p>Tome</p>
-<p><span class="math display">\[
-Y=U^3
-\]</span></p>
+<p><span class="math display">\[Y=U^3\]</span></p>
 <p>e</p>
-<p><span class="math display">\[
-C=U.
-\]</span></p>
+<p><span class="math display">\[C=U.\]</span></p>
 <p>Sabemos que</p>
-<p><span class="math display">\[
-E(U)=\frac12.
-\]</span></p>
+<p><span class="math display">\[E(U)=\frac12.\]</span></p>
 <p>Além disso,</p>
-<p><span class="math display">\[
-\beta^\star
+<p><span class="math display">\[\beta^\star
 =
 \frac{
 \operatorname{Cov}(U^3,U)
@@ -1590,11 +1405,9 @@ E(U)=\frac12.
 \operatorname{Var}(U)
 }
 =
-0{,}9.
-\]</span></p>
+0{,}9.\]</span></p>
 <p>Logo,</p>
-<p><span class="math display">\[
-\widehat I_{CV}
+<p><span class="math display">\[\widehat I_{CV}
 =
 \frac{1}{N}
 \sum_{j=1}^N
@@ -1603,8 +1416,7 @@ U_j^3
 -
 0{,}9
 \left(U_j-\frac12\right)
-\right].
-\]</span></p>
+\right].\]</span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1637,10 +1449,10 @@ U_j^3
 <h3 data-number="4.9.4" class="anchored" data-anchor-id="outras-técnicas-importantes"><span class="header-section-number">4.9.4</span> Outras técnicas importantes</h3>
 <p><span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> apresenta, além das três técnicas anteriores, <strong>Monte Carlo condicional</strong> [Seção 9.4, pp.&nbsp;354–356], <strong>amostragem estratificada</strong> [Seção 9.5, pp.&nbsp;356–360], <strong>amostragem por hipercubo latino</strong> [Seção 9.6, pp.&nbsp;360–362] e <strong>Quasi-Monte Carlo</strong> [Seção 9.8, pp.&nbsp;376–379].</p>
 <p><span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, cap. 5</a>)</span> discute também números aleatórios comuns, Monte Carlo condicional, estratificação e amostragem por importância como técnicas de controle de variância.</p>
-<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Observação
@@ -1655,28 +1467,24 @@ Observação
 <section id="monitoramento-da-convergência" class="level2" data-number="4.10">
 <h2 data-number="4.10" class="anchored" data-anchor-id="monitoramento-da-convergência"><span class="header-section-number">4.10</span> Monitoramento da convergência</h2>
 <p>Considere, para <span class="math inline">\(k=1,\ldots,N\)</span>,</p>
-<p><span class="math display">\[
-\widehat I_k
+<p><span class="math display">\[\widehat I_k
 =
 \frac{1}{k}
-\sum_{j=1}^kY_j.
-\]</span></p>
+\sum_{j=1}^kY_j.\]</span></p>
 <p>Traçar <span class="math inline">\(\widehat I_k\)</span> ao longo de <span class="math inline">\(k\)</span> é uma forma útil de visualizar o comportamento da simulação.</p>
 <p>Para cada <span class="math inline">\(k\)</span>, uma banda aproximada pontual é</p>
-<p><span class="math display">\[
-\widehat I_k
+<p><span class="math display">\[\widehat I_k
 \pm
 1{,}96
 \frac{
 \widehat\sigma_k
 }{
 \sqrt{k}
-}.
-\]</span></p>
-<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+}.\]</span></p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Observação
@@ -1689,17 +1497,13 @@ Observação
 <section id="exemplo" class="level3" data-number="4.10.1">
 <h3 data-number="4.10.1" class="anchored" data-anchor-id="exemplo"><span class="header-section-number">4.10.1</span> Exemplo</h3>
 <p>Considere</p>
-<p><span class="math display">\[
-h(x)
+<p><span class="math display">\[h(x)
 =
 (\cos(50x)+\sin(20x))^2,
 \qquad
-X\sim U(0,1).
-\]</span></p>
+X\sim U(0,1).\]</span></p>
 <p>O valor da integral é aproximadamente</p>
-<p><span class="math display">\[
-I=0{,}965200936.
-\]</span></p>
+<p><span class="math display">\[I=0{,}965200936.\]</span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1763,7 +1567,7 @@ I=0{,}965200936.
 <li><span class="math inline">\(n\)</span>: tamanho da amostra estatística em cada conjunto de dados;</li>
 <li><span class="math inline">\(R\)</span>: número de repetições do estudo de simulação.</li>
 </ul>
-<div class="callout callout-style-default callout-note callout-titled" title="Definição">
+<div class="callout callout-style-default callout-important callout-titled" title="Definição">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -1774,7 +1578,7 @@ Definição
 </div>
 <div class="callout-body-container callout-body">
 <p>Um <strong>estudo de simulação Monte Carlo</strong> especifica um processo gerador de dados, gera repetidamente conjuntos de dados desse processo, aplica um método estatístico em cada conjunto e resume numericamente seu desempenho.</p>
-<p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.4</a>, pp.&nbsp;96–106)</span> e <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.2</a>, pp.&nbsp;256–263)</span>.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Seção 3.4, pp.&nbsp;96–106] e <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.2</a>, pp.&nbsp;256–263)</span>.</p>
 </div>
 </div>
 <section id="estrutura-geral" class="level3" data-number="4.11.1">
@@ -1799,26 +1603,21 @@ Definição
 <section id="avaliação-de-estimadores-por-simulação" class="level2" data-number="4.12">
 <h2 data-number="4.12" class="anchored" data-anchor-id="avaliação-de-estimadores-por-simulação"><span class="header-section-number">4.12</span> Avaliação de estimadores por simulação</h2>
 <p>Se</p>
-<p><span class="math display">\[
-\hat\theta_1,\ldots,\hat\theta_R
-\]</span></p>
+<p><span class="math display">\[\hat\theta_1,\ldots,\hat\theta_R\]</span></p>
 <p>são estimativas obtidas em <span class="math inline">\(R\)</span> amostras simuladas e o parâmetro verdadeiro é <span class="math inline">\(\theta\)</span>, pode-se estimar:</p>
 <section id="viés" class="level3" data-number="4.12.1">
 <h3 data-number="4.12.1" class="anchored" data-anchor-id="viés"><span class="header-section-number">4.12.1</span> Viés</h3>
-<p><span class="math display">\[
-\widehat{\operatorname{bias}}
+<p><span class="math display">\[\widehat{\operatorname{bias}}
 =
 \frac{1}{R}
 \sum_{r=1}^R
 \hat\theta_r
 -
-\theta.
-\]</span></p>
+\theta.\]</span></p>
 </section>
 <section id="variância" class="level3" data-number="4.12.2">
 <h3 data-number="4.12.2" class="anchored" data-anchor-id="variância"><span class="header-section-number">4.12.2</span> Variância</h3>
-<p><span class="math display">\[
-\widehat{\operatorname{Var}}
+<p><span class="math display">\[\widehat{\operatorname{Var}}
 =
 \frac{1}{R-1}
 \sum_{r=1}^R
@@ -1826,18 +1625,15 @@ Definição
 \hat\theta_r
 -
 \bar{\hat\theta}
-\right)^2.
-\]</span></p>
+\right)^2.\]</span></p>
 </section>
 <section id="erro-quadrático-médio" class="level3" data-number="4.12.3">
 <h3 data-number="4.12.3" class="anchored" data-anchor-id="erro-quadrático-médio"><span class="header-section-number">4.12.3</span> Erro quadrático médio</h3>
-<p><span class="math display">\[
-\widehat{\operatorname{MSE}}
+<p><span class="math display">\[\widehat{\operatorname{MSE}}
 =
 \frac{1}{R}
 \sum_{r=1}^R
-(\hat\theta_r-\theta)^2.
-\]</span></p>
+(\hat\theta_r-\theta)^2.\]</span></p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1849,14 +1645,12 @@ Interpretação
 </div>
 <div class="callout-body-container callout-body">
 <p>Viés e variância medem aspectos diferentes. Um estimador pode ter viés pequeno e variabilidade elevada. O MSE combina os dois efeitos:</p>
-<p><span class="math display">\[
-\operatorname{MSE}
+<p><span class="math display">\[\operatorname{MSE}
 =
 \operatorname{Var}
 +
-\operatorname{bias}^2.
-\]</span></p>
-<p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Definições 3.9–3.11 e Lema 3.12, pp.&nbsp;76–78)</span> e <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.2.1</a>, pp.&nbsp;256–258)</span>.</p>
+\operatorname{bias}^2.\]</span></p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Definições 3.9–3.11 e Lema 3.12, pp.&nbsp;76–78] e <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.2.1</a>, pp.&nbsp;256–258)</span>.</p>
 </div>
 </div>
 </section>
@@ -1909,31 +1703,24 @@ mse      0.040133324 0.0617118346  0.1341996384</code></pre>
 <section id="cobertura-de-intervalos-de-confiança" class="level2" data-number="4.13">
 <h2 data-number="4.13" class="anchored" data-anchor-id="cobertura-de-intervalos-de-confiança"><span class="header-section-number">4.13</span> Cobertura de intervalos de confiança</h2>
 <p>Suponha que, na repetição <span class="math inline">\(r\)</span>, um procedimento produza</p>
-<p><span class="math display">\[
-[L_r,U_r].
-\]</span></p>
+<p><span class="math display">\[[L_r,U_r].\]</span></p>
 <p>A cobertura é</p>
-<p><span class="math display">\[
-C
+<p><span class="math display">\[C
 =
 P_\theta(
 L\leq\theta\leq U
-).
-\]</span></p>
+).\]</span></p>
 <p>A estimativa Monte Carlo é</p>
-<p><span class="math display">\[
-\widehat C_R
+<p><span class="math display">\[\widehat C_R
 =
 \frac{1}{R}
 \sum_{r=1}^R
-I(L_r\leq\theta\leq U_r).
-\]</span></p>
+I(L_r\leq\theta\leq U_r).\]</span></p>
 <blockquote class="blockquote">
 <p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.4.2</a>, pp.&nbsp;100–103)</span>.</p>
 </blockquote>
 <p>Como cada indicador é Bernoulli, o erro padrão Monte Carlo da cobertura estimada é aproximadamente</p>
-<p><span class="math display">\[
-\widehat{ep}_{MC}
+<p><span class="math display">\[\widehat{ep}_{MC}
 (\widehat C_R)
 =
 \sqrt{
@@ -1943,9 +1730,8 @@ I(L_r\leq\theta\leq U_r).
 }{
 R
 }
-}.
-\]</span></p>
-<div class="callout callout-style-default callout-important callout-titled" title="Exemplo bibliográfico">
+}.\]</span></p>
+<div class="callout callout-style-default callout-note callout-titled" title="Exemplo bibliográfico">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -1962,43 +1748,35 @@ Exemplo bibliográfico
 <section id="erro-tipo-i-e-poder" class="level2" data-number="4.14">
 <h2 data-number="4.14" class="anchored" data-anchor-id="erro-tipo-i-e-poder"><span class="header-section-number">4.14</span> Erro tipo I e poder</h2>
 <p>Para um teste de nível nominal <span class="math inline">\(\alpha\)</span>, a taxa de erro tipo I é</p>
-<p><span class="math display">\[
-P(\text{rejeitar }H_0\mid H_0\text{ verdadeira}).
-\]</span></p>
-<p>Em simulação, gere dados <strong>sob <span class="math inline">\(H_0\)</span></strong> e calcule</p>
-<p><span class="math display">\[
-\widehat\alpha_R
+<p><span class="math display">\[P(\text{rejeitar }H_0\mid H_0\text{ verdadeira}).\]</span></p>
+<p>Em simulação, gere dados <strong>sob</strong> <span class="math inline">\(H_0\)</span> e calcule</p>
+<p><span class="math display">\[\widehat\alpha_R
 =
 \frac{
 \#\{\text{rejeições}\}
 }{
 R
-}.
-\]</span></p>
+}.\]</span></p>
 <p>Sob uma alternativa, a mesma proporção estima o poder:</p>
-<p><span class="math display">\[
-\widehat\pi_R
+<p><span class="math display">\[\widehat\pi_R
 =
 \frac{
 \#\{\text{rejeições}\}
 }{
 R
-}.
-\]</span></p>
+}.\]</span></p>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.2.2–7.2.4</a>, pp.&nbsp;258–262)</span> e <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.4.3</a>, pp.&nbsp;103–106)</span>.</p>
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025</a>)</span> [Seções 7.2.2–7.2.4, pp.&nbsp;258–262] e <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 3.4.3</a>, pp.&nbsp;103–106)</span>.</p>
 </blockquote>
 <p>O erro padrão Monte Carlo dessas proporções é</p>
-<p><span class="math display">\[
-\sqrt{
+<p><span class="math display">\[\sqrt{
 \frac{
 \widehat p_R
 (1-\widehat p_R)
 }{
 R
 }
-}.
-\]</span></p>
+}.\]</span></p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2010,15 +1788,13 @@ Interpretação
 </div>
 <div class="callout-body-container callout-body">
 <p>Um estudo com <span class="math inline">\(R=1000\)</span> repetições não estima exatamente uma taxa de 5%. Ele próprio produz uma estimativa aleatória. Por exemplo, se <span class="math inline">\(\widehat p=0{,}05\)</span> e <span class="math inline">\(R=1000\)</span>,</p>
-<p><span class="math display">\[
-ep_{MC}
+<p><span class="math display">\[ep_{MC}
 \approx
 \sqrt{
 \frac{0{,}05(0{,}95)}{1000}
 }
 \approx
-0{,}0069.
-\]</span></p>
+0{,}0069.\]</span></p>
 <p>Esse erro deve ser levado em conta ao comparar procedimentos.</p>
 </div>
 </div>
@@ -2043,23 +1819,19 @@ Erro de Monte Carlo de uma média de desempenho
 </div>
 <div class="callout-body-container callout-body">
 <p>Se cada repetição produz uma quantidade <span class="math inline">\(T_r\)</span>, então</p>
-<p><span class="math display">\[
-\bar T_R
+<p><span class="math display">\[\bar T_R
 =
 \frac{1}{R}
-\sum_{r=1}^R T_r
-\]</span></p>
+\sum_{r=1}^R T_r\]</span></p>
 <p>tem erro padrão Monte Carlo estimado por</p>
-<p><span class="math display">\[
-\widehat{ep}_{MC}
+<p><span class="math display">\[\widehat{ep}_{MC}
 (\bar T_R)
 =
 \frac{
 s_T
 }{
 \sqrt R
-},
-\]</span></p>
+},\]</span></p>
 <p>onde <span class="math inline">\(s_T\)</span> é o desvio padrão dos <span class="math inline">\(T_r\)</span>.</p>
 <p>Esse princípio vale para estimativas de viés, erro, comprimento de intervalo e muitas outras medidas representadas como médias de repetições.</p>
 </div>
@@ -2082,9 +1854,7 @@ s_T
 <section id="processo-gerador-de-dados" class="level3" data-number="4.16.2">
 <h3 data-number="4.16.2" class="anchored" data-anchor-id="processo-gerador-de-dados"><span class="header-section-number">4.16.2</span> Processo gerador de dados</h3>
 <p>O mecanismo deve ser suficientemente explícito para que outra pessoa possa reproduzi-lo:</p>
-<p><span class="math display">\[
-X\sim F_\psi.
-\]</span></p>
+<p><span class="math display">\[X\sim F_\psi.\]</span></p>
 <p>Indique todos os parâmetros e relações de dependência.</p>
 </section>
 <section id="cenários" class="level3" data-number="4.16.3">
@@ -2221,23 +1991,19 @@ Interpretação
 <section id="misturar-dependência-com-independência" class="level3" data-number="4.18.5">
 <h3 data-number="4.18.5" class="anchored" data-anchor-id="misturar-dependência-com-independência"><span class="header-section-number">4.18.5</span> Misturar dependência com independência</h3>
 <p>As fórmulas</p>
-<p><span class="math display">\[
-\operatorname{Var}(\bar Y)
+<p><span class="math display">\[\operatorname{Var}(\bar Y)
 =
-\frac{\sigma^2}{N}
-\]</span></p>
+\frac{\sigma^2}{N}\]</span></p>
 <p>pressupõem independência. Em MCMC ou em simulações com dependência, o erro padrão precisa incorporar autocorrelação.</p>
 </section>
 <section id="confundir-erro-de-discretização-e-erro-de-monte-carlo" class="level3" data-number="4.18.6">
 <h3 data-number="4.18.6" class="anchored" data-anchor-id="confundir-erro-de-discretização-e-erro-de-monte-carlo"><span class="header-section-number">4.18.6</span> Confundir erro de discretização e erro de Monte Carlo</h3>
 <p>Em modelos nos quais cada realização já resulta de uma aproximação numérica, aumentar apenas o número de réplicas não elimina o erro introduzido pela discretização. Para o caso de equações diferenciais estocásticas estudado por <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span>, se <span class="math inline">\(Z_{n,N}\)</span> é o estimador baseado em <span class="math inline">\(N\)</span> trajetórias simuladas com parâmetro de discretização <span class="math inline">\(n\)</span>, então</p>
-<p><span class="math display">\[
-\operatorname{MSE}(Z_{n,N})
+<p><span class="math display">\[\operatorname{MSE}(Z_{n,N})
 =
 \frac{\sigma_n^2}{N}
 +
-e_{\mathrm{weak}}(f)^2.
-\]</span></p>
+e_{\mathrm{weak}}(f)^2.\]</span></p>
 <p>O primeiro termo é a contribuição do erro de Monte Carlo e diminui quando <span class="math inline">\(N\)</span> cresce; o segundo corresponde ao quadrado do viés de discretização e é controlado pelo refinamento do esquema numérico. Portanto, uma simulação pode ter erro de Monte Carlo muito pequeno e, ainda assim, permanecer inexata por causa da discretização.</p>
 <blockquote class="blockquote">
 <p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 6.5.1</a> e Lema 6.20, pp.&nbsp;243–244)</span>.</p>
@@ -2247,13 +2013,11 @@ e_{\mathrm{weak}}(f)^2.
 <section id="monte-carlo-iid-e-mcmc" class="level2" data-number="4.19">
 <h2 data-number="4.19" class="anchored" data-anchor-id="monte-carlo-iid-e-mcmc"><span class="header-section-number">4.19</span> Monte Carlo IID e MCMC</h2>
 <p>O Monte Carlo desenvolvido neste capítulo usa amostras independentes:</p>
-<p><span class="math display">\[
-X_1,\ldots,X_N
+<p><span class="math display">\[X_1,\ldots,X_N
 \stackrel{iid}{\sim}
-\pi.
-\]</span></p>
+\pi.\]</span></p>
 <p>Em problemas nos quais gerar amostras independentes de <span class="math inline">\(\pi\)</span> é difícil, pode-se construir uma cadeia de Markov cuja distribuição estacionária é <span class="math inline">\(\pi\)</span> e que, sob condições apropriadas de ergodicidade, converge para essa distribuição. Isso conduz aos métodos <strong>Markov Chain Monte Carlo</strong>.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Definição conceitual">
+<div class="callout callout-style-default callout-important callout-titled" title="Definição conceitual">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -2264,25 +2028,21 @@ Definição conceitual
 </div>
 <div class="callout-body-container callout-body">
 <p>No Monte Carlo IID,</p>
-<p><span class="math display">\[
-\widehat I_N
+<p><span class="math display">\[\widehat I_N
 =
 \frac{1}{N}
-\sum h(X_j)
-\]</span></p>
+\sum h(X_j)\]</span></p>
 <p>usa amostras independentes.</p>
 <p>Em MCMC, a mesma forma de média é usada, mas</p>
-<p><span class="math display">\[
-X_1,X_2,\ldots
-\]</span></p>
+<p><span class="math display">\[X_1,X_2,\ldots\]</span></p>
 <p>formam uma cadeia de Markov e são dependentes.</p>
-<p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, cap. 4</a>, pp.&nbsp;109–180)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 6</a>)</span>.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Capítulo 4, pp.&nbsp;109–180] e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 6</a>)</span>.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Observação
@@ -2307,36 +2067,26 @@ Síntese
 </div>
 <div class="callout-body-container callout-body">
 <p>O método básico de Monte Carlo aproxima</p>
-<p><span class="math display">\[
-I=E[h(X)]
-\]</span></p>
+<p><span class="math display">\[I=E[h(X)]\]</span></p>
 <p>por</p>
-<p><span class="math display">\[
-\widehat I_N
+<p><span class="math display">\[\widehat I_N
 =
 \frac1N
-\sum_{j=1}^Nh(X_j).
-\]</span></p>
+\sum_{j=1}^Nh(X_j).\]</span></p>
 <p>Sob independência e variância finita,</p>
-<p><span class="math display">\[
-E(\widehat I_N)=I
-\]</span></p>
+<p><span class="math display">\[E(\widehat I_N)=I\]</span></p>
 <p>e</p>
-<p><span class="math display">\[
-\operatorname{Var}(\widehat I_N)
+<p><span class="math display">\[\operatorname{Var}(\widehat I_N)
 =
 \frac{
 \operatorname{Var}[h(X)]
 }{
 N
-}.
-\]</span></p>
+}.\]</span></p>
 <p>Consequentemente,</p>
-<p><span class="math display">\[
-RMSE(\widehat I_N)
+<p><span class="math display">\[RMSE(\widehat I_N)
 =
-O(N^{-1/2}).
-\]</span></p>
+O(N^{-1/2}).\]</span></p>
 <p>Essa taxa explica por que reduzir variância pode ser mais eficiente do que apenas aumentar o número de simulações.</p>
 <p>Em estudos de simulação estatística, Monte Carlo é usado em um segundo nível: conjuntos de dados são repetidamente gerados para estimar propriedades de procedimentos, como viés, MSE, cobertura e poder. Essas estimativas também têm erro de Monte Carlo e devem ser reportadas com uma precisão compatível com o objetivo do estudo.</p>
 </div>
@@ -2369,13 +2119,11 @@ O(N^{-1/2}).
 <h3 data-number="4.21.2" class="anchored" data-anchor-id="uma-primeira-simulação-com-future_mc"><span class="header-section-number">4.21.2</span> Uma primeira simulação com <code>future_mc()</code></h3>
 <p>O argumento <code>fun</code> de <code>future_mc()</code> deve ser uma função que executa <strong>uma repetição</strong> para <strong>uma combinação de parâmetros</strong>. Dependendo do estudo, essa função pode gerar os dados, aplicar o método estatístico e calcular as medidas que serão agregadas posteriormente.</p>
 <p>No exemplo a seguir, simulamos observações de <span class="math inline">\(N(\mu,\sigma^2)\)</span> e avaliamos dois estimadores: a média amostral para <span class="math inline">\(\mu\)</span> e o estimador de máxima verossimilhança de <span class="math inline">\(\sigma^2\)</span>,</p>
-<p><span class="math display">\[
-\widehat\sigma^2_{ML}
+<p><span class="math display">\[\widehat\sigma^2_{ML}
 =
 \frac{1}{n}
 \sum_{i=1}^n
-(X_i-\bar X)^2.
-\]</span></p>
+(X_i-\bar X)^2.\]</span></p>
 <p>Esse estimador da variância usa divisor <span class="math inline">\(n\)</span> e é viesado em amostras finitas; manter essa propriedade no exemplo é útil porque a própria simulação permitirá estimar seu viés e seu MSE.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>test_func <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">mu =</span> <span class="dv">10</span>, <span class="at">sigma =</span> <span class="dv">2</span>, <span class="at">n =</span> <span class="dv">100</span>) {</span>
@@ -2438,7 +2186,7 @@ O(N^{-1/2}).
 <div class="cell-output cell-output-stderr">
 <pre><code>
  Simulation was successfull!
- Running time: 00:00:04.672978</code></pre>
+ Running time: 00:00:00.693508</code></pre>
 </div>
 </div>
 </section>
@@ -2544,16 +2292,12 @@ Exercício 1 — gerador congruencial linear
 </div>
 <div class="callout-body-container callout-body">
 <p>Considere</p>
-<p><span class="math display">\[
-X_0=5
-\]</span></p>
+<p><span class="math display">\[X_0=5\]</span></p>
 <p>e</p>
-<p><span class="math display">\[
-X_n
+<p><span class="math display">\[X_n
 =
 3X_{n-1}
-\bmod 150.
-\]</span></p>
+\bmod 150.\]</span></p>
 <ol type="1">
 <li>Calcule <span class="math inline">\(X_1,\ldots,X_{30}\)</span>.</li>
 <li>Converta os valores em <span class="math inline">\(U_n=X_n/150\)</span>.</li>
@@ -2574,16 +2318,12 @@ Exercício 2 — gerador congruencial misto
 </div>
 <div class="callout-body-container callout-body">
 <p>Considere</p>
-<p><span class="math display">\[
-X_0=3
-\]</span></p>
+<p><span class="math display">\[X_0=3\]</span></p>
 <p>e</p>
-<p><span class="math display">\[
-X_n
+<p><span class="math display">\[X_n
 =
 (5X_{n-1}+7)
-\bmod 200.
-\]</span></p>
+\bmod 200.\]</span></p>
 <p>Obtenha <span class="math inline">\(X_1,\ldots,X_{10}\)</span> e os correspondentes pseudo-uniformes <span class="math inline">\(U_n=X_n/200\)</span>.</p>
 <p><em>Base conceitual:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.1</a>)</span>.</p>
 </div>
@@ -2605,26 +2345,16 @@ Exercício 3 — integração
 <li>reporte estimativa, erro padrão Monte Carlo e intervalo assintótico de 95%;</li>
 <li>compare com <code>integrate()</code> quando essa função puder fornecer uma referência numérica.</li>
 </ol>
-<p><span class="math display">\[
-\int_0^1
-\exp(e^x)\,dx,
-\]</span></p>
-<p><span class="math display">\[
-\int_0^1
-(1-x^2)^{3/2}\,dx,
-\]</span></p>
-<p><span class="math display">\[
-\int_{-2}^2
-\exp(x+x^2)\,dx,
-\]</span></p>
-<p><span class="math display">\[
-\int_0^\infty
-x(1+x^2)^{-2}\,dx,
-\]</span></p>
-<p><span class="math display">\[
-\int_{-\infty}^{\infty}
-e^{-x^2}\,dx.
-\]</span></p>
+<p><span class="math display">\[\int_0^1
+\exp(e^x)\,dx,\]</span></p>
+<p><span class="math display">\[\int_0^1
+(1-x^2)^{3/2}\,dx,\]</span></p>
+<p><span class="math display">\[\int_{-2}^2
+\exp(x+x^2)\,dx,\]</span></p>
+<p><span class="math display">\[\int_0^\infty
+x(1+x^2)^{-2}\,dx,\]</span></p>
+<p><span class="math display">\[\int_{-\infty}^{\infty}
+e^{-x^2}\,dx.\]</span></p>
 </div>
 </div>
 <div class="callout callout-style-default callout-caution callout-titled" title="Exercício 4 — integral bidimensional">
@@ -2638,14 +2368,12 @@ Exercício 4 — integral bidimensional
 </div>
 <div class="callout-body-container callout-body">
 <p>Estime</p>
-<p><span class="math display">\[
-I
+<p><span class="math display">\[I
 =
 \int_0^1
 \int_0^1
 \exp\{(x+y)^2\}
-\,dy\,dx.
-\]</span></p>
+\,dy\,dx.\]</span></p>
 <ol type="1">
 <li>Use <span class="math inline">\(N=10^3\)</span>, <span class="math inline">\(10^4\)</span> e <span class="math inline">\(10^5\)</span>.</li>
 <li>Compare os erros padrão estimados.</li>
@@ -2664,13 +2392,9 @@ Exercício 5 — covariância por simulação
 </div>
 <div class="callout-body-container callout-body">
 <p>Se</p>
-<p><span class="math display">\[
-U\sim U(0,1),
-\]</span></p>
+<p><span class="math display">\[U\sim U(0,1),\]</span></p>
 <p>use Monte Carlo para estimar</p>
-<p><span class="math display">\[
-\operatorname{Cov}(U,e^U).
-\]</span></p>
+<p><span class="math display">\[\operatorname{Cov}(U,e^U).\]</span></p>
 <p>Compare com o valor obtido por integração analítica das esperanças necessárias.</p>
 </div>
 </div>
@@ -2685,17 +2409,11 @@ Exercício 6 — probabilidade rara
 </div>
 <div class="callout-body-container callout-body">
 <p>Considere</p>
-<p><span class="math display">\[
-X\sim N(0,1).
-\]</span></p>
+<p><span class="math display">\[X\sim N(0,1).\]</span></p>
 <p>Estime</p>
-<p><span class="math display">\[
-P(X&gt;4)
-\]</span></p>
+<p><span class="math display">\[P(X&gt;4)\]</span></p>
 <p>por Monte Carlo direto para</p>
-<p><span class="math display">\[
-N=10^4,\;10^5,\;10^6.
-\]</span></p>
+<p><span class="math display">\[N=10^4,\;10^5,\;10^6.\]</span></p>
 <p>Para cada <span class="math inline">\(N\)</span>, reporte:</p>
 <ul>
 <li>número de ocorrências;</li>
@@ -2717,23 +2435,17 @@ Exercício 7 — amostragem por importância
 </div>
 <div class="callout-body-container callout-body">
 <p>Repita o exercício anterior usando</p>
-<p><span class="math display">\[
-Y\sim N(\mu,1)
-\]</span></p>
+<p><span class="math display">\[Y\sim N(\mu,1)\]</span></p>
 <p>como distribuição de importância para</p>
-<p><span class="math display">\[
-\mu\in\{2,3,4,5\}.
-\]</span></p>
+<p><span class="math display">\[\mu\in\{2,3,4,5\}.\]</span></p>
 <p>Use pesos</p>
-<p><span class="math display">\[
-w(y)
+<p><span class="math display">\[w(y)
 =
 \frac{
 \phi(y)
 }{
 \phi(y-\mu)
-},
-\]</span></p>
+},\]</span></p>
 <p>com as densidades escritas corretamente na implementação.</p>
 <p>Compare os erros padrão e determine qual escolha de <span class="math inline">\(\mu\)</span> foi mais eficiente no experimento.</p>
 <p><em>Base de leitura:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Exercício 3.6 e Seção 3.3.1, pp.&nbsp;84–88)</span>.</p>
@@ -2750,9 +2462,7 @@ Exercício 8 — variáveis antitéticas
 </div>
 <div class="callout-body-container callout-body">
 <p>Estime</p>
-<p><span class="math display">\[
-\int_0^1 e^x\,dx
-\]</span></p>
+<p><span class="math display">\[\int_0^1 e^x\,dx\]</span></p>
 <p>de duas formas:</p>
 <ol type="1">
 <li>Monte Carlo com amostras independentes;</li>
@@ -2772,17 +2482,13 @@ Exercício 9 — variável de controle
 </div>
 <div class="callout-body-container callout-body">
 <p>Para</p>
-<p><span class="math display">\[
-I
+<p><span class="math display">\[I
 =
 E(e^U),
 \qquad
-U\sim U(0,1),
-\]</span></p>
+U\sim U(0,1),\]</span></p>
 <p>use <span class="math inline">\(U\)</span> como variável de controle, sabendo que</p>
-<p><span class="math display">\[
-E(U)=\frac12.
-\]</span></p>
+<p><span class="math display">\[E(U)=\frac12.\]</span></p>
 <p>Estime o coeficiente <span class="math inline">\(\beta\)</span> por uma execução piloto e compare o erro padrão com Monte Carlo direto.</p>
 </div>
 </div>
@@ -2822,16 +2528,12 @@ Exercício 11 — cobertura
 </div>
 <div class="callout-body-container callout-body">
 <p>Considere</p>
-<p><span class="math display">\[
-X_1,\ldots,X_n
+<p><span class="math display">\[X_1,\ldots,X_n
 \sim
-\operatorname{Pois}(\lambda).
-\]</span></p>
+\operatorname{Pois}(\lambda).\]</span></p>
 <p>Aplique o intervalo <span class="math inline">\(t\)</span> usual para a média e estime por Monte Carlo sua cobertura para diferentes valores de <span class="math inline">\(\lambda\)</span>.</p>
 <p>Repita para</p>
-<p><span class="math display">\[
-n=10,\;30,\;100.
-\]</span></p>
+<p><span class="math display">\[n=10,\;30,\;100.\]</span></p>
 <p>Construa um gráfico da cobertura estimada em função de <span class="math inline">\(\lambda\)</span>.</p>
 <p><em>Exercício baseado em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Exemplo 3.38 e Exercício 3.8, pp.&nbsp;102–108)</span>.</em></p>
 </div>
@@ -2848,8 +2550,7 @@ Exercício 12 — poder e erro de Monte Carlo
 <div class="callout-body-container callout-body">
 <p>Simule o poder de um teste para diferentes tamanhos de amostra usando <span class="math inline">\(R=1000\)</span>, <span class="math inline">\(5000\)</span> e <span class="math inline">\(20000\)</span>.</p>
 <p>Para cada estimativa de poder <span class="math inline">\(\widehat\pi\)</span>, calcule</p>
-<p><span class="math display">\[
-\widehat{ep}_{MC}
+<p><span class="math display">\[\widehat{ep}_{MC}
 =
 \sqrt{
 \frac{
@@ -2857,8 +2558,7 @@ Exercício 12 — poder e erro de Monte Carlo
 }{
 R
 }
-}.
-\]</span></p>
+}.\]</span></p>
 <p>Discuta quantas repetições seriam necessárias para reportar poder com duas casas decimais de forma estável.</p>
 <p><em>Base de leitura:</em> <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.2.3–7.2.5</a>, pp.&nbsp;260–263)</span>.</p>
 </div>

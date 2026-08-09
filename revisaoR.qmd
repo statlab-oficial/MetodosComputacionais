@@ -68,7 +68,7 @@ Essa fórmula tem três virtudes didáticas:
 
 3)  **Boa precisão didática** para grupos moderados, embora a expressão continue sendo uma aproximação e seu erro deva ser distinguido do valor exato.
 
-::: {.callout-warning title="Exemplo Rápido"}
+::: {.callout-note title="Exemplo"}
 - Para **23 pessoas**:
 
 $$p_{23}^{(\text{aprox})}
@@ -218,7 +218,7 @@ O console permite executar comandos interativamente:
 
 Para análises reproduzíveis, os comandos devem ser armazenados em scripts. @thulin2025modern \[Seção 2.3, pp. 6--8\] diferencia execução interativa e scripts, e @rathi2025statistical [Capítulo 2] também apresenta scripts como forma de armazenar comandos.
 
-::: {.callout-note title="Definição"}
+::: {.callout-important title="Definição"}
 Um **script** é um arquivo de texto que contém comandos de `R` destinados a serem executados novamente.
 :::
 
@@ -289,7 +289,7 @@ typeof(1 + 2i)
 typeof("texto")
 ```
 
-::: {.callout-important title="Exemplo"}
+::: {.callout-note title="Exemplo"}
 Em `R`:
 
 ```{r}
@@ -326,7 +326,7 @@ mean(x, na.rm = TRUE)
 
 @thulin2025modern [pp. 20--21] apresenta `NA` como marcador de dados não disponíveis.
 
-::: {.callout-warning title="Interpretação"}
+::: {.callout-tip title="Interpretação"}
 `na.rm = TRUE` não “resolve” o problema estatístico de dados ausentes; apenas instrui uma função a ignorá-los naquele cálculo.
 :::
 
@@ -445,7 +445,7 @@ c(1, TRUE, "a")
 
 @thulin2025modern [Seção 5.1, pp. 158--159] explicita a hierarquia de coerção entre tipos atômicos e mostra que a combinação de tipos distintos em um vetor pode converter todos os elementos para um tipo comum.
 
-::: {.callout-warning title="Observação"}
+::: {.callout-note appearance="minimal" title="Observação"}
 Coerção automática pode esconder erros. Depois de construir ou importar um objeto, `str()` ajuda a verificar se seus tipos são os esperados.
 :::
 
@@ -519,7 +519,7 @@ Para manter o resultado como matriz:
 A[, 2, drop = FALSE]
 ```
 
-::: {.callout-tip title="Observação"}
+::: {.callout-note appearance="minimal" title="Observação"}
 `drop = FALSE` evita a simplificação automática de uma matriz para vetor quando uma dimensão passa a ter comprimento `1`.
 :::
 
@@ -804,10 +804,8 @@ for (i in 1:10) {
 
 A afirmação “laços devem sempre ser evitados” é forte demais.
 
-::: {.callout-important title="Interpretação revisada"}
-Use vetorização quando a operação é naturalmente vetorial. Use laços quando há dependência entre iterações ou quando o algoritmo fica mais claro dessa forma.
-
-@thulin2025modern [Seções 6.4--6.5, pp. 227--241] apresenta laços, vetorização e *functionals*. A preferência por uma solução vetorizada é especialmente natural quando existe uma operação vetorial direta e equivalente; laços continuam apropriados em algoritmos sequenciais ou quando as iterações dependem de resultados anteriores.
+::: {.callout-tip title="Interpretação"}
+Use vetorização quando a operação é naturalmente vetorial. Use laços quando há dependência entre iterações ou quando o algoritmo fica mais claro dessa forma. @thulin2025modern [Seções 6.4--6.5, pp. 227--241] apresenta laços, vetorização e *functionals*. A preferência por uma solução vetorizada é especialmente natural quando existe uma operação vetorial direta e equivalente; laços continuam apropriados em algoritmos sequenciais ou quando as iterações dependem de resultados anteriores.
 :::
 
 ### Família apply
@@ -994,7 +992,7 @@ library(
 )
 ```
 
-::: {.callout-warning title="Observação"}
+::: {.callout-note appearance="minimal" title="Observação"}
 Instalar e carregar são operações diferentes. Um pacote instalado continua disponível no computador, mas precisa ser carregado em cada sessão quando suas funções devem entrar no caminho de busca. Para usar uma função sem anexar o pacote ao caminho de busca, também é possível empregar a notação explícita `pacote::funcao`.
 :::
 
@@ -1087,7 +1085,7 @@ rpois(
 )
 ```
 
-::: {.callout-important title="Interpretação"}
+::: {.callout-tip title="Interpretação"}
 O padrão `d/p/q/r` permite passar rapidamente entre densidades, probabilidades, quantis e simulação. Ele será usado repetidamente nos capítulos seguintes.
 :::
 
@@ -1101,7 +1099,7 @@ rnorm(5)
 
 A geração pseudoaleatória e o papel de `set.seed()` na reprodutibilidade são apresentados por @voss2014statistical \[Seção B.4, pp. 292--294\] e @thulin2025modern [Seção 7.1.1, pp. 248--249].
 
-::: {.callout-warning title="Observação"}
+::: {.callout-note appearance="minimal" title="Observação"}
 A semente permite reproduzir a sequência gerada; ela não melhora a qualidade estatística do procedimento.
 :::
 
@@ -1178,7 +1176,7 @@ undebug(f)
 
 Um problema complexo pode ser separado em tarefas menores.
 
-::: {.callout-important title="Exemplo em Estatística Computacional"}
+::: {.callout-note title="Exemplo"}
 Uma simulação pode ser organizada como:
 
 ``` r

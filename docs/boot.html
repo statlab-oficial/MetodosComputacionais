@@ -401,7 +401,7 @@ window.Quarto = {
 <p>usada para estimar um parâmetro</p>
 <p><span class="math display">\[\Theta=t(F).\]</span></p>
 <p>A variabilidade de <span class="math inline">\(\hat{\Theta}\)</span> é determinada pela repetição conceitual do processo amostral: novas amostras de tamanho <span class="math inline">\(n\)</span> seriam extraídas de <span class="math inline">\(F\)</span> e a estatística seria recalculada em cada amostra. A distribuição probabilística resultante é a <strong>distribuição amostral</strong> de <span class="math inline">\(\hat{\Theta}\)</span>.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Definição">
+<div class="callout callout-style-default callout-important callout-titled" title="Definição">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -462,7 +462,7 @@ Interpretação
 \sum_{i=1}^n
 I(X_i\leq x).\]</span></p>
 <p>Condicionalmente aos valores observados <span class="math inline">\(x_1,\ldots,x_n\)</span>, <span class="math inline">\(\widehat F_n\)</span> atribui massa <span class="math inline">\(1/n\)</span> a cada posição amostral.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Definição: amostra bootstrap">
+<div class="callout callout-style-default callout-important callout-titled" title="Definição: amostra bootstrap">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -534,10 +534,10 @@ Interpretação
 <p><span class="math display">\[\mathbf{x}=(x_1,\ldots,x_n)\]</span></p>
 <p>e que a estatística de interesse seja</p>
 <p><span class="math display">\[\hat\theta=s(\mathbf{x}).\]</span></p>
-<div class="callout callout-style-default callout-note callout-titled" title="Algoritmo bootstrap">
+<div class="callout callout-style-simple callout-important no-icon callout-titled" title="Algoritmo bootstrap">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Algoritmo bootstrap
@@ -640,9 +640,19 @@ Interpretação
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="callout-observation" title="Observação computacional">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação computacional">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação computacional
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>A função <code>replicate()</code> é conveniente para fins didáticos, mas o princípio é mais importante que a sintaxe. Em aplicações maiores, pode-se usar o pacote <code>boot</code>, paralelização ou código vetorizado, desde que a estrutura de reamostragem permaneça correta.</p>
 <p><em>Base bibliográfica:</em> a implementação conceitual por reamostragem em R é consistente com <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025</a>)</span> [Seção 7.4.1, pp.&nbsp;266–268], <span class="citation" data-cites="chernick2011introduction">Chernick; LaBudde (<a href="#ref-chernick2011introduction" role="doc-biblioref">2011, cap. 1–3</a>)</span> e <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021, seç. 13.7.1</a>)</span>.</p>
+</div>
 </div>
 </section>
 </section>
@@ -817,10 +827,10 @@ O que ‘não paramétrico’ não significa
 <p><span class="math display">\[F=F_\eta\]</span></p>
 <p>pertence a uma família paramétrica. Primeiro estima-se <span class="math inline">\(\eta\)</span> a partir da amostra e, em seguida, geram-se reamostras de</p>
 <p><span class="math display">\[F_{\hat\eta}.\]</span></p>
-<div class="callout callout-style-default callout-note callout-titled" title="Algoritmo: bootstrap paramétrico">
+<div class="callout callout-style-simple callout-important no-icon callout-titled" title="Algoritmo: bootstrap paramétrico">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Algoritmo: bootstrap paramétrico
@@ -884,13 +894,23 @@ Bootstrap paramétrico e <code>boot.ci()</code>
 <p>é aproximadamente normal, com erro padrão aproximadamente</p>
 <p><span class="math display">\[\frac{1}{\sqrt{n-3}}.\]</span></p>
 <p><em>Base bibliográfica:</em> <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021, seç. 7.5</a>, p.&nbsp;325)</span>.</p>
-<div class="callout-observation" title="Observação">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>Como <strong>derivação de primeira ordem adotada neste capítulo</strong>, aplicar o método delta à transformação inversa <span class="math inline">\(\rho=\tanh(z)\)</span> leva, ao avaliar a derivada em <span class="math inline">\(\hat\rho\)</span>, à aproximação</p>
 <p><span class="math display">\[\widehat{ep}(\hat\rho)
 \approx
 \frac{1-\hat\rho^2}{\sqrt{n-3}}.\]</span></p>
 <p>Essa expressão não deve ser apresentada como “o erro padrão teórico exato” de <span class="math inline">\(\hat\rho\)</span> em geral. A transformação de Fisher fornece a aproximação normal de referência; a passagem de volta à escala de <span class="math inline">\(\rho\)</span> é uma aproximação de primeira ordem.</p>
 <p><em>Base bibliográfica:</em> o exemplo das escolas de direito e a correção de viés são discutidos em <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>)</span> [Seção 3.1.3, pp.&nbsp;59–61]; o uso do método delta para funções diferenciáveis é discutido em <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008, seç. 6.1.2</a>)</span>.</p>
+</div>
 </div>
 </section>
 </section>
@@ -1053,7 +1073,7 @@ Não generalizar a distribuição t
 q_{\alpha/2}^*,
 q_{1-\alpha/2}^*
 \right].\]</span></p>
-<div class="callout callout-style-default callout-note callout-titled" title="Definição">
+<div class="callout callout-style-default callout-important callout-titled" title="Definição">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -1132,9 +1152,19 @@ q_{\alpha/2}^{T^*}
 <blockquote class="blockquote">
 <p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022</a>)</span> [Seção 7.5.2, pp.&nbsp;217–224], <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008, seç. 3.1.5</a>, pp.&nbsp;64–66)</span> e <span class="citation" data-cites="chernick2011introduction">Chernick; LaBudde (<a href="#ref-chernick2011introduction" role="doc-biblioref">2011, seç. 3.2</a>, pp.&nbsp;79–83)</span>.</p>
 </blockquote>
-<div class="callout-observation" title="Observação">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>A studentização pode melhorar a aproximação porque procura construir uma quantidade mais próxima de um pivô. A dificuldade é que <span class="math inline">\(\widehat{ep}^{*(b)}\)</span> precisa ser calculado dentro de cada amostra bootstrap. Quando não há fórmula disponível, isso pode exigir um bootstrap interno, isto é, um <strong>bootstrap duplo ou iterado</strong>, aumentando consideravelmente o custo computacional.</p>
 <p><em>Base bibliográfica:</em> <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022</a>)</span> [Seção 7.5.2.2, pp.&nbsp;221–224] e <span class="citation" data-cites="chernick2011introduction">Chernick; LaBudde (<a href="#ref-chernick2011introduction" role="doc-biblioref">2011, seç. 3.2–3.3</a>, pp.&nbsp;79–85)</span>.</p>
+</div>
 </div>
 <p><span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025</a>, pp.&nbsp;268–269)</span> observa que intervalos studentizados são teoricamente atraentes, mas podem ser instáveis em algumas aplicações práticas, motivo pelo qual percentil e <span class="math inline">\(BC_a\)</span> são alternativas importantes.</p>
 </section>
@@ -1344,7 +1374,7 @@ Calculations and Intervals on Original Scale</code></pre>
 <section id="testes-bootstrap-e-testes-de-permutação" class="level2" data-number="5.13">
 <h2 data-number="5.13" class="anchored" data-anchor-id="testes-bootstrap-e-testes-de-permutação"><span class="header-section-number">5.13</span> Testes bootstrap e testes de permutação</h2>
 <p>Embora ambos sejam métodos de reamostragem, bootstrap e permutação têm objetivos e mecanismos distintos.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Definição conceitual">
+<div class="callout callout-style-default callout-important callout-titled" title="Definição conceitual">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -1441,8 +1471,16 @@ Regra de diagnóstico
 <section id="variantes-importantes-do-bootstrap" class="level2" data-number="5.15">
 <h2 data-number="5.15" class="anchored" data-anchor-id="variantes-importantes-do-bootstrap"><span class="header-section-number">5.15</span> Variantes importantes do bootstrap</h2>
 <p>Para um primeiro curso, não é necessário desenvolver todas as variantes em detalhe, mas é importante saber que o bootstrap IID é apenas um membro de uma família maior.</p>
-<div class="callout-observation" title="Observação: variantes">
-<p>Entre as extensões discutidas nos livros da pasta encontram-se:</p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ul>
 <li><strong>bootstrap paramétrico</strong>: simulação de um modelo ajustado;</li>
 <li><strong>bootstrap suavizado</strong>: reamostragem de uma estimativa suavizada da distribuição;</li>
@@ -1453,6 +1491,7 @@ Regra de diagnóstico
 <li><strong>sieve bootstrap</strong>: usa uma aproximação modelada da dependência temporal.</li>
 </ul>
 <p><em>Base bibliográfica:</em> <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>)</span> [Capítulo 5; Seções 9.2–9.3], <span class="citation" data-cites="chernick2011introduction">Chernick; LaBudde (<a href="#ref-chernick2011introduction" role="doc-biblioref">2011, cap. 5–6</a> e 8)</span> e <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022, seç. 13.1–13.2</a>, pp.&nbsp;444–452)</span>.</p>
+</div>
 </div>
 </section>
 <section id="diagnóstico-e-reprodutibilidade" class="level2" data-number="5.16">
@@ -1541,7 +1580,7 @@ Regra de diagnóstico
 =
 (x_1,\ldots,x_{i-1},x_{i+1},\ldots,x_n),\]</span></p>
 <p>isto é, a amostra com a observação <span class="math inline">\(i\)</span> removida.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Definição">
+<div class="callout callout-style-default callout-important callout-titled" title="Definição">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -1611,7 +1650,7 @@ i=1,\ldots,n.\]</span></p>
 <section id="pseudovalores-jackknife" class="level2" data-number="5.18">
 <h2 data-number="5.18" class="anchored" data-anchor-id="pseudovalores-jackknife"><span class="header-section-number">5.18</span> Pseudovalores jackknife</h2>
 <p>Os pseudovalores fornecem outra forma de representar a informação leave-one-out.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Definição">
+<div class="callout callout-style-default callout-important callout-titled" title="Definição">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -1724,13 +1763,13 @@ $pseudo_values
 [1] 10 10 18 38 38</code></pre>
 </div>
 </div>
-<div class="callout callout-style-default callout-caution callout-titled" title="Atenção: este exemplo é apenas mecânico">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Atenção: este exemplo é apenas mecânico
+Observação
 </div>
 </div>
 <div class="callout-body-container callout-body">

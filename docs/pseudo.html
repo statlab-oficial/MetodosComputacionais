@@ -359,20 +359,16 @@ window.Quarto = {
 
 
 <p>A geração de variáveis aleatórias transforma uma sequência de números pseudoaleatórios uniformes em observações provenientes de distribuições probabilísticas de interesse. Em termos abstratos, grande parte dos algoritmos de geração pode ser descrita da seguinte forma: primeiro produzimos números</p>
-<p><span class="math display">\[
-U_1,\ldots,U_k
+<p><span class="math display">\[U_1,\ldots,U_k
 \stackrel{iid}{\sim}
-U(0,1),
-\]</span></p>
+U(0,1),\]</span></p>
 <p>e, em seguida, aplicamos uma transformação</p>
-<p><span class="math display">\[
-X
+<p><span class="math display">\[X
 =
-g(U_1,\ldots,U_k)
-\]</span></p>
+g(U_1,\ldots,U_k)\]</span></p>
 <p>de modo que <span class="math inline">\(X\)</span> possua a distribuição desejada.</p>
 <p>Essa perspectiva unifica métodos aparentemente diferentes, como transformação inversa, composição, aceitação-rejeição, métodos de transformação para a distribuição normal e algoritmos especializados para distribuições discretas.</p>
-<p>Essa formulação é a perspectiva adotada na abertura do Capítulo 3 de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, p. 43</a>)</span>, que parte de uniformes e os transforma em objetos aleatórios com a distribuição desejada. Métodos de transformação inversa, rejeição e simulação de modelos estatísticos são desenvolvidos em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Caps. 1–2)</span>, enquanto <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, cap. 2</a>, Seções 2.3–2.5)</span> apresenta métodos gerais de geração univariada e vetorial.</p>
+<p>Essa formulação é a perspectiva adotada na abertura do Capítulo 3 de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [p.&nbsp;43], que parte de uniformes e os transforma em objetos aleatórios com a distribuição desejada. Métodos de transformação inversa, rejeição e simulação de modelos estatísticos são desenvolvidos em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Caps. 1–2)</span>, enquanto <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, cap. 2</a>, Seções 2.3–2.5)</span> apresenta métodos gerais de geração univariada e vetorial.</p>
 <section id="objetivos-de-aprendizagem" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="objetivos-de-aprendizagem"><span class="header-section-number">3.1</span> Objetivos de aprendizagem</h2>
 <p>Ao final deste capítulo, espera-se que o leitor seja capaz de:</p>
@@ -393,18 +389,14 @@ g(U_1,\ldots,U_k)
 <li>validar computacionalmente uma implementação de geração;</li>
 <li>distinguir geração univariada de geração multivariada.</li>
 </ul>
-<p>A organização didática desta unidade segue principalmente <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Caps. 1–2)</span>, <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Caps. 3–4)</span> e <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, cap. 2</a>)</span>.</p>
+<p>A organização didática desta unidade segue principalmente <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Caps. 1–2], <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Caps. 3–4)</span> e <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, cap. 2</a>)</span>.</p>
 </section>
 <section id="da-uniforme-para-outras-distribuições" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="da-uniforme-para-outras-distribuições"><span class="header-section-number">3.2</span> Da uniforme para outras distribuições</h2>
 <p>Considere uma variável</p>
-<p><span class="math display">\[
-U\sim U(0,1).
-\]</span></p>
+<p><span class="math display">\[U\sim U(0,1).\]</span></p>
 <p>A geração de <span class="math inline">\(X\sim F\)</span> pode ser entendida como a busca de uma função <span class="math inline">\(g\)</span> tal que</p>
-<p><span class="math display">\[
-X=g(U)
-\]</span></p>
+<p><span class="math display">\[X=g(U)\]</span></p>
 <p>tenha distribuição <span class="math inline">\(F\)</span>.</p>
 <p>Em alguns casos, um único uniforme é suficiente. Em outros, usam-se vários uniformes, variáveis auxiliares, distribuições propostas ou algoritmos iterativos.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
@@ -425,8 +417,7 @@ Interpretação
 <section id="função-quantil-e-inversa-generalizada" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="função-quantil-e-inversa-generalizada"><span class="header-section-number">3.3</span> Função quantil e inversa generalizada</h2>
 <p>Para uma função de distribuição <span class="math inline">\(F\)</span>, define-se a função quantil generalizada por</p>
-<p><span class="math display">\[
-\boxed{
+<p><span class="math display">\[\boxed{
 F^{-1}(u)
 =
 \inf
@@ -436,11 +427,10 @@ F(x)\geq u
 \right\},
 \qquad
 0&lt;u&lt;1.
-}
-\]</span></p>
+}\]</span></p>
 <p>Essa definição funciona mesmo quando <span class="math inline">\(F\)</span> não é estritamente crescente e, em particular, quando <span class="math inline">\(F\)</span> corresponde a uma distribuição discreta.</p>
-<p>A inversa generalizada e o método da transformação inversa são apresentados por <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.3</a>, pp.&nbsp;11–15)</span> e por <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 3.1.1</a>, pp.&nbsp;45–47)</span>.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Definição: método da transformação inversa">
+<p>A inversa generalizada e o método da transformação inversa são apresentados por <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Seção 1.3, pp.&nbsp;11–15] e por <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 3.1.1</a>, pp.&nbsp;45–47)</span>.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Definição: método da transformação inversa">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -451,18 +441,12 @@ Definição: método da transformação inversa
 </div>
 <div class="callout-body-container callout-body">
 <p>Se</p>
-<p><span class="math display">\[
-U\sim U(0,1)
-\]</span></p>
+<p><span class="math display">\[U\sim U(0,1)\]</span></p>
 <p>e</p>
-<p><span class="math display">\[
-X=F^{-1}(U),
-\]</span></p>
+<p><span class="math display">\[X=F^{-1}(U),\]</span></p>
 <p>então</p>
-<p><span class="math display">\[
-X\sim F.
-\]</span></p>
-<p>O resultado é a Proposição 1.14 de <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.3</a>)</span> e corresponde ao Algoritmo 3.1 de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 3.1.1</a>, p.&nbsp;45)</span>.</p>
+<p><span class="math display">\[X\sim F.\]</span></p>
+<p>O resultado é a Proposição 1.14 de <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Seção 1.3] e corresponde ao Algoritmo 3.1 de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 3.1.1</a>, p.&nbsp;45)</span>.</p>
 </div>
 </div>
 </section>
@@ -471,50 +455,30 @@ X\sim F.
 <section id="transformação-inversa-discreta" class="level3" data-number="3.4.1">
 <h3 data-number="3.4.1" class="anchored" data-anchor-id="transformação-inversa-discreta"><span class="header-section-number">3.4.1</span> Transformação inversa discreta</h3>
 <p>Suponha que</p>
-<p><span class="math display">\[
-P(X=x_j)=p_j,
+<p><span class="math display">\[P(X=x_j)=p_j,
 \qquad
-j=0,1,\ldots,
-\]</span></p>
+j=0,1,\ldots,\]</span></p>
 <p>com</p>
-<p><span class="math display">\[
-p_j\geq0
-\]</span></p>
+<p><span class="math display">\[p_j\geq0\]</span></p>
 <p>e</p>
-<p><span class="math display">\[
-\sum_{j=0}^{\infty}p_j=1.
-\]</span></p>
+<p><span class="math display">\[\sum_{j=0}^{\infty}p_j=1.\]</span></p>
 <p>Assuma inicialmente</p>
-<p><span class="math display">\[
-x_0&lt;x_1&lt;x_2&lt;\cdots.
-\]</span></p>
+<p><span class="math display">\[x_0&lt;x_1&lt;x_2&lt;\cdots.\]</span></p>
 <p>Defina</p>
-<p><span class="math display">\[
-F(x_j)
+<p><span class="math display">\[F(x_j)
 =
-\sum_{i=0}^jp_i.
-\]</span></p>
+\sum_{i=0}^jp_i.\]</span></p>
 <p>Se</p>
-<p><span class="math display">\[
-U\sim U(0,1),
-\]</span></p>
+<p><span class="math display">\[U\sim U(0,1),\]</span></p>
 <p>então</p>
-<p><span class="math display">\[
-X=x_j
-\]</span></p>
+<p><span class="math display">\[X=x_j\]</span></p>
 <p>quando</p>
-<p><span class="math display">\[
-F(x_{j-1})&lt;U\leq F(x_j),
-\]</span></p>
+<p><span class="math display">\[F(x_{j-1})&lt;U\leq F(x_j),\]</span></p>
 <p>com a convenção</p>
-<p><span class="math display">\[
-F(x_{-1})=0.
-\]</span></p>
+<p><span class="math display">\[F(x_{-1})=0.\]</span></p>
 <p>Equivalentemente, escolhe-se o menor índice <span class="math inline">\(j\)</span> tal que</p>
-<p><span class="math display">\[
-F(x_j)\geq U.
-\]</span></p>
-<p>A versão discreta corresponde ao Algoritmo 3.2 de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, pp.&nbsp;46–47)</span> e é ilustrada no Exemplo 1.18 de <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, pp.&nbsp;14–15)</span>.</p>
+<p><span class="math display">\[F(x_j)\geq U.\]</span></p>
+<p>A versão discreta corresponde ao Algoritmo 3.2 de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [pp.&nbsp;46–47] e é ilustrada no Exemplo 1.18 de <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, pp.&nbsp;14–15)</span>.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Algoritmo: inversa discreta">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -526,18 +490,10 @@ Algoritmo: inversa discreta
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li>Gere <span class="math display">\[
-U\sim U(0,1).
-\]</span></li>
-<li>Calcule ou consulte as probabilidades acumuladas <span class="math display">\[
-F_j=\sum_{i=0}^jp_i.
-\]</span></li>
-<li>Determine o menor <span class="math inline">\(j\)</span> tal que <span class="math display">\[
-F_j\geq U.
-\]</span></li>
-<li>Retorne <span class="math display">\[
-X=x_j.
-\]</span></li>
+<li>Gere <span class="math display">\[U\sim U(0,1).\]</span></li>
+<li>Calcule ou consulte as probabilidades acumuladas <span class="math display">\[F_j=\sum_{i=0}^jp_i.\]</span></li>
+<li>Determine o menor <span class="math inline">\(j\)</span> tal que <span class="math display">\[F_j\geq U.\]</span></li>
+<li>Retorne <span class="math display">\[X=x_j.\]</span></li>
 </ol>
 </div>
 </div>
@@ -545,37 +501,25 @@ X=x_j.
 <section id="exemplo-distribuição-em-quatro-pontos" class="level3" data-number="3.4.2">
 <h3 data-number="3.4.2" class="anchored" data-anchor-id="exemplo-distribuição-em-quatro-pontos"><span class="header-section-number">3.4.2</span> Exemplo: distribuição em quatro pontos</h3>
 <p>Considere</p>
-<p><span class="math display">\[
-P(X=1)=0{,}20,
-\]</span></p>
-<p><span class="math display">\[
-P(X=2)=0{,}15,
-\]</span></p>
-<p><span class="math display">\[
-P(X=3)=0{,}25
-\]</span></p>
+<p><span class="math display">\[P(X=1)=0{,}20,\]</span></p>
+<p><span class="math display">\[P(X=2)=0{,}15,\]</span></p>
+<p><span class="math display">\[P(X=3)=0{,}25\]</span></p>
 <p>e</p>
-<p><span class="math display">\[
-P(X=4)=0{,}40.
-\]</span></p>
+<p><span class="math display">\[P(X=4)=0{,}40.\]</span></p>
 <p>As probabilidades acumuladas são</p>
-<p><span class="math display">\[
-0{,}20,\quad
+<p><span class="math display">\[0{,}20,\quad
 0{,}35,\quad
 0{,}60,\quad
-1.
-\]</span></p>
+1.\]</span></p>
 <p>Assim,</p>
-<p><span class="math display">\[
-X=
+<p><span class="math display">\[X=
 \begin{cases}
 1, &amp; 0&lt;U\leq0{,}20,\\
 2, &amp; 0{,}20&lt;U\leq0{,}35,\\
 3, &amp; 0{,}35&lt;U\leq0{,}60,\\
 4, &amp; 0{,}60&lt;U&lt;1.
-\end{cases}
-\]</span></p>
-<div class="callout callout-style-default callout-important callout-titled" title="Exemplo computacional">
+\end{cases}\]</span></p>
+<div class="callout callout-style-default callout-note callout-titled" title="Exemplo computacional">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -673,10 +617,10 @@ Exemplo computacional
 0.1988 0.1537 0.2510 0.3965 </code></pre>
 </div>
 </div>
-<div class="callout callout-style-default callout-warning callout-titled" title="Observação computacional">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação computacional">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Observação computacional
@@ -692,13 +636,13 @@ Observação computacional
 <section id="ordem-dos-valores-e-custo-da-busca" class="level2" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="ordem-dos-valores-e-custo-da-busca"><span class="header-section-number">3.5</span> Ordem dos valores e custo da busca</h2>
 <p>Uma estratégia possível para acelerar uma <strong>busca sequencial sobre categorias</strong> é ordenar as categorias por probabilidades decrescentes, pois as de maior probabilidade tendem a ser examinadas primeiro. Essa reordenação, contudo, deixa de representar a função de distribuição acumulada na ordem natural dos valores <span class="math inline">\(x_j\)</span> e, portanto, não deve ser confundida com a inversão via CDF.</p>
-<div class="callout callout-style-default callout-important callout-titled" title="Distinção importante">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Distinção importante
+Observação
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -711,33 +655,25 @@ Distinção importante
 </div>
 </div>
 <p>Para o exemplo anterior, uma ordem eficiente seria</p>
-<p><span class="math display">\[
-4,\;3,\;1,\;2,
-\]</span></p>
+<p><span class="math display">\[4,\;3,\;1,\;2,\]</span></p>
 <p>associada às probabilidades</p>
-<p><span class="math display">\[
-0{,}40,\;0{,}25,\;0{,}20,\;0{,}15.
-\]</span></p>
+<p><span class="math display">\[0{,}40,\;0{,}25,\;0{,}20,\;0{,}15.\]</span></p>
 </section>
 <section id="desigualdades-nos-pontos-de-corte" class="level2" data-number="3.6">
 <h2 data-number="3.6" class="anchored" data-anchor-id="desigualdades-nos-pontos-de-corte"><span class="header-section-number">3.6</span> Desigualdades nos pontos de corte</h2>
 <p>Em teoria, se</p>
-<p><span class="math display">\[
-U\sim U(0,1)
-\]</span></p>
+<p><span class="math display">\[U\sim U(0,1)\]</span></p>
 <p>for uma variável contínua ideal, então</p>
-<p><span class="math display">\[
-P(U=c)=0
-\]</span></p>
+<p><span class="math display">\[P(U=c)=0\]</span></p>
 <p>para qualquer constante <span class="math inline">\(c\)</span>.</p>
 <p>Consequentemente, usar <span class="math inline">\(&lt;\)</span> ou <span class="math inline">\(\leq\)</span> nos pontos de corte não altera a distribuição teórica.</p>
-<div class="callout callout-style-default callout-warning callout-titled" title="Observação sobre precisão finita">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Observação sobre precisão finita
+Observação
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -750,21 +686,13 @@ Observação sobre precisão finita
 <section id="distribuição-bernoulli" class="level2" data-number="3.7">
 <h2 data-number="3.7" class="anchored" data-anchor-id="distribuição-bernoulli"><span class="header-section-number">3.7</span> Distribuição Bernoulli</h2>
 <p>Se</p>
-<p><span class="math display">\[
-X\sim\operatorname{Ber}(p),
-\]</span></p>
+<p><span class="math display">\[X\sim\operatorname{Ber}(p),\]</span></p>
 <p>então</p>
-<p><span class="math display">\[
-P(X=1)=p
-\]</span></p>
+<p><span class="math display">\[P(X=1)=p\]</span></p>
 <p>e</p>
-<p><span class="math display">\[
-P(X=0)=1-p.
-\]</span></p>
+<p><span class="math display">\[P(X=0)=1-p.\]</span></p>
 <p>Uma implementação imediata é</p>
-<p><span class="math display">\[
-X=I(U\leq p).
-\]</span></p>
+<p><span class="math display">\[X=I(U\leq p).\]</span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>rbernoulli <span class="ot">&lt;-</span> <span class="cf">function</span>(n, p) {</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(</span>
@@ -781,36 +709,24 @@ X=I(U\leq p).
 <section id="uniforme-discreta" class="level2" data-number="3.8">
 <h2 data-number="3.8" class="anchored" data-anchor-id="uniforme-discreta"><span class="header-section-number">3.8</span> Uniforme discreta</h2>
 <p>Queremos gerar</p>
-<p><span class="math display">\[
-X\sim DU(1,k),
-\]</span></p>
+<p><span class="math display">\[X\sim DU(1,k),\]</span></p>
 <p>isto é,</p>
-<p><span class="math display">\[
-P(X=j)=\frac1k,
+<p><span class="math display">\[P(X=j)=\frac1k,
 \qquad
-j=1,\ldots,k.
-\]</span></p>
+j=1,\ldots,k.\]</span></p>
 <p>Se</p>
-<p><span class="math display">\[
-U\sim U[0,1),
-\]</span></p>
+<p><span class="math display">\[U\sim U[0,1),\]</span></p>
 <p>podemos definir</p>
-<p><span class="math display">\[
-\boxed{
+<p><span class="math display">\[\boxed{
 X=\lfloor kU\rfloor+1.
-}
-\]</span></p>
+}\]</span></p>
 <p>De fato,</p>
-<p><span class="math display">\[
-X=j
-\]</span></p>
+<p><span class="math display">\[X=j\]</span></p>
 <p>se, e somente se,</p>
-<p><span class="math display">\[
-\frac{j-1}{k}
+<p><span class="math display">\[\frac{j-1}{k}
 \leq U
 &lt;
-\frac{j}{k}.
-\]</span></p>
+\frac{j}{k}.\]</span></p>
 <p>A geração uniforme discreta por transformação de uma uniforme contínua aparece no Algoritmo 4.17 de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 4.1.8</a>, p.&nbsp;102)</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>runif_discreta <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
@@ -827,10 +743,10 @@ X=j
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">floor</span>(k <span class="sc">*</span> <span class="fu">runif</span>(n)) <span class="sc">+</span> <span class="dv">1</span>L</span>
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Observação
@@ -844,22 +760,17 @@ Observação
 <section id="distribuição-geométrica-por-inversão" class="level2" data-number="3.9">
 <h2 data-number="3.9" class="anchored" data-anchor-id="distribuição-geométrica-por-inversão"><span class="header-section-number">3.9</span> Distribuição geométrica por inversão</h2>
 <p>Considere a parametrização</p>
-<p><span class="math display">\[
-P(X=k)
+<p><span class="math display">\[P(X=k)
 =
 p(1-p)^{k-1},
 \qquad
-k=1,2,\ldots.
-\]</span></p>
+k=1,2,\ldots.\]</span></p>
 <p>A função de sobrevivência é</p>
-<p><span class="math display">\[
-P(X&gt;k)
+<p><span class="math display">\[P(X&gt;k)
 =
-(1-p)^k.
-\]</span></p>
+(1-p)^k.\]</span></p>
 <p>Uma representação por inversão é</p>
-<p><span class="math display">\[
-\boxed{
+<p><span class="math display">\[\boxed{
 X
 =
 \left\lceil
@@ -869,12 +780,9 @@ X
 \log(1-p)
 }
 \right\rceil,
-}
-\]</span></p>
+}\]</span></p>
 <p>para</p>
-<p><span class="math display">\[
-U\sim U(0,1).
-\]</span></p>
+<p><span class="math display">\[U\sim U(0,1).\]</span></p>
 <p>A relação com a exponencial e as formas de geração aparecem nos Algoritmos 4.7–4.8 de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 4.1.3</a>, pp.&nbsp;92–93)</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>rgeom1 <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
@@ -899,13 +807,13 @@ U\sim U(0,1).
 <span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="callout callout-style-default callout-warning callout-titled" title="Observação sobre parametrização">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Observação sobre parametrização
+Observação
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -916,35 +824,29 @@ Observação sobre parametrização
 <section id="distribuição-poisson" class="level2" data-number="3.10">
 <h2 data-number="3.10" class="anchored" data-anchor-id="distribuição-poisson"><span class="header-section-number">3.10</span> Distribuição Poisson</h2>
 <p>Para</p>
-<p><span class="math display">\[
-X\sim\operatorname{Poi}(\lambda),
-\]</span></p>
+<p><span class="math display">\[X\sim\operatorname{Poi}(\lambda),\]</span></p>
 <p>a função de massa é</p>
-<p><span class="math display">\[
-p_i
+<p><span class="math display">\[p_i
 =
 P(X=i)
 =
 e^{-\lambda}
 \frac{\lambda^i}{i!},
 \qquad
-i=0,1,\ldots.
-\]</span></p>
+i=0,1,\ldots.\]</span></p>
 <p>As probabilidades satisfazem a recorrência</p>
-<p><span class="math display">\[
-\boxed{
+<p><span class="math display">\[\boxed{
 p_{i+1}
 =
 \frac{\lambda}{i+1}p_i.
-}
-\]</span></p>
+}\]</span></p>
 <p>Isso permite construir a CDF de modo recursivo sem recalcular fatoriais.</p>
 <section id="inversão-por-acumulação" class="level3" data-number="3.10.1">
 <h3 data-number="3.10.1" class="anchored" data-anchor-id="inversão-por-acumulação"><span class="header-section-number">3.10.1</span> Inversão por acumulação</h3>
-<div class="callout callout-style-default callout-note callout-titled" title="Algoritmo">
+<div class="callout callout-style-simple callout-important no-icon callout-titled" title="Algoritmo">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Algoritmo
@@ -952,26 +854,15 @@ Algoritmo
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li>Gere <span class="math display">\[
-U\sim U(0,1).
-\]</span></li>
-<li>Inicialize <span class="math display">\[
-i=0,\qquad
+<li><p>Gere <span class="math display">\[U\sim U(0,1).\]</span></p></li>
+<li><p>Inicialize <span class="math display">\[i=0,\qquad
 p_0=e^{-\lambda},\qquad
-F=p_0.
-\]</span></li>
-<li>Enquanto <span class="math display">\[
-U&gt;F,
-\]</span> faça <span class="math display">\[
-i\leftarrow i+1,
-\]</span> <span class="math display">\[
-p_i
+F=p_0.\]</span></p></li>
+<li><p>Enquanto <span class="math display">\[U&gt;F,\]</span> faça <span class="math display">\[i\leftarrow i+1,\]</span></p>
+<p><span class="math display">\[p_i
 \leftarrow
-\frac{\lambda}{i}p_{i-1},
-\]</span> e <span class="math display">\[
-F\leftarrow F+p_i.
-\]</span></li>
-<li>Retorne <span class="math inline">\(i\)</span>.</li>
+\frac{\lambda}{i}p_{i-1},\]</span> e <span class="math display">\[F\leftarrow F+p_i.\]</span></p></li>
+<li><p>Retorne <span class="math inline">\(i\)</span>.</p></li>
 </ol>
 </div>
 </div>
@@ -1038,42 +929,30 @@ Limitação
 <h3 data-number="3.10.2" class="anchored" data-anchor-id="outro-algoritmo-clássico-para-poisson"><span class="header-section-number">3.10.2</span> Outro algoritmo clássico para Poisson</h3>
 <p><span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Algoritmo 4.13, p.&nbsp;100)</span> utiliza o produto de uniformes.</p>
 <p>Se</p>
-<p><span class="math display">\[
-U_1,U_2,\ldots
+<p><span class="math display">\[U_1,U_2,\ldots
 \stackrel{iid}{\sim}
-U(0,1),
-\]</span></p>
+U(0,1),\]</span></p>
 <p>gera-se até que</p>
-<p><span class="math display">\[
-\prod_{j=1}^n U_j
+<p><span class="math display">\[\prod_{j=1}^n U_j
 &lt;
-e^{-\lambda}.
-\]</span></p>
+e^{-\lambda}.\]</span></p>
 <p>Se <span class="math inline">\(N\)</span> é o primeiro índice para o qual <span class="math inline">\(\prod_{j=1}^{N}U_j&lt;e^{-\lambda}\)</span>, então</p>
-<p><span class="math display">\[
-X=N-1
-\]</span></p>
+<p><span class="math display">\[X=N-1\]</span></p>
 <p>tem distribuição <span class="math inline">\(\operatorname{Poi}(\lambda)\)</span>. Esse método também se torna lento quando <span class="math inline">\(\lambda\)</span> cresce.</p>
 </section>
 </section>
 <section id="distribuição-binomial" class="level2" data-number="3.11">
 <h2 data-number="3.11" class="anchored" data-anchor-id="distribuição-binomial"><span class="header-section-number">3.11</span> Distribuição binomial</h2>
 <p>Se</p>
-<p><span class="math display">\[
-X\sim\operatorname{Bin}(n,p),
-\]</span></p>
+<p><span class="math display">\[X\sim\operatorname{Bin}(n,p),\]</span></p>
 <p>então uma construção fundamental é</p>
-<p><span class="math display">\[
-X
+<p><span class="math display">\[X
 =
-B_1+\cdots+B_n,
-\]</span></p>
+B_1+\cdots+B_n,\]</span></p>
 <p>onde</p>
-<p><span class="math display">\[
-B_i
+<p><span class="math display">\[B_i
 \stackrel{iid}{\sim}
-\operatorname{Ber}(p).
-\]</span></p>
+\operatorname{Ber}(p).\]</span></p>
 <div class="callout callout-style-default callout-note callout-titled" title="Algoritmo por soma de Bernoulli">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1085,14 +964,10 @@ Algoritmo por soma de Bernoulli
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li>Gere <span class="math display">\[
-B_1,\ldots,B_n
+<li>Gere <span class="math display">\[B_1,\ldots,B_n
 \stackrel{iid}{\sim}
-\operatorname{Ber}(p).
-\]</span></li>
-<li>Retorne <span class="math display">\[
-X=\sum_{i=1}^nB_i.
-\]</span></li>
+\operatorname{Ber}(p).\]</span></li>
+<li>Retorne <span class="math display">\[X=\sum_{i=1}^nB_i.\]</span></li>
 </ol>
 </div>
 </div>
@@ -1135,19 +1010,15 @@ Interpretação
 <section id="recorrência-das-probabilidades-binomiais" class="level3" data-number="3.11.1">
 <h3 data-number="3.11.1" class="anchored" data-anchor-id="recorrência-das-probabilidades-binomiais"><span class="header-section-number">3.11.1</span> Recorrência das probabilidades binomiais</h3>
 <p>A função de massa satisfaz</p>
-<p><span class="math display">\[
-P(X=i+1)
+<p><span class="math display">\[P(X=i+1)
 =
 \frac{n-i}{i+1}
 \frac{p}{1-p}
-P(X=i).
-\]</span></p>
+P(X=i).\]</span></p>
 <p>Com</p>
-<p><span class="math display">\[
-P(X=0)
+<p><span class="math display">\[P(X=0)
 =
-(1-p)^n,
-\]</span></p>
+(1-p)^n,\]</span></p>
 <p>essa identidade também pode ser usada em um algoritmo de inversão acumulativa.</p>
 <div class="callout callout-style-default callout-warning callout-titled" title="Casos de fronteira">
 <div class="callout-header d-flex align-content-center">
@@ -1160,9 +1031,7 @@ Casos de fronteira
 </div>
 <div class="callout-body-container callout-body">
 <p>Se <span class="math inline">\(p=0\)</span>, então <span class="math inline">\(X=0\)</span> com probabilidade <span class="math inline">\(1\)</span>. Se <span class="math inline">\(p=1\)</span>, então <span class="math inline">\(X=n\)</span> com probabilidade <span class="math inline">\(1\)</span>. Um algoritmo que contém</p>
-<p><span class="math display">\[
-\frac{p}{1-p}
-\]</span></p>
+<p><span class="math display">\[\frac{p}{1-p}\]</span></p>
 <p>deve tratar explicitamente esses casos.</p>
 </div>
 </div>
@@ -1190,7 +1059,16 @@ Interpretação
 <h2 data-number="3.13" class="anchored" data-anchor-id="método-alias"><span class="header-section-number">3.13</span> Método <em>alias</em></h2>
 <p>O método <em>alias</em> é uma técnica eficiente para geração repetida de distribuições discretas finitas. A ideia consiste em representar uma distribuição arbitrária de <span class="math inline">\(K\)</span> pontos como uma mistura equiprovável de distribuições de dois pontos. Depois de uma etapa de pré-processamento, cada observação pode ser gerada com custo essencialmente constante.</p>
 <p>A construção e a etapa de geração do método <em>alias</em> são dadas em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 3.1.4</a>, Algoritmos 3.7–3.8, pp.&nbsp;56–58)</span>.</p>
-<div class="callout-observation" title="Observação">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>Para uma única geração ou para uma distribuição com poucos pontos, a inversão simples é normalmente suficiente. O método <em>alias</em> torna-se atraente quando:</p>
 <ul>
 <li>o suporte é grande;</li>
@@ -1199,23 +1077,20 @@ Interpretação
 </ul>
 <p>Essa distinção entre <strong>custo de preparação</strong> e <strong>custo por geração</strong> é importante em Estatística Computacional.</p>
 </div>
+</div>
 </section>
 <section id="caso-contínuo" class="level2" data-number="3.14">
 <h2 data-number="3.14" class="anchored" data-anchor-id="caso-contínuo"><span class="header-section-number">3.14</span> Caso contínuo</h2>
 <section id="transformação-inversa" class="level3" data-number="3.14.1">
 <h3 data-number="3.14.1" class="anchored" data-anchor-id="transformação-inversa"><span class="header-section-number">3.14.1</span> Transformação inversa</h3>
 <p>Se <span class="math inline">\(F\)</span> é a função de distribuição de uma variável contínua e podemos calcular</p>
-<p><span class="math display">\[
-F^{-1}(u),
-\]</span></p>
+<p><span class="math display">\[F^{-1}(u),\]</span></p>
 <p>então</p>
-<p><span class="math display">\[
-X=F^{-1}(U),
+<p><span class="math display">\[X=F^{-1}(U),
 \qquad
-U\sim U(0,1),
-\]</span></p>
+U\sim U(0,1),\]</span></p>
 <p>tem distribuição <span class="math inline">\(F\)</span>.</p>
-<p>O resultado é o método da transformação inversa de <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.3</a>, pp.&nbsp;11–15)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 3.1.1</a>, pp.&nbsp;45–47)</span>.</p>
+<p>O resultado é o método da transformação inversa de <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Seção 1.3, pp.&nbsp;11–15] e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 3.1.1</a>, pp.&nbsp;45–47)</span>.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1234,51 +1109,37 @@ Interpretação
 <section id="exemplo-distribuição-exponencial" class="level2" data-number="3.15">
 <h2 data-number="3.15" class="anchored" data-anchor-id="exemplo-distribuição-exponencial"><span class="header-section-number">3.15</span> Exemplo: distribuição exponencial</h2>
 <p>Considere</p>
-<p><span class="math display">\[
-X\sim\operatorname{Exp}(\lambda),
-\]</span></p>
+<p><span class="math display">\[X\sim\operatorname{Exp}(\lambda),\]</span></p>
 <p>com função de distribuição</p>
-<p><span class="math display">\[
-F(x)
+<p><span class="math display">\[F(x)
 =
 1-e^{-\lambda x},
 \qquad
-x\geq0.
-\]</span></p>
+x\geq0.\]</span></p>
 <p>Resolva</p>
-<p><span class="math display">\[
-u
+<p><span class="math display">\[u
 =
-1-e^{-\lambda x}.
-\]</span></p>
+1-e^{-\lambda x}.\]</span></p>
 <p>Temos</p>
-<p><span class="math display">\[
-e^{-\lambda x}
+<p><span class="math display">\[e^{-\lambda x}
 =
-1-u
-\]</span></p>
+1-u\]</span></p>
 <p>e</p>
-<p><span class="math display">\[
-\boxed{
+<p><span class="math display">\[\boxed{
 x
 =
 -\frac1\lambda
 \log(1-u).
-}
-\]</span></p>
+}\]</span></p>
 <p>Como</p>
-<p><span class="math display">\[
-1-U\sim U(0,1),
-\]</span></p>
+<p><span class="math display">\[1-U\sim U(0,1),\]</span></p>
 <p>também podemos escrever</p>
-<p><span class="math display">\[
-\boxed{
+<p><span class="math display">\[\boxed{
 X
 =
 -\frac1\lambda
 \log U.
-}
-\]</span></p>
+}\]</span></p>
 <p>A forma <span class="math inline">\(X=-\log(U)/\lambda\)</span> é o Algoritmo 4.29 de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 4.2.3</a>, p.&nbsp;109)</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>rexp_inversa <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
@@ -1298,29 +1159,21 @@ X
 <section id="exemplo-densidade-fx3x2" class="level2" data-number="3.16">
 <h2 data-number="3.16" class="anchored" data-anchor-id="exemplo-densidade-fx3x2"><span class="header-section-number">3.16</span> Exemplo: densidade <span class="math inline">\(f(x)=3x^2\)</span></h2>
 <p>Considere</p>
-<p><span class="math display">\[
-f(x)
+<p><span class="math display">\[f(x)
 =
 3x^2,
 \qquad
-0\leq x\leq1.
-\]</span></p>
+0\leq x\leq1.\]</span></p>
 <p>Então</p>
-<p><span class="math display">\[
-F(x)
+<p><span class="math display">\[F(x)
 =
-x^3
-\]</span></p>
+x^3\]</span></p>
 <p>e</p>
-<p><span class="math display">\[
-F^{-1}(u)
+<p><span class="math display">\[F^{-1}(u)
 =
-u^{1/3}.
-\]</span></p>
+u^{1/3}.\]</span></p>
 <p>Logo,</p>
-<p><span class="math display">\[
-X=U^{1/3}
-\]</span></p>
+<p><span class="math display">\[X=U^{1/3}\]</span></p>
 <p>tem a densidade desejada.</p>
 <p>Este é o Exemplo 1.17 de <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, p. 14</a>)</span>.</p>
 <div class="cell">
@@ -1355,59 +1208,41 @@ X=U^{1/3}
 <section id="transformações-afins" class="level2" data-number="3.17">
 <h2 data-number="3.17" class="anchored" data-anchor-id="transformações-afins"><span class="header-section-number">3.17</span> Transformações afins</h2>
 <p>Muitas distribuições pertencem a famílias de localização e escala. Se</p>
-<p><span class="math display">\[
-Z
-\]</span></p>
+<p><span class="math display">\[Z\]</span></p>
 <p>possui uma distribuição padrão e</p>
-<p><span class="math display">\[
-X
+<p><span class="math display">\[X
 =
 \mu+\sigma Z,
 \qquad
-\sigma&gt;0,
-\]</span></p>
+\sigma&gt;0,\]</span></p>
 <p>então a geração de <span class="math inline">\(X\)</span> pode ser reduzida à geração de <span class="math inline">\(Z\)</span>.</p>
 <p>Por exemplo, se</p>
-<p><span class="math display">\[
-Z\sim N(0,1),
-\]</span></p>
+<p><span class="math display">\[Z\sim N(0,1),\]</span></p>
 <p>então</p>
-<p><span class="math display">\[
-X=\mu+\sigma Z
-\]</span></p>
+<p><span class="math display">\[X=\mu+\sigma Z\]</span></p>
 <p>tem distribuição</p>
-<p><span class="math display">\[
-N(\mu,\sigma^2).
-\]</span></p>
+<p><span class="math display">\[N(\mu,\sigma^2).\]</span></p>
 <p>Famílias de localização e escala e transformações afins são discutidas em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 3.1.2.1–3.1.2.2</a>, pp.&nbsp;47–49)</span>.</p>
 </section>
 <section id="método-de-aceitação-rejeição" class="level2" data-number="3.18">
 <h2 data-number="3.18" class="anchored" data-anchor-id="método-de-aceitação-rejeição"><span class="header-section-number">3.18</span> Método de aceitação-rejeição</h2>
 <p>O método de aceitação-rejeição é útil quando podemos gerar de uma distribuição proposta, mas não diretamente da distribuição-alvo. Considere uma densidade-alvo <span class="math inline">\(f\)</span> e uma densidade proposta <span class="math inline">\(g\)</span>. Suponha que:</p>
-<p><span class="math display">\[
-g(x)&gt;0
+<p><span class="math display">\[g(x)&gt;0
 \quad
 \text{sempre que}
 \quad
-f(x)&gt;0
-\]</span></p>
+f(x)&gt;0\]</span></p>
 <p>e exista uma constante finita</p>
-<p><span class="math display">\[
-c\geq1
-\]</span></p>
+<p><span class="math display">\[c\geq1\]</span></p>
 <p>tal que</p>
-<p><span class="math display">\[
-f(x)
+<p><span class="math display">\[f(x)
 \leq
-c\,g(x)
-\]</span></p>
+c\,g(x)\]</span></p>
 <p>para todo <span class="math inline">\(x\)</span>.</p>
 <p>Equivalentemente,</p>
-<p><span class="math display">\[
-\frac{f(x)}{g(x)}
-\leq c.
-\]</span></p>
-<p>A formulação de envelope é apresentada no Algoritmo 1.22 de <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.4.2</a>, p.&nbsp;19)</span> e no Algoritmo 3.9 de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 3.1.5</a>, p.&nbsp;59)</span>.</p>
+<p><span class="math display">\[\frac{f(x)}{g(x)}
+\leq c.\]</span></p>
+<p>A formulação de envelope é apresentada no Algoritmo 1.22 de <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Seção 1.4.2, p.&nbsp;19] e no Algoritmo 3.9 de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 3.1.5</a>, p.&nbsp;59)</span>.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Algoritmo de aceitação-rejeição">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1419,23 +1254,15 @@ Algoritmo de aceitação-rejeição
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li>Gere <span class="math display">\[
-Y\sim g.
-\]</span></li>
-<li>Gere, independentemente, <span class="math display">\[
-U\sim U(0,1).
-\]</span></li>
-<li>Aceite <span class="math display">\[
-X=Y
-\]</span> se <span class="math display">\[
-U
+<li>Gere <span class="math display">\[Y\sim g.\]</span></li>
+<li>Gere, independentemente, <span class="math display">\[U\sim U(0,1).\]</span></li>
+<li>Aceite <span class="math display">\[X=Y\]</span> se <span class="math display">\[U
 \leq
 \frac{
 f(Y)
 }{
 c\,g(Y)
-}.
-\]</span></li>
+}.\]</span></li>
 <li>Se houver rejeição, retorne ao passo 1.</li>
 </ol>
 </div>
@@ -1444,8 +1271,7 @@ c\,g(Y)
 <section id="por-que-o-método-funciona" class="level2" data-number="3.19">
 <h2 data-number="3.19" class="anchored" data-anchor-id="por-que-o-método-funciona"><span class="header-section-number">3.19</span> Por que o método funciona?</h2>
 <p>Para qualquer conjunto mensurável <span class="math inline">\(A\)</span>,</p>
-<p><span class="math display">\[
-P(
+<p><span class="math display">\[P(
 Y\in A,\text{ aceitar}
 )
 =
@@ -1456,56 +1282,43 @@ f(y)
 }{
 c\,g(y)
 }
-\,dy.
-\]</span></p>
+\,dy.\]</span></p>
 <p>Logo,</p>
-<p><span class="math display">\[
-P(
+<p><span class="math display">\[P(
 Y\in A,\text{ aceitar}
 )
 =
 \frac1c
-\int_Af(y)\,dy.
-\]</span></p>
+\int_Af(y)\,dy.\]</span></p>
 <p>Como <span class="math inline">\(f\)</span> e <span class="math inline">\(g\)</span> foram definidas aqui como densidades normalizadas, a probabilidade total de aceitação é</p>
-<p><span class="math display">\[
-P(\text{aceitar})
+<p><span class="math display">\[P(\text{aceitar})
 =
-\frac1c.
-\]</span></p>
+\frac1c.\]</span></p>
 <p>Se a função-alvo for conhecida apenas de forma não normalizada, digamos <span class="math inline">\(h\)</span> com constante normalizadora <span class="math inline">\(Z_h=\int h(x)\,dx\)</span>, a taxa de aceitação deve ser ajustada para essa normalização. Na formulação de envelope de <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Proposição 1.23)</span>, a probabilidade de aceitação é <span class="math inline">\(Z_h/c\)</span>, não simplesmente <span class="math inline">\(1/c\)</span>.</p>
 <p>Portanto,</p>
-<p><span class="math display">\[
-P(
+<p><span class="math display">\[P(
 Y\in A
 \mid
 \text{aceitar}
 )
 =
-\int_Af(y)\,dy,
-\]</span></p>
+\int_Af(y)\,dy,\]</span></p>
 <p>e a variável aceita possui densidade <span class="math inline">\(f\)</span>.</p>
-<p>A validade do procedimento é formalizada para rejeição básica e por envelope em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Algoritmos 1.19 e 1.22, Seção 1.4)</span> e em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Teorema 3.1.1 e Algoritmo 3.9, pp.&nbsp;59–60)</span>.</p>
+<p>A validade do procedimento é formalizada para rejeição básica e por envelope em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Algoritmos 1.19 e 1.22, Seção 1.4] e em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Teorema 3.1.1 e Algoritmo 3.9, pp.&nbsp;59–60)</span>.</p>
 </section>
 <section id="eficiência-da-aceitação-rejeição" class="level2" data-number="3.20">
 <h2 data-number="3.20" class="anchored" data-anchor-id="eficiência-da-aceitação-rejeição"><span class="header-section-number">3.20</span> Eficiência da aceitação-rejeição</h2>
 <p>Como</p>
-<p><span class="math display">\[
-P(\text{aceitar})=\frac1c,
-\]</span></p>
+<p><span class="math display">\[P(\text{aceitar})=\frac1c,\]</span></p>
 <p>o número de propostas necessárias até uma aceitação tem distribuição geométrica com média</p>
-<p><span class="math display">\[
-E(N_{\text{prop}})
+<p><span class="math display">\[E(N_{\text{prop}})
 =
-c.
-\]</span></p>
+c.\]</span></p>
 <p>Assim, desejamos escolher <span class="math inline">\(g\)</span> de modo que</p>
-<p><span class="math display">\[
-c
+<p><span class="math display">\[c
 =
 \sup_x
-\frac{f(x)}{g(x)}
-\]</span></p>
+\frac{f(x)}{g(x)}\]</span></p>
 <p>seja tão pequeno quanto possível, sem tornar difícil a geração de <span class="math inline">\(Y\sim g\)</span>.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
 <div class="callout-header d-flex align-content-center">
@@ -1529,56 +1342,44 @@ Interpretação
 <section id="aceitação-rejeição-no-caso-discreto" class="level2" data-number="3.21">
 <h2 data-number="3.21" class="anchored" data-anchor-id="aceitação-rejeição-no-caso-discreto"><span class="header-section-number">3.21</span> Aceitação-rejeição no caso discreto</h2>
 <p>Se desejamos gerar</p>
-<p><span class="math display">\[
-P(X=j)=p_j
-\]</span></p>
+<p><span class="math display">\[P(X=j)=p_j\]</span></p>
 <p>e conseguimos gerar</p>
-<p><span class="math display">\[
-P(Y=j)=q_j,
-\]</span></p>
+<p><span class="math display">\[P(Y=j)=q_j,\]</span></p>
 <p>precisamos de</p>
-<p><span class="math display">\[
-q_j&gt;0
+<p><span class="math display">\[q_j&gt;0
 \quad
 \text{sempre que}
 \quad
-p_j&gt;0.
-\]</span></p>
+p_j&gt;0.\]</span></p>
 <p>Escolha</p>
-<p><span class="math display">\[
-c
+<p><span class="math display">\[c
 \geq
 \sup_j
-\frac{p_j}{q_j}.
-\]</span></p>
+\frac{p_j}{q_j}.\]</span></p>
 <p>Aceite <span class="math inline">\(Y=j\)</span> se</p>
-<p><span class="math display">\[
-U
+<p><span class="math display">\[U
 \leq
-\frac{p_j}{cq_j}.
-\]</span></p>
+\frac{p_j}{cq_j}.\]</span></p>
 <p>A probabilidade de aceitação continua sendo</p>
-<p><span class="math display">\[
-\frac1c.
-\]</span></p>
-<p>O mesmo argumento de aceitação-rejeição se aplica ao caso discreto; veja <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.4</a>)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 3.1.5</a>)</span>.</p>
+<p><span class="math display">\[\frac1c.\]</span></p>
+<p>O mesmo argumento de aceitação-rejeição se aplica ao caso discreto; veja <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Seção 1.4] e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 3.1.5</a>)</span>.</p>
 </section>
 <section id="exemplo-discreto-de-aceitação-rejeição" class="level2" data-number="3.22">
 <h2 data-number="3.22" class="anchored" data-anchor-id="exemplo-discreto-de-aceitação-rejeição"><span class="header-section-number">3.22</span> Exemplo discreto de aceitação-rejeição</h2>
 <p>Considere a distribuição-alvo</p>
 <table class="table">
 <colgroup>
-<col style="width: 9%">
-<col style="width: 9%">
-<col style="width: 9%">
-<col style="width: 9%">
-<col style="width: 9%">
-<col style="width: 9%">
-<col style="width: 9%">
-<col style="width: 9%">
-<col style="width: 9%">
-<col style="width: 9%">
-<col style="width: 9%">
+<col style="width: 10%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1612,30 +1413,24 @@ U
 </tbody>
 </table>
 <p>Use como proposta a uniforme discreta em <span class="math inline">\(\{1,\ldots,10\}\)</span>:</p>
-<p><span class="math display">\[
-q_j=0{,}1.
-\]</span></p>
+<p><span class="math display">\[q_j=0{,}1.\]</span></p>
 <p>Então</p>
-<p><span class="math display">\[
-c
+<p><span class="math display">\[c
 =
 \max_j
 \frac{p_j}{q_j}
 =
 \frac{0{,}12}{0{,}10}
 =
-1{,}2.
-\]</span></p>
+1{,}2.\]</span></p>
 <p>Assim,</p>
-<p><span class="math display">\[
-P(\text{aceitar})
+<p><span class="math display">\[P(\text{aceitar})
 =
 \frac1{1{,}2}
 =
 \frac56
-\approx0{,}8333.
-\]</span></p>
-<div class="callout callout-style-default callout-important callout-titled" title="Exemplo computacional">
+\approx0{,}8333.\]</span></p>
+<div class="callout callout-style-default callout-note callout-titled" title="Exemplo computacional">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -1720,13 +1515,11 @@ Exemplo computacional
 </div>
 </div>
 <p>Teoricamente,</p>
-<p><span class="math display">\[
-E(N_{\text{prop}})
+<p><span class="math display">\[E(N_{\text{prop}})
 =
 c
 =
-1{,}2.
-\]</span></p>
+1{,}2.\]</span></p>
 <p>Na simulação, <code>mean(sim$propostas)</code> deve oscilar em torno desse valor por erro de Monte Carlo.</p>
 </div>
 </div>
@@ -1734,38 +1527,26 @@ c
 <section id="exemplo-contínuo-de-aceitação-rejeição" class="level2" data-number="3.23">
 <h2 data-number="3.23" class="anchored" data-anchor-id="exemplo-contínuo-de-aceitação-rejeição"><span class="header-section-number">3.23</span> Exemplo contínuo de aceitação-rejeição</h2>
 <p>Considere a densidade</p>
-<p><span class="math display">\[
-f(x)
+<p><span class="math display">\[f(x)
 =
 2x,
 \qquad
-0&lt;x&lt;1.
-\]</span></p>
+0&lt;x&lt;1.\]</span></p>
 <p>Use como proposta</p>
-<p><span class="math display">\[
-g(x)=1,
+<p><span class="math display">\[g(x)=1,
 \qquad
-0&lt;x&lt;1,
-\]</span></p>
+0&lt;x&lt;1,\]</span></p>
 <p>isto é,</p>
-<p><span class="math display">\[
-Y\sim U(0,1).
-\]</span></p>
+<p><span class="math display">\[Y\sim U(0,1).\]</span></p>
 <p>Como</p>
-<p><span class="math display">\[
-\frac{f(x)}{g(x)}
+<p><span class="math display">\[\frac{f(x)}{g(x)}
 =
 2x
-\leq2,
-\]</span></p>
+\leq2,\]</span></p>
 <p>podemos usar</p>
-<p><span class="math display">\[
-c=2.
-\]</span></p>
+<p><span class="math display">\[c=2.\]</span></p>
 <p>A probabilidade de aceitação é</p>
-<p><span class="math display">\[
-\frac12.
-\]</span></p>
+<p><span class="math display">\[\frac12.\]</span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1812,26 +1593,20 @@ c=2.
 </div>
 </div>
 </div>
-<p>O exemplo ilustra o algoritmo geral de <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.4</a>)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 3.1.5</a>)</span>.</p>
+<p>O exemplo ilustra o algoritmo geral de <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Seção 1.4] e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 3.1.5</a>)</span>.</p>
 </section>
 <section id="método-da-composição" class="level2" data-number="3.24">
 <h2 data-number="3.24" class="anchored" data-anchor-id="método-da-composição"><span class="header-section-number">3.24</span> Método da composição</h2>
 <p>Suponha que a distribuição-alvo seja uma mistura</p>
-<p><span class="math display">\[
-F
+<p><span class="math display">\[F
 =
 \sum_{k=1}^K
-\alpha_kF_k,
-\]</span></p>
+\alpha_kF_k,\]</span></p>
 <p>com</p>
-<p><span class="math display">\[
-\alpha_k\geq0
-\]</span></p>
+<p><span class="math display">\[\alpha_k\geq0\]</span></p>
 <p>e</p>
-<p><span class="math display">\[
-\sum_{k=1}^K
-\alpha_k=1.
-\]</span></p>
+<p><span class="math display">\[\sum_{k=1}^K
+\alpha_k=1.\]</span></p>
 <p>Uma variável da mistura pode ser gerada em duas etapas.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Algoritmo de composição">
 <div class="callout-header d-flex align-content-center">
@@ -1844,18 +1619,14 @@ Algoritmo de composição
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li>Gere um indicador <span class="math inline">\(I\)</span> tal que <span class="math display">\[
-P(I=k)=\alpha_k.
-\]</span></li>
-<li>Condicionalmente a <span class="math inline">\(I=k\)</span>, gere <span class="math display">\[
-X\sim F_k.
-\]</span></li>
+<li>Gere um indicador <span class="math inline">\(I\)</span> tal que <span class="math display">\[P(I=k)=\alpha_k.\]</span></li>
+<li>Condicionalmente a <span class="math inline">\(I=k\)</span>, gere <span class="math display">\[X\sim F_k.\]</span></li>
 <li>Retorne <span class="math inline">\(X\)</span>.</li>
 </ol>
 </div>
 </div>
 <p>A simulação por seleção de uma componente é o Algoritmo 2.9 de <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> e o Algoritmo 3.5 de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 3.1.2.6</a>, pp.&nbsp;53–54)</span>.</p>
-<div class="callout callout-style-default callout-important callout-titled" title="Interpretação">
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -1866,13 +1637,9 @@ Interpretação
 </div>
 <div class="callout-body-container callout-body">
 <p>Uma mistura</p>
-<p><span class="math display">\[
-\sum_k\alpha_kF_k
-\]</span></p>
+<p><span class="math display">\[\sum_k\alpha_kF_k\]</span></p>
 <p>não é a mesma coisa que a distribuição da soma ponderada</p>
-<p><span class="math display">\[
-\sum_k\alpha_kX_k.
-\]</span></p>
+<p><span class="math display">\[\sum_k\alpha_kX_k.\]</span></p>
 <p>Na mistura, seleciona-se <strong>uma componente</strong> ao acaso e, depois, gera-se uma observação dessa componente.</p>
 <p>A distinção entre mistura e soma ponderada é explicitada por <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Exemplo 2.7 e Algoritmo 2.9)</span>.</p>
 </div>
@@ -1881,47 +1648,35 @@ Interpretação
 <section id="exemplo-de-composição" class="level2" data-number="3.25">
 <h2 data-number="3.25" class="anchored" data-anchor-id="exemplo-de-composição"><span class="header-section-number">3.25</span> Exemplo de composição</h2>
 <p>Deseja-se gerar</p>
-<p><span class="math display">\[
-P(X=j)
+<p><span class="math display">\[P(X=j)
 =
 \begin{cases}
 0{,}05, &amp; j=1,\ldots,5,\\
 0{,}15, &amp; j=6,\ldots,10.
-\end{cases}
-\]</span></p>
+\end{cases}\]</span></p>
 <p>Podemos escrever</p>
-<p><span class="math display">\[
-P
+<p><span class="math display">\[P
 =
 0{,}5P_1
 +
-0{,}5P_2,
-\]</span></p>
+0{,}5P_2,\]</span></p>
 <p>onde:</p>
 <ul>
 <li><span class="math inline">\(P_1\)</span> é uniforme em <span class="math inline">\(\{1,\ldots,10\}\)</span>;</li>
 <li><span class="math inline">\(P_2\)</span> é uniforme em <span class="math inline">\(\{6,\ldots,10\}\)</span>.</li>
 </ul>
 <p>Use</p>
-<p><span class="math display">\[
-U_1,U_2\stackrel{iid}{\sim}U(0,1).
-\]</span></p>
+<p><span class="math display">\[U_1,U_2\stackrel{iid}{\sim}U(0,1).\]</span></p>
 <p>Se</p>
-<p><span class="math display">\[
-U_1&lt;0{,}5,
-\]</span></p>
-<p>gere da primeira componente usando <strong><span class="math inline">\(U_2\)</span></strong>:</p>
-<p><span class="math display">\[
-X
+<p><span class="math display">\[U_1&lt;0{,}5,\]</span></p>
+<p>gere da primeira componente usando <span class="math inline">\(U_2\)</span>:</p>
+<p><span class="math display">\[X
 =
-\lfloor10U_2\rfloor+1.
-\]</span></p>
+\lfloor10U_2\rfloor+1.\]</span></p>
 <p>Caso contrário,</p>
-<p><span class="math display">\[
-X
+<p><span class="math display">\[X
 =
-\lfloor5U_2\rfloor+6.
-\]</span></p>
+\lfloor5U_2\rfloor+6.\]</span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1966,66 +1721,48 @@ X
 <section id="somas-e-convoluções" class="level2" data-number="3.27">
 <h2 data-number="3.27" class="anchored" data-anchor-id="somas-e-convoluções"><span class="header-section-number">3.27</span> Somas e convoluções</h2>
 <p>Se</p>
-<p><span class="math display">\[
-X_1,\ldots,X_n
-\]</span></p>
+<p><span class="math display">\[X_1,\ldots,X_n\]</span></p>
 <p>são independentes e sabemos gerar cada uma delas, podemos construir distribuições conhecidas por soma.</p>
 <p>Exemplos:</p>
-<p><span class="math display">\[
-\operatorname{Bin}(n,p)
+<p><span class="math display">\[\operatorname{Bin}(n,p)
 =
 \sum_{i=1}^n
-\operatorname{Ber}(p),
-\]</span></p>
+\operatorname{Ber}(p),\]</span></p>
 <p>e, para <span class="math inline">\(n\)</span> inteiro,</p>
-<p><span class="math display">\[
-\operatorname{Gamma}(n,\lambda)
+<p><span class="math display">\[\operatorname{Gamma}(n,\lambda)
 =
 \sum_{i=1}^n
-\operatorname{Exp}(\lambda)
-\]</span></p>
+\operatorname{Exp}(\lambda)\]</span></p>
 <p>na parametrização correspondente.</p>
 <p>Relações desse tipo são usadas sistematicamente por <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 4</a>)</span> para construir geradores especializados.</p>
 </section>
 <section id="geração-normal-pelo-método-de-boxmuller" class="level2" data-number="3.28">
 <h2 data-number="3.28" class="anchored" data-anchor-id="geração-normal-pelo-método-de-boxmuller"><span class="header-section-number">3.28</span> Geração normal pelo método de Box–Muller</h2>
 <p>A distribuição normal é um caso importante em que uma transformação de dois uniformes produz duas normais independentes. Se</p>
-<p><span class="math display">\[
-U_1,U_2
+<p><span class="math display">\[U_1,U_2
 \stackrel{iid}{\sim}
-U(0,1),
-\]</span></p>
+U(0,1),\]</span></p>
 <p>defina</p>
-<p><span class="math display">\[
-R
+<p><span class="math display">\[R
 =
 \sqrt{
 -2\log U_1
-}
-\]</span></p>
+}\]</span></p>
 <p>e</p>
-<p><span class="math display">\[
-\Theta
+<p><span class="math display">\[\Theta
 =
-2\pi U_2.
-\]</span></p>
+2\pi U_2.\]</span></p>
 <p>Então</p>
-<p><span class="math display">\[
-Z_1
+<p><span class="math display">\[Z_1
 =
-R\cos\Theta
-\]</span></p>
+R\cos\Theta\]</span></p>
 <p>e</p>
-<p><span class="math display">\[
-Z_2
+<p><span class="math display">\[Z_2
 =
-R\sin\Theta
-\]</span></p>
+R\sin\Theta\]</span></p>
 <p>são independentes com distribuição</p>
-<p><span class="math display">\[
-N(0,1).
-\]</span></p>
-<p>A transformação acima é o Algoritmo 4.47 de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 4.2.11</a>, p.&nbsp;123)</span> e o Algoritmo 2.4.2 de <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, seç. 2.4.1.2</a>, p.&nbsp;59)</span>.</p>
+<p><span class="math display">\[N(0,1).\]</span></p>
+<p>A transformação acima é o Algoritmo 4.47 de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [Seção 4.2.11, p.&nbsp;123] e o Algoritmo 2.4.2 de <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, seç. 2.4.1.2</a>, p.&nbsp;59)</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>rnorm_box_muller <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    n</span>
@@ -2076,17 +1813,25 @@ N(0,1).
 </div>
 </div>
 </div>
-<div class="callout-observation" title="Observação">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>O <em>Handbook</em> apresenta também o método polar de Marsaglia, que evita avaliações trigonométricas, e outros geradores especializados para a normal.</p>
 <p>Veja <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Algoritmo 4.48, p.&nbsp;124)</span>.</p>
+</div>
 </div>
 </section>
 <section id="a-normal-e-o-método-inverso" class="level2" data-number="3.29">
 <h2 data-number="3.29" class="anchored" data-anchor-id="a-normal-e-o-método-inverso"><span class="header-section-number">3.29</span> A normal e o método inverso</h2>
 <p>A função quantil normal não possui uma expressão elementar simples. Entretanto, isso não significa que o método inverso seja matematicamente impossível. É possível aproximar numericamente</p>
-<p><span class="math display">\[
-\Phi^{-1}(u).
-\]</span></p>
+<p><span class="math display">\[\Phi^{-1}(u).\]</span></p>
 <p>Em bibliotecas científicas, funções quantis podem usar aproximações numéricas altamente eficientes.</p>
 <div class="callout callout-style-default callout-warning callout-titled" title="Precisão conceitual">
 <div class="callout-header d-flex align-content-center">
@@ -2099,34 +1844,37 @@ Precisão conceitual
 </div>
 <div class="callout-body-container callout-body">
 <p>A ausência de uma expressão elementar simples para <span class="math inline">\(\Phi^{-1}\)</span> não torna a geração por inversão matematicamente impossível. O ponto correto é que a <strong>inversão analítica direta</strong> não é conveniente; implementações podem recorrer a aproximações numéricas da função quantil ou a geradores especializados.</p>
-<p><span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.3</a>, p.&nbsp;15)</span> observa que a transformação inversa não é diretamente conveniente para a normal, enquanto <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 3.1.1</a>, p.&nbsp;46)</span> ressalta que uma inversa disponível não implica, por si só, o gerador computacionalmente mais eficiente.</p>
+<p><span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Seção 1.3, p.&nbsp;15] observa que a transformação inversa não é diretamente conveniente para a normal, enquanto <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 3.1.1</a>, p.&nbsp;46)</span> ressalta que uma inversa disponível não implica, por si só, o gerador computacionalmente mais eficiente.</p>
 </div>
 </div>
 </section>
 <section id="método-da-razão-de-uniformes" class="level2" data-number="3.30">
 <h2 data-number="3.30" class="anchored" data-anchor-id="método-da-razão-de-uniformes"><span class="header-section-number">3.30</span> Método da razão de uniformes</h2>
 <p>O método da razão de uniformes permite gerar de uma densidade conhecida apenas até uma constante de normalização. Se</p>
-<p><span class="math display">\[
-f(z)
+<p><span class="math display">\[f(z)
 \propto
-h(z),
-\]</span></p>
+h(z),\]</span></p>
 <p>defina a região</p>
-<p><span class="math display">\[
-\mathcal A
+<p><span class="math display">\[\mathcal A
 =
 \left\{
 (u,v):
 u&gt;0,
 u^2\leq h(v/u)
-\right\}.
-\]</span></p>
+\right\}.\]</span></p>
 <p>Se <span class="math inline">\((U,V)\)</span> é gerado uniformemente em <span class="math inline">\(\mathcal A\)</span>, então</p>
-<p><span class="math display">\[
-Z=\frac{V}{U}
-\]</span></p>
+<p><span class="math display">\[Z=\frac{V}{U}\]</span></p>
 <p>possui densidade proporcional a <span class="math inline">\(h\)</span>. Na prática, é comum envolver <span class="math inline">\(\mathcal A\)</span> por uma região simples e usar aceitação-rejeição para obter o ponto uniforme necessário. O método e sua derivação são apresentados em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 3.1.6</a>, Algoritmo 3.13, pp.&nbsp;66–67)</span>.</p>
-<div class="callout-observation" title="Observação">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>Esse método é mais avançado que transformação inversa e aceitação-rejeição elementar, mas merece ser apresentado porque:</p>
 <ul>
 <li>pode dispensar a constante normalizadora;</li>
@@ -2134,24 +1882,18 @@ Z=\frac{V}{U}
 <li>fornece uma ligação geométrica entre geração uniforme bidimensional e densidades univariadas.</li>
 </ul>
 </div>
+</div>
 </section>
 <section id="distribuições-truncadas" class="level2" data-number="3.31">
 <h2 data-number="3.31" class="anchored" data-anchor-id="distribuições-truncadas"><span class="header-section-number">3.31</span> Distribuições truncadas</h2>
 <p>Suponha que</p>
-<p><span class="math display">\[
-X\sim F
-\]</span></p>
+<p><span class="math display">\[X\sim F\]</span></p>
 <p>e queremos gerar da distribuição de <span class="math inline">\(X\)</span> condicionada a</p>
-<p><span class="math display">\[
-a\leq X\leq b.
-\]</span></p>
+<p><span class="math display">\[a\leq X\leq b.\]</span></p>
 <p>Se <span class="math inline">\(F^{-1}\)</span> estiver disponível, podemos gerar</p>
-<p><span class="math display">\[
-U\sim U(0,1)
-\]</span></p>
+<p><span class="math display">\[U\sim U(0,1)\]</span></p>
 <p>e definir</p>
-<p><span class="math display">\[
-\boxed{
+<p><span class="math display">\[\boxed{
 X
 =
 F^{-1}
@@ -2163,8 +1905,7 @@ U
 F(b)-F(a^-)
 \right)
 \right].
-}
-\]</span></p>
+}\]</span></p>
 <p>A geração por inversão em intervalo truncado é o Algoritmo 3.3 de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 3.1.2.4</a>, pp.&nbsp;50–51)</span>.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
 <div class="callout-header d-flex align-content-center">
@@ -2182,39 +1923,28 @@ Interpretação
 <section id="exemplo-exponencial-truncada-em-02" class="level3" data-number="3.31.1">
 <h3 data-number="3.31.1" class="anchored" data-anchor-id="exemplo-exponencial-truncada-em-02"><span class="header-section-number">3.31.1</span> Exemplo: exponencial truncada em <span class="math inline">\([0,2]\)</span></h3>
 <p>Para</p>
-<p><span class="math display">\[
-X\sim\operatorname{Exp}(1),
-\]</span></p>
+<p><span class="math display">\[X\sim\operatorname{Exp}(1),\]</span></p>
 <p>temos</p>
-<p><span class="math display">\[
-F(x)=1-e^{-x}.
-\]</span></p>
+<p><span class="math display">\[F(x)=1-e^{-x}.\]</span></p>
 <p>Então a exponencial truncada em <span class="math inline">\([0,2]\)</span> pode ser gerada por</p>
-<p><span class="math display">\[
-X
+<p><span class="math display">\[X
 =
 -\log
 \left[
 1-
 U(1-e^{-2})
-\right].
-\]</span></p>
+\right].\]</span></p>
 <p>O exemplo é baseado em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Exemplo 3.5, pp.&nbsp;50–51)</span>.</p>
 </section>
 </section>
 <section id="distribuição-t-de-student-por-transformação" class="level2" data-number="3.32">
 <h2 data-number="3.32" class="anchored" data-anchor-id="distribuição-t-de-student-por-transformação"><span class="header-section-number">3.32</span> Distribuição t de Student por transformação</h2>
 <p>Se</p>
-<p><span class="math display">\[
-Z\sim N(0,1)
-\]</span></p>
+<p><span class="math display">\[Z\sim N(0,1)\]</span></p>
 <p>e</p>
-<p><span class="math display">\[
-V\sim\chi_\nu^2
-\]</span></p>
+<p><span class="math display">\[V\sim\chi_\nu^2\]</span></p>
 <p>são independentes, então</p>
-<p><span class="math display">\[
-\boxed{
+<p><span class="math display">\[\boxed{
 T
 =
 \frac{
@@ -2222,8 +1952,7 @@ Z
 }{
 \sqrt{V/\nu}
 }
-}
-\]</span></p>
+}\]</span></p>
 <p>tem distribuição <span class="math inline">\(t_\nu\)</span>.</p>
 <p>Essa representação mostra que a distribuição t pode ser interpretada como uma mistura de escala normal: condicionalmente à variável de escala derivada de <span class="math inline">\(V\)</span>, a distribuição é normal.</p>
 <p>A representação normal–qui-quadrado e o gerador correspondente aparecem em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 4.2.15</a>, Algoritmo 4.58, pp.&nbsp;132–133)</span>.</p>
@@ -2252,8 +1981,7 @@ Terminologia
 <section id="geração-componente-a-componente" class="level3" data-number="3.33.2">
 <h3 data-number="3.33.2" class="anchored" data-anchor-id="geração-componente-a-componente"><span class="header-section-number">3.33.2</span> Geração componente a componente</h3>
 <p>Para uma distribuição conjunta, <span class="math inline">\(f(x_1,\ldots,x_d),\)</span> uma decomposição útil é</p>
-<p><span class="math display">\[
-f(x_1,\ldots,x_d)
+<p><span class="math display">\[f(x_1,\ldots,x_d)
 =
 f_1(x_1)
 \prod_{j=2}^d
@@ -2261,8 +1989,7 @@ f_j(
 x_j
 \mid
 x_1,\ldots,x_{j-1}
-).
-\]</span></p>
+).\]</span></p>
 <p>Assim:</p>
 <ol type="1">
 <li>gere <span class="math inline">\(X_1\)</span> da marginal;</li>
@@ -2275,24 +2002,28 @@ x_1,\ldots,x_{j-1}
 <section id="normal-multivariada" class="level3" data-number="3.33.3">
 <h3 data-number="3.33.3" class="anchored" data-anchor-id="normal-multivariada"><span class="header-section-number">3.33.3</span> Normal multivariada</h3>
 <p>Se <span class="math inline">\(\Sigma\)</span> é uma matriz de covariância simétrica positiva definida, <span class="math inline">\(Z\sim N_d(0,I)\)</span> e</p>
-<p><span class="math display">\[
-\Sigma=AA^\top
-\]</span></p>
+<p><span class="math display">\[\Sigma=AA^\top\]</span></p>
 <p>é sua fatoração de Cholesky, então</p>
-<p><span class="math display">\[
-\boxed{
+<p><span class="math display">\[\boxed{
 X
 =
 \mu+AZ
-}
-\]</span></p>
+}\]</span></p>
 <p>tem distribuição</p>
-<p><span class="math display">\[
-N_d(\mu,\Sigma).
-\]</span></p>
-<p>A geração por fatoração de Cholesky é o Algoritmo 4.71 de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, p. 146</a>)</span> e é também descrita por <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 2.1</a>, p.&nbsp;44)</span>. Para matrizes de covariância singulares, a distribuição normal multivariada continua podendo ser construída por uma fatoração <span class="math inline">\(\Sigma=AA^\top\)</span>, mas a fatoração de Cholesky positiva definida usada acima requer adaptação.</p>
-<div class="callout-observation" title="Observação">
+<p><span class="math display">\[N_d(\mu,\Sigma).\]</span></p>
+<p>A geração por fatoração de Cholesky é o Algoritmo 4.71 de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [p.&nbsp;146] e é também descrita por <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 2.1</a>, p.&nbsp;44)</span>. Para matrizes de covariância singulares, a distribuição normal multivariada continua podendo ser construída por uma fatoração <span class="math inline">\(\Sigma=AA^\top\)</span>, mas a fatoração de Cholesky positiva definida usada acima requer adaptação.</p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Observação
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>Uma exposição completa de simulação multivariada — incluindo cópulas, normais multivariadas, Dirichlet e t multivariada — pode ser organizada em um capítulo próprio. Aqui a seção serve apenas para mostrar que a geração univariada é o primeiro bloco de uma teoria mais ampla.</p>
+</div>
 </div>
 </section>
 </section>
@@ -2305,10 +2036,10 @@ N_d(\mu,\Sigma).
 </ol>
 <p>Nenhuma dessas condições é literalmente verdadeira em um computador.</p>
 <p><span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Remark 3.1.1, pp.&nbsp;44–45)</span> mostra que transformações podem concentrar numericamente muitos valores em um único ponto quando a distribuição possui grande massa em regiões mal representadas em ponto flutuante.</p>
-<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Observação
@@ -2332,13 +2063,9 @@ Observação
 <div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">log1p</span>(x)</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">expm1</span>(x)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>podem ser úteis quando há cancelamento em expressões envolvendo</p>
-<p><span class="math display">\[
-\log(1+x)
-\]</span></p>
+<p><span class="math display">\[\log(1+x)\]</span></p>
 <p>ou</p>
-<p><span class="math display">\[
-e^x-1.
-\]</span></p>
+<p><span class="math display">\[e^x-1.\]</span></p>
 </section>
 </section>
 <section id="como-validar-uma-implementação-de-geração" class="level2" data-number="3.35">
@@ -2347,38 +2074,30 @@ e^x-1.
 <section id="frequências-ou-histograma" class="level3" data-number="3.35.1">
 <h3 data-number="3.35.1" class="anchored" data-anchor-id="frequências-ou-histograma"><span class="header-section-number">3.35.1</span> Frequências ou histograma</h3>
 <p>No caso discreto, compare</p>
-<p><span class="math display">\[
-\widehat p_j
+<p><span class="math display">\[\widehat p_j
 =
 \frac1N
 \sum_{i=1}^N
-I(X_i=j)
-\]</span></p>
+I(X_i=j)\]</span></p>
 <p>com <span class="math inline">\(p_j\)</span>.</p>
 <p>No caso contínuo, compare o histograma com a densidade teórica.</p>
 </section>
 <section id="função-de-distribuição-empírica" class="level3" data-number="3.35.2">
 <h3 data-number="3.35.2" class="anchored" data-anchor-id="função-de-distribuição-empírica"><span class="header-section-number">3.35.2</span> Função de distribuição empírica</h3>
 <p>A função empírica</p>
-<p><span class="math display">\[
-\widehat F_N(x)
+<p><span class="math display">\[\widehat F_N(x)
 =
 \frac1N
 \sum_{i=1}^N
-I(X_i\leq x)
-\]</span></p>
+I(X_i\leq x)\]</span></p>
 <p>pode ser comparada com <span class="math inline">\(F(x)\)</span>.</p>
 </section>
 <section id="momentos" class="level3" data-number="3.35.3">
 <h3 data-number="3.35.3" class="anchored" data-anchor-id="momentos"><span class="header-section-number">3.35.3</span> Momentos</h3>
 <p>Se os momentos existem, compare média e variância amostrais com</p>
-<p><span class="math display">\[
-E(X)
-\]</span></p>
+<p><span class="math display">\[E(X)\]</span></p>
 <p>e</p>
-<p><span class="math display">\[
-\operatorname{Var}(X).
-\]</span></p>
+<p><span class="math display">\[\operatorname{Var}(X).\]</span></p>
 </section>
 <section id="quantis" class="level3" data-number="3.35.4">
 <h3 data-number="3.35.4" class="anchored" data-anchor-id="quantis"><span class="header-section-number">3.35.4</span> Quantis</h3>
@@ -2423,10 +2142,10 @@ Princípio de validação
 <span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="fu">rt</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>O propósito de implementar manualmente os algoritmos neste capítulo é <strong>didático</strong>: compreender como números uniformes podem ser transformados em variáveis de outras distribuições.</p>
 <p>As funções nativas de geração e a convenção <code>r*</code> são discutidas em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Apêndice B.4, pp.&nbsp;292–294)</span>.</p>
-<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Observação
@@ -2505,7 +2224,7 @@ Observação
 </tr>
 </tbody>
 </table>
-<p>A tabela sintetiza os critérios desenvolvidos em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Caps. 3–4)</span> e <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Caps. 1–2)</span>.</p>
+<p>A tabela sintetiza os critérios desenvolvidos em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [Caps. 3–4] e <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Caps. 1–2)</span>.</p>
 </section>
 <section id="síntese" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Síntese</h1>
@@ -2520,38 +2239,26 @@ Síntese
 </div>
 <div class="callout-body-container callout-body">
 <p>A geração de variáveis aleatórias parte de uma fonte de números uniformes e constrói uma transformação que produz a distribuição desejada. No método inverso,</p>
-<p><span class="math display">\[
-X
+<p><span class="math display">\[X
 =
-F^{-1}(U).
-\]</span></p>
+F^{-1}(U).\]</span></p>
 <p>No método de aceitação-rejeição,</p>
-<p><span class="math display">\[
-Y\sim g
-\]</span></p>
+<p><span class="math display">\[Y\sim g\]</span></p>
 <p>é aceito com probabilidade</p>
-<p><span class="math display">\[
-\frac{
+<p><span class="math display">\[\frac{
 f(Y)
 }{
 c\,g(Y)
-},
-\]</span></p>
+},\]</span></p>
 <p>e a taxa de aceitação é</p>
-<p><span class="math display">\[
-\frac1c.
-\]</span></p>
+<p><span class="math display">\[\frac1c.\]</span></p>
 <p>No método de composição, primeiro seleciona-se uma componente <span class="math inline">\(I\)</span> com probabilidades <span class="math inline">\(\alpha_i\)</span> e depois se gera</p>
-<p><span class="math display">\[
-X\sim F_I.
-\]</span></p>
+<p><span class="math display">\[X\sim F_I.\]</span></p>
 <p>Métodos especializados exploram relações entre distribuições, como:</p>
-<p><span class="math display">\[
-\operatorname{Bin}(n,p)
+<p><span class="math display">\[\operatorname{Bin}(n,p)
 =
 \sum_{i=1}^n
-\operatorname{Ber}(p),
-\]</span></p>
+\operatorname{Ber}(p),\]</span></p>
 <p>a transformação Box–Muller para a normal e a decomposição de Cholesky para a normal multivariada.</p>
 <p>A escolha do método depende não apenas da validade matemática, mas também de custo computacional, estabilidade numérica, parâmetros da distribuição e número de observações a serem geradas.</p>
 </div>
@@ -2570,15 +2277,13 @@ Exercício 1 — inversa discreta
 </div>
 <div class="callout-body-container callout-body">
 <p>Considere</p>
-<p><span class="math display">\[
-P(X=1)=0{,}20,
+<p><span class="math display">\[P(X=1)=0{,}20,
 \quad
 P(X=2)=0{,}15,
 \quad
 P(X=3)=0{,}25,
 \quad
-P(X=4)=0{,}40.
-\]</span></p>
+P(X=4)=0{,}40.\]</span></p>
 <ol type="1">
 <li>Construa a CDF.</li>
 <li>Escreva a inversa generalizada.</li>
@@ -2618,21 +2323,15 @@ Exercício 3 — geométrica
 </div>
 <div class="callout-body-container callout-body">
 <p>Derive, usando transformação inversa, um gerador para</p>
-<p><span class="math display">\[
-P(X=k)
+<p><span class="math display">\[P(X=k)
 =
 p(1-p)^{k-1},
 \qquad
-k=1,2,\ldots.
-\]</span></p>
+k=1,2,\ldots.\]</span></p>
 <p>Implemente o método e compare:</p>
-<p><span class="math display">\[
-\bar X
-\]</span></p>
+<p><span class="math display">\[\bar X\]</span></p>
 <p>com</p>
-<p><span class="math display">\[
-E(X)=\frac1p.
-\]</span></p>
+<p><span class="math display">\[E(X)=\frac1p.\]</span></p>
 <p><em>Base de leitura:</em> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 4.1.3</a>, Algoritmos 4.7–4.8, pp.&nbsp;92–93)</span>.</p>
 </div>
 </div>
@@ -2647,11 +2346,9 @@ Exercício 4 — Poisson
 </div>
 <div class="callout-body-container callout-body">
 <p>Implemente o algoritmo de inversão recursiva para</p>
-<p><span class="math display">\[
-\lambda
+<p><span class="math display">\[\lambda
 \in
-\{0{,}5,\;3,\;10,\;50,\;100\}.
-\]</span></p>
+\{0{,}5,\;3,\;10,\;50,\;100\}.\]</span></p>
 <p>Para cada valor:</p>
 <ol type="1">
 <li>gere <span class="math inline">\(10^4\)</span> observações;</li>
@@ -2674,13 +2371,11 @@ Exercício 5 — binomial
 </div>
 <div class="callout-body-container callout-body">
 <p>Implemente</p>
-<p><span class="math display">\[
-X
+<p><span class="math display">\[X
 =
 \sum_{i=1}^nB_i,
 \qquad
-B_i\sim\operatorname{Ber}(p).
-\]</span></p>
+B_i\sim\operatorname{Ber}(p).\]</span></p>
 <p>Compare a distribuição simulada com <code>rbinom()</code> para diferentes valores de <span class="math inline">\(n\)</span>.</p>
 <p><em>Baseado em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Algoritmo 4.2, p.&nbsp;88)</span>.</em></p>
 </div>
@@ -2696,12 +2391,10 @@ Exercício 6 — aceitação-rejeição discreta
 </div>
 <div class="callout-body-container callout-body">
 <p>Use a distribuição</p>
-<p><span class="math display">\[
-p
+<p><span class="math display">\[p
 =
 (0{,}11,0{,}12,0{,}09,0{,}08,0{,}12,
-0{,}10,0{,}09,0{,}09,0{,}10,0{,}10).
-\]</span></p>
+0{,}10,0{,}09,0{,}09,0{,}10,0{,}10).\]</span></p>
 <ol type="1">
 <li>Use proposta uniforme.</li>
 <li>Calcule <span class="math inline">\(c\)</span>.</li>
@@ -2722,11 +2415,9 @@ Exercício 7 — escolha da proposta
 </div>
 <div class="callout-body-container callout-body">
 <p>Para a densidade</p>
-<p><span class="math display">\[
-f(x)=2x,
+<p><span class="math display">\[f(x)=2x,
 \qquad
-0&lt;x&lt;1,
-\]</span></p>
+0&lt;x&lt;1,\]</span></p>
 <p>use duas propostas diferentes que satisfaçam a condição de envelope.</p>
 <p>Calcule <span class="math inline">\(c\)</span> em cada caso e compare as taxas de aceitação.</p>
 </div>
@@ -2742,14 +2433,12 @@ Exercício 8 — composição
 </div>
 <div class="callout-body-container callout-body">
 <p>Reproduza a mistura</p>
-<p><span class="math display">\[
-P(X=j)
+<p><span class="math display">\[P(X=j)
 =
 \begin{cases}
 0{,}05, &amp; j=1,\ldots,5,\\
 0{,}15, &amp; j=6,\ldots,10.
-\end{cases}
-\]</span></p>
+\end{cases}\]</span></p>
 <ol type="1">
 <li>Implemente corretamente usando dois uniformes independentes.</li>
 <li>Implemente a versão incorreta que reutiliza <span class="math inline">\(U_1\)</span> no primeiro ramo.</li>
@@ -2769,19 +2458,13 @@ Exercício 9 — exponencial por inversão
 </div>
 <div class="callout-body-container callout-body">
 <p>Derive e implemente o gerador</p>
-<p><span class="math display">\[
-X
+<p><span class="math display">\[X
 =
--\frac1\lambda\log U.
-\]</span></p>
+-\frac1\lambda\log U.\]</span></p>
 <p>Compare média e variância simuladas com</p>
-<p><span class="math display">\[
-E(X)=\frac1\lambda
-\]</span></p>
+<p><span class="math display">\[E(X)=\frac1\lambda\]</span></p>
 <p>e</p>
-<p><span class="math display">\[
-\operatorname{Var}(X)=\frac1{\lambda^2}.
-\]</span></p>
+<p><span class="math display">\[\operatorname{Var}(X)=\frac1{\lambda^2}.\]</span></p>
 </div>
 </div>
 <div class="callout callout-style-default callout-caution callout-titled" title="Exercício 10 — Box--Muller">
@@ -2817,13 +2500,9 @@ Exercício 11 — exponencial truncada
 </div>
 <div class="callout-body-container callout-body">
 <p>Gere valores de</p>
-<p><span class="math display">\[
-X\sim\operatorname{Exp}(1)
-\]</span></p>
+<p><span class="math display">\[X\sim\operatorname{Exp}(1)\]</span></p>
 <p>condicionados a</p>
-<p><span class="math display">\[
-0\leq X\leq2
-\]</span></p>
+<p><span class="math display">\[0\leq X\leq2\]</span></p>
 <p>por:</p>
 <ol type="1">
 <li>aceitação-rejeição;</li>
@@ -2862,29 +2541,25 @@ Exercício 13 — normal multivariada
 </div>
 <div class="callout-body-container callout-body">
 <p>Considere</p>
-<p><span class="math display">\[
-\mu
+<p><span class="math display">\[\mu
 =
 \begin{pmatrix}
 0\\
 1
-\end{pmatrix}
-\]</span></p>
+\end{pmatrix}\]</span></p>
 <p>e</p>
-<p><span class="math display">\[
-\Sigma
+<p><span class="math display">\[\Sigma
 =
 \begin{pmatrix}
 1 &amp; 0{,}8\\
 0{,}8 &amp; 2
-\end{pmatrix}.
-\]</span></p>
+\end{pmatrix}.\]</span></p>
 <ol type="1">
 <li>Calcule uma decomposição de Cholesky de <span class="math inline">\(\Sigma\)</span>.</li>
 <li>Gere <span class="math inline">\(10^5\)</span> vetores normais.</li>
 <li>Compare a média e a matriz de covariâncias empíricas com <span class="math inline">\(\mu\)</span> e <span class="math inline">\(\Sigma\)</span>.</li>
 </ol>
-<p><em>Base de leitura:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 2.1</a>, p.&nbsp;44)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Algoritmo 4.71, p.&nbsp;146)</span>.</p>
+<p><em>Base de leitura:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Seção 2.1, p.&nbsp;44] e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Algoritmo 4.71, p.&nbsp;146)</span>.</p>
 </div>
 </div>
 </section>

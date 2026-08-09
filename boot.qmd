@@ -39,7 +39,7 @@ $$\Theta=t(F).$$
 
 A variabilidade de $\hat{\Theta}$ é determinada pela repetição conceitual do processo amostral: novas amostras de tamanho $n$ seriam extraídas de $F$ e a estatística seria recalculada em cada amostra. A distribuição probabilística resultante é a **distribuição amostral** de $\hat{\Theta}$.
 
-::: {.callout-note title="Definição"}
+::: {.callout-important title="Definição"}
 A **distribuição amostral** de uma estatística é a distribuição de probabilidade dessa estatística sob repetidas amostras geradas pelo mecanismo probabilístico que define a população ou o desenho amostral.
 
 O **erro padrão** de um estimador é o desvio padrão de sua distribuição amostral:
@@ -96,7 +96,7 @@ I(X_i\leq x).$$
 
 Condicionalmente aos valores observados $x_1,\ldots,x_n$, $\widehat F_n$ atribui massa $1/n$ a cada posição amostral.
 
-::: {.callout-note title="Definição: amostra bootstrap"}
+::: {.callout-important title="Definição: amostra bootstrap"}
 Uma **amostra bootstrap não paramétrica** é uma amostra
 
 $$X_1^*,\ldots,X_n^*
@@ -172,7 +172,7 @@ e que a estatística de interesse seja
 
 $$\hat\theta=s(\mathbf{x}).$$
 
-::: {.callout-note title="Algoritmo bootstrap"}
+::: {.callout-important appearance="minimal" title="Algoritmo bootstrap"}
 Para $b=1,\ldots,B$:
 
 1.  sorteie, com reposição, $n$ observações da amostra original e obtenha
@@ -277,7 +277,7 @@ bootstrap_se <- function(x, stat = mean, B = 9999, seed = 1234) {
 }
 ```
 
-::: {.callout-observation title="Observação computacional"}
+::: {.callout-note appearance="minimal" title="Observação computacional"}
 A função `replicate()` é conveniente para fins didáticos, mas o princípio é mais importante que a sintaxe. Em aplicações maiores, pode-se usar o pacote `boot`, paralelização ou código vetorizado, desde que a estrutura de reamostragem permaneça correta.
 
 *Base bibliográfica:* a implementação conceitual por reamostragem em R é consistente com @thulin2025modern \[Seção 7.4.1, pp. 266--268\], @chernick2011introduction [Capítulos 1--3] e @ramachandran2021mathematical [Seção 13.7.1].
@@ -431,7 +431,7 @@ pertence a uma família paramétrica. Primeiro estima-se $\eta$ a partir da amos
 
 $$F_{\hat\eta}.$$
 
-::: {.callout-note title="Algoritmo: bootstrap paramétrico"}
+::: {.callout-important appearance="minimal" title="Algoritmo: bootstrap paramétrico"}
 1.  Ajuste o modelo paramétrico e obtenha $\hat\eta$.
 
 2.  Para $b=1,\ldots,B$, gere
@@ -482,7 +482,7 @@ $$\frac{1}{\sqrt{n-3}}.$$
 
 *Base bibliográfica:* @ramachandran2021mathematical [Seção 7.5, p. 325].
 
-::: {.callout-observation title="Observação"}
+::: {.callout-note appearance="minimal" title="Observação"}
 Como **derivação de primeira ordem adotada neste capítulo**, aplicar o método delta à transformação inversa $\rho=\tanh(z)$ leva, ao avaliar a derivada em $\hat\rho$, à aproximação
 
 $$\widehat{ep}(\hat\rho)
@@ -667,7 +667,7 @@ q_{\alpha/2}^*,
 q_{1-\alpha/2}^*
 \right].$$
 
-::: {.callout-note title="Definição"}
+::: {.callout-important title="Definição"}
 Para um intervalo de 95%,
 
 $$IC_{\text{perc}}
@@ -730,7 +730,7 @@ q_{\alpha/2}^{T^*}
 
 > **Base bibliográfica:** @chihara2022resampling \[Seção 7.5.2, pp. 217--224\], @chernick2008bootstrap [Seção 3.1.5, pp. 64--66] e @chernick2011introduction [Seção 3.2, pp. 79--83].
 
-::: {.callout-observation title="Observação"}
+::: {.callout-note appearance="minimal" title="Observação"}
 A studentização pode melhorar a aproximação porque procura construir uma quantidade mais próxima de um pivô. A dificuldade é que $\widehat{ep}^{*(b)}$ precisa ser calculado dentro de cada amostra bootstrap. Quando não há fórmula disponível, isso pode exigir um bootstrap interno, isto é, um **bootstrap duplo ou iterado**, aumentando consideravelmente o custo computacional.
 
 *Base bibliográfica:* @chihara2022resampling \[Seção 7.5.2.2, pp. 221--224\] e @chernick2011introduction [Seções 3.2--3.3, pp. 79--85].
@@ -897,7 +897,7 @@ boot.ci(
 
 Embora ambos sejam métodos de reamostragem, bootstrap e permutação têm objetivos e mecanismos distintos.
 
-::: {.callout-note title="Definição conceitual"}
+::: {.callout-important title="Definição conceitual"}
 Em um **teste de permutação**, a distribuição nula é produzida por rearranjos dos rótulos ou das observações sob uma hipótese de intercambiabilidade compatível com $H_0$.
 
 Em um **teste bootstrap**, deve-se construir uma distribuição de reamostragem que represente explicitamente a hipótese nula. Reamostrar simplesmente a partir da distribuição empírica não impõe, em geral, $H_0$.
@@ -973,9 +973,7 @@ Essas perguntas são mais importantes que escolher entre $B=9\,999$ e $B=19\,999
 
 Para um primeiro curso, não é necessário desenvolver todas as variantes em detalhe, mas é importante saber que o bootstrap IID é apenas um membro de uma família maior.
 
-::: {.callout-observation title="Observação: variantes"}
-Entre as extensões discutidas nos livros da pasta encontram-se:
-
+::: {.callout-note appearance="minimal" title="Observação"}
 - **bootstrap paramétrico**: simulação de um modelo ajustado;
 - **bootstrap suavizado**: reamostragem de uma estimativa suavizada da distribuição;
 - $m$-out-of-$n$ bootstrap: reamostras menores que a amostra original;
@@ -1069,7 +1067,7 @@ $$\mathbf{x}_{(i)}
 
 isto é, a amostra com a observação $i$ removida.
 
-::: {.callout-note title="Definição"}
+::: {.callout-important title="Definição"}
 A $i$-ésima réplica jackknife é
 
 $$\hat\theta_{(i)}
@@ -1138,7 +1136,7 @@ $$\widehat{ep}_{\text{jack}}
 
 Os pseudovalores fornecem outra forma de representar a informação leave-one-out.
 
-::: {.callout-note title="Definição"}
+::: {.callout-important title="Definição"}
 O $i$-ésimo pseudovalor é
 
 $$p_i
@@ -1238,7 +1236,7 @@ x <- c(10, 26, 30, 40, 48)
 jackknife(x, median)
 ```
 
-::: {.callout-caution title="Atenção: este exemplo é apenas mecânico"}
+::: {.callout-note appearance="minimal" title="Observação"}
 O cálculo acima é útil para mostrar como se formam as réplicas leave-one-out, mas **não deve ser interpretado como recomendação do erro padrão jackknife para a mediana**. @chernick2008bootstrap \[Seção 6.1.1, pp. 115--116\] registra explicitamente que, para a mediana amostral, a estimativa jackknife usual do erro padrão não é consistente. Em amostras pequenas, o bootstrap não paramétrico da mediana também pode produzir uma distribuição muito discreta; @chihara2022resampling [Seção 13.1, pp. 444--449] discute o bootstrap suavizado como uma alternativa quando essa discreção é problemática.
 :::
 

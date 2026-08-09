@@ -362,7 +362,7 @@ window.Quarto = {
 <p>A geração de números pseudoaleatórios é um dos componentes fundamentais da Estatística Computacional. Métodos de Monte Carlo, procedimentos de reamostragem, algoritmos estocásticos e grande parte das rotinas de simulação dependem, em última instância, de uma fonte computacional de números que se comporte de modo suficientemente semelhante a uma sequência de variáveis aleatórias independentes com distribuição uniforme.</p>
 <p>Neste capítulo, o foco será exclusivamente a <strong>geração pseudoaleatória uniforme</strong>. Métodos destinados a transformar números uniformes em observações de outras distribuições — como transformação inversa, aceitação-rejeição e métodos especializados — devem ser tratados em um capítulo posterior sobre geração de variáveis aleatórias.</p>
 <blockquote class="blockquote">
-<p>Ver <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, cap. 1</a>, especialmente Seção 1.1, pp.&nbsp;1–8)</span>, <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 1</a>, pp.&nbsp;1–21)</span> e <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, cap. 2</a>, Seção 2.2, pp.&nbsp;49–51)</span>.</p>
+<p>Ver <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Capítulo 1, especialmente Seção 1.1, pp.&nbsp;1–8], <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 1</a>, pp.&nbsp;1–21)</span> e <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, cap. 2</a>, Seção 2.2, pp.&nbsp;49–51)</span>.</p>
 </blockquote>
 <section id="objetivos-de-aprendizagem" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="objetivos-de-aprendizagem"><span class="header-section-number">2.1</span> Objetivos de aprendizagem</h2>
@@ -382,17 +382,15 @@ window.Quarto = {
 <li>reconhecer as limitações de geradores simples e os cuidados necessários em simulações paralelas.</li>
 </ul>
 <blockquote class="blockquote">
-<p>A organização didática deste capítulo é baseada em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.1–1.1.3</a>, pp.&nbsp;2–8)</span>, <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.1–1.5</a>, pp.&nbsp;1–20)</span> e <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.1.1–7.1.2</a>, pp.&nbsp;248–250)</span>.</p>
+<p>A organização didática deste capítulo é baseada em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Seções 1.1.1–1.1.3, pp.&nbsp;2–8], <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.1–1.5</a>, pp.&nbsp;1–20)</span> e <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.1.1–7.1.2</a>, pp.&nbsp;248–250)</span>.</p>
 </blockquote>
 </section>
 <section id="a-uniformidade-como-base-da-simulação" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="a-uniformidade-como-base-da-simulação"><span class="header-section-number">2.2</span> A uniformidade como base da simulação</h2>
 <p>Em grande parte dos métodos de simulação, deseja-se conceitualmente uma sequência</p>
-<p><span class="math display">\[
-U_1,U_2,\ldots
+<p><span class="math display">\[U_1,U_2,\ldots
 \stackrel{iid}{\sim}
-U(0,1).
-\]</span></p>
+U(0,1).\]</span></p>
 <p>A distribuição uniforme desempenha um papel central porque pode ser utilizada como ponto de partida para construir variáveis aleatórias de outras distribuições. Assim, a geração computacional é frequentemente dividida em duas etapas:</p>
 <ol type="1">
 <li>produzir uma sequência que imite observações iid uniformes;</li>
@@ -400,9 +398,9 @@ U(0,1).
 </ol>
 <p>Neste capítulo, tratamos apenas da primeira etapa.</p>
 <blockquote class="blockquote">
-<p>Ver <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Introdução do Capítulo 1 e Seção 1.1, pp.&nbsp;1–2)</span>, <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 1</a>, p.&nbsp;1)</span> e <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, seç. 2.1</a>, p.&nbsp;49)</span>.</p>
+<p>Ver <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Introdução do Capítulo 1 e Seção 1.1, pp.&nbsp;1–2], <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, cap. 1</a>, p.&nbsp;1)</span> e <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, seç. 2.1</a>, p.&nbsp;49)</span>.</p>
 </blockquote>
-<div class="callout callout-style-default callout-note callout-titled" title="Definição">
+<div class="callout callout-style-default callout-important callout-titled" title="Definição">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -413,9 +411,7 @@ Definição
 </div>
 <div class="callout-body-container callout-body">
 <p>Um <strong>gerador uniforme ideal</strong> produziria uma sequência infinita</p>
-<p><span class="math display">\[
-U_1,U_2,\ldots
-\]</span></p>
+<p><span class="math display">\[U_1,U_2,\ldots\]</span></p>
 <p>de variáveis independentes, cada uma com distribuição <span class="math inline">\(U(0,1)\)</span>.</p>
 <p>Em um computador de estado finito, uma sequência infinita de observações genuinamente independentes é uma abstração matemática. Na prática, busca-se uma sequência cujas propriedades relevantes sejam suficientemente semelhantes às de uma sequência iid uniforme.</p>
 <p>Ver <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.1</a>, pp.&nbsp;1–2)</span>.</p>
@@ -439,10 +435,10 @@ Interpretação
 <h2 data-number="2.3" class="anchored" data-anchor-id="aleatoriedade-física-e-pseudoaleatoriedade"><span class="header-section-number">2.3</span> Aleatoriedade física e pseudoaleatoriedade</h2>
 <p>Existem duas estratégias conceitualmente diferentes para produzir números destinados a uma simulação. A primeira utiliza um fenômeno físico considerado aleatório, como ruído eletrônico, processos quânticos ou outros mecanismos físicos. A segunda utiliza um algoritmo determinístico implementado em computador.</p>
 <p>Geradores físicos podem fornecer uma fonte de aleatoriedade externa ao algoritmo, mas sua sequência não pode ser reproduzida novamente a menos que tenha sido registrada. Geradores algorítmicos, em contraste, são rápidos, econômicos em memória e permitem reproduzir exatamente uma sequência quando o estado inicial é conhecido.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Observação">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Observação
@@ -452,7 +448,7 @@ Observação
 <p>Fontes físicas de aleatoriedade podem explorar, por exemplo, ruído eletrônico, fenômenos quânticos ou decaimento radioativo. Para simulação computacional, contudo, geradores algorítmicos são particularmente atraentes por serem rápidos e, sobretudo, <strong>reprodutíveis</strong> quando o estado inicial é conhecido <span class="citation" data-cites="voss2014statistical rubinstein2008simulation">(<a href="#ref-voss2014statistical" role="doc-biblioref">Voss, 2014, seç. 1.1</a>, p.&nbsp;2; <a href="#ref-rubinstein2008simulation" role="doc-biblioref">Rubinstein; Kroese, 2008, seç. 2.2</a>, pp.&nbsp;49–50)</span>.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled" title="Definição">
+<div class="callout callout-style-default callout-important callout-titled" title="Definição">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -480,13 +476,9 @@ Definição
 <li>um estado inicial <span class="math inline">\(S_0\)</span>, determinado pela semente.</li>
 </ul>
 <p>A evolução é</p>
-<p><span class="math display">\[
-S_t=f(S_{t-1}),
-\]</span></p>
+<p><span class="math display">\[S_t=f(S_{t-1}),\]</span></p>
 <p>e a saída é</p>
-<p><span class="math display">\[
-U_t=g(S_t).
-\]</span></p>
+<p><span class="math display">\[U_t=g(S_t).\]</span></p>
 <blockquote class="blockquote">
 <p>Esta formulação determinística é adaptada do gerador genérico apresentado em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Algoritmo 1.1, p.&nbsp;2)</span>.</p>
 </blockquote>
@@ -514,12 +506,12 @@ Interpretação
 <li>uso de números aleatórios comuns em procedimentos de redução de variância.</li>
 </ul>
 <blockquote class="blockquote">
-<p>Ver <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.3</a>, p.&nbsp;8)</span>, <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.1.1</a>, pp.&nbsp;2–3)</span> e <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.1.1</a>, pp.&nbsp;248–249)</span>.</p>
+<p>Ver <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Seção 1.1.3, p.&nbsp;8], <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.1.1</a>, pp.&nbsp;2–3)</span> e <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.1.1</a>, pp.&nbsp;248–249)</span>.</p>
 </blockquote>
-<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Observação
@@ -546,12 +538,12 @@ Observação
 </div>
 <p>A saída de <code>identical()</code> deve ser <code>TRUE</code>.</p>
 <blockquote class="blockquote">
-<p>Ver <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.1.1</a>, pp.&nbsp;248–249)</span> e <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Apêndice B.4, pp.&nbsp;292–293)</span>.</p>
+<p>Ver <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025</a>)</span> [Seção 7.1.1, pp.&nbsp;248–249] e <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Apêndice B.4, pp.&nbsp;292–293)</span>.</p>
 </blockquote>
-<div class="callout callout-style-default callout-warning callout-titled" title="Observação sobre o estado do R">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação sobre o estado do R">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Observação sobre o estado do R
@@ -567,41 +559,31 @@ Observação sobre o estado do R
 <section id="da-sequência-inteira-à-sequência-pseudo-uniforme" class="level2" data-number="2.6">
 <h2 data-number="2.6" class="anchored" data-anchor-id="da-sequência-inteira-à-sequência-pseudo-uniforme"><span class="header-section-number">2.6</span> Da sequência inteira à sequência pseudo-uniforme</h2>
 <p>Um gerador congruencial produz inicialmente inteiros</p>
-<p><span class="math display">\[
-X_n\in\{0,1,\ldots,m-1\}.
-\]</span></p>
+<p><span class="math display">\[X_n\in\{0,1,\ldots,m-1\}.\]</span></p>
 <p>É necessário transformá-los em valores utilizados como aproximações de uma distribuição uniforme contínua.</p>
 <p>Uma forma direta é</p>
-<p><span class="math display">\[
-U_n=\frac{X_n}{m}.
-\]</span></p>
+<p><span class="math display">\[U_n=\frac{X_n}{m}.\]</span></p>
 <p>Nesse caso,</p>
-<p><span class="math display">\[
-U_n\in
+<p><span class="math display">\[U_n\in
 \left\{
 0,\frac1m,\ldots,\frac{m-1}{m}
 \right\}
-\subset[0,1).
-\]</span></p>
+\subset[0,1).\]</span></p>
 <p>Portanto, essa transformação <strong>pode produzir zero</strong>.</p>
 <p>Outra transformação apresentada por <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> é</p>
-<p><span class="math display">\[
-\boxed{
+<p><span class="math display">\[\boxed{
 U_n=
 \frac{X_n+1}{m+1}
-},
-\]</span></p>
+},\]</span></p>
 <p>para a qual</p>
-<p><span class="math display">\[
-U_n\in
+<p><span class="math display">\[U_n\in
 \left\{
 \frac1{m+1},
 \frac2{m+1},
 \ldots,
 \frac{m}{m+1}
 \right\}
-\subset(0,1).
-\]</span></p>
+\subset(0,1).\]</span></p>
 <blockquote class="blockquote">
 <p>Ver <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.3</a>, p.&nbsp;8)</span>.</p>
 </blockquote>
@@ -622,7 +604,7 @@ Interpretação
 <section id="gerador-congruencial-linear" class="level2" data-number="2.7">
 <h2 data-number="2.7" class="anchored" data-anchor-id="gerador-congruencial-linear"><span class="header-section-number">2.7</span> Gerador Congruencial Linear</h2>
 <p>O <strong>Gerador Congruencial Linear</strong> (GCL; em inglês, <em>Linear Congruential Generator</em>, LCG) é uma das construções mais simples e historicamente importantes de geração pseudoaleatória.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Definição">
+<div class="callout callout-style-default callout-important callout-titled" title="Definição">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -633,51 +615,35 @@ Definição
 </div>
 <div class="callout-body-container callout-body">
 <p>Dados inteiros</p>
-<p><span class="math display">\[
-m&gt;1,
-\]</span></p>
-<p><span class="math display">\[
-a\in\{1,\ldots,m-1\},
-\]</span></p>
-<p><span class="math display">\[
-c\in\{0,\ldots,m-1\},
-\]</span></p>
+<p><span class="math display">\[m&gt;1,\]</span></p>
+<p><span class="math display">\[a\in\{1,\ldots,m-1\},\]</span></p>
+<p><span class="math display">\[c\in\{0,\ldots,m-1\},\]</span></p>
 <p>e uma semente</p>
-<p><span class="math display">\[
-X_0\in\{0,\ldots,m-1\},
-\]</span></p>
+<p><span class="math display">\[X_0\in\{0,\ldots,m-1\},\]</span></p>
 <p>o GCL é definido pela recorrência</p>
-<p><span class="math display">\[
-\boxed{
+<p><span class="math display">\[\boxed{
 X_n=
 (aX_{n-1}+c)\bmod m
 },
 \qquad
-n=1,2,\ldots
-\]</span></p>
+n=1,2,\ldots\]</span></p>
 <p>O parâmetro <span class="math inline">\(m\)</span> é o <strong>módulo</strong>, <span class="math inline">\(a\)</span> é o <strong>multiplicador</strong>, <span class="math inline">\(c\)</span> é o <strong>incremento</strong> e <span class="math inline">\(X_0\)</span> é a <strong>semente</strong>.</p>
-<p>Ver <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Algoritmo 1.2, pp.&nbsp;2–3)</span>, <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.2.1</a>, pp.&nbsp;4–5)</span> e <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, seç. 2.2</a>, p.&nbsp;50)</span>.</p>
+<p>Ver <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Algoritmo 1.2, pp.&nbsp;2–3], <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.2.1</a>, pp.&nbsp;4–5)</span> e <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, seç. 2.2</a>, p.&nbsp;50)</span>.</p>
 </div>
 </div>
 <p>Quando</p>
-<p><span class="math display">\[
-c=0,
-\]</span></p>
+<p><span class="math display">\[c=0,\]</span></p>
 <p>temos o chamado <strong>gerador congruencial multiplicativo</strong>:</p>
-<p><span class="math display">\[
-X_n=aX_{n-1}\bmod m.
-\]</span></p>
+<p><span class="math display">\[X_n=aX_{n-1}\bmod m.\]</span></p>
 <blockquote class="blockquote">
-<p>Ver <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.2.1</a>, pp.&nbsp;4–5)</span> e <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, seç. 2.2</a>, p.&nbsp;50)</span>.</p>
+<p>Ver <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [Seção 1.2.1, pp.&nbsp;4–5] e <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, seç. 2.2</a>, p.&nbsp;50)</span>.</p>
 </blockquote>
 <section id="algoritmo" class="level3" data-number="2.7.1">
 <h3 data-number="2.7.1" class="anchored" data-anchor-id="algoritmo"><span class="header-section-number">2.7.1</span> Algoritmo</h3>
 <p>Uma representação do GCL é:</p>
 <ol type="1">
 <li>escolha <span class="math inline">\(m\)</span>, <span class="math inline">\(a\)</span>, <span class="math inline">\(c\)</span> e <span class="math inline">\(X_0\)</span>;</li>
-<li>calcule <span class="math display">\[
-X_n=(aX_{n-1}+c)\bmod m;
-\]</span></li>
+<li>calcule <span class="math display">\[X_n=(aX_{n-1}+c)\bmod m;\]</span></li>
 <li>converta o estado inteiro em um pseudo-uniforme;</li>
 <li>use <span class="math inline">\(X_n\)</span> como novo estado;</li>
 <li>repita.</li>
@@ -686,19 +652,15 @@ X_n=(aX_{n-1}+c)\bmod m;
 <section id="exemplo-com-período-pequeno" class="level3" data-number="2.7.2">
 <h3 data-number="2.7.2" class="anchored" data-anchor-id="exemplo-com-período-pequeno"><span class="header-section-number">2.7.2</span> Exemplo com período pequeno</h3>
 <p>Considere</p>
-<p><span class="math display">\[
-m=8,
+<p><span class="math display">\[m=8,
 \qquad
 a=5,
 \qquad
 c=1,
 \qquad
-X_0=0.
-\]</span></p>
+X_0=0.\]</span></p>
 <p>A sequência é</p>
-<p><span class="math display">\[
-1,6,7,4,5,2,3,0,1,6,\ldots
-\]</span></p>
+<p><span class="math display">\[1,6,7,4,5,2,3,0,1,6,\ldots\]</span></p>
 <p>e retorna ao estado inicial depois de oito atualizações.</p>
 <blockquote class="blockquote">
 <p>Exemplo retirado de <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Exemplo 1.3, p.&nbsp;3)</span>.</p>
@@ -817,10 +779,10 @@ Interpretação
 10       10      6 0.7777778</code></pre>
 </div>
 </div>
-<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Observação
@@ -836,12 +798,10 @@ Observação
 <section id="periodicidade" class="level2" data-number="2.9">
 <h2 data-number="2.9" class="anchored" data-anchor-id="periodicidade"><span class="header-section-number">2.9</span> Periodicidade</h2>
 <p>Como o estado do GCL pertence ao conjunto finito</p>
-<p><span class="math display">\[
-\{0,1,\ldots,m-1\},
-\]</span></p>
+<p><span class="math display">\[\{0,1,\ldots,m-1\},\]</span></p>
 <p>existem apenas <span class="math inline">\(m\)</span> estados possíveis.</p>
 <p>Pelo princípio da casa dos pombos, algum estado deverá se repetir depois de, no máximo, <span class="math inline">\(m\)</span> atualizações. Como a transição é determinística, depois que um estado é repetido toda a trajetória subsequente também se repete. Em um gerador finito geral, pode existir um trecho inicial <strong>transiente</strong> antes da entrada no ciclo; portanto, a propriedade garantida é a <strong>periodicidade eventual</strong>.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Definição">
+<div class="callout callout-style-default callout-important callout-titled" title="Definição">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -852,12 +812,12 @@ Definição
 </div>
 <div class="callout-body-container callout-body">
 <p>O <strong>período</strong> é o comprimento do ciclo que se repete. Quando a trajetória entra no ciclo já no estado inicial, a sequência é periódica desde o começo; caso contrário, existe um pré-período ou trecho transiente antes do ciclo.</p>
-<p>Ver <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.1</a>, pp.&nbsp;3–4)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.1</a>, p.&nbsp;2)</span>.</p>
+<p>Ver <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Seção 1.1.1, pp.&nbsp;3–4] e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.1</a>, p.&nbsp;2)</span>.</p>
 </div>
 </div>
 <p>Para um GCL simples, o período não pode exceder <span class="math inline">\(m\)</span>.</p>
 <blockquote class="blockquote">
-<p>Ver <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, pp.&nbsp;3–4)</span> e <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, p. 50</a>)</span>.</p>
+<p>Ver <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [pp.&nbsp;3–4] e <span class="citation" data-cites="rubinstein2008simulation">Rubinstein; Kroese (<a href="#ref-rubinstein2008simulation" role="doc-biblioref">2008, p. 50</a>)</span>.</p>
 </blockquote>
 <section id="encontrando-o-período-em-exemplos-pequenos" class="level3" data-number="2.9.1">
 <h3 data-number="2.9.1" class="anchored" data-anchor-id="encontrando-o-período-em-exemplos-pequenos"><span class="header-section-number">2.9.1</span> Encontrando o período em exemplos pequenos</h3>
@@ -919,9 +879,7 @@ $estado_repetido
 <section id="condições-para-período-completo-no-gcl-misto" class="level2" data-number="2.10">
 <h2 data-number="2.10" class="anchored" data-anchor-id="condições-para-período-completo-no-gcl-misto"><span class="header-section-number">2.10</span> Condições para período completo no GCL misto</h2>
 <p>Para um GCL com incremento possivelmente não nulo,</p>
-<p><span class="math display">\[
-X_n=(aX_{n-1}+c)\bmod m,
-\]</span></p>
+<p><span class="math display">\[X_n=(aX_{n-1}+c)\bmod m,\]</span></p>
 <p><span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> apresenta um critério necessário e suficiente para que o período seja exatamente <span class="math inline">\(m\)</span>.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Resultado: período completo">
 <div class="callout-header d-flex align-content-center">
@@ -943,11 +901,9 @@ Resultado: período completo
 </div>
 </div>
 <p>Esse resultado mostra por que a recomendação “use sempre um módulo primo” é inadequada como regra geral. Por exemplo, o GCL</p>
-<p><span class="math display">\[
-m=8,\qquad
+<p><span class="math display">\[m=8,\qquad
 a=5,\qquad
-c=1
-\]</span></p>
+c=1\]</span></p>
 <p>tem período completo:</p>
 <ul>
 <li><span class="math inline">\(\gcd(8,1)=1\)</span>;</li>
@@ -955,35 +911,23 @@ c=1
 <li>como <span class="math inline">\(8\)</span> é múltiplo de <span class="math inline">\(4\)</span>, <span class="math inline">\(a-1=4\)</span> também é múltiplo de <span class="math inline">\(4\)</span>.</li>
 </ul>
 <p>Logo, o período é</p>
-<p><span class="math display">\[
-P=8.
-\]</span></p>
+<p><span class="math display">\[P=8.\]</span></p>
 </section>
 <section id="o-minimal-standard-lcg" class="level2" data-number="2.11">
 <h2 data-number="2.11" class="anchored" data-anchor-id="o-minimal-standard-lcg"><span class="header-section-number">2.11</span> O minimal standard LCG</h2>
 <p>Um exemplo clássico citado por <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> utiliza</p>
-<p><span class="math display">\[
-m=2^{31}-1=2147483647,
-\]</span></p>
-<p><span class="math display">\[
-a=7^5=16807,
-\]</span></p>
-<p><span class="math display">\[
-c=0.
-\]</span></p>
+<p><span class="math display">\[m=2^{31}-1=2147483647,\]</span></p>
+<p><span class="math display">\[a=7^5=16807,\]</span></p>
+<p><span class="math display">\[c=0.\]</span></p>
 <p>Esse gerador é apresentado pelos autores como o <strong>minimal standard LCG</strong>. Para sementes não nulas, isto é,</p>
-<p><span class="math display">\[
-X_0\in\{1,\ldots,m-1\},
-\]</span></p>
+<p><span class="math display">\[X_0\in\{1,\ldots,m-1\},\]</span></p>
 <p>o ciclo possui período</p>
-<p><span class="math display">\[
-2^{31}-2.
-\]</span></p>
+<p><span class="math display">\[2^{31}-2.\]</span></p>
 <p>A semente <span class="math inline">\(X_0=0\)</span> é um caso degenerado: como <span class="math inline">\(c=0\)</span>, o estado zero é absorvente e produz a sequência constante <span class="math inline">\(0,0,\ldots\)</span>.</p>
 <blockquote class="blockquote">
 <p>Ver <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Exemplo 1.1, p.&nbsp;5)</span>.</p>
 </blockquote>
-<div class="callout callout-style-default callout-warning callout-titled" title="Interpretação histórica">
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação histórica">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -1107,9 +1051,7 @@ Interpretação
 <h2 data-number="2.13" class="anchored" data-anchor-id="uniformidade-marginal"><span class="header-section-number">2.13</span> Uniformidade marginal</h2>
 <p>Se uma sequência pretende substituir observações de uma distribuição uniforme, os valores produzidos devem ocupar adequadamente o intervalo.</p>
 <p>Para uma sequência discreta de estados</p>
-<p><span class="math display">\[
-X_n\in S,
-\]</span></p>
+<p><span class="math display">\[X_n\in S,\]</span></p>
 <p>uma condição desejável é que, no longo prazo, subconjuntos de mesmo tamanho recebam aproximadamente a mesma proporção de observações.</p>
 <blockquote class="blockquote">
 <p>Ver <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.2.2</a>, pp.&nbsp;4–6)</span>.</p>
@@ -1143,14 +1085,12 @@ X_n\in S,
 </div>
 </div>
 <p>Para uma distribuição <span class="math inline">\(U(0,1)\)</span>, a densidade teórica é</p>
-<p><span class="math display">\[
-f(u)=1,
-\qquad 0&lt;u&lt;1.
-\]</span></p>
-<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<p><span class="math display">\[f(u)=1,
+\qquad 0&lt;u&lt;1.\]</span></p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Observação
@@ -1165,9 +1105,7 @@ Observação
 <section id="regularidade-excessiva-também-é-um-defeito" class="level2" data-number="2.14">
 <h2 data-number="2.14" class="anchored" data-anchor-id="regularidade-excessiva-também-é-um-defeito"><span class="header-section-number">2.14</span> Regularidade excessiva também é um defeito</h2>
 <p>Considere a sequência</p>
-<p><span class="math display">\[
-X_n=n\bmod m.
-\]</span></p>
+<p><span class="math display">\[X_n=n\bmod m.\]</span></p>
 <p>No longo prazo, todos os estados aparecem com a mesma frequência. Entretanto, a ordem é perfeitamente previsível.</p>
 <p>Esse exemplo mostra que a uniformidade marginal não implica independência nem comportamento aleatório adequado.</p>
 <blockquote class="blockquote">
@@ -1178,34 +1116,26 @@ X_n=n\bmod m.
 <section id="teste-qui-quadrado-por-blocos" class="level2" data-number="2.15">
 <h2 data-number="2.15" class="anchored" data-anchor-id="teste-qui-quadrado-por-blocos"><span class="header-section-number">2.15</span> Teste qui-quadrado por blocos</h2>
 <p>Divida o intervalo <span class="math inline">\((0,1)\)</span> em <span class="math inline">\(k\)</span> subintervalos de mesmo comprimento. Sob uma sequência iid uniforme, o número esperado de observações em cada bloco é</p>
-<p><span class="math display">\[
-E_j=\frac{N}{k}.
-\]</span></p>
+<p><span class="math display">\[E_j=\frac{N}{k}.\]</span></p>
 <p>A estatística é</p>
-<p><span class="math display">\[
-Q
+<p><span class="math display">\[Q
 =
 \sum_{j=1}^k
 \frac{
 (O_j-E_j)^2
 }{
 E_j
-}.
-\]</span></p>
+}.\]</span></p>
 <p>Sob as condições usuais de aproximação,</p>
-<p><span class="math display">\[
-Q
+<p><span class="math display">\[Q
 \approx
-\chi^2_{k-1}.
-\]</span></p>
+\chi^2_{k-1}.\]</span></p>
 <blockquote class="blockquote">
 <p>Ver <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Exemplo 1.6, pp.&nbsp;5–6)</span>.</p>
 </blockquote>
 <p>Voss destaca que, para avaliar um gerador, é informativo considerar desvios nas duas direções: estatísticas excessivamente grandes podem indicar frequências inadequadas, enquanto estatísticas excessivamente pequenas podem indicar regularidade anormal.</p>
 <p>No código abaixo, <code>p_extremos</code> é uma medida diagnóstica de caudas iguais,</p>
-<p><span class="math display">\[
-2\min\{P(\chi^2_{k-1}\leq Q),\;P(\chi^2_{k-1}\geq Q)\},
-\]</span></p>
+<p><span class="math display">\[2\min\{P(\chi^2_{k-1}\leq Q),\;P(\chi^2_{k-1}\geq Q)\},\]</span></p>
 <p>limitada a <span class="math inline">\(1\)</span>. Ela foi adotada neste capítulo para sinalizar valores anormalmente pequenos <strong>ou</strong> grandes de <span class="math inline">\(Q\)</span>; não deve ser confundida com o valor-<span class="math inline">\(p\)</span> unilateral usual do teste qui-quadrado de aderência.</p>
 <section id="implementação-em-r" class="level3" data-number="2.15.1">
 <h3 data-number="2.15.1" class="anchored" data-anchor-id="implementação-em-r"><span class="header-section-number">2.15.1</span> Implementação em R</h3>
@@ -1297,7 +1227,7 @@ Q
 13.1420800 15.0000000  0.8173507 </code></pre>
 </div>
 </div>
-<div class="callout callout-style-default callout-warning callout-titled" title="Interpretação">
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -1317,11 +1247,9 @@ Interpretação
 <h2 data-number="2.16" class="anchored" data-anchor-id="dependência-serial"><span class="header-section-number">2.16</span> Dependência serial</h2>
 <p>Mesmo que cada <span class="math inline">\(U_n\)</span> tenha comportamento marginalmente uniforme, pares ou vetores consecutivos podem revelar padrões.</p>
 <p>Um diagnóstico simples é construir os pares</p>
-<p><span class="math display">\[
-(U_i,U_{i+1}),
+<p><span class="math display">\[(U_i,U_{i+1}),
 \qquad
-i=1,\ldots,N-1.
-\]</span></p>
+i=1,\ldots,N-1.\]</span></p>
 <p>Se os valores se comportassem como observações iid uniformes, esperaríamos um preenchimento visualmente homogêneo do quadrado unitário.</p>
 <blockquote class="blockquote">
 <p>Ver <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.2.3</a> e Figura 1.1, pp.&nbsp;6–7)</span>.</p>
@@ -1420,20 +1348,14 @@ Interpretação
 <section id="autocorrelação" class="level2" data-number="2.17">
 <h2 data-number="2.17" class="anchored" data-anchor-id="autocorrelação"><span class="header-section-number">2.17</span> Autocorrelação</h2>
 <p>Outra medida de dependência serial é a autocorrelação de defasagem <span class="math inline">\(h\)</span>,</p>
-<p><span class="math display">\[
-\rho(h)
+<p><span class="math display">\[\rho(h)
 =
 \operatorname{Corr}
-(U_t,U_{t+h}).
-\]</span></p>
+(U_t,U_{t+h}).\]</span></p>
 <p>Para uma sequência iid,</p>
-<p><span class="math display">\[
-\rho(h)=0
-\]</span></p>
+<p><span class="math display">\[\rho(h)=0\]</span></p>
 <p>para todo</p>
-<p><span class="math display">\[
-h\neq0.
-\]</span></p>
+<p><span class="math display">\[h\neq0.\]</span></p>
 <p>A autocorrelação amostral pode ser examinada em R por:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
@@ -1453,10 +1375,10 @@ h\neq0.
 </div>
 </div>
 </div>
-<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Observação
@@ -1464,21 +1386,17 @@ Observação
 </div>
 <div class="callout-body-container callout-body">
 <p>Autocorrelações próximas de zero não implicam independência. Dependências não lineares ou estruturas multidimensionais podem permanecer mesmo quando a correlação linear é pequena.</p>
-<p>A necessidade de testar independência e estrutura serial é discutida em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.2.3</a>, pp.&nbsp;6–7)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.5</a>, pp.&nbsp;11–20)</span>.</p>
+<p>A necessidade de testar independência e estrutura serial é discutida em <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Seção 1.1.2.3, pp.&nbsp;6–7] e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.5</a>, pp.&nbsp;11–20)</span>.</p>
 </div>
 </div>
 </section>
 <section id="equidistribuição-multidimensional" class="level2" data-number="2.18">
 <h2 data-number="2.18" class="anchored" data-anchor-id="equidistribuição-multidimensional"><span class="header-section-number">2.18</span> Equidistribuição multidimensional</h2>
 <p>Um gerador pode ter boa distribuição marginal e ainda falhar quando examinamos vetores consecutivos. Considere vetores</p>
-<p><span class="math display">\[
-(U_i,U_{i+1},\ldots,U_{i+k-1}).
-\]</span></p>
+<p><span class="math display">\[(U_i,U_{i+1},\ldots,U_{i+k-1}).\]</span></p>
 <p>A qualidade multidimensional está associada à capacidade desses vetores de preencher adequadamente regiões de</p>
-<p><span class="math display">\[
-[0,1]^k.
-\]</span></p>
-<p><span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> formaliza essa ideia por meio de <strong>equidistribuição <span class="math inline">\(k\)</span>-dimensional</strong> para sequências periódicas.</p>
+<p><span class="math display">\[[0,1]^k.\]</span></p>
+<p><span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> formaliza essa ideia por meio de <strong>equidistribuição</strong> <span class="math inline">\(k\)</span>-dimensional para sequências periódicas.</p>
 <blockquote class="blockquote">
 <p>Ver <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Definição 1.7, pp.&nbsp;7–8)</span>.</p>
 </blockquote>
@@ -1503,13 +1421,13 @@ Interpretação
 <blockquote class="blockquote">
 <p>Ver <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.5.1</a>, pp.&nbsp;12–14)</span>.</p>
 </blockquote>
-<div class="callout callout-style-default callout-note callout-titled" title="Definição conceitual">
+<div class="callout callout-style-default callout-important callout-titled" title="Definição">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Definição conceitual
+Definição
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1552,10 +1470,10 @@ Interpretação
 <blockquote class="blockquote">
 <p>Ver <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.5.2</a>, pp.&nbsp;14–20)</span>.</p>
 </blockquote>
-<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Observação
@@ -1583,8 +1501,7 @@ Observação
 <section id="geradores-recursivos-múltiplos" class="level2" data-number="2.22">
 <h2 data-number="2.22" class="anchored" data-anchor-id="geradores-recursivos-múltiplos"><span class="header-section-number">2.22</span> Geradores recursivos múltiplos</h2>
 <p>Em um MRG de ordem <span class="math inline">\(k\)</span>, o novo estado depende de vários estados anteriores:</p>
-<p><span class="math display">\[
-X_t
+<p><span class="math display">\[X_t
 =
 \left(
 a_1X_{t-1}
@@ -1593,12 +1510,9 @@ a_1X_{t-1}
 +
 a_kX_{t-k}
 \right)
-\bmod m.
-\]</span></p>
+\bmod m.\]</span></p>
 <p>A ampliação do estado permite alcançar o período máximo</p>
-<p><span class="math display">\[
-m^k-1,
-\]</span></p>
+<p><span class="math display">\[m^k-1,\]</span></p>
 <p>sob condições apropriadas: na formulação apresentada por <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span>, <span class="math inline">\(m\)</span> deve ser primo e o polinômio característico da recorrência deve ser primitivo módulo <span class="math inline">\(m\)</span> [Seção 1.2.2, p.&nbsp;5].</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
 <div class="callout-header d-flex align-content-center">
@@ -1617,17 +1531,15 @@ Interpretação
 <section id="geradores-lineares-módulo-2-e-mersenne-twister" class="level2" data-number="2.23">
 <h2 data-number="2.23" class="anchored" data-anchor-id="geradores-lineares-módulo-2-e-mersenne-twister"><span class="header-section-number">2.23</span> Geradores lineares módulo 2 e Mersenne Twister</h2>
 <p>Outra família utiliza operações binárias e recorrências lineares módulo <span class="math inline">\(2\)</span>. O <strong>Mersenne Twister MT19937</strong> é um exemplo importante dessa classe. <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> destaca seu grande período,</p>
-<p><span class="math display">\[
-2^{19937}-1,
-\]</span></p>
+<p><span class="math display">\[2^{19937}-1,\]</span></p>
 <p>sua velocidade e suas boas propriedades de equidistribuição.</p>
 <blockquote class="blockquote">
 <p>Ver <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.2.4</a>, pp.&nbsp;6–8)</span>.</p>
 </blockquote>
-<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Observação
@@ -1654,10 +1566,10 @@ Observação
 <blockquote class="blockquote">
 <p>Ver <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.1.1</a>, p.&nbsp;3, e Seção 1.3, pp.&nbsp;8–10)</span>.</p>
 </blockquote>
-<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Observação
@@ -1677,7 +1589,7 @@ Observação
 <p>Também podemos gerar valores uniformes entre limites <span class="math inline">\(a\)</span> e <span class="math inline">\(b\)</span> por:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">runif</span>(n, <span class="at">min =</span> a, <span class="at">max =</span> b)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <blockquote class="blockquote">
-<p>Ver <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Apêndice B.4, pp.&nbsp;292–293)</span>, <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.1.1–7.1.2</a>, pp.&nbsp;248–250)</span> e <span class="citation" data-cites="dormann2025simulation">Dormann; Ellison (<a href="#ref-dormann2025simulation" role="doc-biblioref">2025</a>, Apêndice A.1, p.&nbsp;409)</span>.</p>
+<p>Ver <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Apêndice B.4, pp.&nbsp;292–293], <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.1.1–7.1.2</a>, pp.&nbsp;248–250)</span> e <span class="citation" data-cites="dormann2025simulation">Dormann; Ellison (<a href="#ref-dormann2025simulation" role="doc-biblioref">2025</a>, Apêndice A.1, p.&nbsp;409)</span>.</p>
 </blockquote>
 <section id="exemplo-1" class="level3" data-number="2.26.1">
 <h3 data-number="2.26.1" class="anchored" data-anchor-id="exemplo-1"><span class="header-section-number">2.26.1</span> Exemplo</h3>
@@ -1705,25 +1617,15 @@ Observação
 </div>
 </div>
 <p>Para uma variável</p>
-<p><span class="math display">\[
-U\sim U(0,1),
-\]</span></p>
+<p><span class="math display">\[U\sim U(0,1),\]</span></p>
 <p>temos</p>
-<p><span class="math display">\[
-E(U)=\frac12
-\]</span></p>
+<p><span class="math display">\[E(U)=\frac12\]</span></p>
 <p>e</p>
-<p><span class="math display">\[
-\operatorname{Var}(U)=\frac1{12}.
-\]</span></p>
+<p><span class="math display">\[\operatorname{Var}(U)=\frac1{12}.\]</span></p>
 <p>Portanto, para uma amostra grande, esperamos observar</p>
-<p><span class="math display">\[
-\bar U\approx0{,}5
-\]</span></p>
+<p><span class="math display">\[\bar U\approx0{,}5\]</span></p>
 <p>e</p>
-<p><span class="math display">\[
-s^2\approx\frac1{12}.
-\]</span></p>
+<p><span class="math display">\[s^2\approx\frac1{12}.\]</span></p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1882,15 +1784,9 @@ Interpretação
 <section id="um-exemplo-com-parâmetros-maiores" class="level3" data-number="2.28.2">
 <h3 data-number="2.28.2" class="anchored" data-anchor-id="um-exemplo-com-parâmetros-maiores"><span class="header-section-number">2.28.2</span> Um exemplo com parâmetros maiores</h3>
 <p><span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> também compara, entre outros, o GCL</p>
-<p><span class="math display">\[
-m=2^{32},
-\]</span></p>
-<p><span class="math display">\[
-a=1664525,
-\]</span></p>
-<p><span class="math display">\[
-c=1013904223.
-\]</span></p>
+<p><span class="math display">\[m=2^{32},\]</span></p>
+<p><span class="math display">\[a=1664525,\]</span></p>
+<p><span class="math display">\[c=1013904223.\]</span></p>
 <p>Em gráficos bidimensionais, sua estrutura pode ser muito menos evidente do que a de GCLs pequenos.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>u_grande <span class="ot">&lt;-</span> <span class="fu">gcl</span>(</span>
@@ -1921,10 +1817,10 @@ c=1013904223.
 <blockquote class="blockquote">
 <p>Parâmetros retirados de <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, fig. 1.1</a>, p.&nbsp;7)</span>.</p>
 </blockquote>
-<div class="callout callout-style-default callout-warning callout-titled" title="Observação">
+<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
 Observação
@@ -1943,7 +1839,7 @@ Observação
 <blockquote class="blockquote">
 <p>Ver <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.1.2</a> e 1.4, pp.&nbsp;3 e 10–11)</span>.</p>
 </blockquote>
-<div class="callout callout-style-default callout-note callout-titled" title="Interpretação">
+<div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -1970,7 +1866,7 @@ Interpretação
 <li>documentar a versão do software quando a reprodução de uma sequência específica for importante.</li>
 </ol>
 <blockquote class="blockquote">
-<p>Ver <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.3</a>, p.&nbsp;8)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.1.1–1.1.2</a>, pp.&nbsp;2–4)</span>.</p>
+<p>Ver <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Seção 1.1.3, p.&nbsp;8] e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.1.1–1.1.2</a>, pp.&nbsp;2–4)</span>.</p>
 </blockquote>
 </section>
 <section id="limitações-dos-diagnósticos-simples" class="level2" data-number="2.31">
@@ -1998,7 +1894,7 @@ Conclusão diagnóstica
 </div>
 <div class="callout-body-container callout-body">
 <p>Um PRNG não deve ser validado por uma única estatística ou figura. A avaliação robusta combina conhecimento teórico da construção com uma bateria de testes empíricos.</p>
-<p>Ver <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.5</a>, pp.&nbsp;11–20)</span> e <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.2</a>, pp.&nbsp;4–8)</span>.</p>
+<p>Ver <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [Seção 1.5, pp.&nbsp;11–20] e <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.2</a>, pp.&nbsp;4–8)</span>.</p>
 </div>
 </div>
 </section>
@@ -2016,18 +1912,14 @@ Síntese
 </div>
 <div class="callout-body-container callout-body">
 <p>A simulação computacional utiliza números pseudoaleatórios para substituir uma sequência ideal</p>
-<p><span class="math display">\[
-U_1,U_2,\ldots
+<p><span class="math display">\[U_1,U_2,\ldots
 \stackrel{iid}{\sim}
-U(0,1).
-\]</span></p>
+U(0,1).\]</span></p>
 <p>Um PRNG algorítmico é determinístico. Seu estado evolui segundo uma função de transição e a semente determina o estado inicial. Como o espaço de estados é finito, a trajetória é eventualmente periódica: após um possível trecho transiente, ela entra em um ciclo de período finito.</p>
 <p>O GCL utiliza</p>
-<p><span class="math display">\[
-X_n
+<p><span class="math display">\[X_n
 =
-(aX_{n-1}+c)\bmod m
-\]</span></p>
+(aX_{n-1}+c)\bmod m\]</span></p>
 <p>e é uma ferramenta particularmente útil para compreender os conceitos de semente, período, dependência e escolha de parâmetros.</p>
 <p>Entretanto, qualidade não significa apenas período longo. Também é necessário examinar uniformidade, dependência, comportamento multidimensional, estrutura reticular, propriedades teóricas e desempenho em baterias de testes.</p>
 <p>Na prática, recomenda-se utilizar geradores consolidados das bibliotecas científicas, reservando implementações manuais do GCL para ensino e experimentação.</p>
@@ -2048,15 +1940,13 @@ Exercício 1 — implementação do GCL
 <div class="callout-body-container callout-body">
 <p>Implemente um GCL em R com argumentos <code>n</code>, <code>seed</code>, <code>a</code>, <code>c</code> e <code>m</code>.</p>
 <p>Use</p>
-<p><span class="math display">\[
-m=8,
+<p><span class="math display">\[m=8,
 \qquad
 a=5,
 \qquad
 c=1,
 \qquad
-X_0=0.
-\]</span></p>
+X_0=0.\]</span></p>
 <ol type="1">
 <li>Gere os primeiros 16 estados.</li>
 <li>Identifique o período.</li>
@@ -2076,13 +1966,9 @@ Exercício 2 — transformação para o intervalo unitário
 </div>
 <div class="callout-body-container callout-body">
 <p>Para o GCL do exercício anterior, construa duas sequências:</p>
-<p><span class="math display">\[
-U_n^{(1)}=\frac{X_n}{m}
-\]</span></p>
+<p><span class="math display">\[U_n^{(1)}=\frac{X_n}{m}\]</span></p>
 <p>e</p>
-<p><span class="math display">\[
-U_n^{(2)}=\frac{X_n+1}{m+1}.
-\]</span></p>
+<p><span class="math display">\[U_n^{(2)}=\frac{X_n+1}{m+1}.\]</span></p>
 <ol type="1">
 <li>Determine os conjuntos de valores possíveis.</li>
 <li>Mostre qual transformação pode produzir zero.</li>
@@ -2102,13 +1988,11 @@ Exercício 3 — período completo
 </div>
 <div class="callout-body-container callout-body">
 <p>Verifique as três condições de período completo para</p>
-<p><span class="math display">\[
-m=16,
+<p><span class="math display">\[m=16,
 \qquad
 a=5,
 \qquad
-c=3.
-\]</span></p>
+c=3.\]</span></p>
 <p>Em seguida, use uma implementação em R para confirmar empiricamente o período.</p>
 <p><em>Base de leitura:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Teorema 1.4, p.&nbsp;4)</span>.</p>
 </div>
@@ -2124,13 +2008,11 @@ Exercício 4 — parâmetros inadequados
 </div>
 <div class="callout-body-container callout-body">
 <p>Considere</p>
-<p><span class="math display">\[
-m=17,
+<p><span class="math display">\[m=17,
 \qquad
 a=5,
 \qquad
-c=1.
-\]</span></p>
+c=1.\]</span></p>
 <ol type="1">
 <li>Gere 100 valores.</li>
 <li>Calcule o período.</li>
@@ -2172,9 +2054,7 @@ Exercício 6 — regularidade excessiva
 </div>
 <div class="callout-body-container callout-body">
 <p>Considere a sequência</p>
-<p><span class="math display">\[
-X_n=n\bmod 1024.
-\]</span></p>
+<p><span class="math display">\[X_n=n\bmod 1024.\]</span></p>
 <ol type="1">
 <li>Divida os valores em 16 blocos iguais.</li>
 <li>Calcule a estatística qui-quadrado de aderência.</li>
@@ -2195,9 +2075,7 @@ Exercício 7 — autocorrelação
 </div>
 <div class="callout-body-container callout-body">
 <p>Para cada gerador do Exercício 5, estime as autocorrelações para defasagens</p>
-<p><span class="math display">\[
-h=1,\ldots,30.
-\]</span></p>
+<p><span class="math display">\[h=1,\ldots,30.\]</span></p>
 <p>Compare os resultados com os gráficos de pares.</p>
 <p>Explique por que autocorrelação próxima de zero não implica independência.</p>
 </div>
@@ -2213,13 +2091,11 @@ Exercício 8 — dimensão maior
 </div>
 <div class="callout-body-container callout-body">
 <p>Construa vetores</p>
-<p><span class="math display">\[
-(U_i,U_{i+1},U_{i+2})
-\]</span></p>
+<p><span class="math display">\[(U_i,U_{i+1},U_{i+2})\]</span></p>
 <p>para um GCL pequeno.</p>
 <p>Use uma visualização tridimensional disponível em R ou examine projeções bidimensionais com <code>pairs()</code>.</p>
 <p>Discuta a relação entre o experimento e a ideia de equidistribuição multidimensional.</p>
-<p><em>Base de leitura:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Definição 1.7, pp.&nbsp;7–8)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.5.1</a>, pp.&nbsp;12–14)</span>.</p>
+<p><em>Base de leitura:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Definição 1.7, pp.&nbsp;7–8] e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.5.1</a>, pp.&nbsp;12–14)</span>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-caution callout-titled" title="Exercício 9 — minimal standard LCG">
@@ -2233,13 +2109,11 @@ Exercício 9 — minimal standard LCG
 </div>
 <div class="callout-body-container callout-body">
 <p>Implemente o gerador</p>
-<p><span class="math display">\[
-m=2^{31}-1,
+<p><span class="math display">\[m=2^{31}-1,
 \qquad
 a=16807,
 \qquad
-c=0,
-\]</span></p>
+c=0,\]</span></p>
 <p>usando uma semente <span class="math inline">\(X_0\in\{1,\ldots,m-1\}\)</span>.</p>
 <ol type="1">
 <li>Gere <span class="math inline">\(10^4\)</span> números.</li>
@@ -2292,7 +2166,7 @@ Exercício 11 — critérios de qualidade
 <li>“O teste de uniformidade não rejeitou.”</li>
 <li>“O gráfico <span class="math inline">\((U_i,U_{i+1})\)</span> parece aleatório.”</li>
 </ol>
-<p><em>Base de leitura:</em> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.1.1–1.1.2</a> e 1.5, pp.&nbsp;2–4 e 11–20)</span> e <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.2</a>, pp.&nbsp;4–8)</span>.</p>
+<p><em>Base de leitura:</em> <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [Seções 1.1.1–1.1.2 e 1.5, pp.&nbsp;2–4 e 11–20] e <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.2</a>, pp.&nbsp;4–8)</span>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-caution callout-titled" title="Exercício 12 — múltiplos fluxos">

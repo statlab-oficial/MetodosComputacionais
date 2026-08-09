@@ -24,7 +24,7 @@ A primeira ocorre quando **parte dos dados existe conceitualmente, mas não é o
 
 A segunda ocorre quando o próprio modelo introduz uma **estrutura latente**. Em uma mistura finita de distribuições, por exemplo, cada observação é gerada por uma de várias componentes, mas o rótulo da componente que gerou cada valor não é observado. A introdução desses rótulos transforma a verossimilhança da mistura em uma forma de dados completos consideravelmente mais simples. Essa estratégia de aumentar os dados com variáveis auxiliares ou latentes é destacada por @kroese2011handbook [Seção 6.3.5 e Apêndice D.7, especialmente pp. 259--260 e 711--714].
 
-::: {.callout-note title="Definição"}
+::: {.callout-important title="Definição"}
 Chamaremos de **informação incompleta** uma situação em que a verossimilhança observada resulta da marginalização de uma informação adicional não observada. Essa informação adicional pode corresponder a valores realmente ausentes, tempos censurados, rótulos de componentes de uma mistura ou outras variáveis latentes introduzidas para facilitar a computação.
 
 Essa caracterização é compatível com @ramachandran2021mathematical \[Seção 13.4, pp. 540--541\] e @kroese2011handbook [Seção 6.3.5, pp. 259--260; Apêndice D.7, pp. 711--712].
@@ -76,7 +76,7 @@ $$\ell_c(\theta;y,z)=\log p(y,z\mid\theta).$$
 
 Essa notação e a distinção entre verossimilhança observada e de dados completos seguem @kroese2011handbook \[Apêndice D.7, pp. 711--712\], @ramachandran2021mathematical [Seção 13.4, pp. 540--541] e @chihara2022resampling [Seção 13.8.1, pp. 485--488].
 
-::: {.callout-note title="Definição"}
+::: {.callout-important title="Definição"}
 A distinção entre **dados observados** e **dados completos** é relativa à modelagem. O dado completo é uma construção que inclui tudo aquilo que tornaria a inferência mais simples: os valores observados mais a informação não observada necessária para obter uma forma conveniente da verossimilhança.
 
 A construção é discutida por @chihara2022resampling \[Seção 13.8.1, pp. 485--488\] e @kroese2011handbook [p. 712].
@@ -125,7 +125,7 @@ Q(\theta\mid\theta^{(t)})
 
 A formulação das etapas E e M segue @ramachandran2021mathematical \[Seção 13.4, pp. 541--542\], @kroese2011handbook [Algoritmo D.3, pp. 712--713] e @chihara2022resampling [Seção 13.8.1, pp. 485--488].
 
-::: {.callout-note title="Algoritmo EM"}
+::: {.callout-important appearance="minimal" title="Algoritmo EM"}
 1.  Escolha um valor inicial $\theta^{(0)}$.
 2.  Para $t=0,1,2,\ldots$:
     - **Etapa E:** calcule $Q(\theta\mid\theta^{(t)})$.
@@ -215,7 +215,7 @@ A vantagem do EM depende de essa maximização ser mais simples que a maximizaç
 
 Essa simplificação da etapa M é discutida por @ramachandran2021mathematical \[pp. 541--542\] e @kroese2011handbook [p. 713].
 
-::: {.callout-note title="Definição"}
+::: {.callout-important title="Definição"}
 No EM clássico, a etapa M determina um valor de $\theta$ que maximiza $Q(\theta\mid\theta^{(t)})$. É essa maximização que define a etapa M na formulação adotada neste capítulo [@kroese2011handbook, Algoritmo D.3, pp. 712--713].
 :::
 
@@ -340,7 +340,7 @@ A monotonicidade fornece um diagnóstico computacional importante. Se uma implem
 Esse uso da monotonicidade como diagnóstico computacional é destacado por @kroese2011handbook [p. 713].
 :::
 
-::: {.callout-warning title="Observação"}
+::: {.callout-note appearance="minimal" title="Observação"}
 Monotonicidade não significa convergência para o máximo global. Sob condições de regularidade, a sequência produzida pelo EM converge para um ponto estacionário da verossimilhança, que não precisa ser o máximo global e pode, em princípio, ser um ponto de sela [@chihara2022resampling, Seção 13.8.1, pp. 485--486]. @kroese2011handbook [p. 713] ressalta adicionalmente a dependência em relação aos valores iniciais. Portanto, “a log-verossimilhança sempre aumentou” é uma verificação necessária da implementação, mas não certifica que a melhor solução global foi encontrada.
 :::
 
@@ -385,7 +385,7 @@ $$\left\|
 
 @ramachandran2021mathematical \[pp. 541--542\] discute tanto a diferença entre valores sucessivos da verossimilhança quanto a distância entre vetores de parâmetros. @kroese2011handbook [Algoritmo D.3, p. 713] apresenta um critério relativo baseado na verossimilhança; a forma estabilizada acima é uma escolha computacional deste capítulo. Em aplicações reais, é recomendável também impor um número máximo de iterações, pois uma tolerância muito estrita pode produzir uma execução longa sem alteração relevante para a interpretação. A importância operacional de `maxiter` é ilustrada por @thulin2025modern [Seção 10.1.3, pp. 361--362].
 
-::: {.callout-warning title="Observação computacional"}
+::: {.callout-note appearance="minimal" title="Observação computacional"}
 O uso simultâneo de tolerância de log-verossimilhança, tolerância de parâmetros e limite máximo de iterações é uma recomendação de implementação adotada neste capítulo.
 :::
 
@@ -417,13 +417,13 @@ Segundo, a **etapa M pode continuar sendo um problema de otimização não trivi
 
 Terceiro, modelos de mistura apresentam **questões de identificabilidade por permutação dos rótulos**. Se duas componentes pertencem à mesma família paramétrica, permutar seus índices não altera a distribuição da mistura. @chernick2008bootstrap [pp. 145--148] discute essa ambiguidade e a necessidade de alguma convenção de ordenação quando se deseja identificar os componentes de forma única.
 
-::: {.callout-warning title="Observação"}
+::: {.callout-note appearance="minimal" title="Observação"}
 Em uma mistura, duas soluções que diferem apenas pela troca dos rótulos das componentes podem representar exatamente o mesmo modelo estatístico. Portanto, comparar vetores de parâmetros de duas execuções exige primeiro alinhar os rótulos.
 
 A ambiguidade de rótulos e a identificabilidade em misturas são discutidas por @chernick2008bootstrap [Seção 8.3, pp. 145--148].
 :::
 
-::: {.callout-warning title="Observação"}
+::: {.callout-note appearance="minimal" title="Observação"}
 Atingir o número máximo de iterações sem satisfazer o critério de parada deve ser tratado como sinal de ajuste incompleto. @thulin2025modern [Seção 10.1.3, pp. 361--362] ilustra esse problema com o aviso de que a máxima verossimilhança não foi encontrada em um ajuste de classes latentes e mostra o uso de maior `maxiter` e de múltiplas repetições.
 
 O exemplo de falha por limite de iterações e o uso de `maxiter` e `nrep` aparecem em @thulin2025modern [Seção 10.1.3, pp. 361--362].
@@ -753,7 +753,7 @@ em_gmm_1d <- function(x,
 }
 ```
 
-::: {.callout-warning title="Observação computacional"}
+::: {.callout-note appearance="minimal" title="Observação computacional"}
 A ordenação final das componentes pela média foi incluída somente para estabilizar a apresentação dos rótulos entre execuções. Ela não modifica a densidade ajustada.
 
 A ambiguidade de rótulos em misturas é discutida por @chernick2008bootstrap [pp. 145--148].
