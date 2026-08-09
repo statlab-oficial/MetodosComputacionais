@@ -287,7 +287,7 @@ A função `replicate()` é conveniente para fins didáticos, mas o princípio �
 
 O número de réplicas, denotado por $B$, controla a precisão da **aproximação de Monte Carlo** da distribuição bootstrap. Ele não controla a qualidade da amostra original como representação da população.
 
-@chihara2022resampling \[Seção 5.9, pp. 136--137\] registra recomendações históricas menores, mas argumenta que, com o custo computacional atual, convém usar mais reamostras: para prática rotineira, recomenda **pelo menos $10\,000$ réplicas**, e observa que um intervalo percentil bilateral de 95% pode exigir cerca de $15\,000$ réplicas para controlar melhor a variabilidade de Monte Carlo nas caudas. @thulin2025modern [Seção 7.4, p. 266] propõe, como regra prática, $B=9\,999$ ou mais quando o custo computacional permitir. @voss2014statistical [pp. 205--206] também mostra que mesmo alguns milhares de réplicas podem deixar variação perceptível nos limites de intervalos.
+@chihara2022resampling \[Seção 5.9, pp. 136--137\] registra recomendações históricas menores, mas argumenta que, com o custo computacional atual, convém usar mais reamostras: para prática rotineira, recomenda **pelo menos** $10\,000$ réplicas, e observa que um intervalo percentil bilateral de 95% pode exigir cerca de $15\,000$ réplicas para controlar melhor a variabilidade de Monte Carlo nas caudas. @thulin2025modern [Seção 7.4, p. 266] propõe, como regra prática, $B=9\,999$ ou mais quando o custo computacional permitir. @voss2014statistical [pp. 205--206] também mostra que mesmo alguns milhares de réplicas podem deixar variação perceptível nos limites de intervalos.
 
 ::: {.callout-important title="Princípio prático"}
 Não existe um valor universal de $B$ adequado para todos os objetivos.
@@ -491,7 +491,7 @@ $$\widehat{ep}(\hat\rho)
 
 Essa expressão não deve ser apresentada como “o erro padrão teórico exato” de $\hat\rho$ em geral. A transformação de Fisher fornece a aproximação normal de referência; a passagem de volta à escala de $\rho$ é uma aproximação de primeira ordem.
 
-*Base bibliográfica:* o exemplo das escolas de direito e a correção de viés são discutidos em @chernick2008bootstrap [Seção 3.1.3, pp. 59--61]; o uso do método delta para funções diferenciáveis é discutido em @chernick2008bootstrap [Seção 6.1.2].
+*Base bibliográfica:* o exemplo das escolas de direito e a correção de viés são discutidos em @chernick2008bootstrap \[Seção 3.1.3, pp. 59--61\]; o uso do método delta para funções diferenciáveis é discutido em @chernick2008bootstrap [Seção 6.1.2].
 :::
 
 ## A unidade correta de reamostragem
@@ -568,7 +568,7 @@ Em regressão, diferentes esquemas correspondem a diferentes pressupostos:
 - *wild bootstrap* para lidar com heterocedasticidade;
 - procedimentos específicos para modelos não lineares.
 
-> **Base bibliográfica:** @chernick2008bootstrap \[Capítulo 4, pp. 78--96\] e @chernick2011introduction \[Seções 2.4.2--2.4.4, pp. 57--60; Seção 2.5, pp. 60--63\].
+> **Base bibliográfica:** @chernick2008bootstrap \[Capítulo 4, pp. 78--96\] e @chernick2011introduction [Seções 2.4.2--2.4.4, pp. 57--60; Seção 2.5, pp. 60--63].
 
 ## Intervalos de confiança: ponto de partida
 
@@ -742,7 +742,7 @@ A studentização pode melhorar a aproximação porque procura construir uma qua
 
 O intervalo $BC_a$ (*bias-corrected and accelerated*) modifica os níveis percentuais usados no intervalo percentil para corrigir dois aspectos:
 
-1.  **deslocamento de viés da distribuição bootstrap em relação a $\hat\theta$**, resumido por $z_0$;
+1.  **deslocamento de viés da distribuição bootstrap em relação a** $\hat\theta$, resumido por $z_0$;
 2.  **assimetria e variação local da precisão do estimador**, resumidas pela constante de aceleração $a$.
 
 > **Base bibliográfica:** @voss2014statistical \[Algoritmo 5.21, pp. 206--208\], @chernick2008bootstrap [Seção 3.1.3, pp. 58--61], @chernick2011introduction \[Seções 3.4--3.5, pp. 85--88\] e @zieffler2011comparing [Seção 9.5].
@@ -941,7 +941,7 @@ Estatísticas baseadas em quantis, extremos ou mudanças discretas podem respond
 
 A distribuição empírica não contém observações maiores que o máximo nem menores que o mínimo da amostra. Consequentemente, inferência para parâmetros extremos pode exigir métodos especiais, como $m$-out-of-$n$ bootstrap ou procedimentos baseados em modelos.
 
-> **Base bibliográfica:** @chernick2008bootstrap \[Seção 9.3, pp. 177--178\] e @chernick2011introduction \[Seção 8.3, pp. 194--195\].
+> **Base bibliográfica:** @chernick2008bootstrap \[Seção 9.3, pp. 177--178\] e @chernick2011introduction [Seção 8.3, pp. 194--195].
 
 ### Caudas pesadas e momentos inexistentes
 
@@ -984,7 +984,7 @@ Entre as extensões discutidas nos livros da pasta encontram-se:
 - **block bootstrap**: preserva dependência local em sequências;
 - **sieve bootstrap**: usa uma aproximação modelada da dependência temporal.
 
-*Base bibliográfica:* @chernick2008bootstrap \[Capítulo 5; Seções 9.2--9.3\], @chernick2011introduction \[Capítulos 5--6 e 8\] e @chihara2022resampling \[Seções 13.1--13.2, pp. 444--452\].
+*Base bibliográfica:* @chernick2008bootstrap \[Capítulo 5; Seções 9.2--9.3\], @chernick2011introduction [Capítulos 5--6 e 8] e @chihara2022resampling [Seções 13.1--13.2, pp. 444--452].
 :::
 
 ## Diagnóstico e reprodutibilidade
@@ -1159,7 +1159,7 @@ $$\bar p
 
 Em problemas regulares, os pseudovalores ajudam a interpretar a influência de cada observação sobre a estatística. Na construção do $BC_a$, porém, a aceleração não depende apenas de uma medida de dispersão: entram diretamente as diferenças $\bar\theta_{(\cdot)}-\hat\theta_{(i)}$, cujos segundos e terceiros momentos empíricos aparecem na fórmula de $\hat a$.
 
-*Base bibliográfica:* @voss2014statistical [Algoritmo 5.21, pp. 206--208] e @chernick2011introduction [Seção 3.5, pp. 85--88].
+*Base bibliográfica:* @voss2014statistical \[Algoritmo 5.21, pp. 206--208\] e @chernick2011introduction [Seção 3.5, pp. 85--88].
 
 ::: {.callout-tip title="Interpretação"}
 Se remover a observação $i$ altera muito $\hat\theta$, então $\hat\theta_{(i)}$ se afasta das demais réplicas. Isso sinaliza que a observação tem grande influência sobre a estatística.
@@ -1239,7 +1239,7 @@ jackknife(x, median)
 ```
 
 ::: {.callout-caution title="Atenção: este exemplo é apenas mecânico"}
-O cálculo acima é útil para mostrar como se formam as réplicas leave-one-out, mas **não deve ser interpretado como recomendação do erro padrão jackknife para a mediana**. @chernick2008bootstrap [Seção 6.1.1, pp. 115--116] registra explicitamente que, para a mediana amostral, a estimativa jackknife usual do erro padrão não é consistente. Em amostras pequenas, o bootstrap não paramétrico da mediana também pode produzir uma distribuição muito discreta; @chihara2022resampling [Seção 13.1, pp. 444--449] discute o bootstrap suavizado como uma alternativa quando essa discreção é problemática.
+O cálculo acima é útil para mostrar como se formam as réplicas leave-one-out, mas **não deve ser interpretado como recomendação do erro padrão jackknife para a mediana**. @chernick2008bootstrap \[Seção 6.1.1, pp. 115--116\] registra explicitamente que, para a mediana amostral, a estimativa jackknife usual do erro padrão não é consistente. Em amostras pequenas, o bootstrap não paramétrico da mediana também pode produzir uma distribuição muito discreta; @chihara2022resampling [Seção 13.1, pp. 444--449] discute o bootstrap suavizado como uma alternativa quando essa discreção é problemática.
 :::
 
 ## Limitações do jackknife
@@ -1248,7 +1248,7 @@ O jackknife é mais confiável para estatísticas suficientemente suaves, nas qu
 
 Para estatísticas não suaves, como certos quantis e extremos, essa linearização pode falhar. A mediana é um exemplo importante: a estimativa jackknife usual de seu erro padrão pode ser inconsistente. O bootstrap é frequentemente mais flexível para estimação de erro padrão, mas também não é universal; com pequenas amostras, quantis e extremos, a distribuição empírica pode ser excessivamente discreta ou não representar adequadamente as caudas.
 
-> **Base bibliográfica:** @chernick2008bootstrap \[Seção 6.1.1, pp. 115--116\] compara jackknife e bootstrap para estimação de erro padrão e destaca a inconsistência do jackknife para a mediana. @chernick2011introduction [Seção 1.2.1] apresenta a relação entre os dois métodos, e @chihara2022resampling \[Seção 13.1, pp. 444--449\] discute a dificuldade do bootstrap ordinário para a mediana em razão da discreção da distribuição empírica.
+> **Base bibliográfica:** @chernick2008bootstrap \[Seção 6.1.1, pp. 115--116\] compara jackknife e bootstrap para estimação de erro padrão e destaca a inconsistência do jackknife para a mediana. @chernick2011introduction [Seção 1.2.1] apresenta a relação entre os dois métodos, e @chihara2022resampling [Seção 13.1, pp. 444--449] discute a dificuldade do bootstrap ordinário para a mediana em razão da discreção da distribuição empírica.
 
 ## Bootstrap e jackknife: comparação
 
@@ -1367,7 +1367,7 @@ A qualidade de ambos os métodos depende da relação entre a amostra observada,
 
 ## Exercícios
 
-::: {.callout-tip title="Exercício 1 — erro padrão bootstrap"}
+::: {.callout-caution title="Exercício 1 — erro padrão bootstrap"}
 Considere os tempos do grupo tratamento do exemplo do manuscrito.
 
 1.  Estime o erro padrão bootstrap da média usando $B=500$, $2\,000$, $10\,000$ e $50\,000$.
@@ -1376,7 +1376,7 @@ Considere os tempos do grupo tratamento do exemplo do manuscrito.
 4.  Discuta qual estatística apresenta maior estabilidade para essa amostra.
 :::
 
-::: {.callout-tip title="Exercício 2 — viés"}
+::: {.callout-caution title="Exercício 2 — viés"}
 Para a mesma amostra:
 
 1.  estime o viés bootstrap da média;
@@ -1385,7 +1385,7 @@ Para a mesma amostra:
 4.  discuta por que “viés pequeno” deve ser avaliado em relação à escala da incerteza.
 :::
 
-::: {.callout-tip title="Exercício 3 — intervalos"}
+::: {.callout-caution title="Exercício 3 — intervalos"}
 Construa intervalos de confiança de 95% para a média usando:
 
 1.  o intervalo $t$ clássico;
@@ -1396,7 +1396,7 @@ Construa intervalos de confiança de 95% para a média usando:
 Compare centro, comprimento e assimetria dos intervalos. Explique por que os resultados não precisam coincidir.
 :::
 
-::: {.callout-tip title="Exercício 4 — dois grupos independentes"}
+::: {.callout-caution title="Exercício 4 — dois grupos independentes"}
 Use os dois grupos do exemplo dos ratos.
 
 1.  Estime a diferença de médias.
@@ -1405,7 +1405,7 @@ Use os dois grupos do exemplo dos ratos.
 4.  Explique por que juntar todos os 16 valores e reamostrar sem preservar os grupos não representa o mesmo problema inferencial.
 :::
 
-::: {.callout-tip title="Exercício 5 — dados pareados"}
+::: {.callout-caution title="Exercício 5 — dados pareados"}
 Considere pares $(X_i,Y_i)$ observados nos mesmos indivíduos.
 
 1.  Escreva um algoritmo bootstrap que reamostre pares.
@@ -1413,7 +1413,7 @@ Considere pares $(X_i,Y_i)$ observados nos mesmos indivíduos.
 3.  Mostre, por simulação, o que acontece com o erro padrão se $X$ e $Y$ forem reamostrados independentemente quando existe forte correlação positiva dentro dos pares.
 :::
 
-::: {.callout-tip title="Exercício 6 — escolha de B"}
+::: {.callout-caution title="Exercício 6 — escolha de B"}
 Escolha uma estatística e uma amostra. Para cada
 
 $$B\in
@@ -1426,7 +1426,7 @@ repita o bootstrap com dez sementes distintas.
 3.  Explique por que os limites de cauda tendem a exigir mais réplicas que uma medida central da distribuição bootstrap.
 :::
 
-::: {.callout-tip title="Exercício 7 — jackknife"}
+::: {.callout-caution title="Exercício 7 — jackknife"}
 Para
 
 $$x=(10,26,30,40,48),$$
@@ -1443,7 +1443,7 @@ calcule manualmente:
 Compare os resultados com a função `jackknife()` apresentada no capítulo e relacione sua conclusão à limitação discutida na seção anterior.
 :::
 
-::: {.callout-tip title="Exercício 8 — aceleração do BCa"}
+::: {.callout-caution title="Exercício 8 — aceleração do BCa"}
 Use as réplicas jackknife do exercício anterior para calcular
 
 $$\hat a
@@ -1462,7 +1462,7 @@ $$\hat a
 Use o cálculo como exercício da fórmula de aceleração e examine sua estabilidade. Como a estatística é a mediana e a amostra é pequena, discuta por que o sinal e a magnitude de $\hat a$ devem ser interpretados com cautela. Em seguida, compare com o intervalo `boot.ci(..., type = "bca")`.
 :::
 
-::: {.callout-tip title="Exercício 9 — bootstrap versus permutação"}
+::: {.callout-caution title="Exercício 9 — bootstrap versus permutação"}
 Considere um problema de comparação de duas médias.
 
 1.  Explique qual distribuição é aproximada pelo bootstrap de cada grupo separadamente.
@@ -1470,7 +1470,7 @@ Considere um problema de comparação de duas médias.
 3.  Discuta por que um teste de hipótese exige uma distribuição compatível com $H_0$.
 :::
 
-::: {.callout-tip title="Exercício 10 — situação em que o bootstrap IID é inadequado"}
+::: {.callout-caution title="Exercício 10 — situação em que o bootstrap IID é inadequado"}
 Simule uma série AR(1)
 
 $$X_t
@@ -1488,8 +1488,7 @@ Estime o erro padrão da média por:
 
 Compare as estimativas. Explique por que reamostrar pontos isoladamente destrói a dependência temporal. Pesquise como o *block bootstrap* procura corrigir esse problema.
 
-*Base de leitura:* @chernick2008bootstrap [Capítulo 5] e @chernick2011introduction [Capítulo 5].
+*Base de leitura:* @chernick2008bootstrap \[Capítulo 5\] e @chernick2011introduction [Capítulo 5].
 :::
 
 # Referências {.unnumbered}
-

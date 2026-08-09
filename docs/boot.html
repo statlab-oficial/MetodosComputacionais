@@ -650,7 +650,7 @@ Interpretação
 <section id="quantas-réplicas-bootstrap-usar" class="level2" data-number="5.5">
 <h2 data-number="5.5" class="anchored" data-anchor-id="quantas-réplicas-bootstrap-usar"><span class="header-section-number">5.5</span> Quantas réplicas bootstrap usar?</h2>
 <p>O número de réplicas, denotado por <span class="math inline">\(B\)</span>, controla a precisão da <strong>aproximação de Monte Carlo</strong> da distribuição bootstrap. Ele não controla a qualidade da amostra original como representação da população.</p>
-<p><span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022</a>)</span> [Seção 5.9, pp.&nbsp;136–137] registra recomendações históricas menores, mas argumenta que, com o custo computacional atual, convém usar mais reamostras: para prática rotineira, recomenda <strong>pelo menos <span class="math inline">\(10\,000\)</span> réplicas</strong>, e observa que um intervalo percentil bilateral de 95% pode exigir cerca de <span class="math inline">\(15\,000\)</span> réplicas para controlar melhor a variabilidade de Monte Carlo nas caudas. <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.4</a>, p.&nbsp;266)</span> propõe, como regra prática, <span class="math inline">\(B=9\,999\)</span> ou mais quando o custo computacional permitir. <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, pp.&nbsp;205–206)</span> também mostra que mesmo alguns milhares de réplicas podem deixar variação perceptível nos limites de intervalos.</p>
+<p><span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022</a>)</span> [Seção 5.9, pp.&nbsp;136–137] registra recomendações históricas menores, mas argumenta que, com o custo computacional atual, convém usar mais reamostras: para prática rotineira, recomenda <strong>pelo menos</strong> <span class="math inline">\(10\,000\)</span> réplicas, e observa que um intervalo percentil bilateral de 95% pode exigir cerca de <span class="math inline">\(15\,000\)</span> réplicas para controlar melhor a variabilidade de Monte Carlo nas caudas. <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 7.4</a>, p.&nbsp;266)</span> propõe, como regra prática, <span class="math inline">\(B=9\,999\)</span> ou mais quando o custo computacional permitir. <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, pp.&nbsp;205–206)</span> também mostra que mesmo alguns milhares de réplicas podem deixar variação perceptível nos limites de intervalos.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Princípio prático">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -890,7 +890,7 @@ Bootstrap paramétrico e <code>boot.ci()</code>
 \approx
 \frac{1-\hat\rho^2}{\sqrt{n-3}}.\]</span></p>
 <p>Essa expressão não deve ser apresentada como “o erro padrão teórico exato” de <span class="math inline">\(\hat\rho\)</span> em geral. A transformação de Fisher fornece a aproximação normal de referência; a passagem de volta à escala de <span class="math inline">\(\rho\)</span> é uma aproximação de primeira ordem.</p>
-<p><em>Base bibliográfica:</em> o exemplo das escolas de direito e a correção de viés são discutidos em <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008, seç. 3.1.3</a>, pp.&nbsp;59–61)</span>; o uso do método delta para funções diferenciáveis é discutido em <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008, seç. 6.1.2</a>)</span>.</p>
+<p><em>Base bibliográfica:</em> o exemplo das escolas de direito e a correção de viés são discutidos em <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>)</span> [Seção 3.1.3, pp.&nbsp;59–61]; o uso do método delta para funções diferenciáveis é discutido em <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008, seç. 6.1.2</a>)</span>.</p>
 </div>
 </section>
 </section>
@@ -1143,7 +1143,7 @@ q_{\alpha/2}^{T^*}
 <h2 data-number="5.11" class="anchored" data-anchor-id="intervalo-bc_a"><span class="header-section-number">5.11</span> Intervalo <span class="math inline">\(BC_a\)</span></h2>
 <p>O intervalo <span class="math inline">\(BC_a\)</span> (<em>bias-corrected and accelerated</em>) modifica os níveis percentuais usados no intervalo percentil para corrigir dois aspectos:</p>
 <ol type="1">
-<li><strong>deslocamento de viés da distribuição bootstrap em relação a <span class="math inline">\(\hat\theta\)</span></strong>, resumido por <span class="math inline">\(z_0\)</span>;</li>
+<li><strong>deslocamento de viés da distribuição bootstrap em relação a</strong> <span class="math inline">\(\hat\theta\)</span>, resumido por <span class="math inline">\(z_0\)</span>;</li>
 <li><strong>assimetria e variação local da precisão do estimador</strong>, resumidas pela constante de aceleração <span class="math inline">\(a\)</span>.</li>
 </ol>
 <blockquote class="blockquote">
@@ -1398,7 +1398,7 @@ Não usar automaticamente IC por inversão
 <h3 data-number="5.14.3" class="anchored" data-anchor-id="extremos"><span class="header-section-number">5.14.3</span> Extremos</h3>
 <p>A distribuição empírica não contém observações maiores que o máximo nem menores que o mínimo da amostra. Consequentemente, inferência para parâmetros extremos pode exigir métodos especiais, como <span class="math inline">\(m\)</span>-out-of-<span class="math inline">\(n\)</span> bootstrap ou procedimentos baseados em modelos.</p>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>)</span> [Seção 9.3, pp.&nbsp;177–178] e <span class="citation" data-cites="chernick2011introduction">Chernick; LaBudde (<a href="#ref-chernick2011introduction" role="doc-biblioref">2011</a>)</span> [Seção 8.3, pp.&nbsp;194–195].</p>
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>)</span> [Seção 9.3, pp.&nbsp;177–178] e <span class="citation" data-cites="chernick2011introduction">Chernick; LaBudde (<a href="#ref-chernick2011introduction" role="doc-biblioref">2011, seç. 8.3</a>, pp.&nbsp;194–195)</span>.</p>
 </blockquote>
 </section>
 <section id="caudas-pesadas-e-momentos-inexistentes" class="level3" data-number="5.14.4">
@@ -1452,7 +1452,7 @@ Regra de diagnóstico
 <li><strong>block bootstrap</strong>: preserva dependência local em sequências;</li>
 <li><strong>sieve bootstrap</strong>: usa uma aproximação modelada da dependência temporal.</li>
 </ul>
-<p><em>Base bibliográfica:</em> <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>)</span> [Capítulo 5; Seções 9.2–9.3], <span class="citation" data-cites="chernick2011introduction">Chernick; LaBudde (<a href="#ref-chernick2011introduction" role="doc-biblioref">2011</a>)</span> [Capítulos 5–6 e 8] e <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022</a>)</span> [Seções 13.1–13.2, pp.&nbsp;444–452].</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>)</span> [Capítulo 5; Seções 9.2–9.3], <span class="citation" data-cites="chernick2011introduction">Chernick; LaBudde (<a href="#ref-chernick2011introduction" role="doc-biblioref">2011, cap. 5–6</a> e 8)</span> e <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022, seç. 13.1–13.2</a>, pp.&nbsp;444–452)</span>.</p>
 </div>
 </section>
 <section id="diagnóstico-e-reprodutibilidade" class="level2" data-number="5.16">
@@ -1636,7 +1636,7 @@ n\hat\theta
 </div>
 </div>
 <p>Em problemas regulares, os pseudovalores ajudam a interpretar a influência de cada observação sobre a estatística. Na construção do <span class="math inline">\(BC_a\)</span>, porém, a aceleração não depende apenas de uma medida de dispersão: entram diretamente as diferenças <span class="math inline">\(\bar\theta_{(\cdot)}-\hat\theta_{(i)}\)</span>, cujos segundos e terceiros momentos empíricos aparecem na fórmula de <span class="math inline">\(\hat a\)</span>.</p>
-<p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Algoritmo 5.21, pp.&nbsp;206–208)</span> e <span class="citation" data-cites="chernick2011introduction">Chernick; LaBudde (<a href="#ref-chernick2011introduction" role="doc-biblioref">2011, seç. 3.5</a>, pp.&nbsp;85–88)</span>.</p>
+<p><em>Base bibliográfica:</em> <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> [Algoritmo 5.21, pp.&nbsp;206–208] e <span class="citation" data-cites="chernick2011introduction">Chernick; LaBudde (<a href="#ref-chernick2011introduction" role="doc-biblioref">2011, seç. 3.5</a>, pp.&nbsp;85–88)</span>.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1734,7 +1734,7 @@ Atenção: este exemplo é apenas mecânico
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>O cálculo acima é útil para mostrar como se formam as réplicas leave-one-out, mas <strong>não deve ser interpretado como recomendação do erro padrão jackknife para a mediana</strong>. <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008, seç. 6.1.1</a>, pp.&nbsp;115–116)</span> registra explicitamente que, para a mediana amostral, a estimativa jackknife usual do erro padrão não é consistente. Em amostras pequenas, o bootstrap não paramétrico da mediana também pode produzir uma distribuição muito discreta; <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022, seç. 13.1</a>, pp.&nbsp;444–449)</span> discute o bootstrap suavizado como uma alternativa quando essa discreção é problemática.</p>
+<p>O cálculo acima é útil para mostrar como se formam as réplicas leave-one-out, mas <strong>não deve ser interpretado como recomendação do erro padrão jackknife para a mediana</strong>. <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>)</span> [Seção 6.1.1, pp.&nbsp;115–116] registra explicitamente que, para a mediana amostral, a estimativa jackknife usual do erro padrão não é consistente. Em amostras pequenas, o bootstrap não paramétrico da mediana também pode produzir uma distribuição muito discreta; <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022, seç. 13.1</a>, pp.&nbsp;444–449)</span> discute o bootstrap suavizado como uma alternativa quando essa discreção é problemática.</p>
 </div>
 </div>
 </section>
@@ -1744,7 +1744,7 @@ Atenção: este exemplo é apenas mecânico
 <p>O jackknife é mais confiável para estatísticas suficientemente suaves, nas quais a aproximação leave-one-out fornece uma boa linearização local do estimador.</p>
 <p>Para estatísticas não suaves, como certos quantis e extremos, essa linearização pode falhar. A mediana é um exemplo importante: a estimativa jackknife usual de seu erro padrão pode ser inconsistente. O bootstrap é frequentemente mais flexível para estimação de erro padrão, mas também não é universal; com pequenas amostras, quantis e extremos, a distribuição empírica pode ser excessivamente discreta ou não representar adequadamente as caudas.</p>
 <blockquote class="blockquote">
-<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>)</span> [Seção 6.1.1, pp.&nbsp;115–116] compara jackknife e bootstrap para estimação de erro padrão e destaca a inconsistência do jackknife para a mediana. <span class="citation" data-cites="chernick2011introduction">Chernick; LaBudde (<a href="#ref-chernick2011introduction" role="doc-biblioref">2011, seç. 1.2.1</a>)</span> apresenta a relação entre os dois métodos, e <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022</a>)</span> [Seção 13.1, pp.&nbsp;444–449] discute a dificuldade do bootstrap ordinário para a mediana em razão da discreção da distribuição empírica.</p>
+<p><strong>Base bibliográfica:</strong> <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>)</span> [Seção 6.1.1, pp.&nbsp;115–116] compara jackknife e bootstrap para estimação de erro padrão e destaca a inconsistência do jackknife para a mediana. <span class="citation" data-cites="chernick2011introduction">Chernick; LaBudde (<a href="#ref-chernick2011introduction" role="doc-biblioref">2011, seç. 1.2.1</a>)</span> apresenta a relação entre os dois métodos, e <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022, seç. 13.1</a>, pp.&nbsp;444–449)</span> discute a dificuldade do bootstrap ordinário para a mediana em razão da discreção da distribuição empírica.</p>
 </blockquote>
 </section>
 <section id="bootstrap-e-jackknife-comparação" class="level2" data-number="5.21">
@@ -1929,7 +1929,7 @@ sd\left(
 </section>
 <section id="exercícios" class="level2" data-number="5.24">
 <h2 data-number="5.24" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">5.24</span> Exercícios</h2>
-<div class="callout callout-style-default callout-tip callout-titled" title="Exercício 1 — erro padrão bootstrap">
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 1 — erro padrão bootstrap">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -1948,7 +1948,7 @@ Exercício 1 — erro padrão bootstrap
 </ol>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled" title="Exercício 2 — viés">
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 2 — viés">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -1967,7 +1967,7 @@ Exercício 2 — viés
 </ol>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled" title="Exercício 3 — intervalos">
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 3 — intervalos">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -1987,7 +1987,7 @@ Exercício 3 — intervalos
 <p>Compare centro, comprimento e assimetria dos intervalos. Explique por que os resultados não precisam coincidir.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled" title="Exercício 4 — dois grupos independentes">
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 4 — dois grupos independentes">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -2006,7 +2006,7 @@ Exercício 4 — dois grupos independentes
 </ol>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled" title="Exercício 5 — dados pareados">
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 5 — dados pareados">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -2024,7 +2024,7 @@ Exercício 5 — dados pareados
 </ol>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled" title="Exercício 6 — escolha de B">
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 6 — escolha de B">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -2045,7 +2045,7 @@ Exercício 6 — escolha de B
 </ol>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled" title="Exercício 7 — jackknife">
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 7 — jackknife">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -2069,7 +2069,7 @@ Exercício 7 — jackknife
 <p>Compare os resultados com a função <code>jackknife()</code> apresentada no capítulo e relacione sua conclusão à limitação discutida na seção anterior.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled" title="Exercício 8 — aceleração do BCa">
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 8 — aceleração do BCa">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -2095,7 +2095,7 @@ Exercício 8 — aceleração do BCa
 <p>Use o cálculo como exercício da fórmula de aceleração e examine sua estabilidade. Como a estatística é a mediana e a amostra é pequena, discuta por que o sinal e a magnitude de <span class="math inline">\(\hat a\)</span> devem ser interpretados com cautela. Em seguida, compare com o intervalo <code>boot.ci(..., type = "bca")</code>.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled" title="Exercício 9 — bootstrap versus permutação">
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 9 — bootstrap versus permutação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -2113,7 +2113,7 @@ Exercício 9 — bootstrap versus permutação
 </ol>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled" title="Exercício 10 — situação em que o bootstrap IID é inadequado">
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 10 — situação em que o bootstrap IID é inadequado">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -2137,7 +2137,7 @@ Exercício 10 — situação em que o bootstrap IID é inadequado
 <li>simulação Monte Carlo a partir do modelo conhecido.</li>
 </ol>
 <p>Compare as estimativas. Explique por que reamostrar pontos isoladamente destrói a dependência temporal. Pesquise como o <em>block bootstrap</em> procura corrigir esse problema.</p>
-<p><em>Base de leitura:</em> <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008, cap. 5</a>)</span> e <span class="citation" data-cites="chernick2011introduction">Chernick; LaBudde (<a href="#ref-chernick2011introduction" role="doc-biblioref">2011, cap. 5</a>)</span>.</p>
+<p><em>Base de leitura:</em> <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>)</span> [Capítulo 5] e <span class="citation" data-cites="chernick2011introduction">Chernick; LaBudde (<a href="#ref-chernick2011introduction" role="doc-biblioref">2011, cap. 5</a>)</span>.</p>
 </div>
 </div>
 </section>
