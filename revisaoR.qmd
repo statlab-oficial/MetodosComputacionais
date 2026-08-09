@@ -224,9 +224,6 @@ Um **script** é um arquivo de texto que contém comandos de `R` destinados a se
 
 @voss2014statistical [pp. 272--273] mostra que o prompt `>` identifica comandos digitados no console e que comandos incompletos podem continuar na linha seguinte.
 
-::: {.callout-tip title="Observação editorial"}
-Em um livro, blocos de código destinados a serem copiados devem ser mostrados sem o prompt `>`. Isso reduz a possibilidade de o leitor copiar caracteres que não fazem parte do comando.
-:::
 
 ### Comentários e legibilidade
 

@@ -423,7 +423,7 @@ Exemplo Rápido
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>birthdays <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">365</span>, r, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">any</span>(<span class="fu">duplicated</span>(birthdays))</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] TRUE</code></pre>
+<pre><code>[1] FALSE</code></pre>
 </div>
 </div>
 <p>Ao repetir esse procedimento muitas vezes (por exemplo, 10.000 simulações independentes), podemos estimar a probabilidade pela frequência relativa de repetições com coincidência. Pela Lei dos Grandes Números aplicada ao indicador desse evento, essa frequência relativa converge para <span class="math inline">\(p_{23}\approx0.5073\)</span> quando o número de repetições tende ao infinito.</p>
@@ -621,19 +621,6 @@ Definição
 </div>
 </div>
 <p><span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, pp.&nbsp;272–273)</span> mostra que o prompt <code>&gt;</code> identifica comandos digitados no console e que comandos incompletos podem continuar na linha seguinte.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="Observação editorial">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Observação editorial
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Em um livro, blocos de código destinados a serem copiados devem ser mostrados sem o prompt <code>&gt;</code>. Isso reduz a possibilidade de o leitor copiar caracteres que não fazem parte do comando.</p>
-</div>
-</div>
 </section>
 <section id="comentários-e-legibilidade" class="level3" data-number="1.2.5">
 <h3 data-number="1.2.5" class="anchored" data-anchor-id="comentários-e-legibilidade"><span class="header-section-number">1.2.5</span> Comentários e legibilidade</h3>
