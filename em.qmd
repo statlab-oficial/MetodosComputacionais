@@ -2,7 +2,7 @@
 
 O algoritmo **EM** (*Expectation-Maximization*) é um procedimento iterativo para problemas de estimação por máxima verossimilhança nos quais a formulação estatística se torna mais simples se os dados observados forem ampliados por valores ausentes, censurados, não observáveis ou por variáveis latentes. Em vez de maximizar diretamente uma verossimilhança observada potencialmente complicada, o método alterna entre a construção de uma esperança condicional da log-verossimilhança de dados completos e a maximização dessa quantidade em relação aos parâmetros.
 
-A formulação geral adotada neste capítulo segue principalmente @kroese2011handbook [Apêndice D.7, pp. 711--714], @ramachandran2021mathematical [Seção 13.4, pp. 540--548] e @chihara2022resampling [Seção 13.8, pp. 483--488]. As aplicações em misturas e em R são complementadas por @thulin2025modern [Seção 4.12.5, pp. 156--157; Seção 10.1.3, pp. 359--362] e @chernick2008bootstrap [Seção 8.3, pp. 145--148].
+A formulação geral adotada neste capítulo segue principalmente @kroese2011handbook \[Apêndice D.7, pp. 711--714\], @ramachandran2021mathematical [Seção 13.4, pp. 540--548] e @chihara2022resampling \[Seção 13.8, pp. 483--488\]. As aplicações em misturas e em R são complementadas por @thulin2025modern [Seção 4.12.5, pp. 156--157; Seção 10.1.3, pp. 359--362] e @chernick2008bootstrap [Seção 8.3, pp. 145--148].
 
 ## Objetivos de aprendizagem
 
@@ -16,7 +16,6 @@ Ao final deste capítulo, espera-se que o leitor seja capaz de:
 - implementar o EM em R e aplicá-lo a modelos de mistura;
 - interpretar responsabilidades, parâmetros estimados, trajetória da log-verossimilhança e evidências de convergência problemática.
 
-
 ## Problemas estatísticos envolvendo informações incompletas e variáveis latentes
 
 Muitos problemas de inferência podem ser descritos por um modelo probabilístico simples para uma informação que, conceitualmente, seria completa, mas que não é integralmente observada. Há pelo menos duas situações importantes.
@@ -28,7 +27,7 @@ A segunda ocorre quando o próprio modelo introduz uma **estrutura latente**. Em
 ::: {.callout-note title="Definição"}
 Chamaremos de **informação incompleta** uma situação em que a verossimilhança observada resulta da marginalização de uma informação adicional não observada. Essa informação adicional pode corresponder a valores realmente ausentes, tempos censurados, rótulos de componentes de uma mistura ou outras variáveis latentes introduzidas para facilitar a computação.
 
-Essa caracterização é compatível com @ramachandran2021mathematical [Seção 13.4, pp. 540--541] e @kroese2011handbook [Seção 6.3.5, pp. 259--260; Apêndice D.7, pp. 711--712].
+Essa caracterização é compatível com @ramachandran2021mathematical \[Seção 13.4, pp. 540--541\] e @kroese2011handbook [Seção 6.3.5, pp. 259--260; Apêndice D.7, pp. 711--712].
 :::
 
 ::: {.callout-tip title="Interpretação"}
@@ -75,12 +74,12 @@ enquanto a log-verossimilhança de dados completos é
 
 $$\ell_c(\theta;y,z)=\log p(y,z\mid\theta).$$
 
-Essa notação e a distinção entre verossimilhança observada e de dados completos seguem @kroese2011handbook [Apêndice D.7, pp. 711--712], @ramachandran2021mathematical [Seção 13.4, pp. 540--541] e @chihara2022resampling [Seção 13.8.1, pp. 485--488].
+Essa notação e a distinção entre verossimilhança observada e de dados completos seguem @kroese2011handbook \[Apêndice D.7, pp. 711--712\], @ramachandran2021mathematical [Seção 13.4, pp. 540--541] e @chihara2022resampling [Seção 13.8.1, pp. 485--488].
 
 ::: {.callout-note title="Definição"}
 A distinção entre **dados observados** e **dados completos** é relativa à modelagem. O dado completo é uma construção que inclui tudo aquilo que tornaria a inferência mais simples: os valores observados mais a informação não observada necessária para obter uma forma conveniente da verossimilhança.
 
-A construção é discutida por @chihara2022resampling [Seção 13.8.1, pp. 485--488] e @kroese2011handbook [p. 712].
+A construção é discutida por @chihara2022resampling \[Seção 13.8.1, pp. 485--488\] e @kroese2011handbook [p. 712].
 :::
 
 ::: {.callout-tip title="Interpretação"}
@@ -124,7 +123,7 @@ $$\boxed{
 Q(\theta\mid\theta^{(t)})
 }.$$
 
-A formulação das etapas E e M segue @ramachandran2021mathematical [Seção 13.4, pp. 541--542], @kroese2011handbook [Algoritmo D.3, pp. 712--713] e @chihara2022resampling [Seção 13.8.1, pp. 485--488].
+A formulação das etapas E e M segue @ramachandran2021mathematical \[Seção 13.4, pp. 541--542\], @kroese2011handbook [Algoritmo D.3, pp. 712--713] e @chihara2022resampling [Seção 13.8.1, pp. 485--488].
 
 ::: {.callout-note title="Algoritmo EM"}
 1.  Escolha um valor inicial $\theta^{(0)}$.
@@ -135,7 +134,7 @@ A formulação das etapas E e M segue @ramachandran2021mathematical [Seção 13.
     - verifique um critério de parada.
 3.  Retorne a última estimativa, a trajetória da log-verossimilhança e, quando pertinente, as esperanças ou probabilidades condicionais calculadas na etapa E.
 
-A estrutura algorítmica segue @kroese2011handbook [Algoritmo D.3, pp. 712--713] e @ramachandran2021mathematical [pp. 541--542].
+A estrutura algorítmica segue @kroese2011handbook \[Algoritmo D.3, pp. 712--713\] e @ramachandran2021mathematical [pp. 541--542].
 :::
 
 A escolha da variável latente é parte essencial da construção do algoritmo. O objetivo é obter uma representação de dados completos cuja esperança condicional seja calculável e cuja maximização seja substancialmente mais simples que a maximização direta de $\ell(\theta;y)$.
@@ -154,12 +153,12 @@ p(z\mid y,\theta^{(t)})\,dz.$$
 
 É importante distinguir os papéis de $\theta$ e $\theta^{(t)}$: o primeiro continua sendo o argumento que será maximizado na etapa M, enquanto o segundo é usado para formar a distribuição condicional que determina a esperança.
 
-@ramachandran2021mathematical [p. 541] enfatiza explicitamente essa distinção; a mesma construção aparece em @kroese2011handbook [Eq. D.16, pp. 712--713].
+@ramachandran2021mathematical \[p. 541\] enfatiza explicitamente essa distinção; a mesma construção aparece em @kroese2011handbook [Eq. D.16, pp. 712--713].
 
 ::: {.callout-tip title="Interpretação"}
 A etapa E não precisa produzir uma imputação única dos valores ausentes. Em geral, ela produz **esperanças de funções do dado completo**. Em modelos de mistura, por exemplo, não se substitui necessariamente cada rótulo por uma classe definitiva; calculam-se probabilidades condicionais de pertencimento a cada componente.
 
-Essa interpretação segue @kroese2011handbook [Exemplo D.1, pp. 713--714] e @chihara2022resampling [Seção 13.8.1, pp. 485--488].
+Essa interpretação segue @kroese2011handbook \[Exemplo D.1, pp. 713--714\] e @chihara2022resampling [Seção 13.8.1, pp. 485--488].
 :::
 
 ### Responsabilidades em uma mistura finita
@@ -201,7 +200,7 @@ f_k(y_i\mid\eta_k^{(t)})
 f_j(y_i\mid\eta_j^{(t)})
 }.$$
 
-Neste capítulo, chamaremos essas probabilidades condicionais de **responsabilidades**. Elas medem quanto cada componente contribui, sob os parâmetros correntes, para explicar cada observação. A fórmula corresponde às probabilidades condicionais apresentadas no Exemplo D.1 de @kroese2011handbook [pp. 713--714] e às probabilidades *a posteriori* usadas na discussão de misturas em @chernick2008bootstrap [pp. 145--148].
+Neste capítulo, chamaremos essas probabilidades condicionais de **responsabilidades**. Elas medem quanto cada componente contribui, sob os parâmetros correntes, para explicar cada observação. A fórmula corresponde às probabilidades condicionais apresentadas no Exemplo D.1 de @kroese2011handbook \[pp. 713--714\] e às probabilidades *a posteriori* usadas na discussão de misturas em @chernick2008bootstrap [pp. 145--148].
 
 ## Etapa da maximização (M)
 
@@ -214,7 +213,7 @@ Q(\theta\mid\theta^{(t)}).$$
 
 A vantagem do EM depende de essa maximização ser mais simples que a maximização direta da verossimilhança observada. Em famílias exponenciais, a log-verossimilhança completa frequentemente depende dos dados por estatísticas suficientes simples. Nesse caso, a etapa E calcula esperanças condicionais dessas estatísticas e a etapa M reutiliza a forma das estimativas de máxima verossimilhança dos dados completos.
 
-Essa simplificação da etapa M é discutida por @ramachandran2021mathematical [pp. 541--542] e @kroese2011handbook [p. 713].
+Essa simplificação da etapa M é discutida por @ramachandran2021mathematical \[pp. 541--542\] e @kroese2011handbook [p. 713].
 
 ::: {.callout-note title="Definição"}
 No EM clássico, a etapa M determina um valor de $\theta$ que maximiza $Q(\theta\mid\theta^{(t)})$. É essa maximização que define a etapa M na formulação adotada neste capítulo [@kroese2011handbook, Algoritmo D.3, pp. 712--713].
@@ -333,7 +332,7 @@ $$\boxed{
 \ell(\theta^{(t)};y)
 }.$$
 
-A demonstração acima é organizada a partir da identidade e do argumento de limite inferior de @kroese2011handbook [Eq. D.15 e Algoritmo D.3, pp. 712--713]. @ramachandran2021mathematical [pp. 541--542] também estabelece a propriedade de não decréscimo da verossimilhança ao longo das iterações.
+A demonstração acima é organizada a partir da identidade e do argumento de limite inferior de @kroese2011handbook \[Eq. D.15 e Algoritmo D.3, pp. 712--713\]. @ramachandran2021mathematical [pp. 541--542] também estabelece a propriedade de não decréscimo da verossimilhança ao longo das iterações.
 
 ::: {.callout-tip title="Interpretação"}
 A monotonicidade fornece um diagnóstico computacional importante. Se uma implementação do EM produz uma queda substantiva da log-verossimilhança observada entre duas iterações, deve-se suspeitar de erro na etapa E, na etapa M ou na avaliação numérica da função objetivo.
@@ -384,7 +383,7 @@ $$\left\|
 <
 \varepsilon_\theta.$$
 
-@ramachandran2021mathematical [pp. 541--542] discute tanto a diferença entre valores sucessivos da verossimilhança quanto a distância entre vetores de parâmetros. @kroese2011handbook [Algoritmo D.3, p. 713] apresenta um critério relativo baseado na verossimilhança; a forma estabilizada acima é uma escolha computacional deste capítulo. Em aplicações reais, é recomendável também impor um número máximo de iterações, pois uma tolerância muito estrita pode produzir uma execução longa sem alteração relevante para a interpretação. A importância operacional de `maxiter` é ilustrada por @thulin2025modern [Seção 10.1.3, pp. 361--362].
+@ramachandran2021mathematical \[pp. 541--542\] discute tanto a diferença entre valores sucessivos da verossimilhança quanto a distância entre vetores de parâmetros. @kroese2011handbook [Algoritmo D.3, p. 713] apresenta um critério relativo baseado na verossimilhança; a forma estabilizada acima é uma escolha computacional deste capítulo. Em aplicações reais, é recomendável também impor um número máximo de iterações, pois uma tolerância muito estrita pode produzir uma execução longa sem alteração relevante para a interpretação. A importância operacional de `maxiter` é ilustrada por @thulin2025modern [Seção 10.1.3, pp. 361--362].
 
 ::: {.callout-warning title="Observação computacional"}
 O uso simultâneo de tolerância de log-verossimilhança, tolerância de parâmetros e limite máximo de iterações é uma recomendação de implementação adotada neste capítulo.
@@ -394,29 +393,27 @@ O uso simultâneo de tolerância de log-verossimilhança, tolerância de parâme
 
 O EM exige um valor inicial $\theta^{(0)}$. Em problemas simples, uma escolha heurística pode ser suficiente. @ramachandran2021mathematical [p. 541] sugere, por exemplo, usar estatísticas calculadas com a parte observada dos dados quando isso fizer sentido.
 
-Em problemas multimodais, contudo, a solução final pode depender fortemente do ponto inicial. @kroese2011handbook [p. 713] observa que a convergência a um máximo global depende dos valores iniciais e recomenda, na prática, execuções com diferentes pontos iniciais aleatórios. @thulin2025modern [Seção 10.1.3, pp. 361--362] mostra essa dificuldade em análise de classes latentes com `poLCA`: atribuições iniciais desfavoráveis podem impedir que o procedimento encontre uma solução satisfatória, e a execução com múltiplas inicializações (`nrep`) é apresentada como estratégia prática.
+Em problemas multimodais, contudo, a solução final pode depender fortemente do ponto inicial. @kroese2011handbook \[p. 713\] observa que a convergência a um máximo global depende dos valores iniciais e recomenda, na prática, execuções com diferentes pontos iniciais aleatórios. @thulin2025modern [Seção 10.1.3, pp. 361--362] mostra essa dificuldade em análise de classes latentes com `poLCA`: atribuições iniciais desfavoráveis podem impedir que o procedimento encontre uma solução satisfatória, e a execução com múltiplas inicializações (`nrep`) é apresentada como estratégia prática.
 
 ::: {.callout-tip title="Interpretação"}
 Uma única execução do EM informa: “a partir deste ponto inicial, o algoritmo chegou a esta solução”. Várias execuções permitem avaliar se diferentes regiões do espaço de parâmetros conduzem ao mesmo valor final da log-verossimilhança.
 
-Essa interpretação é sustentada por @kroese2011handbook [p. 713] e pelo exemplo de múltiplas inicializações de @thulin2025modern [Seção 10.1.3, pp. 361--362].
+Essa interpretação é sustentada por @kroese2011handbook \[p. 713\] e pelo exemplo de múltiplas inicializações de @thulin2025modern [Seção 10.1.3, pp. 361--362].
 :::
 
 Uma estratégia simples para misturas é inicializar as médias a partir de quantis distintos ou de uma partição preliminar dos dados e repetir o ajuste com perturbações aleatórias.
 
-A necessidade de múltiplas inicializações é discutida por @kroese2011handbook [p. 713] e ilustrada por @thulin2025modern [Seção 10.1.3, pp. 361--362].
-
-
+A necessidade de múltiplas inicializações é discutida por @kroese2011handbook \[p. 713\] e ilustrada por @thulin2025modern [Seção 10.1.3, pp. 361--362].
 
 ## Máximos locais e limitações computacionais
 
-A função de verossimilhança pode ser multimodal. O EM preserva a monotonicidade, mas não possui, em geral, uma propriedade que force a sequência a atingir o melhor máximo global. Sob condições de regularidade, @chihara2022resampling [Seção 13.8.1, pp. 485--486] descreve a convergência para um ponto estacionário, enquanto @kroese2011handbook [p. 713] destaca a dependência dos valores iniciais e a possibilidade de convergência local. A distinção geral entre soluções locais e globais é discutida por @nocedal2006numerical [Cap. 1, “Global and Local Optimization”, pp. 6--7].
+A função de verossimilhança pode ser multimodal. O EM preserva a monotonicidade, mas não possui, em geral, uma propriedade que force a sequência a atingir o melhor máximo global. Sob condições de regularidade, @chihara2022resampling \[Seção 13.8.1, pp. 485--486\] descreve a convergência para um ponto estacionário, enquanto @kroese2011handbook [p. 713] destaca a dependência dos valores iniciais e a possibilidade de convergência local. A distinção geral entre soluções locais e globais é discutida por @nocedal2006numerical [Cap. 1, “Global and Local Optimization”, pp. 6--7].
 
 Além da multimodalidade, há três limitações práticas importantes.
 
 Primeiro, a **etapa E pode ser difícil**. Ela exige uma esperança condicional que nem sempre possui forma analítica simples. @ramachandran2021mathematical [p. 548 e discussão subsequente] menciona o Monte Carlo EM (MCEM) como alternativa quando essa esperança precisa ser aproximada por simulação.
 
-Segundo, a **etapa M pode continuar sendo um problema de otimização não trivial**. A vantagem do EM é maior quando a estrutura de dados completos pertence a uma família que produz maximizações simples, em particular em diversos casos de famílias exponenciais. Isso é observado por @kroese2011handbook [p. 713] e @ramachandran2021mathematical [pp. 541--542].
+Segundo, a **etapa M pode continuar sendo um problema de otimização não trivial**. A vantagem do EM é maior quando a estrutura de dados completos pertence a uma família que produz maximizações simples, em particular em diversos casos de famílias exponenciais. Isso é observado por @kroese2011handbook \[p. 713\] e @ramachandran2021mathematical [pp. 541--542].
 
 Terceiro, modelos de mistura apresentam **questões de identificabilidade por permutação dos rótulos**. Se duas componentes pertencem à mesma família paramétrica, permutar seus índices não altera a distribuição da mistura. @chernick2008bootstrap [pp. 145--148] discute essa ambiguidade e a necessidade de alguma convenção de ordenação quando se deseja identificar os componentes de forma única.
 
@@ -493,7 +490,7 @@ em_generico <- function(theta0, e_step, m_step, loglik,
 }
 ```
 
-A estrutura algorítmica implementada acima segue @kroese2011handbook [Algoritmo D.3, pp. 712--713] e @ramachandran2021mathematical [pp. 541--542].
+A estrutura algorítmica implementada acima segue @kroese2011handbook \[Algoritmo D.3, pp. 712--713\] e @ramachandran2021mathematical [pp. 541--542].
 
 ### Exemplo em R: normal com valores ausentes
 
@@ -633,7 +630,7 @@ z_{ik}
 
 Essa forma é separável por componentes e leva diretamente às responsabilidades da etapa E e às atualizações ponderadas da etapa M.
 
-A formulação de dados completos para misturas segue @kroese2011handbook [Exemplo D.1, pp. 713--714] e é compatível com a discussão de misturas de @chernick2008bootstrap [Seção 8.3, pp. 145--148].
+A formulação de dados completos para misturas segue @kroese2011handbook \[Exemplo D.1, pp. 713--714\] e é compatível com a discussão de misturas de @chernick2008bootstrap [Seção 8.3, pp. 145--148].
 
 ### Mistura de duas normais em R
 
@@ -875,7 +872,7 @@ melhor <- ajustes[[which.max(loglik_finais)]]
 
 O uso de várias inicializações é motivado pela dependência do EM em relação ao ponto inicial e pela possibilidade de máximos locais.
 
-A estratégia de múltiplas inicializações é motivada por @kroese2011handbook [p. 713] e ilustrada por @thulin2025modern [Seção 10.1.3, pp. 361--362].
+A estratégia de múltiplas inicializações é motivada por @kroese2011handbook \[p. 713\] e ilustrada por @thulin2025modern [Seção 10.1.3, pp. 361--362].
 
 ### Uso de `mclust`
 
@@ -926,7 +923,7 @@ Registre, no mínimo:
 
 Quando o número máximo de iterações é atingido, a execução deve ser marcada como não convergida, mesmo que os parâmetros pareçam plausíveis.
 
-Os critérios de parada são discutidos por @kroese2011handbook [p. 713] e @ramachandran2021mathematical [pp. 541--542], enquanto @thulin2025modern [Seção 10.1.3, pp. 361--362] fornece um exemplo de falha por limite de iterações.
+Os critérios de parada são discutidos por @kroese2011handbook \[p. 713\] e @ramachandran2021mathematical [pp. 541--542], enquanto @thulin2025modern [Seção 10.1.3, pp. 361--362] fornece um exemplo de falha por limite de iterações.
 
 ### Comparação entre inicializações
 
@@ -944,7 +941,7 @@ Se uma observação possui uma responsabilidade próxima de $1$ para uma compone
 
 Essa interpretação decorre diretamente da definição das probabilidades condicionais da etapa E.
 
-As probabilidades condicionais utilizadas nessa interpretação aparecem em @kroese2011handbook [Exemplo D.1, pp. 713--714] e na discussão de misturas de @chernick2008bootstrap [pp. 145--148].
+As probabilidades condicionais utilizadas nessa interpretação aparecem em @kroese2011handbook \[Exemplo D.1, pp. 713--714\] e na discussão de misturas de @chernick2008bootstrap [pp. 145--148].
 
 ### Rótulos das componentes
 
@@ -954,8 +951,7 @@ O problema de identificabilidade por permutação é discutido em @chernick2008b
 
 ### Número de componentes
 
-O EM ajusta os parâmetros para uma estrutura de mistura especificada; a escolha do número de componentes constitui um problema adicional. @chernick2008bootstrap [pp. 145--148] discute a determinação do número de distribuições em uma mistura e observa que problemas de teste nesse contexto não satisfazem automaticamente as condições assintóticas usuais. @thulin2025modern [Seção 4.12.5, pp. 156--157] mostra uma abordagem de agrupamento baseada em `mclust`, na qual a seleção do número de grupos é integrada à rotina de modelagem.
-
+O EM ajusta os parâmetros para uma estrutura de mistura especificada; a escolha do número de componentes constitui um problema adicional. @chernick2008bootstrap \[pp. 145--148\] discute a determinação do número de distribuições em uma mistura e observa que problemas de teste nesse contexto não satisfazem automaticamente as condições assintóticas usuais. @thulin2025modern [Seção 4.12.5, pp. 156--157] mostra uma abordagem de agrupamento baseada em `mclust`, na qual a seleção do número de grupos é integrada à rotina de modelagem.
 
 ::: {.callout-tip title="Checklist de diagnóstico"}
 Antes de aceitar um ajuste EM, verifique:
@@ -968,7 +964,7 @@ Antes de aceitar um ajuste EM, verifique:
 6.  os rótulos das componentes foram alinhados antes de comparar execuções;
 7.  qualquer seleção do número de componentes foi tratada como etapa distinta da simples iteração EM.
 
-A lista sintetiza os diagnósticos discutidos em @kroese2011handbook [pp. 711--714], @thulin2025modern [pp. 156--157; Seção 10.1.3, pp. 361--362] e @chernick2008bootstrap [pp. 145--148].
+A lista sintetiza os diagnósticos discutidos em @kroese2011handbook \[pp. 711--714\], @thulin2025modern [pp. 156--157; Seção 10.1.3, pp. 361--362] e @chernick2008bootstrap [pp. 145--148].
 :::
 
 ## Síntese do capítulo
@@ -977,11 +973,11 @@ O EM transforma um problema de máxima verossimilhança com informação incompl
 
 Em modelos de mistura, as variáveis latentes correspondem naturalmente aos rótulos das componentes. A etapa E calcula probabilidades condicionais de pertencimento e a etapa M atualiza pesos, médias, variâncias ou outros parâmetros por meio dessas probabilidades. Computacionalmente, um ajuste confiável deve registrar a trajetória da log-verossimilhança, o critério de parada, o número de iterações e os resultados de múltiplas inicializações quando necessário.
 
-A síntese reúne os resultados apresentados em @kroese2011handbook [Apêndice D.7, pp. 711--714], @ramachandran2021mathematical [Seção 13.4, pp. 540--548], @chihara2022resampling [Seção 13.8, pp. 483--488] e @chernick2008bootstrap [pp. 145--148].
+A síntese reúne os resultados apresentados em @kroese2011handbook \[Apêndice D.7, pp. 711--714\], @ramachandran2021mathematical [Seção 13.4, pp. 540--548], @chihara2022resampling \[Seção 13.8, pp. 483--488\] e @chernick2008bootstrap [pp. 145--148].
 
 ## Exercícios
 
-::: {.callout-warning title="Exercício 1 — dados completos e dados observados"}
+::: {.callout-caution title="Exercício 1 — dados completos e dados observados"}
 Considere $Y_1,\ldots,Y_n$ provenientes de uma mistura de duas distribuições de Poisson,
 
 $$f(y)
@@ -998,7 +994,7 @@ $$f(y)
 *Exercício baseado na estratégia de aumento de dados de @kroese2011handbook [Apêndice D.7, pp. 711--714].*
 :::
 
-::: {.callout-warning title="Exercício 2 — monotonicidade"}
+::: {.callout-caution title="Exercício 2 — monotonicidade"}
 Partindo da decomposição
 
 $$\ell(\theta;y)
@@ -1017,7 +1013,7 @@ mostre detalhadamente que uma iteração EM não reduz a log-verossimilhança ob
 *Exercício baseado na Eq. D.15 e no Algoritmo D.3 de @kroese2011handbook [pp. 712--713].*
 :::
 
-::: {.callout-warning title="Exercício 3 — sensibilidade aos valores iniciais"}
+::: {.callout-caution title="Exercício 3 — sensibilidade aos valores iniciais"}
 Use a função `em_gmm_1d()` deste capítulo para ajustar uma mistura de duas normais a um conjunto simulado. Execute o algoritmo pelo menos 30 vezes com médias iniciais aleatórias. Compare:
 
 - log-verossimilhanças finais;
@@ -1027,16 +1023,16 @@ Use a função `em_gmm_1d()` deste capítulo para ajustar uma mistura de duas no
 
 Explique por que é necessário alinhar os rótulos antes de comparar os parâmetros.
 
-*Exercício baseado na discussão de inicialização de @kroese2011handbook [p. 713], no exemplo prático de @thulin2025modern [Seção 10.1.3, pp. 361--362] e na discussão de identificabilidade de @chernick2008bootstrap [pp. 145--148].*
+*Exercício baseado na discussão de inicialização de @kroese2011handbook \[p. 713\], no exemplo prático de @thulin2025modern [Seção 10.1.3, pp. 361--362] e na discussão de identificabilidade de @chernick2008bootstrap [pp. 145--148].*
 :::
 
-::: {.callout-warning title="Exercício 4 — censura exponencial"}
+::: {.callout-caution title="Exercício 4 — censura exponencial"}
 Reproduza computacionalmente o problema de tempos de sobrevivência exponenciais censurados em $T$ apresentado por @ramachandran2021mathematical [Exemplo 13.4.1, pp. 542--544]. Implemente a recorrência EM em R e compare o resultado para dois valores iniciais distintos.
 
 *Exercício adaptado de @ramachandran2021mathematical [Exemplo 13.4.1, pp. 542--544].*
 :::
 
-::: {.callout-warning title="Exercício 5 — diagnóstico"}
+::: {.callout-caution title="Exercício 5 — diagnóstico"}
 Modifique propositalmente a etapa M da função `em_gmm_1d()` para atualizar incorretamente uma das médias. Acompanhe a trajetória da log-verossimilhança e verifique se a propriedade de monotonicidade detecta o erro.
 
 *Exercício baseado na observação de @kroese2011handbook [p. 713] de que a monotonicidade pode ser usada como mecanismo de depuração.*

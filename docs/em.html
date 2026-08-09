@@ -328,7 +328,7 @@ window.Quarto = {
 
 
 <p>O algoritmo <strong>EM</strong> (<em>Expectation-Maximization</em>) é um procedimento iterativo para problemas de estimação por máxima verossimilhança nos quais a formulação estatística se torna mais simples se os dados observados forem ampliados por valores ausentes, censurados, não observáveis ou por variáveis latentes. Em vez de maximizar diretamente uma verossimilhança observada potencialmente complicada, o método alterna entre a construção de uma esperança condicional da log-verossimilhança de dados completos e a maximização dessa quantidade em relação aos parâmetros.</p>
-<p>A formulação geral adotada neste capítulo segue principalmente <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice D.7, pp.&nbsp;711–714)</span>, <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021, seç. 13.4</a>, pp.&nbsp;540–548)</span> e <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022, seç. 13.8</a>, pp.&nbsp;483–488)</span>. As aplicações em misturas e em R são complementadas por <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025</a>)</span> [Seção 4.12.5, pp.&nbsp;156–157; Seção 10.1.3, pp.&nbsp;359–362] e <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008, seç. 8.3</a>, pp.&nbsp;145–148)</span>.</p>
+<p>A formulação geral adotada neste capítulo segue principalmente <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [Apêndice D.7, pp.&nbsp;711–714], <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021, seç. 13.4</a>, pp.&nbsp;540–548)</span> e <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022</a>)</span> [Seção 13.8, pp.&nbsp;483–488]. As aplicações em misturas e em R são complementadas por <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025</a>)</span> [Seção 4.12.5, pp.&nbsp;156–157; Seção 10.1.3, pp.&nbsp;359–362] e <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008, seç. 8.3</a>, pp.&nbsp;145–148)</span>.</p>
 <section id="objetivos-de-aprendizagem" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="objetivos-de-aprendizagem"><span class="header-section-number">7.1</span> Objetivos de aprendizagem</h2>
 <p>Ao final deste capítulo, espera-se que o leitor seja capaz de:</p>
@@ -358,7 +358,7 @@ Definição
 </div>
 <div class="callout-body-container callout-body">
 <p>Chamaremos de <strong>informação incompleta</strong> uma situação em que a verossimilhança observada resulta da marginalização de uma informação adicional não observada. Essa informação adicional pode corresponder a valores realmente ausentes, tempos censurados, rótulos de componentes de uma mistura ou outras variáveis latentes introduzidas para facilitar a computação.</p>
-<p>Essa caracterização é compatível com <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021, seç. 13.4</a>, pp.&nbsp;540–541)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [Seção 6.3.5, pp.&nbsp;259–260; Apêndice D.7, pp.&nbsp;711–712].</p>
+<p>Essa caracterização é compatível com <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>)</span> [Seção 13.4, pp.&nbsp;540–541] e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [Seção 6.3.5, pp.&nbsp;259–260; Apêndice D.7, pp.&nbsp;711–712].</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
@@ -409,7 +409,7 @@ p(y\mid\theta)
 <p><span class="math display">\[\ell(\theta;y)=\log p(y\mid\theta),\]</span></p>
 <p>enquanto a log-verossimilhança de dados completos é</p>
 <p><span class="math display">\[\ell_c(\theta;y,z)=\log p(y,z\mid\theta).\]</span></p>
-<p>Essa notação e a distinção entre verossimilhança observada e de dados completos seguem <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice D.7, pp.&nbsp;711–712)</span>, <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021, seç. 13.4</a>, pp.&nbsp;540–541)</span> e <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022, seç. 13.8.1</a>, pp.&nbsp;485–488)</span>.</p>
+<p>Essa notação e a distinção entre verossimilhança observada e de dados completos seguem <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [Apêndice D.7, pp.&nbsp;711–712], <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021, seç. 13.4</a>, pp.&nbsp;540–541)</span> e <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022, seç. 13.8.1</a>, pp.&nbsp;485–488)</span>.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Definição">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -421,7 +421,7 @@ Definição
 </div>
 <div class="callout-body-container callout-body">
 <p>A distinção entre <strong>dados observados</strong> e <strong>dados completos</strong> é relativa à modelagem. O dado completo é uma construção que inclui tudo aquilo que tornaria a inferência mais simples: os valores observados mais a informação não observada necessária para obter uma forma conveniente da verossimilhança.</p>
-<p>A construção é discutida por <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022, seç. 13.8.1</a>, pp.&nbsp;485–488)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, p. 712</a>)</span>.</p>
+<p>A construção é discutida por <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022</a>)</span> [Seção 13.8.1, pp.&nbsp;485–488] e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, p. 712</a>)</span>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
@@ -467,7 +467,7 @@ E\left[
 \arg\max_{\theta\in\Theta}
 Q(\theta\mid\theta^{(t)})
 }.\]</span></p>
-<p>A formulação das etapas E e M segue <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021, seç. 13.4</a>, pp.&nbsp;541–542)</span>, <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Algoritmo D.3, pp.&nbsp;712–713)</span> e <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022, seç. 13.8.1</a>, pp.&nbsp;485–488)</span>.</p>
+<p>A formulação das etapas E e M segue <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>)</span> [Seção 13.4, pp.&nbsp;541–542], <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Algoritmo D.3, pp.&nbsp;712–713)</span> e <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022, seç. 13.8.1</a>, pp.&nbsp;485–488)</span>.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Algoritmo EM">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -489,7 +489,7 @@ Algoritmo EM
 </ul></li>
 <li>Retorne a última estimativa, a trajetória da log-verossimilhança e, quando pertinente, as esperanças ou probabilidades condicionais calculadas na etapa E.</li>
 </ol>
-<p>A estrutura algorítmica segue <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Algoritmo D.3, pp.&nbsp;712–713)</span> e <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>, pp.&nbsp;541–542)</span>.</p>
+<p>A estrutura algorítmica segue <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [Algoritmo D.3, pp.&nbsp;712–713] e <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>, pp.&nbsp;541–542)</span>.</p>
 </div>
 </div>
 <p>A escolha da variável latente é parte essencial da construção do algoritmo. O objetivo é obter uma representação de dados completos cuja esperança condicional seja calculável e cuja maximização seja substancialmente mais simples que a maximização direta de <span class="math inline">\(\ell(\theta;y)\)</span>.</p>
@@ -504,7 +504,7 @@ Algoritmo EM
 \ell_c(\theta;y,z)
 p(z\mid y,\theta^{(t)})\,dz.\]</span></p>
 <p>É importante distinguir os papéis de <span class="math inline">\(\theta\)</span> e <span class="math inline">\(\theta^{(t)}\)</span>: o primeiro continua sendo o argumento que será maximizado na etapa M, enquanto o segundo é usado para formar a distribuição condicional que determina a esperança.</p>
-<p><span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021, p. 541</a>)</span> enfatiza explicitamente essa distinção; a mesma construção aparece em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Eq. D.16, pp.&nbsp;712–713)</span>.</p>
+<p><span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>)</span> [p.&nbsp;541] enfatiza explicitamente essa distinção; a mesma construção aparece em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Eq. D.16, pp.&nbsp;712–713)</span>.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -516,7 +516,7 @@ Interpretação
 </div>
 <div class="callout-body-container callout-body">
 <p>A etapa E não precisa produzir uma imputação única dos valores ausentes. Em geral, ela produz <strong>esperanças de funções do dado completo</strong>. Em modelos de mistura, por exemplo, não se substitui necessariamente cada rótulo por uma classe definitiva; calculam-se probabilidades condicionais de pertencimento a cada componente.</p>
-<p>Essa interpretação segue <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Exemplo D.1, pp.&nbsp;713–714)</span> e <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022, seç. 13.8.1</a>, pp.&nbsp;485–488)</span>.</p>
+<p>Essa interpretação segue <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [Exemplo D.1, pp.&nbsp;713–714] e <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022, seç. 13.8.1</a>, pp.&nbsp;485–488)</span>.</p>
 </div>
 </div>
 <section id="responsabilidades-em-uma-mistura-finita" class="level3" data-number="7.5.1">
@@ -550,7 +550,7 @@ f_k(y_i\mid\eta_k^{(t)})
 \pi_j^{(t)}
 f_j(y_i\mid\eta_j^{(t)})
 }.\]</span></p>
-<p>Neste capítulo, chamaremos essas probabilidades condicionais de <strong>responsabilidades</strong>. Elas medem quanto cada componente contribui, sob os parâmetros correntes, para explicar cada observação. A fórmula corresponde às probabilidades condicionais apresentadas no Exemplo D.1 de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, pp.&nbsp;713–714)</span> e às probabilidades <em>a posteriori</em> usadas na discussão de misturas em <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>, pp.&nbsp;145–148)</span>.</p>
+<p>Neste capítulo, chamaremos essas probabilidades condicionais de <strong>responsabilidades</strong>. Elas medem quanto cada componente contribui, sob os parâmetros correntes, para explicar cada observação. A fórmula corresponde às probabilidades condicionais apresentadas no Exemplo D.1 de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [pp.&nbsp;713–714] e às probabilidades <em>a posteriori</em> usadas na discussão de misturas em <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>, pp.&nbsp;145–148)</span>.</p>
 </section>
 </section>
 <section id="etapa-da-maximização-m" class="level2" data-number="7.6">
@@ -561,7 +561,7 @@ f_j(y_i\mid\eta_j^{(t)})
 \arg\max_{\theta\in\Theta}
 Q(\theta\mid\theta^{(t)}).\]</span></p>
 <p>A vantagem do EM depende de essa maximização ser mais simples que a maximização direta da verossimilhança observada. Em famílias exponenciais, a log-verossimilhança completa frequentemente depende dos dados por estatísticas suficientes simples. Nesse caso, a etapa E calcula esperanças condicionais dessas estatísticas e a etapa M reutiliza a forma das estimativas de máxima verossimilhança dos dados completos.</p>
-<p>Essa simplificação da etapa M é discutida por <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>, pp.&nbsp;541–542)</span> e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, p. 713</a>)</span>.</p>
+<p>Essa simplificação da etapa M é discutida por <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>)</span> [pp.&nbsp;541–542] e <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, p. 713</a>)</span>.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Definição">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -661,7 +661,7 @@ p(z\mid y,\theta)
 \geq
 \ell(\theta^{(t)};y)
 }.\]</span></p>
-<p>A demonstração acima é organizada a partir da identidade e do argumento de limite inferior de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Eq. D.15 e Algoritmo D.3, pp.&nbsp;712–713)</span>. <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>, pp.&nbsp;541–542)</span> também estabelece a propriedade de não decréscimo da verossimilhança ao longo das iterações.</p>
+<p>A demonstração acima é organizada a partir da identidade e do argumento de limite inferior de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [Eq. D.15 e Algoritmo D.3, pp.&nbsp;712–713]. <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>, pp.&nbsp;541–542)</span> também estabelece a propriedade de não decréscimo da verossimilhança ao longo das iterações.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -723,7 +723,7 @@ Observação
 \right\|
 &lt;
 \varepsilon_\theta.\]</span></p>
-<p><span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>, pp.&nbsp;541–542)</span> discute tanto a diferença entre valores sucessivos da verossimilhança quanto a distância entre vetores de parâmetros. <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Algoritmo D.3, p.&nbsp;713)</span> apresenta um critério relativo baseado na verossimilhança; a forma estabilizada acima é uma escolha computacional deste capítulo. Em aplicações reais, é recomendável também impor um número máximo de iterações, pois uma tolerância muito estrita pode produzir uma execução longa sem alteração relevante para a interpretação. A importância operacional de <code>maxiter</code> é ilustrada por <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 10.1.3</a>, pp.&nbsp;361–362)</span>.</p>
+<p><span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>)</span> [pp.&nbsp;541–542] discute tanto a diferença entre valores sucessivos da verossimilhança quanto a distância entre vetores de parâmetros. <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Algoritmo D.3, p.&nbsp;713)</span> apresenta um critério relativo baseado na verossimilhança; a forma estabilizada acima é uma escolha computacional deste capítulo. Em aplicações reais, é recomendável também impor um número máximo de iterações, pois uma tolerância muito estrita pode produzir uma execução longa sem alteração relevante para a interpretação. A importância operacional de <code>maxiter</code> é ilustrada por <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 10.1.3</a>, pp.&nbsp;361–362)</span>.</p>
 <div class="callout callout-style-default callout-warning callout-titled" title="Observação computacional">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -741,7 +741,7 @@ Observação computacional
 <section id="sensibilidade-aos-valores-iniciais" class="level2" data-number="7.9">
 <h2 data-number="7.9" class="anchored" data-anchor-id="sensibilidade-aos-valores-iniciais"><span class="header-section-number">7.9</span> Sensibilidade aos valores iniciais</h2>
 <p>O EM exige um valor inicial <span class="math inline">\(\theta^{(0)}\)</span>. Em problemas simples, uma escolha heurística pode ser suficiente. <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021, p. 541</a>)</span> sugere, por exemplo, usar estatísticas calculadas com a parte observada dos dados quando isso fizer sentido.</p>
-<p>Em problemas multimodais, contudo, a solução final pode depender fortemente do ponto inicial. <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, p. 713</a>)</span> observa que a convergência a um máximo global depende dos valores iniciais e recomenda, na prática, execuções com diferentes pontos iniciais aleatórios. <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 10.1.3</a>, pp.&nbsp;361–362)</span> mostra essa dificuldade em análise de classes latentes com <code>poLCA</code>: atribuições iniciais desfavoráveis podem impedir que o procedimento encontre uma solução satisfatória, e a execução com múltiplas inicializações (<code>nrep</code>) é apresentada como estratégia prática.</p>
+<p>Em problemas multimodais, contudo, a solução final pode depender fortemente do ponto inicial. <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [p.&nbsp;713] observa que a convergência a um máximo global depende dos valores iniciais e recomenda, na prática, execuções com diferentes pontos iniciais aleatórios. <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 10.1.3</a>, pp.&nbsp;361–362)</span> mostra essa dificuldade em análise de classes latentes com <code>poLCA</code>: atribuições iniciais desfavoráveis podem impedir que o procedimento encontre uma solução satisfatória, e a execução com múltiplas inicializações (<code>nrep</code>) é apresentada como estratégia prática.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Interpretação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -753,18 +753,18 @@ Interpretação
 </div>
 <div class="callout-body-container callout-body">
 <p>Uma única execução do EM informa: “a partir deste ponto inicial, o algoritmo chegou a esta solução”. Várias execuções permitem avaliar se diferentes regiões do espaço de parâmetros conduzem ao mesmo valor final da log-verossimilhança.</p>
-<p>Essa interpretação é sustentada por <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, p. 713</a>)</span> e pelo exemplo de múltiplas inicializações de <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 10.1.3</a>, pp.&nbsp;361–362)</span>.</p>
+<p>Essa interpretação é sustentada por <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [p.&nbsp;713] e pelo exemplo de múltiplas inicializações de <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 10.1.3</a>, pp.&nbsp;361–362)</span>.</p>
 </div>
 </div>
 <p>Uma estratégia simples para misturas é inicializar as médias a partir de quantis distintos ou de uma partição preliminar dos dados e repetir o ajuste com perturbações aleatórias.</p>
-<p>A necessidade de múltiplas inicializações é discutida por <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, p. 713</a>)</span> e ilustrada por <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 10.1.3</a>, pp.&nbsp;361–362)</span>.</p>
+<p>A necessidade de múltiplas inicializações é discutida por <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [p.&nbsp;713] e ilustrada por <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 10.1.3</a>, pp.&nbsp;361–362)</span>.</p>
 </section>
 <section id="máximos-locais-e-limitações-computacionais" class="level2" data-number="7.10">
 <h2 data-number="7.10" class="anchored" data-anchor-id="máximos-locais-e-limitações-computacionais"><span class="header-section-number">7.10</span> Máximos locais e limitações computacionais</h2>
-<p>A função de verossimilhança pode ser multimodal. O EM preserva a monotonicidade, mas não possui, em geral, uma propriedade que force a sequência a atingir o melhor máximo global. Sob condições de regularidade, <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022, seç. 13.8.1</a>, pp.&nbsp;485–486)</span> descreve a convergência para um ponto estacionário, enquanto <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, p. 713</a>)</span> destaca a dependência dos valores iniciais e a possibilidade de convergência local. A distinção geral entre soluções locais e globais é discutida por <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, cap. 1</a>, “Global and Local Optimization”, pp.&nbsp;6–7)</span>.</p>
+<p>A função de verossimilhança pode ser multimodal. O EM preserva a monotonicidade, mas não possui, em geral, uma propriedade que force a sequência a atingir o melhor máximo global. Sob condições de regularidade, <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022</a>)</span> [Seção 13.8.1, pp.&nbsp;485–486] descreve a convergência para um ponto estacionário, enquanto <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, p. 713</a>)</span> destaca a dependência dos valores iniciais e a possibilidade de convergência local. A distinção geral entre soluções locais e globais é discutida por <span class="citation" data-cites="nocedal2006numerical">Nocedal; Wright (<a href="#ref-nocedal2006numerical" role="doc-biblioref">2006, cap. 1</a>, “Global and Local Optimization”, pp.&nbsp;6–7)</span>.</p>
 <p>Além da multimodalidade, há três limitações práticas importantes.</p>
 <p>Primeiro, a <strong>etapa E pode ser difícil</strong>. Ela exige uma esperança condicional que nem sempre possui forma analítica simples. <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021, p. 548</a> e discussão subsequente)</span> menciona o Monte Carlo EM (MCEM) como alternativa quando essa esperança precisa ser aproximada por simulação.</p>
-<p>Segundo, a <strong>etapa M pode continuar sendo um problema de otimização não trivial</strong>. A vantagem do EM é maior quando a estrutura de dados completos pertence a uma família que produz maximizações simples, em particular em diversos casos de famílias exponenciais. Isso é observado por <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, p. 713</a>)</span> e <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>, pp.&nbsp;541–542)</span>.</p>
+<p>Segundo, a <strong>etapa M pode continuar sendo um problema de otimização não trivial</strong>. A vantagem do EM é maior quando a estrutura de dados completos pertence a uma família que produz maximizações simples, em particular em diversos casos de famílias exponenciais. Isso é observado por <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [p.&nbsp;713] e <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>, pp.&nbsp;541–542)</span>.</p>
 <p>Terceiro, modelos de mistura apresentam <strong>questões de identificabilidade por permutação dos rótulos</strong>. Se duas componentes pertencem à mesma família paramétrica, permutar seus índices não altera a distribuição da mistura. <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>, pp.&nbsp;145–148)</span> discute essa ambiguidade e a necessidade de alguma convenção de ordenação quando se deseja identificar os componentes de forma única.</p>
 <div class="callout callout-style-default callout-warning callout-titled" title="Observação">
 <div class="callout-header d-flex align-content-center">
@@ -852,7 +852,7 @@ Observação
 <span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>A estrutura algorítmica implementada acima segue <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Algoritmo D.3, pp.&nbsp;712–713)</span> e <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>, pp.&nbsp;541–542)</span>.</p>
+<p>A estrutura algorítmica implementada acima segue <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [Algoritmo D.3, pp.&nbsp;712–713] e <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>, pp.&nbsp;541–542)</span>.</p>
 </section>
 <section id="exemplo-em-r-normal-com-valores-ausentes" class="level3" data-number="7.11.2">
 <h3 data-number="7.11.2" class="anchored" data-anchor-id="exemplo-em-r-normal-com-valores-ausentes"><span class="header-section-number">7.11.2</span> Exemplo em R: normal com valores ausentes</h3>
@@ -1001,7 +1001,7 @@ z_{ik}
 \log f_k(y_i\mid\eta_k)
 \right].\]</span></p>
 <p>Essa forma é separável por componentes e leva diretamente às responsabilidades da etapa E e às atualizações ponderadas da etapa M.</p>
-<p>A formulação de dados completos para misturas segue <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Exemplo D.1, pp.&nbsp;713–714)</span> e é compatível com a discussão de misturas de <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008, seç. 8.3</a>, pp.&nbsp;145–148)</span>.</p>
+<p>A formulação de dados completos para misturas segue <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [Exemplo D.1, pp.&nbsp;713–714] e é compatível com a discussão de misturas de <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008, seç. 8.3</a>, pp.&nbsp;145–148)</span>.</p>
 <section id="mistura-de-duas-normais-em-r" class="level3" data-number="7.12.1">
 <h3 data-number="7.12.1" class="anchored" data-anchor-id="mistura-de-duas-normais-em-r"><span class="header-section-number">7.12.1</span> Mistura de duas normais em R</h3>
 <p>A função abaixo implementa o EM para uma mistura normal univariada com <span class="math inline">\(K\)</span> componentes. A implementação segue as probabilidades condicionais da etapa E e as atualizações apresentadas por <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Eqs. D.17–D.18, pp.&nbsp;713–714)</span>.</p>
@@ -1270,7 +1270,7 @@ Observação computacional
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>melhor <span class="ot">&lt;-</span> ajustes[[<span class="fu">which.max</span>(loglik_finais)]]</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>O uso de várias inicializações é motivado pela dependência do EM em relação ao ponto inicial e pela possibilidade de máximos locais.</p>
-<p>A estratégia de múltiplas inicializações é motivada por <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, p. 713</a>)</span> e ilustrada por <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 10.1.3</a>, pp.&nbsp;361–362)</span>.</p>
+<p>A estratégia de múltiplas inicializações é motivada por <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [p.&nbsp;713] e ilustrada por <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 10.1.3</a>, pp.&nbsp;361–362)</span>.</p>
 </section>
 <section id="uso-de-mclust" class="level3" data-number="7.12.6">
 <h3 data-number="7.12.6" class="anchored" data-anchor-id="uso-de-mclust"><span class="header-section-number">7.12.6</span> Uso de <code>mclust</code></h3>
@@ -1341,7 +1341,7 @@ Clustering table:
 <li>valor inicial utilizado.</li>
 </ul>
 <p>Quando o número máximo de iterações é atingido, a execução deve ser marcada como não convergida, mesmo que os parâmetros pareçam plausíveis.</p>
-<p>Os critérios de parada são discutidos por <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, p. 713</a>)</span> e <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>, pp.&nbsp;541–542)</span>, enquanto <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 10.1.3</a>, pp.&nbsp;361–362)</span> fornece um exemplo de falha por limite de iterações.</p>
+<p>Os critérios de parada são discutidos por <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [p.&nbsp;713] e <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>, pp.&nbsp;541–542)</span>, enquanto <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 10.1.3</a>, pp.&nbsp;361–362)</span> fornece um exemplo de falha por limite de iterações.</p>
 </section>
 <section id="comparação-entre-inicializações" class="level3" data-number="7.13.3">
 <h3 data-number="7.13.3" class="anchored" data-anchor-id="comparação-entre-inicializações"><span class="header-section-number">7.13.3</span> Comparação entre inicializações</h3>
@@ -1354,7 +1354,7 @@ Clustering table:
 <p><span class="math display">\[\tau_{ik}=P(Z_{ik}=1\mid y_i,\widehat\theta).\]</span></p>
 <p>Se uma observação possui uma responsabilidade próxima de <span class="math inline">\(1\)</span> para uma componente, sua classificação é pouco ambígua segundo o modelo ajustado. Se duas ou mais responsabilidades são semelhantes, a atribuição da observação é incerta.</p>
 <p>Essa interpretação decorre diretamente da definição das probabilidades condicionais da etapa E.</p>
-<p>As probabilidades condicionais utilizadas nessa interpretação aparecem em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Exemplo D.1, pp.&nbsp;713–714)</span> e na discussão de misturas de <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>, pp.&nbsp;145–148)</span>.</p>
+<p>As probabilidades condicionais utilizadas nessa interpretação aparecem em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [Exemplo D.1, pp.&nbsp;713–714] e na discussão de misturas de <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>, pp.&nbsp;145–148)</span>.</p>
 </section>
 <section id="rótulos-das-componentes" class="level3" data-number="7.13.5">
 <h3 data-number="7.13.5" class="anchored" data-anchor-id="rótulos-das-componentes"><span class="header-section-number">7.13.5</span> Rótulos das componentes</h3>
@@ -1363,7 +1363,7 @@ Clustering table:
 </section>
 <section id="número-de-componentes" class="level3" data-number="7.13.6">
 <h3 data-number="7.13.6" class="anchored" data-anchor-id="número-de-componentes"><span class="header-section-number">7.13.6</span> Número de componentes</h3>
-<p>O EM ajusta os parâmetros para uma estrutura de mistura especificada; a escolha do número de componentes constitui um problema adicional. <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>, pp.&nbsp;145–148)</span> discute a determinação do número de distribuições em uma mistura e observa que problemas de teste nesse contexto não satisfazem automaticamente as condições assintóticas usuais. <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 4.12.5</a>, pp.&nbsp;156–157)</span> mostra uma abordagem de agrupamento baseada em <code>mclust</code>, na qual a seleção do número de grupos é integrada à rotina de modelagem.</p>
+<p>O EM ajusta os parâmetros para uma estrutura de mistura especificada; a escolha do número de componentes constitui um problema adicional. <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>)</span> [pp.&nbsp;145–148] discute a determinação do número de distribuições em uma mistura e observa que problemas de teste nesse contexto não satisfazem automaticamente as condições assintóticas usuais. <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 4.12.5</a>, pp.&nbsp;156–157)</span> mostra uma abordagem de agrupamento baseada em <code>mclust</code>, na qual a seleção do número de grupos é integrada à rotina de modelagem.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Checklist de diagnóstico">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1384,7 +1384,7 @@ Checklist de diagnóstico
 <li>os rótulos das componentes foram alinhados antes de comparar execuções;</li>
 <li>qualquer seleção do número de componentes foi tratada como etapa distinta da simples iteração EM.</li>
 </ol>
-<p>A lista sintetiza os diagnósticos discutidos em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, pp.&nbsp;711–714)</span>, <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025</a>)</span> [pp.&nbsp;156–157; Seção 10.1.3, pp.&nbsp;361–362] e <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>, pp.&nbsp;145–148)</span>.</p>
+<p>A lista sintetiza os diagnósticos discutidos em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [pp.&nbsp;711–714], <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025</a>)</span> [pp.&nbsp;156–157; Seção 10.1.3, pp.&nbsp;361–362] e <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>, pp.&nbsp;145–148)</span>.</p>
 </div>
 </div>
 </section>
@@ -1393,11 +1393,11 @@ Checklist de diagnóstico
 <h2 data-number="7.14" class="anchored" data-anchor-id="síntese-do-capítulo"><span class="header-section-number">7.14</span> Síntese do capítulo</h2>
 <p>O EM transforma um problema de máxima verossimilhança com informação incompleta em uma sequência de problemas associados à informação completa. A etapa E calcula a esperança condicional da log-verossimilhança completa; a etapa M maximiza essa esperança. A estrutura produz uma sequência não decrescente de valores da log-verossimilhança observada. Essa propriedade, porém, não elimina a possibilidade de convergência a máximos locais nem a sensibilidade aos valores iniciais.</p>
 <p>Em modelos de mistura, as variáveis latentes correspondem naturalmente aos rótulos das componentes. A etapa E calcula probabilidades condicionais de pertencimento e a etapa M atualiza pesos, médias, variâncias ou outros parâmetros por meio dessas probabilidades. Computacionalmente, um ajuste confiável deve registrar a trajetória da log-verossimilhança, o critério de parada, o número de iterações e os resultados de múltiplas inicializações quando necessário.</p>
-<p>A síntese reúne os resultados apresentados em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice D.7, pp.&nbsp;711–714)</span>, <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021, seç. 13.4</a>, pp.&nbsp;540–548)</span>, <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022, seç. 13.8</a>, pp.&nbsp;483–488)</span> e <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>, pp.&nbsp;145–148)</span>.</p>
+<p>A síntese reúne os resultados apresentados em <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [Apêndice D.7, pp.&nbsp;711–714], <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021, seç. 13.4</a>, pp.&nbsp;540–548)</span>, <span class="citation" data-cites="chihara2022resampling">Chihara; Hesterberg (<a href="#ref-chihara2022resampling" role="doc-biblioref">2022</a>)</span> [Seção 13.8, pp.&nbsp;483–488] e <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>, pp.&nbsp;145–148)</span>.</p>
 </section>
 <section id="exercícios" class="level2" data-number="7.15">
 <h2 data-number="7.15" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">7.15</span> Exercícios</h2>
-<div class="callout callout-style-default callout-warning callout-titled" title="Exercício 1 — dados completos e dados observados">
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 1 — dados completos e dados observados">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -1422,7 +1422,7 @@ Exercício 1 — dados completos e dados observados
 <p><em>Exercício baseado na estratégia de aumento de dados de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, Apêndice D.7, pp.&nbsp;711–714)</span>.</em></p>
 </div>
 </div>
-<div class="callout callout-style-default callout-warning callout-titled" title="Exercício 2 — monotonicidade">
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 2 — monotonicidade">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -1447,7 +1447,7 @@ p(z\mid y,\theta)
 <p><em>Exercício baseado na Eq. D.15 e no Algoritmo D.3 de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>, pp.&nbsp;712–713)</span>.</em></p>
 </div>
 </div>
-<div class="callout callout-style-default callout-warning callout-titled" title="Exercício 3 — sensibilidade aos valores iniciais">
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 3 — sensibilidade aos valores iniciais">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -1465,10 +1465,10 @@ Exercício 3 — sensibilidade aos valores iniciais
 <li>classificações das observações.</li>
 </ul>
 <p>Explique por que é necessário alinhar os rótulos antes de comparar os parâmetros.</p>
-<p><em>Exercício baseado na discussão de inicialização de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, p. 713</a>)</span>, no exemplo prático de <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 10.1.3</a>, pp.&nbsp;361–362)</span> e na discussão de identificabilidade de <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>, pp.&nbsp;145–148)</span>.</em></p>
+<p><em>Exercício baseado na discussão de inicialização de <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [p.&nbsp;713], no exemplo prático de <span class="citation" data-cites="thulin2025modern">Thulin (<a href="#ref-thulin2025modern" role="doc-biblioref">2025, seç. 10.1.3</a>, pp.&nbsp;361–362)</span> e na discussão de identificabilidade de <span class="citation" data-cites="chernick2008bootstrap">Chernick (<a href="#ref-chernick2008bootstrap" role="doc-biblioref">2008</a>, pp.&nbsp;145–148)</span>.</em></p>
 </div>
 </div>
-<div class="callout callout-style-default callout-warning callout-titled" title="Exercício 4 — censura exponencial">
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 4 — censura exponencial">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
@@ -1482,7 +1482,7 @@ Exercício 4 — censura exponencial
 <p><em>Exercício adaptado de <span class="citation" data-cites="ramachandran2021mathematical">Ramachandran; Tsokos (<a href="#ref-ramachandran2021mathematical" role="doc-biblioref">2021</a>, Exemplo 13.4.1, pp.&nbsp;542–544)</span>.</em></p>
 </div>
 </div>
-<div class="callout callout-style-default callout-warning callout-titled" title="Exercício 5 — diagnóstico">
+<div class="callout callout-style-default callout-caution callout-titled" title="Exercício 5 — diagnóstico">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
