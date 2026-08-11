@@ -121,41 +121,81 @@ p_hat <- acertos / B
 p_hat
 ```
 
-## Atividade: Problema do Aniversário (22 jogadores) {.unnumbered}
 
-A atividade de @martins_learning_2018 \[pp. 108--111\] usa o problema do aniversário para introduzir os princípios da simulação por meio de uma abordagem lúdica, destacando justamente a tensão entre intuição e probabilidade. O problema também é discutido por @falk_closer_2014 [pp. 41--46]. Um antecedente diretamente ligado ao futebol é @matthews_coincidences_1998 [pp. 17--19], que considera as **23 pessoas em campo** — 22 jogadores e o árbitro — como um teste empírico natural do resultado clássico.
+## Atividade computacional: o problema dos 22 jogadores {.unnumbered}
 
-Na atividade a seguir, adotaremos deliberadamente apenas os **22 jogadores**. Trata-se, portanto, de uma adaptação didática deste capítulo: com 22 pessoas, a probabilidade exata de pelo menos uma coincidência é aproximadamente $0.4757$, ligeiramente abaixo de 50%. Essa escolha permite comparar um cenário muito próximo do limiar clássico de 23 pessoas e discutir a sensibilidade da probabilidade ao tamanho do grupo.
-
-Agora iremos considerar o seguinte problema:
+O problema do aniversário pode ser transportado para um contexto esportivo. 
+@matthews_coincidences_1998 [pp. 17--19] utiliza uma partida de futebol como
+situação empírica natural, considerando as **23 pessoas em campo** — 22 jogadores
+e o árbitro. A atividade proposta a seguir utiliza apenas os **22 jogadores**,
+constituindo uma adaptação didática destinada a investigar o comportamento da
+probabilidade quando o tamanho do grupo está muito próximo do limiar clássico
+de 23 pessoas.
 
 ::: {.callout-tip title="Problema"}
-Em uma partida de futebol, qual é a probabilidade de que pelo menos dois dos 22 jogadores façam aniversário no mesmo dia?
+Em uma partida de futebol, qual é a probabilidade de que pelo menos dois dos
+22 jogadores façam aniversário no mesmo dia?
 :::
 
-Em um país frequentemente associado ao futebol, o contexto é proposital: a familiaridade com o jogo contrasta com uma probabilidade que costuma desafiar a intuição. Antes de qualquer cálculo, considere as hipóteses: (i) todos os 365 dias do ano são igualmente prováveis para qualquer aniversário; (ii) as datas de aniversário dos jogadores são independentes entre si.
+### Objetivos {.unnumbered}
 
-**Objetivos**
+Ao realizar esta atividade, espera-se que você seja capaz de:
 
-- Estimar, via simulação, a probabilidade de coincidência de aniversários.
+- estimar uma probabilidade por meio de simulação;
+- relacionar frequência relativa e Lei dos Grandes Números;
+- quantificar a variabilidade de uma estimativa de Monte Carlo;
+- comparar resultados exatos, aproximados e simulados;
+- investigar a influência do tamanho do grupo sobre a probabilidade de coincidência.
 
-- Relacionar frequência relativa, Lei dos Grandes Números e variação amostral.
+### Atividade de Sala de Aula {.unnumbered}
 
-- Comparar o resultado exato e aproximado.
+Considere o mesmo modelo utilizado anteriormente: 365 dias equiprováveis,
+independência entre aniversários e desconsideração de anos bissextos.
 
-**Hipóteses**
+1. Escreva uma função em `R` que simule os aniversários de $r$ pessoas e retorne `TRUE` quando houver pelo menos uma coincidência.
 
-- 365 dias equiprováveis, datas independentes, ignorar bissexto/gêmeos.
+2. Utilize $r=22$ e repita o experimento $B=10\,000$ vezes.
 
-**Materiais**
+3. Estime
 
-- R (ou Posit Cloud), roteiro com comandos `sample()`, `table()`, `mean()`.
+$$p_{22}=P(\text{pelo menos uma coincidência entre 22 pessoas}),$$
 
-## Exercícios {.unnumbered}
+pela proporção de simulações em que ocorreu pelo menos uma repetição.
+
+4. Calcule o erro-padrão de Monte Carlo da estimativa,
+
+$$
+\widehat{\operatorname{EP}}_{\mathrm{MC}} = \sqrt{\frac{\widehat p(1-\widehat p)}{B}}.
+$$
+
+5. Calcule a probabilidade exata utilizando
+
+$$p_r = 1- \prod_{i=1}^{r-1}\frac{365-i}{365}.$$
+
+6. Calcule também a aproximação
+
+$$p_r \approx 1-\exp\left\{-\frac{r(r-1)}{730}\right\}.$$
+
+7. Compare os três resultados:
+
+- probabilidade exata;
+- aproximação exponencial;
+- estimativa obtida por Monte Carlo.
+
+8. Repita a análise para $r=23$.
+
+9. Compare os resultados obtidos para $r=22$ e $r=23$. O que a inclusão de apenas uma pessoa adicional provoca na relação com o limiar de $50\%$?
+
+10. Discuta criticamente as hipóteses do modelo. Em uma população real, é razoável admitir que todos os dias do ano sejam igualmente prováveis como datas de nascimento?
+
+
+
+## Atividade Computacional {.unnumbered}
 
 1)  Determinar o menor número de pessoas que deve estar em uma sala para que se possa apostar, com mais de 50% de chance de ganhar, que entre elas existam pelo menos duas com o mesmo aniversário.
 
 2)  Determinar o menor número de outras pessoas que deve estar em uma sala com você para que se possa apostar, com mais de 50% de chance de ganhar, que pelo menos uma delas tenha o mesmo aniversário que o seu.
+
 
 ## Revisão de R para Estatística Computacional
 
@@ -223,7 +263,6 @@ Um **script** é um arquivo de texto que contém comandos de `R` destinados a se
 :::
 
 @voss2014statistical [pp. 272--273] mostra que o prompt `>` identifica comandos digitados no console e que comandos incompletos podem continuar na linha seguinte.
-
 
 ### Comentários e legibilidade
 

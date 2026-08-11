@@ -436,8 +436,12 @@ window.Quarto = {
   <li><a href="#da-teoria-à-simulação" id="toc-da-teoria-à-simulação" class="nav-link" data-scroll-target="#da-teoria-à-simulação">Da teoria à simulação</a></li>
   <li><a href="#um-atalho-analítico-útil" id="toc-um-atalho-analítico-útil" class="nav-link" data-scroll-target="#um-atalho-analítico-útil">Um atalho analítico útil</a></li>
   <li><a href="#o-papel-da-simulação" id="toc-o-papel-da-simulação" class="nav-link" data-scroll-target="#o-papel-da-simulação">O papel da simulação</a></li>
-  <li><a href="#atividade-problema-do-aniversário-22-jogadores" id="toc-atividade-problema-do-aniversário-22-jogadores" class="nav-link" data-scroll-target="#atividade-problema-do-aniversário-22-jogadores">Atividade: Problema do Aniversário (22 jogadores)</a></li>
-  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios">Exercícios</a></li>
+  <li><a href="#atividade-computacional-o-problema-dos-22-jogadores" id="toc-atividade-computacional-o-problema-dos-22-jogadores" class="nav-link" data-scroll-target="#atividade-computacional-o-problema-dos-22-jogadores">Atividade computacional: o problema dos 22 jogadores</a>
+  <ul class="collapse">
+  <li><a href="#objetivos" id="toc-objetivos" class="nav-link" data-scroll-target="#objetivos">Objetivos</a></li>
+  <li><a href="#atividade-de-sala-de-aula" id="toc-atividade-de-sala-de-aula" class="nav-link" data-scroll-target="#atividade-de-sala-de-aula">Atividade de Sala de Aula</a></li>
+  </ul></li>
+  <li><a href="#atividade-computacional" id="toc-atividade-computacional" class="nav-link" data-scroll-target="#atividade-computacional">Atividade Computacional</a></li>
   <li><a href="#revisão-de-r-para-estatística-computacional" id="toc-revisão-de-r-para-estatística-computacional" class="nav-link" data-scroll-target="#revisão-de-r-para-estatística-computacional"><span class="header-section-number">1.2</span> Revisão de R para Estatística Computacional</a>
   <ul class="collapse">
   <li><a href="#objetivos-de-aprendizagem" id="toc-objetivos-de-aprendizagem" class="nav-link" data-scroll-target="#objetivos-de-aprendizagem"><span class="header-section-number">1.2.1</span> Objetivos de aprendizagem</a></li>
@@ -474,7 +478,7 @@ window.Quarto = {
   <li><a href="#testando-e-depurando-código" id="toc-testando-e-depurando-código" class="nav-link" data-scroll-target="#testando-e-depurando-código"><span class="header-section-number">1.2.32</span> Testando e depurando código</a></li>
   <li><a href="#dry-e-dividir-para-conquistar" id="toc-dry-e-dividir-para-conquistar" class="nav-link" data-scroll-target="#dry-e-dividir-para-conquistar"><span class="header-section-number">1.2.33</span> DRY e dividir para conquistar</a></li>
   <li><a href="#síntese" id="toc-síntese" class="nav-link" data-scroll-target="#síntese"><span class="header-section-number">1.2.34</span> Síntese</a></li>
-  <li><a href="#exercícios-1" id="toc-exercícios-1" class="nav-link" data-scroll-target="#exercícios-1"><span class="header-section-number">1.2.35</span> Exercícios</a></li>
+  <li><a href="#exercícios" id="toc-exercícios" class="nav-link" data-scroll-target="#exercícios"><span class="header-section-number">1.2.35</span> Exercícios</a></li>
   </ul></li>
   <li><a href="#referências" id="toc-referências" class="nav-link" data-scroll-target="#referências">Referências</a></li>
   </ul>
@@ -623,11 +627,9 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="atividade-problema-do-aniversário-22-jogadores" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="atividade-problema-do-aniversário-22-jogadores">Atividade: Problema do Aniversário (22 jogadores)</h2>
-<p>A atividade de <span class="citation" data-cites="martins_learning_2018">Martins (<a href="#ref-martins_learning_2018" role="doc-biblioref">2018</a>)</span> [pp.&nbsp;108–111] usa o problema do aniversário para introduzir os princípios da simulação por meio de uma abordagem lúdica, destacando justamente a tensão entre intuição e probabilidade. O problema também é discutido por <span class="citation" data-cites="falk_closer_2014">Falk (<a href="#ref-falk_closer_2014" role="doc-biblioref">2014</a>, pp.&nbsp;41–46)</span>. Um antecedente diretamente ligado ao futebol é <span class="citation" data-cites="matthews_coincidences_1998">Matthews; Stones (<a href="#ref-matthews_coincidences_1998" role="doc-biblioref">1998</a>, pp.&nbsp;17–19)</span>, que considera as <strong>23 pessoas em campo</strong> — 22 jogadores e o árbitro — como um teste empírico natural do resultado clássico.</p>
-<p>Na atividade a seguir, adotaremos deliberadamente apenas os <strong>22 jogadores</strong>. Trata-se, portanto, de uma adaptação didática deste capítulo: com 22 pessoas, a probabilidade exata de pelo menos uma coincidência é aproximadamente <span class="math inline">\(0.4757\)</span>, ligeiramente abaixo de 50%. Essa escolha permite comparar um cenário muito próximo do limiar clássico de 23 pessoas e discutir a sensibilidade da probabilidade ao tamanho do grupo.</p>
-<p>Agora iremos considerar o seguinte problema:</p>
+<section id="atividade-computacional-o-problema-dos-22-jogadores" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="atividade-computacional-o-problema-dos-22-jogadores">Atividade computacional: o problema dos 22 jogadores</h2>
+<p>O problema do aniversário pode ser transportado para um contexto esportivo. <span class="citation" data-cites="matthews_coincidences_1998">Matthews; Stones (<a href="#ref-matthews_coincidences_1998" role="doc-biblioref">1998</a>, pp.&nbsp;17–19)</span> utiliza uma partida de futebol como situação empírica natural, considerando as <strong>23 pessoas em campo</strong> — 22 jogadores e o árbitro. A atividade proposta a seguir utiliza apenas os <strong>22 jogadores</strong>, constituindo uma adaptação didática destinada a investigar o comportamento da probabilidade quando o tamanho do grupo está muito próximo do limiar clássico de 23 pessoas.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Problema">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -641,24 +643,58 @@ window.Quarto = {
 <p>Em uma partida de futebol, qual é a probabilidade de que pelo menos dois dos 22 jogadores façam aniversário no mesmo dia?</p>
 </div>
 </div>
-<p>Em um país frequentemente associado ao futebol, o contexto é proposital: a familiaridade com o jogo contrasta com uma probabilidade que costuma desafiar a intuição. Antes de qualquer cálculo, considere as hipóteses: (i) todos os 365 dias do ano são igualmente prováveis para qualquer aniversário; (ii) as datas de aniversário dos jogadores são independentes entre si.</p>
-<p><strong>Objetivos</strong></p>
+<section id="objetivos" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="objetivos">Objetivos</h3>
+<p>Ao realizar esta atividade, espera-se que você seja capaz de:</p>
 <ul>
-<li><p>Estimar, via simulação, a probabilidade de coincidência de aniversários.</p></li>
-<li><p>Relacionar frequência relativa, Lei dos Grandes Números e variação amostral.</p></li>
-<li><p>Comparar o resultado exato e aproximado.</p></li>
-</ul>
-<p><strong>Hipóteses</strong></p>
-<ul>
-<li>365 dias equiprováveis, datas independentes, ignorar bissexto/gêmeos.</li>
-</ul>
-<p><strong>Materiais</strong></p>
-<ul>
-<li>R (ou Posit Cloud), roteiro com comandos <code>sample()</code>, <code>table()</code>, <code>mean()</code>.</li>
+<li>estimar uma probabilidade por meio de simulação;</li>
+<li>relacionar frequência relativa e Lei dos Grandes Números;</li>
+<li>quantificar a variabilidade de uma estimativa de Monte Carlo;</li>
+<li>comparar resultados exatos, aproximados e simulados;</li>
+<li>investigar a influência do tamanho do grupo sobre a probabilidade de coincidência.</li>
 </ul>
 </section>
-<section id="exercícios" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="exercícios">Exercícios</h2>
+<section id="atividade-de-sala-de-aula" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="atividade-de-sala-de-aula">Atividade de Sala de Aula</h3>
+<p>Considere o mesmo modelo utilizado anteriormente: 365 dias equiprováveis, independência entre aniversários e desconsideração de anos bissextos.</p>
+<ol type="1">
+<li><p>Escreva uma função em <code>R</code> que simule os aniversários de <span class="math inline">\(r\)</span> pessoas e retorne <code>TRUE</code> quando houver pelo menos uma coincidência.</p></li>
+<li><p>Utilize <span class="math inline">\(r=22\)</span> e repita o experimento <span class="math inline">\(B=10\,000\)</span> vezes.</p></li>
+<li><p>Estime</p></li>
+</ol>
+<p><span class="math display">\[p_{22}=P(\text{pelo menos uma coincidência entre 22 pessoas}),\]</span></p>
+<p>pela proporção de simulações em que ocorreu pelo menos uma repetição.</p>
+<ol start="4" type="1">
+<li>Calcule o erro-padrão de Monte Carlo da estimativa,</li>
+</ol>
+<p><span class="math display">\[
+\widehat{\operatorname{EP}}_{\mathrm{MC}} = \sqrt{\frac{\widehat p(1-\widehat p)}{B}}.
+\]</span></p>
+<ol start="5" type="1">
+<li>Calcule a probabilidade exata utilizando</li>
+</ol>
+<p><span class="math display">\[p_r = 1- \prod_{i=1}^{r-1}\frac{365-i}{365}.\]</span></p>
+<ol start="6" type="1">
+<li>Calcule também a aproximação</li>
+</ol>
+<p><span class="math display">\[p_r \approx 1-\exp\left\{-\frac{r(r-1)}{730}\right\}.\]</span></p>
+<ol start="7" type="1">
+<li>Compare os três resultados:</li>
+</ol>
+<ul>
+<li>probabilidade exata;</li>
+<li>aproximação exponencial;</li>
+<li>estimativa obtida por Monte Carlo.</li>
+</ul>
+<ol start="8" type="1">
+<li><p>Repita a análise para <span class="math inline">\(r=23\)</span>.</p></li>
+<li><p>Compare os resultados obtidos para <span class="math inline">\(r=22\)</span> e <span class="math inline">\(r=23\)</span>. O que a inclusão de apenas uma pessoa adicional provoca na relação com o limiar de <span class="math inline">\(50\%\)</span>?</p></li>
+<li><p>Discuta criticamente as hipóteses do modelo. Em uma população real, é razoável admitir que todos os dias do ano sejam igualmente prováveis como datas de nascimento?</p></li>
+</ol>
+</section>
+</section>
+<section id="atividade-computacional" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="atividade-computacional">Atividade Computacional</h2>
 <ol type="1">
 <li><p>Determinar o menor número de pessoas que deve estar em uma sala para que se possa apostar, com mais de 50% de chance de ganhar, que entre elas existam pelo menos duas com o mesmo aniversário.</p></li>
 <li><p>Determinar o menor número de outras pessoas que deve estar em uma sala com você para que se possa apostar, com mais de 50% de chance de ganhar, que pelo menos uma delas tenha o mesmo aniversário que o seu.</p></li>
@@ -2279,8 +2315,8 @@ $b
 </div>
 </div>
 </section>
-<section id="exercícios-1" class="level3" data-number="1.2.35">
-<h3 data-number="1.2.35" class="anchored" data-anchor-id="exercícios-1"><span class="header-section-number">1.2.35</span> Exercícios</h3>
+<section id="exercícios" class="level3" data-number="1.2.35">
+<h3 data-number="1.2.35" class="anchored" data-anchor-id="exercícios"><span class="header-section-number">1.2.35</span> Exercícios</h3>
 <div class="callout callout-style-default callout-caution callout-titled" title="Exercício 1 — tipos e valores especiais">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2596,9 +2632,6 @@ x_2
 
 
 <div id="refs" class="references csl-bib-body" data-entry-spacing="1" role="list">
-<div id="ref-falk_closer_2014" class="csl-entry" role="listitem">
-FALK, Ruma. <a href="https://doi.org/10.1111/test.12014">A Closer Look at the Notorious Birthday Coincidences</a>. <strong>Teaching Statistics</strong>, v. 36, n. 2, p. 41–46, jun. 2014.
-</div>
 <div id="ref-hodgson_simulation_2000" class="csl-entry" role="listitem">
 HODGSON, Ted; BURKE, Maurice. <a href="https://doi.org/10.1111/1467-9639.00033">On Simulation and the Teaching of Statistics</a>. <strong>Teaching Statistics</strong>, v. 22, n. 3, p. 91–96, out. 2000.
 </div>
