@@ -69,7 +69,7 @@ Fontes físicas de aleatoriedade podem explorar, por exemplo, ruído eletrônico
 :::
 
 ::: {.callout-important title="Definição"}
-Um **gerador de números pseudoaleatórios** (*pseudo-random number generator*, PRNG) é um algoritmo determinístico que produz uma sequência numérica destinada a substituir, em uma aplicação computacional, uma sequência de números aleatórios.
+Um **gerador de números pseudoaleatórios** (GNP) é um algoritmo determinístico que produz uma sequência numérica destinada a substituir, em uma aplicação computacional, uma sequência de números aleatórios.
 
 Ver @voss2014statistical [Definição 1.1, p. 2].
 :::
@@ -137,9 +137,7 @@ A saída de `identical()` deve ser `TRUE`.
 > Ver @thulin2025modern \[Seção 7.1.1, pp. 248--249\] e @voss2014statistical [Apêndice B.4, pp. 292--293].
 
 ::: {.callout-note appearance="minimal" title="Observação sobre o estado do R"}
-Se `set.seed()` não for executada novamente, chamadas sucessivas a `runif()` continuam a sequência a partir do estado corrente do gerador. A forma exata de inicialização do estado em uma sessão e a lista de geradores disponíveis são detalhes dependentes da versão do R.
-
-Essas informações de software devem ser conferidas na documentação da versão utilizada antes da publicação.
+Se `set.seed()` não for executada novamente, chamadas sucessivas a `runif()` continuam a sequência a partir do estado corrente do gerador. 
 :::
 
 ## Da sequência inteira à sequência pseudo-uniforme
@@ -234,8 +232,7 @@ $$X_n=aX_{n-1}\bmod m.$$
 Uma representação do GCL é:
 
 1.  escolha $m$, $a$, $c$ e $X_0$;
-2.  calcule
-    $$X_n=(aX_{n-1}+c)\bmod m;$$
+2.  calcule $$X_n=(aX_{n-1}+c)\bmod m;$$
 3.  converta o estado inteiro em um pseudo-uniforme;
 4.  use $X_n$ como novo estado;
 5.  repita.
@@ -353,7 +350,7 @@ gcl(
 ```
 
 ::: {.callout-note appearance="minimal" title="Observação"}
-A função acima tem finalidade didática. Para aplicações científicas reais, @voss2014statistical [Seção 1.1.3, p. 8] recomenda utilizar geradores bem estabelecidos fornecidos por bibliotecas ou pacotes confiáveis, em vez de implementar um PRNG próprio.
+A função acima tem finalidade didática. Para aplicações científicas reais, @voss2014statistical [Seção 1.1.3, p. 8] recomenda utilizar geradores bem estabelecidos fornecidos por bibliotecas ou pacotes confiáveis, em vez de implementar um GNP próprio.
 
 Além disso, a implementação usa o tipo numérico padrão do R. Para módulos e multiplicadores suficientemente grandes, os produtos intermediários podem ultrapassar a faixa de inteiros representáveis exatamente em ponto flutuante; nesse caso, é necessária uma implementação de aritmética modular apropriada.
 :::
@@ -456,7 +453,7 @@ Logo, o período é
 
 $$P=8.$$
 
-## O minimal standard LCG
+## GCL de padrão mínimo
 
 Um exemplo clássico citado por @kroese2011handbook utiliza
 
@@ -466,7 +463,7 @@ $$a=7^5=16807,$$
 
 $$c=0.$$
 
-Esse gerador é apresentado pelos autores como o **minimal standard LCG**. Para sementes não nulas, isto é,
+Esse gerador é apresentado pelos autores como o **GCL de padrão mínimo**. Para sementes não nulas, isto é,
 
 $$X_0\in\{1,\ldots,m-1\},$$
 
@@ -520,7 +517,7 @@ gcl_minimal_standard(10)
 ```
 
 ::: {.callout-note title="Convenção de saída"}
-A recorrência dos **estados** acima é a do *minimal standard LCG*. A função didática `gcl()` converte esses estados por $U_n=(X_n+1)/(m+1)$ para excluir os extremos $0$ e $1$, seguindo a convenção discutida anteriormente a partir de @voss2014statistical [Seção 1.1.3, p. 8]. Outras implementações podem usar $U_n=X_n/m$. Essa escolha de escala não altera o período dos estados, mas pode fazer com que os valores uniformizados não coincidam numericamente com os de outra implementação do mesmo GCL.
+A recorrência dos **estados** acima é a do *GCL de padrão mínimo*. A função didática `gcl()` converte esses estados por $U_n=(X_n+1)/(m+1)$ para excluir os extremos $0$ e $1$, seguindo a convenção discutida anteriormente a partir de @voss2014statistical [Seção 1.1.3, p. 8]. Outras implementações podem usar $U_n=X_n/m$. Essa escolha de escala não altera o período dos estados, mas pode fazer com que os valores uniformizados não coincidam numericamente com os de outra implementação do mesmo GCL.
 :::
 
 ## Período longo não é suficiente
@@ -545,7 +542,7 @@ Ver @kroese2011handbook [Seção 1.1.1, pp. 2--3].
 :::
 
 ::: {.callout-tip title="Interpretação"}
-Não existe um único número que resuma completamente a qualidade de um PRNG. O período é apenas um dos critérios.
+Não existe um único número que resuma completamente a qualidade de um Gerador de Números Pseudoaleatórios. O período é apenas um dos critérios.
 :::
 
 ## Uniformidade marginal
@@ -604,7 +601,7 @@ Esse exemplo mostra que a uniformidade marginal não implica independência nem 
 
 > Ver @voss2014statistical [Seção 1.1.2.2, pp. 4--6].
 
-Uma consequência interessante discutida por Voss é que, ao testar a saída de um PRNG, valores de uma estatística de aderência **excessivamente pequenos** também podem ser suspeitos, pois podem indicar regularidade artificial.
+Uma consequência interessante discutida por Voss é que, ao testar a saída de um GNP, valores de uma estatística de aderência **excessivamente pequenos** também podem ser suspeitos, pois podem indicar regularidade artificial.
 
 ## Teste qui-quadrado por blocos
 
@@ -631,7 +628,7 @@ $$Q
 
 > Ver @voss2014statistical [Exemplo 1.6, pp. 5--6].
 
-Voss destaca que, para avaliar um gerador, é informativo considerar desvios nas duas direções: estatísticas excessivamente grandes podem indicar frequências inadequadas, enquanto estatísticas excessivamente pequenas podem indicar regularidade anormal.
+@voss2014statistical destaca que, para avaliar um gerador, é informativo considerar desvios nas duas direções: estatísticas excessivamente grandes podem indicar frequências inadequadas, enquanto estatísticas excessivamente pequenas podem indicar regularidade anormal.
 
 No código abaixo, `p_extremos` é uma medida diagnóstica de caudas iguais,
 
@@ -903,7 +900,7 @@ A lição não é memorizar os parâmetros de RANDU, mas compreender que um gera
 
 ## Testes empíricos e baterias de testes
 
-Uma avaliação séria de um PRNG deve combinar:
+Uma avaliação séria de um GNP deve combinar:
 
 - propriedades teóricas do algoritmo;
 - estudos da estrutura geométrica;
@@ -996,7 +993,7 @@ A forma específica de configurar esses fluxos no R depende da versão do softwa
 
 ## Geração uniforme em R
 
-Para a prática cotidiana, não é necessário programar um PRNG desde o início. A função:
+Para a prática cotidiana, não é necessário programar um GNP desde o início. A função:
 
 ``` r
 runif(n)
@@ -1051,7 +1048,7 @@ e
 $$s^2\approx\frac1{12}.$$
 
 ::: {.callout-tip title="Interpretação"}
-Essas comparações verificam apenas propriedades marginais simples. Elas são úteis para ensino e depuração, mas são muito fracas como teste de qualidade de um PRNG.
+Essas comparações verificam apenas propriedades marginais simples. Elas são úteis para ensino e depuração, mas são muito fracas como teste de qualidade de um GNP.
 :::
 
 ## Inspecionando a documentação do R
@@ -1084,7 +1081,7 @@ Um exercício informativo consiste em comparar:
 ### Função de diagnóstico
 
 ```{r}
-diagnostico_prng <- function(
+diagnostico_GNP <- function(
     u,
     lag_max = 20
 ) {
@@ -1162,7 +1159,7 @@ diagnostico_prng <- function(
 ```{r}
 set.seed(2026)
 
-diagnostico_prng(
+diagnostico_GNP(
   runif(2000)
 )
 ```
@@ -1179,7 +1176,7 @@ u_fraco <- gcl(
   intervalo_aberto = FALSE
 )$u
 
-diagnostico_prng(
+diagnostico_GNP(
   u_fraco
 )
 ```
@@ -1226,7 +1223,7 @@ O desaparecimento visual de um padrão em duas dimensões não transforma um GCL
 
 ## Geradores para simulação não são geradores criptográficos
 
-A finalidade de um PRNG científico é produzir boas propriedades estatísticas para simulação.
+A finalidade de um GNP científico é produzir boas propriedades estatísticas para simulação.
 
 Na criptografia, além dessas propriedades, a **imprevisibilidade** é central. Geradores lineares simples podem ser inadequados nesse contexto mesmo quando funcionam razoavelmente para certas simulações.
 
@@ -1243,7 +1240,7 @@ Para simulação estatística, uma estratégia segura é:
 1.  usar o gerador fornecido por uma implementação científica consolidada;
 2.  registrar a semente quando a reprodução exata for necessária;
 3.  não escolher um gerador apenas pelo período;
-4.  evitar a implementação caseira de um PRNG em trabalhos aplicados;
+4.  evitar a implementação caseira de um GNP em trabalhos aplicados;
 5.  usar múltiplos fluxos planejados em computação paralela;
 6.  realizar diagnósticos quando um algoritmo próprio ou um gerador incomum for indispensável;
 7.  documentar a versão do software quando a reprodução de uma sequência específica for importante.
@@ -1267,7 +1264,7 @@ Pode revelar padrões bidimensionais, mas não garante bom comportamento em dime
 Detecta associação linear serial, mas pode deixar passar dependências não lineares.
 
 ::: {.callout-important title="Conclusão diagnóstica"}
-Um PRNG não deve ser validado por uma única estatística ou figura. A avaliação robusta combina conhecimento teórico da construção com uma bateria de testes empíricos.
+Um GNP não deve ser validado por uma única estatística ou figura. A avaliação robusta combina conhecimento teórico da construção com uma bateria de testes empíricos.
 
 Ver @kroese2011handbook \[Seção 1.5, pp. 11--20\] e @voss2014statistical [Seção 1.1.2, pp. 4--8].
 :::
@@ -1281,7 +1278,7 @@ $$U_1,U_2,\ldots
 \stackrel{iid}{\sim}
 U(0,1).$$
 
-Um PRNG algorítmico é determinístico. Seu estado evolui segundo uma função de transição e a semente determina o estado inicial. Como o espaço de estados é finito, a trajetória é eventualmente periódica: após um possível trecho transiente, ela entra em um ciclo de período finito.
+Um GNP algorítmico é determinístico. Seu estado evolui segundo uma função de transição e a semente determina o estado inicial. Como o espaço de estados é finito, a trajetória é eventualmente periódica: após um possível trecho transiente, ela entra em um ciclo de período finito.
 
 O GCL utiliza
 

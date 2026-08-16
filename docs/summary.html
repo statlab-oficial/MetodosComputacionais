@@ -455,7 +455,7 @@ window.Quarto = {
   <li><a href="#encontrando-o-período-em-exemplos-pequenos" id="toc-encontrando-o-período-em-exemplos-pequenos" class="nav-link" data-scroll-target="#encontrando-o-período-em-exemplos-pequenos"><span class="header-section-number">2.9.1</span> Encontrando o período em exemplos pequenos</a></li>
   </ul></li>
   <li><a href="#condições-para-período-completo-no-gcl-misto" id="toc-condições-para-período-completo-no-gcl-misto" class="nav-link" data-scroll-target="#condições-para-período-completo-no-gcl-misto"><span class="header-section-number">2.10</span> Condições para período completo no GCL misto</a></li>
-  <li><a href="#o-minimal-standard-lcg" id="toc-o-minimal-standard-lcg" class="nav-link" data-scroll-target="#o-minimal-standard-lcg"><span class="header-section-number">2.11</span> O minimal standard LCG</a>
+  <li><a href="#gcl-de-padrão-mínimo" id="toc-gcl-de-padrão-mínimo" class="nav-link" data-scroll-target="#gcl-de-padrão-mínimo"><span class="header-section-number">2.11</span> GCL de padrão mínimo</a>
   <ul class="collapse">
   <li><a href="#implementação-didática" id="toc-implementação-didática" class="nav-link" data-scroll-target="#implementação-didática"><span class="header-section-number">2.11.1</span> Implementação didática</a></li>
   </ul></li>
@@ -631,7 +631,7 @@ U(0,1).\]</span></p>
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Um <strong>gerador de números pseudoaleatórios</strong> (<em>pseudo-random number generator</em>, PRNG) é um algoritmo determinístico que produz uma sequência numérica destinada a substituir, em uma aplicação computacional, uma sequência de números aleatórios.</p>
+<p>Um <strong>gerador de números pseudoaleatórios</strong> (GNP) é um algoritmo determinístico que produz uma sequência numérica destinada a substituir, em uma aplicação computacional, uma sequência de números aleatórios.</p>
 <p>Ver <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Definição 1.1, p.&nbsp;2)</span>.</p>
 </div>
 </div>
@@ -723,8 +723,7 @@ U(0,1).\]</span></p>
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Se <code>set.seed()</code> não for executada novamente, chamadas sucessivas a <code>runif()</code> continuam a sequência a partir do estado corrente do gerador. A forma exata de inicialização do estado em uma sessão e a lista de geradores disponíveis são detalhes dependentes da versão do R.</p>
-<p>Essas informações de software devem ser conferidas na documentação da versão utilizada antes da publicação.</p>
+<p>Se <code>set.seed()</code> não for executada novamente, chamadas sucessivas a <code>runif()</code> continuam a sequência a partir do estado corrente do gerador.</p>
 </div>
 </div>
 </section>
@@ -962,7 +961,7 @@ X_0=0.\]</span></p>
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A função acima tem finalidade didática. Para aplicações científicas reais, <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.3</a>, p.&nbsp;8)</span> recomenda utilizar geradores bem estabelecidos fornecidos por bibliotecas ou pacotes confiáveis, em vez de implementar um PRNG próprio.</p>
+<p>A função acima tem finalidade didática. Para aplicações científicas reais, <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.3</a>, p.&nbsp;8)</span> recomenda utilizar geradores bem estabelecidos fornecidos por bibliotecas ou pacotes confiáveis, em vez de implementar um GNP próprio.</p>
 <p>Além disso, a implementação usa o tipo numérico padrão do R. Para módulos e multiplicadores suficientemente grandes, os produtos intermediários podem ultrapassar a faixa de inteiros representáveis exatamente em ponto flutuante; nesse caso, é necessária uma implementação de aritmética modular apropriada.</p>
 </div>
 </div>
@@ -1086,13 +1085,13 @@ c=1\]</span></p>
 <p>Logo, o período é</p>
 <p><span class="math display">\[P=8.\]</span></p>
 </section>
-<section id="o-minimal-standard-lcg" class="level2" data-number="2.11">
-<h2 data-number="2.11" class="anchored" data-anchor-id="o-minimal-standard-lcg"><span class="header-section-number">2.11</span> O minimal standard LCG</h2>
+<section id="gcl-de-padrão-mínimo" class="level2" data-number="2.11">
+<h2 data-number="2.11" class="anchored" data-anchor-id="gcl-de-padrão-mínimo"><span class="header-section-number">2.11</span> GCL de padrão mínimo</h2>
 <p>Um exemplo clássico citado por <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> utiliza</p>
 <p><span class="math display">\[m=2^{31}-1=2147483647,\]</span></p>
 <p><span class="math display">\[a=7^5=16807,\]</span></p>
 <p><span class="math display">\[c=0.\]</span></p>
-<p>Esse gerador é apresentado pelos autores como o <strong>minimal standard LCG</strong>. Para sementes não nulas, isto é,</p>
+<p>Esse gerador é apresentado pelos autores como o <strong>GCL de padrão mínimo</strong>. Para sementes não nulas, isto é,</p>
 <p><span class="math display">\[X_0\in\{1,\ldots,m-1\},\]</span></p>
 <p>o ciclo possui período</p>
 <p><span class="math display">\[2^{31}-2.\]</span></p>
@@ -1171,7 +1170,7 @@ c=1\]</span></p>
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A recorrência dos <strong>estados</strong> acima é a do <em>minimal standard LCG</em>. A função didática <code>gcl()</code> converte esses estados por <span class="math inline">\(U_n=(X_n+1)/(m+1)\)</span> para excluir os extremos <span class="math inline">\(0\)</span> e <span class="math inline">\(1\)</span>, seguindo a convenção discutida anteriormente a partir de <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.3</a>, p.&nbsp;8)</span>. Outras implementações podem usar <span class="math inline">\(U_n=X_n/m\)</span>. Essa escolha de escala não altera o período dos estados, mas pode fazer com que os valores uniformizados não coincidam numericamente com os de outra implementação do mesmo GCL.</p>
+<p>A recorrência dos <strong>estados</strong> acima é a do <em>GCL de padrão mínimo</em>. A função didática <code>gcl()</code> converte esses estados por <span class="math inline">\(U_n=(X_n+1)/(m+1)\)</span> para excluir os extremos <span class="math inline">\(0\)</span> e <span class="math inline">\(1\)</span>, seguindo a convenção discutida anteriormente a partir de <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.3</a>, p.&nbsp;8)</span>. Outras implementações podem usar <span class="math inline">\(U_n=X_n/m\)</span>. Essa escolha de escala não altera o período dos estados, mas pode fazer com que os valores uniformizados não coincidam numericamente com os de outra implementação do mesmo GCL.</p>
 </div>
 </div>
 </section>
@@ -1216,7 +1215,7 @@ c=1\]</span></p>
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Não existe um único número que resuma completamente a qualidade de um PRNG. O período é apenas um dos critérios.</p>
+<p>Não existe um único número que resuma completamente a qualidade de um Gerador de Números Pseudoaleatórios. O período é apenas um dos critérios.</p>
 </div>
 </div>
 </section>
@@ -1284,7 +1283,7 @@ c=1\]</span></p>
 <blockquote class="blockquote">
 <p>Ver <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.2.2</a>, pp.&nbsp;4–6)</span>.</p>
 </blockquote>
-<p>Uma consequência interessante discutida por Voss é que, ao testar a saída de um PRNG, valores de uma estatística de aderência <strong>excessivamente pequenos</strong> também podem ser suspeitos, pois podem indicar regularidade artificial.</p>
+<p>Uma consequência interessante discutida por Voss é que, ao testar a saída de um GNP, valores de uma estatística de aderência <strong>excessivamente pequenos</strong> também podem ser suspeitos, pois podem indicar regularidade artificial.</p>
 </section>
 <section id="teste-qui-quadrado-por-blocos" class="level2" data-number="2.15">
 <h2 data-number="2.15" class="anchored" data-anchor-id="teste-qui-quadrado-por-blocos"><span class="header-section-number">2.15</span> Teste qui-quadrado por blocos</h2>
@@ -1306,7 +1305,7 @@ E_j
 <blockquote class="blockquote">
 <p>Ver <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>, Exemplo 1.6, pp.&nbsp;5–6)</span>.</p>
 </blockquote>
-<p>Voss destaca que, para avaliar um gerador, é informativo considerar desvios nas duas direções: estatísticas excessivamente grandes podem indicar frequências inadequadas, enquanto estatísticas excessivamente pequenas podem indicar regularidade anormal.</p>
+<p><span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014</a>)</span> destaca que, para avaliar um gerador, é informativo considerar desvios nas duas direções: estatísticas excessivamente grandes podem indicar frequências inadequadas, enquanto estatísticas excessivamente pequenas podem indicar regularidade anormal.</p>
 <p>No código abaixo, <code>p_extremos</code> é uma medida diagnóstica de caudas iguais,</p>
 <p><span class="math display">\[2\min\{P(\chi^2_{k-1}\leq Q),\;P(\chi^2_{k-1}\geq Q)\},\]</span></p>
 <p>limitada a <span class="math inline">\(1\)</span>. Ela foi adotada neste capítulo para sinalizar valores anormalmente pequenos <strong>ou</strong> grandes de <span class="math inline">\(Q\)</span>; não deve ser confundida com o valor-<span class="math inline">\(p\)</span> unilateral usual do teste qui-quadrado de aderência.</p>
@@ -1631,7 +1630,7 @@ i=1,\ldots,N-1.\]</span></p>
 </section>
 <section id="testes-empíricos-e-baterias-de-testes" class="level2" data-number="2.20">
 <h2 data-number="2.20" class="anchored" data-anchor-id="testes-empíricos-e-baterias-de-testes"><span class="header-section-number">2.20</span> Testes empíricos e baterias de testes</h2>
-<p>Uma avaliação séria de um PRNG deve combinar:</p>
+<p>Uma avaliação séria de um GNP deve combinar:</p>
 <ul>
 <li>propriedades teóricas do algoritmo;</li>
 <li>estudos da estrutura geométrica;</li>
@@ -1756,7 +1755,7 @@ a_kX_{t-k}
 </section>
 <section id="geração-uniforme-em-r" class="level2" data-number="2.26">
 <h2 data-number="2.26" class="anchored" data-anchor-id="geração-uniforme-em-r"><span class="header-section-number">2.26</span> Geração uniforme em R</h2>
-<p>Para a prática cotidiana, não é necessário programar um PRNG desde o início. A função:</p>
+<p>Para a prática cotidiana, não é necessário programar um GNP desde o início. A função:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">runif</span>(n)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <p>gera <span class="math inline">\(n\)</span> números pseudoaleatórios uniformes.</p>
 <p>Também podemos gerar valores uniformes entre limites <span class="math inline">\(a\)</span> e <span class="math inline">\(b\)</span> por:</p>
@@ -1809,7 +1808,7 @@ a_kX_{t-k}
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Essas comparações verificam apenas propriedades marginais simples. Elas são úteis para ensino e depuração, mas são muito fracas como teste de qualidade de um PRNG.</p>
+<p>Essas comparações verificam apenas propriedades marginais simples. Elas são úteis para ensino e depuração, mas são muito fracas como teste de qualidade de um GNP.</p>
 </div>
 </div>
 </section>
@@ -1837,7 +1836,7 @@ a_kX_{t-k}
 <section id="função-de-diagnóstico" class="level3" data-number="2.28.1">
 <h3 data-number="2.28.1" class="anchored" data-anchor-id="função-de-diagnóstico"><span class="header-section-number">2.28.1</span> Função de diagnóstico</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>diagnostico_prng <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>diagnostico_GNP <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    u,</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">lag_max =</span> <span class="dv">20</span></span>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>) {</span>
@@ -1914,7 +1913,7 @@ a_kX_{t-k}
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">diagnostico_prng</span>(</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">diagnostico_GNP</span>(</span>
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">runif</span>(<span class="dv">2000</span>)</span>
 <span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
@@ -1938,7 +1937,7 @@ a_kX_{t-k}
 <span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">intervalo_aberto =</span> <span class="cn">FALSE</span></span>
 <span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>)<span class="sc">$</span>u</span>
 <span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="fu">diagnostico_prng</span>(</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="fu">diagnostico_GNP</span>(</span>
 <span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>  u_fraco</span>
 <span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
@@ -2007,7 +2006,7 @@ a_kX_{t-k}
 </section>
 <section id="geradores-para-simulação-não-são-geradores-criptográficos" class="level2" data-number="2.29">
 <h2 data-number="2.29" class="anchored" data-anchor-id="geradores-para-simulação-não-são-geradores-criptográficos"><span class="header-section-number">2.29</span> Geradores para simulação não são geradores criptográficos</h2>
-<p>A finalidade de um PRNG científico é produzir boas propriedades estatísticas para simulação.</p>
+<p>A finalidade de um GNP científico é produzir boas propriedades estatísticas para simulação.</p>
 <p>Na criptografia, além dessas propriedades, a <strong>imprevisibilidade</strong> é central. Geradores lineares simples podem ser inadequados nesse contexto mesmo quando funcionam razoavelmente para certas simulações.</p>
 <blockquote class="blockquote">
 <p>Ver <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011, seç. 1.1.2</a> e 1.4, pp.&nbsp;3 e 10–11)</span>.</p>
@@ -2033,7 +2032,7 @@ a_kX_{t-k}
 <li>usar o gerador fornecido por uma implementação científica consolidada;</li>
 <li>registrar a semente quando a reprodução exata for necessária;</li>
 <li>não escolher um gerador apenas pelo período;</li>
-<li>evitar a implementação caseira de um PRNG em trabalhos aplicados;</li>
+<li>evitar a implementação caseira de um GNP em trabalhos aplicados;</li>
 <li>usar múltiplos fluxos planejados em computação paralela;</li>
 <li>realizar diagnósticos quando um algoritmo próprio ou um gerador incomum for indispensável;</li>
 <li>documentar a versão do software quando a reprodução de uma sequência específica for importante.</li>
@@ -2066,7 +2065,7 @@ a_kX_{t-k}
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Um PRNG não deve ser validado por uma única estatística ou figura. A avaliação robusta combina conhecimento teórico da construção com uma bateria de testes empíricos.</p>
+<p>Um GNP não deve ser validado por uma única estatística ou figura. A avaliação robusta combina conhecimento teórico da construção com uma bateria de testes empíricos.</p>
 <p>Ver <span class="citation" data-cites="kroese2011handbook">Kroese; Taimre; Botev (<a href="#ref-kroese2011handbook" role="doc-biblioref">2011</a>)</span> [Seção 1.5, pp.&nbsp;11–20] e <span class="citation" data-cites="voss2014statistical">Voss (<a href="#ref-voss2014statistical" role="doc-biblioref">2014, seç. 1.1.2</a>, pp.&nbsp;4–8)</span>.</p>
 </div>
 </div>
@@ -2088,7 +2087,7 @@ a_kX_{t-k}
 <p><span class="math display">\[U_1,U_2,\ldots
 \stackrel{iid}{\sim}
 U(0,1).\]</span></p>
-<p>Um PRNG algorítmico é determinístico. Seu estado evolui segundo uma função de transição e a semente determina o estado inicial. Como o espaço de estados é finito, a trajetória é eventualmente periódica: após um possível trecho transiente, ela entra em um ciclo de período finito.</p>
+<p>Um GNP algorítmico é determinístico. Seu estado evolui segundo uma função de transição e a semente determina o estado inicial. Como o espaço de estados é finito, a trajetória é eventualmente periódica: após um possível trecho transiente, ela entra em um ciclo de período finito.</p>
 <p>O GCL utiliza</p>
 <p><span class="math display">\[X_n
 =
